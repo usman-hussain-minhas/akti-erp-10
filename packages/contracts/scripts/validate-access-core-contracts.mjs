@@ -45,6 +45,26 @@ const FORBIDDEN_RUNTIME_TOKENS = [
   "db.",
 ];
 
+const P1_007_ALLOWED_API_ROUTES = new Set([
+  "GET /platform/access/capabilities",
+  "POST /platform/access/organizations/:organization_id/users",
+  "GET /platform/access/organizations/:organization_id/users",
+  "GET /platform/access/organizations/:organization_id/users/:user_id",
+  "PATCH /platform/access/organizations/:organization_id/users/:user_id",
+  "DELETE /platform/access/organizations/:organization_id/users/:user_id",
+  "POST /platform/access/organizations/:organization_id/groups",
+  "GET /platform/access/organizations/:organization_id/groups",
+  "GET /platform/access/organizations/:organization_id/groups/:group_id",
+  "PATCH /platform/access/organizations/:organization_id/groups/:group_id",
+  "DELETE /platform/access/organizations/:organization_id/groups/:group_id",
+  "POST /platform/access/organizations/:organization_id/user-groups",
+  "GET /platform/access/organizations/:organization_id/user-groups",
+  "DELETE /platform/access/organizations/:organization_id/user-groups/:membership_id",
+  "POST /platform/access/organizations/:organization_id/group-capabilities",
+  "GET /platform/access/organizations/:organization_id/group-capabilities",
+  "DELETE /platform/access/organizations/:organization_id/group-capabilities/:assignment_id",
+]);
+
 function hasDuplicates(values) {
   return new Set(values).size !== values.length;
 }
@@ -74,10 +94,6 @@ function main() {
       failures.push("Manifest module_key must be core.access");
     }
 
-    if (manifest.api_routes.length !== 0) {
-      failures.push("Manifest api_routes must be empty for P1-004 alignment-only scope");
-    }
-
     if (manifest.menu_entries.length !== 0) {
       failures.push("Manifest menu_entries must be empty for P1-004 alignment-only scope");
     }
@@ -88,6 +104,41 @@ function main() {
 
     if (manifest.events_emitted.length !== 0 || manifest.events_consumed.length !== 0) {
       failures.push("Manifest events_emitted/events_consumed must be empty for P1-004");
+    }
+
+    const manifestCapabilityKeys = new Set(manifest.capabilities.map((capability) => capability.key));
+
+    if (manifest.api_routes.length !== P1_007_ALLOWED_API_ROUTES.size) {
+      failures.push(
+        `Manifest api_routes must include exactly ${P1_007_ALLOWED_API_ROUTES.size} P1-007 routes`,
+      );
+    }
+
+    for (const route of manifest.api_routes) {
+      const routeKey = `${route.method} ${route.path}`;
+      if (!P1_007_ALLOWED_API_ROUTES.has(routeKey)) {
+        failures.push(`Unapproved Access Core API route detected: ${routeKey}`);
+      }
+
+      if (!route.path.startsWith("/platform/access/")) {
+        failures.push(`Access Core API route must start with /platform/access/: ${routeKey}`);
+      }
+
+      if (route.path.startsWith("/app/")) {
+        failures.push(`Frontend-style route must not appear in Access Core manifest: ${routeKey}`);
+      }
+
+      if (!manifestCapabilityKeys.has(route.capability_key)) {
+        failures.push(`Route capability_key must exist in manifest capabilities: ${routeKey}`);
+      }
+
+      if (route.auth_required !== true || route.public_route !== false) {
+        failures.push(`Route auth/public flags must be explicit and protected: ${routeKey}`);
+      }
+
+      if (typeof route.rate_limited !== "boolean") {
+        failures.push(`Route rate_limited must be explicitly set: ${routeKey}`);
+      }
     }
   }
 
