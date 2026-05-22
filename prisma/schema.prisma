@@ -1,3 +1,241 @@
 datasource db {
   provider = "postgresql"
 }
+
+enum CapabilityRiskLevel {
+  low
+  medium
+  high
+  critical
+}
+
+enum PermissionScopeType {
+  global
+  organization
+  own_unit
+  child_units
+  own_record
+  assigned_records
+}
+
+model Organization {
+  id                        String                 @id @default(cuid())
+  slug                      String                 @unique
+  display_name              String
+  status                    String
+  created_at                DateTime               @default(now())
+  updated_at                DateTime               @updatedAt
+  organization_domains      OrganizationDomain[]
+  unit_types                UnitType[]
+  organization_units        OrganizationUnit[]
+  organization_unit_closure OrganizationUnitClosure[]
+  users                     User[]
+  groups                    Group[]
+  user_groups               UserGroup[]
+  group_capabilities        GroupCapability[]
+  audit_logs                AuditLog[]
+  event_outbox_entries      EventOutbox[]
+  organization_settings     OrganizationSetting[]
+
+  @@index([status])
+}
+
+model OrganizationDomain {
+  id              String       @id @default(cuid())
+  organization_id String
+  domain          String       @unique
+  is_primary      Boolean
+  verified_at     DateTime?
+  organization    Organization @relation(fields: [organization_id], references: [id])
+
+  @@unique([organization_id, domain])
+  @@index([organization_id])
+  @@index([domain])
+}
+
+model UnitType {
+  id                 String             @id @default(cuid())
+  organization_id    String
+  key                String
+  label              String
+  sort_order         Int
+  organization       Organization       @relation(fields: [organization_id], references: [id])
+  organization_units OrganizationUnit[] @relation("OrganizationUnit_UnitType")
+
+  @@unique([organization_id, key])
+  @@unique([organization_id, id])
+  @@index([organization_id])
+}
+
+model OrganizationUnit {
+  id                      String                    @id @default(cuid())
+  organization_id         String
+  unit_type_id            String
+  parent_unit_id          String?
+  key                     String
+  name                    String
+  status                  String
+  organization            Organization              @relation(fields: [organization_id], references: [id])
+  unit_type               UnitType                  @relation("OrganizationUnit_UnitType", fields: [organization_id, unit_type_id], references: [organization_id, id])
+  parent_unit             OrganizationUnit?         @relation("OrganizationUnit_ParentChild", fields: [organization_id, parent_unit_id], references: [organization_id, id])
+  child_units             OrganizationUnit[]        @relation("OrganizationUnit_ParentChild")
+  users_primary           User[]                    @relation("User_PrimaryUnit")
+  group_capability_scopes GroupCapability[]         @relation("GroupCapability_ScopeUnit")
+  closure_as_ancestor     OrganizationUnitClosure[] @relation("OrgUnitClosure_Ancestor")
+  closure_as_descendant   OrganizationUnitClosure[] @relation("OrgUnitClosure_Descendant")
+
+  @@unique([organization_id, key])
+  @@unique([organization_id, id])
+  @@index([organization_id])
+  @@index([parent_unit_id])
+  @@index([unit_type_id])
+}
+
+model OrganizationUnitClosure {
+  organization_id    String
+  ancestor_unit_id   String
+  descendant_unit_id String
+  depth              Int
+  organization       Organization     @relation(fields: [organization_id], references: [id])
+  ancestor_unit      OrganizationUnit @relation("OrgUnitClosure_Ancestor", fields: [organization_id, ancestor_unit_id], references: [organization_id, id])
+  descendant_unit    OrganizationUnit @relation("OrgUnitClosure_Descendant", fields: [organization_id, descendant_unit_id], references: [organization_id, id])
+
+  @@id([organization_id, ancestor_unit_id, descendant_unit_id])
+  @@index([organization_id, ancestor_unit_id])
+  @@index([organization_id, descendant_unit_id])
+}
+
+model User {
+  id             String           @id @default(cuid())
+  organization_id String
+  email          String
+  display_name   String
+  status         String
+  primary_unit_id String?
+  organization   Organization     @relation(fields: [organization_id], references: [id])
+  primary_unit   OrganizationUnit? @relation("User_PrimaryUnit", fields: [organization_id, primary_unit_id], references: [organization_id, id])
+  user_groups    UserGroup[]      @relation("UserGroup_User")
+  audit_logs_as_actor AuditLog[]  @relation("AuditLog_ActorUser")
+
+  @@unique([organization_id, email])
+  @@unique([organization_id, id])
+  @@index([organization_id])
+  @@index([primary_unit_id])
+  @@index([status])
+}
+
+model Group {
+  id                 String            @id @default(cuid())
+  organization_id    String
+  key                String
+  label              String
+  status             String
+  organization       Organization      @relation(fields: [organization_id], references: [id])
+  user_groups        UserGroup[]       @relation("UserGroup_Group")
+  group_capabilities GroupCapability[] @relation("GroupCapability_Group")
+
+  @@unique([organization_id, key])
+  @@unique([organization_id, id])
+  @@index([organization_id])
+  @@index([status])
+}
+
+model UserGroup {
+  id              String       @id @default(cuid())
+  organization_id String
+  user_id         String
+  group_id        String
+  assigned_at     DateTime     @default(now())
+  organization    Organization @relation(fields: [organization_id], references: [id])
+  user            User         @relation("UserGroup_User", fields: [organization_id, user_id], references: [organization_id, id])
+  group           Group        @relation("UserGroup_Group", fields: [organization_id, group_id], references: [organization_id, id])
+
+  @@unique([organization_id, user_id, group_id])
+  @@index([organization_id, user_id])
+  @@index([organization_id, group_id])
+}
+
+model Capability {
+  key                     String               @id
+  module_key              String
+  description             String
+  risk_level              CapabilityRiskLevel
+  gatekeeper_required     Boolean
+  approval_chain_required Boolean
+  group_capabilities      GroupCapability[]
+
+  @@index([module_key])
+  @@index([risk_level])
+}
+
+model GroupCapability {
+  id              String              @id @default(cuid())
+  organization_id String
+  group_id        String
+  capability_key  String
+  scope_type      PermissionScopeType
+  scope_unit_id   String?
+  organization    Organization        @relation(fields: [organization_id], references: [id])
+  group           Group               @relation("GroupCapability_Group", fields: [organization_id, group_id], references: [organization_id, id])
+  capability      Capability          @relation(fields: [capability_key], references: [key])
+  scope_unit      OrganizationUnit?   @relation("GroupCapability_ScopeUnit", fields: [organization_id, scope_unit_id], references: [organization_id, id])
+
+  @@unique([organization_id, group_id, capability_key, scope_type, scope_unit_id])
+  @@index([organization_id, group_id])
+  @@index([organization_id, capability_key])
+  @@index([scope_unit_id])
+}
+
+model AuditLog {
+  id              String       @id @default(cuid())
+  organization_id String
+  actor_user_id   String
+  action_key      String
+  entity_type     String
+  entity_id       String
+  created_at      DateTime     @default(now())
+  metadata        Json
+  organization    Organization @relation(fields: [organization_id], references: [id])
+  actor_user      User         @relation("AuditLog_ActorUser", fields: [organization_id, actor_user_id], references: [organization_id, id])
+
+  @@index([organization_id, created_at])
+  @@index([actor_user_id])
+  @@index([entity_type, entity_id])
+}
+
+model EventOutbox {
+  id              String       @id @default(cuid())
+  organization_id String
+  event_type      String
+  version         String
+  payload         Json
+  status          String
+  created_at      DateTime     @default(now())
+  processed_at    DateTime?
+  organization    Organization @relation(fields: [organization_id], references: [id])
+
+  @@index([organization_id, status, created_at])
+  @@index([event_type])
+}
+
+model ModuleRegistryEntry {
+  module_key   String @id
+  display_name String
+  version      String
+  status       String
+  manifest_hash String
+
+  @@index([status])
+}
+
+model OrganizationSetting {
+  id              String       @id @default(cuid())
+  organization_id String
+  key             String
+  value_json      Json
+  updated_at      DateTime     @updatedAt
+  organization    Organization @relation(fields: [organization_id], references: [id])
+
+  @@unique([organization_id, key])
+  @@index([organization_id])
+}

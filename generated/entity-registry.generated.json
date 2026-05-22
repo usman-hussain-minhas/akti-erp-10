@@ -3,9 +3,2377 @@
   "sources": {
     "prisma_schema": "prisma/schema.prisma",
     "metadata": "prisma/entity-registry.metadata.json",
-    "prisma_schema_hash": "sha256:6b7430ac051277a4804e5be652c823e9f86dc1844c3a26fb90e7e36bdf892dd0",
-    "metadata_hash": "sha256:870bc850518fdecca9ae7f458f122cb5de26285345abd9972aba65c7a70e735e"
+    "prisma_schema_hash": "sha256:fb4f3b941418a9351c39409d85edef162ecfc9b7dd4e26e604b1665bb786a3f1",
+    "metadata_hash": "sha256:1b824f086915c355947c4ce75cb88a69f4f1b8fa50c9843bbeec697f32dce764"
   },
-  "entities": [],
+  "entities": [
+    {
+      "model_name": "AuditLog",
+      "table_name": "AuditLog",
+      "owner_module": "core.platform",
+      "phase": 1,
+      "tenant_scoped": true,
+      "organization_id_required": true,
+      "rls_required": true,
+      "organization_id_field": "organization_id",
+      "organization_id_column": "organization_id",
+      "fields": [
+        {
+          "field_name": "action_key",
+          "column_name": "action_key",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "actor_user",
+          "column_name": "actor_user",
+          "type": "User",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "User"
+        },
+        {
+          "field_name": "actor_user_id",
+          "column_name": "actor_user_id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "created_at",
+          "column_name": "created_at",
+          "type": "DateTime",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "entity_id",
+          "column_name": "entity_id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "entity_type",
+          "column_name": "entity_type",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "id",
+          "column_name": "id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": true,
+          "is_relation": false
+        },
+        {
+          "field_name": "metadata",
+          "column_name": "metadata",
+          "type": "Json",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "organization",
+          "column_name": "organization",
+          "type": "Organization",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "Organization"
+        },
+        {
+          "field_name": "organization_id",
+          "column_name": "organization_id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        }
+      ],
+      "indexes": [
+        {
+          "name": "AuditLog_actor_user_id_idx",
+          "fields": [
+            "actor_user_id"
+          ],
+          "columns": [
+            "actor_user_id"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "AuditLog_entity_type_entity_id_idx",
+          "fields": [
+            "entity_type",
+            "entity_id"
+          ],
+          "columns": [
+            "entity_type",
+            "entity_id"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "AuditLog_id_pk",
+          "fields": [
+            "id"
+          ],
+          "columns": [
+            "id"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "AuditLog_organization_id_created_at_idx",
+          "fields": [
+            "organization_id",
+            "created_at"
+          ],
+          "columns": [
+            "organization_id",
+            "created_at"
+          ],
+          "is_unique": false
+        }
+      ],
+      "unique_constraints": [
+        {
+          "name": "AuditLog_id_pk",
+          "fields": [
+            "id"
+          ],
+          "columns": [
+            "id"
+          ]
+        }
+      ],
+      "events_emitted": [],
+      "retention_policy": "per_audit_policy",
+      "audit_required": true,
+      "sensitive_data_classification": "restricted"
+    },
+    {
+      "model_name": "Capability",
+      "table_name": "Capability",
+      "owner_module": "core.access",
+      "phase": 1,
+      "tenant_scoped": false,
+      "organization_id_required": false,
+      "rls_required": false,
+      "organization_id_field": null,
+      "organization_id_column": null,
+      "fields": [
+        {
+          "field_name": "approval_chain_required",
+          "column_name": "approval_chain_required",
+          "type": "Boolean",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "description",
+          "column_name": "description",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "gatekeeper_required",
+          "column_name": "gatekeeper_required",
+          "type": "Boolean",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "group_capabilities",
+          "column_name": "group_capabilities",
+          "type": "GroupCapability[]",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "GroupCapability"
+        },
+        {
+          "field_name": "key",
+          "column_name": "key",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": true,
+          "is_relation": false
+        },
+        {
+          "field_name": "module_key",
+          "column_name": "module_key",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "risk_level",
+          "column_name": "risk_level",
+          "type": "CapabilityRiskLevel",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        }
+      ],
+      "indexes": [
+        {
+          "name": "Capability_key_pk",
+          "fields": [
+            "key"
+          ],
+          "columns": [
+            "key"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "Capability_module_key_idx",
+          "fields": [
+            "module_key"
+          ],
+          "columns": [
+            "module_key"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "Capability_risk_level_idx",
+          "fields": [
+            "risk_level"
+          ],
+          "columns": [
+            "risk_level"
+          ],
+          "is_unique": false
+        }
+      ],
+      "unique_constraints": [
+        {
+          "name": "Capability_key_pk",
+          "fields": [
+            "key"
+          ],
+          "columns": [
+            "key"
+          ]
+        }
+      ],
+      "events_emitted": [],
+      "retention_policy": "permanent",
+      "audit_required": true,
+      "sensitive_data_classification": "internal"
+    },
+    {
+      "model_name": "EventOutbox",
+      "table_name": "EventOutbox",
+      "owner_module": "core.platform",
+      "phase": 1,
+      "tenant_scoped": true,
+      "organization_id_required": true,
+      "rls_required": true,
+      "organization_id_field": "organization_id",
+      "organization_id_column": "organization_id",
+      "fields": [
+        {
+          "field_name": "created_at",
+          "column_name": "created_at",
+          "type": "DateTime",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "event_type",
+          "column_name": "event_type",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "id",
+          "column_name": "id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": true,
+          "is_relation": false
+        },
+        {
+          "field_name": "organization",
+          "column_name": "organization",
+          "type": "Organization",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "Organization"
+        },
+        {
+          "field_name": "organization_id",
+          "column_name": "organization_id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "payload",
+          "column_name": "payload",
+          "type": "Json",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "processed_at",
+          "column_name": "processed_at",
+          "type": "DateTime",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "status",
+          "column_name": "status",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "version",
+          "column_name": "version",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        }
+      ],
+      "indexes": [
+        {
+          "name": "EventOutbox_event_type_idx",
+          "fields": [
+            "event_type"
+          ],
+          "columns": [
+            "event_type"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "EventOutbox_id_pk",
+          "fields": [
+            "id"
+          ],
+          "columns": [
+            "id"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "EventOutbox_organization_id_status_created_at_idx",
+          "fields": [
+            "organization_id",
+            "status",
+            "created_at"
+          ],
+          "columns": [
+            "organization_id",
+            "status",
+            "created_at"
+          ],
+          "is_unique": false
+        }
+      ],
+      "unique_constraints": [
+        {
+          "name": "EventOutbox_id_pk",
+          "fields": [
+            "id"
+          ],
+          "columns": [
+            "id"
+          ]
+        }
+      ],
+      "events_emitted": [],
+      "retention_policy": "per_outbox_policy",
+      "audit_required": true,
+      "sensitive_data_classification": "internal"
+    },
+    {
+      "model_name": "Group",
+      "table_name": "Group",
+      "owner_module": "core.access",
+      "phase": 1,
+      "tenant_scoped": true,
+      "organization_id_required": true,
+      "rls_required": true,
+      "organization_id_field": "organization_id",
+      "organization_id_column": "organization_id",
+      "fields": [
+        {
+          "field_name": "group_capabilities",
+          "column_name": "group_capabilities",
+          "type": "GroupCapability[]",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "GroupCapability"
+        },
+        {
+          "field_name": "id",
+          "column_name": "id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": true,
+          "is_relation": false
+        },
+        {
+          "field_name": "key",
+          "column_name": "key",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "label",
+          "column_name": "label",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "organization",
+          "column_name": "organization",
+          "type": "Organization",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "Organization"
+        },
+        {
+          "field_name": "organization_id",
+          "column_name": "organization_id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "status",
+          "column_name": "status",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "user_groups",
+          "column_name": "user_groups",
+          "type": "UserGroup[]",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "UserGroup"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "Group_id_pk",
+          "fields": [
+            "id"
+          ],
+          "columns": [
+            "id"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "Group_organization_id_id_key",
+          "fields": [
+            "organization_id",
+            "id"
+          ],
+          "columns": [
+            "organization_id",
+            "id"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "Group_organization_id_idx",
+          "fields": [
+            "organization_id"
+          ],
+          "columns": [
+            "organization_id"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "Group_organization_id_key_key",
+          "fields": [
+            "organization_id",
+            "key"
+          ],
+          "columns": [
+            "organization_id",
+            "key"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "Group_status_idx",
+          "fields": [
+            "status"
+          ],
+          "columns": [
+            "status"
+          ],
+          "is_unique": false
+        }
+      ],
+      "unique_constraints": [
+        {
+          "name": "Group_id_pk",
+          "fields": [
+            "id"
+          ],
+          "columns": [
+            "id"
+          ]
+        },
+        {
+          "name": "Group_organization_id_id_key",
+          "fields": [
+            "organization_id",
+            "id"
+          ],
+          "columns": [
+            "organization_id",
+            "id"
+          ]
+        },
+        {
+          "name": "Group_organization_id_key_key",
+          "fields": [
+            "organization_id",
+            "key"
+          ],
+          "columns": [
+            "organization_id",
+            "key"
+          ]
+        }
+      ],
+      "events_emitted": [],
+      "retention_policy": "while_org_active",
+      "audit_required": true,
+      "sensitive_data_classification": "internal"
+    },
+    {
+      "model_name": "GroupCapability",
+      "table_name": "GroupCapability",
+      "owner_module": "core.access",
+      "phase": 1,
+      "tenant_scoped": true,
+      "organization_id_required": true,
+      "rls_required": true,
+      "organization_id_field": "organization_id",
+      "organization_id_column": "organization_id",
+      "fields": [
+        {
+          "field_name": "capability",
+          "column_name": "capability",
+          "type": "Capability",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "Capability"
+        },
+        {
+          "field_name": "capability_key",
+          "column_name": "capability_key",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "group",
+          "column_name": "group",
+          "type": "Group",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "Group"
+        },
+        {
+          "field_name": "group_id",
+          "column_name": "group_id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "id",
+          "column_name": "id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": true,
+          "is_relation": false
+        },
+        {
+          "field_name": "organization",
+          "column_name": "organization",
+          "type": "Organization",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "Organization"
+        },
+        {
+          "field_name": "organization_id",
+          "column_name": "organization_id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "scope_type",
+          "column_name": "scope_type",
+          "type": "PermissionScopeType",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "scope_unit",
+          "column_name": "scope_unit",
+          "type": "OrganizationUnit",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "OrganizationUnit"
+        },
+        {
+          "field_name": "scope_unit_id",
+          "column_name": "scope_unit_id",
+          "type": "String",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        }
+      ],
+      "indexes": [
+        {
+          "name": "GroupCapability_id_pk",
+          "fields": [
+            "id"
+          ],
+          "columns": [
+            "id"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "GroupCapability_organization_id_capability_key_idx",
+          "fields": [
+            "organization_id",
+            "capability_key"
+          ],
+          "columns": [
+            "organization_id",
+            "capability_key"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "GroupCapability_organization_id_group_id_capability_key_scope_type_scope_unit_id_key",
+          "fields": [
+            "organization_id",
+            "group_id",
+            "capability_key",
+            "scope_type",
+            "scope_unit_id"
+          ],
+          "columns": [
+            "organization_id",
+            "group_id",
+            "capability_key",
+            "scope_type",
+            "scope_unit_id"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "GroupCapability_organization_id_group_id_idx",
+          "fields": [
+            "organization_id",
+            "group_id"
+          ],
+          "columns": [
+            "organization_id",
+            "group_id"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "GroupCapability_scope_unit_id_idx",
+          "fields": [
+            "scope_unit_id"
+          ],
+          "columns": [
+            "scope_unit_id"
+          ],
+          "is_unique": false
+        }
+      ],
+      "unique_constraints": [
+        {
+          "name": "GroupCapability_id_pk",
+          "fields": [
+            "id"
+          ],
+          "columns": [
+            "id"
+          ]
+        },
+        {
+          "name": "GroupCapability_organization_id_group_id_capability_key_scope_type_scope_unit_id_key",
+          "fields": [
+            "organization_id",
+            "group_id",
+            "capability_key",
+            "scope_type",
+            "scope_unit_id"
+          ],
+          "columns": [
+            "organization_id",
+            "group_id",
+            "capability_key",
+            "scope_type",
+            "scope_unit_id"
+          ]
+        }
+      ],
+      "events_emitted": [],
+      "retention_policy": "per_access_policy",
+      "audit_required": true,
+      "sensitive_data_classification": "confidential"
+    },
+    {
+      "model_name": "ModuleRegistryEntry",
+      "table_name": "ModuleRegistryEntry",
+      "owner_module": "core.registry",
+      "phase": 1,
+      "tenant_scoped": false,
+      "organization_id_required": false,
+      "rls_required": false,
+      "organization_id_field": null,
+      "organization_id_column": null,
+      "fields": [
+        {
+          "field_name": "display_name",
+          "column_name": "display_name",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "manifest_hash",
+          "column_name": "manifest_hash",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "module_key",
+          "column_name": "module_key",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": true,
+          "is_relation": false
+        },
+        {
+          "field_name": "status",
+          "column_name": "status",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "version",
+          "column_name": "version",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        }
+      ],
+      "indexes": [
+        {
+          "name": "ModuleRegistryEntry_module_key_pk",
+          "fields": [
+            "module_key"
+          ],
+          "columns": [
+            "module_key"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "ModuleRegistryEntry_status_idx",
+          "fields": [
+            "status"
+          ],
+          "columns": [
+            "status"
+          ],
+          "is_unique": false
+        }
+      ],
+      "unique_constraints": [
+        {
+          "name": "ModuleRegistryEntry_module_key_pk",
+          "fields": [
+            "module_key"
+          ],
+          "columns": [
+            "module_key"
+          ]
+        }
+      ],
+      "events_emitted": [],
+      "retention_policy": "permanent",
+      "audit_required": true,
+      "sensitive_data_classification": "internal"
+    },
+    {
+      "model_name": "Organization",
+      "table_name": "Organization",
+      "owner_module": "core.organization",
+      "phase": 1,
+      "tenant_scoped": false,
+      "organization_id_required": false,
+      "rls_required": false,
+      "organization_id_field": null,
+      "organization_id_column": null,
+      "fields": [
+        {
+          "field_name": "audit_logs",
+          "column_name": "audit_logs",
+          "type": "AuditLog[]",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "AuditLog"
+        },
+        {
+          "field_name": "created_at",
+          "column_name": "created_at",
+          "type": "DateTime",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "display_name",
+          "column_name": "display_name",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "event_outbox_entries",
+          "column_name": "event_outbox_entries",
+          "type": "EventOutbox[]",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "EventOutbox"
+        },
+        {
+          "field_name": "group_capabilities",
+          "column_name": "group_capabilities",
+          "type": "GroupCapability[]",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "GroupCapability"
+        },
+        {
+          "field_name": "groups",
+          "column_name": "groups",
+          "type": "Group[]",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "Group"
+        },
+        {
+          "field_name": "id",
+          "column_name": "id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": true,
+          "is_relation": false
+        },
+        {
+          "field_name": "organization_domains",
+          "column_name": "organization_domains",
+          "type": "OrganizationDomain[]",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "OrganizationDomain"
+        },
+        {
+          "field_name": "organization_settings",
+          "column_name": "organization_settings",
+          "type": "OrganizationSetting[]",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "OrganizationSetting"
+        },
+        {
+          "field_name": "organization_unit_closure",
+          "column_name": "organization_unit_closure",
+          "type": "OrganizationUnitClosure[]",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "OrganizationUnitClosure"
+        },
+        {
+          "field_name": "organization_units",
+          "column_name": "organization_units",
+          "type": "OrganizationUnit[]",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "OrganizationUnit"
+        },
+        {
+          "field_name": "slug",
+          "column_name": "slug",
+          "type": "String",
+          "is_required": true,
+          "is_unique": true,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "status",
+          "column_name": "status",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "unit_types",
+          "column_name": "unit_types",
+          "type": "UnitType[]",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "UnitType"
+        },
+        {
+          "field_name": "updated_at",
+          "column_name": "updated_at",
+          "type": "DateTime",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "user_groups",
+          "column_name": "user_groups",
+          "type": "UserGroup[]",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "UserGroup"
+        },
+        {
+          "field_name": "users",
+          "column_name": "users",
+          "type": "User[]",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "User"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "Organization_id_pk",
+          "fields": [
+            "id"
+          ],
+          "columns": [
+            "id"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "Organization_slug_key",
+          "fields": [
+            "slug"
+          ],
+          "columns": [
+            "slug"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "Organization_status_idx",
+          "fields": [
+            "status"
+          ],
+          "columns": [
+            "status"
+          ],
+          "is_unique": false
+        }
+      ],
+      "unique_constraints": [
+        {
+          "name": "Organization_id_pk",
+          "fields": [
+            "id"
+          ],
+          "columns": [
+            "id"
+          ]
+        },
+        {
+          "name": "Organization_slug_key",
+          "fields": [
+            "slug"
+          ],
+          "columns": [
+            "slug"
+          ]
+        }
+      ],
+      "events_emitted": [],
+      "retention_policy": "permanent",
+      "audit_required": true,
+      "sensitive_data_classification": "internal"
+    },
+    {
+      "model_name": "OrganizationDomain",
+      "table_name": "OrganizationDomain",
+      "owner_module": "core.organization",
+      "phase": 1,
+      "tenant_scoped": true,
+      "organization_id_required": true,
+      "rls_required": true,
+      "organization_id_field": "organization_id",
+      "organization_id_column": "organization_id",
+      "fields": [
+        {
+          "field_name": "domain",
+          "column_name": "domain",
+          "type": "String",
+          "is_required": true,
+          "is_unique": true,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "id",
+          "column_name": "id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": true,
+          "is_relation": false
+        },
+        {
+          "field_name": "is_primary",
+          "column_name": "is_primary",
+          "type": "Boolean",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "organization",
+          "column_name": "organization",
+          "type": "Organization",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "Organization"
+        },
+        {
+          "field_name": "organization_id",
+          "column_name": "organization_id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "verified_at",
+          "column_name": "verified_at",
+          "type": "DateTime",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        }
+      ],
+      "indexes": [
+        {
+          "name": "OrganizationDomain_domain_idx",
+          "fields": [
+            "domain"
+          ],
+          "columns": [
+            "domain"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "OrganizationDomain_domain_key",
+          "fields": [
+            "domain"
+          ],
+          "columns": [
+            "domain"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "OrganizationDomain_id_pk",
+          "fields": [
+            "id"
+          ],
+          "columns": [
+            "id"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "OrganizationDomain_organization_id_domain_key",
+          "fields": [
+            "organization_id",
+            "domain"
+          ],
+          "columns": [
+            "organization_id",
+            "domain"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "OrganizationDomain_organization_id_idx",
+          "fields": [
+            "organization_id"
+          ],
+          "columns": [
+            "organization_id"
+          ],
+          "is_unique": false
+        }
+      ],
+      "unique_constraints": [
+        {
+          "name": "OrganizationDomain_domain_key",
+          "fields": [
+            "domain"
+          ],
+          "columns": [
+            "domain"
+          ]
+        },
+        {
+          "name": "OrganizationDomain_id_pk",
+          "fields": [
+            "id"
+          ],
+          "columns": [
+            "id"
+          ]
+        },
+        {
+          "name": "OrganizationDomain_organization_id_domain_key",
+          "fields": [
+            "organization_id",
+            "domain"
+          ],
+          "columns": [
+            "organization_id",
+            "domain"
+          ]
+        }
+      ],
+      "events_emitted": [],
+      "retention_policy": "while_org_active",
+      "audit_required": true,
+      "sensitive_data_classification": "confidential"
+    },
+    {
+      "model_name": "OrganizationSetting",
+      "table_name": "OrganizationSetting",
+      "owner_module": "core.configuration",
+      "phase": 1,
+      "tenant_scoped": true,
+      "organization_id_required": true,
+      "rls_required": true,
+      "organization_id_field": "organization_id",
+      "organization_id_column": "organization_id",
+      "fields": [
+        {
+          "field_name": "id",
+          "column_name": "id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": true,
+          "is_relation": false
+        },
+        {
+          "field_name": "key",
+          "column_name": "key",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "organization",
+          "column_name": "organization",
+          "type": "Organization",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "Organization"
+        },
+        {
+          "field_name": "organization_id",
+          "column_name": "organization_id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "updated_at",
+          "column_name": "updated_at",
+          "type": "DateTime",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "value_json",
+          "column_name": "value_json",
+          "type": "Json",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        }
+      ],
+      "indexes": [
+        {
+          "name": "OrganizationSetting_id_pk",
+          "fields": [
+            "id"
+          ],
+          "columns": [
+            "id"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "OrganizationSetting_organization_id_idx",
+          "fields": [
+            "organization_id"
+          ],
+          "columns": [
+            "organization_id"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "OrganizationSetting_organization_id_key_key",
+          "fields": [
+            "organization_id",
+            "key"
+          ],
+          "columns": [
+            "organization_id",
+            "key"
+          ],
+          "is_unique": true
+        }
+      ],
+      "unique_constraints": [
+        {
+          "name": "OrganizationSetting_id_pk",
+          "fields": [
+            "id"
+          ],
+          "columns": [
+            "id"
+          ]
+        },
+        {
+          "name": "OrganizationSetting_organization_id_key_key",
+          "fields": [
+            "organization_id",
+            "key"
+          ],
+          "columns": [
+            "organization_id",
+            "key"
+          ]
+        }
+      ],
+      "events_emitted": [],
+      "retention_policy": "while_org_active",
+      "audit_required": true,
+      "sensitive_data_classification": "internal"
+    },
+    {
+      "model_name": "OrganizationUnit",
+      "table_name": "OrganizationUnit",
+      "owner_module": "core.organization",
+      "phase": 1,
+      "tenant_scoped": true,
+      "organization_id_required": true,
+      "rls_required": true,
+      "organization_id_field": "organization_id",
+      "organization_id_column": "organization_id",
+      "fields": [
+        {
+          "field_name": "child_units",
+          "column_name": "child_units",
+          "type": "OrganizationUnit[]",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "OrganizationUnit"
+        },
+        {
+          "field_name": "closure_as_ancestor",
+          "column_name": "closure_as_ancestor",
+          "type": "OrganizationUnitClosure[]",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "OrganizationUnitClosure"
+        },
+        {
+          "field_name": "closure_as_descendant",
+          "column_name": "closure_as_descendant",
+          "type": "OrganizationUnitClosure[]",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "OrganizationUnitClosure"
+        },
+        {
+          "field_name": "group_capability_scopes",
+          "column_name": "group_capability_scopes",
+          "type": "GroupCapability[]",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "GroupCapability"
+        },
+        {
+          "field_name": "id",
+          "column_name": "id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": true,
+          "is_relation": false
+        },
+        {
+          "field_name": "key",
+          "column_name": "key",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "name",
+          "column_name": "name",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "organization",
+          "column_name": "organization",
+          "type": "Organization",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "Organization"
+        },
+        {
+          "field_name": "organization_id",
+          "column_name": "organization_id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "parent_unit",
+          "column_name": "parent_unit",
+          "type": "OrganizationUnit",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "OrganizationUnit"
+        },
+        {
+          "field_name": "parent_unit_id",
+          "column_name": "parent_unit_id",
+          "type": "String",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "status",
+          "column_name": "status",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "unit_type",
+          "column_name": "unit_type",
+          "type": "UnitType",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "UnitType"
+        },
+        {
+          "field_name": "unit_type_id",
+          "column_name": "unit_type_id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "users_primary",
+          "column_name": "users_primary",
+          "type": "User[]",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "User"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "OrganizationUnit_id_pk",
+          "fields": [
+            "id"
+          ],
+          "columns": [
+            "id"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "OrganizationUnit_organization_id_id_key",
+          "fields": [
+            "organization_id",
+            "id"
+          ],
+          "columns": [
+            "organization_id",
+            "id"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "OrganizationUnit_organization_id_idx",
+          "fields": [
+            "organization_id"
+          ],
+          "columns": [
+            "organization_id"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "OrganizationUnit_organization_id_key_key",
+          "fields": [
+            "organization_id",
+            "key"
+          ],
+          "columns": [
+            "organization_id",
+            "key"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "OrganizationUnit_parent_unit_id_idx",
+          "fields": [
+            "parent_unit_id"
+          ],
+          "columns": [
+            "parent_unit_id"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "OrganizationUnit_unit_type_id_idx",
+          "fields": [
+            "unit_type_id"
+          ],
+          "columns": [
+            "unit_type_id"
+          ],
+          "is_unique": false
+        }
+      ],
+      "unique_constraints": [
+        {
+          "name": "OrganizationUnit_id_pk",
+          "fields": [
+            "id"
+          ],
+          "columns": [
+            "id"
+          ]
+        },
+        {
+          "name": "OrganizationUnit_organization_id_id_key",
+          "fields": [
+            "organization_id",
+            "id"
+          ],
+          "columns": [
+            "organization_id",
+            "id"
+          ]
+        },
+        {
+          "name": "OrganizationUnit_organization_id_key_key",
+          "fields": [
+            "organization_id",
+            "key"
+          ],
+          "columns": [
+            "organization_id",
+            "key"
+          ]
+        }
+      ],
+      "events_emitted": [],
+      "retention_policy": "while_org_active",
+      "audit_required": true,
+      "sensitive_data_classification": "internal"
+    },
+    {
+      "model_name": "OrganizationUnitClosure",
+      "table_name": "OrganizationUnitClosure",
+      "owner_module": "core.organization",
+      "phase": 1,
+      "tenant_scoped": true,
+      "organization_id_required": true,
+      "rls_required": true,
+      "organization_id_field": "organization_id",
+      "organization_id_column": "organization_id",
+      "fields": [
+        {
+          "field_name": "ancestor_unit",
+          "column_name": "ancestor_unit",
+          "type": "OrganizationUnit",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "OrganizationUnit"
+        },
+        {
+          "field_name": "ancestor_unit_id",
+          "column_name": "ancestor_unit_id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": true,
+          "is_relation": false
+        },
+        {
+          "field_name": "depth",
+          "column_name": "depth",
+          "type": "Int",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "descendant_unit",
+          "column_name": "descendant_unit",
+          "type": "OrganizationUnit",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "OrganizationUnit"
+        },
+        {
+          "field_name": "descendant_unit_id",
+          "column_name": "descendant_unit_id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": true,
+          "is_relation": false
+        },
+        {
+          "field_name": "organization",
+          "column_name": "organization",
+          "type": "Organization",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "Organization"
+        },
+        {
+          "field_name": "organization_id",
+          "column_name": "organization_id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": true,
+          "is_relation": false
+        }
+      ],
+      "indexes": [
+        {
+          "name": "OrganizationUnitClosure_organization_id_ancestor_unit_id_descendant_unit_id_pk",
+          "fields": [
+            "organization_id",
+            "ancestor_unit_id",
+            "descendant_unit_id"
+          ],
+          "columns": [
+            "organization_id",
+            "ancestor_unit_id",
+            "descendant_unit_id"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "OrganizationUnitClosure_organization_id_ancestor_unit_id_idx",
+          "fields": [
+            "organization_id",
+            "ancestor_unit_id"
+          ],
+          "columns": [
+            "organization_id",
+            "ancestor_unit_id"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "OrganizationUnitClosure_organization_id_descendant_unit_id_idx",
+          "fields": [
+            "organization_id",
+            "descendant_unit_id"
+          ],
+          "columns": [
+            "organization_id",
+            "descendant_unit_id"
+          ],
+          "is_unique": false
+        }
+      ],
+      "unique_constraints": [
+        {
+          "name": "OrganizationUnitClosure_organization_id_ancestor_unit_id_descendant_unit_id_pk",
+          "fields": [
+            "organization_id",
+            "ancestor_unit_id",
+            "descendant_unit_id"
+          ],
+          "columns": [
+            "organization_id",
+            "ancestor_unit_id",
+            "descendant_unit_id"
+          ]
+        }
+      ],
+      "events_emitted": [],
+      "retention_policy": "derived_from_unit_lifecycle",
+      "audit_required": false,
+      "sensitive_data_classification": "internal"
+    },
+    {
+      "model_name": "UnitType",
+      "table_name": "UnitType",
+      "owner_module": "core.organization",
+      "phase": 1,
+      "tenant_scoped": true,
+      "organization_id_required": true,
+      "rls_required": true,
+      "organization_id_field": "organization_id",
+      "organization_id_column": "organization_id",
+      "fields": [
+        {
+          "field_name": "id",
+          "column_name": "id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": true,
+          "is_relation": false
+        },
+        {
+          "field_name": "key",
+          "column_name": "key",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "label",
+          "column_name": "label",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "organization",
+          "column_name": "organization",
+          "type": "Organization",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "Organization"
+        },
+        {
+          "field_name": "organization_id",
+          "column_name": "organization_id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "organization_units",
+          "column_name": "organization_units",
+          "type": "OrganizationUnit[]",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "OrganizationUnit"
+        },
+        {
+          "field_name": "sort_order",
+          "column_name": "sort_order",
+          "type": "Int",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        }
+      ],
+      "indexes": [
+        {
+          "name": "UnitType_id_pk",
+          "fields": [
+            "id"
+          ],
+          "columns": [
+            "id"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "UnitType_organization_id_id_key",
+          "fields": [
+            "organization_id",
+            "id"
+          ],
+          "columns": [
+            "organization_id",
+            "id"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "UnitType_organization_id_idx",
+          "fields": [
+            "organization_id"
+          ],
+          "columns": [
+            "organization_id"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "UnitType_organization_id_key_key",
+          "fields": [
+            "organization_id",
+            "key"
+          ],
+          "columns": [
+            "organization_id",
+            "key"
+          ],
+          "is_unique": true
+        }
+      ],
+      "unique_constraints": [
+        {
+          "name": "UnitType_id_pk",
+          "fields": [
+            "id"
+          ],
+          "columns": [
+            "id"
+          ]
+        },
+        {
+          "name": "UnitType_organization_id_id_key",
+          "fields": [
+            "organization_id",
+            "id"
+          ],
+          "columns": [
+            "organization_id",
+            "id"
+          ]
+        },
+        {
+          "name": "UnitType_organization_id_key_key",
+          "fields": [
+            "organization_id",
+            "key"
+          ],
+          "columns": [
+            "organization_id",
+            "key"
+          ]
+        }
+      ],
+      "events_emitted": [],
+      "retention_policy": "while_org_active",
+      "audit_required": true,
+      "sensitive_data_classification": "internal"
+    },
+    {
+      "model_name": "User",
+      "table_name": "User",
+      "owner_module": "core.access",
+      "phase": 1,
+      "tenant_scoped": true,
+      "organization_id_required": true,
+      "rls_required": true,
+      "organization_id_field": "organization_id",
+      "organization_id_column": "organization_id",
+      "fields": [
+        {
+          "field_name": "audit_logs_as_actor",
+          "column_name": "audit_logs_as_actor",
+          "type": "AuditLog[]",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "AuditLog"
+        },
+        {
+          "field_name": "display_name",
+          "column_name": "display_name",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "email",
+          "column_name": "email",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "id",
+          "column_name": "id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": true,
+          "is_relation": false
+        },
+        {
+          "field_name": "organization",
+          "column_name": "organization",
+          "type": "Organization",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "Organization"
+        },
+        {
+          "field_name": "organization_id",
+          "column_name": "organization_id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "primary_unit",
+          "column_name": "primary_unit",
+          "type": "OrganizationUnit",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "OrganizationUnit"
+        },
+        {
+          "field_name": "primary_unit_id",
+          "column_name": "primary_unit_id",
+          "type": "String",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "status",
+          "column_name": "status",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "user_groups",
+          "column_name": "user_groups",
+          "type": "UserGroup[]",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "UserGroup"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "User_id_pk",
+          "fields": [
+            "id"
+          ],
+          "columns": [
+            "id"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "User_organization_id_email_key",
+          "fields": [
+            "organization_id",
+            "email"
+          ],
+          "columns": [
+            "organization_id",
+            "email"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "User_organization_id_id_key",
+          "fields": [
+            "organization_id",
+            "id"
+          ],
+          "columns": [
+            "organization_id",
+            "id"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "User_organization_id_idx",
+          "fields": [
+            "organization_id"
+          ],
+          "columns": [
+            "organization_id"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "User_primary_unit_id_idx",
+          "fields": [
+            "primary_unit_id"
+          ],
+          "columns": [
+            "primary_unit_id"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "User_status_idx",
+          "fields": [
+            "status"
+          ],
+          "columns": [
+            "status"
+          ],
+          "is_unique": false
+        }
+      ],
+      "unique_constraints": [
+        {
+          "name": "User_id_pk",
+          "fields": [
+            "id"
+          ],
+          "columns": [
+            "id"
+          ]
+        },
+        {
+          "name": "User_organization_id_email_key",
+          "fields": [
+            "organization_id",
+            "email"
+          ],
+          "columns": [
+            "organization_id",
+            "email"
+          ]
+        },
+        {
+          "name": "User_organization_id_id_key",
+          "fields": [
+            "organization_id",
+            "id"
+          ],
+          "columns": [
+            "organization_id",
+            "id"
+          ]
+        }
+      ],
+      "events_emitted": [],
+      "retention_policy": "per_user_policy",
+      "audit_required": true,
+      "sensitive_data_classification": "confidential"
+    },
+    {
+      "model_name": "UserGroup",
+      "table_name": "UserGroup",
+      "owner_module": "core.access",
+      "phase": 1,
+      "tenant_scoped": true,
+      "organization_id_required": true,
+      "rls_required": true,
+      "organization_id_field": "organization_id",
+      "organization_id_column": "organization_id",
+      "fields": [
+        {
+          "field_name": "assigned_at",
+          "column_name": "assigned_at",
+          "type": "DateTime",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "group",
+          "column_name": "group",
+          "type": "Group",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "Group"
+        },
+        {
+          "field_name": "group_id",
+          "column_name": "group_id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "id",
+          "column_name": "id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": true,
+          "is_relation": false
+        },
+        {
+          "field_name": "organization",
+          "column_name": "organization",
+          "type": "Organization",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "Organization"
+        },
+        {
+          "field_name": "organization_id",
+          "column_name": "organization_id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "user",
+          "column_name": "user",
+          "type": "User",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "User"
+        },
+        {
+          "field_name": "user_id",
+          "column_name": "user_id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        }
+      ],
+      "indexes": [
+        {
+          "name": "UserGroup_id_pk",
+          "fields": [
+            "id"
+          ],
+          "columns": [
+            "id"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "UserGroup_organization_id_group_id_idx",
+          "fields": [
+            "organization_id",
+            "group_id"
+          ],
+          "columns": [
+            "organization_id",
+            "group_id"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "UserGroup_organization_id_user_id_group_id_key",
+          "fields": [
+            "organization_id",
+            "user_id",
+            "group_id"
+          ],
+          "columns": [
+            "organization_id",
+            "user_id",
+            "group_id"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "UserGroup_organization_id_user_id_idx",
+          "fields": [
+            "organization_id",
+            "user_id"
+          ],
+          "columns": [
+            "organization_id",
+            "user_id"
+          ],
+          "is_unique": false
+        }
+      ],
+      "unique_constraints": [
+        {
+          "name": "UserGroup_id_pk",
+          "fields": [
+            "id"
+          ],
+          "columns": [
+            "id"
+          ]
+        },
+        {
+          "name": "UserGroup_organization_id_user_id_group_id_key",
+          "fields": [
+            "organization_id",
+            "user_id",
+            "group_id"
+          ],
+          "columns": [
+            "organization_id",
+            "user_id",
+            "group_id"
+          ]
+        }
+      ],
+      "events_emitted": [],
+      "retention_policy": "per_access_policy",
+      "audit_required": true,
+      "sensitive_data_classification": "confidential"
+    }
+  ],
   "future_placeholders": []
 }

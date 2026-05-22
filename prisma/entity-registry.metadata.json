@@ -1,5 +1,160 @@
 {
   "version": "0.1.0",
-  "models": {},
+  "models": {
+    "Organization": {
+      "owner_module": "core.organization",
+      "phase": 1,
+      "tenant_scoped": false,
+      "organization_id_required": false,
+      "rls_required": false,
+      "retention_policy": "permanent",
+      "audit_required": true,
+      "sensitive_data_classification": "internal",
+      "events_emitted": []
+    },
+    "OrganizationDomain": {
+      "owner_module": "core.organization",
+      "phase": 1,
+      "tenant_scoped": true,
+      "organization_id_required": true,
+      "rls_required": true,
+      "retention_policy": "while_org_active",
+      "audit_required": true,
+      "sensitive_data_classification": "confidential",
+      "events_emitted": []
+    },
+    "UnitType": {
+      "owner_module": "core.organization",
+      "phase": 1,
+      "tenant_scoped": true,
+      "organization_id_required": true,
+      "rls_required": true,
+      "retention_policy": "while_org_active",
+      "audit_required": true,
+      "sensitive_data_classification": "internal",
+      "events_emitted": []
+    },
+    "OrganizationUnit": {
+      "owner_module": "core.organization",
+      "phase": 1,
+      "tenant_scoped": true,
+      "organization_id_required": true,
+      "rls_required": true,
+      "retention_policy": "while_org_active",
+      "audit_required": true,
+      "sensitive_data_classification": "internal",
+      "events_emitted": []
+    },
+    "OrganizationUnitClosure": {
+      "owner_module": "core.organization",
+      "phase": 1,
+      "tenant_scoped": true,
+      "organization_id_required": true,
+      "rls_required": true,
+      "retention_policy": "derived_from_unit_lifecycle",
+      "audit_required": false,
+      "sensitive_data_classification": "internal",
+      "events_emitted": []
+    },
+    "User": {
+      "owner_module": "core.access",
+      "phase": 1,
+      "tenant_scoped": true,
+      "organization_id_required": true,
+      "rls_required": true,
+      "retention_policy": "per_user_policy",
+      "audit_required": true,
+      "sensitive_data_classification": "confidential",
+      "events_emitted": []
+    },
+    "Group": {
+      "owner_module": "core.access",
+      "phase": 1,
+      "tenant_scoped": true,
+      "organization_id_required": true,
+      "rls_required": true,
+      "retention_policy": "while_org_active",
+      "audit_required": true,
+      "sensitive_data_classification": "internal",
+      "events_emitted": []
+    },
+    "UserGroup": {
+      "owner_module": "core.access",
+      "phase": 1,
+      "tenant_scoped": true,
+      "organization_id_required": true,
+      "rls_required": true,
+      "retention_policy": "per_access_policy",
+      "audit_required": true,
+      "sensitive_data_classification": "confidential",
+      "events_emitted": []
+    },
+    "Capability": {
+      "owner_module": "core.access",
+      "phase": 1,
+      "tenant_scoped": false,
+      "organization_id_required": false,
+      "rls_required": false,
+      "retention_policy": "permanent",
+      "audit_required": true,
+      "sensitive_data_classification": "internal",
+      "events_emitted": []
+    },
+    "GroupCapability": {
+      "owner_module": "core.access",
+      "phase": 1,
+      "tenant_scoped": true,
+      "organization_id_required": true,
+      "rls_required": true,
+      "retention_policy": "per_access_policy",
+      "audit_required": true,
+      "sensitive_data_classification": "confidential",
+      "events_emitted": []
+    },
+    "AuditLog": {
+      "owner_module": "core.platform",
+      "phase": 1,
+      "tenant_scoped": true,
+      "organization_id_required": true,
+      "rls_required": true,
+      "retention_policy": "per_audit_policy",
+      "audit_required": true,
+      "sensitive_data_classification": "restricted",
+      "events_emitted": []
+    },
+    "EventOutbox": {
+      "owner_module": "core.platform",
+      "phase": 1,
+      "tenant_scoped": true,
+      "organization_id_required": true,
+      "rls_required": true,
+      "retention_policy": "per_outbox_policy",
+      "audit_required": true,
+      "sensitive_data_classification": "internal",
+      "events_emitted": []
+    },
+    "ModuleRegistryEntry": {
+      "owner_module": "core.registry",
+      "phase": 1,
+      "tenant_scoped": false,
+      "organization_id_required": false,
+      "rls_required": false,
+      "retention_policy": "permanent",
+      "audit_required": true,
+      "sensitive_data_classification": "internal",
+      "events_emitted": []
+    },
+    "OrganizationSetting": {
+      "owner_module": "core.configuration",
+      "phase": 1,
+      "tenant_scoped": true,
+      "organization_id_required": true,
+      "rls_required": true,
+      "retention_policy": "while_org_active",
+      "audit_required": true,
+      "sensitive_data_classification": "internal",
+      "events_emitted": []
+    }
+  },
   "future_placeholders": []
 }
