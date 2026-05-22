@@ -1,0 +1,651 @@
+{
+  "document": {
+    "title": "AKTI ERP Failure Prevention & Codex Operating Doctrine",
+    "version": "1.0",
+    "status": "source_file_ready_for_codex_and_phase_0_governance",
+    "created_on": "2026-05-22",
+    "owner": "AKTI leadership / Usman Minhas until formally delegated",
+    "purpose": "Prevent AKTI ERP from repeating ARI, AKTI OS, plugin, and ERP IV failure patterns by forcing planning discipline, source-of-truth hierarchy, Codex operating rules, CI enforcement, and delivery-first behavior before any Phase 0 or Phase 1 work starts.",
+    "placement_recommendation": [
+      "Save this JSON as docs/doctrine/akti-erp-failure-prevention-codex-operating-doctrine.v1.json",
+      "Summarize the operational rules into AGENTS.md",
+      "Reference it in ADR-0002: Codex Operating Doctrine",
+      "Do not treat chat history as source of truth after this is committed"
+    ]
+  },
+  "one_sentence_doctrine": "Blueprint v1.2 is frozen. No v1.3 narrative blueprint will be produced. Phase 0 begins with enforceable repo artifacts, especially Prisma-derived contracts and Zod schemas. Codex must work through Plan Mode, AGENTS.md, small tickets, tests, CI, and reviews. Evidence supports delivery; it does not replace working software. The WhatsApp cost problem must be protected by a parallel CRM until Phase 2C is live.",
+  "failure_diagnosis": {
+    "core_pattern": "Previous projects drifted from idea to architecture to peer review to more architecture, while working software remained delayed or unusable.",
+    "observed_failures": [
+      "Architecture documents became the deliverable instead of working code",
+      "Large blueprints kept getting corrected, but each local fix created cross-section drift",
+      "Entity lists, RLS lists, event lists, blockers, indexes, and manifests were manually maintained and therefore inconsistent",
+      "Codex was asked to build from vague prompts and produced technically functional but operationally weak frontend/backend results",
+      "Frontend screens were left undefined, so UX became generic and practically useless",
+      "The urgent WhatsApp/Meta ad-spend problem was repeatedly pushed behind broad foundation work",
+      "AI/chat outputs were treated as architecture authority instead of being recorded in controlled repo files",
+      "Evidence packs and SoT-style documentation created a false sense of progress"
+    ],
+    "root_causes": [
+      "No source-of-truth conflict hierarchy",
+      "No AGENTS.md discipline for Codex",
+      "No Plan Mode first rule",
+      "No small-ticket delivery model",
+      "No CI-enforced architecture contracts",
+      "No screen contracts before frontend implementation",
+      "No protected timeline for the first business-critical module",
+      "Too much premature declaration of future phases"
+    ]
+  },
+  "frozen_inputs": {
+    "blueprint_version": "AKTI ERP Modular Platform & Configuration Blueprint v1.2",
+    "rule": "Blueprint v1.2 is planning input only. It is not a build spec and must not be expanded into v1.3 before Phase 0 artifacts are produced.",
+    "allowed_next_outputs": [
+      "AGENTS.md",
+      "ADR-0001: Architecture Governance and Source of Truth",
+      "ADR-0002: Failure Prevention & Codex Operating Doctrine",
+      "packages/contracts/module-manifest.schema.ts",
+      "packages/contracts/gatekeeper-contract.ts",
+      "packages/contracts/screen-contract.schema.ts",
+      "Prisma-derived entity registry generator",
+      "Phase 1 Build Specification"
+    ],
+    "disallowed_next_outputs": [
+      "Another broad narrative blueprint revision",
+      "Another JSON blueprint revision before repo artifacts",
+      "A giant Codex prompt to build the ERP",
+      "A peer-review-only loop with no code artifacts"
+    ]
+  },
+  "source_of_truth_hierarchy": [
+    {
+      "rank": 1,
+      "source": "prisma/schema.prisma",
+      "authority": "Table existence, table structure, relationships, migrations, database constraints"
+    },
+    {
+      "rank": 2,
+      "source": "packages/contracts",
+      "authority": "Behavioral contracts, Zod schemas, manifest schemas, Gatekeeper contracts, screen contracts, validation contracts"
+    },
+    {
+      "rank": 3,
+      "source": "module manifests",
+      "authority": "Module-declared capabilities, permissions, API routes, events emitted/consumed, dependencies, settings, menu entries"
+    },
+    {
+      "rank": 4,
+      "source": "generated entity registry",
+      "authority": "Derived metadata from Prisma and annotations; not authoritative for structure"
+    },
+    {
+      "rank": 5,
+      "source": "docs/adr",
+      "authority": "Accepted decisions, rationale, tradeoffs, consequences; ADRs explain why, not final table structure"
+    },
+    {
+      "rank": 6,
+      "source": "docs/blueprints",
+      "authority": "Planning direction and scope context only"
+    },
+    {
+      "rank": 7,
+      "source": "chat history",
+      "authority": "Drafting and reasoning support only; never final authority"
+    }
+  ],
+  "conflict_resolution_rule": "When two sources conflict, the lower rank number wins. If a higher-level implementation contradicts an ADR, update the ADR after review; do not let hidden chat memory decide.",
+  "entity_registry_doctrine": {
+    "status": "build_time_contract_not_runtime_service",
+    "rule": "The Entity Registry must not become another manually maintained list.",
+    "source_of_truth": "Prisma schema plus required metadata annotations",
+    "generation_strategy": [
+      "Use Prisma schema as the structural source of truth",
+      "Use custom Prisma generator, AST parser, or companion metadata annotations to derive entity metadata",
+      "Emit generated registry artifact during CI",
+      "CI fails if checked-in generated registry differs from generated output",
+      "CI fails if a tenant-scoped table lacks organization_id, RLS metadata, or required indexes"
+    ],
+    "scope_rule": "Declare only Phase 0, Phase 1, and Phase 2 entities in detail at first. Future phases get placeholders until their planning begins.",
+    "must_not_do": [
+      "Do not maintain an entity-registry.ts file manually in parallel with Prisma",
+      "Do not declare Phase 6 entities in detail before Phase 5 reality informs Phase 6 design",
+      "Do not treat entity registry as a runtime module unless a separate manifest, API, tables, and purpose are explicitly approved"
+    ],
+    "generated_metadata_fields": [
+      "table_name",
+      "owner_module",
+      "phase",
+      "rls_required",
+      "organization_id_required",
+      "indexes",
+      "unique_constraints",
+      "events_emitted",
+      "retention_policy",
+      "audit_required",
+      "sensitive_data_classification"
+    ],
+    "new_table_checklist": [
+      "Prisma model added",
+      "organization_id included if tenant-scoped",
+      "RLS metadata declared if tenant-scoped",
+      "indexes declared",
+      "unique constraints declared",
+      "owner_module declared",
+      "phase declared",
+      "events emitted declared if applicable",
+      "audit requirement declared",
+      "negative cross-org test added if tenant-scoped",
+      "module manifest updated if module-owned",
+      "CI generation check passes"
+    ]
+  },
+  "business_urgency_guardrail": {
+    "problem": "Meta marketing waste from multiple adsets and WhatsApp numbers remains an active cost center.",
+    "temporary_operational_fix": {
+      "decision": "Use AiSensy, Interakt, or equivalent shared WhatsApp inbox/CRM in parallel until ERP Phase 2C is live.",
+      "purpose": "Stop ad-spend leakage while ERP foundation is being built.",
+      "rule": "Do not let Phase 0 and Phase 1 delay operational relief.",
+      "deadline_policy": "A specific Phase 2C pilot target date must be recorded in ADR-0003 before Phase 0 is considered accepted. If no date is committed, the parallel CRM remains mandatory."
+    },
+    "erp_permanent_solution": [
+      "Phase 2A: Engagement Gateway Lite",
+      "Phase 2B: Lead Desk Core",
+      "Phase 2C: WhatsApp Lead Desk Integration"
+    ],
+    "meta_approval_contingency": [
+      "Start WhatsApp Business API/BSP approval early",
+      "Build Lead Desk Core without waiting for API approval",
+      "Use CRM/BSP shared inbox while approval is pending",
+      "If Cloud API approval is delayed or rejected, continue with BSP-supported integration path and keep Lead Desk messaging behind engagement capability interface"
+    ]
+  },
+  "anti_patterns_and_required_corrections": [
+    {
+      "anti_pattern": "Blueprint revision as progress",
+      "symptom": "Another v1.3 or v1.4 document is produced before repo artifacts",
+      "required_correction": "Stop. Produce AGENTS.md, ADRs, Zod contracts, Prisma-derived registry, or build spec instead."
+    },
+    {
+      "anti_pattern": "Raw Codex prompt",
+      "symptom": "Codex is asked to build a feature without first inspecting repo and producing plan",
+      "required_correction": "Use Plan Mode and require implementation plan before file changes."
+    },
+    {
+      "anti_pattern": "Manually synchronized lists",
+      "symptom": "RLS lists, event lists, blockers, phase lists, and indexes are maintained by hand",
+      "required_correction": "Derive lists from Prisma/manifest contracts and enforce with CI."
+    },
+    {
+      "anti_pattern": "Frontend from imagination",
+      "symptom": "Codex builds dashboards, tables, or forms without screen contract",
+      "required_correction": "Block implementation until screen contract exists."
+    },
+    {
+      "anti_pattern": "Fake dashboards",
+      "symptom": "UI shows generic cards, placeholder charts, or dummy states without operational value",
+      "required_correction": "Require user task, primary action, filters, empty/loading/error states, and real API/mock contract."
+    },
+    {
+      "anti_pattern": "Architecture by chat memory",
+      "symptom": "A decision is used because ChatGPT suggested it previously",
+      "required_correction": "Record accepted decisions in ADRs and contracts; chat is advisory only."
+    },
+    {
+      "anti_pattern": "Evidence theater",
+      "symptom": "Task is marked complete because a report, evidence bundle, or SoT was produced",
+      "required_correction": "Done means working code, validation, CI, and acceptance behavior."
+    },
+    {
+      "anti_pattern": "Premature total platform declaration",
+      "symptom": "Phase 5/6 entities are fully specified before Phase 1/2 are built",
+      "required_correction": "Keep future modules as placeholders until phase-specific planning."
+    },
+    {
+      "anti_pattern": "Module shortcuts",
+      "symptom": "A module directly writes another module's tables or exposes unregistered APIs",
+      "required_correction": "Use manifest, registry, capability, and event contracts."
+    }
+  ],
+  "codex_operating_model": {
+    "default_mode": "Plan Mode first",
+    "plan_mode_threshold": "Use Plan Mode for at least 85% of interactions, and for every multi-file, schema, auth, permission, RLS, payment, certification, WhatsApp, frontend screen, or module-boundary task.",
+    "implementation_mode_allowed_for": [
+      "Tiny typo fixes",
+      "Single-file text edits with no architecture impact",
+      "Previously approved implementation plan"
+    ],
+    "plan_mode_prompt_required_outputs": [
+      "Files inspected",
+      "Current architecture understanding",
+      "Step-by-step implementation plan",
+      "Risks and assumptions",
+      "Exact files expected to change",
+      "Validation commands",
+      "Acceptance criteria",
+      "What will not be changed"
+    ],
+    "one_ticket_one_branch_one_outcome": true,
+    "worktree_policy": {
+      "allowed": true,
+      "rule": "Use worktrees for parallel bounded tasks only. Do not run two Codex agents on overlapping files.",
+      "safe_parallel_examples": [
+        "one agent backend contract",
+        "one agent frontend screen using existing API contract",
+        "one agent tests",
+        "one agent diff review"
+      ],
+      "unsafe_parallel_examples": [
+        "two agents editing Prisma schema",
+        "two agents editing Access Core",
+        "one agent changing registry while another changes manifests",
+        "frontend agent inventing UI while backend contract is undefined"
+      ]
+    },
+    "review_policy": {
+      "required_before_merge": true,
+      "review_must_check": [
+        "scope creep",
+        "security",
+        "RLS and organization isolation",
+        "backend permission checks",
+        "Gatekeeper usage",
+        "hardcoded organization/campus/user/role names",
+        "frontend usability",
+        "schema drift",
+        "test coverage",
+        "CI pass",
+        "migration safety"
+      ]
+    },
+    "mcp_policy": {
+      "principle": "Use MCPs only when they remove a real manual loop or provide needed external context.",
+      "approved_initial_mcps": [
+        "GitHub MCP for repo/PR/issues if available",
+        "Browser/Playwright MCP for UI verification",
+        "Official docs lookup MCP if available"
+      ],
+      "do_not_install": [
+        "MCPs added only because they look impressive",
+        "Tools that create new security exposure without real workflow value"
+      ]
+    },
+    "skills_policy": {
+      "principle": "Create skills for repeatable AKTI workflows, not one-off prompts.",
+      "recommended_skills": [
+        "akti-screen-contract-generator",
+        "akti-prisma-migration-reviewer",
+        "akti-rls-checker",
+        "akti-frontend-usability-reviewer",
+        "akti-codex-ticket-planner",
+        "akti-pr-review-checklist",
+        "akti-entity-registry-validator"
+      ]
+    }
+  },
+  "agents_md_required_content": {
+    "file": "AGENTS.md",
+    "purpose": "Persistent Codex instructions for repo behavior, stack, rules, validation, and done criteria.",
+    "must_include": {
+      "stack": [
+        "Next.js + React + TypeScript",
+        "NestJS + TypeScript",
+        "PostgreSQL",
+        "Prisma",
+        "Redis + BullMQ",
+        "Tailwind + shadcn/ui",
+        "S3-compatible storage"
+      ],
+      "rules": [
+        "Always use Plan Mode for multi-step work",
+        "Never change architecture without ADR",
+        "Never hardcode organization, campus, role, group, or user names",
+        "Never bypass Access Core",
+        "Never bypass Gatekeeper for high-risk actions",
+        "Never add tenant-scoped tables without organization_id and RLS metadata",
+        "Never create frontend screens without a screen contract",
+        "Never create new UI patterns when packages/ui has a component",
+        "Never leave TODOs in production code",
+        "Never claim done without validation commands",
+        "Never produce documentation instead of working code unless the ticket is explicitly documentation"
+      ],
+      "done_means": [
+        "Code implemented",
+        "Relevant tests added or updated",
+        "Lint/typecheck/build pass",
+        "No hardcoded tenant or business assumptions",
+        "Acceptance criteria satisfied",
+        "Short completion note provided"
+      ]
+    }
+  },
+  "standard_codex_prompts": {
+    "plan_mode_prompt": "We are in Plan Mode. Do not modify files yet. Task: [one specific task]. Context: read AGENTS.md, /docs/adr/*, /packages/contracts/*, /prisma/schema.prisma, and only relevant module files. Required output: files inspected, current architecture understanding, step-by-step implementation plan, risks/assumptions, exact files to change, validation commands, acceptance criteria, and what will not be changed. Do not write code until I approve the plan.",
+    "implementation_prompt": "Implement the approved plan only. Do not expand scope. Do not create new architecture decisions. Do not hardcode organization, campus, role, group, user, or AKTI-only assumptions. Do not bypass Access Core, Registry, Gatekeeper, RLS, or contracts. Do not leave TODO placeholders. Run the agreed validation commands. Provide a short completion note only.",
+    "review_prompt": "Review this diff aggressively against AGENTS.md, ADRs, contracts, Prisma schema, RLS rules, permission checks, Gatekeeper usage, frontend usability, and scope control. Do not modify files. Return prioritized findings with severity, affected files, and recommended fix.",
+    "screen_contract_prompt": "Create a screen contract before implementation. Include route, purpose, primary users, required capabilities, primary CTA, secondary actions, API/data source, table columns, filters, search fields, form fields, validation, empty/loading/error states, mobile behavior, audit hooks, and what must not happen."
+  },
+  "ticket_contract": {
+    "required_fields": [
+      "ticket_id",
+      "title",
+      "goal",
+      "scope",
+      "non_scope",
+      "source_files_to_read",
+      "likely_files_to_change",
+      "acceptance_criteria",
+      "validation_commands",
+      "risk_notes",
+      "rollback_notes",
+      "done_format"
+    ],
+    "done_format": [
+      "What changed",
+      "Files changed",
+      "Commands run",
+      "Result",
+      "Known gaps",
+      "Next recommended ticket"
+    ],
+    "forbidden_completion_claims": [
+      "I believe it works",
+      "Should be done",
+      "I could not run tests but it looks fine",
+      "Implemented with TODOs",
+      "Created docs instead of requested feature"
+    ]
+  },
+  "frontend_prevention_rules": {
+    "rule": "No frontend screen may be implemented without a screen contract.",
+    "why": "Undefined frontend caused technically functional but practically useless apps.",
+    "screen_contract_required_fields": [
+      "route",
+      "screen_title",
+      "business_purpose",
+      "primary_users",
+      "required_capabilities",
+      "visible_actions",
+      "primary_cta",
+      "secondary_actions",
+      "data_source_or_api_contract",
+      "table_columns",
+      "filters",
+      "search_fields",
+      "form_fields",
+      "validation_rules",
+      "empty_state",
+      "loading_state",
+      "error_state",
+      "mobile_behavior",
+      "audit_hooks",
+      "what_must_not_happen"
+    ],
+    "frontend_done_means": [
+      "Working route",
+      "Permission-aware navigation",
+      "Real layout using packages/ui",
+      "Empty/loading/error states",
+      "Responsive behavior",
+      "Connected API or explicit mock contract",
+      "Form validation if form exists",
+      "Table filters if table exists",
+      "Visible primary action",
+      "No hardcoded role/campus/org names",
+      "Build passes"
+    ],
+    "forbidden_frontend_patterns": [
+      "Fake dashboard cards",
+      "Placeholder buttons without action",
+      "Hardcoded role dashboards",
+      "Hardcoded campus names",
+      "Random dummy data not clearly marked",
+      "New UI pattern created instead of packages/ui reuse",
+      "Technical language exposed to normal users"
+    ]
+  },
+  "codex_must_not_do_without_approval": [
+    "Change architecture",
+    "Add new dependencies",
+    "Change Prisma schema broadly",
+    "Change auth/session logic",
+    "Disable or weaken RLS",
+    "Modify Gatekeeper behavior",
+    "Change module boundaries",
+    "Invent permissions or roles",
+    "Hardcode business structure",
+    "Create frontend UX without contract",
+    "Touch production secrets",
+    "Run destructive migrations",
+    "Delete broad file trees",
+    "Rewrite large modules",
+    "Use AI-generated content to publish website pages without approval"
+  ],
+  "validation_strategy": {
+    "principle": "Validate narrowly after each change.",
+    "example_commands": [
+      "pnpm lint",
+      "pnpm typecheck",
+      "pnpm test",
+      "pnpm test --filter access-core",
+      "pnpm test --filter lead-desk",
+      "pnpm build",
+      "npx prisma validate",
+      "npx prisma migrate diff",
+      "pnpm contracts:validate",
+      "pnpm registry:generate",
+      "pnpm registry:check"
+    ],
+    "ci_required_gates": [
+      "Lint pass",
+      "Typecheck pass",
+      "Unit tests pass for touched module",
+      "Prisma validate pass",
+      "Contract validation pass",
+      "Generated registry check pass",
+      "No tenant-scoped table without organization_id and RLS metadata",
+      "No unregistered module capability/API/event",
+      "No frontend screen route without screen contract"
+    ]
+  },
+  "phase_planning_guardrails": {
+    "phase_0": {
+      "goal": "Convert blueprint into enforceable repo contracts, not another narrative document.",
+      "must_produce": [
+        "AGENTS.md",
+        "ADR-0001 Architecture Governance and Source of Truth",
+        "ADR-0002 Failure Prevention and Codex Operating Doctrine",
+        "Module manifest Zod schema",
+        "Gatekeeper contract",
+        "Approval Engine boundary contract",
+        "Screen contract schema",
+        "Prisma-derived entity registry generator",
+        "Tenant isolation contract",
+        "Event outbox contract"
+      ],
+      "must_not_produce": [
+        "A new broad blueprint revision",
+        "A huge master architecture essay",
+        "A build spec without contracts"
+      ]
+    },
+    "phase_1": {
+      "entry_condition": "Phase 0 contracts exist in repo and CI can validate them.",
+      "goal": "Build core platform foundation only.",
+      "must_not_include": [
+        "Full LMS",
+        "Full Finance",
+        "Full Certification",
+        "Full Website builder beyond shell if not planned",
+        "Future phase entity declarations beyond placeholders"
+      ]
+    },
+    "phase_2": {
+      "entry_condition": "Lead Desk contracts, Engagement Gateway Lite interface, and WhatsApp contingency are accepted.",
+      "business_goal": "Solve one-number WhatsApp lead distribution and round-robin sales assignment.",
+      "subphases": [
+        "2A Engagement Gateway Lite",
+        "2B Lead Desk Core",
+        "2C WhatsApp Lead Desk Integration"
+      ]
+    }
+  },
+  "architecture_decision_records": {
+    "rule": "No architecture decision is final because an AI said it. Decisions are final only when accepted in ADR and referenced by contracts/code.",
+    "required_initial_adrs": [
+      {
+        "id": "ADR-0001",
+        "title": "Architecture Governance and Source-of-Truth Hierarchy"
+      },
+      {
+        "id": "ADR-0002",
+        "title": "Failure Prevention and Codex Operating Doctrine"
+      },
+      {
+        "id": "ADR-0003",
+        "title": "WhatsApp Protected Timeline and Parallel CRM Decision"
+      },
+      {
+        "id": "ADR-0004",
+        "title": "Prisma-Derived Entity Registry Strategy"
+      },
+      {
+        "id": "ADR-0005",
+        "title": "Codex Plan Mode, Worktrees, Review, and CI Workflow"
+      }
+    ],
+    "adr_required_fields": [
+      "ADR number",
+      "Title",
+      "Date",
+      "Status",
+      "Decision",
+      "Context",
+      "Options considered",
+      "Chosen option",
+      "Consequences",
+      "Affected modules",
+      "Owner",
+      "Review date"
+    ]
+  },
+  "human_ai_governance": {
+    "product_owner": "Usman / AKTI leadership",
+    "architecture_owner": "Named human owner to be assigned by AKTI; interim accountable owner is Usman Minhas",
+    "chatgpt_role": [
+      "Architectural planner",
+      "Critic",
+      "Screen-contract writer",
+      "Ticket writer",
+      "Review assistant",
+      "Business logic translator",
+      "Codex prompt designer"
+    ],
+    "chatgpt_not_allowed_to_be": [
+      "Architecture source of truth",
+      "Final release authority",
+      "Memory store",
+      "Unverified approver"
+    ],
+    "codex_role": [
+      "Implementation agent",
+      "Repo inspector",
+      "Plan generator",
+      "Small-ticket developer",
+      "Test runner",
+      "Diff reviewer"
+    ],
+    "codex_not_allowed_to_be": [
+      "Business logic inventor",
+      "Architecture authority",
+      "Uncontrolled frontend designer",
+      "Production release approver"
+    ]
+  },
+  "stop_continue_rules": {
+    "stop_planning_when": [
+      "The decision can be encoded in code",
+      "The issue belongs in AGENTS.md",
+      "The issue belongs in an ADR",
+      "The issue belongs in a Zod contract",
+      "The issue belongs in a test",
+      "The issue is for a future phase",
+      "The discussion is repeating"
+    ],
+    "continue_planning_when": [
+      "Wrong decision would cause rework",
+      "Security depends on it",
+      "Data model depends on it",
+      "Module boundary depends on it",
+      "Business workflow is unclear",
+      "Frontend usability is undefined",
+      "Codex needs exact acceptance criteria"
+    ]
+  },
+  "no_evidence_theater_rule": {
+    "statement": "Evidence is not delivery. Documentation is not delivery. Peer review is not delivery. Architecture is not delivery. A working, tested, merged feature is delivery.",
+    "allowed_evidence": [
+      "Short implementation note",
+      "Test output",
+      "CI pass",
+      "Migration diff",
+      "Screen recording for UI if needed",
+      "Audit artifact only when compliance task requires it"
+    ],
+    "disallowed_evidence": [
+      "Long evidence packs for normal feature tickets",
+      "Decorative SoT documents",
+      "Completion reports with no code",
+      "Claims of completion without build/test",
+      "Peer review as substitute for implementation"
+    ]
+  },
+  "initial_repository_file_targets": [
+    "AGENTS.md",
+    "docs/doctrine/akti-erp-failure-prevention-codex-operating-doctrine.v1.json",
+    "docs/adr/ADR-0001-architecture-governance.md",
+    "docs/adr/ADR-0002-codex-operating-doctrine.md",
+    "docs/adr/ADR-0003-whatsapp-protected-timeline.md",
+    "packages/contracts/module-manifest.schema.ts",
+    "packages/contracts/gatekeeper-contract.ts",
+    "packages/contracts/approval-engine-contract.ts",
+    "packages/contracts/screen-contract.schema.ts",
+    "packages/contracts/entity-registry-generator.ts",
+    "packages/contracts/entity-registry.generated.ts",
+    "packages/contracts/tenant-isolation-contract.ts",
+    "packages/contracts/event-outbox-contract.ts"
+  ],
+  "first_codex_tickets_after_doctrine": [
+    {
+      "ticket": "T00-001",
+      "title": "Create AGENTS.md from doctrine",
+      "mode": "Plan Mode first",
+      "acceptance": "AGENTS.md exists at repo root and includes stack, rules, done criteria, validation commands, and forbidden actions."
+    },
+    {
+      "ticket": "T00-002",
+      "title": "Create ADR-0001 and ADR-0002",
+      "mode": "Plan Mode first",
+      "acceptance": "ADRs exist with accepted source-of-truth hierarchy and Codex doctrine."
+    },
+    {
+      "ticket": "T00-003",
+      "title": "Create module manifest Zod schema",
+      "mode": "Plan Mode first",
+      "acceptance": "packages/contracts/module-manifest.schema.ts validates a sample core module manifest."
+    },
+    {
+      "ticket": "T00-004",
+      "title": "Create screen contract Zod schema",
+      "mode": "Plan Mode first",
+      "acceptance": "packages/contracts/screen-contract.schema.ts validates sample Lead Inbox screen contract."
+    },
+    {
+      "ticket": "T00-005",
+      "title": "Plan Prisma-derived entity registry generator",
+      "mode": "Plan Mode only initially",
+      "acceptance": "Implementation plan chooses generator/parsing strategy and CI drift check before code."
+    }
+  ],
+  "final_guardrail": "If the next output is another broad blueprint instead of AGENTS.md, ADRs, contracts, or small-ticket code, the project is repeating the old failure pattern."
+}
