@@ -3,9 +3,13 @@
   "private": true,
   "packageManager": "pnpm@10.12.1",
   "scripts": {
-    "contracts:validate": "pnpm --filter @akti/contracts contracts:validate"
+    "contracts:validate": "pnpm --filter @akti/contracts contracts:validate",
+    "registry:generate": "node scripts/registry/generate-entity-registry.mjs",
+    "registry:check": "node scripts/registry/check-entity-registry.mjs"
   },
   "devDependencies": {
-    "prisma": "7.8.0"
+    "@mrleebo/prisma-ast": "0.16.0",
+    "prisma": "7.8.0",
+    "tsx": "4.20.6"
   }
 }
