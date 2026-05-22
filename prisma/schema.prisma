@@ -2,6 +2,11 @@ datasource db {
   provider = "postgresql"
 }
 
+generator client {
+  provider = "prisma-client-js"
+  output   = "../apps/api/node_modules/.prisma/client"
+}
+
 enum CapabilityRiskLevel {
   low
   medium
