@@ -61,3 +61,9 @@ for (const schemaFile of schemaFiles) {
   console.log(`Validating ${relative(packageRoot, schemaFile)}`);
   run("pnpm", ["exec", "tsx", schemaFile]);
 }
+
+const accessCoreValidator = join(packageRoot, "scripts", "validate-access-core-contracts.mjs");
+if (existsSync(accessCoreValidator)) {
+  console.log(`Validating ${relative(packageRoot, accessCoreValidator)}`);
+  run("pnpm", ["exec", "tsx", accessCoreValidator]);
+}

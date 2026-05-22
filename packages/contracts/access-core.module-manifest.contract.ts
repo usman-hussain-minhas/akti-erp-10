@@ -1,0 +1,78 @@
+import { ModuleManifestSchema, type ModuleManifest } from "./module-manifest.schema.js";
+
+export const accessCoreModuleManifest: ModuleManifest = ModuleManifestSchema.parse({
+  module_key: "core.access",
+  display_name: "Access Core",
+  module_type: "core",
+  version: "0.1.0",
+  owner: "platform",
+  min_platform_version: "0.1.0",
+  dependencies: [],
+  optional_dependencies: [],
+  capabilities: [
+    {
+      key: "access.policy.manage",
+      description: "Manage access policy definitions.",
+      module_key: "core.access",
+      risk_level: "high",
+      requires_permission: true,
+      requires_reauth: false,
+      requires_audit: true,
+      gatekeeper_required: true,
+      approval_chain_required: false,
+      input_schema: null,
+      output_schema: null,
+    },
+  ],
+  capabilities_consumed: [],
+  permissions: [
+    {
+      key: "access.policy.manage",
+      label: "Manage access policies",
+      module_key: "core.access",
+      description: "Allow generic access policy definition changes.",
+      allowed_scope_types: ["global", "organization"],
+    },
+  ],
+  api_routes: [],
+  events_emitted: [],
+  events_consumed: [],
+  schemas: [],
+  migrations: [],
+  settings: [],
+  menu_entries: [],
+  dashboard_widgets: [],
+  gatekeeper_hooks: [
+    {
+      key: "access.policy.manage.gatekeeper",
+      capability_key: "access.policy.manage",
+      description: "Gatekeeper preflight for access policy definition changes.",
+      required: true,
+    },
+  ],
+  audit_hooks: [],
+  health_checks: [],
+  degraded_mode_behavior: {
+    mode: "readonly",
+    description: "Access policy definitions are read-only during degraded mode.",
+    disabled_capabilities: ["access.policy.manage"],
+  },
+  disable_behavior: {
+    description: "Disabling Access Core blocks dependent protected operations.",
+    blocks_dependent_modules: true,
+    data_retention_required: true,
+  },
+  data_ownership: {
+    owner_module_key: "core.access",
+    tenant_scoped: true,
+    entity_refs: [
+      "access.user",
+      "access.group",
+      "access.user-group",
+      "access.capability",
+      "access.group-capability",
+    ],
+    retention_policy: "Retain access policy definitions per platform audit policy.",
+    sensitive_data: true,
+  },
+});
