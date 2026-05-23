@@ -5,11 +5,12 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import {
-  Prisma,
+  TransactionIsolationLevel,
   type OrganizationUnit,
   type PermissionScopeType,
+  type Prisma,
   type UnitType,
-} from '../../node_modules/.prisma/client';
+} from '../prisma/prisma-client';
 
 import { GatekeeperPreflightService } from '../gatekeeper/gatekeeper-preflight.service';
 import { loadAccessCoreCapabilitySeedDefinitions } from '../module-registry/module-registry.service';
@@ -116,7 +117,7 @@ export class HierarchyService {
           return created;
         },
         {
-          isolationLevel: Prisma.TransactionIsolationLevel.Serializable,
+          isolationLevel: TransactionIsolationLevel.Serializable,
         },
       );
     } catch (error: unknown) {
@@ -186,7 +187,7 @@ export class HierarchyService {
           return result.unit as OrganizationUnit;
         },
         {
-          isolationLevel: Prisma.TransactionIsolationLevel.Serializable,
+          isolationLevel: TransactionIsolationLevel.Serializable,
         },
       );
     } catch (error: unknown) {

@@ -5,14 +5,14 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import {
-  Prisma,
   type Capability,
   type Group,
   type GroupCapability,
   type PermissionScopeType,
+  type Prisma,
   type User,
   type UserGroup,
-} from '../../node_modules/.prisma/client';
+} from '../prisma/prisma-client';
 
 import { GatekeeperPreflightService } from '../gatekeeper/gatekeeper-preflight.service';
 import { loadAccessCoreCapabilitySeedDefinitions } from '../module-registry/module-registry.service';

@@ -1,5 +1,10 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { Prisma, type OrganizationUnit, type OrganizationUnitClosure } from '../../node_modules/.prisma/client';
+import {
+  TransactionIsolationLevel,
+  type OrganizationUnit,
+  type OrganizationUnitClosure,
+  type Prisma,
+} from '../prisma/prisma-client';
 
 import { PrismaService } from '../prisma/prisma.service';
 
@@ -34,7 +39,7 @@ export class HierarchyClosureService {
     return this.prisma.$transaction(
       (tx) => this.createUnitWithClosureInTransaction(tx, input),
       {
-        isolationLevel: Prisma.TransactionIsolationLevel.Serializable,
+        isolationLevel: TransactionIsolationLevel.Serializable,
       },
     );
   }

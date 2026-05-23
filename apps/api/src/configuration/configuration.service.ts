@@ -4,7 +4,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { Prisma, type PermissionScopeType } from '../../node_modules/.prisma/client';
+import { TransactionIsolationLevel, type PermissionScopeType, type Prisma } from '../prisma/prisma-client';
 
 import { GatekeeperPreflightService } from '../gatekeeper/gatekeeper-preflight.service';
 import { loadAccessCoreCapabilitySeedDefinitions } from '../module-registry/module-registry.service';
@@ -178,7 +178,7 @@ export class ConfigurationService {
           return this.toPortalModeResponse(setting, 'stored');
         },
         {
-          isolationLevel: Prisma.TransactionIsolationLevel.Serializable,
+          isolationLevel: TransactionIsolationLevel.Serializable,
         },
       );
     } catch (error: unknown) {

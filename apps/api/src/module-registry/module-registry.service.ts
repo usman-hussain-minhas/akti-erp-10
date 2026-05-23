@@ -1,7 +1,7 @@
 import { createHash } from 'node:crypto';
 
 import { ConflictException, Injectable } from '@nestjs/common';
-import { type Capability, type ModuleRegistryEntry, Prisma } from '../../node_modules/.prisma/client';
+import { type Capability, type ModuleRegistryEntry, type Prisma } from '../prisma/prisma-client';
 
 import { PrismaService } from '../prisma/prisma.service';
 

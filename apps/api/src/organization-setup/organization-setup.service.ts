@@ -1,5 +1,5 @@
 import { BadRequestException, ConflictException, Injectable } from '@nestjs/common';
-import { Prisma, type Organization, type OrganizationDomain } from '../../node_modules/.prisma/client';
+import { TransactionIsolationLevel, type Organization, type OrganizationDomain, type Prisma } from '../prisma/prisma-client';
 
 import { PrismaService } from '../prisma/prisma.service';
 import { EventOutboxService } from '../platform-observability/event-outbox.service';
@@ -92,7 +92,7 @@ export class OrganizationSetupService {
           };
         },
         {
-          isolationLevel: Prisma.TransactionIsolationLevel.Serializable,
+          isolationLevel: TransactionIsolationLevel.Serializable,
         },
       );
 
