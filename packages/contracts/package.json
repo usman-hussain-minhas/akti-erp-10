@@ -3,7 +3,21 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
+  "exports": {
+    "./gatekeeper-contract": {
+      "types": "./dist/gatekeeper-contract.d.ts",
+      "default": "./dist/gatekeeper-contract.js"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "gatekeeper-contract": [
+        "gatekeeper-contract.ts"
+      ]
+    }
+  },
   "scripts": {
+    "build": "pnpm exec tsc -p tsconfig.build.json",
     "contracts:validate": "node scripts/validate-contracts.mjs"
   },
   "dependencies": {

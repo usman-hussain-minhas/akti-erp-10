@@ -3,9 +3,15 @@ import assert from 'node:assert/strict';
 import {
   BadRequestException,
   ConflictException,
+  ForbiddenException,
   NotFoundException,
+  ServiceUnavailableException,
 } from '@nestjs/common';
 
+import {
+  GatekeeperPreflightService,
+  type GatekeeperPreflightInput,
+} from '../gatekeeper/gatekeeper-preflight.service';
 import { AuditLogService } from '../platform-observability/audit-log.service';
 import { EventOutboxService } from '../platform-observability/event-outbox.service';
 import { AccessCoreService } from './access-core.service';
@@ -23,6 +29,10 @@ type MockState = {
   capabilities: Array<Record<string, unknown>>;
   auditLogs: Array<Record<string, unknown>>;
   outboxEntries: Array<Record<string, unknown>>;
+};
+
+type MockGatekeeperPreflight = GatekeeperPreflightService & {
+  calls: GatekeeperPreflightInput[];
 };
 
 function cloneRows(rows: Array<Record<string, unknown>>) {
@@ -461,10 +471,42 @@ function createMockPrisma(overrides?: {
   return { prisma, state };
 }
 
-function createService(prisma: unknown) {
+function createMockGatekeeperPreflight(
+  handler?: (input: GatekeeperPreflightInput) => Promise<void> | void,
+): MockGatekeeperPreflight {
+  const gatekeeper = {
+    calls: [] as GatekeeperPreflightInput[],
+    async requireAllow(input: GatekeeperPreflightInput) {
+      gatekeeper.calls.push(input);
+      await handler?.(input);
+      return {
+        decision: 'allow' as const,
+      };
+    },
+  };
+
+  return gatekeeper as MockGatekeeperPreflight;
+}
+
+function createServiceWithGatekeeper(
+  prisma: unknown,
+  handler?: (input: GatekeeperPreflightInput) => Promise<void> | void,
+) {
   const auditLogService = new AuditLogService();
   const eventOutboxService = new EventOutboxService();
-  return new AccessCoreService(prisma as never, auditLogService, eventOutboxService);
+  const gatekeeper = createMockGatekeeperPreflight(handler);
+  const service = new AccessCoreService(
+    prisma as never,
+    auditLogService,
+    eventOutboxService,
+    gatekeeper,
+  );
+
+  return { service, gatekeeper };
+}
+
+function createService(prisma: unknown) {
+  return createServiceWithGatekeeper(prisma).service;
 }
 
 const WRITE_CALLS = new Set([
@@ -488,6 +530,20 @@ function writeCalls(state: MockState) {
 
 function hasCall(state: MockState, fn: string) {
   return state.calls.some((call) => call.fn === fn);
+}
+
+function hasCallWhere(
+  state: MockState,
+  fn: string,
+  predicate: (args: Record<string, unknown>) => boolean,
+) {
+  return state.calls.some((call) => {
+    if (call.fn !== fn || typeof call.args !== 'object' || call.args === null) {
+      return false;
+    }
+
+    return predicate(call.args as Record<string, unknown>);
+  });
 }
 
 async function testUsersCrudAndOrgIsolation() {
@@ -1010,6 +1066,232 @@ async function testInvalidCrossOrgAndUnauthorizedActorsFailClosedBeforeWrite() {
   assert.deepEqual(writeCalls(unauthorizedActorContext.state), []);
 }
 
+async function testGatekeeperAllowPermitsProtectedMutation() {
+  const context = createMockPrisma();
+  const { service, gatekeeper } = createServiceWithGatekeeper(context.prisma);
+
+  const created = await service.createGroup(
+    'org-1',
+    {
+      key: 'gatekeeper-allow',
+      label: 'Gatekeeper Allow',
+      status: 'active',
+    },
+    'actor-1',
+  );
+
+  assert.equal(created.organization_id, 'org-1');
+  assert.equal(gatekeeper.calls.length, 1);
+  assert.deepEqual(gatekeeper.calls[0], {
+    organization_id: 'org-1',
+    actor_user_id: 'actor-1',
+    active_group_ids: ['group-1'],
+    capability_key: 'access.policy.manage',
+    module_key: 'core.access',
+    entity_type: 'access.group',
+    entity_id: null,
+    scope_unit_id: null,
+    action_key: 'access.group.created',
+    payload: {
+      operation: 'create',
+    },
+    module_health: {
+      'core.access': 'healthy',
+    },
+    dependency_health: {},
+    reauth_status: 'not_required',
+  });
+  assert.equal(hasCall(context.state, 'group.create'), true);
+  assert.equal(context.state.auditLogs.length, 2);
+  assert.equal(context.state.outboxEntries.length, 1);
+}
+
+async function testGatekeeperBlocksBeforeProtectedWrites() {
+  const deniedContext = createMockPrisma();
+  const { service: deniedService, gatekeeper: deniedGatekeeper } = createServiceWithGatekeeper(
+    deniedContext.prisma,
+    () => {
+      throw new ForbiddenException('Gatekeeper did not allow the mutation');
+    },
+  );
+  const initialDeniedGroupCount = deniedContext.state.groups.length;
+
+  await assert.rejects(
+    deniedService.createGroup(
+      'org-1',
+      {
+        key: 'blocked',
+        label: 'Blocked',
+        status: 'active',
+      },
+      'actor-1',
+    ),
+    ForbiddenException,
+  );
+
+  assert.equal(deniedGatekeeper.calls.length, 1);
+  assert.equal(deniedContext.state.groups.length, initialDeniedGroupCount);
+  assert.deepEqual(writeCalls(deniedContext.state), []);
+
+  const degradedContext = createMockPrisma();
+  const { service: degradedService } = createServiceWithGatekeeper(degradedContext.prisma, () => {
+    throw new ServiceUnavailableException('Gatekeeper degraded block');
+  });
+
+  await assert.rejects(
+    degradedService.createGroup(
+      'org-1',
+      {
+        key: 'degraded-block',
+        label: 'Degraded Block',
+        status: 'active',
+      },
+      'actor-1',
+    ),
+    ServiceUnavailableException,
+  );
+
+  assert.deepEqual(writeCalls(degradedContext.state), []);
+}
+
+async function testGatekeeperRunsAfterActorAuthorization() {
+  const missingActorContext = createMockPrisma();
+  const { service: missingActorService, gatekeeper: missingActorGatekeeper } = createServiceWithGatekeeper(
+    missingActorContext.prisma,
+  );
+
+  await assert.rejects(
+    missingActorService.createGroup(
+      'org-1',
+      {
+        key: 'missing-actor-gatekeeper',
+        label: 'Missing Actor Gatekeeper',
+        status: 'active',
+      },
+      undefined,
+    ),
+    BadRequestException,
+  );
+
+  assert.equal(missingActorGatekeeper.calls.length, 0);
+
+  const unauthorizedActorContext = createMockPrisma();
+  unauthorizedActorContext.state.users.push({
+    id: 'actor-without-policy',
+    organization_id: 'org-1',
+    email: 'actor.without.policy@example.org',
+    display_name: 'Actor Without Policy',
+    status: 'active',
+    primary_unit_id: null,
+  });
+  unauthorizedActorContext.state.memberships.push({
+    id: 'membership-actor-without-policy',
+    organization_id: 'org-1',
+    user_id: 'actor-without-policy',
+    group_id: 'group-2',
+    assigned_at: new Date('2026-01-01T00:00:00.000Z'),
+  });
+  const {
+    service: unauthorizedActorService,
+    gatekeeper: unauthorizedActorGatekeeper,
+  } = createServiceWithGatekeeper(unauthorizedActorContext.prisma);
+
+  await assert.rejects(
+    unauthorizedActorService.createGroup(
+      'org-1',
+      {
+        key: 'unauthorized-gatekeeper',
+        label: 'Unauthorized Gatekeeper',
+        status: 'active',
+      },
+      'actor-without-policy',
+    ),
+    BadRequestException,
+  );
+
+  assert.equal(unauthorizedActorGatekeeper.calls.length, 0);
+  assert.deepEqual(writeCalls(unauthorizedActorContext.state), []);
+}
+
+async function testGatekeeperRunsBeforeProtectedResourceReads() {
+  const missingMembershipResourceContext = createMockPrisma();
+  const { service: missingMembershipResourceService, gatekeeper } = createServiceWithGatekeeper(
+    missingMembershipResourceContext.prisma,
+    () => {
+      throw new ForbiddenException('Gatekeeper did not allow the mutation');
+    },
+  );
+
+  await assert.rejects(
+    missingMembershipResourceService.createMembership(
+      'org-1',
+      {
+        user_id: 'missing-user',
+        group_id: 'missing-group',
+      },
+      'actor-1',
+    ),
+    ForbiddenException,
+  );
+
+  assert.equal(gatekeeper.calls.length, 1);
+  assert.equal(
+    hasCallWhere(
+      missingMembershipResourceContext.state,
+      'user.findFirst',
+      (args) => args.id === 'missing-user',
+    ),
+    false,
+  );
+  assert.equal(
+    hasCallWhere(
+      missingMembershipResourceContext.state,
+      'group.findFirst',
+      (args) => args.id === 'missing-group',
+    ),
+    false,
+  );
+  assert.deepEqual(writeCalls(missingMembershipResourceContext.state), []);
+
+  const missingAssignmentResourceContext = createMockPrisma();
+  const {
+    service: missingAssignmentResourceService,
+    gatekeeper: assignmentGatekeeper,
+  } = createServiceWithGatekeeper(missingAssignmentResourceContext.prisma, () => {
+    throw new ForbiddenException('Gatekeeper did not allow the mutation');
+  });
+
+  await assert.rejects(
+    missingAssignmentResourceService.createGroupCapabilityAssignment(
+      'org-1',
+      {
+        group_id: 'missing-group',
+        capability_key: 'access.policy.manage',
+        scope_type: 'own_unit',
+        scope_unit_id: 'missing-unit',
+      },
+      'actor-1',
+    ),
+    ForbiddenException,
+  );
+
+  assert.equal(assignmentGatekeeper.calls.length, 1);
+  assert.equal(
+    hasCallWhere(
+      missingAssignmentResourceContext.state,
+      'group.findFirst',
+      (args) => args.id === 'missing-group',
+    ),
+    false,
+  );
+  assert.equal(hasCall(missingAssignmentResourceContext.state, 'organizationUnit.findFirst'), false);
+  assert.equal(
+    missingAssignmentResourceContext.state.calls.filter((call) => call.fn === 'capability.findUnique').length,
+    1,
+  );
+  assert.deepEqual(writeCalls(missingAssignmentResourceContext.state), []);
+}
+
 async function testObservabilityForValidActor() {
   const validActorContext = createMockPrisma();
   const validActorService = createService(validActorContext.prisma);
@@ -1078,6 +1360,10 @@ async function run() {
   await testMissingAndBlankActorFailClosedBeforeWrite();
   await testMissingActorPreflightRunsBeforeProtectedResourceReads();
   await testInvalidCrossOrgAndUnauthorizedActorsFailClosedBeforeWrite();
+  await testGatekeeperAllowPermitsProtectedMutation();
+  await testGatekeeperBlocksBeforeProtectedWrites();
+  await testGatekeeperRunsAfterActorAuthorization();
+  await testGatekeeperRunsBeforeProtectedResourceReads();
   await testObservabilityForValidActor();
   await testAuditFailureRollsBackProtectedMutation();
 

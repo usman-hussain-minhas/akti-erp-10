@@ -14,6 +14,7 @@ import {
   type UserGroup,
 } from '../../node_modules/.prisma/client';
 
+import { GatekeeperPreflightService } from '../gatekeeper/gatekeeper-preflight.service';
 import { AuditLogService } from '../platform-observability/audit-log.service';
 import { EventOutboxService } from '../platform-observability/event-outbox.service';
 import { PrismaService } from '../prisma/prisma.service';
@@ -68,6 +69,20 @@ type MutationObservabilityInput = {
   metadata: Prisma.InputJsonValue;
 };
 
+type AuthorizedAccessActor = {
+  actor_user_id: string;
+  active_group_ids: string[];
+};
+
+type AccessCoreGatekeeperPreflightInput = {
+  organization_id: string;
+  actor: AuthorizedAccessActor;
+  entity_type: 'access.user' | 'access.group' | 'access.membership' | 'access.group-capability';
+  entity_id: string | null;
+  action_key: string;
+  payload?: Record<string, unknown>;
+};
+
 function isPrismaKnownRequestError(error: unknown): error is { code: string } {
   return (
     typeof error === 'object' &&
@@ -83,6 +98,7 @@ export class AccessCoreService {
     private readonly prisma: PrismaService,
     private readonly auditLogService: AuditLogService,
     private readonly eventOutboxService: EventOutboxService,
+    private readonly gatekeeperPreflightService: GatekeeperPreflightService,
   ) {}
 
   async listCapabilities(): Promise<CapabilityListResponse> {
@@ -120,7 +136,17 @@ export class AccessCoreService {
   async createUser(organizationId: string, input: CreateUserInput, actorUserIdRaw?: string): Promise<User> {
     try {
       return await this.prisma.$transaction(async (tx) => {
-        const actorUserId = await this.requireAccessPolicyManageActor(tx, organizationId, actorUserIdRaw);
+        const actor = await this.requireAccessPolicyManageActor(tx, organizationId, actorUserIdRaw);
+        await this.requireGatekeeperPreflight({
+          organization_id: organizationId,
+          actor,
+          entity_type: 'access.user',
+          entity_id: null,
+          action_key: 'access.user.created',
+          payload: {
+            operation: 'create',
+          },
+        });
 
         await this.assertOrganizationExistsInDb(tx, organizationId);
 
@@ -143,7 +169,7 @@ export class AccessCoreService {
           action_key: 'access.user.created',
           entity_type: 'access.user',
           entity_id: created.id,
-          actor_user_id: actorUserId,
+          actor_user_id: actor.actor_user_id,
           metadata: {
             email: created.email,
           },
@@ -180,7 +206,17 @@ export class AccessCoreService {
   ): Promise<User> {
     try {
       return await this.prisma.$transaction(async (tx) => {
-        const actorUserId = await this.requireAccessPolicyManageActor(tx, organizationId, actorUserIdRaw);
+        const actor = await this.requireAccessPolicyManageActor(tx, organizationId, actorUserIdRaw);
+        await this.requireGatekeeperPreflight({
+          organization_id: organizationId,
+          actor,
+          entity_type: 'access.user',
+          entity_id: userId,
+          action_key: 'access.user.updated',
+          payload: {
+            operation: 'update',
+          },
+        });
 
         await this.getUserInDb(tx, organizationId, userId);
 
@@ -221,7 +257,7 @@ export class AccessCoreService {
           action_key: 'access.user.updated',
           entity_type: 'access.user',
           entity_id: updated.id,
-          actor_user_id: actorUserId,
+          actor_user_id: actor.actor_user_id,
           metadata: {
             updated_fields: Object.keys(input),
           },
@@ -237,7 +273,17 @@ export class AccessCoreService {
 
   async deleteUser(organizationId: string, userId: string, actorUserIdRaw?: string): Promise<{ deleted: true }> {
     return this.prisma.$transaction(async (tx) => {
-      const actorUserId = await this.requireAccessPolicyManageActor(tx, organizationId, actorUserIdRaw);
+      const actor = await this.requireAccessPolicyManageActor(tx, organizationId, actorUserIdRaw);
+      await this.requireGatekeeperPreflight({
+        organization_id: organizationId,
+        actor,
+        entity_type: 'access.user',
+        entity_id: userId,
+        action_key: 'access.user.deleted',
+        payload: {
+          operation: 'delete',
+        },
+      });
 
       const user = await tx.user.findFirst({
         where: {
@@ -285,7 +331,7 @@ export class AccessCoreService {
         action_key: 'access.user.deleted',
         entity_type: 'access.user',
         entity_id: userId,
-        actor_user_id: actorUserId,
+        actor_user_id: actor.actor_user_id,
         metadata: {
           deleted: true,
         },
@@ -298,7 +344,17 @@ export class AccessCoreService {
   async createGroup(organizationId: string, input: CreateGroupInput, actorUserIdRaw?: string): Promise<Group> {
     try {
       return await this.prisma.$transaction(async (tx) => {
-        const actorUserId = await this.requireAccessPolicyManageActor(tx, organizationId, actorUserIdRaw);
+        const actor = await this.requireAccessPolicyManageActor(tx, organizationId, actorUserIdRaw);
+        await this.requireGatekeeperPreflight({
+          organization_id: organizationId,
+          actor,
+          entity_type: 'access.group',
+          entity_id: null,
+          action_key: 'access.group.created',
+          payload: {
+            operation: 'create',
+          },
+        });
 
         await this.assertOrganizationExistsInDb(tx, organizationId);
 
@@ -316,7 +372,7 @@ export class AccessCoreService {
           action_key: 'access.group.created',
           entity_type: 'access.group',
           entity_id: created.id,
-          actor_user_id: actorUserId,
+          actor_user_id: actor.actor_user_id,
           metadata: {
             key: created.key,
           },
@@ -353,7 +409,17 @@ export class AccessCoreService {
   ): Promise<Group> {
     try {
       return await this.prisma.$transaction(async (tx) => {
-        const actorUserId = await this.requireAccessPolicyManageActor(tx, organizationId, actorUserIdRaw);
+        const actor = await this.requireAccessPolicyManageActor(tx, organizationId, actorUserIdRaw);
+        await this.requireGatekeeperPreflight({
+          organization_id: organizationId,
+          actor,
+          entity_type: 'access.group',
+          entity_id: groupId,
+          action_key: 'access.group.updated',
+          payload: {
+            operation: 'update',
+          },
+        });
 
         await this.getGroupInDb(tx, organizationId, groupId);
 
@@ -389,7 +455,7 @@ export class AccessCoreService {
           action_key: 'access.group.updated',
           entity_type: 'access.group',
           entity_id: updated.id,
-          actor_user_id: actorUserId,
+          actor_user_id: actor.actor_user_id,
           metadata: {
             updated_fields: Object.keys(input),
           },
@@ -405,7 +471,17 @@ export class AccessCoreService {
 
   async deleteGroup(organizationId: string, groupId: string, actorUserIdRaw?: string): Promise<{ deleted: true }> {
     return this.prisma.$transaction(async (tx) => {
-      const actorUserId = await this.requireAccessPolicyManageActor(tx, organizationId, actorUserIdRaw);
+      const actor = await this.requireAccessPolicyManageActor(tx, organizationId, actorUserIdRaw);
+      await this.requireGatekeeperPreflight({
+        organization_id: organizationId,
+        actor,
+        entity_type: 'access.group',
+        entity_id: groupId,
+        action_key: 'access.group.deleted',
+        payload: {
+          operation: 'delete',
+        },
+      });
 
       const group = await tx.group.findFirst({
         where: {
@@ -453,7 +529,7 @@ export class AccessCoreService {
         action_key: 'access.group.deleted',
         entity_type: 'access.group',
         entity_id: groupId,
-        actor_user_id: actorUserId,
+        actor_user_id: actor.actor_user_id,
         metadata: {
           deleted: true,
         },
@@ -470,7 +546,17 @@ export class AccessCoreService {
   ): Promise<UserGroup> {
     try {
       return await this.prisma.$transaction(async (tx) => {
-        const actorUserId = await this.requireAccessPolicyManageActor(tx, organizationId, actorUserIdRaw);
+        const actor = await this.requireAccessPolicyManageActor(tx, organizationId, actorUserIdRaw);
+        await this.requireGatekeeperPreflight({
+          organization_id: organizationId,
+          actor,
+          entity_type: 'access.membership',
+          entity_id: null,
+          action_key: 'access.membership.created',
+          payload: {
+            operation: 'create',
+          },
+        });
 
         await this.getUserInDb(tx, organizationId, input.user_id);
         await this.getGroupInDb(tx, organizationId, input.group_id);
@@ -488,7 +574,7 @@ export class AccessCoreService {
           action_key: 'access.membership.created',
           entity_type: 'access.membership',
           entity_id: created.id,
-          actor_user_id: actorUserId,
+          actor_user_id: actor.actor_user_id,
           metadata: {
             user_id: created.user_id,
             group_id: created.group_id,
@@ -520,7 +606,17 @@ export class AccessCoreService {
     actorUserIdRaw?: string,
   ): Promise<{ deleted: true }> {
     return this.prisma.$transaction(async (tx) => {
-      const actorUserId = await this.requireAccessPolicyManageActor(tx, organizationId, actorUserIdRaw);
+      const actor = await this.requireAccessPolicyManageActor(tx, organizationId, actorUserIdRaw);
+      await this.requireGatekeeperPreflight({
+        organization_id: organizationId,
+        actor,
+        entity_type: 'access.membership',
+        entity_id: membershipId,
+        action_key: 'access.membership.deleted',
+        payload: {
+          operation: 'delete',
+        },
+      });
 
       const membership = await tx.userGroup.findFirst({
         where: {
@@ -549,7 +645,7 @@ export class AccessCoreService {
         action_key: 'access.membership.deleted',
         entity_type: 'access.membership',
         entity_id: membershipId,
-        actor_user_id: actorUserId,
+        actor_user_id: actor.actor_user_id,
         metadata: {
           deleted: true,
         },
@@ -566,7 +662,17 @@ export class AccessCoreService {
   ): Promise<GroupCapability> {
     try {
       return await this.prisma.$transaction(async (tx) => {
-        const actorUserId = await this.requireAccessPolicyManageActor(tx, organizationId, actorUserIdRaw);
+        const actor = await this.requireAccessPolicyManageActor(tx, organizationId, actorUserIdRaw);
+        await this.requireGatekeeperPreflight({
+          organization_id: organizationId,
+          actor,
+          entity_type: 'access.group-capability',
+          entity_id: null,
+          action_key: 'access.group-capability.created',
+          payload: {
+            operation: 'create',
+          },
+        });
         const scopeType = this.validatePermissionScopeType(input.scope_type);
 
         await this.getGroupInDb(tx, organizationId, input.group_id);
@@ -617,7 +723,7 @@ export class AccessCoreService {
           action_key: 'access.group-capability.created',
           entity_type: 'access.group-capability',
           entity_id: created.id,
-          actor_user_id: actorUserId,
+          actor_user_id: actor.actor_user_id,
           metadata: {
             group_id: created.group_id,
             capability_key: created.capability_key,
@@ -651,7 +757,17 @@ export class AccessCoreService {
     actorUserIdRaw?: string,
   ): Promise<{ deleted: true }> {
     return this.prisma.$transaction(async (tx) => {
-      const actorUserId = await this.requireAccessPolicyManageActor(tx, organizationId, actorUserIdRaw);
+      const actor = await this.requireAccessPolicyManageActor(tx, organizationId, actorUserIdRaw);
+      await this.requireGatekeeperPreflight({
+        organization_id: organizationId,
+        actor,
+        entity_type: 'access.group-capability',
+        entity_id: assignmentId,
+        action_key: 'access.group-capability.deleted',
+        payload: {
+          operation: 'delete',
+        },
+      });
 
       const assignment = await tx.groupCapability.findFirst({
         where: {
@@ -680,7 +796,7 @@ export class AccessCoreService {
         action_key: 'access.group-capability.deleted',
         entity_type: 'access.group-capability',
         entity_id: assignmentId,
-        actor_user_id: actorUserId,
+        actor_user_id: actor.actor_user_id,
         metadata: {
           deleted: true,
         },
@@ -711,7 +827,7 @@ export class AccessCoreService {
     db: DbClient,
     organizationId: string,
     actorUserIdRaw?: string,
-  ): Promise<string> {
+  ): Promise<AuthorizedAccessActor> {
     const actorUserId = this.normalizeActorUserId(actorUserIdRaw);
     if (!actorUserId) {
       throw new BadRequestException('x-actor-user-id is required for protected Access Core mutations');
@@ -796,7 +912,30 @@ export class AccessCoreService {
       throw new BadRequestException('actor lacks access.policy.manage for this organization');
     }
 
-    return actorUserId;
+    return {
+      actor_user_id: actorUserId,
+      active_group_ids: sameOrganizationGroupIds,
+    };
+  }
+
+  private async requireGatekeeperPreflight(input: AccessCoreGatekeeperPreflightInput): Promise<void> {
+    await this.gatekeeperPreflightService.requireAllow({
+      organization_id: input.organization_id,
+      actor_user_id: input.actor.actor_user_id,
+      active_group_ids: input.actor.active_group_ids,
+      capability_key: ACCESS_POLICY_MANAGE_CAPABILITY_KEY,
+      module_key: 'core.access',
+      entity_type: input.entity_type,
+      entity_id: input.entity_id,
+      scope_unit_id: null,
+      action_key: input.action_key,
+      payload: input.payload,
+      module_health: {
+        'core.access': 'healthy',
+      },
+      dependency_health: {},
+      reauth_status: 'not_required',
+    });
   }
 
   private normalizeActorUserId(actorUserIdRaw?: string | null): string | null {
