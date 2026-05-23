@@ -14,24 +14,16 @@ type WriteAuditLogInput = {
   metadata: Prisma.InputJsonValue;
 };
 
-type AuditWriteResult =
-  | {
-      written: true;
-    }
-  | {
-      written: false;
-      reason: 'missing_actor';
-    };
+type AuditWriteResult = {
+  written: true;
+};
 
 @Injectable()
 export class AuditLogService {
   async writeAuditLog(db: DbClient, input: WriteAuditLogInput): Promise<AuditWriteResult> {
     const actorUserId = this.normalizeActorUserId(input.actor_user_id);
     if (!actorUserId) {
-      return {
-        written: false,
-        reason: 'missing_actor',
-      };
+      throw new BadRequestException('x-actor-user-id is required for audit logging');
     }
 
     const actorUser = await db.user.findFirst({

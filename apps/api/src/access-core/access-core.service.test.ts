@@ -29,11 +29,29 @@ function cloneRows(rows: Array<Record<string, unknown>>) {
   return rows.map((row) => ({ ...row }));
 }
 
+function matchesOptionalFilter(value: unknown, filter: unknown) {
+  if (filter === undefined) {
+    return true;
+  }
+
+  if (
+    typeof filter === 'object' &&
+    filter !== null &&
+    'in' in filter &&
+    Array.isArray((filter as { in?: unknown }).in)
+  ) {
+    return (filter as { in: Array<unknown> }).in.includes(value);
+  }
+
+  return value === filter;
+}
+
 function createMockPrisma(overrides?: {
   userCreateError?: unknown;
   groupCreateError?: unknown;
   membershipCreateError?: unknown;
   assignmentCreateError?: unknown;
+  auditCreateError?: unknown;
 }) {
   const state: MockState = {
     calls: [],
@@ -62,6 +80,14 @@ function createMockPrisma(overrides?: {
         status: 'active',
         primary_unit_id: null,
       },
+      {
+        id: 'actor-foreign',
+        organization_id: 'org-2',
+        email: 'actor.foreign@example.org',
+        display_name: 'Actor Foreign',
+        status: 'active',
+        primary_unit_id: null,
+      },
     ],
     groups: [
       {
@@ -84,6 +110,13 @@ function createMockPrisma(overrides?: {
         id: 'membership-1',
         organization_id: 'org-1',
         user_id: 'user-1',
+        group_id: 'group-1',
+        assigned_at: new Date('2026-01-01T00:00:00.000Z'),
+      },
+      {
+        id: 'membership-actor-1',
+        organization_id: 'org-1',
+        user_id: 'actor-1',
         group_id: 'group-1',
         assigned_at: new Date('2026-01-01T00:00:00.000Z'),
       },
@@ -175,7 +208,7 @@ function createMockPrisma(overrides?: {
         state.users.push(created);
         return created;
       },
-      findMany: async ({ where }: { where: { organization_id: string } }) => {
+      findMany: async ({ where }: { where: Record<string, unknown> }) => {
         state.calls.push({ fn: 'user.findMany', args: where });
         return state.users.filter((item) => item.organization_id === where.organization_id);
       },
@@ -229,9 +262,14 @@ function createMockPrisma(overrides?: {
         state.groups.push(created);
         return created;
       },
-      findMany: async ({ where }: { where: { organization_id: string } }) => {
+      findMany: async ({ where }: { where: Record<string, unknown> }) => {
         state.calls.push({ fn: 'group.findMany', args: where });
-        return state.groups.filter((item) => item.organization_id === where.organization_id);
+        return state.groups.filter((item) => {
+          if (item.organization_id !== where.organization_id) {
+            return false;
+          }
+          return matchesOptionalFilter(item.id, where.id);
+        });
       },
       findFirst: async ({ where }: { where: { organization_id: string; id: string } }) => {
         state.calls.push({ fn: 'group.findFirst', args: where });
@@ -280,9 +318,17 @@ function createMockPrisma(overrides?: {
         state.memberships.push(created);
         return created;
       },
-      findMany: async ({ where }: { where: { organization_id: string } }) => {
+      findMany: async ({ where }: { where: Record<string, unknown> }) => {
         state.calls.push({ fn: 'userGroup.findMany', args: where });
-        return state.memberships.filter((item) => item.organization_id === where.organization_id);
+        return state.memberships.filter((item) => {
+          if (item.organization_id !== where.organization_id) {
+            return false;
+          }
+          if (!matchesOptionalFilter(item.user_id, where.user_id)) {
+            return false;
+          }
+          return matchesOptionalFilter(item.group_id, where.group_id);
+        });
       },
       findFirst: async ({ where }: { where: { organization_id: string; id: string } }) => {
         state.calls.push({ fn: 'userGroup.findFirst', args: where });
@@ -326,16 +372,28 @@ function createMockPrisma(overrides?: {
         state.assignments.push(created);
         return created;
       },
-      findMany: async ({ where }: { where: { organization_id: string } }) => {
+      findMany: async ({ where }: { where: Record<string, unknown> }) => {
         state.calls.push({ fn: 'groupCapability.findMany', args: where });
         return state.assignments.filter((item) => item.organization_id === where.organization_id);
       },
-      findFirst: async ({ where }: { where: { organization_id: string; id: string } }) => {
+      findFirst: async ({ where }: { where: Record<string, unknown> }) => {
         state.calls.push({ fn: 'groupCapability.findFirst', args: where });
         return (
-          state.assignments.find(
-            (item) => item.organization_id === where.organization_id && item.id === where.id,
-          ) ?? null
+          state.assignments.find((item) => {
+            if (item.organization_id !== where.organization_id) {
+              return false;
+            }
+            if (!matchesOptionalFilter(item.id, where.id)) {
+              return false;
+            }
+            if (!matchesOptionalFilter(item.group_id, where.group_id)) {
+              return false;
+            }
+            if (!matchesOptionalFilter(item.capability_key, where.capability_key)) {
+              return false;
+            }
+            return matchesOptionalFilter(item.scope_type, where.scope_type);
+          }) ?? null
         );
       },
       deleteMany: async ({ where }: { where: { organization_id: string; id: string } }) => {
@@ -372,6 +430,9 @@ function createMockPrisma(overrides?: {
     auditLog: {
       create: async ({ data }: { data: Record<string, unknown> }) => {
         state.calls.push({ fn: 'auditLog.create', args: data });
+        if (overrides?.auditCreateError) {
+          throw overrides.auditCreateError;
+        }
         state.auditLogs.push({ id: `audit-${state.auditLogs.length + 1}`, ...data });
         return data;
       },
@@ -406,6 +467,29 @@ function createService(prisma: unknown) {
   return new AccessCoreService(prisma as never, auditLogService, eventOutboxService);
 }
 
+const WRITE_CALLS = new Set([
+  'user.create',
+  'user.updateMany',
+  'user.deleteMany',
+  'group.create',
+  'group.updateMany',
+  'group.deleteMany',
+  'userGroup.create',
+  'userGroup.deleteMany',
+  'groupCapability.create',
+  'groupCapability.deleteMany',
+  'auditLog.create',
+  'eventOutbox.create',
+]);
+
+function writeCalls(state: MockState) {
+  return state.calls.filter((call) => WRITE_CALLS.has(call.fn));
+}
+
+function hasCall(state: MockState, fn: string) {
+  return state.calls.some((call) => call.fn === fn);
+}
+
 async function testUsersCrudAndOrgIsolation() {
   const { prisma, state } = createMockPrisma();
   const service = createService(prisma);
@@ -418,7 +502,7 @@ async function testUsersCrudAndOrgIsolation() {
       status: 'active',
       primary_unit_id: 'unit-1',
     },
-    undefined,
+    'actor-1',
   );
   assert.equal(created.organization_id, 'org-1');
 
@@ -452,7 +536,12 @@ async function testUsersCrudAndOrgIsolation() {
     },
   );
 
-  const userFindFirstCall = state.calls.find((call) => call.fn === 'user.findFirst');
+  const userFindFirstCall = state.calls.find(
+    (call) =>
+      call.fn === 'user.findFirst' &&
+      (call.args as { organization_id?: string; id?: string }).organization_id === 'org-1' &&
+      (call.args as { organization_id?: string; id?: string }).id === 'user-1',
+  );
   assert.ok(userFindFirstCall);
   assert.deepEqual(userFindFirstCall?.args, { organization_id: 'org-1', id: 'user-1' });
 }
@@ -697,51 +786,148 @@ async function testCapabilitySurfaceAndAssignmentValidation() {
   });
 }
 
-async function testObservabilityForMissingAndValidActor() {
+async function testMissingAndBlankActorFailClosedBeforeWrite() {
   const missingActorContext = createMockPrisma();
   const missingActorService = createService(missingActorContext.prisma);
-
-  await missingActorService.createGroup(
-    'org-1',
-    {
-      key: 'qa',
-      label: 'QA',
-      status: 'active',
-    },
-    undefined,
-  );
-
-  assert.equal(missingActorContext.state.outboxEntries.length, 1);
-  assert.equal(missingActorContext.state.auditLogs.length, 1);
-
-  const validActorContext = createMockPrisma();
-  const validActorService = createService(validActorContext.prisma);
-
-  await validActorService.createUser(
-    'org-1',
-    {
-      email: 'third@example.org',
-      display_name: 'Third User',
-      status: 'active',
-      primary_unit_id: null,
-    },
-    'actor-1',
-  );
-
-  assert.equal(validActorContext.state.outboxEntries.length, 1);
-  assert.equal(validActorContext.state.auditLogs.length, 2);
-  const latestOutbox = validActorContext.state.outboxEntries[0];
-  assert.equal(latestOutbox.event_type, 'platform.mutation.recorded');
-}
-
-async function testInvalidActorFailsSafelyAndRollsBack() {
-  const context = createMockPrisma();
-  const service = createService(context.prisma);
-
-  const initialGroupCount = context.state.groups.length;
+  const initialGroupCount = missingActorContext.state.groups.length;
+  const initialAuditCount = missingActorContext.state.auditLogs.length;
 
   await assert.rejects(
-    service.createGroup(
+    missingActorService.createGroup(
+      'org-1',
+      {
+        key: 'qa',
+        label: 'QA',
+        status: 'active',
+      },
+      undefined,
+    ),
+    (error: unknown) => {
+      assert.ok(error instanceof BadRequestException);
+      return true;
+    },
+  );
+
+  assert.equal(missingActorContext.state.groups.length, initialGroupCount);
+  assert.equal(missingActorContext.state.auditLogs.length, initialAuditCount);
+  assert.equal(missingActorContext.state.outboxEntries.length, 0);
+  assert.deepEqual(writeCalls(missingActorContext.state), []);
+
+  const blankActorContext = createMockPrisma();
+  const blankActorService = createService(blankActorContext.prisma);
+  const initialUserCount = blankActorContext.state.users.length;
+
+  await assert.rejects(
+    blankActorService.createUser(
+      'org-1',
+      {
+        email: 'blank@example.org',
+        display_name: 'Blank Actor Test',
+        status: 'active',
+        primary_unit_id: null,
+      },
+      '   ',
+    ),
+    (error: unknown) => {
+      assert.ok(error instanceof BadRequestException);
+      return true;
+    },
+  );
+
+  assert.equal(blankActorContext.state.users.length, initialUserCount);
+  assert.equal(blankActorContext.state.outboxEntries.length, 0);
+  assert.deepEqual(writeCalls(blankActorContext.state), []);
+}
+
+async function testMissingActorPreflightRunsBeforeProtectedResourceReads() {
+  const missingUpdateActorContext = createMockPrisma();
+  const missingUpdateActorService = createService(missingUpdateActorContext.prisma);
+
+  await assert.rejects(
+    missingUpdateActorService.updateUser(
+      'org-1',
+      'missing-user',
+      {
+        display_name: 'Should Not Matter',
+      },
+      undefined,
+    ),
+    (error: unknown) => {
+      assert.ok(error instanceof BadRequestException);
+      assert.equal(
+        (error as Error).message,
+        'x-actor-user-id is required for protected Access Core mutations',
+      );
+      return true;
+    },
+  );
+
+  assert.equal(hasCall(missingUpdateActorContext.state, 'user.findFirst'), false);
+  assert.deepEqual(writeCalls(missingUpdateActorContext.state), []);
+
+  const missingMembershipActorContext = createMockPrisma();
+  const missingMembershipActorService = createService(missingMembershipActorContext.prisma);
+
+  await assert.rejects(
+    missingMembershipActorService.createMembership(
+      'org-1',
+      {
+        user_id: 'missing-user',
+        group_id: 'missing-group',
+      },
+      undefined,
+    ),
+    (error: unknown) => {
+      assert.ok(error instanceof BadRequestException);
+      assert.equal(
+        (error as Error).message,
+        'x-actor-user-id is required for protected Access Core mutations',
+      );
+      return true;
+    },
+  );
+
+  assert.equal(hasCall(missingMembershipActorContext.state, 'user.findFirst'), false);
+  assert.equal(hasCall(missingMembershipActorContext.state, 'group.findFirst'), false);
+  assert.deepEqual(writeCalls(missingMembershipActorContext.state), []);
+
+  const missingAssignmentActorContext = createMockPrisma();
+  const missingAssignmentActorService = createService(missingAssignmentActorContext.prisma);
+
+  await assert.rejects(
+    missingAssignmentActorService.createGroupCapabilityAssignment(
+      'org-1',
+      {
+        group_id: 'missing-group',
+        capability_key: 'access.policy.manage',
+        scope_type: 'own_unit',
+        scope_unit_id: 'missing-unit',
+      },
+      undefined,
+    ),
+    (error: unknown) => {
+      assert.ok(error instanceof BadRequestException);
+      assert.equal(
+        (error as Error).message,
+        'x-actor-user-id is required for protected Access Core mutations',
+      );
+      return true;
+    },
+  );
+
+  assert.equal(hasCall(missingAssignmentActorContext.state, 'group.findFirst'), false);
+  assert.equal(hasCall(missingAssignmentActorContext.state, 'organizationUnit.findFirst'), false);
+  assert.equal(hasCall(missingAssignmentActorContext.state, 'capability.findUnique'), false);
+  assert.deepEqual(writeCalls(missingAssignmentActorContext.state), []);
+}
+
+async function testInvalidCrossOrgAndUnauthorizedActorsFailClosedBeforeWrite() {
+  const invalidActorContext = createMockPrisma();
+  const invalidActorService = createService(invalidActorContext.prisma);
+  const invalidActorInitialGroupCount = invalidActorContext.state.groups.length;
+
+  await assert.rejects(
+    invalidActorService.createGroup(
       'org-1',
       {
         key: 'new-group',
@@ -756,8 +942,131 @@ async function testInvalidActorFailsSafelyAndRollsBack() {
     },
   );
 
+  assert.equal(invalidActorContext.state.groups.length, invalidActorInitialGroupCount);
+  assert.equal(invalidActorContext.state.outboxEntries.length, 0);
+  assert.deepEqual(writeCalls(invalidActorContext.state), []);
+
+  const crossOrgActorContext = createMockPrisma();
+  const crossOrgActorService = createService(crossOrgActorContext.prisma);
+  const crossOrgInitialGroupCount = crossOrgActorContext.state.groups.length;
+
+  await assert.rejects(
+    crossOrgActorService.createGroup(
+      'org-1',
+      {
+        key: 'cross-org-test',
+        label: 'Cross Org Test',
+        status: 'active',
+      },
+      'actor-foreign',
+    ),
+    (error: unknown) => {
+      assert.ok(error instanceof BadRequestException);
+      return true;
+    },
+  );
+
+  assert.equal(crossOrgActorContext.state.groups.length, crossOrgInitialGroupCount);
+  assert.equal(crossOrgActorContext.state.outboxEntries.length, 0);
+  assert.deepEqual(writeCalls(crossOrgActorContext.state), []);
+
+  const unauthorizedActorContext = createMockPrisma();
+  unauthorizedActorContext.state.users.push({
+    id: 'actor-without-policy',
+    organization_id: 'org-1',
+    email: 'actor.without.policy@example.org',
+    display_name: 'Actor Without Policy',
+    status: 'active',
+    primary_unit_id: null,
+  });
+  unauthorizedActorContext.state.memberships.push({
+    id: 'membership-actor-without-policy',
+    organization_id: 'org-1',
+    user_id: 'actor-without-policy',
+    group_id: 'group-2',
+    assigned_at: new Date('2026-01-01T00:00:00.000Z'),
+  });
+  const unauthorizedActorService = createService(unauthorizedActorContext.prisma);
+  const unauthorizedInitialGroupCount = unauthorizedActorContext.state.groups.length;
+
+  await assert.rejects(
+    unauthorizedActorService.createGroup(
+      'org-1',
+      {
+        key: 'unauthorized-test',
+        label: 'Unauthorized Test',
+        status: 'active',
+      },
+      'actor-without-policy',
+    ),
+    (error: unknown) => {
+      assert.ok(error instanceof BadRequestException);
+      return true;
+    },
+  );
+
+  assert.equal(unauthorizedActorContext.state.groups.length, unauthorizedInitialGroupCount);
+  assert.equal(unauthorizedActorContext.state.outboxEntries.length, 0);
+  assert.deepEqual(writeCalls(unauthorizedActorContext.state), []);
+}
+
+async function testObservabilityForValidActor() {
+  const validActorContext = createMockPrisma();
+  const validActorService = createService(validActorContext.prisma);
+
+  await validActorService.createUser(
+    'org-1',
+    {
+      email: 'third@example.org',
+      display_name: 'Third User',
+      status: 'active',
+      primary_unit_id: null,
+    },
+    ' actor-1 ',
+  );
+
+  assert.equal(validActorContext.state.outboxEntries.length, 1);
+  assert.equal(validActorContext.state.auditLogs.length, 2);
+  const latestOutbox = validActorContext.state.outboxEntries[0];
+  assert.equal(latestOutbox.event_type, 'platform.mutation.recorded');
+  assert.deepEqual((latestOutbox.payload as { actor_user_id: string }).actor_user_id, 'actor-1');
+  const latestAudit = validActorContext.state.auditLogs[1];
+  assert.equal(latestAudit.actor_user_id, 'actor-1');
+  assert.equal(latestAudit.action_key, 'access.user.created');
+}
+
+async function testAuditFailureRollsBackProtectedMutation() {
+  const context = createMockPrisma({
+    auditCreateError: new Error('audit write failed'),
+  });
+  const service = createService(context.prisma);
+
+  const initialGroupCount = context.state.groups.length;
+  const initialAuditCount = context.state.auditLogs.length;
+
+  await assert.rejects(
+    service.createGroup(
+      'org-1',
+      {
+        key: 'new-group',
+        label: 'New Group',
+        status: 'active',
+      },
+      'actor-1',
+    ),
+    (error: unknown) => {
+      assert.ok(error instanceof Error);
+      assert.equal(error.message, 'audit write failed');
+      return true;
+    },
+  );
+
   assert.equal(context.state.groups.length, initialGroupCount);
+  assert.equal(context.state.auditLogs.length, initialAuditCount);
   assert.equal(context.state.outboxEntries.length, 0);
+  assert.equal(context.state.calls.some((call) => call.fn === 'group.create'), true);
+  assert.equal(context.state.calls.some((call) => call.fn === 'eventOutbox.create'), true);
+  assert.equal(context.state.calls.some((call) => call.fn === 'auditLog.create'), true);
 }
 
 async function run() {
@@ -766,8 +1075,11 @@ async function run() {
   await testGroupsCrudAndOrgIsolation();
   await testMembershipOrgScopeAndDuplicateConflict();
   await testCapabilitySurfaceAndAssignmentValidation();
-  await testObservabilityForMissingAndValidActor();
-  await testInvalidActorFailsSafelyAndRollsBack();
+  await testMissingAndBlankActorFailClosedBeforeWrite();
+  await testMissingActorPreflightRunsBeforeProtectedResourceReads();
+  await testInvalidCrossOrgAndUnauthorizedActorsFailClosedBeforeWrite();
+  await testObservabilityForValidActor();
+  await testAuditFailureRollsBackProtectedMutation();
 
   console.log('access-core.service tests passed');
 }

@@ -27,8 +27,11 @@ import {
   type UpdateUserInput,
 } from './dto/access-core.dto';
 
+const ACCESS_POLICY_MANAGE_CAPABILITY_KEY = 'access.policy.manage';
+const ACCESS_POLICY_MANAGE_ACTOR_SCOPE_TYPES = ['global', 'organization'] as const satisfies ReadonlyArray<PermissionScopeType>;
+
 const APPROVED_CAPABILITY_SCOPE_MAP: Record<string, ReadonlyArray<PermissionScopeType>> = {
-  'access.policy.manage': ['global', 'organization'],
+  [ACCESS_POLICY_MANAGE_CAPABILITY_KEY]: ACCESS_POLICY_MANAGE_ACTOR_SCOPE_TYPES,
 };
 
 const SCOPE_TYPES_REQUIRING_UNIT = new Set<PermissionScopeType>(['own_unit', 'child_units']);
@@ -115,14 +118,16 @@ export class AccessCoreService {
   }
 
   async createUser(organizationId: string, input: CreateUserInput, actorUserIdRaw?: string): Promise<User> {
-    await this.assertOrganizationExistsInDb(this.prisma, organizationId);
-
-    if (input.primary_unit_id) {
-      await this.assertUnitExistsInOrganization(organizationId, input.primary_unit_id, 'primary_unit_id');
-    }
-
     try {
       return await this.prisma.$transaction(async (tx) => {
+        const actorUserId = await this.requireAccessPolicyManageActor(tx, organizationId, actorUserIdRaw);
+
+        await this.assertOrganizationExistsInDb(tx, organizationId);
+
+        if (input.primary_unit_id) {
+          await this.assertUnitExistsInOrganizationInDb(tx, organizationId, input.primary_unit_id, 'primary_unit_id');
+        }
+
         const created = await tx.user.create({
           data: {
             organization_id: organizationId,
@@ -138,7 +143,7 @@ export class AccessCoreService {
           action_key: 'access.user.created',
           entity_type: 'access.user',
           entity_id: created.id,
-          actor_user_id: actorUserIdRaw,
+          actor_user_id: actorUserId,
           metadata: {
             email: created.email,
           },
@@ -164,18 +169,7 @@ export class AccessCoreService {
   }
 
   async getUser(organizationId: string, userId: string): Promise<User> {
-    const item = await this.prisma.user.findFirst({
-      where: {
-        organization_id: organizationId,
-        id: userId,
-      },
-    });
-
-    if (!item) {
-      throw new NotFoundException('user not found in organization');
-    }
-
-    return item;
+    return this.getUserInDb(this.prisma, organizationId, userId);
   }
 
   async updateUser(
@@ -184,14 +178,16 @@ export class AccessCoreService {
     input: UpdateUserInput,
     actorUserIdRaw?: string,
   ): Promise<User> {
-    await this.getUser(organizationId, userId);
-
-    if (input.primary_unit_id) {
-      await this.assertUnitExistsInOrganization(organizationId, input.primary_unit_id, 'primary_unit_id');
-    }
-
     try {
       return await this.prisma.$transaction(async (tx) => {
+        const actorUserId = await this.requireAccessPolicyManageActor(tx, organizationId, actorUserIdRaw);
+
+        await this.getUserInDb(tx, organizationId, userId);
+
+        if (input.primary_unit_id) {
+          await this.assertUnitExistsInOrganizationInDb(tx, organizationId, input.primary_unit_id, 'primary_unit_id');
+        }
+
         const updateResult = await tx.user.updateMany({
           where: {
             organization_id: organizationId,
@@ -225,7 +221,7 @@ export class AccessCoreService {
           action_key: 'access.user.updated',
           entity_type: 'access.user',
           entity_id: updated.id,
-          actor_user_id: actorUserIdRaw,
+          actor_user_id: actorUserId,
           metadata: {
             updated_fields: Object.keys(input),
           },
@@ -241,6 +237,8 @@ export class AccessCoreService {
 
   async deleteUser(organizationId: string, userId: string, actorUserIdRaw?: string): Promise<{ deleted: true }> {
     return this.prisma.$transaction(async (tx) => {
+      const actorUserId = await this.requireAccessPolicyManageActor(tx, organizationId, actorUserIdRaw);
+
       const user = await tx.user.findFirst({
         where: {
           organization_id: organizationId,
@@ -287,7 +285,7 @@ export class AccessCoreService {
         action_key: 'access.user.deleted',
         entity_type: 'access.user',
         entity_id: userId,
-        actor_user_id: actorUserIdRaw,
+        actor_user_id: actorUserId,
         metadata: {
           deleted: true,
         },
@@ -298,10 +296,12 @@ export class AccessCoreService {
   }
 
   async createGroup(organizationId: string, input: CreateGroupInput, actorUserIdRaw?: string): Promise<Group> {
-    await this.assertOrganizationExistsInDb(this.prisma, organizationId);
-
     try {
       return await this.prisma.$transaction(async (tx) => {
+        const actorUserId = await this.requireAccessPolicyManageActor(tx, organizationId, actorUserIdRaw);
+
+        await this.assertOrganizationExistsInDb(tx, organizationId);
+
         const created = await tx.group.create({
           data: {
             organization_id: organizationId,
@@ -316,7 +316,7 @@ export class AccessCoreService {
           action_key: 'access.group.created',
           entity_type: 'access.group',
           entity_id: created.id,
-          actor_user_id: actorUserIdRaw,
+          actor_user_id: actorUserId,
           metadata: {
             key: created.key,
           },
@@ -342,18 +342,7 @@ export class AccessCoreService {
   }
 
   async getGroup(organizationId: string, groupId: string): Promise<Group> {
-    const item = await this.prisma.group.findFirst({
-      where: {
-        organization_id: organizationId,
-        id: groupId,
-      },
-    });
-
-    if (!item) {
-      throw new NotFoundException('group not found in organization');
-    }
-
-    return item;
+    return this.getGroupInDb(this.prisma, organizationId, groupId);
   }
 
   async updateGroup(
@@ -362,10 +351,12 @@ export class AccessCoreService {
     input: UpdateGroupInput,
     actorUserIdRaw?: string,
   ): Promise<Group> {
-    await this.getGroup(organizationId, groupId);
-
     try {
       return await this.prisma.$transaction(async (tx) => {
+        const actorUserId = await this.requireAccessPolicyManageActor(tx, organizationId, actorUserIdRaw);
+
+        await this.getGroupInDb(tx, organizationId, groupId);
+
         const updateResult = await tx.group.updateMany({
           where: {
             organization_id: organizationId,
@@ -398,7 +389,7 @@ export class AccessCoreService {
           action_key: 'access.group.updated',
           entity_type: 'access.group',
           entity_id: updated.id,
-          actor_user_id: actorUserIdRaw,
+          actor_user_id: actorUserId,
           metadata: {
             updated_fields: Object.keys(input),
           },
@@ -414,6 +405,8 @@ export class AccessCoreService {
 
   async deleteGroup(organizationId: string, groupId: string, actorUserIdRaw?: string): Promise<{ deleted: true }> {
     return this.prisma.$transaction(async (tx) => {
+      const actorUserId = await this.requireAccessPolicyManageActor(tx, organizationId, actorUserIdRaw);
+
       const group = await tx.group.findFirst({
         where: {
           organization_id: organizationId,
@@ -460,7 +453,7 @@ export class AccessCoreService {
         action_key: 'access.group.deleted',
         entity_type: 'access.group',
         entity_id: groupId,
-        actor_user_id: actorUserIdRaw,
+        actor_user_id: actorUserId,
         metadata: {
           deleted: true,
         },
@@ -475,11 +468,13 @@ export class AccessCoreService {
     input: CreateMembershipInput,
     actorUserIdRaw?: string,
   ): Promise<UserGroup> {
-    await this.getUser(organizationId, input.user_id);
-    await this.getGroup(organizationId, input.group_id);
-
     try {
       return await this.prisma.$transaction(async (tx) => {
+        const actorUserId = await this.requireAccessPolicyManageActor(tx, organizationId, actorUserIdRaw);
+
+        await this.getUserInDb(tx, organizationId, input.user_id);
+        await this.getGroupInDb(tx, organizationId, input.group_id);
+
         const created = await tx.userGroup.create({
           data: {
             organization_id: organizationId,
@@ -493,7 +488,7 @@ export class AccessCoreService {
           action_key: 'access.membership.created',
           entity_type: 'access.membership',
           entity_id: created.id,
-          actor_user_id: actorUserIdRaw,
+          actor_user_id: actorUserId,
           metadata: {
             user_id: created.user_id,
             group_id: created.group_id,
@@ -525,6 +520,8 @@ export class AccessCoreService {
     actorUserIdRaw?: string,
   ): Promise<{ deleted: true }> {
     return this.prisma.$transaction(async (tx) => {
+      const actorUserId = await this.requireAccessPolicyManageActor(tx, organizationId, actorUserIdRaw);
+
       const membership = await tx.userGroup.findFirst({
         where: {
           organization_id: organizationId,
@@ -552,7 +549,7 @@ export class AccessCoreService {
         action_key: 'access.membership.deleted',
         entity_type: 'access.membership',
         entity_id: membershipId,
-        actor_user_id: actorUserIdRaw,
+        actor_user_id: actorUserId,
         metadata: {
           deleted: true,
         },
@@ -567,43 +564,44 @@ export class AccessCoreService {
     input: CreateGroupCapabilityInput,
     actorUserIdRaw?: string,
   ): Promise<GroupCapability> {
-    const scopeType = this.validatePermissionScopeType(input.scope_type);
-
-    await this.getGroup(organizationId, input.group_id);
-
-    if (SCOPE_TYPES_FORBIDDING_UNIT.has(scopeType) && input.scope_unit_id) {
-      throw new BadRequestException('scope_unit_id is not allowed for this scope_type');
-    }
-
-    if (SCOPE_TYPES_REQUIRING_UNIT.has(scopeType)) {
-      if (!input.scope_unit_id) {
-        throw new BadRequestException('scope_unit_id is required for this scope_type');
-      }
-
-      await this.assertUnitExistsInOrganization(organizationId, input.scope_unit_id, 'scope_unit_id');
-    }
-
-    const allowedScopes = APPROVED_CAPABILITY_SCOPE_MAP[input.capability_key];
-    if (!allowedScopes) {
-      throw new BadRequestException('capability_key is not approved by Access Core contract boundary');
-    }
-
-    if (!allowedScopes.includes(scopeType)) {
-      throw new BadRequestException('scope_type is not allowed for this capability');
-    }
-
-    const capabilityInDb = await this.prisma.capability.findUnique({
-      where: {
-        key: input.capability_key,
-      },
-    });
-
-    if (!capabilityInDb) {
-      throw new ConflictException('capability exists in contract but is missing from database catalog');
-    }
-
     try {
       return await this.prisma.$transaction(async (tx) => {
+        const actorUserId = await this.requireAccessPolicyManageActor(tx, organizationId, actorUserIdRaw);
+        const scopeType = this.validatePermissionScopeType(input.scope_type);
+
+        await this.getGroupInDb(tx, organizationId, input.group_id);
+
+        if (SCOPE_TYPES_FORBIDDING_UNIT.has(scopeType) && input.scope_unit_id) {
+          throw new BadRequestException('scope_unit_id is not allowed for this scope_type');
+        }
+
+        if (SCOPE_TYPES_REQUIRING_UNIT.has(scopeType)) {
+          if (!input.scope_unit_id) {
+            throw new BadRequestException('scope_unit_id is required for this scope_type');
+          }
+
+          await this.assertUnitExistsInOrganizationInDb(tx, organizationId, input.scope_unit_id, 'scope_unit_id');
+        }
+
+        const allowedScopes = APPROVED_CAPABILITY_SCOPE_MAP[input.capability_key];
+        if (!allowedScopes) {
+          throw new BadRequestException('capability_key is not approved by Access Core contract boundary');
+        }
+
+        if (!allowedScopes.includes(scopeType)) {
+          throw new BadRequestException('scope_type is not allowed for this capability');
+        }
+
+        const capabilityInDb = await tx.capability.findUnique({
+          where: {
+            key: input.capability_key,
+          },
+        });
+
+        if (!capabilityInDb) {
+          throw new ConflictException('capability exists in contract but is missing from database catalog');
+        }
+
         const created = await tx.groupCapability.create({
           data: {
             organization_id: organizationId,
@@ -619,7 +617,7 @@ export class AccessCoreService {
           action_key: 'access.group-capability.created',
           entity_type: 'access.group-capability',
           entity_id: created.id,
-          actor_user_id: actorUserIdRaw,
+          actor_user_id: actorUserId,
           metadata: {
             group_id: created.group_id,
             capability_key: created.capability_key,
@@ -653,6 +651,8 @@ export class AccessCoreService {
     actorUserIdRaw?: string,
   ): Promise<{ deleted: true }> {
     return this.prisma.$transaction(async (tx) => {
+      const actorUserId = await this.requireAccessPolicyManageActor(tx, organizationId, actorUserIdRaw);
+
       const assignment = await tx.groupCapability.findFirst({
         where: {
           organization_id: organizationId,
@@ -680,7 +680,7 @@ export class AccessCoreService {
         action_key: 'access.group-capability.deleted',
         entity_type: 'access.group-capability',
         entity_id: assignmentId,
-        actor_user_id: actorUserIdRaw,
+        actor_user_id: actorUserId,
         metadata: {
           deleted: true,
         },
@@ -705,6 +705,107 @@ export class AccessCoreService {
     }
 
     return rawScopeType as PermissionScopeType;
+  }
+
+  private async requireAccessPolicyManageActor(
+    db: DbClient,
+    organizationId: string,
+    actorUserIdRaw?: string,
+  ): Promise<string> {
+    const actorUserId = this.normalizeActorUserId(actorUserIdRaw);
+    if (!actorUserId) {
+      throw new BadRequestException('x-actor-user-id is required for protected Access Core mutations');
+    }
+
+    const actor = await db.user.findFirst({
+      where: {
+        organization_id: organizationId,
+        id: actorUserId,
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    if (!actor) {
+      throw new BadRequestException('x-actor-user-id must reference a user in the same organization');
+    }
+
+    const capability = await db.capability.findUnique({
+      where: {
+        key: ACCESS_POLICY_MANAGE_CAPABILITY_KEY,
+      },
+      select: {
+        key: true,
+      },
+    });
+
+    if (!capability) {
+      throw new ConflictException('access.policy.manage capability is missing from database catalog');
+    }
+
+    const memberships = await db.userGroup.findMany({
+      where: {
+        organization_id: organizationId,
+        user_id: actorUserId,
+      },
+      select: {
+        group_id: true,
+      },
+    });
+
+    const membershipGroupIds = memberships.map((membership) => membership.group_id);
+    if (membershipGroupIds.length === 0) {
+      throw new BadRequestException('actor lacks access.policy.manage for this organization');
+    }
+
+    const groups = await db.group.findMany({
+      where: {
+        organization_id: organizationId,
+        id: {
+          in: membershipGroupIds,
+        },
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    const sameOrganizationGroupIds = groups.map((group) => group.id);
+    if (sameOrganizationGroupIds.length === 0) {
+      throw new BadRequestException('actor lacks access.policy.manage for this organization');
+    }
+
+    const assignment = await db.groupCapability.findFirst({
+      where: {
+        organization_id: organizationId,
+        group_id: {
+          in: sameOrganizationGroupIds,
+        },
+        capability_key: ACCESS_POLICY_MANAGE_CAPABILITY_KEY,
+        scope_type: {
+          in: [...ACCESS_POLICY_MANAGE_ACTOR_SCOPE_TYPES],
+        },
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    if (!assignment) {
+      throw new BadRequestException('actor lacks access.policy.manage for this organization');
+    }
+
+    return actorUserId;
+  }
+
+  private normalizeActorUserId(actorUserIdRaw?: string | null): string | null {
+    if (typeof actorUserIdRaw !== 'string') {
+      return null;
+    }
+
+    const trimmed = actorUserIdRaw.trim();
+    return trimmed.length > 0 ? trimmed : null;
   }
 
   private async recordMutationObservability(db: DbClient, input: MutationObservabilityInput) {
@@ -738,8 +839,43 @@ export class AccessCoreService {
     }
   }
 
-  private async assertUnitExistsInOrganization(organizationId: string, unitId: string, fieldName: string) {
-    const unit = await this.prisma.organizationUnit.findFirst({
+  private async getUserInDb(db: DbClient, organizationId: string, userId: string): Promise<User> {
+    const item = await db.user.findFirst({
+      where: {
+        organization_id: organizationId,
+        id: userId,
+      },
+    });
+
+    if (!item) {
+      throw new NotFoundException('user not found in organization');
+    }
+
+    return item;
+  }
+
+  private async getGroupInDb(db: DbClient, organizationId: string, groupId: string): Promise<Group> {
+    const item = await db.group.findFirst({
+      where: {
+        organization_id: organizationId,
+        id: groupId,
+      },
+    });
+
+    if (!item) {
+      throw new NotFoundException('group not found in organization');
+    }
+
+    return item;
+  }
+
+  private async assertUnitExistsInOrganizationInDb(
+    db: DbClient,
+    organizationId: string,
+    unitId: string,
+    fieldName: string,
+  ) {
+    const unit = await db.organizationUnit.findFirst({
       where: {
         organization_id: organizationId,
         id: unitId,

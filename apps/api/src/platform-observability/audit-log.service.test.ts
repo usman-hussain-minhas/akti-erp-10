@@ -55,20 +55,25 @@ async function testWritesAuditWhenActorIsValid() {
   assert.equal(state.auditWrites[0].actor_user_id, 'actor-1');
 }
 
-async function testSkipsAuditWhenActorMissing() {
+async function testFailsClosedWhenActorMissing() {
   const { db, state } = createMockDb();
   const service = new AuditLogService();
 
-  const result = await service.writeAuditLog(db as never, {
-    organization_id: 'org-1',
-    action_key: 'access.user.updated',
-    entity_type: 'access.user',
-    entity_id: 'user-10',
-    actor_user_id: '   ',
-    metadata: { source: 'test' },
-  });
+  await assert.rejects(
+    service.writeAuditLog(db as never, {
+      organization_id: 'org-1',
+      action_key: 'access.user.updated',
+      entity_type: 'access.user',
+      entity_id: 'user-10',
+      actor_user_id: '   ',
+      metadata: { source: 'test' },
+    }),
+    (error: unknown) => {
+      assert.ok(error instanceof BadRequestException);
+      return true;
+    },
+  );
 
-  assert.deepEqual(result, { written: false, reason: 'missing_actor' });
   assert.equal(state.auditWrites.length, 0);
 }
 
@@ -96,7 +101,7 @@ async function testFailsForInvalidOrCrossOrgActor() {
 
 async function run() {
   await testWritesAuditWhenActorIsValid();
-  await testSkipsAuditWhenActorMissing();
+  await testFailsClosedWhenActorMissing();
   await testFailsForInvalidOrCrossOrgActor();
 
   console.log('audit-log.service tests passed');
