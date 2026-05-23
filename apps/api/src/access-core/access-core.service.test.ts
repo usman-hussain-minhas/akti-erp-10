@@ -1408,6 +1408,45 @@ async function testGatekeeperBlocksBeforeProtectedWrites() {
   );
 
   assert.deepEqual(writeCalls(degradedContext.state), []);
+
+  const approvalRequiredContext = createMockPrisma();
+  const { service: approvalRequiredService } = createServiceWithGatekeeper(approvalRequiredContext.prisma, () => {
+    throw new ForbiddenException('Gatekeeper approval is required');
+  });
+
+  await assert.rejects(
+    approvalRequiredService.createGroup(
+      'org-1',
+      {
+        key: 'approval-required',
+        label: 'Approval Required',
+        status: 'active',
+      },
+      'actor-1',
+    ),
+    ForbiddenException,
+  );
+
+  assert.deepEqual(writeCalls(approvalRequiredContext.state), []);
+
+  const providerErrorContext = createMockPrisma();
+  const { service: providerErrorService } = createServiceWithGatekeeper(providerErrorContext.prisma, () => {
+    throw new Error('Gatekeeper provider failed');
+  });
+
+  await assert.rejects(
+    providerErrorService.createGroup(
+      'org-1',
+      {
+        key: 'provider-error',
+        label: 'Provider Error',
+        status: 'active',
+      },
+      'actor-1',
+    ),
+  );
+
+  assert.deepEqual(writeCalls(providerErrorContext.state), []);
 }
 
 async function testGatekeeperRunsAfterActorAuthorization() {

@@ -427,6 +427,18 @@ async function testGatekeeperBlocksBeforeSettingWrite() {
   );
   assert.equal(denied.state.calls.some((call) => call.fn === 'organizationSetting.upsert'), false);
 
+  const approvalRequired = createService({
+    gatekeeperHandler: () => {
+      throw new ForbiddenException('Gatekeeper approval is required');
+    },
+  });
+  await assert.rejects(
+    approvalRequired.service.updatePortalMode('org-1', { mode: 'builder' }, 'actor-1'),
+    (error: unknown) => error instanceof ForbiddenException,
+  );
+  assert.equal(approvalRequired.state.calls.some((call) => call.fn === 'organization.findUnique'), false);
+  assert.equal(approvalRequired.state.calls.some((call) => call.fn === 'organizationSetting.upsert'), false);
+
   const degraded = createService({
     gatekeeperHandler: () => {
       throw new ServiceUnavailableException('Gatekeeper degraded block');

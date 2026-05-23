@@ -475,6 +475,19 @@ async function testGatekeeperBlocksBeforeHierarchyResourceReadsOrWrites() {
   assert.equal(denied.state.calls.some((call) => call.fn === 'unitType.findFirst'), false);
   assert.equal(denied.state.calls.some((call) => call.fn === 'organizationUnit.create'), false);
 
+  const approvalRequired = createService({
+    gatekeeper: createGatekeeper(() => {
+      throw new ForbiddenException('Gatekeeper approval is required');
+    }),
+  });
+  await assert.rejects(
+    approvalRequired.service.createUnitType('org-1', validUnitTypeInput(), 'actor-1'),
+    (error: unknown) => error instanceof ForbiddenException,
+  );
+  assert.equal(approvalRequired.gatekeeper.calls.length, 1);
+  assert.equal(approvalRequired.state.calls.some((call) => call.fn === 'organization.findUnique'), false);
+  assert.equal(approvalRequired.state.calls.some((call) => call.fn === 'unitType.create'), false);
+
   const degraded = createService({
     gatekeeper: createGatekeeper(() => {
       throw new ServiceUnavailableException('Gatekeeper degraded block');
