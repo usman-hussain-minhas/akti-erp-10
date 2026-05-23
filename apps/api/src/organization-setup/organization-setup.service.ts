@@ -3,6 +3,7 @@ import { Prisma, type Organization, type OrganizationDomain } from '../../node_m
 
 import { PrismaService } from '../prisma/prisma.service';
 import { EventOutboxService } from '../platform-observability/event-outbox.service';
+import { ModuleRegistryService } from '../module-registry/module-registry.service';
 import {
   OrganizationSetupValidationError,
   validateAndNormalizeCreateOrganizationSetupInput,
@@ -28,6 +29,7 @@ export class OrganizationSetupService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly eventOutboxService: EventOutboxService,
+    private readonly moduleRegistryService: ModuleRegistryService,
   ) {}
 
   async bootstrapSetup(rawInput: unknown): Promise<SetupResult> {
@@ -80,6 +82,8 @@ export class OrganizationSetupService {
             entity_id: organization.id,
             actor_user_id: null,
           });
+
+          await this.moduleRegistryService.seedCoreFoundation(tx);
 
           return {
             organization,

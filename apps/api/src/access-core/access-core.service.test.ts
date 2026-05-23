@@ -12,6 +12,10 @@ import {
   GatekeeperPreflightService,
   type GatekeeperPreflightInput,
 } from '../gatekeeper/gatekeeper-preflight.service';
+import {
+  loadAccessCoreCapabilitySeedDefinitions,
+  ModuleRegistryService,
+} from '../module-registry/module-registry.service';
 import { AuditLogService } from '../platform-observability/audit-log.service';
 import { EventOutboxService } from '../platform-observability/event-outbox.service';
 import { AccessCoreService } from './access-core.service';
@@ -23,6 +27,7 @@ function prismaError(code: string) {
 type MockState = {
   calls: Array<{ fn: string; args: unknown }>;
   organizationDomains: Array<Record<string, unknown>>;
+  moduleRows: Array<Record<string, unknown>>;
   users: Array<Record<string, unknown>>;
   groups: Array<Record<string, unknown>>;
   memberships: Array<Record<string, unknown>>;
@@ -82,6 +87,7 @@ function createMockPrisma(overrides?: {
         verified_at: null,
       },
     ],
+    moduleRows: [],
     users: [
       {
         id: 'user-1',
@@ -223,6 +229,30 @@ function createMockPrisma(overrides?: {
             (item) => item.organization_id === where.organization_id && item.domain === where.domain,
           ) ?? null
         );
+      },
+    },
+    moduleRegistryEntry: {
+      upsert: async ({
+        where,
+        create,
+        update,
+      }: {
+        where: { module_key: string };
+        create: Record<string, unknown>;
+        update: Record<string, unknown>;
+      }) => {
+        state.calls.push({ fn: 'moduleRegistryEntry.upsert', args: { where, create, update } });
+        const index = state.moduleRows.findIndex((item) => item.module_key === where.module_key);
+        if (index === -1) {
+          state.moduleRows.push({ ...create });
+          return { ...create };
+        }
+
+        state.moduleRows[index] = {
+          ...state.moduleRows[index],
+          ...update,
+        };
+        return { ...state.moduleRows[index] };
       },
     },
     organizationUnit: {
@@ -464,6 +494,28 @@ function createMockPrisma(overrides?: {
       findUnique: async ({ where }: { where: { key: string } }) => {
         state.calls.push({ fn: 'capability.findUnique', args: where });
         return state.capabilities.find((item) => item.key === where.key) ?? null;
+      },
+      upsert: async ({
+        where,
+        create,
+        update,
+      }: {
+        where: { key: string };
+        create: Record<string, unknown>;
+        update: Record<string, unknown>;
+      }) => {
+        state.calls.push({ fn: 'capability.upsert', args: { where, create, update } });
+        const index = state.capabilities.findIndex((item) => item.key === where.key);
+        if (index === -1) {
+          state.capabilities.push({ ...create });
+          return { ...create };
+        }
+
+        state.capabilities[index] = {
+          ...state.capabilities[index],
+          ...update,
+        };
+        return { ...state.capabilities[index] };
       },
     },
     auditLog: {
@@ -915,8 +967,11 @@ async function testCapabilitySurfaceAndAssignmentValidation() {
   noCatalog.state.capabilities = [];
   const noCatalogService = createService(noCatalog.prisma);
   const fallbackCaps = await noCatalogService.listCapabilities();
+  const [contractSeed] = await loadAccessCoreCapabilitySeedDefinitions();
   assert.equal(fallbackCaps.items.length > 0, true);
   assert.equal(fallbackCaps.items[0].source, 'contract_seed');
+  assert.equal(fallbackCaps.items[0].key, contractSeed.capability_key);
+  assert.equal(fallbackCaps.items[0].description, contractSeed.description);
 
   const { prisma, state } = createMockPrisma();
   const service = createService(prisma);
@@ -991,6 +1046,31 @@ async function testCapabilitySurfaceAndAssignmentValidation() {
       assert.ok(error instanceof ConflictException);
       return true;
     },
+  );
+
+  const seededCapabilityContext = createMockPrisma();
+  seededCapabilityContext.state.capabilities = [];
+  const moduleRegistryService = new ModuleRegistryService(seededCapabilityContext.prisma as never);
+  await moduleRegistryService.seedCoreFoundation(seededCapabilityContext.prisma as never);
+  const seededCapabilityService = createService(seededCapabilityContext.prisma);
+  const seededAssignment = await seededCapabilityService.createGroupCapabilityAssignment(
+    'org-1',
+    {
+      group_id: 'group-1',
+      capability_key: 'access.policy.manage',
+      scope_type: 'organization',
+      scope_unit_id: null,
+    },
+    'actor-1',
+  );
+  assert.equal(seededAssignment.capability_key, 'access.policy.manage');
+  assert.equal(
+    hasCallWhere(
+      seededCapabilityContext.state,
+      'capability.upsert',
+      (args) => (args.where as { key?: string }).key === 'access.policy.manage',
+    ),
+    true,
   );
 
   const created = await service.createGroupCapabilityAssignment(

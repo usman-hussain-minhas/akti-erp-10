@@ -15,6 +15,7 @@ import {
 } from '../../node_modules/.prisma/client';
 
 import { GatekeeperPreflightService } from '../gatekeeper/gatekeeper-preflight.service';
+import { loadAccessCoreCapabilitySeedDefinitions } from '../module-registry/module-registry.service';
 import { AuditLogService } from '../platform-observability/audit-log.service';
 import { EventOutboxService } from '../platform-observability/event-outbox.service';
 import { PrismaService } from '../prisma/prisma.service';
@@ -29,11 +30,6 @@ import {
 } from './dto/access-core.dto';
 
 const ACCESS_POLICY_MANAGE_CAPABILITY_KEY = 'access.policy.manage';
-const ACCESS_POLICY_MANAGE_ACTOR_SCOPE_TYPES = ['global', 'organization'] as const satisfies ReadonlyArray<PermissionScopeType>;
-
-const APPROVED_CAPABILITY_SCOPE_MAP: Record<string, ReadonlyArray<PermissionScopeType>> = {
-  [ACCESS_POLICY_MANAGE_CAPABILITY_KEY]: ACCESS_POLICY_MANAGE_ACTOR_SCOPE_TYPES,
-};
 
 const SCOPE_TYPES_REQUIRING_UNIT = new Set<PermissionScopeType>(['own_unit', 'child_units']);
 const SCOPE_TYPES_FORBIDDING_UNIT = new Set<PermissionScopeType>([
@@ -120,14 +116,16 @@ export class AccessCoreService {
       };
     }
 
+    const seeds = await loadAccessCoreCapabilitySeedDefinitions();
+
     return {
-      items: Object.entries(APPROVED_CAPABILITY_SCOPE_MAP).map(([capabilityKey]) => ({
-        key: capabilityKey,
-        module_key: 'core.access',
-        description: 'Contract-approved Access Core capability.',
-        risk_level: 'high' as const,
-        gatekeeper_required: true,
-        approval_chain_required: false,
+      items: seeds.map((seed) => ({
+        key: seed.capability_key,
+        module_key: seed.module_key,
+        description: seed.description,
+        risk_level: seed.risk_level,
+        gatekeeper_required: seed.gatekeeper_required,
+        approval_chain_required: seed.approval_chain_required,
         source: 'contract_seed' as const,
       })),
     };
@@ -693,7 +691,7 @@ export class AccessCoreService {
           await this.assertUnitExistsInOrganizationInDb(tx, organizationId, input.scope_unit_id, 'scope_unit_id');
         }
 
-        const allowedScopes = APPROVED_CAPABILITY_SCOPE_MAP[input.capability_key];
+        const allowedScopes = await this.getAllowedScopeTypesForCapability(input.capability_key);
         if (!allowedScopes) {
           throw new BadRequestException('capability_key is not approved by Access Core contract boundary');
         }
@@ -896,6 +894,11 @@ export class AccessCoreService {
       throw new BadRequestException('actor lacks access.policy.manage for this organization');
     }
 
+    const allowedScopeTypes = await this.getAllowedScopeTypesForCapability(ACCESS_POLICY_MANAGE_CAPABILITY_KEY);
+    if (!allowedScopeTypes) {
+      throw new ConflictException('access.policy.manage capability is missing from contract seed');
+    }
+
     const assignment = await db.groupCapability.findFirst({
       where: {
         organization_id: organizationId,
@@ -904,7 +907,7 @@ export class AccessCoreService {
         },
         capability_key: ACCESS_POLICY_MANAGE_CAPABILITY_KEY,
         scope_type: {
-          in: [...ACCESS_POLICY_MANAGE_ACTOR_SCOPE_TYPES],
+          in: [...allowedScopeTypes],
         },
       },
       select: {
@@ -920,6 +923,16 @@ export class AccessCoreService {
       actor_user_id: actorUserId,
       active_group_ids: sameOrganizationGroupIds,
     };
+  }
+
+  private async getAllowedScopeTypesForCapability(capabilityKey: string): Promise<ReadonlyArray<PermissionScopeType> | null> {
+    const seeds = await loadAccessCoreCapabilitySeedDefinitions();
+    const seed = seeds.find((item) => item.capability_key === capabilityKey);
+    if (!seed) {
+      return null;
+    }
+
+    return seed.allowed_scope_types as ReadonlyArray<PermissionScopeType>;
   }
 
   private async requireGatekeeperPreflight(input: AccessCoreGatekeeperPreflightInput): Promise<void> {

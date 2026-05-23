@@ -6,12 +6,14 @@ import { OrganizationSetupService } from './organization-setup.service';
 
 type MockState = {
   outboxCalls: Array<Record<string, unknown>>;
+  seedCalls: unknown[];
   transactionOptions: unknown[];
 };
 
 function createMocks(options?: { organizationCount?: number }) {
   const state: MockState = {
     outboxCalls: [],
+    seedCalls: [],
     transactionOptions: [],
   };
 
@@ -52,12 +54,39 @@ function createMocks(options?: { organizationCount?: number }) {
     },
   };
 
-  return { prisma, eventOutboxService, state };
+  const moduleRegistryService = {
+    seedCoreFoundation: async (db: unknown) => {
+      state.seedCalls.push(db);
+      return {
+        module: {
+          module_key: 'core.access',
+          display_name: 'Access Core',
+          version: '0.1.0',
+          status: 'available',
+          manifest_hash: 'hash',
+        },
+        capability: {
+          key: 'access.policy.manage',
+          module_key: 'core.access',
+          description: 'Manage access policy definitions.',
+          risk_level: 'high',
+          gatekeeper_required: true,
+          approval_chain_required: false,
+        },
+      };
+    },
+  };
+
+  return { prisma, eventOutboxService, moduleRegistryService, tx, state };
 }
 
 async function testSetupWritesOutbox() {
-  const { prisma, eventOutboxService, state } = createMocks();
-  const service = new OrganizationSetupService(prisma as never, eventOutboxService as never);
+  const { prisma, eventOutboxService, moduleRegistryService, state } = createMocks();
+  const service = new OrganizationSetupService(
+    prisma as never,
+    eventOutboxService as never,
+    moduleRegistryService as never,
+  );
 
   const result = await service.bootstrapSetup({
     slug: 'org-one',
@@ -79,8 +108,12 @@ async function testSetupWritesOutbox() {
 }
 
 async function testSetupConflictSkipsOutbox() {
-  const { prisma, eventOutboxService, state } = createMocks({ organizationCount: 1 });
-  const service = new OrganizationSetupService(prisma as never, eventOutboxService as never);
+  const { prisma, eventOutboxService, moduleRegistryService, state } = createMocks({ organizationCount: 1 });
+  const service = new OrganizationSetupService(
+    prisma as never,
+    eventOutboxService as never,
+    moduleRegistryService as never,
+  );
 
   await assert.rejects(
     service.bootstrapSetup({
@@ -97,11 +130,16 @@ async function testSetupConflictSkipsOutbox() {
   );
 
   assert.equal(state.outboxCalls.length, 0);
+  assert.equal(state.seedCalls.length, 0);
 }
 
 async function testSetupKeepsSerializableIsolation() {
-  const { prisma, eventOutboxService, state } = createMocks();
-  const service = new OrganizationSetupService(prisma as never, eventOutboxService as never);
+  const { prisma, eventOutboxService, moduleRegistryService, state } = createMocks();
+  const service = new OrganizationSetupService(
+    prisma as never,
+    eventOutboxService as never,
+    moduleRegistryService as never,
+  );
 
   await service.bootstrapSetup({
     slug: 'org-one',
@@ -115,10 +153,31 @@ async function testSetupKeepsSerializableIsolation() {
   assert.deepEqual(state.transactionOptions[0], { isolationLevel: 'Serializable' });
 }
 
+async function testSetupSeedsCoreFoundationInTransaction() {
+  const { prisma, eventOutboxService, moduleRegistryService, tx, state } = createMocks();
+  const service = new OrganizationSetupService(
+    prisma as never,
+    eventOutboxService as never,
+    moduleRegistryService as never,
+  );
+
+  await service.bootstrapSetup({
+    slug: 'org-one',
+    display_name: 'Org One',
+    status: 'active',
+    domain: 'example.org',
+    is_primary: true,
+  });
+
+  assert.equal(state.seedCalls.length, 1);
+  assert.equal(state.seedCalls[0], tx);
+}
+
 async function run() {
   await testSetupWritesOutbox();
   await testSetupConflictSkipsOutbox();
   await testSetupKeepsSerializableIsolation();
+  await testSetupSeedsCoreFoundationInTransaction();
 
   console.log('organization-setup.service tests passed');
 }

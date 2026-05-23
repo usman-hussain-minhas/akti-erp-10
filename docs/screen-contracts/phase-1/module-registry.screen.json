@@ -6,7 +6,7 @@
   "screen_type": "private_portal",
   "status": "planned",
   "version": "0.1.0",
-  "business_purpose": "Define a clear module registry screen contract without inventing backend read routes.",
+  "business_purpose": "Define a clear module registry screen contract for the approved Phase 1 read route.",
   "primary_user_context": "A platform or organization admin reviewing module status.",
   "user_goal": "See module availability status once registry read APIs are approved.",
   "success_outcome": "Registry UX expectations are defined while backend routes remain deferred.",
@@ -47,12 +47,26 @@
   "data_sources": [
     {
       "key": "phase1.module-registry.readiness",
-      "label": "Registry backend readiness",
-      "source_type": "static_config",
-      "description": "Explains that module registry read APIs are deferred and not yet implemented."
+      "label": "Registry module list",
+      "source_type": "api",
+      "route_key": "phase1.module-registry.list",
+      "description": "Reads approved Phase 1 module registry entries."
     }
   ],
-  "api_routes": [],
+  "api_routes": [
+    {
+      "key": "phase1.module-registry.list",
+      "method": "GET",
+      "path": "/platform/modules",
+      "capability_key": null,
+      "auth_required": false,
+      "public_route": true,
+      "rate_limited": true,
+      "input_schema": null,
+      "output_schema": null,
+      "description": "Read-only Phase 1 module registry endpoint."
+    }
+  ],
   "query_params": [],
   "required_entities": [
     {
@@ -141,6 +155,6 @@
     "No hardcoded roles, units, or campuses are allowed.",
     "No cross-organization data exposure is allowed.",
     "No out-of-scope frontend or backend behavior may be implemented from this contract alone.",
-    "Do not fabricate module health or installation state without approved backend APIs."
+    "Do not fabricate module health or installation state beyond the approved Phase 1 read endpoint."
   ]
 }
