@@ -6,10 +6,10 @@
   "screen_type": "private_portal",
   "status": "planned",
   "version": "0.1.0",
-  "business_purpose": "Define minimal settings screen behavior for organization-level configuration.",
+  "business_purpose": "Define minimal settings screen behavior for organization-level configuration and portal mode.",
   "primary_user_context": "An organization admin reviewing baseline settings.",
   "user_goal": "Understand available settings and deferred backend dependencies.",
-  "success_outcome": "Settings scope and constraints are clear without unsupported live editing.",
+  "success_outcome": "Settings scope and constraints are clear and portal mode has an approved API boundary.",
   "required_capabilities": [
     "access.policy.manage"
   ],
@@ -46,13 +46,39 @@
   "destructive_actions": [],
   "data_sources": [
     {
-      "key": "phase1.settings-minimal.readiness",
-      "label": "Settings backend readiness",
-      "source_type": "static_config",
-      "description": "Explains that settings read and write APIs are deferred in this phase."
+      "key": "phase1.settings-minimal.portal-mode",
+      "label": "Portal mode",
+      "source_type": "api",
+      "route_key": "phase1.settings-minimal.portal-mode.read",
+      "description": "Reads the organization portal mode setting."
     }
   ],
-  "api_routes": [],
+  "api_routes": [
+    {
+      "key": "phase1.settings-minimal.portal-mode.read",
+      "method": "GET",
+      "path": "/platform/configuration/organizations/:organization_id/portal-mode",
+      "capability_key": "access.policy.manage",
+      "auth_required": true,
+      "public_route": false,
+      "rate_limited": true,
+      "input_schema": null,
+      "output_schema": null,
+      "description": "Read the organization portal mode setting."
+    },
+    {
+      "key": "phase1.settings-minimal.portal-mode.update",
+      "method": "PUT",
+      "path": "/platform/configuration/organizations/:organization_id/portal-mode",
+      "capability_key": "access.policy.manage",
+      "auth_required": true,
+      "public_route": false,
+      "rate_limited": true,
+      "input_schema": null,
+      "output_schema": null,
+      "description": "Update the organization portal mode setting."
+    }
+  ],
   "query_params": [],
   "required_entities": [
     {
@@ -141,6 +167,7 @@
     "No hardcoded roles, units, or campuses are allowed.",
     "No cross-organization data exposure is allowed.",
     "No out-of-scope frontend or backend behavior may be implemented from this contract alone.",
-    "Do not imply live settings persistence before approved settings APIs exist."
+    "Do not add a broad settings framework beyond approved portal mode APIs.",
+    "Do not add builder editor behavior from this contract."
   ]
 }

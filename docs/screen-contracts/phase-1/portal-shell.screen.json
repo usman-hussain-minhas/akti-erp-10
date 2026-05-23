@@ -57,6 +57,12 @@
       "label": "Work summary source",
       "source_type": "derived",
       "description": "Depends on future backend read APIs and must remain deferred until those APIs are approved."
+    },
+    {
+      "key": "phase1.portal-shell.portal-mode",
+      "label": "Portal mode",
+      "source_type": "derived",
+      "description": "Portal mode display remains deferred until auth/session or an approved safer frontend organization context exists."
     }
   ],
   "api_routes": [],
@@ -143,6 +149,8 @@
     "No hardcoded roles, units, or campuses are allowed.",
     "No cross-organization data exposure is allowed.",
     "No out-of-scope frontend or backend behavior may be implemented from this contract alone.",
-    "Treat access.policy.manage as temporary coverage; do not interpret it as final portal permission design."
+    "Treat access.policy.manage as temporary coverage; do not interpret it as final portal permission design.",
+    "Do not pass actor_user_id through portal shell query params.",
+    "Do not display live portal mode until auth/session or an approved safer frontend context exists."
   ]
 }
