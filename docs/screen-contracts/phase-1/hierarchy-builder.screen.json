@@ -9,7 +9,7 @@
   "business_purpose": "Define hierarchy unit management UX expectations for Phase 1.",
   "primary_user_context": "An organization administrator maintaining unit structure.",
   "user_goal": "Review and plan hierarchy updates without crossing organization boundaries.",
-  "success_outcome": "Screen behavior is contract-defined while hierarchy CRUD APIs remain deferred.",
+  "success_outcome": "Screen behavior is contract-defined against the approved Phase 1 hierarchy create/list APIs.",
   "required_capabilities": [
     "access.policy.manage"
   ],
@@ -47,13 +47,70 @@
   "destructive_actions": [],
   "data_sources": [
     {
-      "key": "phase1.hierarchy-builder.status",
-      "label": "Hierarchy API readiness",
-      "source_type": "static_config",
-      "description": "Explains that hierarchy CRUD API routes are deferred in this phase."
+      "key": "phase1.hierarchy-builder.unit-types",
+      "label": "Unit types",
+      "source_type": "api",
+      "route_key": "phase1.hierarchy-builder.unit-types.list",
+      "description": "Reads organization-scoped hierarchy unit types."
+    },
+    {
+      "key": "phase1.hierarchy-builder.units",
+      "label": "Organization units",
+      "source_type": "api",
+      "route_key": "phase1.hierarchy-builder.units.list",
+      "description": "Reads organization-scoped hierarchy units."
     }
   ],
-  "api_routes": [],
+  "api_routes": [
+    {
+      "key": "phase1.hierarchy-builder.unit-types.create",
+      "method": "POST",
+      "path": "/platform/hierarchy/organizations/:organization_id/unit-types",
+      "capability_key": "access.policy.manage",
+      "auth_required": true,
+      "public_route": false,
+      "rate_limited": true,
+      "input_schema": null,
+      "output_schema": null,
+      "description": "Create an organization-scoped hierarchy unit type."
+    },
+    {
+      "key": "phase1.hierarchy-builder.unit-types.list",
+      "method": "GET",
+      "path": "/platform/hierarchy/organizations/:organization_id/unit-types",
+      "capability_key": "access.policy.manage",
+      "auth_required": true,
+      "public_route": false,
+      "rate_limited": true,
+      "input_schema": null,
+      "output_schema": null,
+      "description": "List organization-scoped hierarchy unit types."
+    },
+    {
+      "key": "phase1.hierarchy-builder.units.create",
+      "method": "POST",
+      "path": "/platform/hierarchy/organizations/:organization_id/units",
+      "capability_key": "access.policy.manage",
+      "auth_required": true,
+      "public_route": false,
+      "rate_limited": true,
+      "input_schema": null,
+      "output_schema": null,
+      "description": "Create an organization-scoped hierarchy unit and closure rows."
+    },
+    {
+      "key": "phase1.hierarchy-builder.units.list",
+      "method": "GET",
+      "path": "/platform/hierarchy/organizations/:organization_id/units",
+      "capability_key": "access.policy.manage",
+      "auth_required": true,
+      "public_route": false,
+      "rate_limited": true,
+      "input_schema": null,
+      "output_schema": null,
+      "description": "List organization-scoped hierarchy units."
+    }
+  ],
   "query_params": [],
   "required_entities": [
     {
@@ -142,6 +199,6 @@
     "No hardcoded roles, units, or campuses are allowed.",
     "No cross-organization data exposure is allowed.",
     "No out-of-scope frontend or backend behavior may be implemented from this contract alone.",
-    "Do not imply hierarchy CRUD is available before approved API tickets are completed."
+    "Do not add hierarchy move, reparent, or delete behavior from this contract."
   ]
 }

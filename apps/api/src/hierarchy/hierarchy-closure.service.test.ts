@@ -66,6 +66,7 @@ function createMockPrisma(options: {
 
   return {
     prisma,
+    tx,
     state,
   };
 }
@@ -187,11 +188,29 @@ async function testSerializableIsolationIsUsed() {
   });
 }
 
+async function testTransactionAwareCreationDoesNotStartNestedTransaction() {
+  const { prisma, tx, state } = createMockPrisma({ createdUnitId: 'root-unit' });
+  const service = new HierarchyClosureService(prisma as never);
+
+  const result = await service.createUnitWithClosureInTransaction(tx as never, {
+    organization_id: 'org-1',
+    unit_type_id: 'unit-type-1',
+    key: 'hq',
+    name: 'Head Office',
+    status: 'active',
+  });
+
+  assert.equal(result.unit.id, 'root-unit');
+  assert.equal(state.transactionOptions.length, 0);
+  assert.equal(state.createdClosureBatches.length, 1);
+}
+
 async function run() {
   await testRootUnitCreation();
   await testChildUnitCreationWithAncestors();
   await testMissingOrCrossOrgParentFailsSafely();
   await testSerializableIsolationIsUsed();
+  await testTransactionAwareCreationDoesNotStartNestedTransaction();
 
   console.log('hierarchy-closure.service tests passed');
 }

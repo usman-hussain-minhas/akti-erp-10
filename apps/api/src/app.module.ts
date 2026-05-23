@@ -5,7 +5,9 @@ import { AccessCoreService } from './access-core/access-core.service';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { GatekeeperPreflightService } from './gatekeeper/gatekeeper-preflight.service';
+import { HierarchyController } from './hierarchy/hierarchy.controller';
 import { HierarchyClosureService } from './hierarchy/hierarchy-closure.service';
+import { HierarchyService } from './hierarchy/hierarchy.service';
 import { ModuleRegistryController } from './module-registry/module-registry.controller';
 import { ModuleRegistryService } from './module-registry/module-registry.service';
 import { OrganizationSetupController } from './organization-setup/organization-setup.controller';
@@ -16,13 +18,20 @@ import { PrismaService } from './prisma/prisma.service';
 
 @Module({
   imports: [],
-  controllers: [AppController, OrganizationSetupController, AccessCoreController, ModuleRegistryController],
+  controllers: [
+    AppController,
+    OrganizationSetupController,
+    AccessCoreController,
+    ModuleRegistryController,
+    HierarchyController,
+  ],
   providers: [
     AppService,
     PrismaService,
     ModuleRegistryService,
     OrganizationSetupService,
     HierarchyClosureService,
+    HierarchyService,
     AccessCoreService,
     GatekeeperPreflightService,
     AuditLogService,
