@@ -1,0 +1,147 @@
+{
+  "screen_key": "phase1.hierarchy-builder",
+  "module_key": "core.organization",
+  "title": "Hierarchy Builder",
+  "route": "/app/hierarchy",
+  "screen_type": "private_portal",
+  "status": "planned",
+  "version": "0.1.0",
+  "business_purpose": "Define hierarchy unit management UX expectations for Phase 1.",
+  "primary_user_context": "An organization administrator maintaining unit structure.",
+  "user_goal": "Review and plan hierarchy updates without crossing organization boundaries.",
+  "success_outcome": "Screen behavior is contract-defined while hierarchy CRUD APIs remain deferred.",
+  "required_capabilities": [
+    "access.policy.manage"
+  ],
+  "optional_capabilities": [],
+  "visibility_rules": [
+    {
+      "key": "phase1.hierarchy-builder.visible",
+      "description": "Visible under temporary Phase 1 capability coverage.",
+      "capability_key": "access.policy.manage"
+    }
+  ],
+  "record_scope_behavior": {
+    "default_scope": "organization",
+    "allowed_scope_types": [
+      "organization",
+      "own_unit",
+      "child_units"
+    ],
+    "description": "Hierarchy operations must stay scoped to the selected organization."
+  },
+  "primary_action": {
+    "action_key": "phase1.hierarchy-builder.review",
+    "label": "Review hierarchy",
+    "capability_key": "access.policy.manage",
+    "action_type": "view",
+    "risk_level": "low",
+    "requires_confirmation": false,
+    "requires_reauth": false,
+    "gatekeeper_required": false,
+    "audit_required": false
+  },
+  "secondary_actions": [],
+  "row_actions": [],
+  "bulk_actions": [],
+  "destructive_actions": [],
+  "data_sources": [
+    {
+      "key": "phase1.hierarchy-builder.status",
+      "label": "Hierarchy API readiness",
+      "source_type": "static_config",
+      "description": "Explains that hierarchy CRUD API routes are deferred in this phase."
+    }
+  ],
+  "api_routes": [],
+  "query_params": [],
+  "required_entities": [
+    {
+      "entity_key": "organization.unit",
+      "purpose": "Render unit tree details once hierarchy read APIs exist."
+    }
+  ],
+  "empty_data_behavior": {
+    "title": "No data yet",
+    "message": "No records are available yet for this screen."
+  },
+  "table_columns": [],
+  "filters": [],
+  "search_fields": [],
+  "sorting": [],
+  "pagination": {
+    "mode": "none"
+  },
+  "saved_views": [],
+  "form_fields": [],
+  "validation_rules": [],
+  "submit_action": null,
+  "draft_behavior": {
+    "supported": false,
+    "autosave": false
+  },
+  "file_uploads": [],
+  "empty_state": {
+    "title": "Nothing to show",
+    "message": "There is nothing to show yet."
+  },
+  "loading_state": {
+    "title": "Loading",
+    "message": "Please wait while this screen loads."
+  },
+  "error_state": {
+    "title": "Something went wrong",
+    "message": "Please try again. If this continues, contact support."
+  },
+  "permission_denied_state": {
+    "title": "Access denied",
+    "message": "You do not have permission to open this screen."
+  },
+  "degraded_mode_state": {
+    "title": "Limited mode",
+    "message": "Some features are temporarily unavailable."
+  },
+  "desktop_layout": {
+    "layout": "single_column",
+    "primary_navigation": "Top navigation",
+    "critical_content": []
+  },
+  "tablet_layout": {
+    "layout": "single_column",
+    "primary_navigation": "Top navigation",
+    "critical_content": []
+  },
+  "mobile_layout": {
+    "layout": "stacked",
+    "primary_navigation": "Bottom navigation",
+    "critical_content": []
+  },
+  "no_technical_language": true,
+  "no_fake_data": true,
+  "no_placeholder_actions": true,
+  "no_hardcoded_roles": true,
+  "no_hardcoded_units": true,
+  "plain_language_labels": true,
+  "audit_hooks": [],
+  "events_expected": [],
+  "notifications_triggered": [],
+  "ai_allowed": false,
+  "ai_actions": [],
+  "ai_requires_human_approval": false,
+  "ai_forbidden_actions": [
+    "publish",
+    "send",
+    "approve",
+    "reject",
+    "delete",
+    "export"
+  ],
+  "forbidden_behaviors": [
+    "No fake data may be shown in this screen.",
+    "No placeholder actions may be presented to users.",
+    "No hardcoded roles, units, or campuses are allowed.",
+    "No cross-organization data exposure is allowed.",
+    "No out-of-scope frontend or backend behavior may be implemented from this contract alone.",
+    "Do not imply hierarchy CRUD is available before approved API tickets are completed."
+  ]
+}

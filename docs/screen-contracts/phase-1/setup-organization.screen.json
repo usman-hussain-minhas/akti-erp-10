@@ -1,0 +1,206 @@
+{
+  "screen_key": "phase1.setup-organization",
+  "module_key": "core.organization",
+  "title": "Set Up Organization",
+  "route": "/setup/organization",
+  "screen_type": "public_site",
+  "status": "planned",
+  "version": "0.1.0",
+  "business_purpose": "Create the first organization record and its primary domain boundary.",
+  "primary_user_context": "A platform setup owner configuring the first tenant.",
+  "user_goal": "Enter organization details and complete first-time setup safely.",
+  "success_outcome": "Organization setup finishes once and returns a completed state.",
+  "required_capabilities": [],
+  "optional_capabilities": [],
+  "visibility_rules": [
+    {
+      "key": "phase1.setup-organization.visible",
+      "description": "Visible before platform setup is completed.",
+      "capability_key": null
+    }
+  ],
+  "record_scope_behavior": {
+    "default_scope": "global",
+    "allowed_scope_types": [
+      "global"
+    ],
+    "description": "This flow runs once before tenant-scoped application access begins."
+  },
+  "primary_action": {
+    "action_key": "phase1.setup-organization.start",
+    "label": "Start setup",
+    "capability_key": null,
+    "action_type": "navigate",
+    "risk_level": "low",
+    "requires_confirmation": false,
+    "requires_reauth": false,
+    "gatekeeper_required": false,
+    "audit_required": false
+  },
+  "secondary_actions": [
+    {
+      "action_key": "phase1.setup-organization.review",
+      "label": "Review details",
+      "capability_key": null,
+      "action_type": "view",
+      "risk_level": "low",
+      "requires_confirmation": false,
+      "requires_reauth": false,
+      "gatekeeper_required": false,
+      "audit_required": false
+    }
+  ],
+  "row_actions": [],
+  "bulk_actions": [],
+  "destructive_actions": [],
+  "data_sources": [
+    {
+      "key": "phase1.setup-organization.form",
+      "label": "Setup form input",
+      "source_type": "static_config",
+      "description": "Collects organization slug, name, status, and domain from user input."
+    },
+    {
+      "key": "phase1.setup-organization.result",
+      "label": "Setup result state",
+      "source_type": "api",
+      "route_key": "phase1.setup-organization.create",
+      "description": "Returns created organization and domain after successful setup."
+    }
+  ],
+  "api_routes": [
+    {
+      "key": "phase1.setup-organization.create",
+      "method": "POST",
+      "path": "/platform/setup/organization",
+      "capability_key": null,
+      "auth_required": false,
+      "public_route": true,
+      "rate_limited": true,
+      "input_schema": null,
+      "output_schema": null,
+      "description": "Create the initial organization and primary domain in one setup operation."
+    }
+  ],
+  "query_params": [],
+  "required_entities": [],
+  "empty_data_behavior": {
+    "title": "No setup yet",
+    "message": "The platform has not been set up yet."
+  },
+  "table_columns": [],
+  "filters": [],
+  "search_fields": [],
+  "sorting": [],
+  "pagination": {
+    "mode": "none"
+  },
+  "saved_views": [],
+  "form_fields": [
+    {
+      "key": "slug",
+      "label": "Organization slug",
+      "field_type": "text",
+      "required": true
+    },
+    {
+      "key": "display_name",
+      "label": "Organization name",
+      "field_type": "text",
+      "required": true
+    },
+    {
+      "key": "status",
+      "label": "Organization status",
+      "field_type": "text",
+      "required": true
+    },
+    {
+      "key": "domain",
+      "label": "Primary domain",
+      "field_type": "text",
+      "required": true
+    }
+  ],
+  "validation_rules": [
+    {
+      "key": "phase1.setup-organization.slug",
+      "field_key": "slug",
+      "message": "Use lowercase letters, numbers, and hyphens only."
+    },
+    {
+      "key": "phase1.setup-organization.domain",
+      "field_key": "domain",
+      "message": "Enter a valid domain name."
+    }
+  ],
+  "submit_action": null,
+  "draft_behavior": {
+    "supported": false,
+    "autosave": false
+  },
+  "file_uploads": [],
+  "empty_state": {
+    "title": "Ready to begin",
+    "message": "Fill in the setup form to create your organization."
+  },
+  "loading_state": {
+    "title": "Loading",
+    "message": "Please wait while this screen loads."
+  },
+  "error_state": {
+    "title": "Something went wrong",
+    "message": "Please try again. If this continues, contact support."
+  },
+  "permission_denied_state": {
+    "title": "Setup unavailable",
+    "message": "Setup is not available after initialization is completed."
+  },
+  "degraded_mode_state": {
+    "title": "Limited mode",
+    "message": "Some features are temporarily unavailable."
+  },
+  "desktop_layout": {
+    "layout": "single_column",
+    "primary_navigation": "Top navigation",
+    "critical_content": []
+  },
+  "tablet_layout": {
+    "layout": "single_column",
+    "primary_navigation": "Top navigation",
+    "critical_content": []
+  },
+  "mobile_layout": {
+    "layout": "stacked",
+    "primary_navigation": "Bottom navigation",
+    "critical_content": []
+  },
+  "no_technical_language": true,
+  "no_fake_data": true,
+  "no_placeholder_actions": true,
+  "no_hardcoded_roles": true,
+  "no_hardcoded_units": true,
+  "plain_language_labels": true,
+  "audit_hooks": [],
+  "events_expected": [],
+  "notifications_triggered": [],
+  "ai_allowed": false,
+  "ai_actions": [],
+  "ai_requires_human_approval": false,
+  "ai_forbidden_actions": [
+    "publish",
+    "send",
+    "approve",
+    "reject",
+    "delete",
+    "export"
+  ],
+  "forbidden_behaviors": [
+    "No fake data may be shown in this screen.",
+    "No placeholder actions may be presented to users.",
+    "No hardcoded roles, units, or campuses are allowed.",
+    "No cross-organization data exposure is allowed.",
+    "No out-of-scope frontend or backend behavior may be implemented from this contract alone.",
+    "Do not guess organization details or auto-fill business identifiers without user input."
+  ]
+}

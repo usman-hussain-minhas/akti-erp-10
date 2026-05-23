@@ -1,0 +1,146 @@
+{
+  "screen_key": "phase1.module-registry",
+  "module_key": "core.registry",
+  "title": "Module Registry",
+  "route": "/app/modules",
+  "screen_type": "private_portal",
+  "status": "planned",
+  "version": "0.1.0",
+  "business_purpose": "Define a clear module registry screen contract without inventing backend read routes.",
+  "primary_user_context": "A platform or organization admin reviewing module status.",
+  "user_goal": "See module availability status once registry read APIs are approved.",
+  "success_outcome": "Registry UX expectations are defined while backend routes remain deferred.",
+  "required_capabilities": [
+    "access.policy.manage"
+  ],
+  "optional_capabilities": [],
+  "visibility_rules": [
+    {
+      "key": "phase1.module-registry.visible",
+      "description": "Visible under temporary Phase 1 capability coverage.",
+      "capability_key": "access.policy.manage"
+    }
+  ],
+  "record_scope_behavior": {
+    "default_scope": "global",
+    "allowed_scope_types": [
+      "global",
+      "organization"
+    ],
+    "description": "Registry display may include global module state and organization applicability."
+  },
+  "primary_action": {
+    "action_key": "phase1.module-registry.view",
+    "label": "View module status",
+    "capability_key": "access.policy.manage",
+    "action_type": "view",
+    "risk_level": "low",
+    "requires_confirmation": false,
+    "requires_reauth": false,
+    "gatekeeper_required": false,
+    "audit_required": false
+  },
+  "secondary_actions": [],
+  "row_actions": [],
+  "bulk_actions": [],
+  "destructive_actions": [],
+  "data_sources": [
+    {
+      "key": "phase1.module-registry.readiness",
+      "label": "Registry backend readiness",
+      "source_type": "static_config",
+      "description": "Explains that module registry read APIs are deferred and not yet implemented."
+    }
+  ],
+  "api_routes": [],
+  "query_params": [],
+  "required_entities": [
+    {
+      "entity_key": "registry.module-entry",
+      "purpose": "Render module status once approved read APIs are available."
+    }
+  ],
+  "empty_data_behavior": {
+    "title": "No data yet",
+    "message": "No records are available yet for this screen."
+  },
+  "table_columns": [],
+  "filters": [],
+  "search_fields": [],
+  "sorting": [],
+  "pagination": {
+    "mode": "none"
+  },
+  "saved_views": [],
+  "form_fields": [],
+  "validation_rules": [],
+  "submit_action": null,
+  "draft_behavior": {
+    "supported": false,
+    "autosave": false
+  },
+  "file_uploads": [],
+  "empty_state": {
+    "title": "Nothing to show",
+    "message": "There is nothing to show yet."
+  },
+  "loading_state": {
+    "title": "Loading",
+    "message": "Please wait while this screen loads."
+  },
+  "error_state": {
+    "title": "Something went wrong",
+    "message": "Please try again. If this continues, contact support."
+  },
+  "permission_denied_state": {
+    "title": "Access denied",
+    "message": "You do not have permission to open this screen."
+  },
+  "degraded_mode_state": {
+    "title": "Limited mode",
+    "message": "Some features are temporarily unavailable."
+  },
+  "desktop_layout": {
+    "layout": "single_column",
+    "primary_navigation": "Top navigation",
+    "critical_content": []
+  },
+  "tablet_layout": {
+    "layout": "single_column",
+    "primary_navigation": "Top navigation",
+    "critical_content": []
+  },
+  "mobile_layout": {
+    "layout": "stacked",
+    "primary_navigation": "Bottom navigation",
+    "critical_content": []
+  },
+  "no_technical_language": true,
+  "no_fake_data": true,
+  "no_placeholder_actions": true,
+  "no_hardcoded_roles": true,
+  "no_hardcoded_units": true,
+  "plain_language_labels": true,
+  "audit_hooks": [],
+  "events_expected": [],
+  "notifications_triggered": [],
+  "ai_allowed": false,
+  "ai_actions": [],
+  "ai_requires_human_approval": false,
+  "ai_forbidden_actions": [
+    "publish",
+    "send",
+    "approve",
+    "reject",
+    "delete",
+    "export"
+  ],
+  "forbidden_behaviors": [
+    "No fake data may be shown in this screen.",
+    "No placeholder actions may be presented to users.",
+    "No hardcoded roles, units, or campuses are allowed.",
+    "No cross-organization data exposure is allowed.",
+    "No out-of-scope frontend or backend behavior may be implemented from this contract alone.",
+    "Do not fabricate module health or installation state without approved backend APIs."
+  ]
+}

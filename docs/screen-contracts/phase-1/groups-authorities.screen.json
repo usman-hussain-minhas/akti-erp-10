@@ -1,0 +1,405 @@
+{
+  "screen_key": "phase1.groups-authorities",
+  "module_key": "core.access",
+  "title": "Groups and Authorities",
+  "route": "/app/groups",
+  "screen_type": "private_portal",
+  "status": "planned",
+  "version": "0.1.0",
+  "business_purpose": "Manage groups, memberships, and capability assignments in organization scope.",
+  "primary_user_context": "An organization administrator managing group-based access.",
+  "user_goal": "Maintain groups and authority mappings without cross-organization references.",
+  "success_outcome": "Group and authority actions map to existing Access Core APIs with safe validation.",
+  "required_capabilities": [
+    "access.policy.manage"
+  ],
+  "optional_capabilities": [],
+  "visibility_rules": [
+    {
+      "key": "phase1.groups-authorities.visible",
+      "description": "Visible to admins under current minimal capability coverage.",
+      "capability_key": "access.policy.manage"
+    }
+  ],
+  "record_scope_behavior": {
+    "default_scope": "organization",
+    "allowed_scope_types": [
+      "organization",
+      "own_unit",
+      "child_units",
+      "assigned_records"
+    ],
+    "description": "All group, membership, and authority records must remain in organization path scope."
+  },
+  "primary_action": {
+    "action_key": "phase1.groups.create-group",
+    "label": "Create group",
+    "capability_key": "access.policy.manage",
+    "action_type": "create",
+    "risk_level": "medium",
+    "requires_confirmation": false,
+    "requires_reauth": false,
+    "gatekeeper_required": true,
+    "audit_required": true
+  },
+  "secondary_actions": [
+    {
+      "action_key": "phase1.groups.view-groups",
+      "label": "View groups",
+      "capability_key": "access.policy.manage",
+      "action_type": "view",
+      "risk_level": "low",
+      "requires_confirmation": false,
+      "requires_reauth": false,
+      "gatekeeper_required": false,
+      "audit_required": false
+    },
+    {
+      "action_key": "phase1.groups.assign-membership",
+      "label": "Assign membership",
+      "capability_key": "access.policy.manage",
+      "action_type": "assign",
+      "risk_level": "medium",
+      "requires_confirmation": false,
+      "requires_reauth": false,
+      "gatekeeper_required": true,
+      "audit_required": true
+    }
+  ],
+  "row_actions": [
+    {
+      "action_key": "phase1.groups.update-group",
+      "label": "Update group",
+      "capability_key": "access.policy.manage",
+      "action_type": "update",
+      "risk_level": "medium",
+      "requires_confirmation": false,
+      "requires_reauth": false,
+      "gatekeeper_required": true,
+      "audit_required": true
+    }
+  ],
+  "bulk_actions": [],
+  "destructive_actions": [
+    {
+      "action_key": "phase1.groups.delete-group",
+      "label": "Delete group",
+      "capability_key": "access.policy.manage",
+      "action_type": "delete",
+      "risk_level": "high",
+      "requires_confirmation": true,
+      "requires_reauth": true,
+      "gatekeeper_required": true,
+      "audit_required": true
+    }
+  ],
+  "data_sources": [
+    {
+      "key": "phase1.groups.list-data",
+      "label": "Organization groups",
+      "source_type": "api",
+      "route_key": "phase1.groups.list-groups-route",
+      "description": "Loads organization-scoped groups and authorities."
+    }
+  ],
+  "api_routes": [
+    {
+      "key": "phase1.groups.create-group-route",
+      "method": "POST",
+      "path": "/platform/access/organizations/:organization_id/groups",
+      "capability_key": "access.policy.manage",
+      "auth_required": true,
+      "public_route": false,
+      "rate_limited": true,
+      "input_schema": null,
+      "output_schema": null,
+      "description": "Create group in organization scope."
+    },
+    {
+      "key": "phase1.groups.list-groups-route",
+      "method": "GET",
+      "path": "/platform/access/organizations/:organization_id/groups",
+      "capability_key": "access.policy.manage",
+      "auth_required": true,
+      "public_route": false,
+      "rate_limited": true,
+      "input_schema": null,
+      "output_schema": null,
+      "description": "List groups in organization scope."
+    },
+    {
+      "key": "phase1.groups.get-group-route",
+      "method": "GET",
+      "path": "/platform/access/organizations/:organization_id/groups/:group_id",
+      "capability_key": "access.policy.manage",
+      "auth_required": true,
+      "public_route": false,
+      "rate_limited": true,
+      "input_schema": null,
+      "output_schema": null,
+      "description": "Get one group in organization scope."
+    },
+    {
+      "key": "phase1.groups.update-group-route",
+      "method": "PATCH",
+      "path": "/platform/access/organizations/:organization_id/groups/:group_id",
+      "capability_key": "access.policy.manage",
+      "auth_required": true,
+      "public_route": false,
+      "rate_limited": true,
+      "input_schema": null,
+      "output_schema": null,
+      "description": "Update one group in organization scope."
+    },
+    {
+      "key": "phase1.groups.delete-group-route",
+      "method": "DELETE",
+      "path": "/platform/access/organizations/:organization_id/groups/:group_id",
+      "capability_key": "access.policy.manage",
+      "auth_required": true,
+      "public_route": false,
+      "rate_limited": true,
+      "input_schema": null,
+      "output_schema": null,
+      "description": "Delete one group with dependency checks."
+    },
+    {
+      "key": "phase1.groups.create-membership-route",
+      "method": "POST",
+      "path": "/platform/access/organizations/:organization_id/user-groups",
+      "capability_key": "access.policy.manage",
+      "auth_required": true,
+      "public_route": false,
+      "rate_limited": true,
+      "input_schema": null,
+      "output_schema": null,
+      "description": "Create user-group membership in organization scope."
+    },
+    {
+      "key": "phase1.groups.list-membership-route",
+      "method": "GET",
+      "path": "/platform/access/organizations/:organization_id/user-groups",
+      "capability_key": "access.policy.manage",
+      "auth_required": true,
+      "public_route": false,
+      "rate_limited": true,
+      "input_schema": null,
+      "output_schema": null,
+      "description": "List user-group memberships in organization scope."
+    },
+    {
+      "key": "phase1.groups.delete-membership-route",
+      "method": "DELETE",
+      "path": "/platform/access/organizations/:organization_id/user-groups/:membership_id",
+      "capability_key": "access.policy.manage",
+      "auth_required": true,
+      "public_route": false,
+      "rate_limited": true,
+      "input_schema": null,
+      "output_schema": null,
+      "description": "Delete one membership in organization scope."
+    },
+    {
+      "key": "phase1.groups.create-assignment-route",
+      "method": "POST",
+      "path": "/platform/access/organizations/:organization_id/group-capabilities",
+      "capability_key": "access.policy.manage",
+      "auth_required": true,
+      "public_route": false,
+      "rate_limited": true,
+      "input_schema": null,
+      "output_schema": null,
+      "description": "Create group-capability assignment in organization scope."
+    },
+    {
+      "key": "phase1.groups.list-assignment-route",
+      "method": "GET",
+      "path": "/platform/access/organizations/:organization_id/group-capabilities",
+      "capability_key": "access.policy.manage",
+      "auth_required": true,
+      "public_route": false,
+      "rate_limited": true,
+      "input_schema": null,
+      "output_schema": null,
+      "description": "List group-capability assignments in organization scope."
+    },
+    {
+      "key": "phase1.groups.delete-assignment-route",
+      "method": "DELETE",
+      "path": "/platform/access/organizations/:organization_id/group-capabilities/:assignment_id",
+      "capability_key": "access.policy.manage",
+      "auth_required": true,
+      "public_route": false,
+      "rate_limited": true,
+      "input_schema": null,
+      "output_schema": null,
+      "description": "Delete one group-capability assignment in organization scope."
+    }
+  ],
+  "query_params": [],
+  "required_entities": [
+    {
+      "entity_key": "access.group",
+      "purpose": "Render and manage group identity and status."
+    },
+    {
+      "entity_key": "access.user-group",
+      "purpose": "Render and manage group memberships."
+    },
+    {
+      "entity_key": "access.group-capability",
+      "purpose": "Render and manage group authority assignments."
+    }
+  ],
+  "empty_data_behavior": {
+    "title": "No data yet",
+    "message": "No records are available yet for this screen."
+  },
+  "table_columns": [
+    {
+      "key": "group_key",
+      "label": "Group key",
+      "data_path": "key",
+      "column_type": "text",
+      "sortable": true,
+      "required": true
+    },
+    {
+      "key": "group_label",
+      "label": "Group name",
+      "data_path": "label",
+      "column_type": "text",
+      "sortable": true,
+      "required": true
+    },
+    {
+      "key": "group_status",
+      "label": "Status",
+      "data_path": "status",
+      "column_type": "status",
+      "sortable": true,
+      "required": true
+    }
+  ],
+  "filters": [
+    {
+      "key": "group_status",
+      "label": "Group status",
+      "filter_type": "select",
+      "scope_type": "organization",
+      "required": false
+    }
+  ],
+  "search_fields": [
+    "key",
+    "label"
+  ],
+  "sorting": [
+    {
+      "field_key": "label",
+      "direction": "asc",
+      "default": true
+    }
+  ],
+  "pagination": {
+    "mode": "page",
+    "default_page_size": 25
+  },
+  "saved_views": [],
+  "form_fields": [
+    {
+      "key": "key",
+      "label": "Group key",
+      "field_type": "text",
+      "required": true
+    },
+    {
+      "key": "label",
+      "label": "Group name",
+      "field_type": "text",
+      "required": true
+    },
+    {
+      "key": "status",
+      "label": "Status",
+      "field_type": "text",
+      "required": true
+    }
+  ],
+  "validation_rules": [
+    {
+      "key": "phase1.groups.key-format",
+      "field_key": "key",
+      "message": "Use lowercase letters, numbers, dots, or hyphens."
+    }
+  ],
+  "submit_action": null,
+  "draft_behavior": {
+    "supported": false,
+    "autosave": false
+  },
+  "file_uploads": [],
+  "empty_state": {
+    "title": "Nothing to show",
+    "message": "There is nothing to show yet."
+  },
+  "loading_state": {
+    "title": "Loading",
+    "message": "Please wait while this screen loads."
+  },
+  "error_state": {
+    "title": "Something went wrong",
+    "message": "Please try again. If this continues, contact support."
+  },
+  "permission_denied_state": {
+    "title": "Access denied",
+    "message": "You do not have permission to open this screen."
+  },
+  "degraded_mode_state": {
+    "title": "Limited mode",
+    "message": "Some features are temporarily unavailable."
+  },
+  "desktop_layout": {
+    "layout": "single_column",
+    "primary_navigation": "Top navigation",
+    "critical_content": []
+  },
+  "tablet_layout": {
+    "layout": "single_column",
+    "primary_navigation": "Top navigation",
+    "critical_content": []
+  },
+  "mobile_layout": {
+    "layout": "stacked",
+    "primary_navigation": "Bottom navigation",
+    "critical_content": []
+  },
+  "no_technical_language": true,
+  "no_fake_data": true,
+  "no_placeholder_actions": true,
+  "no_hardcoded_roles": true,
+  "no_hardcoded_units": true,
+  "plain_language_labels": true,
+  "audit_hooks": [],
+  "events_expected": [],
+  "notifications_triggered": [],
+  "ai_allowed": false,
+  "ai_actions": [],
+  "ai_requires_human_approval": false,
+  "ai_forbidden_actions": [
+    "publish",
+    "send",
+    "approve",
+    "reject",
+    "delete",
+    "export"
+  ],
+  "forbidden_behaviors": [
+    "No fake data may be shown in this screen.",
+    "No placeholder actions may be presented to users.",
+    "No hardcoded roles, units, or campuses are allowed.",
+    "No cross-organization data exposure is allowed.",
+    "No out-of-scope frontend or backend behavior may be implemented from this contract alone.",
+    "Treat access.policy.manage as temporary capability coverage until finer group and authority capabilities are approved."
+  ]
+}

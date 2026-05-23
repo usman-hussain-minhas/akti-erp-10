@@ -67,3 +67,9 @@ if (existsSync(accessCoreValidator)) {
   console.log(`Validating ${relative(packageRoot, accessCoreValidator)}`);
   run("pnpm", ["exec", "tsx", accessCoreValidator]);
 }
+
+const screenValidator = join(packageRoot, "scripts", "validate-screen-contracts.mjs");
+if (existsSync(screenValidator)) {
+  console.log(`Validating ${relative(packageRoot, screenValidator)}`);
+  run("pnpm", ["exec", "tsx", screenValidator]);
+}

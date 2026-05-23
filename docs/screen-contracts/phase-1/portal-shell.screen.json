@@ -1,0 +1,148 @@
+{
+  "screen_key": "phase1.portal-shell",
+  "module_key": "core.platform",
+  "title": "My Work",
+  "route": "/app",
+  "screen_type": "private_portal",
+  "status": "planned",
+  "version": "0.1.0",
+  "business_purpose": "Define the baseline private portal shell and My Work landing behavior.",
+  "primary_user_context": "An authenticated internal user entering the portal.",
+  "user_goal": "Open the shell and understand available work areas.",
+  "success_outcome": "User lands in a stable shell with clear navigation and no invented business data.",
+  "required_capabilities": [
+    "access.policy.manage"
+  ],
+  "optional_capabilities": [],
+  "visibility_rules": [
+    {
+      "key": "phase1.portal-shell.visible",
+      "description": "Visible to users with current minimal Phase 1 capability coverage.",
+      "capability_key": "access.policy.manage"
+    }
+  ],
+  "record_scope_behavior": {
+    "default_scope": "organization",
+    "allowed_scope_types": [
+      "organization",
+      "own_unit",
+      "assigned_records"
+    ],
+    "description": "Portal content must respect organization boundaries once API-backed screens are active."
+  },
+  "primary_action": {
+    "action_key": "phase1.portal-shell.open",
+    "label": "Open my work",
+    "capability_key": "access.policy.manage",
+    "action_type": "open",
+    "risk_level": "low",
+    "requires_confirmation": false,
+    "requires_reauth": false,
+    "gatekeeper_required": false,
+    "audit_required": false
+  },
+  "secondary_actions": [],
+  "row_actions": [],
+  "bulk_actions": [],
+  "destructive_actions": [],
+  "data_sources": [
+    {
+      "key": "phase1.portal-shell.navigation",
+      "label": "Portal navigation map",
+      "source_type": "static_config",
+      "description": "Defines approved menu destinations and their rollout status."
+    },
+    {
+      "key": "phase1.portal-shell.work-summary",
+      "label": "Work summary source",
+      "source_type": "derived",
+      "description": "Depends on future backend read APIs and must remain deferred until those APIs are approved."
+    }
+  ],
+  "api_routes": [],
+  "query_params": [],
+  "required_entities": [],
+  "empty_data_behavior": {
+    "title": "No data yet",
+    "message": "No records are available yet for this screen."
+  },
+  "table_columns": [],
+  "filters": [],
+  "search_fields": [],
+  "sorting": [],
+  "pagination": {
+    "mode": "none"
+  },
+  "saved_views": [],
+  "form_fields": [],
+  "validation_rules": [],
+  "submit_action": null,
+  "draft_behavior": {
+    "supported": false,
+    "autosave": false
+  },
+  "file_uploads": [],
+  "empty_state": {
+    "title": "No work widgets yet",
+    "message": "Work widgets are deferred until dedicated APIs and capabilities are approved."
+  },
+  "loading_state": {
+    "title": "Loading",
+    "message": "Please wait while this screen loads."
+  },
+  "error_state": {
+    "title": "Something went wrong",
+    "message": "Please try again. If this continues, contact support."
+  },
+  "permission_denied_state": {
+    "title": "Access denied",
+    "message": "You do not have permission to open this screen."
+  },
+  "degraded_mode_state": {
+    "title": "Limited mode",
+    "message": "Some features are temporarily unavailable."
+  },
+  "desktop_layout": {
+    "layout": "single_column",
+    "primary_navigation": "Top navigation",
+    "critical_content": []
+  },
+  "tablet_layout": {
+    "layout": "single_column",
+    "primary_navigation": "Top navigation",
+    "critical_content": []
+  },
+  "mobile_layout": {
+    "layout": "stacked",
+    "primary_navigation": "Bottom navigation",
+    "critical_content": []
+  },
+  "no_technical_language": true,
+  "no_fake_data": true,
+  "no_placeholder_actions": true,
+  "no_hardcoded_roles": true,
+  "no_hardcoded_units": true,
+  "plain_language_labels": true,
+  "audit_hooks": [],
+  "events_expected": [],
+  "notifications_triggered": [],
+  "ai_allowed": false,
+  "ai_actions": [],
+  "ai_requires_human_approval": false,
+  "ai_forbidden_actions": [
+    "publish",
+    "send",
+    "approve",
+    "reject",
+    "delete",
+    "export"
+  ],
+  "forbidden_behaviors": [
+    "No fake data may be shown in this screen.",
+    "No placeholder actions may be presented to users.",
+    "No hardcoded roles, units, or campuses are allowed.",
+    "No cross-organization data exposure is allowed.",
+    "No out-of-scope frontend or backend behavior may be implemented from this contract alone.",
+    "Treat access.policy.manage as temporary coverage; do not interpret it as final portal permission design."
+  ]
+}

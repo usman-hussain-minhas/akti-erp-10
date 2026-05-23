@@ -1,0 +1,138 @@
+{
+  "screen_key": "phase1.login",
+  "module_key": "core.platform",
+  "title": "Sign In",
+  "route": "/login",
+  "screen_type": "public_site",
+  "status": "planned",
+  "version": "0.1.0",
+  "business_purpose": "Provide a clear entry screen while full auth/session implementation is pending approval.",
+  "primary_user_context": "Any user trying to enter the portal.",
+  "user_goal": "Understand current sign-in availability and next step.",
+  "success_outcome": "User sees plain guidance about authentication status and rollout dependency.",
+  "required_capabilities": [],
+  "optional_capabilities": [],
+  "visibility_rules": [
+    {
+      "key": "phase1.login.visible",
+      "description": "Visible to users before authentication is available.",
+      "capability_key": null
+    }
+  ],
+  "record_scope_behavior": {
+    "default_scope": "global",
+    "allowed_scope_types": [
+      "global"
+    ],
+    "description": "This screen does not expose tenant data until authenticated access exists."
+  },
+  "primary_action": {
+    "action_key": "phase1.login.read-status",
+    "label": "Read access status",
+    "capability_key": null,
+    "action_type": "view",
+    "risk_level": "low",
+    "requires_confirmation": false,
+    "requires_reauth": false,
+    "gatekeeper_required": false,
+    "audit_required": false
+  },
+  "secondary_actions": [],
+  "row_actions": [],
+  "bulk_actions": [],
+  "destructive_actions": [],
+  "data_sources": [
+    {
+      "key": "phase1.login.release-status",
+      "label": "Access rollout status",
+      "source_type": "static_config",
+      "description": "Provides a plain-language status that auth/session is deferred in Phase 1."
+    }
+  ],
+  "api_routes": [],
+  "query_params": [],
+  "required_entities": [],
+  "empty_data_behavior": {
+    "title": "No account actions",
+    "message": "There are no account actions available yet."
+  },
+  "table_columns": [],
+  "filters": [],
+  "search_fields": [],
+  "sorting": [],
+  "pagination": {
+    "mode": "none"
+  },
+  "saved_views": [],
+  "form_fields": [],
+  "validation_rules": [],
+  "submit_action": null,
+  "draft_behavior": {
+    "supported": false,
+    "autosave": false
+  },
+  "file_uploads": [],
+  "empty_state": {
+    "title": "Sign in is not ready yet",
+    "message": "Authentication is planned but not implemented in this phase."
+  },
+  "loading_state": {
+    "title": "Loading",
+    "message": "Please wait while this screen loads."
+  },
+  "error_state": {
+    "title": "Something went wrong",
+    "message": "Please try again. If this continues, contact support."
+  },
+  "permission_denied_state": {
+    "title": "Access denied",
+    "message": "You do not have permission to open this screen."
+  },
+  "degraded_mode_state": {
+    "title": "Limited mode",
+    "message": "Some features are temporarily unavailable."
+  },
+  "desktop_layout": {
+    "layout": "single_column",
+    "primary_navigation": "Top navigation",
+    "critical_content": []
+  },
+  "tablet_layout": {
+    "layout": "single_column",
+    "primary_navigation": "Top navigation",
+    "critical_content": []
+  },
+  "mobile_layout": {
+    "layout": "stacked",
+    "primary_navigation": "Bottom navigation",
+    "critical_content": []
+  },
+  "no_technical_language": true,
+  "no_fake_data": true,
+  "no_placeholder_actions": true,
+  "no_hardcoded_roles": true,
+  "no_hardcoded_units": true,
+  "plain_language_labels": true,
+  "audit_hooks": [],
+  "events_expected": [],
+  "notifications_triggered": [],
+  "ai_allowed": false,
+  "ai_actions": [],
+  "ai_requires_human_approval": false,
+  "ai_forbidden_actions": [
+    "publish",
+    "send",
+    "approve",
+    "reject",
+    "delete",
+    "export"
+  ],
+  "forbidden_behaviors": [
+    "No fake data may be shown in this screen.",
+    "No placeholder actions may be presented to users.",
+    "No hardcoded roles, units, or campuses are allowed.",
+    "No cross-organization data exposure is allowed.",
+    "No out-of-scope frontend or backend behavior may be implemented from this contract alone.",
+    "Do not simulate login, session creation, or token issuance."
+  ]
+}

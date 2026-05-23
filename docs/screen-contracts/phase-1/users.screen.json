@@ -1,0 +1,319 @@
+{
+  "screen_key": "phase1.users",
+  "module_key": "core.access",
+  "title": "Users",
+  "route": "/app/users",
+  "screen_type": "private_portal",
+  "status": "planned",
+  "version": "0.1.0",
+  "business_purpose": "Manage users within organization-scoped Access Core boundaries.",
+  "primary_user_context": "An organization administrator managing user access records.",
+  "user_goal": "Create, review, update, and remove users safely in one organization.",
+  "success_outcome": "User management actions map to existing Access Core APIs with org isolation.",
+  "required_capabilities": [
+    "access.policy.manage"
+  ],
+  "optional_capabilities": [],
+  "visibility_rules": [
+    {
+      "key": "phase1.users.visible",
+      "description": "Visible to admins under current minimal capability coverage.",
+      "capability_key": "access.policy.manage"
+    }
+  ],
+  "record_scope_behavior": {
+    "default_scope": "organization",
+    "allowed_scope_types": [
+      "organization",
+      "own_unit",
+      "assigned_records"
+    ],
+    "description": "All user records must be filtered and mutated within one organization path scope."
+  },
+  "primary_action": {
+    "action_key": "phase1.users.create",
+    "label": "Add user",
+    "capability_key": "access.policy.manage",
+    "action_type": "create",
+    "risk_level": "medium",
+    "requires_confirmation": false,
+    "requires_reauth": false,
+    "gatekeeper_required": true,
+    "audit_required": true
+  },
+  "secondary_actions": [
+    {
+      "action_key": "phase1.users.list",
+      "label": "View user list",
+      "capability_key": "access.policy.manage",
+      "action_type": "view",
+      "risk_level": "low",
+      "requires_confirmation": false,
+      "requires_reauth": false,
+      "gatekeeper_required": false,
+      "audit_required": false
+    }
+  ],
+  "row_actions": [
+    {
+      "action_key": "phase1.users.edit",
+      "label": "Edit user",
+      "capability_key": "access.policy.manage",
+      "action_type": "update",
+      "risk_level": "medium",
+      "requires_confirmation": false,
+      "requires_reauth": false,
+      "gatekeeper_required": true,
+      "audit_required": true
+    }
+  ],
+  "bulk_actions": [],
+  "destructive_actions": [
+    {
+      "action_key": "phase1.users.delete",
+      "label": "Delete user",
+      "capability_key": "access.policy.manage",
+      "action_type": "delete",
+      "risk_level": "high",
+      "requires_confirmation": true,
+      "requires_reauth": true,
+      "gatekeeper_required": true,
+      "audit_required": true
+    }
+  ],
+  "data_sources": [
+    {
+      "key": "phase1.users.list-data",
+      "label": "Organization users",
+      "source_type": "api",
+      "route_key": "phase1.users.list-route",
+      "description": "Loads organization-scoped users from Access Core APIs."
+    }
+  ],
+  "api_routes": [
+    {
+      "key": "phase1.users.create-route",
+      "method": "POST",
+      "path": "/platform/access/organizations/:organization_id/users",
+      "capability_key": "access.policy.manage",
+      "auth_required": true,
+      "public_route": false,
+      "rate_limited": true,
+      "input_schema": null,
+      "output_schema": null,
+      "description": "Create a user within the organization in path scope."
+    },
+    {
+      "key": "phase1.users.list-route",
+      "method": "GET",
+      "path": "/platform/access/organizations/:organization_id/users",
+      "capability_key": "access.policy.manage",
+      "auth_required": true,
+      "public_route": false,
+      "rate_limited": true,
+      "input_schema": null,
+      "output_schema": null,
+      "description": "List users within the organization in path scope."
+    },
+    {
+      "key": "phase1.users.get-route",
+      "method": "GET",
+      "path": "/platform/access/organizations/:organization_id/users/:user_id",
+      "capability_key": "access.policy.manage",
+      "auth_required": true,
+      "public_route": false,
+      "rate_limited": true,
+      "input_schema": null,
+      "output_schema": null,
+      "description": "Get one user within organization scope."
+    },
+    {
+      "key": "phase1.users.update-route",
+      "method": "PATCH",
+      "path": "/platform/access/organizations/:organization_id/users/:user_id",
+      "capability_key": "access.policy.manage",
+      "auth_required": true,
+      "public_route": false,
+      "rate_limited": true,
+      "input_schema": null,
+      "output_schema": null,
+      "description": "Update one user within organization scope."
+    },
+    {
+      "key": "phase1.users.delete-route",
+      "method": "DELETE",
+      "path": "/platform/access/organizations/:organization_id/users/:user_id",
+      "capability_key": "access.policy.manage",
+      "auth_required": true,
+      "public_route": false,
+      "rate_limited": true,
+      "input_schema": null,
+      "output_schema": null,
+      "description": "Delete one user within organization scope with dependency checks."
+    }
+  ],
+  "query_params": [],
+  "required_entities": [
+    {
+      "entity_key": "access.user",
+      "purpose": "Render and manage user identity and status fields."
+    }
+  ],
+  "empty_data_behavior": {
+    "title": "No data yet",
+    "message": "No records are available yet for this screen."
+  },
+  "table_columns": [
+    {
+      "key": "display_name",
+      "label": "Name",
+      "data_path": "display_name",
+      "column_type": "text",
+      "sortable": true,
+      "required": true
+    },
+    {
+      "key": "email",
+      "label": "Email",
+      "data_path": "email",
+      "column_type": "text",
+      "sortable": true,
+      "required": true
+    },
+    {
+      "key": "status",
+      "label": "Status",
+      "data_path": "status",
+      "column_type": "status",
+      "sortable": true,
+      "required": true
+    }
+  ],
+  "filters": [
+    {
+      "key": "status",
+      "label": "Status",
+      "filter_type": "select",
+      "scope_type": "organization",
+      "required": false
+    }
+  ],
+  "search_fields": [
+    "display_name",
+    "email"
+  ],
+  "sorting": [
+    {
+      "field_key": "display_name",
+      "direction": "asc",
+      "default": true
+    }
+  ],
+  "pagination": {
+    "mode": "page",
+    "default_page_size": 25
+  },
+  "saved_views": [],
+  "form_fields": [
+    {
+      "key": "email",
+      "label": "Email address",
+      "field_type": "text",
+      "required": true
+    },
+    {
+      "key": "display_name",
+      "label": "Full name",
+      "field_type": "text",
+      "required": true
+    },
+    {
+      "key": "status",
+      "label": "Status",
+      "field_type": "text",
+      "required": true
+    },
+    {
+      "key": "primary_unit_id",
+      "label": "Primary unit",
+      "field_type": "text",
+      "required": false
+    }
+  ],
+  "validation_rules": [
+    {
+      "key": "phase1.users.email-format",
+      "field_key": "email",
+      "message": "Enter a valid email address."
+    }
+  ],
+  "submit_action": null,
+  "draft_behavior": {
+    "supported": false,
+    "autosave": false
+  },
+  "file_uploads": [],
+  "empty_state": {
+    "title": "Nothing to show",
+    "message": "There is nothing to show yet."
+  },
+  "loading_state": {
+    "title": "Loading",
+    "message": "Please wait while this screen loads."
+  },
+  "error_state": {
+    "title": "Something went wrong",
+    "message": "Please try again. If this continues, contact support."
+  },
+  "permission_denied_state": {
+    "title": "Access denied",
+    "message": "You do not have permission to open this screen."
+  },
+  "degraded_mode_state": {
+    "title": "Limited mode",
+    "message": "Some features are temporarily unavailable."
+  },
+  "desktop_layout": {
+    "layout": "single_column",
+    "primary_navigation": "Top navigation",
+    "critical_content": []
+  },
+  "tablet_layout": {
+    "layout": "single_column",
+    "primary_navigation": "Top navigation",
+    "critical_content": []
+  },
+  "mobile_layout": {
+    "layout": "stacked",
+    "primary_navigation": "Bottom navigation",
+    "critical_content": []
+  },
+  "no_technical_language": true,
+  "no_fake_data": true,
+  "no_placeholder_actions": true,
+  "no_hardcoded_roles": true,
+  "no_hardcoded_units": true,
+  "plain_language_labels": true,
+  "audit_hooks": [],
+  "events_expected": [],
+  "notifications_triggered": [],
+  "ai_allowed": false,
+  "ai_actions": [],
+  "ai_requires_human_approval": false,
+  "ai_forbidden_actions": [
+    "publish",
+    "send",
+    "approve",
+    "reject",
+    "delete",
+    "export"
+  ],
+  "forbidden_behaviors": [
+    "No fake data may be shown in this screen.",
+    "No placeholder actions may be presented to users.",
+    "No hardcoded roles, units, or campuses are allowed.",
+    "No cross-organization data exposure is allowed.",
+    "No out-of-scope frontend or backend behavior may be implemented from this contract alone.",
+    "Treat access.policy.manage as temporary capability coverage until finer user-management capabilities are approved."
+  ]
+}
