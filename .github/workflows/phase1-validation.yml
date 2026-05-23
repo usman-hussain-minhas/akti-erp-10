@@ -1,0 +1,77 @@
+name: Phase 1 Validation
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  phase1-validation:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.12.1
+
+      - name: pnpm install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
+
+      - name: pnpm contracts:validate
+        run: pnpm contracts:validate
+
+      - name: pnpm exec prisma validate --schema prisma/schema.prisma
+        run: pnpm exec prisma validate --schema prisma/schema.prisma
+
+      - name: pnpm exec prisma generate --schema prisma/schema.prisma
+        run: pnpm exec prisma generate --schema prisma/schema.prisma
+
+      - name: pnpm registry:generate
+        run: pnpm registry:generate
+
+      - name: Verify generated registry has no drift
+        run: git diff --exit-code -- generated/entity-registry.generated.json
+
+      - name: pnpm registry:check
+        run: pnpm registry:check
+
+      - name: pnpm registry:verify:phase1
+        run: pnpm registry:verify:phase1
+
+      - name: pnpm lint
+        run: pnpm lint
+
+      - name: pnpm typecheck
+        run: pnpm typecheck
+
+      - name: pnpm test
+        run: pnpm test
+
+      - name: pnpm build
+        run: pnpm build
+
+      - name: Verify prisma/schema.prisma unchanged
+        run: git diff --exit-code -- prisma/schema.prisma
+
+      - name: Verify prisma/entity-registry.metadata.json unchanged
+        run: git diff --exit-code -- prisma/entity-registry.metadata.json
+
+      - name: Verify clean git status
+        shell: bash
+        run: |
+          set -euo pipefail
+          git status --short
+          if [[ -n "$(git status --short)" ]]; then
+            echo "FAIL: git status is not clean after validation steps"
+            exit 1
+          fi

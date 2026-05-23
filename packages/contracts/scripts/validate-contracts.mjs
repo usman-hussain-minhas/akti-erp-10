@@ -63,13 +63,23 @@ for (const schemaFile of schemaFiles) {
 }
 
 const accessCoreValidator = join(packageRoot, "scripts", "validate-access-core-contracts.mjs");
-if (existsSync(accessCoreValidator)) {
-  console.log(`Validating ${relative(packageRoot, accessCoreValidator)}`);
-  run("pnpm", ["exec", "tsx", accessCoreValidator]);
+if (!existsSync(accessCoreValidator)) {
+  console.error(
+    `Required validator is missing: ${relative(packageRoot, accessCoreValidator)}`,
+  );
+  process.exit(1);
 }
 
+console.log(`Validating ${relative(packageRoot, accessCoreValidator)}`);
+run("pnpm", ["exec", "tsx", accessCoreValidator]);
+
 const screenValidator = join(packageRoot, "scripts", "validate-screen-contracts.mjs");
-if (existsSync(screenValidator)) {
-  console.log(`Validating ${relative(packageRoot, screenValidator)}`);
-  run("pnpm", ["exec", "tsx", screenValidator]);
+if (!existsSync(screenValidator)) {
+  console.error(
+    `Required validator is missing: ${relative(packageRoot, screenValidator)}`,
+  );
+  process.exit(1);
 }
+
+console.log(`Validating ${relative(packageRoot, screenValidator)}`);
+run("pnpm", ["exec", "tsx", screenValidator]);
