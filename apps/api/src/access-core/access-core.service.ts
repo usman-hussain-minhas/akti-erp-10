@@ -149,6 +149,7 @@ export class AccessCoreService {
         });
 
         await this.assertOrganizationExistsInDb(tx, organizationId);
+        await this.assertEmailDomainBelongsToOrganizationInDb(tx, organizationId, input.email);
 
         if (input.primary_unit_id) {
           await this.assertUnitExistsInOrganizationInDb(tx, organizationId, input.primary_unit_id, 'primary_unit_id');
@@ -218,7 +219,10 @@ export class AccessCoreService {
           },
         });
 
-        await this.getUserInDb(tx, organizationId, userId);
+        const existingUser = await this.getUserInDb(tx, organizationId, userId);
+        if (input.email !== undefined && input.email !== existingUser.email) {
+          await this.assertEmailDomainBelongsToOrganizationInDb(tx, organizationId, input.email);
+        }
 
         if (input.primary_unit_id) {
           await this.assertUnitExistsInOrganizationInDb(tx, organizationId, input.primary_unit_id, 'primary_unit_id');
@@ -976,6 +980,33 @@ export class AccessCoreService {
     if (!item) {
       throw new NotFoundException('organization not found');
     }
+  }
+
+  private async assertEmailDomainBelongsToOrganizationInDb(db: DbClient, organizationId: string, email: string) {
+    const domain = this.extractNormalizedEmailDomain(email);
+    const item = await db.organizationDomain.findFirst({
+      where: {
+        organization_id: organizationId,
+        domain,
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    if (!item) {
+      throw new BadRequestException('email domain must be registered to the organization');
+    }
+  }
+
+  private extractNormalizedEmailDomain(email: string) {
+    const atIndex = email.lastIndexOf('@');
+    const domain = atIndex >= 0 ? email.slice(atIndex + 1).trim().toLowerCase() : '';
+    if (atIndex <= 0 || domain.length === 0) {
+      throw new BadRequestException('email must be in a valid format');
+    }
+
+    return domain;
   }
 
   private async getUserInDb(db: DbClient, organizationId: string, userId: string): Promise<User> {

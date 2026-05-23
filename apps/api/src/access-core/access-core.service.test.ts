@@ -22,6 +22,7 @@ function prismaError(code: string) {
 
 type MockState = {
   calls: Array<{ fn: string; args: unknown }>;
+  organizationDomains: Array<Record<string, unknown>>;
   users: Array<Record<string, unknown>>;
   groups: Array<Record<string, unknown>>;
   memberships: Array<Record<string, unknown>>;
@@ -65,6 +66,22 @@ function createMockPrisma(overrides?: {
 }) {
   const state: MockState = {
     calls: [],
+    organizationDomains: [
+      {
+        id: 'domain-1',
+        organization_id: 'org-1',
+        domain: 'example.org',
+        is_primary: true,
+        verified_at: null,
+      },
+      {
+        id: 'domain-2',
+        organization_id: 'org-2',
+        domain: 'foreign.example.org',
+        is_primary: true,
+        verified_at: null,
+      },
+    ],
     users: [
       {
         id: 'user-1',
@@ -170,6 +187,7 @@ function createMockPrisma(overrides?: {
       state.calls.push({ fn: '$transaction', args: {} });
 
       const snapshot = {
+        organizationDomains: cloneRows(state.organizationDomains),
         users: cloneRows(state.users),
         groups: cloneRows(state.groups),
         memberships: cloneRows(state.memberships),
@@ -181,6 +199,7 @@ function createMockPrisma(overrides?: {
       try {
         return await fn(prisma);
       } catch (error) {
+        state.organizationDomains = snapshot.organizationDomains;
         state.users = snapshot.users;
         state.groups = snapshot.groups;
         state.memberships = snapshot.memberships;
@@ -194,6 +213,16 @@ function createMockPrisma(overrides?: {
       findUnique: async ({ where }: { where: { id: string } }) => {
         state.calls.push({ fn: 'organization.findUnique', args: where });
         return where.id === 'org-1' ? { id: 'org-1' } : null;
+      },
+    },
+    organizationDomain: {
+      findFirst: async ({ where }: { where: { organization_id: string; domain: string } }) => {
+        state.calls.push({ fn: 'organizationDomain.findFirst', args: where });
+        return (
+          state.organizationDomains.find(
+            (item) => item.organization_id === where.organization_id && item.domain === where.domain,
+          ) ?? null
+        );
       },
     },
     organizationUnit: {
@@ -600,6 +629,153 @@ async function testUsersCrudAndOrgIsolation() {
   );
   assert.ok(userFindFirstCall);
   assert.deepEqual(userFindFirstCall?.args, { organization_id: 'org-1', id: 'user-1' });
+}
+
+async function testOfficialEmailDomainValidation() {
+  const createContext = createMockPrisma();
+  const createService = createServiceWithGatekeeper(createContext.prisma).service;
+
+  const created = await createService.createUser(
+    'org-1',
+    {
+      email: 'case@Example.ORG',
+      display_name: 'Case Domain',
+      status: 'active',
+      primary_unit_id: null,
+    },
+    'actor-1',
+  );
+
+  assert.equal(created.organization_id, 'org-1');
+  assert.equal(
+    hasCallWhere(
+      createContext.state,
+      'organizationDomain.findFirst',
+      (args) => args.organization_id === 'org-1' && args.domain === 'example.org',
+    ),
+    true,
+  );
+
+  const invalidCreateContext = createMockPrisma();
+  const invalidCreateService = createServiceWithGatekeeper(invalidCreateContext.prisma).service;
+  const initialInvalidCreateUserCount = invalidCreateContext.state.users.length;
+  const initialInvalidCreateAuditCount = invalidCreateContext.state.auditLogs.length;
+
+  await assert.rejects(
+    invalidCreateService.createUser(
+      'org-1',
+      {
+        email: 'intruder@unregistered.example',
+        display_name: 'Invalid Domain',
+        status: 'active',
+        primary_unit_id: null,
+      },
+      'actor-1',
+    ),
+    (error: unknown) => {
+      assert.ok(error instanceof BadRequestException);
+      assert.equal((error as Error).message, 'email domain must be registered to the organization');
+      return true;
+    },
+  );
+
+  assert.equal(invalidCreateContext.state.users.length, initialInvalidCreateUserCount);
+  assert.equal(invalidCreateContext.state.auditLogs.length, initialInvalidCreateAuditCount);
+  assert.equal(invalidCreateContext.state.outboxEntries.length, 0);
+  assert.equal(hasCall(invalidCreateContext.state, 'user.create'), false);
+  assert.deepEqual(writeCalls(invalidCreateContext.state), []);
+
+  const missingDomainContext = createMockPrisma();
+  missingDomainContext.state.organizationDomains = [];
+  const missingDomainService = createServiceWithGatekeeper(missingDomainContext.prisma).service;
+
+  await assert.rejects(
+    missingDomainService.createUser(
+      'org-1',
+      {
+        email: 'missing@example.org',
+        display_name: 'Missing Domain',
+        status: 'active',
+        primary_unit_id: null,
+      },
+      'actor-1',
+    ),
+    BadRequestException,
+  );
+
+  assert.equal(hasCall(missingDomainContext.state, 'user.create'), false);
+  assert.deepEqual(writeCalls(missingDomainContext.state), []);
+
+  const updateContext = createMockPrisma();
+  const updateService = createServiceWithGatekeeper(updateContext.prisma).service;
+
+  const updated = await updateService.updateUser(
+    'org-1',
+    'user-1',
+    {
+      email: 'changed@example.org',
+    },
+    'actor-1',
+  );
+
+  assert.equal(updated.email, 'changed@example.org');
+  assert.equal(
+    hasCallWhere(
+      updateContext.state,
+      'organizationDomain.findFirst',
+      (args) => args.organization_id === 'org-1' && args.domain === 'example.org',
+    ),
+    true,
+  );
+
+  const invalidUpdateContext = createMockPrisma();
+  const invalidUpdateService = createServiceWithGatekeeper(invalidUpdateContext.prisma).service;
+  const originalUser = invalidUpdateContext.state.users.find((user) => user.id === 'user-1');
+
+  await assert.rejects(
+    invalidUpdateService.updateUser(
+      'org-1',
+      'user-1',
+      {
+        email: 'changed@unregistered.example',
+      },
+      'actor-1',
+    ),
+    BadRequestException,
+  );
+
+  assert.deepEqual(
+    invalidUpdateContext.state.users.find((user) => user.id === 'user-1'),
+    originalUser,
+  );
+  assert.equal(hasCall(invalidUpdateContext.state, 'user.updateMany'), false);
+  assert.deepEqual(writeCalls(invalidUpdateContext.state), []);
+
+  const displayOnlyContext = createMockPrisma();
+  const displayOnlyService = createServiceWithGatekeeper(displayOnlyContext.prisma).service;
+  await displayOnlyService.updateUser(
+    'org-1',
+    'user-1',
+    {
+      display_name: 'Display Only',
+    },
+    'actor-1',
+  );
+
+  assert.equal(hasCall(displayOnlyContext.state, 'organizationDomain.findFirst'), false);
+
+  const sameEmailContext = createMockPrisma();
+  const sameEmailService = createServiceWithGatekeeper(sameEmailContext.prisma).service;
+  await sameEmailService.updateUser(
+    'org-1',
+    'user-1',
+    {
+      email: 'user@example.org',
+    },
+    'actor-1',
+  );
+
+  assert.equal(hasCall(sameEmailContext.state, 'organizationDomain.findFirst'), false);
 }
 
 async function testDependencySafeDeleteConflicts() {
@@ -1353,6 +1529,7 @@ async function testAuditFailureRollsBackProtectedMutation() {
 
 async function run() {
   await testUsersCrudAndOrgIsolation();
+  await testOfficialEmailDomainValidation();
   await testDependencySafeDeleteConflicts();
   await testGroupsCrudAndOrgIsolation();
   await testMembershipOrgScopeAndDuplicateConflict();
