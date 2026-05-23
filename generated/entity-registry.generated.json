@@ -4,7 +4,7 @@
     "prisma_schema": "prisma/schema.prisma",
     "metadata": "prisma/entity-registry.metadata.json",
     "prisma_schema_hash": "sha256:db1cfefa54d59b3a722dc1e31f35e6a059c93bbdef7256fb5d00849991581a8b",
-    "metadata_hash": "sha256:1b824f086915c355947c4ce75cb88a69f4f1b8fa50c9843bbeec697f32dce764"
+    "metadata_hash": "sha256:373523b90763ce136f356753ec94cdc5dc6ddd9d330ec26a05a218191ce04264"
   },
   "entities": [
     {
@@ -438,7 +438,12 @@
           ]
         }
       ],
-      "events_emitted": [],
+      "events_emitted": [
+        {
+          "event_type": "platform.mutation.recorded",
+          "version": "0.1.0"
+        }
+      ],
       "retention_policy": "per_outbox_policy",
       "audit_required": true,
       "sensitive_data_classification": "internal"

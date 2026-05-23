@@ -1,6 +1,10 @@
 import assert from 'node:assert/strict';
 
-import { EventOutboxService } from './event-outbox.service';
+import {
+  EventOutboxService,
+  PLATFORM_MUTATION_RECORDED_EVENT_TYPE,
+  PLATFORM_MUTATION_RECORDED_EVENT_VERSION,
+} from './event-outbox.service';
 
 type MockState = {
   calls: Array<{ fn: string; args: unknown }>;
@@ -42,8 +46,8 @@ async function testWritesGenericOutboxEvent() {
 
   assert.deepEqual(result, { written: true });
   assert.equal(state.writes.length, 1);
-  assert.equal(state.writes[0].event_type, 'platform.mutation.recorded');
-  assert.equal(state.writes[0].version, '0.1.0');
+  assert.equal(state.writes[0].event_type, PLATFORM_MUTATION_RECORDED_EVENT_TYPE);
+  assert.equal(state.writes[0].version, PLATFORM_MUTATION_RECORDED_EVENT_VERSION);
   assert.equal(state.writes[0].status, 'pending');
   assert.equal(state.writes[0].processed_at, null);
 
@@ -53,6 +57,11 @@ async function testWritesGenericOutboxEvent() {
   assert.equal(payload.entity_id, 'user-10');
   assert.equal(payload.actor_user_id, 'actor-1');
   assert.equal(payload.occurred_at, '2026-05-23T12:00:00.000Z');
+}
+
+function testPhase1EventContractConstants() {
+  assert.equal(PLATFORM_MUTATION_RECORDED_EVENT_TYPE, 'platform.mutation.recorded');
+  assert.equal(PLATFORM_MUTATION_RECORDED_EVENT_VERSION, '0.1.0');
 }
 
 async function testNormalizesMissingActorToNull() {
@@ -72,6 +81,7 @@ async function testNormalizesMissingActorToNull() {
 }
 
 async function run() {
+  testPhase1EventContractConstants();
   await testWritesGenericOutboxEvent();
   await testNormalizesMissingActorToNull();
 

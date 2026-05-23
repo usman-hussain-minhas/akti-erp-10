@@ -27,6 +27,11 @@ const APPROVED_MODELS = [
 
 const APPROVED_ENUMS = ["CapabilityRiskLevel", "PermissionScopeType"];
 const NON_TENANT_MODELS = ["Organization", "Capability", "ModuleRegistryEntry"];
+const PHASE_1_OUTBOX_EVENT_OWNER = "EventOutbox";
+const PHASE_1_OUTBOX_EVENT = {
+  event_type: "platform.mutation.recorded",
+  version: "0.1.0",
+};
 const STATUS_STRING_MODELS = [
   "Organization",
   "OrganizationUnit",
@@ -62,6 +67,29 @@ function setEquals(a, b) {
     }
   }
   return true;
+}
+
+function eventKey(event) {
+  return `${event.event_type}@${event.version}`;
+}
+
+function validatePhase1EventPolicy({ modelName, events, sourceLabel, failures }) {
+  if (!Array.isArray(events)) {
+    failures.push(`${sourceLabel} ${modelName}.events_emitted must be an array`);
+    return;
+  }
+
+  if (modelName === PHASE_1_OUTBOX_EVENT_OWNER) {
+    const expectedKey = eventKey(PHASE_1_OUTBOX_EVENT);
+    if (events.length !== 1 || eventKey(events[0]) !== expectedKey) {
+      failures.push(`${sourceLabel} ${modelName}.events_emitted must be exactly [${expectedKey}]`);
+    }
+    return;
+  }
+
+  if (events.length !== 0) {
+    failures.push(`${sourceLabel} ${modelName}.events_emitted must be []`);
+  }
 }
 
 function parseNamedBlocks(source, kind) {
@@ -159,16 +187,21 @@ function main() {
   }
 
   for (const modelName of metadataModels) {
-    const events = metadata.models[modelName]?.events_emitted;
-    if (!Array.isArray(events) || events.length !== 0) {
-      failures.push(`Metadata ${modelName}.events_emitted must be []`);
-    }
+    validatePhase1EventPolicy({
+      modelName,
+      events: metadata.models[modelName]?.events_emitted,
+      sourceLabel: "Metadata",
+      failures,
+    });
   }
 
   for (const entity of generated.entities ?? []) {
-    if (!Array.isArray(entity.events_emitted) || entity.events_emitted.length !== 0) {
-      failures.push(`Generated entity ${entity.model_name}.events_emitted must be []`);
-    }
+    validatePhase1EventPolicy({
+      modelName: entity.model_name,
+      events: entity.events_emitted,
+      sourceLabel: "Generated entity",
+      failures,
+    });
   }
 
   const metadataNonTenant = metadataModels

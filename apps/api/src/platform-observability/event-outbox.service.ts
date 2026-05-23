@@ -14,6 +14,9 @@ type RecordMutationOutboxInput = {
   occurred_at?: Date;
 };
 
+export const PLATFORM_MUTATION_RECORDED_EVENT_TYPE = 'platform.mutation.recorded';
+export const PLATFORM_MUTATION_RECORDED_EVENT_VERSION = '0.1.0';
+
 @Injectable()
 export class EventOutboxService {
   async recordMutation(db: DbClient, input: RecordMutationOutboxInput): Promise<{ written: true }> {
@@ -22,8 +25,8 @@ export class EventOutboxService {
     await db.eventOutbox.create({
       data: {
         organization_id: input.organization_id,
-        event_type: 'platform.mutation.recorded',
-        version: '0.1.0',
+        event_type: PLATFORM_MUTATION_RECORDED_EVENT_TYPE,
+        version: PLATFORM_MUTATION_RECORDED_EVENT_VERSION,
         status: 'pending',
         processed_at: null,
         payload: {
