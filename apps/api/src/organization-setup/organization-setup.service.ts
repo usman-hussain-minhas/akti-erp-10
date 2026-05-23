@@ -2,6 +2,7 @@ import { BadRequestException, ConflictException, Injectable } from '@nestjs/comm
 import { Prisma, type Organization, type OrganizationDomain } from '../../node_modules/.prisma/client';
 
 import { PrismaService } from '../prisma/prisma.service';
+import { EventOutboxService } from '../platform-observability/event-outbox.service';
 import {
   OrganizationSetupValidationError,
   validateAndNormalizeCreateOrganizationSetupInput,
@@ -24,7 +25,10 @@ function isPrismaKnownRequestError(error: unknown): error is { code: string } {
 
 @Injectable()
 export class OrganizationSetupService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly eventOutboxService: EventOutboxService,
+  ) {}
 
   async bootstrapSetup(rawInput: unknown): Promise<SetupResult> {
     const input = this.validateInput(rawInput);
@@ -67,6 +71,14 @@ export class OrganizationSetupService {
               is_primary: true,
               verified_at: true,
             },
+          });
+
+          await this.eventOutboxService.recordMutation(tx, {
+            organization_id: organization.id,
+            action_key: 'organization.setup.completed',
+            entity_type: 'organization',
+            entity_id: organization.id,
+            actor_user_id: null,
           });
 
           return {

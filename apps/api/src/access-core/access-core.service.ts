@@ -14,6 +14,8 @@ import {
   type UserGroup,
 } from '../../node_modules/.prisma/client';
 
+import { AuditLogService } from '../platform-observability/audit-log.service';
+import { EventOutboxService } from '../platform-observability/event-outbox.service';
 import { PrismaService } from '../prisma/prisma.service';
 import {
   AccessCoreValidationError,
@@ -37,6 +39,8 @@ const SCOPE_TYPES_FORBIDDING_UNIT = new Set<PermissionScopeType>([
   'assigned_records',
 ]);
 
+type DbClient = PrismaService | Prisma.TransactionClient;
+
 type CapabilityResponseItem = Pick<
   Capability,
   'key' | 'module_key' | 'description' | 'risk_level' | 'gatekeeper_required' | 'approval_chain_required'
@@ -52,6 +56,15 @@ type ListResponse<T> = {
   items: T[];
 };
 
+type MutationObservabilityInput = {
+  organization_id: string;
+  action_key: string;
+  entity_type: string;
+  entity_id: string;
+  actor_user_id?: string;
+  metadata: Prisma.InputJsonValue;
+};
+
 function isPrismaKnownRequestError(error: unknown): error is { code: string } {
   return (
     typeof error === 'object' &&
@@ -63,7 +76,11 @@ function isPrismaKnownRequestError(error: unknown): error is { code: string } {
 
 @Injectable()
 export class AccessCoreService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly auditLogService: AuditLogService,
+    private readonly eventOutboxService: EventOutboxService,
+  ) {}
 
   async listCapabilities(): Promise<CapabilityListResponse> {
     const rows = await this.prisma.capability.findMany({
@@ -97,22 +114,37 @@ export class AccessCoreService {
     };
   }
 
-  async createUser(organizationId: string, input: CreateUserInput): Promise<User> {
-    await this.assertOrganizationExists(organizationId);
+  async createUser(organizationId: string, input: CreateUserInput, actorUserIdRaw?: string): Promise<User> {
+    await this.assertOrganizationExistsInDb(this.prisma, organizationId);
 
     if (input.primary_unit_id) {
       await this.assertUnitExistsInOrganization(organizationId, input.primary_unit_id, 'primary_unit_id');
     }
 
     try {
-      return await this.prisma.user.create({
-        data: {
+      return await this.prisma.$transaction(async (tx) => {
+        const created = await tx.user.create({
+          data: {
+            organization_id: organizationId,
+            email: input.email,
+            display_name: input.display_name,
+            status: input.status,
+            primary_unit_id: input.primary_unit_id ?? null,
+          },
+        });
+
+        await this.recordMutationObservability(tx, {
           organization_id: organizationId,
-          email: input.email,
-          display_name: input.display_name,
-          status: input.status,
-          primary_unit_id: input.primary_unit_id ?? null,
-        },
+          action_key: 'access.user.created',
+          entity_type: 'access.user',
+          entity_id: created.id,
+          actor_user_id: actorUserIdRaw,
+          metadata: {
+            email: created.email,
+          },
+        });
+
+        return created;
       });
     } catch (error: unknown) {
       this.rethrowKnownConflicts(error, 'user already exists in organization');
@@ -121,7 +153,7 @@ export class AccessCoreService {
   }
 
   async listUsers(organizationId: string): Promise<ListResponse<User>> {
-    await this.assertOrganizationExists(organizationId);
+    await this.assertOrganizationExistsInDb(this.prisma, organizationId);
 
     const items = await this.prisma.user.findMany({
       where: { organization_id: organizationId },
@@ -146,7 +178,12 @@ export class AccessCoreService {
     return item;
   }
 
-  async updateUser(organizationId: string, userId: string, input: UpdateUserInput): Promise<User> {
+  async updateUser(
+    organizationId: string,
+    userId: string,
+    input: UpdateUserInput,
+    actorUserIdRaw?: string,
+  ): Promise<User> {
     await this.getUser(organizationId, userId);
 
     if (input.primary_unit_id) {
@@ -154,77 +191,138 @@ export class AccessCoreService {
     }
 
     try {
-      const updateResult = await this.prisma.user.updateMany({
-        where: {
+      return await this.prisma.$transaction(async (tx) => {
+        const updateResult = await tx.user.updateMany({
+          where: {
+            organization_id: organizationId,
+            id: userId,
+          },
+          data: {
+            email: input.email,
+            display_name: input.display_name,
+            status: input.status,
+            primary_unit_id: input.primary_unit_id,
+          },
+        });
+
+        if (updateResult.count !== 1) {
+          throw new NotFoundException('user not found in organization');
+        }
+
+        const updated = await tx.user.findFirst({
+          where: {
+            organization_id: organizationId,
+            id: userId,
+          },
+        });
+
+        if (!updated) {
+          throw new NotFoundException('user not found in organization');
+        }
+
+        await this.recordMutationObservability(tx, {
           organization_id: organizationId,
-          id: userId,
-        },
-        data: {
-          email: input.email,
-          display_name: input.display_name,
-          status: input.status,
-          primary_unit_id: input.primary_unit_id,
-        },
+          action_key: 'access.user.updated',
+          entity_type: 'access.user',
+          entity_id: updated.id,
+          actor_user_id: actorUserIdRaw,
+          metadata: {
+            updated_fields: Object.keys(input),
+          },
+        });
+
+        return updated;
       });
-
-      if (updateResult.count !== 1) {
-        throw new NotFoundException('user not found in organization');
-      }
-
-      return await this.getUser(organizationId, userId);
     } catch (error: unknown) {
       this.rethrowKnownConflicts(error, 'user update violates organization constraints');
       throw error;
     }
   }
 
-  async deleteUser(organizationId: string, userId: string): Promise<{ deleted: true }> {
-    await this.getUser(organizationId, userId);
-
-    const [membershipCount, auditCount] = await Promise.all([
-      this.prisma.userGroup.count({
+  async deleteUser(organizationId: string, userId: string, actorUserIdRaw?: string): Promise<{ deleted: true }> {
+    return this.prisma.$transaction(async (tx) => {
+      const user = await tx.user.findFirst({
         where: {
           organization_id: organizationId,
-          user_id: userId,
+          id: userId,
         },
-      }),
-      this.prisma.auditLog.count({
+      });
+
+      if (!user) {
+        throw new NotFoundException('user not found in organization');
+      }
+
+      const [membershipCount, auditCount] = await Promise.all([
+        tx.userGroup.count({
+          where: {
+            organization_id: organizationId,
+            user_id: userId,
+          },
+        }),
+        tx.auditLog.count({
+          where: {
+            organization_id: organizationId,
+            actor_user_id: userId,
+          },
+        }),
+      ]);
+
+      if (membershipCount > 0 || auditCount > 0) {
+        throw new ConflictException('cannot delete user with dependent memberships or protected references');
+      }
+
+      const deleteResult = await tx.user.deleteMany({
         where: {
           organization_id: organizationId,
-          actor_user_id: userId,
+          id: userId,
         },
-      }),
-    ]);
+      });
 
-    if (membershipCount > 0 || auditCount > 0) {
-      throw new ConflictException('cannot delete user with dependent memberships or protected references');
-    }
+      if (deleteResult.count !== 1) {
+        throw new NotFoundException('user not found in organization');
+      }
 
-    const deleteResult = await this.prisma.user.deleteMany({
-      where: {
+      await this.recordMutationObservability(tx, {
         organization_id: organizationId,
-        id: userId,
-      },
+        action_key: 'access.user.deleted',
+        entity_type: 'access.user',
+        entity_id: userId,
+        actor_user_id: actorUserIdRaw,
+        metadata: {
+          deleted: true,
+        },
+      });
+
+      return { deleted: true as const };
     });
-
-    if (deleteResult.count !== 1) {
-      throw new NotFoundException('user not found in organization');
-    }
-
-    return { deleted: true as const };
   }
 
-  async createGroup(organizationId: string, input: CreateGroupInput): Promise<Group> {
-    await this.assertOrganizationExists(organizationId);
+  async createGroup(organizationId: string, input: CreateGroupInput, actorUserIdRaw?: string): Promise<Group> {
+    await this.assertOrganizationExistsInDb(this.prisma, organizationId);
 
     try {
-      return await this.prisma.group.create({
-        data: {
+      return await this.prisma.$transaction(async (tx) => {
+        const created = await tx.group.create({
+          data: {
+            organization_id: organizationId,
+            key: input.key,
+            label: input.label,
+            status: input.status,
+          },
+        });
+
+        await this.recordMutationObservability(tx, {
           organization_id: organizationId,
-          key: input.key,
-          label: input.label,
-          status: input.status,
-        },
+          action_key: 'access.group.created',
+          entity_type: 'access.group',
+          entity_id: created.id,
+          actor_user_id: actorUserIdRaw,
+          metadata: {
+            key: created.key,
+          },
+        });
+
+        return created;
       });
     } catch (error: unknown) {
       this.rethrowKnownConflicts(error, 'group already exists in organization');
@@ -233,7 +331,7 @@ export class AccessCoreService {
   }
 
   async listGroups(organizationId: string): Promise<ListResponse<Group>> {
-    await this.assertOrganizationExists(organizationId);
+    await this.assertOrganizationExistsInDb(this.prisma, organizationId);
 
     const items = await this.prisma.group.findMany({
       where: { organization_id: organizationId },
@@ -258,80 +356,151 @@ export class AccessCoreService {
     return item;
   }
 
-  async updateGroup(organizationId: string, groupId: string, input: UpdateGroupInput): Promise<Group> {
+  async updateGroup(
+    organizationId: string,
+    groupId: string,
+    input: UpdateGroupInput,
+    actorUserIdRaw?: string,
+  ): Promise<Group> {
     await this.getGroup(organizationId, groupId);
 
     try {
-      const updateResult = await this.prisma.group.updateMany({
-        where: {
+      return await this.prisma.$transaction(async (tx) => {
+        const updateResult = await tx.group.updateMany({
+          where: {
+            organization_id: organizationId,
+            id: groupId,
+          },
+          data: {
+            key: input.key,
+            label: input.label,
+            status: input.status,
+          },
+        });
+
+        if (updateResult.count !== 1) {
+          throw new NotFoundException('group not found in organization');
+        }
+
+        const updated = await tx.group.findFirst({
+          where: {
+            organization_id: organizationId,
+            id: groupId,
+          },
+        });
+
+        if (!updated) {
+          throw new NotFoundException('group not found in organization');
+        }
+
+        await this.recordMutationObservability(tx, {
           organization_id: organizationId,
-          id: groupId,
-        },
-        data: {
-          key: input.key,
-          label: input.label,
-          status: input.status,
-        },
+          action_key: 'access.group.updated',
+          entity_type: 'access.group',
+          entity_id: updated.id,
+          actor_user_id: actorUserIdRaw,
+          metadata: {
+            updated_fields: Object.keys(input),
+          },
+        });
+
+        return updated;
       });
-
-      if (updateResult.count !== 1) {
-        throw new NotFoundException('group not found in organization');
-      }
-
-      return await this.getGroup(organizationId, groupId);
     } catch (error: unknown) {
       this.rethrowKnownConflicts(error, 'group update violates organization constraints');
       throw error;
     }
   }
 
-  async deleteGroup(organizationId: string, groupId: string): Promise<{ deleted: true }> {
-    await this.getGroup(organizationId, groupId);
-
-    const [membershipCount, assignmentCount] = await Promise.all([
-      this.prisma.userGroup.count({
+  async deleteGroup(organizationId: string, groupId: string, actorUserIdRaw?: string): Promise<{ deleted: true }> {
+    return this.prisma.$transaction(async (tx) => {
+      const group = await tx.group.findFirst({
         where: {
           organization_id: organizationId,
-          group_id: groupId,
+          id: groupId,
         },
-      }),
-      this.prisma.groupCapability.count({
+      });
+
+      if (!group) {
+        throw new NotFoundException('group not found in organization');
+      }
+
+      const [membershipCount, assignmentCount] = await Promise.all([
+        tx.userGroup.count({
+          where: {
+            organization_id: organizationId,
+            group_id: groupId,
+          },
+        }),
+        tx.groupCapability.count({
+          where: {
+            organization_id: organizationId,
+            group_id: groupId,
+          },
+        }),
+      ]);
+
+      if (membershipCount > 0 || assignmentCount > 0) {
+        throw new ConflictException('cannot delete group with dependent memberships or capability assignments');
+      }
+
+      const deleteResult = await tx.group.deleteMany({
         where: {
           organization_id: organizationId,
-          group_id: groupId,
+          id: groupId,
         },
-      }),
-    ]);
+      });
 
-    if (membershipCount > 0 || assignmentCount > 0) {
-      throw new ConflictException('cannot delete group with dependent memberships or capability assignments');
-    }
+      if (deleteResult.count !== 1) {
+        throw new NotFoundException('group not found in organization');
+      }
 
-    const deleteResult = await this.prisma.group.deleteMany({
-      where: {
+      await this.recordMutationObservability(tx, {
         organization_id: organizationId,
-        id: groupId,
-      },
+        action_key: 'access.group.deleted',
+        entity_type: 'access.group',
+        entity_id: groupId,
+        actor_user_id: actorUserIdRaw,
+        metadata: {
+          deleted: true,
+        },
+      });
+
+      return { deleted: true as const };
     });
-
-    if (deleteResult.count !== 1) {
-      throw new NotFoundException('group not found in organization');
-    }
-
-    return { deleted: true as const };
   }
 
-  async createMembership(organizationId: string, input: CreateMembershipInput): Promise<UserGroup> {
+  async createMembership(
+    organizationId: string,
+    input: CreateMembershipInput,
+    actorUserIdRaw?: string,
+  ): Promise<UserGroup> {
     await this.getUser(organizationId, input.user_id);
     await this.getGroup(organizationId, input.group_id);
 
     try {
-      return await this.prisma.userGroup.create({
-        data: {
+      return await this.prisma.$transaction(async (tx) => {
+        const created = await tx.userGroup.create({
+          data: {
+            organization_id: organizationId,
+            user_id: input.user_id,
+            group_id: input.group_id,
+          },
+        });
+
+        await this.recordMutationObservability(tx, {
           organization_id: organizationId,
-          user_id: input.user_id,
-          group_id: input.group_id,
-        },
+          action_key: 'access.membership.created',
+          entity_type: 'access.membership',
+          entity_id: created.id,
+          actor_user_id: actorUserIdRaw,
+          metadata: {
+            user_id: created.user_id,
+            group_id: created.group_id,
+          },
+        });
+
+        return created;
       });
     } catch (error: unknown) {
       this.rethrowKnownConflicts(error, 'membership already exists in organization');
@@ -340,7 +509,7 @@ export class AccessCoreService {
   }
 
   async listMemberships(organizationId: string): Promise<ListResponse<UserGroup>> {
-    await this.assertOrganizationExists(organizationId);
+    await this.assertOrganizationExistsInDb(this.prisma, organizationId);
 
     const items = await this.prisma.userGroup.findMany({
       where: { organization_id: organizationId },
@@ -350,35 +519,53 @@ export class AccessCoreService {
     return { items };
   }
 
-  async deleteMembership(organizationId: string, membershipId: string): Promise<{ deleted: true }> {
-    const membership = await this.prisma.userGroup.findFirst({
-      where: {
+  async deleteMembership(
+    organizationId: string,
+    membershipId: string,
+    actorUserIdRaw?: string,
+  ): Promise<{ deleted: true }> {
+    return this.prisma.$transaction(async (tx) => {
+      const membership = await tx.userGroup.findFirst({
+        where: {
+          organization_id: organizationId,
+          id: membershipId,
+        },
+      });
+
+      if (!membership) {
+        throw new NotFoundException('membership not found in organization');
+      }
+
+      const deleteResult = await tx.userGroup.deleteMany({
+        where: {
+          organization_id: organizationId,
+          id: membershipId,
+        },
+      });
+
+      if (deleteResult.count !== 1) {
+        throw new NotFoundException('membership not found in organization');
+      }
+
+      await this.recordMutationObservability(tx, {
         organization_id: organizationId,
-        id: membershipId,
-      },
+        action_key: 'access.membership.deleted',
+        entity_type: 'access.membership',
+        entity_id: membershipId,
+        actor_user_id: actorUserIdRaw,
+        metadata: {
+          deleted: true,
+        },
+      });
+
+      return { deleted: true as const };
     });
-
-    if (!membership) {
-      throw new NotFoundException('membership not found in organization');
-    }
-
-    const deleteResult = await this.prisma.userGroup.deleteMany({
-      where: {
-        organization_id: organizationId,
-        id: membershipId,
-      },
-    });
-
-    if (deleteResult.count !== 1) {
-      throw new NotFoundException('membership not found in organization');
-    }
-
-    return { deleted: true as const };
   }
 
   async createGroupCapabilityAssignment(
     organizationId: string,
     input: CreateGroupCapabilityInput,
+    actorUserIdRaw?: string,
   ): Promise<GroupCapability> {
     const scopeType = this.validatePermissionScopeType(input.scope_type);
 
@@ -416,14 +603,32 @@ export class AccessCoreService {
     }
 
     try {
-      return await this.prisma.groupCapability.create({
-        data: {
+      return await this.prisma.$transaction(async (tx) => {
+        const created = await tx.groupCapability.create({
+          data: {
+            organization_id: organizationId,
+            group_id: input.group_id,
+            capability_key: input.capability_key,
+            scope_type: scopeType,
+            scope_unit_id: input.scope_unit_id ?? null,
+          },
+        });
+
+        await this.recordMutationObservability(tx, {
           organization_id: organizationId,
-          group_id: input.group_id,
-          capability_key: input.capability_key,
-          scope_type: scopeType,
-          scope_unit_id: input.scope_unit_id ?? null,
-        },
+          action_key: 'access.group-capability.created',
+          entity_type: 'access.group-capability',
+          entity_id: created.id,
+          actor_user_id: actorUserIdRaw,
+          metadata: {
+            group_id: created.group_id,
+            capability_key: created.capability_key,
+            scope_type: created.scope_type,
+            scope_unit_id: created.scope_unit_id,
+          },
+        });
+
+        return created;
       });
     } catch (error: unknown) {
       this.rethrowKnownConflicts(error, 'group-capability assignment already exists in organization');
@@ -432,7 +637,7 @@ export class AccessCoreService {
   }
 
   async listGroupCapabilityAssignments(organizationId: string): Promise<ListResponse<GroupCapability>> {
-    await this.assertOrganizationExists(organizationId);
+    await this.assertOrganizationExistsInDb(this.prisma, organizationId);
 
     const items = await this.prisma.groupCapability.findMany({
       where: { organization_id: organizationId },
@@ -445,30 +650,44 @@ export class AccessCoreService {
   async deleteGroupCapabilityAssignment(
     organizationId: string,
     assignmentId: string,
+    actorUserIdRaw?: string,
   ): Promise<{ deleted: true }> {
-    const assignment = await this.prisma.groupCapability.findFirst({
-      where: {
+    return this.prisma.$transaction(async (tx) => {
+      const assignment = await tx.groupCapability.findFirst({
+        where: {
+          organization_id: organizationId,
+          id: assignmentId,
+        },
+      });
+
+      if (!assignment) {
+        throw new NotFoundException('group-capability assignment not found in organization');
+      }
+
+      const deleteResult = await tx.groupCapability.deleteMany({
+        where: {
+          organization_id: organizationId,
+          id: assignmentId,
+        },
+      });
+
+      if (deleteResult.count !== 1) {
+        throw new NotFoundException('group-capability assignment not found in organization');
+      }
+
+      await this.recordMutationObservability(tx, {
         organization_id: organizationId,
-        id: assignmentId,
-      },
+        action_key: 'access.group-capability.deleted',
+        entity_type: 'access.group-capability',
+        entity_id: assignmentId,
+        actor_user_id: actorUserIdRaw,
+        metadata: {
+          deleted: true,
+        },
+      });
+
+      return { deleted: true as const };
     });
-
-    if (!assignment) {
-      throw new NotFoundException('group-capability assignment not found in organization');
-    }
-
-    const deleteResult = await this.prisma.groupCapability.deleteMany({
-      where: {
-        organization_id: organizationId,
-        id: assignmentId,
-      },
-    });
-
-    if (deleteResult.count !== 1) {
-      throw new NotFoundException('group-capability assignment not found in organization');
-    }
-
-    return { deleted: true as const };
   }
 
   private validatePermissionScopeType(rawScopeType: string): PermissionScopeType {
@@ -488,8 +707,28 @@ export class AccessCoreService {
     return rawScopeType as PermissionScopeType;
   }
 
-  private async assertOrganizationExists(organizationId: string) {
-    const item = await this.prisma.organization.findUnique({
+  private async recordMutationObservability(db: DbClient, input: MutationObservabilityInput) {
+    await this.eventOutboxService.recordMutation(db, {
+      organization_id: input.organization_id,
+      action_key: input.action_key,
+      entity_type: input.entity_type,
+      entity_id: input.entity_id,
+      actor_user_id: input.actor_user_id,
+      occurred_at: new Date(),
+    });
+
+    await this.auditLogService.writeAuditLog(db, {
+      organization_id: input.organization_id,
+      action_key: input.action_key,
+      entity_type: input.entity_type,
+      entity_id: input.entity_id,
+      actor_user_id: input.actor_user_id,
+      metadata: input.metadata,
+    });
+  }
+
+  private async assertOrganizationExistsInDb(db: DbClient, organizationId: string) {
+    const item = await db.organization.findUnique({
       where: { id: organizationId },
       select: { id: true },
     });

@@ -6,6 +6,8 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 
+import { AuditLogService } from '../platform-observability/audit-log.service';
+import { EventOutboxService } from '../platform-observability/event-outbox.service';
 import { AccessCoreService } from './access-core.service';
 
 function prismaError(code: string) {
@@ -19,7 +21,13 @@ type MockState = {
   memberships: Array<Record<string, unknown>>;
   assignments: Array<Record<string, unknown>>;
   capabilities: Array<Record<string, unknown>>;
+  auditLogs: Array<Record<string, unknown>>;
+  outboxEntries: Array<Record<string, unknown>>;
 };
+
+function cloneRows(rows: Array<Record<string, unknown>>) {
+  return rows.map((row) => ({ ...row }));
+}
 
 function createMockPrisma(overrides?: {
   userCreateError?: unknown;
@@ -43,6 +51,14 @@ function createMockPrisma(overrides?: {
         organization_id: 'org-1',
         email: 'user2@example.org',
         display_name: 'User Two',
+        status: 'active',
+        primary_unit_id: null,
+      },
+      {
+        id: 'actor-1',
+        organization_id: 'org-1',
+        email: 'actor@example.org',
+        display_name: 'Actor One',
         status: 'active',
         primary_unit_id: null,
       },
@@ -92,9 +108,45 @@ function createMockPrisma(overrides?: {
         approval_chain_required: false,
       },
     ],
+    auditLogs: [
+      {
+        id: 'audit-1',
+        organization_id: 'org-1',
+        actor_user_id: 'user-1',
+        action_key: 'seed.action',
+        entity_type: 'seed.entity',
+        entity_id: 'seed-1',
+        metadata: {},
+      },
+    ],
+    outboxEntries: [],
   };
 
   const prisma = {
+    $transaction: async <T>(fn: (tx: unknown) => Promise<T>) => {
+      state.calls.push({ fn: '$transaction', args: {} });
+
+      const snapshot = {
+        users: cloneRows(state.users),
+        groups: cloneRows(state.groups),
+        memberships: cloneRows(state.memberships),
+        assignments: cloneRows(state.assignments),
+        auditLogs: cloneRows(state.auditLogs),
+        outboxEntries: cloneRows(state.outboxEntries),
+      };
+
+      try {
+        return await fn(prisma);
+      } catch (error) {
+        state.users = snapshot.users;
+        state.groups = snapshot.groups;
+        state.memberships = snapshot.memberships;
+        state.assignments = snapshot.assignments;
+        state.auditLogs = snapshot.auditLogs;
+        state.outboxEntries = snapshot.outboxEntries;
+        throw error;
+      }
+    },
     organization: {
       findUnique: async ({ where }: { where: { id: string } }) => {
         state.calls.push({ fn: 'organization.findUnique', args: where });
@@ -116,10 +168,12 @@ function createMockPrisma(overrides?: {
         if (overrides?.userCreateError) {
           throw overrides.userCreateError;
         }
-        return {
+        const created = {
           id: 'user-new',
           ...data,
         };
+        state.users.push(created);
+        return created;
       },
       findMany: async ({ where }: { where: { organization_id: string } }) => {
         state.calls.push({ fn: 'user.findMany', args: where });
@@ -168,10 +222,12 @@ function createMockPrisma(overrides?: {
         if (overrides?.groupCreateError) {
           throw overrides.groupCreateError;
         }
-        return {
+        const created = {
           id: 'group-new',
           ...data,
         };
+        state.groups.push(created);
+        return created;
       },
       findMany: async ({ where }: { where: { organization_id: string } }) => {
         state.calls.push({ fn: 'group.findMany', args: where });
@@ -220,7 +276,9 @@ function createMockPrisma(overrides?: {
         if (overrides?.membershipCreateError) {
           throw overrides.membershipCreateError;
         }
-        return { id: 'membership-new', assigned_at: new Date('2026-01-02T00:00:00.000Z'), ...data };
+        const created = { id: 'membership-new', assigned_at: new Date('2026-01-02T00:00:00.000Z'), ...data };
+        state.memberships.push(created);
+        return created;
       },
       findMany: async ({ where }: { where: { organization_id: string } }) => {
         state.calls.push({ fn: 'userGroup.findMany', args: where });
@@ -244,10 +302,18 @@ function createMockPrisma(overrides?: {
       },
       count: async ({ where }: { where: Record<string, unknown> }) => {
         state.calls.push({ fn: 'userGroup.count', args: where });
-        if (where.user_id === 'user-1' || where.group_id === 'group-1') {
-          return 1;
-        }
-        return 0;
+        return state.memberships.filter((item) => {
+          if (where.organization_id !== item.organization_id) {
+            return false;
+          }
+          if (where.user_id && where.user_id !== item.user_id) {
+            return false;
+          }
+          if (where.group_id && where.group_id !== item.group_id) {
+            return false;
+          }
+          return true;
+        }).length;
       },
     },
     groupCapability: {
@@ -256,7 +322,9 @@ function createMockPrisma(overrides?: {
         if (overrides?.assignmentCreateError) {
           throw overrides.assignmentCreateError;
         }
-        return { id: 'assignment-new', ...data };
+        const created = { id: 'assignment-new', ...data };
+        state.assignments.push(created);
+        return created;
       },
       findMany: async ({ where }: { where: { organization_id: string } }) => {
         state.calls.push({ fn: 'groupCapability.findMany', args: where });
@@ -280,10 +348,15 @@ function createMockPrisma(overrides?: {
       },
       count: async ({ where }: { where: Record<string, unknown> }) => {
         state.calls.push({ fn: 'groupCapability.count', args: where });
-        if (where.group_id === 'group-1') {
-          return 1;
-        }
-        return 0;
+        return state.assignments.filter((item) => {
+          if (where.organization_id !== item.organization_id) {
+            return false;
+          }
+          if (where.group_id && where.group_id !== item.group_id) {
+            return false;
+          }
+          return true;
+        }).length;
       },
     },
     capability: {
@@ -297,12 +370,29 @@ function createMockPrisma(overrides?: {
       },
     },
     auditLog: {
+      create: async ({ data }: { data: Record<string, unknown> }) => {
+        state.calls.push({ fn: 'auditLog.create', args: data });
+        state.auditLogs.push({ id: `audit-${state.auditLogs.length + 1}`, ...data });
+        return data;
+      },
       count: async ({ where }: { where: Record<string, unknown> }) => {
         state.calls.push({ fn: 'auditLog.count', args: where });
-        if (where.actor_user_id === 'user-1') {
-          return 1;
-        }
-        return 0;
+        return state.auditLogs.filter((item) => {
+          if (where.organization_id !== item.organization_id) {
+            return false;
+          }
+          if (where.actor_user_id && where.actor_user_id !== item.actor_user_id) {
+            return false;
+          }
+          return true;
+        }).length;
+      },
+    },
+    eventOutbox: {
+      create: async ({ data }: { data: Record<string, unknown> }) => {
+        state.calls.push({ fn: 'eventOutbox.create', args: data });
+        state.outboxEntries.push({ id: `outbox-${state.outboxEntries.length + 1}`, ...data });
+        return data;
       },
     },
   };
@@ -310,16 +400,26 @@ function createMockPrisma(overrides?: {
   return { prisma, state };
 }
 
+function createService(prisma: unknown) {
+  const auditLogService = new AuditLogService();
+  const eventOutboxService = new EventOutboxService();
+  return new AccessCoreService(prisma as never, auditLogService, eventOutboxService);
+}
+
 async function testUsersCrudAndOrgIsolation() {
   const { prisma, state } = createMockPrisma();
-  const service = new AccessCoreService(prisma as never);
+  const service = createService(prisma);
 
-  const created = await service.createUser('org-1', {
-    email: 'new@example.org',
-    display_name: 'New User',
-    status: 'active',
-    primary_unit_id: 'unit-1',
-  });
+  const created = await service.createUser(
+    'org-1',
+    {
+      email: 'new@example.org',
+      display_name: 'New User',
+      status: 'active',
+      primary_unit_id: 'unit-1',
+    },
+    undefined,
+  );
   assert.equal(created.organization_id, 'org-1');
 
   const listed = await service.listUsers('org-1');
@@ -328,9 +428,14 @@ async function testUsersCrudAndOrgIsolation() {
   const got = await service.getUser('org-1', 'user-1');
   assert.equal(got.id, 'user-1');
 
-  const updated = await service.updateUser('org-1', 'user-1', {
-    display_name: 'Updated',
-  });
+  const updated = await service.updateUser(
+    'org-1',
+    'user-1',
+    {
+      display_name: 'Updated',
+    },
+    'actor-1',
+  );
   assert.equal(updated.display_name, 'Updated');
   const userUpdateManyCall = state.calls.find((call) => call.fn === 'user.updateMany');
   assert.ok(userUpdateManyCall);
@@ -354,10 +459,10 @@ async function testUsersCrudAndOrgIsolation() {
 
 async function testDependencySafeDeleteConflicts() {
   const { prisma, state } = createMockPrisma();
-  const service = new AccessCoreService(prisma as never);
+  const service = createService(prisma);
 
   await assert.rejects(
-    service.deleteUser('org-1', 'user-1'),
+    service.deleteUser('org-1', 'user-1', 'actor-1'),
     (error: unknown) => {
       assert.ok(error instanceof ConflictException);
       return true;
@@ -365,14 +470,14 @@ async function testDependencySafeDeleteConflicts() {
   );
 
   await assert.rejects(
-    service.deleteGroup('org-1', 'group-1'),
+    service.deleteGroup('org-1', 'group-1', 'actor-1'),
     (error: unknown) => {
       assert.ok(error instanceof ConflictException);
       return true;
     },
   );
 
-  const deletedUser = await service.deleteUser('org-1', 'user-2');
+  const deletedUser = await service.deleteUser('org-1', 'user-2', 'actor-1');
   assert.equal(deletedUser.deleted, true);
   const userDeleteManyCall = state.calls.find((call) => call.fn === 'user.deleteMany');
   assert.ok(userDeleteManyCall);
@@ -381,7 +486,7 @@ async function testDependencySafeDeleteConflicts() {
     id: 'user-2',
   });
 
-  const deletedGroup = await service.deleteGroup('org-1', 'group-2');
+  const deletedGroup = await service.deleteGroup('org-1', 'group-2', 'actor-1');
   assert.equal(deletedGroup.deleted, true);
   const groupDeleteManyCall = state.calls.find((call) => call.fn === 'group.deleteMany');
   assert.ok(groupDeleteManyCall);
@@ -393,13 +498,17 @@ async function testDependencySafeDeleteConflicts() {
 
 async function testGroupsCrudAndOrgIsolation() {
   const { prisma, state } = createMockPrisma();
-  const service = new AccessCoreService(prisma as never);
+  const service = createService(prisma);
 
-  const created = await service.createGroup('org-1', {
-    key: 'ops',
-    label: 'Ops',
-    status: 'active',
-  });
+  const created = await service.createGroup(
+    'org-1',
+    {
+      key: 'ops',
+      label: 'Ops',
+      status: 'active',
+    },
+    'actor-1',
+  );
   assert.equal(created.organization_id, 'org-1');
 
   const listed = await service.listGroups('org-1');
@@ -408,9 +517,14 @@ async function testGroupsCrudAndOrgIsolation() {
   const got = await service.getGroup('org-1', 'group-1');
   assert.equal(got.id, 'group-1');
 
-  const updated = await service.updateGroup('org-1', 'group-1', {
-    label: 'Updated Group',
-  });
+  const updated = await service.updateGroup(
+    'org-1',
+    'group-1',
+    {
+      label: 'Updated Group',
+    },
+    'actor-1',
+  );
   assert.equal(updated.label, 'Updated Group');
   const groupUpdateManyCall = state.calls.find((call) => call.fn === 'group.updateMany');
   assert.ok(groupUpdateManyCall);
@@ -428,13 +542,17 @@ async function testMembershipOrgScopeAndDuplicateConflict() {
   const duplicateMembershipPrisma = createMockPrisma({
     membershipCreateError: prismaError('P2002'),
   });
-  const duplicateMembershipService = new AccessCoreService(duplicateMembershipPrisma.prisma as never);
+  const duplicateMembershipService = createService(duplicateMembershipPrisma.prisma);
 
   await assert.rejects(
-    duplicateMembershipService.createMembership('org-1', {
-      user_id: 'user-1',
-      group_id: 'group-1',
-    }),
+    duplicateMembershipService.createMembership(
+      'org-1',
+      {
+        user_id: 'user-1',
+        group_id: 'group-1',
+      },
+      'actor-1',
+    ),
     (error: unknown) => {
       assert.ok(error instanceof ConflictException);
       return true;
@@ -442,18 +560,22 @@ async function testMembershipOrgScopeAndDuplicateConflict() {
   );
 
   const { prisma, state } = createMockPrisma();
-  const service = new AccessCoreService(prisma as never);
+  const service = createService(prisma);
 
-  const created = await service.createMembership('org-1', {
-    user_id: 'user-1',
-    group_id: 'group-1',
-  });
+  const created = await service.createMembership(
+    'org-1',
+    {
+      user_id: 'user-1',
+      group_id: 'group-1',
+    },
+    'actor-1',
+  );
   assert.equal(created.organization_id, 'org-1');
 
   const listed = await service.listMemberships('org-1');
   assert.equal(Array.isArray(listed.items), true);
 
-  const deleted = await service.deleteMembership('org-1', 'membership-1');
+  const deleted = await service.deleteMembership('org-1', 'membership-1', 'actor-1');
   assert.equal(deleted.deleted, true);
   const membershipDeleteManyCall = state.calls.find((call) => call.fn === 'userGroup.deleteMany');
   assert.ok(membershipDeleteManyCall);
@@ -470,21 +592,25 @@ async function testMembershipOrgScopeAndDuplicateConflict() {
 async function testCapabilitySurfaceAndAssignmentValidation() {
   const noCatalog = createMockPrisma();
   noCatalog.state.capabilities = [];
-  const noCatalogService = new AccessCoreService(noCatalog.prisma as never);
+  const noCatalogService = createService(noCatalog.prisma);
   const fallbackCaps = await noCatalogService.listCapabilities();
   assert.equal(fallbackCaps.items.length > 0, true);
   assert.equal(fallbackCaps.items[0].source, 'contract_seed');
 
   const { prisma, state } = createMockPrisma();
-  const service = new AccessCoreService(prisma as never);
+  const service = createService(prisma);
 
   await assert.rejects(
-    service.createGroupCapabilityAssignment('org-1', {
-      group_id: 'group-1',
-      capability_key: 'access.policy.manage',
-      scope_type: 'organization',
-      scope_unit_id: 'unit-1',
-    }),
+    service.createGroupCapabilityAssignment(
+      'org-1',
+      {
+        group_id: 'group-1',
+        capability_key: 'access.policy.manage',
+        scope_type: 'organization',
+        scope_unit_id: 'unit-1',
+      },
+      'actor-1',
+    ),
     (error: unknown) => {
       assert.ok(error instanceof BadRequestException);
       return true;
@@ -492,12 +618,16 @@ async function testCapabilitySurfaceAndAssignmentValidation() {
   );
 
   await assert.rejects(
-    service.createGroupCapabilityAssignment('org-1', {
-      group_id: 'group-1',
-      capability_key: 'access.policy.manage',
-      scope_type: 'own_unit',
-      scope_unit_id: 'unit-foreign',
-    }),
+    service.createGroupCapabilityAssignment(
+      'org-1',
+      {
+        group_id: 'group-1',
+        capability_key: 'access.policy.manage',
+        scope_type: 'own_unit',
+        scope_unit_id: 'unit-foreign',
+      },
+      'actor-1',
+    ),
     (error: unknown) => {
       assert.ok(error instanceof BadRequestException);
       return true;
@@ -505,12 +635,16 @@ async function testCapabilitySurfaceAndAssignmentValidation() {
   );
 
   await assert.rejects(
-    service.createGroupCapabilityAssignment('org-1', {
-      group_id: 'group-1',
-      capability_key: 'access.unknown',
-      scope_type: 'organization',
-      scope_unit_id: null,
-    }),
+    service.createGroupCapabilityAssignment(
+      'org-1',
+      {
+        group_id: 'group-1',
+        capability_key: 'access.unknown',
+        scope_type: 'organization',
+        scope_unit_id: null,
+      },
+      'actor-1',
+    ),
     (error: unknown) => {
       assert.ok(error instanceof BadRequestException);
       return true;
@@ -519,33 +653,41 @@ async function testCapabilitySurfaceAndAssignmentValidation() {
 
   const missingDbCapability = createMockPrisma();
   missingDbCapability.state.capabilities = [];
-  const missingDbCapabilityService = new AccessCoreService(missingDbCapability.prisma as never);
+  const missingDbCapabilityService = createService(missingDbCapability.prisma);
 
   await assert.rejects(
-    missingDbCapabilityService.createGroupCapabilityAssignment('org-1', {
-      group_id: 'group-1',
-      capability_key: 'access.policy.manage',
-      scope_type: 'organization',
-      scope_unit_id: null,
-    }),
+    missingDbCapabilityService.createGroupCapabilityAssignment(
+      'org-1',
+      {
+        group_id: 'group-1',
+        capability_key: 'access.policy.manage',
+        scope_type: 'organization',
+        scope_unit_id: null,
+      },
+      'actor-1',
+    ),
     (error: unknown) => {
       assert.ok(error instanceof ConflictException);
       return true;
     },
   );
 
-  const created = await service.createGroupCapabilityAssignment('org-1', {
-    group_id: 'group-1',
-    capability_key: 'access.policy.manage',
-    scope_type: 'organization',
-    scope_unit_id: null,
-  });
+  const created = await service.createGroupCapabilityAssignment(
+    'org-1',
+    {
+      group_id: 'group-1',
+      capability_key: 'access.policy.manage',
+      scope_type: 'organization',
+      scope_unit_id: null,
+    },
+    'actor-1',
+  );
   assert.equal(created.organization_id, 'org-1');
 
   const listed = await service.listGroupCapabilityAssignments('org-1');
   assert.equal(Array.isArray(listed.items), true);
 
-  const deleted = await service.deleteGroupCapabilityAssignment('org-1', 'assignment-1');
+  const deleted = await service.deleteGroupCapabilityAssignment('org-1', 'assignment-1', 'actor-1');
   assert.equal(deleted.deleted, true);
   const assignmentDeleteManyCall = state.calls.find((call) => call.fn === 'groupCapability.deleteMany');
   assert.ok(assignmentDeleteManyCall);
@@ -555,12 +697,77 @@ async function testCapabilitySurfaceAndAssignmentValidation() {
   });
 }
 
+async function testObservabilityForMissingAndValidActor() {
+  const missingActorContext = createMockPrisma();
+  const missingActorService = createService(missingActorContext.prisma);
+
+  await missingActorService.createGroup(
+    'org-1',
+    {
+      key: 'qa',
+      label: 'QA',
+      status: 'active',
+    },
+    undefined,
+  );
+
+  assert.equal(missingActorContext.state.outboxEntries.length, 1);
+  assert.equal(missingActorContext.state.auditLogs.length, 1);
+
+  const validActorContext = createMockPrisma();
+  const validActorService = createService(validActorContext.prisma);
+
+  await validActorService.createUser(
+    'org-1',
+    {
+      email: 'third@example.org',
+      display_name: 'Third User',
+      status: 'active',
+      primary_unit_id: null,
+    },
+    'actor-1',
+  );
+
+  assert.equal(validActorContext.state.outboxEntries.length, 1);
+  assert.equal(validActorContext.state.auditLogs.length, 2);
+  const latestOutbox = validActorContext.state.outboxEntries[0];
+  assert.equal(latestOutbox.event_type, 'platform.mutation.recorded');
+}
+
+async function testInvalidActorFailsSafelyAndRollsBack() {
+  const context = createMockPrisma();
+  const service = createService(context.prisma);
+
+  const initialGroupCount = context.state.groups.length;
+
+  await assert.rejects(
+    service.createGroup(
+      'org-1',
+      {
+        key: 'new-group',
+        label: 'New Group',
+        status: 'active',
+      },
+      'actor-missing',
+    ),
+    (error: unknown) => {
+      assert.ok(error instanceof BadRequestException);
+      return true;
+    },
+  );
+
+  assert.equal(context.state.groups.length, initialGroupCount);
+  assert.equal(context.state.outboxEntries.length, 0);
+}
+
 async function run() {
   await testUsersCrudAndOrgIsolation();
   await testDependencySafeDeleteConflicts();
   await testGroupsCrudAndOrgIsolation();
   await testMembershipOrgScopeAndDuplicateConflict();
   await testCapabilitySurfaceAndAssignmentValidation();
+  await testObservabilityForMissingAndValidActor();
+  await testInvalidActorFailsSafelyAndRollsBack();
 
   console.log('access-core.service tests passed');
 }
