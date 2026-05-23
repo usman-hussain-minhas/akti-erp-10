@@ -47,16 +47,23 @@ export class AccessCoreController {
   }
 
   @Get('organizations/:organization_id/users')
-  listUsers(@Param('organization_id') organizationIdRaw: string) {
+  listUsers(
+    @Param('organization_id') organizationIdRaw: string,
+    @Headers('x-actor-user-id') actorUserIdRaw?: string,
+  ) {
     const organizationId = this.validateParam(() => validateOrganizationIdParam(organizationIdRaw));
-    return this.accessCoreService.listUsers(organizationId);
+    return this.accessCoreService.listUsers(organizationId, actorUserIdRaw);
   }
 
   @Get('organizations/:organization_id/users/:user_id')
-  getUser(@Param('organization_id') organizationIdRaw: string, @Param('user_id') userIdRaw: string) {
+  getUser(
+    @Param('organization_id') organizationIdRaw: string,
+    @Param('user_id') userIdRaw: string,
+    @Headers('x-actor-user-id') actorUserIdRaw?: string,
+  ) {
     const organizationId = this.validateParam(() => validateOrganizationIdParam(organizationIdRaw));
     const userId = this.validateParam(() => validateUserIdParam(userIdRaw));
-    return this.accessCoreService.getUser(organizationId, userId);
+    return this.accessCoreService.getUser(organizationId, userId, actorUserIdRaw);
   }
 
   @Patch('organizations/:organization_id/users/:user_id')
@@ -95,16 +102,23 @@ export class AccessCoreController {
   }
 
   @Get('organizations/:organization_id/groups')
-  listGroups(@Param('organization_id') organizationIdRaw: string) {
+  listGroups(
+    @Param('organization_id') organizationIdRaw: string,
+    @Headers('x-actor-user-id') actorUserIdRaw?: string,
+  ) {
     const organizationId = this.validateParam(() => validateOrganizationIdParam(organizationIdRaw));
-    return this.accessCoreService.listGroups(organizationId);
+    return this.accessCoreService.listGroups(organizationId, actorUserIdRaw);
   }
 
   @Get('organizations/:organization_id/groups/:group_id')
-  getGroup(@Param('organization_id') organizationIdRaw: string, @Param('group_id') groupIdRaw: string) {
+  getGroup(
+    @Param('organization_id') organizationIdRaw: string,
+    @Param('group_id') groupIdRaw: string,
+    @Headers('x-actor-user-id') actorUserIdRaw?: string,
+  ) {
     const organizationId = this.validateParam(() => validateOrganizationIdParam(organizationIdRaw));
     const groupId = this.validateParam(() => validateGroupIdParam(groupIdRaw));
-    return this.accessCoreService.getGroup(organizationId, groupId);
+    return this.accessCoreService.getGroup(organizationId, groupId, actorUserIdRaw);
   }
 
   @Patch('organizations/:organization_id/groups/:group_id')
@@ -143,9 +157,12 @@ export class AccessCoreController {
   }
 
   @Get('organizations/:organization_id/user-groups')
-  listMemberships(@Param('organization_id') organizationIdRaw: string) {
+  listMemberships(
+    @Param('organization_id') organizationIdRaw: string,
+    @Headers('x-actor-user-id') actorUserIdRaw?: string,
+  ) {
     const organizationId = this.validateParam(() => validateOrganizationIdParam(organizationIdRaw));
-    return this.accessCoreService.listMemberships(organizationId);
+    return this.accessCoreService.listMemberships(organizationId, actorUserIdRaw);
   }
 
   @Delete('organizations/:organization_id/user-groups/:membership_id')
@@ -171,9 +188,12 @@ export class AccessCoreController {
   }
 
   @Get('organizations/:organization_id/group-capabilities')
-  listGroupCapabilityAssignments(@Param('organization_id') organizationIdRaw: string) {
+  listGroupCapabilityAssignments(
+    @Param('organization_id') organizationIdRaw: string,
+    @Headers('x-actor-user-id') actorUserIdRaw?: string,
+  ) {
     const organizationId = this.validateParam(() => validateOrganizationIdParam(organizationIdRaw));
-    return this.accessCoreService.listGroupCapabilityAssignments(organizationId);
+    return this.accessCoreService.listGroupCapabilityAssignments(organizationId, actorUserIdRaw);
   }
 
   @Delete('organizations/:organization_id/group-capabilities/:assignment_id')

@@ -81,6 +81,34 @@ function testPhase1WorkflowKeepsGeneratedRegistryDriftGuard() {
   assert.equal(workflow.includes('git diff --exit-code -- generated/entity-registry.generated.json'), true);
 }
 
+function testAccessCoreTenantReadRoutesRequireActorHeader() {
+  const source = readFileSync(join(apiSourceRoot, 'access-core/access-core.controller.ts'), 'utf8');
+  const requiredActorForwardingCalls = [
+    'this.accessCoreService.listUsers(organizationId, actorUserIdRaw)',
+    'this.accessCoreService.getUser(organizationId, userId, actorUserIdRaw)',
+    'this.accessCoreService.listGroups(organizationId, actorUserIdRaw)',
+    'this.accessCoreService.getGroup(organizationId, groupId, actorUserIdRaw)',
+    'this.accessCoreService.listMemberships(organizationId, actorUserIdRaw)',
+    'this.accessCoreService.listGroupCapabilityAssignments(organizationId, actorUserIdRaw)',
+  ];
+  const forbiddenActorlessCalls = [
+    'this.accessCoreService.listUsers(organizationId)',
+    'this.accessCoreService.getUser(organizationId, userId)',
+    'this.accessCoreService.listGroups(organizationId)',
+    'this.accessCoreService.getGroup(organizationId, groupId)',
+    'this.accessCoreService.listMemberships(organizationId)',
+    'this.accessCoreService.listGroupCapabilityAssignments(organizationId)',
+  ];
+
+  for (const call of requiredActorForwardingCalls) {
+    assert.equal(source.includes(call), true, `${call} must forward x-actor-user-id`);
+  }
+
+  for (const call of forbiddenActorlessCalls) {
+    assert.equal(source.includes(call), false, `${call} must not remain actorless`);
+  }
+}
+
 function testApiTestFixturesDoNotLeakHardcodedBusinessTerms() {
   const forbiddenTerms = [
     ['cam', 'pus'].join(''),
@@ -111,6 +139,7 @@ function testApiTestFixturesDoNotLeakHardcodedBusinessTerms() {
 function run() {
   testRegistryEventMetadataMatchesRuntimeConstants();
   testPhase1WorkflowKeepsGeneratedRegistryDriftGuard();
+  testAccessCoreTenantReadRoutesRequireActorHeader();
   testApiTestFixturesDoNotLeakHardcodedBusinessTerms();
 
   console.log('phase1-release-blockers tests passed');

@@ -461,7 +461,10 @@ function createMockPrisma(overrides?: {
             if (!matchesOptionalFilter(item.capability_key, where.capability_key)) {
               return false;
             }
-            return matchesOptionalFilter(item.scope_type, where.scope_type);
+            if (!matchesOptionalFilter(item.scope_type, where.scope_type)) {
+              return false;
+            }
+            return matchesOptionalFilter(item.scope_unit_id ?? null, where.scope_unit_id);
           }) ?? null
         );
       },
@@ -627,6 +630,24 @@ function hasCallWhere(
   });
 }
 
+function addActorWithoutAccessPolicy(state: MockState) {
+  state.users.push({
+    id: 'actor-without-policy',
+    organization_id: 'org-1',
+    email: 'actor.without.policy@example.org',
+    display_name: 'Actor Without Policy',
+    status: 'active',
+    primary_unit_id: null,
+  });
+  state.memberships.push({
+    id: 'membership-actor-without-policy',
+    organization_id: 'org-1',
+    user_id: 'actor-without-policy',
+    group_id: 'group-2',
+    assigned_at: new Date('2026-01-01T00:00:00.000Z'),
+  });
+}
+
 async function testUsersCrudAndOrgIsolation() {
   const { prisma, state } = createMockPrisma();
   const service = createService(prisma);
@@ -643,10 +664,10 @@ async function testUsersCrudAndOrgIsolation() {
   );
   assert.equal(created.organization_id, 'org-1');
 
-  const listed = await service.listUsers('org-1');
+  const listed = await service.listUsers('org-1', 'actor-1');
   assert.equal(Array.isArray(listed.items), true);
 
-  const got = await service.getUser('org-1', 'user-1');
+  const got = await service.getUser('org-1', 'user-1', 'actor-1');
   assert.equal(got.id, 'user-1');
 
   const updated = await service.updateUser(
@@ -666,7 +687,7 @@ async function testUsersCrudAndOrgIsolation() {
   });
 
   await assert.rejects(
-    service.getUser('org-1', 'missing'),
+    service.getUser('org-1', 'missing', 'actor-1'),
     (error: unknown) => {
       assert.ok(error instanceof NotFoundException);
       return true;
@@ -884,10 +905,10 @@ async function testGroupsCrudAndOrgIsolation() {
   );
   assert.equal(created.organization_id, 'org-1');
 
-  const listed = await service.listGroups('org-1');
+  const listed = await service.listGroups('org-1', 'actor-1');
   assert.equal(Array.isArray(listed.items), true);
 
-  const got = await service.getGroup('org-1', 'group-1');
+  const got = await service.getGroup('org-1', 'group-1', 'actor-1');
   assert.equal(got.id, 'group-1');
 
   const updated = await service.updateGroup(
@@ -945,7 +966,7 @@ async function testMembershipOrgScopeAndDuplicateConflict() {
   );
   assert.equal(created.organization_id, 'org-1');
 
-  const listed = await service.listMemberships('org-1');
+  const listed = await service.listMemberships('org-1', 'actor-1');
   assert.equal(Array.isArray(listed.items), true);
 
   const deleted = await service.deleteMembership('org-1', 'membership-1', 'actor-1');
@@ -1058,7 +1079,7 @@ async function testCapabilitySurfaceAndAssignmentValidation() {
     {
       group_id: 'group-1',
       capability_key: 'access.policy.manage',
-      scope_type: 'organization',
+      scope_type: 'global',
       scope_unit_id: null,
     },
     'actor-1',
@@ -1078,14 +1099,14 @@ async function testCapabilitySurfaceAndAssignmentValidation() {
     {
       group_id: 'group-1',
       capability_key: 'access.policy.manage',
-      scope_type: 'organization',
+      scope_type: 'global',
       scope_unit_id: null,
     },
     'actor-1',
   );
   assert.equal(created.organization_id, 'org-1');
 
-  const listed = await service.listGroupCapabilityAssignments('org-1');
+  const listed = await service.listGroupCapabilityAssignments('org-1', 'actor-1');
   assert.equal(Array.isArray(listed.items), true);
 
   const deleted = await service.deleteGroupCapabilityAssignment('org-1', 'assignment-1', 'actor-1');
@@ -1096,6 +1117,158 @@ async function testCapabilitySurfaceAndAssignmentValidation() {
     organization_id: 'org-1',
     id: 'assignment-1',
   });
+}
+
+async function testReadOperationsRequireActorBeforeTenantReads() {
+  const missingListUsers = createMockPrisma();
+  const missingListUsersService = createService(missingListUsers.prisma);
+  await assert.rejects(
+    missingListUsersService.listUsers('org-1', undefined),
+    (error: unknown) => error instanceof BadRequestException,
+  );
+  assert.equal(hasCall(missingListUsers.state, 'organization.findUnique'), false);
+  assert.equal(hasCall(missingListUsers.state, 'user.findMany'), false);
+
+  const blankGetUser = createMockPrisma();
+  const blankGetUserService = createService(blankGetUser.prisma);
+  await assert.rejects(
+    blankGetUserService.getUser('org-1', 'missing-user', ' '),
+    (error: unknown) => error instanceof BadRequestException,
+  );
+  assert.equal(
+    hasCallWhere(blankGetUser.state, 'user.findFirst', (args) => args.id === 'missing-user'),
+    false,
+  );
+
+  const missingListGroups = createMockPrisma();
+  const missingListGroupsService = createService(missingListGroups.prisma);
+  await assert.rejects(
+    missingListGroupsService.listGroups('org-1', undefined),
+    (error: unknown) => error instanceof BadRequestException,
+  );
+  assert.equal(hasCall(missingListGroups.state, 'organization.findUnique'), false);
+  assert.equal(hasCall(missingListGroups.state, 'group.findMany'), false);
+
+  const missingGetGroup = createMockPrisma();
+  const missingGetGroupService = createService(missingGetGroup.prisma);
+  await assert.rejects(
+    missingGetGroupService.getGroup('org-1', 'missing-group', undefined),
+    (error: unknown) => error instanceof BadRequestException,
+  );
+  assert.equal(hasCall(missingGetGroup.state, 'group.findFirst'), false);
+
+  const missingListMemberships = createMockPrisma();
+  const missingListMembershipsService = createService(missingListMemberships.prisma);
+  await assert.rejects(
+    missingListMembershipsService.listMemberships('org-1', undefined),
+    (error: unknown) => error instanceof BadRequestException,
+  );
+  assert.equal(hasCall(missingListMemberships.state, 'userGroup.findMany'), false);
+
+  const missingListAssignments = createMockPrisma();
+  const missingListAssignmentsService = createService(missingListAssignments.prisma);
+  await assert.rejects(
+    missingListAssignmentsService.listGroupCapabilityAssignments('org-1', undefined),
+    (error: unknown) => error instanceof BadRequestException,
+  );
+  assert.equal(hasCall(missingListAssignments.state, 'groupCapability.findMany'), false);
+}
+
+async function testCrossOrgAndUnauthorizedActorsFailClosedBeforeTenantReads() {
+  const crossOrg = createMockPrisma();
+  const crossOrgService = createService(crossOrg.prisma);
+  await assert.rejects(
+    crossOrgService.listUsers('org-1', 'actor-foreign'),
+    (error: unknown) => error instanceof BadRequestException,
+  );
+  assert.equal(hasCall(crossOrg.state, 'organization.findUnique'), false);
+  assert.equal(hasCall(crossOrg.state, 'user.findMany'), false);
+
+  const unauthorized = createMockPrisma();
+  addActorWithoutAccessPolicy(unauthorized.state);
+  const unauthorizedService = createService(unauthorized.prisma);
+  await assert.rejects(
+    unauthorizedService.getGroup('org-1', 'group-1', 'actor-without-policy'),
+    (error: unknown) => error instanceof BadRequestException,
+  );
+  assert.equal(hasCall(unauthorized.state, 'group.findFirst'), false);
+
+  const unauthorizedList = createMockPrisma();
+  addActorWithoutAccessPolicy(unauthorizedList.state);
+  const unauthorizedListService = createService(unauthorizedList.prisma);
+  await assert.rejects(
+    unauthorizedListService.listGroupCapabilityAssignments('org-1', 'actor-without-policy'),
+    (error: unknown) => error instanceof BadRequestException,
+  );
+  assert.equal(hasCall(unauthorizedList.state, 'groupCapability.findMany'), false);
+}
+
+async function testGroupCapabilityDuplicateGuardRejectsNullAndExplicitScopesBeforeCreate() {
+  const duplicateNullScope = createMockPrisma();
+  const duplicateNullScopeService = createService(duplicateNullScope.prisma);
+  await assert.rejects(
+    duplicateNullScopeService.createGroupCapabilityAssignment(
+      'org-1',
+      {
+        group_id: 'group-1',
+        capability_key: 'access.policy.manage',
+        scope_type: 'organization',
+        scope_unit_id: null,
+      },
+      'actor-1',
+    ),
+    (error: unknown) => error instanceof ConflictException,
+  );
+  assert.equal(hasCall(duplicateNullScope.state, 'groupCapability.create'), false);
+  assert.equal(
+    hasCallWhere(
+      duplicateNullScope.state,
+      'groupCapability.findFirst',
+      (args) =>
+        args.group_id === 'group-1' &&
+        args.capability_key === 'access.policy.manage' &&
+        args.scope_type === 'organization' &&
+        args.scope_unit_id === null,
+    ),
+    true,
+  );
+
+  const duplicateExplicitScope = createMockPrisma();
+  duplicateExplicitScope.state.assignments.push({
+    id: 'assignment-explicit-scope',
+    organization_id: 'org-1',
+    group_id: 'group-1',
+    capability_key: 'access.policy.manage',
+    scope_type: 'own_unit',
+    scope_unit_id: 'unit-1',
+  });
+  const duplicateExplicitScopeService = createService(duplicateExplicitScope.prisma);
+  await assert.rejects(
+    duplicateExplicitScopeService.createGroupCapabilityAssignment(
+      'org-1',
+      {
+        group_id: 'group-1',
+        capability_key: 'access.policy.manage',
+        scope_type: 'own_unit',
+        scope_unit_id: 'unit-1',
+      },
+      'actor-1',
+    ),
+    (error: unknown) => error instanceof ConflictException,
+  );
+  assert.equal(hasCall(duplicateExplicitScope.state, 'groupCapability.create'), false);
+  assert.equal(
+    hasCallWhere(
+      duplicateExplicitScope.state,
+      'groupCapability.findFirst',
+      (args) =>
+        args.group_id === 'group-1' &&
+        args.capability_key === 'access.policy.manage' &&
+        args.scope_type === 'own_unit' &&
+        args.scope_unit_id === 'unit-1',
+    ),
+    true,
+  );
 }
 
 async function testMissingAndBlankActorFailClosedBeforeWrite() {
@@ -1168,7 +1341,7 @@ async function testMissingActorPreflightRunsBeforeProtectedResourceReads() {
       assert.ok(error instanceof BadRequestException);
       assert.equal(
         (error as Error).message,
-        'x-actor-user-id is required for protected Access Core mutations',
+        'x-actor-user-id is required for protected Access Core operations',
       );
       return true;
     },
@@ -1193,7 +1366,7 @@ async function testMissingActorPreflightRunsBeforeProtectedResourceReads() {
       assert.ok(error instanceof BadRequestException);
       assert.equal(
         (error as Error).message,
-        'x-actor-user-id is required for protected Access Core mutations',
+        'x-actor-user-id is required for protected Access Core operations',
       );
       return true;
     },
@@ -1221,7 +1394,7 @@ async function testMissingActorPreflightRunsBeforeProtectedResourceReads() {
       assert.ok(error instanceof BadRequestException);
       assert.equal(
         (error as Error).message,
-        'x-actor-user-id is required for protected Access Core mutations',
+        'x-actor-user-id is required for protected Access Core operations',
       );
       return true;
     },
@@ -1653,6 +1826,9 @@ async function run() {
   await testGroupsCrudAndOrgIsolation();
   await testMembershipOrgScopeAndDuplicateConflict();
   await testCapabilitySurfaceAndAssignmentValidation();
+  await testReadOperationsRequireActorBeforeTenantReads();
+  await testCrossOrgAndUnauthorizedActorsFailClosedBeforeTenantReads();
+  await testGroupCapabilityDuplicateGuardRejectsNullAndExplicitScopesBeforeCreate();
   await testMissingAndBlankActorFailClosedBeforeWrite();
   await testMissingActorPreflightRunsBeforeProtectedResourceReads();
   await testInvalidCrossOrgAndUnauthorizedActorsFailClosedBeforeWrite();

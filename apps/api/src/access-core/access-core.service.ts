@@ -182,7 +182,8 @@ export class AccessCoreService {
     }
   }
 
-  async listUsers(organizationId: string): Promise<ListResponse<User>> {
+  async listUsers(organizationId: string, actorUserIdRaw?: string): Promise<ListResponse<User>> {
+    await this.requireAccessPolicyManageActor(this.prisma, organizationId, actorUserIdRaw);
     await this.assertOrganizationExistsInDb(this.prisma, organizationId);
 
     const items = await this.prisma.user.findMany({
@@ -193,7 +194,8 @@ export class AccessCoreService {
     return { items };
   }
 
-  async getUser(organizationId: string, userId: string): Promise<User> {
+  async getUser(organizationId: string, userId: string, actorUserIdRaw?: string): Promise<User> {
+    await this.requireAccessPolicyManageActor(this.prisma, organizationId, actorUserIdRaw);
     return this.getUserInDb(this.prisma, organizationId, userId);
   }
 
@@ -388,7 +390,8 @@ export class AccessCoreService {
     }
   }
 
-  async listGroups(organizationId: string): Promise<ListResponse<Group>> {
+  async listGroups(organizationId: string, actorUserIdRaw?: string): Promise<ListResponse<Group>> {
+    await this.requireAccessPolicyManageActor(this.prisma, organizationId, actorUserIdRaw);
     await this.assertOrganizationExistsInDb(this.prisma, organizationId);
 
     const items = await this.prisma.group.findMany({
@@ -399,7 +402,8 @@ export class AccessCoreService {
     return { items };
   }
 
-  async getGroup(organizationId: string, groupId: string): Promise<Group> {
+  async getGroup(organizationId: string, groupId: string, actorUserIdRaw?: string): Promise<Group> {
+    await this.requireAccessPolicyManageActor(this.prisma, organizationId, actorUserIdRaw);
     return this.getGroupInDb(this.prisma, organizationId, groupId);
   }
 
@@ -591,7 +595,8 @@ export class AccessCoreService {
     }
   }
 
-  async listMemberships(organizationId: string): Promise<ListResponse<UserGroup>> {
+  async listMemberships(organizationId: string, actorUserIdRaw?: string): Promise<ListResponse<UserGroup>> {
+    await this.requireAccessPolicyManageActor(this.prisma, organizationId, actorUserIdRaw);
     await this.assertOrganizationExistsInDb(this.prisma, organizationId);
 
     const items = await this.prisma.userGroup.findMany({
@@ -691,6 +696,24 @@ export class AccessCoreService {
           await this.assertUnitExistsInOrganizationInDb(tx, organizationId, input.scope_unit_id, 'scope_unit_id');
         }
 
+        const normalizedScopeUnitId = input.scope_unit_id ?? null;
+        const duplicate = await tx.groupCapability.findFirst({
+          where: {
+            organization_id: organizationId,
+            group_id: input.group_id,
+            capability_key: input.capability_key,
+            scope_type: scopeType,
+            scope_unit_id: normalizedScopeUnitId,
+          },
+          select: {
+            id: true,
+          },
+        });
+
+        if (duplicate) {
+          throw new ConflictException('group-capability assignment already exists in organization');
+        }
+
         const allowedScopes = await this.getAllowedScopeTypesForCapability(input.capability_key);
         if (!allowedScopes) {
           throw new BadRequestException('capability_key is not approved by Access Core contract boundary');
@@ -716,7 +739,7 @@ export class AccessCoreService {
             group_id: input.group_id,
             capability_key: input.capability_key,
             scope_type: scopeType,
-            scope_unit_id: input.scope_unit_id ?? null,
+            scope_unit_id: normalizedScopeUnitId,
           },
         });
 
@@ -742,7 +765,11 @@ export class AccessCoreService {
     }
   }
 
-  async listGroupCapabilityAssignments(organizationId: string): Promise<ListResponse<GroupCapability>> {
+  async listGroupCapabilityAssignments(
+    organizationId: string,
+    actorUserIdRaw?: string,
+  ): Promise<ListResponse<GroupCapability>> {
+    await this.requireAccessPolicyManageActor(this.prisma, organizationId, actorUserIdRaw);
     await this.assertOrganizationExistsInDb(this.prisma, organizationId);
 
     const items = await this.prisma.groupCapability.findMany({
@@ -832,7 +859,7 @@ export class AccessCoreService {
   ): Promise<AuthorizedAccessActor> {
     const actorUserId = this.normalizeActorUserId(actorUserIdRaw);
     if (!actorUserId) {
-      throw new BadRequestException('x-actor-user-id is required for protected Access Core mutations');
+      throw new BadRequestException('x-actor-user-id is required for protected Access Core operations');
     }
 
     const actor = await db.user.findFirst({
