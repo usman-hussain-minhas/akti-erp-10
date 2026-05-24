@@ -1,6 +1,6 @@
 # AKTI ERP Phase 2 Autonomous Runbook v1
 
-Status: draft_for_codex_plan_mode_validation  
+Status: draft_for_codex_plan_mode_validation_after_control_doc_corrections
 Recommended repo path: `docs/process/AKTI_ERP_Phase_2_Autonomous_Runbook_v1.md`
 
 ## 1. Purpose
@@ -29,6 +29,8 @@ Use only:
 
 `experiment/phase2-full-autonomous`
 
+Branch base: current clean `main` after Phase 2 control-document corrections are merged. Final Phase 1 implementation commit is `18f497d`; Phase 2 control-document merge commit is `f02ac95`.
+
 Rules:
 
 - Never work on `main` for the autonomous stress test.
@@ -49,6 +51,8 @@ Codex must confirm:
 - package scripts are available or missing scripts are reported honestly
 - no uncommitted changes except ignored artifacts
 - no production secrets are required
+- execution environment is approved safe mode: not danger-full-access, not unrestricted network, not approval-never
+- `P2-VAL-001` and `P2-VAL-002` are scheduled before dependent schema and screen-contract tickets
 
 ## 6. Goal Command
 
@@ -66,21 +70,23 @@ For each ticket:
 2. Read required source files.
 3. Confirm branch is `experiment/phase2-full-autonomous`.
 4. Confirm working tree is clean except ignored artifacts.
-5. Implement only `files_expected_to_change`.
-6. Stop if any forbidden or unexpected file must change.
-7. Run ticket validation.
-8. Run full validation if ticket touches schema, registry, contracts, permissions, Gatekeeper, runtime boundary, or frontend build.
-9. Self-audit:
+5. Produce an exact-file implementation plan from any broad allowed glob before editing.
+6. Implement only the exact-file plan derived from `files_expected_to_change`.
+7. Stop if any forbidden or unexpected file must change.
+8. Do not mutate active Phase 2 control documents unless the active ticket is an explicit control-document correction.
+9. Run ticket validation.
+10. Run full validation if ticket touches schema, registry, contracts, permissions, Gatekeeper, runtime boundary, or frontend build.
+11. Self-audit:
    - no scope creep
    - no hardcoded tenant/role/user/campus assumptions
    - no fake data
    - no TODO placeholders
    - no direct Lead Desk to WhatsApp/Meta call
    - no weakened tests
-10. Create ticket artifact.
-11. Append run journal.
-12. Commit only ticket-approved files.
-13. Continue to next ticket or stop.
+12. Create ticket artifact.
+13. Append run journal.
+14. Commit only ticket-approved files.
+15. Continue to next ticket or stop.
 
 ## 8. Artifact Procedure
 
@@ -121,10 +127,13 @@ Stop if:
 - new dependency is required but unapproved
 - Prisma change required but not ticketed
 - registry changes unexpectedly
+- Phase 2 schema ticket starts before `P2-VAL-001` provides a Phase 2-aware registry verifier
+- Lead Desk screen-contract ticket starts before `P2-VAL-002` provides Phase 2 screen-contract validation support
 - contract or screen contract change required but not ticketed
 - Codex needs to invent capability, role, permission, event, module, screen, or business rule
 - frontend screen lacks screen contract
 - Lead Desk attempts direct WhatsApp/Meta API call
+- Phase 2C starts before ADR-0003 has a Phase 2C pilot target date or formal exception
 - runtime smoke check fails
 - artifact creation fails
 - branch is dirty at ticket start
@@ -171,6 +180,7 @@ Then stop.
 - never invent scope
 - never bypass AGENTS.md, ADRs, contracts, Prisma, or execution pack
 - never use production secrets
+- never run autonomous execution in danger-full-access, unrestricted-network, or approval-never mode unless explicitly approved before the run
 - never weaken tests to pass
 - never create fake dashboards
 - never implement frontend without screen contract
