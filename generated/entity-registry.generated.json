@@ -3,8 +3,8 @@
   "sources": {
     "prisma_schema": "prisma/schema.prisma",
     "metadata": "prisma/entity-registry.metadata.json",
-    "prisma_schema_hash": "sha256:7cdbddbffa41fda1b55acde278b61440e4db1d236744e96582a3c4f770e5e833",
-    "metadata_hash": "sha256:adc4541f1dc14df289e76d8abde594316a142e0bb96eeae94972c7c9765c82df"
+    "prisma_schema_hash": "sha256:5ce5e987ac535213ec0b349eb0d664eef778f8a216e4ae4e9e0d153444125133",
+    "metadata_hash": "sha256:507440115888d49467a8497c61ba2ceb4c4b42b69b7e639b24c437442de9bc32"
   },
   "entities": [
     {
@@ -296,6 +296,241 @@
       "retention_policy": "permanent",
       "audit_required": true,
       "sensitive_data_classification": "internal"
+    },
+    {
+      "model_name": "EngagementGatewayRequest",
+      "table_name": "EngagementGatewayRequest",
+      "owner_module": "engagement.gateway",
+      "phase": 2,
+      "tenant_scoped": true,
+      "organization_id_required": true,
+      "rls_required": true,
+      "organization_id_field": "organization_id",
+      "organization_id_column": "organization_id",
+      "fields": [
+        {
+          "field_name": "actor_user",
+          "column_name": "actor_user",
+          "type": "User",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "User"
+        },
+        {
+          "field_name": "actor_user_id",
+          "column_name": "actor_user_id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "capability_key",
+          "column_name": "capability_key",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "id",
+          "column_name": "id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": true,
+          "is_relation": false
+        },
+        {
+          "field_name": "idempotency_key",
+          "column_name": "idempotency_key",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "organization",
+          "column_name": "organization",
+          "type": "Organization",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "Organization"
+        },
+        {
+          "field_name": "organization_id",
+          "column_name": "organization_id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "payload_json",
+          "column_name": "payload_json",
+          "type": "Json",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "priority",
+          "column_name": "priority",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "recipient_ref",
+          "column_name": "recipient_ref",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "recorded_at",
+          "column_name": "recorded_at",
+          "type": "DateTime",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "request_kind",
+          "column_name": "request_kind",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "requested_at",
+          "column_name": "requested_at",
+          "type": "DateTime",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "source_module",
+          "column_name": "source_module",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "status",
+          "column_name": "status",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "transport_channel",
+          "column_name": "transport_channel",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        }
+      ],
+      "indexes": [
+        {
+          "name": "EngagementGatewayRequest_id_pk",
+          "fields": [
+            "id"
+          ],
+          "columns": [
+            "id"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "EngagementGatewayRequest_organization_id_actor_user_id_recorded_at_idx",
+          "fields": [
+            "organization_id",
+            "actor_user_id",
+            "recorded_at"
+          ],
+          "columns": [
+            "organization_id",
+            "actor_user_id",
+            "recorded_at"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "EngagementGatewayRequest_organization_id_idempotency_key_key",
+          "fields": [
+            "organization_id",
+            "idempotency_key"
+          ],
+          "columns": [
+            "organization_id",
+            "idempotency_key"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "EngagementGatewayRequest_organization_id_recorded_at_idx",
+          "fields": [
+            "organization_id",
+            "recorded_at"
+          ],
+          "columns": [
+            "organization_id",
+            "recorded_at"
+          ],
+          "is_unique": false
+        }
+      ],
+      "unique_constraints": [
+        {
+          "name": "EngagementGatewayRequest_id_pk",
+          "fields": [
+            "id"
+          ],
+          "columns": [
+            "id"
+          ]
+        },
+        {
+          "name": "EngagementGatewayRequest_organization_id_idempotency_key_key",
+          "fields": [
+            "organization_id",
+            "idempotency_key"
+          ],
+          "columns": [
+            "organization_id",
+            "idempotency_key"
+          ]
+        }
+      ],
+      "events_emitted": [],
+      "retention_policy": "per_gateway_policy",
+      "audit_required": true,
+      "sensitive_data_classification": "confidential"
     },
     {
       "model_name": "EventOutbox",
@@ -1734,6 +1969,16 @@
           "is_relation": false
         },
         {
+          "field_name": "engagement_gateway_requests",
+          "column_name": "engagement_gateway_requests",
+          "type": "EngagementGatewayRequest[]",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "EngagementGatewayRequest"
+        },
+        {
           "field_name": "event_outbox_entries",
           "column_name": "event_outbox_entries",
           "type": "EventOutbox[]",
@@ -2848,6 +3093,16 @@
           "is_unique": false,
           "is_id": false,
           "is_relation": false
+        },
+        {
+          "field_name": "engagement_gateway_requests_as_actor",
+          "column_name": "engagement_gateway_requests_as_actor",
+          "type": "EngagementGatewayRequest[]",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "EngagementGatewayRequest"
         },
         {
           "field_name": "id",

@@ -1,5 +1,3 @@
-import { randomUUID } from 'node:crypto';
-
 import { BadRequestException, ForbiddenException, Injectable } from '@nestjs/common';
 import {
   parseEngagementGatewayCreateRequestInput,
@@ -17,6 +15,27 @@ const REQUEST_CREATE_CAPABILITY = 'engagement.gateway.request.create';
 const HEALTH_READ_CAPABILITY = 'engagement.gateway.health.read';
 const GATEWAY_MODULE_KEY = 'engagement.gateway';
 const GATEWAY_REQUEST_RECORDED_EVENT = 'engagement.gateway.request.recorded';
+
+type GatewayRequestRepo = {
+  findFirst(args: unknown): Promise<
+    | {
+        id: string;
+        organization_id: string;
+        status: string;
+        idempotency_key: string;
+        recorded_at: Date;
+      }
+    | null
+  >;
+  create(args: unknown): Promise<{
+    id: string;
+    status: string;
+  }>;
+};
+
+function gatewayRequestRepo(prismaLike: unknown): GatewayRequestRepo {
+  return (prismaLike as { engagementGatewayRequest: GatewayRequestRepo }).engagementGatewayRequest;
+}
 
 @Injectable()
 export class EngagementGatewayService {
@@ -42,6 +61,28 @@ export class EngagementGatewayService {
 
     const actor = await this.requireActorInOrganization(organizationId, actorUserId);
     const activeGroupIds = await this.requireCapability(organizationId, actorUserId, REQUEST_CREATE_CAPABILITY);
+    const existingRequest = await gatewayRequestRepo(this.prisma).findFirst({
+      where: {
+        organization_id: organizationId,
+        idempotency_key: input.idempotency_key,
+      },
+      select: {
+        id: true,
+        organization_id: true,
+        status: true,
+        idempotency_key: true,
+        recorded_at: true,
+      },
+    });
+    if (existingRequest) {
+      return parseEngagementGatewayCreateRequestOutput({
+        gateway_request_id: existingRequest.id,
+        organization_id: existingRequest.organization_id,
+        status: existingRequest.status,
+        idempotency_key: existingRequest.idempotency_key,
+        recorded_at: existingRequest.recorded_at.toISOString(),
+      });
+    }
 
     await this.gatekeeperPreflightService.requireAllow({
       organization_id: organizationId,
@@ -58,34 +99,52 @@ export class EngagementGatewayService {
       },
     });
 
-    const gatewayRequestId = `gateway_request_${randomUUID()}`;
     const recordedAtIso = new Date().toISOString();
-    const stubDispatchResult =
-      input.transport_channel === 'whatsapp_stub'
-        ? this.whatsappStubProvider.dispatchOutbound({
-            organization_id: organizationId,
-            gateway_request_id: gatewayRequestId,
-            recipient_ref: input.recipient_ref,
-            idempotency_key: input.idempotency_key,
-          })
-        : null;
-    const stubInboundReceipt =
-      input.transport_channel === 'whatsapp_stub'
-        ? this.whatsappStubProvider.simulateInboundReceipt({
-            organization_id: organizationId,
-            gateway_request_id: gatewayRequestId,
-            idempotency_key: input.idempotency_key,
-          })
-        : null;
+    const persistedRequest = await this.prisma.$transaction(async (tx) => {
+      const created = await gatewayRequestRepo(tx).create({
+        data: {
+          organization_id: organizationId,
+          actor_user_id: actor.id,
+          source_module: input.source_module,
+          capability_key: input.capability_key,
+          request_kind: input.request_kind,
+          recipient_ref: input.recipient_ref,
+          payload_json: input.payload,
+          idempotency_key: input.idempotency_key,
+          priority: input.priority,
+          transport_channel: input.transport_channel,
+          status: 'recorded',
+          requested_at: new Date(input.requested_at),
+        },
+      });
 
-    await this.prisma.$transaction(async (tx) => {
+      const gatewayRequestId = created.id;
+      const stubDispatchResult =
+        input.transport_channel === 'whatsapp_stub'
+          ? this.whatsappStubProvider.dispatchOutbound({
+              organization_id: organizationId,
+              gateway_request_id: gatewayRequestId,
+              recipient_ref: input.recipient_ref,
+              idempotency_key: input.idempotency_key,
+            })
+          : null;
+      const stubInboundReceipt =
+        input.transport_channel === 'whatsapp_stub'
+          ? this.whatsappStubProvider.simulateInboundReceipt({
+              organization_id: organizationId,
+              gateway_request_id: gatewayRequestId,
+              idempotency_key: input.idempotency_key,
+            })
+          : null;
+
       await this.auditLogService.writeAuditLog(tx, {
         organization_id: organizationId,
         actor_user_id: actor.id,
         action_key: 'engagement.gateway.request.recorded',
         entity_type: 'engagement.gateway.request',
-        entity_id: gatewayRequestId,
+        entity_id: created.id,
         metadata: {
+          gateway_request_id: created.id,
           source_module: input.source_module,
           capability_key: input.capability_key,
           request_kind: input.request_kind,
@@ -103,24 +162,26 @@ export class EngagementGatewayService {
         organization_id: organizationId,
         event_type: GATEWAY_REQUEST_RECORDED_EVENT,
         version: '0.1.0',
-        idempotency_key: input.idempotency_key,
+        idempotency_key: `engagement.gateway.request.recorded.${organizationId}.${input.idempotency_key}`,
         payload: {
+          gateway_request_id: created.id,
           organization_id: organizationId,
           actor_user_id: actor.id,
           entity_type: 'engagement.gateway.request',
-          entity_id: gatewayRequestId,
+          entity_id: created.id,
           request_kind: input.request_kind,
           recipient_ref: input.recipient_ref,
           transport_channel: input.transport_channel,
           occurred_at: recordedAtIso,
         },
       });
+      return created;
     });
 
     return parseEngagementGatewayCreateRequestOutput({
-      gateway_request_id: gatewayRequestId,
+      gateway_request_id: persistedRequest.id,
       organization_id: organizationId,
-      status: 'recorded',
+      status: persistedRequest.status,
       idempotency_key: input.idempotency_key,
       recorded_at: recordedAtIso,
     });

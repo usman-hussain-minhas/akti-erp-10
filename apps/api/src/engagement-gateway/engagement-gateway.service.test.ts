@@ -12,6 +12,7 @@ function createMocks() {
     outboxCalls: [] as unknown[],
     stubDispatchCalls: [] as unknown[],
     stubInboundCalls: [] as unknown[],
+    persistedRequests: [] as Array<Record<string, unknown>>,
   };
 
   const prisma = {
@@ -40,6 +41,38 @@ function createMocks() {
           return { id: 'cap-1' };
         }
         return null;
+      },
+    },
+    engagementGatewayRequest: {
+      findFirst: async ({ where }: { where: { organization_id: string; idempotency_key: string } }) => {
+        const found = state.persistedRequests.find(
+          (item) => item.organization_id === where.organization_id && item.idempotency_key === where.idempotency_key,
+        );
+        if (!found) {
+          return null;
+        }
+        return {
+          id: found.id as string,
+          organization_id: found.organization_id as string,
+          status: found.status as string,
+          idempotency_key: found.idempotency_key as string,
+          recorded_at: found.recorded_at as Date,
+        };
+      },
+      create: async ({ data }: { data: Record<string, unknown> }) => {
+        const existing = state.persistedRequests.find(
+          (item) => item.organization_id === data.organization_id && item.idempotency_key === data.idempotency_key,
+        );
+        if (existing) {
+          throw new Error('duplicate idempotency key');
+        }
+        const created = {
+          id: `gateway_request_${state.persistedRequests.length + 1}`,
+          ...data,
+          recorded_at: new Date('2026-05-24T10:00:00.000Z'),
+        };
+        state.persistedRequests.push(created);
+        return created;
       },
     },
     $transaction: async <T>(fn: (tx: unknown) => Promise<T>) => fn(prisma),
@@ -126,7 +159,13 @@ async function testCreateRequestHappyPath() {
   assert.equal(state.gatekeeperCalls.length, 1);
   assert.equal(state.auditCalls.length, 1);
   assert.equal(state.outboxCalls.length, 1);
+  assert.equal(state.persistedRequests.length, 1);
+  assert.equal(result.gateway_request_id, 'gateway_request_1');
   assert.equal((state.outboxCalls[0] as { event_type: string }).event_type, 'engagement.gateway.request.recorded');
+  assert.equal(
+    (state.outboxCalls[0] as { idempotency_key: string }).idempotency_key,
+    'engagement.gateway.request.recorded.org-1.idem-1',
+  );
   assert.equal(state.stubDispatchCalls.length, 0);
   assert.equal(state.stubInboundCalls.length, 0);
 }
@@ -136,6 +175,18 @@ async function testCreateRequestHappyPathUsesRealGatekeeper() {
   const result = await service.createRequest('org-1', createInput(), 'actor-1');
   assert.equal(result.organization_id, 'org-1');
   assert.equal(result.status, 'recorded');
+  assert.equal(state.auditCalls.length, 1);
+  assert.equal(state.outboxCalls.length, 1);
+}
+
+async function testCreateRequestIdempotencyReturnsExistingRecord() {
+  const { service, state } = createMocks();
+  const first = await service.createRequest('org-1', createInput(), 'actor-1');
+  const second = await service.createRequest('org-1', createInput(), 'actor-1');
+
+  assert.equal(first.gateway_request_id, 'gateway_request_1');
+  assert.equal(second.gateway_request_id, 'gateway_request_1');
+  assert.equal(state.persistedRequests.length, 1);
   assert.equal(state.auditCalls.length, 1);
   assert.equal(state.outboxCalls.length, 1);
 }
@@ -194,6 +245,7 @@ async function testHealthRead() {
 async function run() {
   await testCreateRequestHappyPath();
   await testCreateRequestHappyPathUsesRealGatekeeper();
+  await testCreateRequestIdempotencyReturnsExistingRecord();
   await testCreateRequestWhatsappStubFlow();
   await testMissingActorFails();
   await testCrossOrgActorFails();

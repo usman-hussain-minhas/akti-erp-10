@@ -40,6 +40,7 @@ model Organization {
   group_capabilities        GroupCapability[]
   audit_logs                AuditLog[]
   event_outbox_entries      EventOutbox[]
+  engagement_gateway_requests EngagementGatewayRequest[]
   organization_settings     OrganizationSetting[]
   lead_records              LeadRecord[]
   lead_status_history       LeadStatusHistory[]
@@ -129,12 +130,36 @@ model User {
   lead_status_history_as_actor LeadStatusHistory[] @relation("LeadStatusHistory_ActorUser")
   lead_assignment_history_as_actor LeadAssignmentHistory[] @relation("LeadAssignmentHistory_ActorUser")
   lead_assignment_history_as_assigned LeadAssignmentHistory[] @relation("LeadAssignmentHistory_AssignedUser")
+  engagement_gateway_requests_as_actor EngagementGatewayRequest[] @relation("EngagementGatewayRequest_ActorUser")
 
   @@unique([organization_id, email])
   @@unique([organization_id, id])
   @@index([organization_id])
   @@index([primary_unit_id])
   @@index([status])
+}
+
+model EngagementGatewayRequest {
+  id                String       @id @default(cuid())
+  organization_id   String
+  actor_user_id     String
+  source_module     String
+  capability_key    String
+  request_kind      String
+  recipient_ref     String
+  payload_json      Json
+  idempotency_key   String
+  priority          String
+  transport_channel String
+  status            String
+  requested_at      DateTime
+  recorded_at       DateTime     @default(now())
+  organization      Organization @relation(fields: [organization_id], references: [id])
+  actor_user        User         @relation("EngagementGatewayRequest_ActorUser", fields: [organization_id, actor_user_id], references: [organization_id, id])
+
+  @@unique([organization_id, idempotency_key])
+  @@index([organization_id, recorded_at])
+  @@index([organization_id, actor_user_id, recorded_at])
 }
 
 model Group {
