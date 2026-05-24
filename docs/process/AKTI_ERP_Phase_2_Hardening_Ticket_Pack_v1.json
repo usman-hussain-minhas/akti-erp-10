@@ -1,0 +1,1711 @@
+{
+  "document": {
+    "title": "AKTI ERP Phase 2 Hardening Ticket Pack",
+    "version": "1.3.0",
+    "status": "control_docs_ready_for_hardening_implementation_prompt",
+    "revision_label": "v1.3",
+    "created_at": "2026-05-25",
+    "active_repo_path": "docs/process/AKTI_ERP_Phase_2_Hardening_Ticket_Pack_v1.json",
+    "companion_report": "docs/process/AKTI_ERP_Phase_2_Hardening_Audit_Report_v1.md",
+    "revision_label_policy": "Revision label v1.3; active repo filename remains v1.",
+    "purpose": "Define the complete autonomous Phase 2 hardening run from P2H-000 through P2H-014, ending with a final external audit package generated from committed branch HEAD.",
+    "corrections_applied": [
+      "Normalized active repo paths to v1 filenames.",
+      "Set revision label to v1.3 while keeping active repo filenames at v1.",
+      "Resolved queue-end mismatch: the hardening queue runs P2H-000 through P2H-014.",
+      "Defined P2H-014 as the final external audit package ticket.",
+      "Required P2H-000 to make hardening docs tracked repo authority before implementation tickets.",
+      "Clarified postmortem files as source-file context only unless present and committed.",
+      "Clarified final audit artifact commit behavior.",
+      "Made final package steps capture FULL_SHA and SHORT_SHA before use.",
+      "Added unzip and checksum utility availability checks for final packaging.",
+      "Added frontend no-new-dependency test strategy and hard stop for missing tooling.",
+      "Added ADR/subdecision rule for material outbox retry/dead-letter architecture changes.",
+      "Clarified pass grouping as explanatory only.",
+      "Tightened broad scopes with exact-file implementation planning before edits.",
+      "Preserved Phase 2 hard boundaries."
+    ],
+    "active_repo_paths": {
+      "audit_report": "docs/process/AKTI_ERP_Phase_2_Hardening_Audit_Report_v1.md",
+      "ticket_pack": "docs/process/AKTI_ERP_Phase_2_Hardening_Ticket_Pack_v1.json"
+    },
+    "source_file_context_paths": [
+      "docs/process/AKTI_ERP_Phase_2_Hardening_Audit_Report_v1_1.md",
+      "docs/process/AKTI_ERP_Phase_2_Hardening_Ticket_Pack_v1_1.json"
+    ]
+  },
+  "run_contract": {
+    "run_id": "phase2-hardening-full-run-v1",
+    "branch_recommendation": "phase2/hardening-runtime-consistency",
+    "start_point": "Create or use a hardening branch from the latest Phase 2 autonomous branch HEAD after P2H-000 makes the hardening docs tracked repo authority.",
+    "execution_mode": "full_autonomous_hardening_queue_after_plan_validation",
+    "main_merge_policy": "never_auto_merge",
+    "ticket_order_policy": "Run P2H-000 through P2H-014 in exact order. Do not skip, reorder, or merge tickets unless the pack is corrected first.",
+    "quality_objective": "concrete_verified_runtime_proven_audit_backed_merge_ready_within_approved_phase_2_scope",
+    "doc_tracking_rule": "P2H-000 must make docs/process/AKTI_ERP_Phase_2_Hardening_Audit_Report_v1.md and docs/process/AKTI_ERP_Phase_2_Hardening_Ticket_Pack_v1.json tracked repo files and commit them before implementation tickets begin.",
+    "schema_gate_rule": "No schema-changing ticket may run before P2H-001 resolves migration policy.",
+    "failure_model": "Codex must stop honestly on hard gates and preserve artifacts; do not broaden scope to pass validation.",
+    "pass_group_policy": "Passes are explanatory only and have no execution authority. The ordered_ticket_queue array is authoritative.",
+    "postmortem_rule": "If a Phase 2 postmortem file is unavailable in the repo, it is source-file context only and must not be treated as repo authority.",
+    "artifact_rule": "Each implementation ticket creates artifacts before commit. If codex-review is ignored, artifacts remain uncommitted but must be included in the final external audit package and journaled.",
+    "queue_start": "P2H-000",
+    "queue_end": "P2H-014",
+    "final_audit_ticket": "P2H-014"
+  },
+  "source_of_truth_order": [
+    "prisma/schema.prisma",
+    "packages/contracts",
+    "module manifests",
+    "generated/entity-registry.generated.json",
+    "docs/adr/*",
+    "AGENTS.md",
+    "docs/process/*",
+    "PLANS.md",
+    "chat/uploaded files as supporting context only"
+  ],
+  "global_non_scope": [
+    "No auto-merge to main",
+    "No production deployment",
+    "No production auth/session unless separately scoped by ADR/ticket",
+    "No production WhatsApp credentials",
+    "No real outbound WhatsApp messages",
+    "No direct Lead Desk to Meta/WhatsApp API calls",
+    "No LMS, HR, Finance, Hiring, Certification, Website Builder, or AI content editor",
+    "No secrets or production data",
+    "No destructive migrations",
+    "No invented modules, capabilities, permissions, roles, events, screens, or business rules",
+    "No broad schema redesign outside planned tickets"
+  ],
+  "global_rules": {
+    "stronger_path_default": "Within approved Phase 2 scope, implement the stronger concrete runtime path by default. Use documented deferral only when behavior is truly out of Phase 2 scope or requires production-only infrastructure.",
+    "exact_file_plan_rule": "Before editing each ticket, produce an exact-file implementation plan from the ticket scope. Stop if required files fall outside the exact plan.",
+    "bounded_repair_rule": "For deterministic validation failures inside the active ticket scope, Codex may perform up to three repair cycles and must journal each repair.",
+    "validation_wiring_rule": "If a ticket adds tests, scoped package/script wiring required to run those tests is allowed only when listed in expected files or exact-file plan.",
+    "runtime_consistency_rule": "Hardening must close manifest capability to seed to assignment to runtime permission, manifest event to outbox to registry to tests, screen contract to frontend to tests, and Gatekeeper contract to runtime provider to service tests.",
+    "whatsapp_boundary_rule": "Lead Desk must not call Meta/WhatsApp directly. Stub/non-production WhatsApp integration must remain mediated through Engagement Gateway Lite.",
+    "artifact_rule": "Each ticket writes ticket artifacts and appends the hardening journal before committing source changes. Final ticket creates external audit package.",
+    "broad_glob_rule": "Broad globs are inspection hints only. They do not grant edit permission until converted into an exact-file implementation plan.",
+    "frontend_test_rule": "Because apps/web currently has a scaffold test script, P2H-012 must use available no-new-dependency tooling for meaningful tests or stop for explicit dependency/tooling approval.",
+    "outbox_architecture_rule": "If P2H-005 changes outbox retry/dead-letter behavior beyond foundation metadata, Codex must create or reference an ADR/subdecision before implementation continues.",
+    "stronger_path_authority_rule": "The stronger implementation path must be derived only from Prisma, contracts, manifests, generated registry, ADRs, and active control docs. If a stronger path requires a new business rule, capability, permission, role, event, screen, module, or architecture decision, stop."
+  },
+  "standard_validation_ladder": [
+    "pnpm --filter @akti/api test",
+    "pnpm --filter @akti/web test",
+    "pnpm contracts:validate",
+    "pnpm exec prisma validate --schema prisma/schema.prisma",
+    "pnpm exec prisma generate --schema prisma/schema.prisma",
+    "pnpm registry:generate",
+    "git diff --exit-code -- generated/entity-registry.generated.json",
+    "pnpm registry:check",
+    "pnpm registry:verify:phase2",
+    "pnpm lint",
+    "pnpm typecheck",
+    "pnpm test",
+    "pnpm build",
+    "git diff --check",
+    "git status --short --branch"
+  ],
+  "stop_conditions": [
+    "unsafe execution environment",
+    "required file outside exact ticket scope",
+    "new dependency required but not approved",
+    "secret or production credential needed",
+    "production deployment required",
+    "production auth/session required outside explicit ticket scope",
+    "destructive migration required",
+    "schema-changing work attempted before P2H-001",
+    "migration strategy remains unclear for a schema-changing ticket",
+    "direct Lead Desk to Meta/WhatsApp coupling appears",
+    "real outbound WhatsApp delivery required",
+    "invented module, capability, permission, role, event, screen, or business rule required",
+    "out-of-scope module required",
+    "frontend screen lacks approved screen contract",
+    "apps/web meaningful tests require a new dependency and no approval exists",
+    "validation failure persists after three bounded repairs",
+    "hardening docs are not tracked after P2H-000",
+    "ticket artifacts cannot be created or verified",
+    "final audit package cannot be generated or verified",
+    "broad glob cannot be converted into exact-file implementation plan",
+    "required final packaging tool is unavailable and no documented fallback exists",
+    "P2H-014 attempts to package anything other than committed branch HEAD"
+  ],
+  "passes": [
+    {
+      "pass_id": "PASS-0",
+      "title": "Housekeeping and validation gates",
+      "tickets": [
+        "P2H-000",
+        "P2H-001",
+        "P2H-002"
+      ],
+      "note": "Explanatory grouping only. ordered_ticket_queue is authoritative.",
+      "execution_authority": false
+    },
+    {
+      "pass_id": "PASS-1",
+      "title": "Runtime authority hardening",
+      "tickets": [
+        "P2H-003",
+        "P2H-004",
+        "P2H-007",
+        "P2H-008"
+      ],
+      "note": "Explanatory grouping only. ordered_ticket_queue is authoritative.",
+      "execution_authority": false
+    },
+    {
+      "pass_id": "PASS-2",
+      "title": "Event, outbox, persistence, and data integrity",
+      "tickets": [
+        "P2H-005",
+        "P2H-006",
+        "P2H-009",
+        "P2H-010"
+      ],
+      "note": "Explanatory grouping only. ordered_ticket_queue is authoritative.",
+      "execution_authority": false
+    },
+    {
+      "pass_id": "PASS-3",
+      "title": "Frontend, screen lifecycle, and closeout",
+      "tickets": [
+        "P2H-011",
+        "P2H-012",
+        "P2H-013",
+        "P2H-014"
+      ],
+      "note": "Explanatory grouping only. ordered_ticket_queue is authoritative.",
+      "execution_authority": false
+    }
+  ],
+  "ordered_ticket_queue": [
+    {
+      "ticket_id": "P2H-000",
+      "title": "Housekeeping, source-doc tracking, and baseline lock",
+      "priority": "blocker",
+      "objective": "Make the hardening docs tracked repo authority, lock the branch baseline, and record current validation state before implementation begins.",
+      "scope": [
+        "Confirm current branch, commit, and working tree state.",
+        "Confirm the active hardening docs exist at docs/process/AKTI_ERP_Phase_2_Hardening_Audit_Report_v1.md and docs/process/AKTI_ERP_Phase_2_Hardening_Ticket_Pack_v1.json.",
+        "If hardening docs are untracked, stage and commit them before implementation tickets run.",
+        "If only source-revision files exist, normalize them into the active v1 repo paths before commit.",
+        "If the Phase 2 postmortem is unavailable in the repo, treat it as source-file context only.",
+        "Record whether P2C-GATE was artifact-only and what final Phase 2 package exists.",
+        "Create initial hardening journal location."
+      ],
+      "non_scope": [
+        "No feature implementation.",
+        "No schema changes.",
+        "No runtime code changes."
+      ],
+      "source_files_to_inspect": [
+        "AGENTS.md",
+        "docs/adr/*",
+        "docs/process/*",
+        "PLANS.md",
+        "package.json",
+        "pnpm-workspace.yaml",
+        ".github/workflows/*",
+        "codex-review/phase2-autonomous-full-run/*"
+      ],
+      "files_expected_to_change": [
+        "docs/process/AKTI_ERP_Phase_2_Hardening_Audit_Report_v1.md",
+        "docs/process/AKTI_ERP_Phase_2_Hardening_Ticket_Pack_v1.json",
+        "codex-review/phase2-hardening/hardening-run-journal.md",
+        "codex-review/phase2-hardening/ticket-artifacts/P2H-000/**"
+      ],
+      "files_forbidden_to_change": [
+        "apps/**",
+        "packages/**",
+        "prisma/**",
+        "generated/**",
+        ".env*"
+      ],
+      "schema_impact": "none",
+      "registry_impact": "none",
+      "contract_impact": "none",
+      "screen_contract_impact": "none",
+      "permission_model": "No permission model change unless explicitly stated in ticket scope.",
+      "gatekeeper_policy": "No Gatekeeper behavior change unless explicitly stated in ticket scope.",
+      "audit_outbox_policy": "No audit/outbox behavior change unless explicitly stated in ticket scope.",
+      "tests_required": [],
+      "validation_commands": [
+        "git status --short --branch",
+        "git log --oneline -20",
+        "pnpm contracts:validate",
+        "pnpm registry:check",
+        "pnpm registry:verify:phase2",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff --check"
+      ],
+      "artifact_rules": [
+        "Create codex-review/phase2-hardening/ticket-artifacts/P2H-000/P2H-000-summary.md",
+        "Create codex-review/phase2-hardening/ticket-artifacts/P2H-000/P2H-000-validation-summary.md",
+        "Append codex-review/phase2-hardening/hardening-run-journal.md"
+      ],
+      "stop_conditions": [
+        "hardening docs cannot be normalized into active v1 repo paths",
+        "branch cannot be identified",
+        "working tree has unrelated tracked changes",
+        "baseline validation cannot be run and failure is not documented"
+      ],
+      "commit_message": "P2H-000 lock Phase 2 hardening baseline",
+      "rollback_notes": "If the only changes are docs/process hardening files and journal setup, commit those as the baseline hardening commit.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "depends_on": [],
+      "hard_requires_completed": []
+    },
+    {
+      "ticket_id": "P2H-001",
+      "title": "Prisma migration policy and non-destructive baseline",
+      "priority": "blocker",
+      "objective": "Resolve migration policy before any schema-changing hardening work.",
+      "scope": [
+        "Inspect current Prisma schema and absence/presence of prisma/migrations.",
+        "Decide baseline migration path using repo reality.",
+        "If migrations are in scope, create non-destructive migration artifacts for current schema state.",
+        "If migrations remain deferred, create a formal ADR/subdecision stating schema deployment is not merge-ready until migration baseline is created.",
+        "Replace invalid migration diff fallback commands with executable commands plus explicit unavailable-command reporting."
+      ],
+      "non_scope": [
+        "No destructive migrations.",
+        "No unrelated schema redesign.",
+        "No production database access.",
+        "No live migration execution against production."
+      ],
+      "source_files_to_inspect": [
+        "prisma/schema.prisma",
+        "prisma/entity-registry.metadata.json",
+        "generated/entity-registry.generated.json",
+        "docs/adr/*",
+        "scripts/registry/*",
+        "package.json",
+        "pnpm-lock.yaml"
+      ],
+      "files_expected_to_change": [
+        "docs/adr/ADR-0006-phase-2-migration-policy.md if ADR/subdecision needed",
+        "prisma/migrations/** if non-destructive baseline is generated",
+        "docs/process/AKTI_ERP_Phase_2_Hardening_Ticket_Pack_v1.json only if validation command text must be corrected by explicit control-doc correction"
+      ],
+      "files_forbidden_to_change": [
+        "apps/**",
+        "packages/contracts/** except references required by validation",
+        ".env*",
+        "production DB configs"
+      ],
+      "schema_impact": "planned_or_documented_deferral",
+      "registry_impact": "none",
+      "contract_impact": "none",
+      "screen_contract_impact": "none",
+      "permission_model": "No permission model change unless explicitly stated in ticket scope.",
+      "gatekeeper_policy": "No Gatekeeper behavior change unless explicitly stated in ticket scope.",
+      "audit_outbox_policy": "No audit/outbox behavior change unless explicitly stated in ticket scope.",
+      "tests_required": [],
+      "validation_commands": [
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm exec prisma generate --schema prisma/schema.prisma",
+        "pnpm registry:generate",
+        "git diff --exit-code -- generated/entity-registry.generated.json",
+        "pnpm registry:check",
+        "pnpm registry:verify:phase2",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "artifact_rules": [
+        "codex-review/phase2-hardening/ticket-artifacts/P2H-001/P2H-001-summary.md",
+        "codex-review/phase2-hardening/ticket-artifacts/P2H-001/P2H-001-changed-files.zip",
+        "codex-review/phase2-hardening/ticket-artifacts/P2H-001/P2H-001-validation-summary.md",
+        "append codex-review/phase2-hardening/hardening-run-journal.md"
+      ],
+      "stop_conditions": [
+        "migration strategy remains unclear",
+        "migration would be destructive",
+        "production DB access is required",
+        "schema change needed outside declared scope"
+      ],
+      "commit_message": "P2H-001 establish Phase 2 migration policy",
+      "rollback_notes": "Revert this ticket commit and its ticket artifacts if acceptance criteria are not met.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "depends_on": [
+        "P2H-000"
+      ],
+      "hard_requires_completed": [
+        "P2H-000"
+      ]
+    },
+    {
+      "ticket_id": "P2H-002",
+      "title": "Phase 2 CI and validation gate",
+      "priority": "blocker",
+      "objective": "Make CI and local validation Phase 2-aware before further runtime/schema hardening proceeds.",
+      "scope": [
+        "Update or add workflow so Phase 2 validation is explicit.",
+        "Run registry:verify:phase2 rather than using Phase 1 verification as the final Phase 2 gate.",
+        "Ensure contracts, screen contracts, Prisma validate/generate, registry generate/check, lint, typecheck, test, and build are wired.",
+        "Keep Phase 1 checks only if they remain valid as subset checks."
+      ],
+      "non_scope": [
+        "No product code changes.",
+        "No broad workflow redesign unrelated to Phase 2 validation.",
+        "No dependency additions unless already available in repo."
+      ],
+      "source_files_to_inspect": [
+        ".github/workflows/phase1-validation.yml",
+        "package.json",
+        "packages/contracts/package.json",
+        "packages/contracts/scripts/*",
+        "scripts/registry/*",
+        "docs/screen-contracts/**"
+      ],
+      "files_expected_to_change": [
+        ".github/workflows/phase1-validation.yml",
+        ".github/workflows/phase2-validation.yml if creating a dedicated workflow",
+        "package.json if script wiring is missing",
+        "packages/contracts/package.json if screen-contract validation script wiring is missing"
+      ],
+      "files_forbidden_to_change": [
+        "apps/**",
+        "prisma/schema.prisma",
+        "prisma/entity-registry.metadata.json",
+        "generated/entity-registry.generated.json",
+        "dependencies unless approved"
+      ],
+      "schema_impact": "none",
+      "registry_impact": "none",
+      "contract_impact": "none",
+      "screen_contract_impact": "none",
+      "permission_model": "No permission model change unless explicitly stated in ticket scope.",
+      "gatekeeper_policy": "No Gatekeeper behavior change unless explicitly stated in ticket scope.",
+      "audit_outbox_policy": "No audit/outbox behavior change unless explicitly stated in ticket scope.",
+      "tests_required": [],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm exec prisma generate --schema prisma/schema.prisma",
+        "pnpm registry:generate",
+        "git diff --exit-code -- generated/entity-registry.generated.json",
+        "pnpm registry:check",
+        "pnpm registry:verify:phase2",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff --check"
+      ],
+      "artifact_rules": [
+        "codex-review/phase2-hardening/ticket-artifacts/P2H-002/P2H-002-summary.md",
+        "codex-review/phase2-hardening/ticket-artifacts/P2H-002/P2H-002-changed-files.zip",
+        "codex-review/phase2-hardening/ticket-artifacts/P2H-002/P2H-002-validation-summary.md",
+        "append codex-review/phase2-hardening/hardening-run-journal.md"
+      ],
+      "stop_conditions": [
+        "registry:verify:phase2 missing and cannot be added within scope",
+        "workflow requires secrets",
+        "workflow change broadens deployment/release behavior"
+      ],
+      "commit_message": "P2H-002 add Phase 2 validation gate",
+      "rollback_notes": "Revert this ticket commit and its ticket artifacts if acceptance criteria are not met.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "depends_on": [
+        "P2H-000"
+      ],
+      "hard_requires_completed": [
+        "P2H-000"
+      ]
+    },
+    {
+      "ticket_id": "P2H-003",
+      "title": "Manifest-driven module and capability seed path",
+      "priority": "blocker",
+      "objective": "Seed Phase 2 modules and capabilities from manifests so they are listable, assignable, and usable by runtime authorization.",
+      "scope": [
+        "Seed/list core.access, engagement.gateway, and lead.desk modules.",
+        "Seed all manifest-declared capabilities into Capability.",
+        "Derive allowed scopes from manifest permissions, not duplicated hardcoded maps.",
+        "Allow Access Core to assign Phase 2 capabilities according to manifest scopes.",
+        "Preserve Phase 1 access behavior."
+      ],
+      "non_scope": [
+        "No invented modules or capabilities.",
+        "No LMS/HR/Finance/etc.",
+        "No frontend changes.",
+        "No production auth/session work."
+      ],
+      "source_files_to_inspect": [
+        "apps/api/src/module-registry/**",
+        "apps/api/src/access-core/**",
+        "packages/contracts/*module-manifest*.contract.ts",
+        "packages/contracts/module-manifest.schema.ts",
+        "prisma/schema.prisma"
+      ],
+      "files_expected_to_change": [
+        "apps/api/src/module-registry/**",
+        "apps/api/src/access-core/**",
+        "apps/api/src/app.module.ts if providers need wiring",
+        "apps/api/src/phase2-hardening/** if adding release-blocker tests"
+      ],
+      "files_forbidden_to_change": [
+        "apps/web/**",
+        "prisma/schema.prisma",
+        "generated/** except generated registry only if an approved registry step requires it",
+        ".github/**",
+        ".env*"
+      ],
+      "schema_impact": "none",
+      "registry_impact": "none",
+      "contract_impact": "none",
+      "screen_contract_impact": "none",
+      "permission_model": "Phase 2 capabilities must become assignable through Access Core with manifest-declared scopes.",
+      "gatekeeper_policy": "No Gatekeeper behavior change unless explicitly stated in ticket scope.",
+      "audit_outbox_policy": "No audit/outbox behavior change unless explicitly stated in ticket scope.",
+      "tests_required": [
+        "module registry seeds Phase 2 modules idempotently",
+        "capabilities seed idempotently",
+        "Phase 2 capability assignment succeeds for valid scopes",
+        "invalid capability rejected",
+        "invalid scope rejected",
+        "duplicate assignment rejected",
+        "manifest hash deterministic"
+      ],
+      "validation_commands": [
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/web test",
+        "pnpm contracts:validate",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm exec prisma generate --schema prisma/schema.prisma",
+        "pnpm registry:generate",
+        "git diff --exit-code -- generated/entity-registry.generated.json",
+        "pnpm registry:check",
+        "pnpm registry:verify:phase2",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "artifact_rules": [
+        "codex-review/phase2-hardening/ticket-artifacts/P2H-003/P2H-003-summary.md",
+        "codex-review/phase2-hardening/ticket-artifacts/P2H-003/P2H-003-changed-files.zip",
+        "codex-review/phase2-hardening/ticket-artifacts/P2H-003/P2H-003-validation-summary.md",
+        "append codex-review/phase2-hardening/hardening-run-journal.md"
+      ],
+      "stop_conditions": [
+        "required change outside expected/approved files",
+        "new dependency required but not approved",
+        "validation fails after three bounded repair attempts",
+        "direct Lead Desk to Meta/WhatsApp coupling appears",
+        "secret or production credential required",
+        "scope requires out-of-Phase-2 module"
+      ],
+      "commit_message": "P2H-003 add manifest-driven Phase 2 capability seeding",
+      "rollback_notes": "Revert this ticket commit and its ticket artifacts if acceptance criteria are not met.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "depends_on": [
+        "P2H-002"
+      ],
+      "hard_requires_completed": [
+        "P2H-002"
+      ]
+    },
+    {
+      "ticket_id": "P2H-004",
+      "title": "Gatekeeper support for Phase 2 capabilities",
+      "priority": "blocker",
+      "objective": "Make the real Gatekeeper runtime path support Phase 2 high-risk capabilities instead of relying on mocked service tests.",
+      "scope": [
+        "Support engagement.gateway.request.create, lead.intake.create, lead.status.update, and lead.inbox.assign.",
+        "Validate actor, organization, capability, module, entity, request/context consistency, module health, dependency health, and decision token.",
+        "Fail closed for deny, degraded_block, approval_required, malformed decisions, mismatches, missing health, and provider errors.",
+        "Refactor tests so at least one service-path test per high-risk Phase 2 mutation uses real GatekeeperPreflightService."
+      ],
+      "non_scope": [
+        "No full Approval Engine runtime.",
+        "No production auth/session.",
+        "No weakening Gatekeeper validation.",
+        "No provider credentials."
+      ],
+      "source_files_to_inspect": [
+        "apps/api/src/gatekeeper/**",
+        "apps/api/src/engagement-gateway/**",
+        "apps/api/src/lead-desk/**",
+        "packages/contracts/gatekeeper-contract.ts",
+        "packages/contracts/*module-manifest*.contract.ts"
+      ],
+      "files_expected_to_change": [
+        "apps/api/src/gatekeeper/**",
+        "apps/api/src/engagement-gateway/**/*.test.ts",
+        "apps/api/src/lead-desk/**/*.test.ts",
+        "apps/api/src/phase2-hardening/** if adding guard tests"
+      ],
+      "files_forbidden_to_change": [
+        "apps/web/**",
+        "prisma/**",
+        "generated/**",
+        ".env*"
+      ],
+      "schema_impact": "none",
+      "registry_impact": "none",
+      "contract_impact": "none",
+      "screen_contract_impact": "none",
+      "permission_model": "No permission model change unless explicitly stated in ticket scope.",
+      "gatekeeper_policy": "Real Gatekeeper path must allow valid Phase 2 preflights and deny invalid/mismatched/degraded decisions.",
+      "audit_outbox_policy": "No audit/outbox behavior change unless explicitly stated in ticket scope.",
+      "tests_required": [
+        "valid preflight for each Phase 2 high-risk capability",
+        "capability/module mismatch denied",
+        "actor mismatch denied",
+        "organization mismatch denied",
+        "missing/degraded module health denied",
+        "service tests use real Gatekeeper path",
+        "no DB write after Gatekeeper denial"
+      ],
+      "validation_commands": [
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/web test",
+        "pnpm contracts:validate",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm exec prisma generate --schema prisma/schema.prisma",
+        "pnpm registry:generate",
+        "git diff --exit-code -- generated/entity-registry.generated.json",
+        "pnpm registry:check",
+        "pnpm registry:verify:phase2",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "artifact_rules": [
+        "codex-review/phase2-hardening/ticket-artifacts/P2H-004/P2H-004-summary.md",
+        "codex-review/phase2-hardening/ticket-artifacts/P2H-004/P2H-004-changed-files.zip",
+        "codex-review/phase2-hardening/ticket-artifacts/P2H-004/P2H-004-validation-summary.md",
+        "append codex-review/phase2-hardening/hardening-run-journal.md"
+      ],
+      "stop_conditions": [
+        "required change outside expected/approved files",
+        "new dependency required but not approved",
+        "validation fails after three bounded repair attempts",
+        "direct Lead Desk to Meta/WhatsApp coupling appears",
+        "secret or production credential required",
+        "scope requires out-of-Phase-2 module"
+      ],
+      "commit_message": "P2H-004 harden Gatekeeper for Phase 2 capabilities",
+      "rollback_notes": "Revert this ticket commit and its ticket artifacts if acceptance criteria are not met.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "depends_on": [
+        "P2H-003"
+      ],
+      "hard_requires_completed": [
+        "P2H-003"
+      ]
+    },
+    {
+      "ticket_id": "P2H-005",
+      "title": "Outbox idempotency retry and dead-letter foundation",
+      "priority": "high",
+      "objective": "Upgrade EventOutbox foundation for Phase 2 event semantics before module events and gateway/lead workflows depend on it.",
+      "scope": [
+        "Add durable outbox metadata fields such as idempotency_key, attempt_count, next_attempt_at, last_error, dead_lettered_at, locked_at, and locked_by unless repo reality requires a narrower equivalent.",
+        "Add service helpers for idempotent event recording and failure metadata.",
+        "Keep worker/runtime delivery out of scope unless already present.",
+        "Update registry metadata and generated registry.",
+        "If behavior changes beyond foundation metadata, create or reference an ADR/subdecision before implementation continues."
+      ],
+      "non_scope": [
+        "No event worker implementation unless explicitly required by existing code.",
+        "No external broker integration.",
+        "No production delivery semantics.",
+        "No destructive migrations."
+      ],
+      "source_files_to_inspect": [
+        "prisma/schema.prisma",
+        "prisma/entity-registry.metadata.json",
+        "generated/entity-registry.generated.json",
+        "apps/api/src/platform-observability/event-outbox.service.ts",
+        "apps/api/src/platform-observability/event-outbox.service.test.ts",
+        "docs/adr/*"
+      ],
+      "files_expected_to_change": [
+        "prisma/schema.prisma",
+        "prisma/entity-registry.metadata.json",
+        "generated/entity-registry.generated.json",
+        "apps/api/src/platform-observability/event-outbox.service.ts",
+        "apps/api/src/platform-observability/event-outbox.service.test.ts",
+        "prisma/migrations/** if P2H-001 selected migration baseline",
+        "docs/adr/** if ADR/subdecision is required for material outbox retry/dead-letter architecture changes"
+      ],
+      "files_forbidden_to_change": [
+        "apps/web/**",
+        "provider integrations",
+        ".env*"
+      ],
+      "schema_impact": "planned_after_P2H-001",
+      "registry_impact": "planned_after_schema",
+      "contract_impact": "none",
+      "screen_contract_impact": "none",
+      "permission_model": "No permission model change unless explicitly stated in ticket scope.",
+      "gatekeeper_policy": "No Gatekeeper behavior change unless explicitly stated in ticket scope.",
+      "audit_outbox_policy": "Outbox must support idempotent event recording and durable failure metadata.",
+      "tests_required": [
+        "duplicate idempotency key prevented or returns existing record",
+        "attempt_count defaults to 0",
+        "failure metadata can be recorded",
+        "dead-letter marker can be set",
+        "existing platform mutation behavior remains compatible"
+      ],
+      "validation_commands": [
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/web test",
+        "pnpm contracts:validate",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm exec prisma generate --schema prisma/schema.prisma",
+        "pnpm registry:generate",
+        "git diff --exit-code -- generated/entity-registry.generated.json",
+        "pnpm registry:check",
+        "pnpm registry:verify:phase2",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "artifact_rules": [
+        "codex-review/phase2-hardening/ticket-artifacts/P2H-005/P2H-005-summary.md",
+        "codex-review/phase2-hardening/ticket-artifacts/P2H-005/P2H-005-changed-files.zip",
+        "codex-review/phase2-hardening/ticket-artifacts/P2H-005/P2H-005-validation-summary.md",
+        "append codex-review/phase2-hardening/hardening-run-journal.md"
+      ],
+      "stop_conditions": [
+        "P2H-001 migration policy unresolved",
+        "outbox behavior change requires ADR/subdecision and none is available",
+        "destructive migration required",
+        "required change outside exact-file plan"
+      ],
+      "commit_message": "P2H-005 add durable outbox foundation",
+      "rollback_notes": "Revert this ticket commit and its ticket artifacts if acceptance criteria are not met.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "depends_on": [
+        "P2H-001"
+      ],
+      "hard_requires_completed": [
+        "P2H-001"
+      ]
+    },
+    {
+      "ticket_id": "P2H-006",
+      "title": "Runtime module events aligned with manifests and outbox",
+      "priority": "high",
+      "objective": "Emit the exact module events declared in manifests and prove them with runtime tests.",
+      "scope": [
+        "Add recordEvent or equivalent to EventOutboxService.",
+        "Emit engagement.gateway.request.recorded.",
+        "Emit lead.desk.lead.created.",
+        "Emit lead.desk.lead.status.updated.",
+        "Emit lead.desk.lead.assigned.",
+        "Keep generic platform.mutation.recorded only if intentionally retained alongside module events.",
+        "Update registry metadata if entities emit module events."
+      ],
+      "non_scope": [
+        "No external event worker.",
+        "No provider delivery.",
+        "No invented events beyond manifests.",
+        "No direct WhatsApp/Meta coupling."
+      ],
+      "source_files_to_inspect": [
+        "packages/contracts/*module-manifest*.contract.ts",
+        "apps/api/src/platform-observability/event-outbox.service.ts",
+        "apps/api/src/engagement-gateway/**",
+        "apps/api/src/lead-desk/**",
+        "prisma/entity-registry.metadata.json",
+        "generated/entity-registry.generated.json"
+      ],
+      "files_expected_to_change": [
+        "apps/api/src/platform-observability/event-outbox.service.ts",
+        "apps/api/src/platform-observability/event-outbox.service.test.ts",
+        "apps/api/src/engagement-gateway/**",
+        "apps/api/src/lead-desk/**",
+        "prisma/entity-registry.metadata.json",
+        "generated/entity-registry.generated.json"
+      ],
+      "files_forbidden_to_change": [
+        "apps/web/**",
+        ".github/**",
+        ".env*",
+        "new event names not declared in manifests"
+      ],
+      "schema_impact": "none",
+      "registry_impact": "planned_if_metadata_changes",
+      "contract_impact": "none",
+      "screen_contract_impact": "none",
+      "permission_model": "No permission model change unless explicitly stated in ticket scope.",
+      "gatekeeper_policy": "No Gatekeeper behavior change unless explicitly stated in ticket scope.",
+      "audit_outbox_policy": "Runtime outbox event types must match manifest-declared module events.",
+      "tests_required": [
+        "gateway request writes engagement.gateway.request.recorded",
+        "lead create writes lead.desk.lead.created",
+        "status update writes lead.desk.lead.status.updated",
+        "assignment writes lead.desk.lead.assigned",
+        "payload includes organization, actor, entity ID, and relevant state"
+      ],
+      "validation_commands": [
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/web test",
+        "pnpm contracts:validate",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm exec prisma generate --schema prisma/schema.prisma",
+        "pnpm registry:generate",
+        "git diff --exit-code -- generated/entity-registry.generated.json",
+        "pnpm registry:check",
+        "pnpm registry:verify:phase2",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "artifact_rules": [
+        "codex-review/phase2-hardening/ticket-artifacts/P2H-006/P2H-006-summary.md",
+        "codex-review/phase2-hardening/ticket-artifacts/P2H-006/P2H-006-changed-files.zip",
+        "codex-review/phase2-hardening/ticket-artifacts/P2H-006/P2H-006-validation-summary.md",
+        "append codex-review/phase2-hardening/hardening-run-journal.md"
+      ],
+      "stop_conditions": [
+        "required change outside expected/approved files",
+        "new dependency required but not approved",
+        "validation fails after three bounded repair attempts",
+        "direct Lead Desk to Meta/WhatsApp coupling appears",
+        "secret or production credential required",
+        "scope requires out-of-Phase-2 module"
+      ],
+      "commit_message": "P2H-006 align module events with outbox runtime",
+      "rollback_notes": "Revert this ticket commit and its ticket artifacts if acceptance criteria are not met.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "depends_on": [
+        "P2H-003",
+        "P2H-005"
+      ],
+      "hard_requires_completed": [
+        "P2H-003",
+        "P2H-005"
+      ]
+    },
+    {
+      "ticket_id": "P2H-007",
+      "title": "Lead Desk scope model and schema foundation",
+      "priority": "blocker",
+      "objective": "Add the data-model support needed to enforce Lead Desk organization, assigned_records, and own_unit scopes.",
+      "scope": [
+        "Inspect current LeadRecord and existing hierarchy/user relations.",
+        "Add organization_unit_id or equivalent Lead Desk unit ownership field if required for own_unit enforcement.",
+        "Add indexes and relations needed for query-level scope filtering.",
+        "Update registry metadata and generated registry.",
+        "Keep status/assignment model compatible with existing runtime behavior."
+      ],
+      "non_scope": [
+        "No new Lead Desk business workflows.",
+        "No campaigns/finance/student lifecycle.",
+        "No direct WhatsApp/Meta coupling.",
+        "No destructive migration."
+      ],
+      "source_files_to_inspect": [
+        "prisma/schema.prisma",
+        "prisma/entity-registry.metadata.json",
+        "generated/entity-registry.generated.json",
+        "apps/api/src/lead-desk/**",
+        "packages/contracts/lead-desk-core.module-manifest.contract.ts",
+        "docs/screen-contracts/phase-2/**"
+      ],
+      "files_expected_to_change": [
+        "prisma/schema.prisma",
+        "prisma/entity-registry.metadata.json",
+        "generated/entity-registry.generated.json",
+        "apps/api/src/lead-desk/**.test.ts",
+        "prisma/migrations/** if migration policy requires it"
+      ],
+      "files_forbidden_to_change": [
+        "apps/web/**",
+        "packages/contracts/** unless exact contract/runtime mismatch requires a scoped correction",
+        ".env*"
+      ],
+      "schema_impact": "planned_after_P2H-001",
+      "registry_impact": "planned_after_schema",
+      "contract_impact": "none",
+      "screen_contract_impact": "none",
+      "permission_model": "Data model must support declared Lead Desk scopes.",
+      "gatekeeper_policy": "No Gatekeeper behavior change unless explicitly stated in ticket scope.",
+      "audit_outbox_policy": "No audit/outbox behavior change unless explicitly stated in ticket scope.",
+      "tests_required": [
+        "schema/registry validation passes",
+        "lead unit ownership can be represented",
+        "cross-org unit cannot be attached",
+        "indexes support org/unit/assignment filters"
+      ],
+      "validation_commands": [
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/web test",
+        "pnpm contracts:validate",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm exec prisma generate --schema prisma/schema.prisma",
+        "pnpm registry:generate",
+        "git diff --exit-code -- generated/entity-registry.generated.json",
+        "pnpm registry:check",
+        "pnpm registry:verify:phase2",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "artifact_rules": [
+        "codex-review/phase2-hardening/ticket-artifacts/P2H-007/P2H-007-summary.md",
+        "codex-review/phase2-hardening/ticket-artifacts/P2H-007/P2H-007-changed-files.zip",
+        "codex-review/phase2-hardening/ticket-artifacts/P2H-007/P2H-007-validation-summary.md",
+        "append codex-review/phase2-hardening/hardening-run-journal.md"
+      ],
+      "stop_conditions": [
+        "required change outside expected/approved files",
+        "new dependency required but not approved",
+        "validation fails after three bounded repair attempts",
+        "direct Lead Desk to Meta/WhatsApp coupling appears",
+        "secret or production credential required",
+        "scope requires out-of-Phase-2 module"
+      ],
+      "commit_message": "P2H-007 add Lead Desk scope model foundation",
+      "rollback_notes": "Revert this ticket commit and its ticket artifacts if acceptance criteria are not met.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "depends_on": [
+        "P2H-001"
+      ],
+      "hard_requires_completed": [
+        "P2H-001"
+      ]
+    },
+    {
+      "ticket_id": "P2H-008",
+      "title": "Real Lead Desk scope enforcement",
+      "priority": "blocker",
+      "objective": "Enforce Lead Desk permission scopes at query and mutation runtime.",
+      "scope": [
+        "Implement organization scope.",
+        "Implement assigned_records scope using assigned_user_id.",
+        "Implement own_unit scope using Lead Desk unit ownership and existing hierarchy/closure behavior.",
+        "Filter list queries before returning records.",
+        "Enforce detail/update/assignment scope before target disclosure.",
+        "Validate assignee organization and scope."
+      ],
+      "non_scope": [
+        "No shortcut to organization-only scope unless manifest is changed and justified by a formal deferral.",
+        "No hardcoded role/user/tenant assumptions.",
+        "No production auth/session.",
+        "No direct WhatsApp/Meta behavior."
+      ],
+      "source_files_to_inspect": [
+        "apps/api/src/lead-desk/**",
+        "apps/api/src/access-core/**",
+        "apps/api/src/hierarchy/**",
+        "packages/contracts/lead-desk-core.module-manifest.contract.ts",
+        "prisma/schema.prisma"
+      ],
+      "files_expected_to_change": [
+        "apps/api/src/lead-desk/**",
+        "apps/api/src/phase2-hardening/** if guard tests needed"
+      ],
+      "files_forbidden_to_change": [
+        "apps/web/**",
+        "prisma/schema.prisma unless P2H-007 was insufficient and stop condition is triggered",
+        "generated/**",
+        ".env*"
+      ],
+      "schema_impact": "none",
+      "registry_impact": "none",
+      "contract_impact": "none",
+      "screen_contract_impact": "none",
+      "permission_model": "Lead Desk runtime must enforce manifest-declared scopes: organization, assigned_records, and own_unit.",
+      "gatekeeper_policy": "High-risk Lead Desk mutations must keep Gatekeeper enforcement from P2H-004.",
+      "audit_outbox_policy": "No audit/outbox behavior change unless explicitly stated in ticket scope.",
+      "tests_required": [
+        "organization actor sees org leads",
+        "assigned_records actor sees only assigned leads",
+        "own_unit actor sees only permitted unit leads",
+        "cross-org lead invisible",
+        "unauthorized detail does not reveal existence",
+        "status update denied outside scope",
+        "assignment denied outside scope",
+        "cross-org assignee denied",
+        "list filtering is query-level"
+      ],
+      "validation_commands": [
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/web test",
+        "pnpm contracts:validate",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm exec prisma generate --schema prisma/schema.prisma",
+        "pnpm registry:generate",
+        "git diff --exit-code -- generated/entity-registry.generated.json",
+        "pnpm registry:check",
+        "pnpm registry:verify:phase2",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "artifact_rules": [
+        "codex-review/phase2-hardening/ticket-artifacts/P2H-008/P2H-008-summary.md",
+        "codex-review/phase2-hardening/ticket-artifacts/P2H-008/P2H-008-changed-files.zip",
+        "codex-review/phase2-hardening/ticket-artifacts/P2H-008/P2H-008-validation-summary.md",
+        "append codex-review/phase2-hardening/hardening-run-journal.md"
+      ],
+      "stop_conditions": [
+        "required change outside expected/approved files",
+        "new dependency required but not approved",
+        "validation fails after three bounded repair attempts",
+        "direct Lead Desk to Meta/WhatsApp coupling appears",
+        "secret or production credential required",
+        "scope requires out-of-Phase-2 module"
+      ],
+      "commit_message": "P2H-008 enforce Lead Desk permission scopes",
+      "rollback_notes": "Revert this ticket commit and its ticket artifacts if acceptance criteria are not met.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "depends_on": [
+        "P2H-003",
+        "P2H-004",
+        "P2H-007"
+      ],
+      "hard_requires_completed": [
+        "P2H-003",
+        "P2H-004",
+        "P2H-007"
+      ]
+    },
+    {
+      "ticket_id": "P2H-009",
+      "title": "Lead Desk DB relation integrity and assignment history",
+      "priority": "high",
+      "objective": "Strengthen Lead Desk actor, assignee, status, and assignment-history integrity with database relations or explicit documented denormalization boundaries.",
+      "scope": [
+        "Add composite relations to User where structurally appropriate.",
+        "Ensure assignment history and status history are transactionally created.",
+        "If any actor/history field remains denormalized, document why and enforce service-level checks.",
+        "Update registry metadata and tests."
+      ],
+      "non_scope": [
+        "No unrelated Lead Desk workflows.",
+        "No production auth/session.",
+        "No destructive migration.",
+        "No direct WhatsApp/Meta behavior."
+      ],
+      "source_files_to_inspect": [
+        "prisma/schema.prisma",
+        "prisma/entity-registry.metadata.json",
+        "generated/entity-registry.generated.json",
+        "apps/api/src/lead-desk/**",
+        "apps/api/src/prisma/**"
+      ],
+      "files_expected_to_change": [
+        "prisma/schema.prisma",
+        "prisma/entity-registry.metadata.json",
+        "generated/entity-registry.generated.json",
+        "apps/api/src/lead-desk/**",
+        "prisma/migrations/** if migration policy requires it",
+        "docs/adr/ADR-0007-lead-desk-history-denormalization.md if denormalization is retained"
+      ],
+      "files_forbidden_to_change": [
+        "apps/web/**",
+        "packages/contracts/** unless contract correction is required",
+        ".env*"
+      ],
+      "schema_impact": "planned_after_P2H-001",
+      "registry_impact": "planned_after_schema",
+      "contract_impact": "none",
+      "screen_contract_impact": "none",
+      "permission_model": "No permission model change unless explicitly stated in ticket scope.",
+      "gatekeeper_policy": "No Gatekeeper behavior change unless explicitly stated in ticket scope.",
+      "audit_outbox_policy": "Status/assignment history must be durable and transactionally consistent.",
+      "tests_required": [
+        "cross-org assignee rejected",
+        "invalid actor rejected",
+        "assignment history created transactionally",
+        "status history created transactionally",
+        "no orphaned history rows",
+        "rollback/no-write on failure"
+      ],
+      "validation_commands": [
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/web test",
+        "pnpm contracts:validate",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm exec prisma generate --schema prisma/schema.prisma",
+        "pnpm registry:generate",
+        "git diff --exit-code -- generated/entity-registry.generated.json",
+        "pnpm registry:check",
+        "pnpm registry:verify:phase2",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "artifact_rules": [
+        "codex-review/phase2-hardening/ticket-artifacts/P2H-009/P2H-009-summary.md",
+        "codex-review/phase2-hardening/ticket-artifacts/P2H-009/P2H-009-changed-files.zip",
+        "codex-review/phase2-hardening/ticket-artifacts/P2H-009/P2H-009-validation-summary.md",
+        "append codex-review/phase2-hardening/hardening-run-journal.md"
+      ],
+      "stop_conditions": [
+        "required change outside expected/approved files",
+        "new dependency required but not approved",
+        "validation fails after three bounded repair attempts",
+        "direct Lead Desk to Meta/WhatsApp coupling appears",
+        "secret or production credential required",
+        "scope requires out-of-Phase-2 module"
+      ],
+      "commit_message": "P2H-009 harden Lead Desk data integrity",
+      "rollback_notes": "Revert this ticket commit and its ticket artifacts if acceptance criteria are not met.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "depends_on": [
+        "P2H-001",
+        "P2H-007"
+      ],
+      "hard_requires_completed": [
+        "P2H-001",
+        "P2H-007"
+      ]
+    },
+    {
+      "ticket_id": "P2H-010",
+      "title": "Engagement Gateway request traceability and persistence",
+      "priority": "medium_high",
+      "objective": "Make Engagement Gateway request identity traceable or explicitly bounded so runtime does not overclaim persistence/status behavior.",
+      "scope": [
+        "Implement EngagementGatewayRequest persistence if runtime returns request IDs used for status/traceability.",
+        "Connect request ID to audit/outbox payloads.",
+        "Add idempotency key behavior if gateway create can be retried.",
+        "If persistence remains deferred, remove or bound any status lookup/runtime claim and document deferral. Stronger path is persistence if contracts/runtime imply request identity.",
+        "Coordinate gateway idempotency with P2H-005 outbox idempotency and stop if semantics conflict."
+      ],
+      "non_scope": [
+        "No real provider credentials.",
+        "No real outbound WhatsApp messages.",
+        "No production delivery worker.",
+        "No direct Lead Desk to Meta/WhatsApp."
+      ],
+      "source_files_to_inspect": [
+        "packages/contracts/engagement-gateway-lite.contract.ts",
+        "packages/contracts/engagement-gateway-lite.module-manifest.contract.ts",
+        "apps/api/src/engagement-gateway/**",
+        "apps/api/src/platform-observability/**",
+        "prisma/schema.prisma",
+        "prisma/entity-registry.metadata.json",
+        "generated/entity-registry.generated.json"
+      ],
+      "files_expected_to_change": [
+        "apps/api/src/engagement-gateway/**",
+        "apps/api/src/platform-observability/**",
+        "prisma/schema.prisma if persistence is implemented",
+        "prisma/entity-registry.metadata.json if persistence is implemented",
+        "generated/entity-registry.generated.json if persistence is implemented",
+        "prisma/migrations/** if migration policy requires it",
+        "docs/adr/ADR-0008-engagement-gateway-persistence-boundary.md if persistence is deferred"
+      ],
+      "files_forbidden_to_change": [
+        "apps/web/**",
+        "provider credentials",
+        ".env*",
+        "direct Meta/WhatsApp code"
+      ],
+      "schema_impact": "planned_or_documented_deferral_after_P2H-001",
+      "registry_impact": "planned_if_schema_changes",
+      "contract_impact": "none",
+      "screen_contract_impact": "none",
+      "permission_model": "No permission model change unless explicitly stated in ticket scope.",
+      "gatekeeper_policy": "No Gatekeeper behavior change unless explicitly stated in ticket scope.",
+      "audit_outbox_policy": "Gateway request ID must be traceable through audit/outbox if returned to callers.",
+      "tests_required": [
+        "gateway request persisted if request IDs imply traceability",
+        "outbox event includes gateway request ID",
+        "idempotency prevents duplicate logical request when applicable",
+        "stub/non-production boundary remains enforced",
+        "status lookup not exposed if persistence deferred"
+      ],
+      "validation_commands": [
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/web test",
+        "pnpm contracts:validate",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm exec prisma generate --schema prisma/schema.prisma",
+        "pnpm registry:generate",
+        "git diff --exit-code -- generated/entity-registry.generated.json",
+        "pnpm registry:check",
+        "pnpm registry:verify:phase2",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "artifact_rules": [
+        "codex-review/phase2-hardening/ticket-artifacts/P2H-010/P2H-010-summary.md",
+        "codex-review/phase2-hardening/ticket-artifacts/P2H-010/P2H-010-changed-files.zip",
+        "codex-review/phase2-hardening/ticket-artifacts/P2H-010/P2H-010-validation-summary.md",
+        "append codex-review/phase2-hardening/hardening-run-journal.md"
+      ],
+      "stop_conditions": [
+        "required change outside expected/approved files",
+        "new dependency required but not approved",
+        "validation fails after three bounded repair attempts",
+        "direct Lead Desk to Meta/WhatsApp coupling appears",
+        "secret or production credential required",
+        "scope requires out-of-Phase-2 module",
+        "gateway idempotency design conflicts with P2H-005 outbox idempotency"
+      ],
+      "commit_message": "P2H-010 harden Engagement Gateway traceability",
+      "rollback_notes": "Revert this ticket commit and its ticket artifacts if acceptance criteria are not met.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "depends_on": [
+        "P2H-001",
+        "P2H-005"
+      ],
+      "hard_requires_completed": [
+        "P2H-001",
+        "P2H-005"
+      ]
+    },
+    {
+      "ticket_id": "P2H-011",
+      "title": "Frontend actor-context hardening",
+      "priority": "medium_high",
+      "objective": "Remove actor identity from URLs and centralize temporary operator context without claiming production auth/session.",
+      "scope": [
+        "Create a temporary operator context layer for organization_id and actor_user_id.",
+        "Store context in client state/session storage or equivalent, not URL params.",
+        "Centralize API header injection for x-actor-user-id.",
+        "Show a clear temporary context banner/state.",
+        "Remove actor_user_id from links and query params."
+      ],
+      "non_scope": [
+        "No production auth/session implementation.",
+        "No new auth provider.",
+        "No hardcoded users/roles/tenants.",
+        "No fake dashboard data."
+      ],
+      "source_files_to_inspect": [
+        "apps/web/app/lead-desk/**",
+        "apps/web/package.json",
+        "docs/screen-contracts/phase-2/**"
+      ],
+      "files_expected_to_change": [
+        "apps/web/app/lead-desk/**",
+        "apps/web/app/components/** if existing shared component path exists",
+        "apps/web/lib/** if existing helper path exists",
+        "apps/web/package.json only if test wiring requires it"
+      ],
+      "files_forbidden_to_change": [
+        "apps/api/** unless compile-time contract mismatch requires stop",
+        "prisma/**",
+        "packages/contracts/**",
+        ".env*"
+      ],
+      "schema_impact": "none",
+      "registry_impact": "none",
+      "contract_impact": "none",
+      "screen_contract_impact": "none",
+      "permission_model": "No permission model change unless explicitly stated in ticket scope.",
+      "gatekeeper_policy": "No Gatekeeper behavior change unless explicitly stated in ticket scope.",
+      "audit_outbox_policy": "No audit/outbox behavior change unless explicitly stated in ticket scope.",
+      "tests_required": [
+        "navigation does not expose actor_user_id",
+        "API calls include x-actor-user-id",
+        "missing context shows permission/context state",
+        "context switch is explicit",
+        "no hardcoded actor/user IDs"
+      ],
+      "validation_commands": [
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/web test",
+        "pnpm contracts:validate",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm exec prisma generate --schema prisma/schema.prisma",
+        "pnpm registry:generate",
+        "git diff --exit-code -- generated/entity-registry.generated.json",
+        "pnpm registry:check",
+        "pnpm registry:verify:phase2",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "artifact_rules": [
+        "codex-review/phase2-hardening/ticket-artifacts/P2H-011/P2H-011-summary.md",
+        "codex-review/phase2-hardening/ticket-artifacts/P2H-011/P2H-011-changed-files.zip",
+        "codex-review/phase2-hardening/ticket-artifacts/P2H-011/P2H-011-validation-summary.md",
+        "append codex-review/phase2-hardening/hardening-run-journal.md"
+      ],
+      "stop_conditions": [
+        "required change outside expected/approved files",
+        "new dependency required but not approved",
+        "validation fails after three bounded repair attempts",
+        "direct Lead Desk to Meta/WhatsApp coupling appears",
+        "secret or production credential required",
+        "scope requires out-of-Phase-2 module"
+      ],
+      "commit_message": "P2H-011 harden Lead Desk frontend actor context",
+      "rollback_notes": "Revert this ticket commit and its ticket artifacts if acceptance criteria are not met.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "depends_on": [
+        "P2H-008"
+      ],
+      "hard_requires_completed": [
+        "P2H-008"
+      ]
+    },
+    {
+      "ticket_id": "P2H-012",
+      "title": "Real frontend tests for Lead Desk screens",
+      "priority": "blocker",
+      "objective": "Replace scaffold-only frontend tests with meaningful Lead Desk screen tests using available no-new-dependency tooling, or stop if meaningful tests require a new dependency.",
+      "scope": [
+        "Inspect current apps/web test tooling.",
+        "Replace @akti/web placeholder test script with meaningful tests only if possible without new dependencies.",
+        "Test Lead Desk inbox, create, detail, and action screens.",
+        "Verify empty/loading/error/permission/context states.",
+        "Verify submit payloads and API paths.",
+        "Verify no actor IDs appear in URLs."
+      ],
+      "non_scope": [
+        "No broad frontend redesign.",
+        "No fake data assertions that do not prove behavior.",
+        "No new UI framework.",
+        "No Playwright/Vitest/Jest dependency unless explicitly approved before this ticket runs."
+      ],
+      "source_files_to_inspect": [
+        "apps/web/package.json",
+        "apps/web/app/lead-desk/**",
+        "docs/screen-contracts/phase-2/**",
+        "package.json",
+        "pnpm-lock.yaml"
+      ],
+      "files_expected_to_change": [
+        "apps/web/package.json",
+        "apps/web/app/lead-desk/**/*.test.* if supported by available tooling",
+        "apps/web/app/lead-desk/**/__tests__/** if supported by available tooling",
+        "apps/web/test/** if creating minimal no-new-dependency tests",
+        "package.json only if root script must include existing web test script"
+      ],
+      "files_forbidden_to_change": [
+        "apps/api/**",
+        "prisma/**",
+        "packages/contracts/**",
+        "dependencies unless explicitly approved"
+      ],
+      "schema_impact": "none",
+      "registry_impact": "none",
+      "contract_impact": "none",
+      "screen_contract_impact": "none",
+      "permission_model": "No permission model change unless explicitly stated in ticket scope.",
+      "gatekeeper_policy": "No Gatekeeper behavior change unless explicitly stated in ticket scope.",
+      "audit_outbox_policy": "No audit/outbox behavior change unless explicitly stated in ticket scope.",
+      "tests_required": [
+        "inbox render",
+        "loading state",
+        "error state",
+        "missing context state",
+        "create submit payload",
+        "detail fetch path",
+        "status submit path",
+        "assignment submit path",
+        "no fake data rendering",
+        "no actor ID in URL"
+      ],
+      "validation_commands": [
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/web test",
+        "pnpm contracts:validate",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm exec prisma generate --schema prisma/schema.prisma",
+        "pnpm registry:generate",
+        "git diff --exit-code -- generated/entity-registry.generated.json",
+        "pnpm registry:check",
+        "pnpm registry:verify:phase2",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "artifact_rules": [
+        "codex-review/phase2-hardening/ticket-artifacts/P2H-012/P2H-012-summary.md",
+        "codex-review/phase2-hardening/ticket-artifacts/P2H-012/P2H-012-changed-files.zip",
+        "codex-review/phase2-hardening/ticket-artifacts/P2H-012/P2H-012-validation-summary.md",
+        "append codex-review/phase2-hardening/hardening-run-journal.md"
+      ],
+      "stop_conditions": [
+        "meaningful frontend tests require a new dependency and no explicit approval exists",
+        "available tooling cannot test required screen behavior",
+        "required change outside exact-file plan"
+      ],
+      "commit_message": "P2H-012 add Lead Desk frontend tests",
+      "rollback_notes": "Revert this ticket commit and its ticket artifacts if acceptance criteria are not met.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "depends_on": [
+        "P2H-011"
+      ],
+      "hard_requires_completed": [
+        "P2H-011"
+      ],
+      "validation_note": "apps/web test is scaffold-only before this ticket. P2H-012 must make it meaningful using no-new-dependency tooling or stop for approval."
+    },
+    {
+      "ticket_id": "P2H-013",
+      "title": "Screen contract lifecycle and validation policy",
+      "priority": "medium",
+      "objective": "Define and enforce screen lifecycle so implemented Phase 2 screens are not permanently left as planned without policy.",
+      "scope": [
+        "Define planned/active/deprecated/disabled lifecycle semantics.",
+        "Allow implemented screens to become active only when route/build/tests are present.",
+        "Update Phase 2 screen contracts or validator policy accordingly.",
+        "Ensure no implemented route lacks a screen contract."
+      ],
+      "non_scope": [
+        "No frontend redesign.",
+        "No new screens.",
+        "No permission expansion.",
+        "No fake dashboard or placeholder actions."
+      ],
+      "source_files_to_inspect": [
+        "docs/screen-contracts/phase-2/**",
+        "packages/contracts/scripts/validate-screen-contracts.mjs",
+        "packages/contracts/screen-contract.schema.ts",
+        "apps/web/app/lead-desk/**"
+      ],
+      "files_expected_to_change": [
+        "docs/screen-contracts/phase-2/**",
+        "packages/contracts/scripts/validate-screen-contracts.mjs",
+        "packages/contracts/package.json if script wiring needed",
+        "docs/process/AKTI_ERP_Phase_2_Screen_Lifecycle_Policy.md if policy doc needed"
+      ],
+      "files_forbidden_to_change": [
+        "apps/api/**",
+        "prisma/**",
+        "generated/**",
+        "unrelated docs/process/**"
+      ],
+      "schema_impact": "none",
+      "registry_impact": "none",
+      "contract_impact": "none",
+      "screen_contract_impact": "Phase 2 screen status must match lifecycle policy and implementation/test evidence.",
+      "permission_model": "No permission model change unless explicitly stated in ticket scope.",
+      "gatekeeper_policy": "No Gatekeeper behavior change unless explicitly stated in ticket scope.",
+      "audit_outbox_policy": "No audit/outbox behavior change unless explicitly stated in ticket scope.",
+      "tests_required": [
+        "validator accepts active implemented screens",
+        "validator rejects active screens with missing required evidence if implemented",
+        "all Lead Desk routes have contracts",
+        "no contract references undeclared capabilities/actions"
+      ],
+      "validation_commands": [
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/web test",
+        "pnpm contracts:validate",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm exec prisma generate --schema prisma/schema.prisma",
+        "pnpm registry:generate",
+        "git diff --exit-code -- generated/entity-registry.generated.json",
+        "pnpm registry:check",
+        "pnpm registry:verify:phase2",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "artifact_rules": [
+        "codex-review/phase2-hardening/ticket-artifacts/P2H-013/P2H-013-summary.md",
+        "codex-review/phase2-hardening/ticket-artifacts/P2H-013/P2H-013-changed-files.zip",
+        "codex-review/phase2-hardening/ticket-artifacts/P2H-013/P2H-013-validation-summary.md",
+        "append codex-review/phase2-hardening/hardening-run-journal.md"
+      ],
+      "stop_conditions": [
+        "required change outside expected/approved files",
+        "new dependency required but not approved",
+        "validation fails after three bounded repair attempts",
+        "direct Lead Desk to Meta/WhatsApp coupling appears",
+        "secret or production credential required",
+        "scope requires out-of-Phase-2 module"
+      ],
+      "commit_message": "P2H-013 add Phase 2 screen lifecycle policy",
+      "rollback_notes": "Revert this ticket commit and its ticket artifacts if acceptance criteria are not met.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "depends_on": [
+        "P2H-012"
+      ],
+      "hard_requires_completed": [
+        "P2H-012"
+      ]
+    },
+    {
+      "ticket_id": "P2H-014",
+      "title": "Final Phase 2 hardening gate and external audit package",
+      "priority": "blocker",
+      "objective": "Run full validation and produce a complete external audit package from clean committed hardened branch HEAD.",
+      "scope": [
+        "Run full validation ladder.",
+        "Confirm working tree has no tracked source changes before packaging.",
+        "Create final source zip using git archive from committed HEAD.",
+        "Generate commit log, file list, checksums, validation summary, hardening closure report, known deferrals, and manifest.",
+        "Verify excluded paths are absent.",
+        "Verify clean status and committed-head basis.",
+        "Produce final merge-readiness verdict package."
+      ],
+      "non_scope": [
+        "No source implementation except optional tracked closure file if explicitly chosen.",
+        "No merge to main.",
+        "No production deployment.",
+        "No hidden local/untracked artifacts in source zip."
+      ],
+      "source_files_to_inspect": [
+        "git history",
+        "docs/process/*",
+        "codex-review/phase2-hardening/**",
+        "package.json",
+        "pnpm-workspace.yaml",
+        ".github/workflows/*"
+      ],
+      "files_expected_to_change": [
+        "codex-review/phase2-hardening/final-external-audit/**",
+        "docs/process/AKTI_ERP_Phase_2_Hardening_Closure_Report_v1.md only if a tracked closure file is intentionally required"
+      ],
+      "files_forbidden_to_change": [
+        "apps/**",
+        "packages/**",
+        "prisma/**",
+        "generated/**",
+        "docs/adr/**",
+        ".env*"
+      ],
+      "schema_impact": "none",
+      "registry_impact": "none",
+      "contract_impact": "none",
+      "screen_contract_impact": "none",
+      "permission_model": "No permission model change unless explicitly stated in ticket scope.",
+      "gatekeeper_policy": "No Gatekeeper behavior change unless explicitly stated in ticket scope.",
+      "audit_outbox_policy": "No audit/outbox behavior change unless explicitly stated in ticket scope.",
+      "tests_required": [],
+      "validation_commands": [
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/web test",
+        "pnpm contracts:validate",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm exec prisma generate --schema prisma/schema.prisma",
+        "pnpm registry:generate",
+        "git diff --exit-code -- generated/entity-registry.generated.json",
+        "pnpm registry:check",
+        "pnpm registry:verify:phase2",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff -- prisma/schema.prisma",
+        "git diff -- prisma/entity-registry.metadata.json",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "artifact_rules": [
+        "Final source zip must be generated from committed branch HEAD.",
+        "If all final outputs live under ignored codex-review/, no source commit is required.",
+        "If a tracked closure file is required, use docs/process/AKTI_ERP_Phase_2_Hardening_Closure_Report_v1.md exactly and commit it before creating the final archive.",
+        "Final external audit package must include source zip, manifest, commit log, file list, checksums, validation summary, closure report, known deferrals, exclusion verification, and clean-status evidence."
+      ],
+      "stop_conditions": [
+        "any validation failure",
+        "source zip contains excluded paths",
+        "working tree dirty with tracked source changes",
+        "hardening closure report incomplete",
+        "direct WhatsApp/Meta coupling detected",
+        "final archive cannot be proven to come from committed HEAD"
+      ],
+      "commit_message": "P2H-014 produce Phase 2 hardening audit package only if tracked closure file is intentionally created",
+      "rollback_notes": "Final audit artifacts may be ignored; report exact paths and checksums so they can be uploaded for external audit.",
+      "explicit_final_package_steps": [
+        "git status --short --branch",
+        "FULL_SHA=$(git rev-parse HEAD)",
+        "SHORT_SHA=$(git rev-parse --short HEAD)",
+        "command -v unzip >/dev/null 2>&1 || stop and report unzip unavailable",
+        "if command -v sha256sum >/dev/null 2>&1; then CHECKSUM_CMD=sha256sum; elif command -v shasum >/dev/null 2>&1; then CHECKSUM_CMD=\"shasum -a 256\"; else stop and report checksum utility unavailable; fi",
+        "mkdir -p codex-review/phase2-hardening/final-external-audit",
+        "git archive --format=zip --output codex-review/phase2-hardening/final-external-audit/akti-erp-phase-2-hardened-source-${SHORT_SHA}.zip HEAD",
+        "git log --oneline --decorate -80 > codex-review/phase2-hardening/final-external-audit/phase-2-hardening-commit-log.txt",
+        "unzip -Z1 codex-review/phase2-hardening/final-external-audit/akti-erp-phase-2-hardened-source-${SHORT_SHA}.zip | sort > codex-review/phase2-hardening/final-external-audit/phase-2-hardening-file-list.txt",
+        "create codex-review/phase2-hardening/final-external-audit/phase-2-hardening-validation-summary.md",
+        "create codex-review/phase2-hardening/final-external-audit/phase-2-hardening-closure-report.md",
+        "create codex-review/phase2-hardening/final-external-audit/phase-2-hardening-known-deferrals.md",
+        "create codex-review/phase2-hardening/final-external-audit/phase-2-hardening-audit-manifest.md with FULL_SHA and SHORT_SHA",
+        "run checksum command over source zip, manifest, commit log, file list, validation summary, closure report, and known deferrals",
+        "verify zip file list contains none of: .git, node_modules, dist, .next, .turbo, coverage, codex-review, audits, .env",
+        "record file count from unzip -Z1",
+        "git status --short --branch"
+      ],
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "depends_on": [
+        "P2H-000",
+        "P2H-001",
+        "P2H-002",
+        "P2H-003",
+        "P2H-004",
+        "P2H-005",
+        "P2H-006",
+        "P2H-007",
+        "P2H-008",
+        "P2H-009",
+        "P2H-010",
+        "P2H-011",
+        "P2H-012",
+        "P2H-013"
+      ],
+      "hard_requires_completed": [
+        "P2H-000",
+        "P2H-001",
+        "P2H-002",
+        "P2H-003",
+        "P2H-004",
+        "P2H-005",
+        "P2H-006",
+        "P2H-007",
+        "P2H-008",
+        "P2H-009",
+        "P2H-010",
+        "P2H-011",
+        "P2H-012",
+        "P2H-013"
+      ]
+    }
+  ],
+  "final_external_audit_package": {
+    "required": true,
+    "ticket": "P2H-014",
+    "path": "codex-review/phase2-hardening/final-external-audit/",
+    "source_basis": "git archive HEAD from committed hardened branch HEAD",
+    "must_include": [
+      "source zip from git archive HEAD",
+      "audit manifest",
+      "commit log",
+      "file list from zip contents",
+      "checksums",
+      "validation summary",
+      "hardening closure report",
+      "known deferrals",
+      "excluded-path verification result",
+      "clean git status evidence",
+      "source zip file count"
+    ],
+    "excluded_paths": [
+      ".git/",
+      "node_modules/",
+      "dist/",
+      ".next/",
+      ".turbo/",
+      "coverage/",
+      "codex-review/",
+      "audits/",
+      ".env*"
+    ],
+    "commit_policy": "If final outputs are ignored codex-review artifacts only, no source commit is required. If a tracked closure file is intentionally required, it must use docs/process/AKTI_ERP_Phase_2_Hardening_Closure_Report_v1.md and be committed before the final source archive is generated."
+  },
+  "authority_model": {
+    "repo_authority": [
+      "docs/process/AKTI_ERP_Phase_2_Hardening_Audit_Report_v1.md",
+      "docs/process/AKTI_ERP_Phase_2_Hardening_Ticket_Pack_v1.json"
+    ],
+    "source_context_only": [
+      "docs/process/AKTI_ERP_Phase_2_Hardening_Audit_Report_v1_1.md if present before cleanup",
+      "docs/process/AKTI_ERP_Phase_2_Hardening_Ticket_Pack_v1_1.json if present before cleanup"
+    ],
+    "transition_ticket": "P2H-000",
+    "rule": "Only the active v1 repo paths are hardening control authority after P2H-000. Revision-suffixed files are source context only and must not remain as parallel active authority."
+  },
+  "dependency_matrix": {
+    "P2H_001_gates": [
+      "P2H-005",
+      "P2H-007",
+      "P2H-009",
+      "P2H-010 when schema persistence is implemented"
+    ],
+    "P2H_003_gates": [
+      "P2H-004",
+      "P2H-008",
+      "runtime permission checks that depend on seeded capabilities"
+    ],
+    "P2H_004_gates": [
+      "P2H-008",
+      "high-risk Phase 2 mutation enforcement"
+    ],
+    "P2H_005_gates": [
+      "P2H-006",
+      "P2H-010 when outbox/idempotency coupling is touched"
+    ],
+    "P2H_007_gates": [
+      "P2H-008",
+      "P2H-009"
+    ],
+    "P2H_011_gates": [
+      "P2H-012"
+    ],
+    "P2H_014_gates": [
+      "all prior P2H tickets"
+    ]
+  },
+  "validation_inventory": {
+    "available_now": [
+      "pnpm --filter @akti/api test",
+      "pnpm --filter @akti/web test",
+      "pnpm contracts:validate",
+      "pnpm exec prisma validate --schema prisma/schema.prisma",
+      "pnpm exec prisma generate --schema prisma/schema.prisma",
+      "pnpm registry:generate",
+      "pnpm registry:check",
+      "pnpm registry:verify:phase2",
+      "pnpm lint",
+      "pnpm typecheck",
+      "pnpm test",
+      "pnpm build"
+    ],
+    "scaffold_only_until_hardened": [
+      "apps/web package test script currently prints a scaffold message; P2H-012 must replace it with meaningful no-new-dependency tests or stop for explicit dependency/tooling approval."
+    ],
+    "absent_until_ticketed": [
+      "prisma/migrations/ is absent until P2H-001 chooses a migration baseline path.",
+      ".github/workflows/phase2-validation.yml is absent unless P2H-002 creates a dedicated Phase 2 workflow."
+    ]
+  }
+}
