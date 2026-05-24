@@ -88,6 +88,12 @@ if (!existsSync(engagementGatewayLiteValidator)) {
 console.log(`Validating ${relative(packageRoot, engagementGatewayLiteValidator)}`);
 run("pnpm", ["exec", "tsx", engagementGatewayLiteValidator]);
 
+const leadDeskValidator = join(packageRoot, "scripts", "validate-lead-desk-contracts.mjs");
+if (existsSync(leadDeskValidator)) {
+  console.log(`Validating ${relative(packageRoot, leadDeskValidator)}`);
+  run("pnpm", ["exec", "tsx", leadDeskValidator]);
+}
+
 const screenValidator = join(packageRoot, "scripts", "validate-screen-contracts.mjs");
 if (!existsSync(screenValidator)) {
   console.error(
