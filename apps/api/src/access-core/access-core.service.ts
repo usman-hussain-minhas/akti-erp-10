@@ -15,7 +15,10 @@ import {
 } from '../prisma/prisma-client';
 
 import { GatekeeperPreflightService } from '../gatekeeper/gatekeeper-preflight.service';
-import { loadAccessCoreCapabilitySeedDefinitions } from '../module-registry/module-registry.service';
+import {
+  loadAccessCoreCapabilitySeedDefinitions,
+  loadPhase2CapabilityScopeMap,
+} from '../module-registry/module-registry.service';
 import { AuditLogService } from '../platform-observability/audit-log.service';
 import { EventOutboxService } from '../platform-observability/event-outbox.service';
 import { PrismaService } from '../prisma/prisma.service';
@@ -953,13 +956,13 @@ export class AccessCoreService {
   }
 
   private async getAllowedScopeTypesForCapability(capabilityKey: string): Promise<ReadonlyArray<PermissionScopeType> | null> {
-    const seeds = await loadAccessCoreCapabilitySeedDefinitions();
-    const seed = seeds.find((item) => item.capability_key === capabilityKey);
-    if (!seed) {
+    const scopeMap = await loadPhase2CapabilityScopeMap();
+    const scopes = scopeMap.get(capabilityKey);
+    if (!scopes) {
       return null;
     }
 
-    return seed.allowed_scope_types as ReadonlyArray<PermissionScopeType>;
+    return scopes as ReadonlyArray<PermissionScopeType>;
   }
 
   private async requireGatekeeperPreflight(input: AccessCoreGatekeeperPreflightInput): Promise<void> {
