@@ -41,6 +41,9 @@ model Organization {
   audit_logs                AuditLog[]
   event_outbox_entries      EventOutbox[]
   organization_settings     OrganizationSetting[]
+  lead_records              LeadRecord[]
+  lead_status_history       LeadStatusHistory[]
+  lead_assignment_history   LeadAssignmentHistory[]
 
   @@index([status])
 }
@@ -243,4 +246,57 @@ model OrganizationSetting {
 
   @@unique([organization_id, key])
   @@index([organization_id])
+}
+
+model LeadRecord {
+  id               String       @id @default(cuid())
+  organization_id  String
+  source_ref       String
+  full_name        String
+  phone_e164       String
+  notes            String?
+  status           String
+  assigned_user_id String?
+  created_at       DateTime     @default(now())
+  updated_at       DateTime     @updatedAt
+  organization     Organization @relation(fields: [organization_id], references: [id])
+  status_history   LeadStatusHistory[]
+  assignment_history LeadAssignmentHistory[]
+
+  @@unique([organization_id, id])
+  @@index([organization_id, created_at])
+  @@index([organization_id, status, created_at])
+  @@index([organization_id, assigned_user_id, created_at])
+}
+
+model LeadStatusHistory {
+  id              String       @id @default(cuid())
+  organization_id String
+  lead_id         String
+  actor_user_id   String
+  status          String
+  reason          String?
+  requested_at    DateTime
+  changed_at      DateTime     @default(now())
+  organization    Organization @relation(fields: [organization_id], references: [id])
+  lead            LeadRecord   @relation(fields: [organization_id, lead_id], references: [organization_id, id])
+
+  @@index([organization_id, lead_id, changed_at])
+  @@index([organization_id, actor_user_id, changed_at])
+}
+
+model LeadAssignmentHistory {
+  id               String       @id @default(cuid())
+  organization_id  String
+  lead_id          String
+  actor_user_id    String
+  assigned_user_id String
+  requested_at     DateTime
+  changed_at       DateTime     @default(now())
+  organization     Organization @relation(fields: [organization_id], references: [id])
+  lead             LeadRecord   @relation(fields: [organization_id, lead_id], references: [organization_id, id])
+
+  @@index([organization_id, lead_id, changed_at])
+  @@index([organization_id, actor_user_id, changed_at])
+  @@index([organization_id, assigned_user_id, changed_at])
 }
