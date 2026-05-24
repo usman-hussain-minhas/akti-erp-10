@@ -1,0 +1,186 @@
+{
+  "screen_key": "lead-desk.create",
+  "module_key": "lead.desk",
+  "title": "Create Lead",
+  "route": "/lead-desk/create",
+  "screen_type": "private_portal",
+  "status": "planned",
+  "version": "0.1.0",
+  "business_purpose": "Capture new lead intake in one approved, capability-guarded flow.",
+  "primary_user_context": "Admissions intake staff entering a new lead.",
+  "user_goal": "Submit a new lead with required identity and source details.",
+  "success_outcome": "A lead is created in organization scope with initial status and audit trail.",
+  "required_capabilities": ["lead.intake.create"],
+  "optional_capabilities": [],
+  "visibility_rules": [
+    {
+      "key": "lead-desk.create.visible",
+      "description": "Visible only when lead intake creation capability is granted.",
+      "capability_key": "lead.intake.create"
+    }
+  ],
+  "record_scope_behavior": {
+    "default_scope": "organization",
+    "allowed_scope_types": ["organization", "own_unit"],
+    "description": "Lead intake mutations must be constrained to the active organization."
+  },
+  "primary_action": {
+    "action_key": "lead-desk.create.submit",
+    "label": "Create lead",
+    "capability_key": "lead.intake.create",
+    "action_type": "create",
+    "risk_level": "high",
+    "requires_confirmation": true,
+    "requires_reauth": false,
+    "gatekeeper_required": true,
+    "audit_required": true
+  },
+  "secondary_actions": [
+    {
+      "action_key": "lead-desk.create.reset",
+      "label": "Reset form",
+      "capability_key": "lead.intake.create",
+      "action_type": "custom",
+      "risk_level": "low",
+      "requires_confirmation": true,
+      "requires_reauth": false,
+      "gatekeeper_required": false,
+      "audit_required": false
+    }
+  ],
+  "row_actions": [],
+  "bulk_actions": [],
+  "destructive_actions": [],
+  "data_sources": [
+    {
+      "key": "lead-desk.create.submit-source",
+      "label": "Lead creation endpoint",
+      "source_type": "api",
+      "route_key": "lead-desk.create.post-route",
+      "description": "Create lead intake records through Lead Desk API boundary."
+    }
+  ],
+  "api_routes": [
+    {
+      "key": "lead-desk.create.post-route",
+      "method": "POST",
+      "path": "/api/lead-desk/organizations/:organization_id/leads",
+      "capability_key": "lead.intake.create",
+      "auth_required": true,
+      "public_route": false,
+      "rate_limited": true,
+      "input_schema": "lead.desk.lead.create.input",
+      "output_schema": "lead.desk.lead.create.output",
+      "description": "Create a lead intake record."
+    }
+  ],
+  "query_params": [],
+  "required_entities": [
+    {
+      "entity_key": "lead.record",
+      "purpose": "Persist and return lead intake details."
+    }
+  ],
+  "empty_data_behavior": {
+    "title": "Ready to create",
+    "message": "Enter lead information to create a new intake record."
+  },
+  "table_columns": [],
+  "filters": [],
+  "search_fields": [],
+  "sorting": [],
+  "pagination": { "mode": "none" },
+  "saved_views": [],
+  "form_fields": [
+    { "key": "full_name", "label": "Full name", "field_type": "text", "required": true },
+    { "key": "phone_e164", "label": "Phone number", "field_type": "text", "required": true },
+    { "key": "source_ref", "label": "Source reference", "field_type": "text", "required": true },
+    { "key": "notes", "label": "Notes", "field_type": "textarea", "required": false }
+  ],
+  "validation_rules": [],
+  "submit_action": {
+    "action_key": "lead-desk.create.submit-form",
+    "label": "Create lead",
+    "capability_key": "lead.intake.create",
+    "action_type": "create",
+    "risk_level": "high",
+    "requires_confirmation": true,
+    "requires_reauth": false,
+    "gatekeeper_required": true,
+    "audit_required": true
+  },
+  "draft_behavior": { "supported": false, "autosave": false },
+  "file_uploads": [],
+  "empty_state": {
+    "title": "No draft",
+    "message": "Start entering lead details to create a record."
+  },
+  "loading_state": {
+    "title": "Submitting lead",
+    "message": "Lead intake is being submitted."
+  },
+  "error_state": {
+    "title": "Could not create lead",
+    "message": "Check required fields and try again."
+  },
+  "permission_denied_state": {
+    "title": "Access needed",
+    "message": "You do not have permission to create leads."
+  },
+  "degraded_mode_state": {
+    "title": "Lead creation unavailable",
+    "message": "Lead creation is temporarily paused while service recovers."
+  },
+  "desktop_layout": {
+    "layout": "single_column",
+    "primary_navigation": "Lead Desk",
+    "critical_content": ["full_name", "phone_e164", "source_ref"]
+  },
+  "tablet_layout": {
+    "layout": "single_column",
+    "primary_navigation": "Lead Desk",
+    "critical_content": ["full_name", "phone_e164", "source_ref"]
+  },
+  "mobile_layout": {
+    "layout": "stacked",
+    "primary_navigation": "Lead Desk",
+    "critical_content": ["full_name", "phone_e164", "source_ref"]
+  },
+  "no_technical_language": true,
+  "no_fake_data": true,
+  "no_placeholder_actions": true,
+  "no_hardcoded_roles": true,
+  "no_hardcoded_units": true,
+  "plain_language_labels": true,
+  "audit_hooks": [
+    {
+      "key": "lead-desk.create.audit",
+      "action_key": "lead-desk.create.submit",
+      "description": "Audit lead creation requests."
+    }
+  ],
+  "events_expected": [
+    {
+      "event_type": "lead.desk.lead.created",
+      "version": "0.1.0",
+      "trigger_action_key": "lead-desk.create.submit"
+    }
+  ],
+  "notifications_triggered": [
+    {
+      "key": "lead-desk.create.success",
+      "label": "Lead created",
+      "trigger_action_key": "lead-desk.create.submit"
+    }
+  ],
+  "ai_allowed": false,
+  "ai_actions": [],
+  "ai_requires_human_approval": true,
+  "ai_forbidden_actions": ["publish", "send", "approve", "reject", "verify", "issue", "enroll", "delete", "export"],
+  "forbidden_behaviors": [
+    "Do not submit without organization scope context.",
+    "Do not accept fake contact values.",
+    "Do not expose internal schema keys.",
+    "Do not hardcode campus, user, or role defaults."
+  ]
+}

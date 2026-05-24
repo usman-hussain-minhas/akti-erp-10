@@ -1,0 +1,228 @@
+{
+  "screen_key": "lead-desk.inbox",
+  "module_key": "lead.desk",
+  "title": "Lead Inbox",
+  "route": "/lead-desk/inbox",
+  "screen_type": "private_portal",
+  "status": "planned",
+  "version": "0.1.0",
+  "business_purpose": "Give admissions staff one queue for reviewing and prioritizing incoming leads.",
+  "primary_user_context": "Admissions staff processing active leads.",
+  "user_goal": "Find leads that need action and open detail quickly.",
+  "success_outcome": "Staff can review, filter, and open leads without leaving organization scope.",
+  "required_capabilities": ["lead.inbox.view"],
+  "optional_capabilities": ["lead.inbox.assign", "lead.status.update"],
+  "visibility_rules": [
+    {
+      "key": "lead-desk.inbox.visible",
+      "description": "Visible only when inbox viewing capability is granted.",
+      "capability_key": "lead.inbox.view"
+    }
+  ],
+  "record_scope_behavior": {
+    "default_scope": "organization",
+    "allowed_scope_types": ["organization", "own_unit", "assigned_records"],
+    "description": "Lead inbox records must remain scoped to the active organization and assignment boundaries."
+  },
+  "primary_action": {
+    "action_key": "lead-desk.inbox.open-detail",
+    "label": "Open lead",
+    "capability_key": "lead.inbox.view",
+    "action_type": "open",
+    "risk_level": "low",
+    "requires_confirmation": false,
+    "requires_reauth": false,
+    "gatekeeper_required": false,
+    "audit_required": false
+  },
+  "secondary_actions": [
+    {
+      "action_key": "lead-desk.inbox.apply-filters",
+      "label": "Apply filters",
+      "capability_key": null,
+      "action_type": "filter",
+      "risk_level": "low",
+      "requires_confirmation": false,
+      "requires_reauth": false,
+      "gatekeeper_required": false,
+      "audit_required": false
+    }
+  ],
+  "row_actions": [
+    {
+      "action_key": "lead-desk.inbox.row-open",
+      "label": "Open",
+      "capability_key": "lead.inbox.view",
+      "action_type": "open",
+      "risk_level": "low",
+      "requires_confirmation": false,
+      "requires_reauth": false,
+      "gatekeeper_required": false,
+      "audit_required": false
+    }
+  ],
+  "bulk_actions": [],
+  "destructive_actions": [],
+  "data_sources": [
+    {
+      "key": "lead-desk.inbox.source",
+      "label": "Lead inbox data",
+      "source_type": "api",
+      "route_key": "lead-desk.inbox.list-route",
+      "description": "Paginated organization-scoped lead list."
+    }
+  ],
+  "api_routes": [
+    {
+      "key": "lead-desk.inbox.list-route",
+      "method": "GET",
+      "path": "/api/lead-desk/organizations/:organization_id/leads",
+      "capability_key": "lead.inbox.view",
+      "auth_required": true,
+      "public_route": false,
+      "rate_limited": true,
+      "input_schema": "lead.desk.lead.list.input",
+      "output_schema": "lead.desk.lead.list.output",
+      "description": "List lead inbox records."
+    }
+  ],
+  "query_params": [
+    { "key": "status", "required": false, "value_type": "string" },
+    { "key": "assigned_user_id", "required": false, "value_type": "string" }
+  ],
+  "required_entities": [
+    {
+      "entity_key": "lead.record",
+      "purpose": "Render lead identity, status, source, and assignment state."
+    }
+  ],
+  "empty_data_behavior": {
+    "title": "No leads waiting",
+    "message": "There are no leads matching the current filters.",
+    "primary_action_key": "lead-desk.inbox.apply-filters"
+  },
+  "table_columns": [
+    {
+      "key": "full_name",
+      "label": "Lead name",
+      "data_path": "lead.full_name",
+      "column_type": "text",
+      "sortable": true,
+      "required": true
+    },
+    {
+      "key": "status",
+      "label": "Status",
+      "data_path": "lead.status",
+      "column_type": "status",
+      "sortable": true,
+      "required": true
+    },
+    {
+      "key": "assigned_user_id",
+      "label": "Assigned owner",
+      "data_path": "lead.assigned_user_id",
+      "column_type": "text",
+      "sortable": false,
+      "required": false
+    }
+  ],
+  "filters": [
+    {
+      "key": "status",
+      "label": "Status",
+      "filter_type": "multi_select",
+      "scope_type": "organization",
+      "required": false
+    },
+    {
+      "key": "assigned_user_id",
+      "label": "Assigned owner",
+      "filter_type": "text",
+      "scope_type": "organization",
+      "required": false
+    }
+  ],
+  "search_fields": ["lead.full_name", "lead.phone_e164", "lead.source_ref"],
+  "sorting": [
+    { "field_key": "created_at", "direction": "desc", "default": true }
+  ],
+  "pagination": { "mode": "cursor" },
+  "saved_views": [
+    {
+      "key": "lead-desk.inbox.unassigned",
+      "label": "Unassigned leads",
+      "description": "Show leads that do not yet have an owner."
+    }
+  ],
+  "form_fields": [],
+  "validation_rules": [],
+  "submit_action": null,
+  "draft_behavior": { "supported": false, "autosave": false },
+  "file_uploads": [],
+  "empty_state": {
+    "title": "No leads yet",
+    "message": "Leads will appear here after intake is recorded."
+  },
+  "loading_state": {
+    "title": "Loading inbox",
+    "message": "Lead records are loading."
+  },
+  "error_state": {
+    "title": "Could not load inbox",
+    "message": "Try again or contact support if the issue continues."
+  },
+  "permission_denied_state": {
+    "title": "Access needed",
+    "message": "You do not have permission to view the lead inbox."
+  },
+  "degraded_mode_state": {
+    "title": "Limited inbox",
+    "message": "Lead updates are limited while the service recovers."
+  },
+  "desktop_layout": {
+    "layout": "table",
+    "primary_navigation": "Lead Desk",
+    "critical_content": ["lead.full_name", "lead.status"]
+  },
+  "tablet_layout": {
+    "layout": "cards",
+    "primary_navigation": "Lead Desk",
+    "critical_content": ["lead.full_name", "lead.status"]
+  },
+  "mobile_layout": {
+    "layout": "cards",
+    "primary_navigation": "Lead Desk",
+    "critical_content": ["lead.full_name", "lead.status"]
+  },
+  "no_technical_language": true,
+  "no_fake_data": true,
+  "no_placeholder_actions": true,
+  "no_hardcoded_roles": true,
+  "no_hardcoded_units": true,
+  "plain_language_labels": true,
+  "audit_hooks": [
+    {
+      "key": "lead-desk.inbox.view.audit",
+      "action_key": "lead-desk.inbox.open-detail",
+      "description": "Audit trail for opening lead detail from inbox."
+    }
+  ],
+  "events_expected": [
+    {
+      "event_type": "lead.desk.lead.created",
+      "version": "0.1.0"
+    }
+  ],
+  "notifications_triggered": [],
+  "ai_allowed": false,
+  "ai_actions": [],
+  "ai_requires_human_approval": true,
+  "ai_forbidden_actions": ["publish", "send", "approve", "reject", "verify", "issue", "enroll", "delete", "export"],
+  "forbidden_behaviors": [
+    "Do not show fake lead counts.",
+    "Do not expose technical schema names in labels.",
+    "Do not show cross-organization lead records.",
+    "Do not hardcode campus, role, user, or organization values."
+  ]
+}

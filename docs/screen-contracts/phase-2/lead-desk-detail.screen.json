@@ -1,0 +1,177 @@
+{
+  "screen_key": "lead-desk.detail",
+  "module_key": "lead.desk",
+  "title": "Lead Detail",
+  "route": "/lead-desk/leads/:lead_id",
+  "screen_type": "private_portal",
+  "status": "planned",
+  "version": "0.1.0",
+  "business_purpose": "Provide complete lead context and approved lead actions on one detail screen.",
+  "primary_user_context": "Admissions staff reviewing one lead.",
+  "user_goal": "Understand current lead status and update ownership or status safely.",
+  "success_outcome": "Users can inspect one lead and perform only capability-backed actions.",
+  "required_capabilities": ["lead.detail.view"],
+  "optional_capabilities": ["lead.status.update", "lead.inbox.assign"],
+  "visibility_rules": [
+    {
+      "key": "lead-desk.detail.visible",
+      "description": "Visible only when lead detail viewing capability is granted.",
+      "capability_key": "lead.detail.view"
+    }
+  ],
+  "record_scope_behavior": {
+    "default_scope": "organization",
+    "allowed_scope_types": ["organization", "own_unit", "assigned_records"],
+    "description": "Lead detail records remain constrained by organization scope and assignment visibility."
+  },
+  "primary_action": {
+    "action_key": "lead-desk.detail.view-record",
+    "label": "View lead record",
+    "capability_key": "lead.detail.view",
+    "action_type": "view",
+    "risk_level": "low",
+    "requires_confirmation": false,
+    "requires_reauth": false,
+    "gatekeeper_required": false,
+    "audit_required": false
+  },
+  "secondary_actions": [
+    {
+      "action_key": "lead-desk.detail.open-status",
+      "label": "Open status update",
+      "capability_key": "lead.status.update",
+      "action_type": "open",
+      "risk_level": "low",
+      "requires_confirmation": false,
+      "requires_reauth": false,
+      "gatekeeper_required": false,
+      "audit_required": false
+    },
+    {
+      "action_key": "lead-desk.detail.open-assignment",
+      "label": "Open assignment",
+      "capability_key": "lead.inbox.assign",
+      "action_type": "open",
+      "risk_level": "low",
+      "requires_confirmation": false,
+      "requires_reauth": false,
+      "gatekeeper_required": false,
+      "audit_required": false
+    }
+  ],
+  "row_actions": [],
+  "bulk_actions": [],
+  "destructive_actions": [],
+  "data_sources": [
+    {
+      "key": "lead-desk.detail.source",
+      "label": "Lead detail data",
+      "source_type": "api",
+      "route_key": "lead-desk.detail.get-route",
+      "description": "Organization-scoped detail data for one lead."
+    }
+  ],
+  "api_routes": [
+    {
+      "key": "lead-desk.detail.get-route",
+      "method": "GET",
+      "path": "/api/lead-desk/organizations/:organization_id/leads/:lead_id",
+      "capability_key": "lead.detail.view",
+      "auth_required": true,
+      "public_route": false,
+      "rate_limited": true,
+      "input_schema": "lead.desk.lead.detail.input",
+      "output_schema": "lead.desk.lead.detail.output",
+      "description": "Fetch one lead detail record."
+    }
+  ],
+  "query_params": [],
+  "required_entities": [
+    {
+      "entity_key": "lead.record",
+      "purpose": "Display lead identity, source, status, assignment, and timestamps."
+    }
+  ],
+  "empty_data_behavior": {
+    "title": "Lead not found",
+    "message": "This lead is not available in the selected organization."
+  },
+  "table_columns": [],
+  "filters": [],
+  "search_fields": [],
+  "sorting": [],
+  "pagination": { "mode": "none" },
+  "saved_views": [],
+  "form_fields": [
+    { "key": "full_name", "label": "Lead name", "field_type": "text", "required": true },
+    { "key": "phone_e164", "label": "Phone number", "field_type": "text", "required": true },
+    { "key": "source_ref", "label": "Source reference", "field_type": "text", "required": true },
+    { "key": "status", "label": "Status", "field_type": "select", "required": true },
+    { "key": "assigned_user_id", "label": "Assigned owner", "field_type": "text", "required": false },
+    { "key": "notes", "label": "Notes", "field_type": "textarea", "required": false }
+  ],
+  "validation_rules": [],
+  "submit_action": null,
+  "draft_behavior": { "supported": false, "autosave": false },
+  "file_uploads": [],
+  "empty_state": {
+    "title": "No lead selected",
+    "message": "Open a lead from inbox to view details."
+  },
+  "loading_state": {
+    "title": "Loading lead",
+    "message": "Lead details are loading."
+  },
+  "error_state": {
+    "title": "Could not load lead",
+    "message": "Try again or contact support if the issue continues."
+  },
+  "permission_denied_state": {
+    "title": "Access needed",
+    "message": "You do not have permission to view this lead detail."
+  },
+  "degraded_mode_state": {
+    "title": "Limited detail mode",
+    "message": "Lead updates are temporarily unavailable."
+  },
+  "desktop_layout": {
+    "layout": "split_panel",
+    "primary_navigation": "Lead Desk",
+    "critical_content": ["full_name", "status"]
+  },
+  "tablet_layout": {
+    "layout": "single_column",
+    "primary_navigation": "Lead Desk",
+    "critical_content": ["full_name", "status"]
+  },
+  "mobile_layout": {
+    "layout": "single_column",
+    "primary_navigation": "Lead Desk",
+    "critical_content": ["full_name", "status"]
+  },
+  "no_technical_language": true,
+  "no_fake_data": true,
+  "no_placeholder_actions": true,
+  "no_hardcoded_roles": true,
+  "no_hardcoded_units": true,
+  "plain_language_labels": true,
+  "audit_hooks": [
+    {
+      "key": "lead-desk.detail.view.audit",
+      "action_key": "lead-desk.detail.view-record",
+      "description": "Audit access to lead detail records."
+    }
+  ],
+  "events_expected": [],
+  "notifications_triggered": [],
+  "ai_allowed": false,
+  "ai_actions": [],
+  "ai_requires_human_approval": true,
+  "ai_forbidden_actions": ["publish", "send", "approve", "reject", "verify", "issue", "enroll", "delete", "export"],
+  "forbidden_behaviors": [
+    "Do not display cross-organization lead records.",
+    "Do not expose internal IDs as user-facing labels.",
+    "Do not hardcode owner identities.",
+    "Do not assume a fixed status workflow beyond approved status values."
+  ]
+}
