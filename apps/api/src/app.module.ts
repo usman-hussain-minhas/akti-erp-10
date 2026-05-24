@@ -8,6 +8,7 @@ import { ConfigurationController } from './configuration/configuration.controlle
 import { ConfigurationService } from './configuration/configuration.service';
 import { EngagementGatewayController } from './engagement-gateway/engagement-gateway.controller';
 import { EngagementGatewayService } from './engagement-gateway/engagement-gateway.service';
+import { WhatsappStubProvider } from './engagement-gateway/whatsapp-stub.provider';
 import { GatekeeperPreflightService } from './gatekeeper/gatekeeper-preflight.service';
 import { HierarchyController } from './hierarchy/hierarchy.controller';
 import { HierarchyClosureService } from './hierarchy/hierarchy-closure.service';
@@ -44,6 +45,7 @@ import { PrismaService } from './prisma/prisma.service';
     ConfigurationService,
     AccessCoreService,
     EngagementGatewayService,
+    WhatsappStubProvider,
     LeadDeskService,
     GatekeeperPreflightService,
     AuditLogService,

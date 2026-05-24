@@ -11,6 +11,7 @@ import { GatekeeperPreflightService } from '../gatekeeper/gatekeeper-preflight.s
 import { AuditLogService } from '../platform-observability/audit-log.service';
 import { EventOutboxService } from '../platform-observability/event-outbox.service';
 import { PrismaService } from '../prisma/prisma.service';
+import { WhatsappStubProvider } from './whatsapp-stub.provider';
 
 const REQUEST_CREATE_CAPABILITY = 'engagement.gateway.request.create';
 const HEALTH_READ_CAPABILITY = 'engagement.gateway.health.read';
@@ -23,6 +24,7 @@ export class EngagementGatewayService {
     private readonly auditLogService: AuditLogService,
     private readonly eventOutboxService: EventOutboxService,
     private readonly gatekeeperPreflightService: GatekeeperPreflightService,
+    private readonly whatsappStubProvider: WhatsappStubProvider,
   ) {}
 
   async createRequest(organizationId: string, body: unknown, actorUserIdRaw?: string) {
@@ -57,6 +59,23 @@ export class EngagementGatewayService {
 
     const gatewayRequestId = `gateway_request_${randomUUID()}`;
     const recordedAtIso = new Date().toISOString();
+    const stubDispatchResult =
+      input.transport_channel === 'whatsapp_stub'
+        ? this.whatsappStubProvider.dispatchOutbound({
+            organization_id: organizationId,
+            gateway_request_id: gatewayRequestId,
+            recipient_ref: input.recipient_ref,
+            idempotency_key: input.idempotency_key,
+          })
+        : null;
+    const stubInboundReceipt =
+      input.transport_channel === 'whatsapp_stub'
+        ? this.whatsappStubProvider.simulateInboundReceipt({
+            organization_id: organizationId,
+            gateway_request_id: gatewayRequestId,
+            idempotency_key: input.idempotency_key,
+          })
+        : null;
 
     await this.prisma.$transaction(async (tx) => {
       await this.auditLogService.writeAuditLog(tx, {
@@ -72,7 +91,10 @@ export class EngagementGatewayService {
           recipient_ref: input.recipient_ref,
           idempotency_key: input.idempotency_key,
           priority: input.priority,
+          transport_channel: input.transport_channel,
           requested_at: input.requested_at,
+          stub_dispatch: stubDispatchResult,
+          stub_inbound_receipt: stubInboundReceipt,
         },
       });
 

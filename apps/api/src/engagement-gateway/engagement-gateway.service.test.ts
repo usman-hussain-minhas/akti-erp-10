@@ -9,6 +9,8 @@ function createMocks() {
     gatekeeperCalls: [] as unknown[],
     auditCalls: [] as unknown[],
     outboxCalls: [] as unknown[],
+    stubDispatchCalls: [] as unknown[],
+    stubInboundCalls: [] as unknown[],
   };
 
   const prisma = {
@@ -63,11 +65,23 @@ function createMocks() {
     },
   };
 
+  const whatsappStubProvider = {
+    dispatchOutbound: (input: unknown) => {
+      state.stubDispatchCalls.push(input);
+      return { dispatch_status: 'accepted_stub' };
+    },
+    simulateInboundReceipt: (input: unknown) => {
+      state.stubInboundCalls.push(input);
+      return { receipt_status: 'delivered_stub' };
+    },
+  };
+
   const service = new EngagementGatewayService(
     prisma as never,
     auditLogService as never,
     eventOutboxService as never,
     gatekeeperPreflightService as never,
+    whatsappStubProvider as never,
   );
 
   return { service, state, gatekeeperPreflightService };
@@ -97,6 +111,29 @@ async function testCreateRequestHappyPath() {
   assert.equal(state.gatekeeperCalls.length, 1);
   assert.equal(state.auditCalls.length, 1);
   assert.equal(state.outboxCalls.length, 1);
+  assert.equal(state.stubDispatchCalls.length, 0);
+  assert.equal(state.stubInboundCalls.length, 0);
+}
+
+async function testCreateRequestWhatsappStubFlow() {
+  const { service, state } = createMocks();
+  const result = await service.createRequest(
+    'org-1',
+    createInput({
+      transport_channel: 'whatsapp_stub',
+      payload: {
+        template_key: 'lead.intake.ack',
+        locale: 'en-PK',
+        message_variables: { lead_name: 'Lead Alpha' },
+        dry_run_only: true,
+      },
+    }),
+    'actor-1',
+  );
+  assert.equal(result.organization_id, 'org-1');
+  assert.equal(result.status, 'recorded');
+  assert.equal(state.stubDispatchCalls.length, 1);
+  assert.equal(state.stubInboundCalls.length, 1);
 }
 
 async function testMissingActorFails() {
@@ -131,6 +168,7 @@ async function testHealthRead() {
 
 async function run() {
   await testCreateRequestHappyPath();
+  await testCreateRequestWhatsappStubFlow();
   await testMissingActorFails();
   await testCrossOrgActorFails();
   await testInvalidPayloadFails();
