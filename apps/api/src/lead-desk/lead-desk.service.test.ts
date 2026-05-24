@@ -16,12 +16,25 @@ function createMocks() {
   };
 
   const now = new Date('2026-05-24T10:00:00.000Z');
+  const capabilityScopes = new Map<string, string[]>([
+    ['lead.intake.create', ['organization', 'own_unit']],
+    ['lead.inbox.view', ['organization', 'own_unit', 'assigned_records']],
+    ['lead.detail.view', ['organization', 'own_unit', 'assigned_records']],
+    ['lead.status.update', ['organization', 'own_unit', 'assigned_records']],
+    ['lead.inbox.assign', ['organization', 'own_unit']],
+  ]);
 
   const db = {
     user: {
       findFirst: async ({ where }: { where: { organization_id: string; id: string } }) => {
-        if (where.organization_id === 'org-1' && (where.id === 'actor-1' || where.id === 'assignee-1')) {
-          return { id: where.id };
+        if (where.organization_id === 'org-1' && where.id === 'actor-1') {
+          return { id: 'actor-1', primary_unit_id: 'unit-1' };
+        }
+        if (where.organization_id === 'org-1' && where.id === 'actor-3') {
+          return { id: 'actor-3', primary_unit_id: 'unit-2' };
+        }
+        if (where.organization_id === 'org-1' && where.id === 'assignee-1') {
+          return { id: 'assignee-1', primary_unit_id: 'unit-2' };
         }
         return null;
       },
@@ -31,21 +44,40 @@ function createMocks() {
         if (where.organization_id === 'org-1' && where.user_id === 'actor-1') {
           return [{ group_id: 'group-1' }];
         }
+        if (where.organization_id === 'org-1' && where.user_id === 'actor-3') {
+          return [{ group_id: 'group-3' }];
+        }
         return [];
       },
     },
     groupCapability: {
-      findFirst: async ({ where }: { where: { capability_key: string } }) => {
-        if (
-          where.capability_key === 'lead.intake.create' ||
-          where.capability_key === 'lead.inbox.view' ||
-          where.capability_key === 'lead.detail.view' ||
-          where.capability_key === 'lead.status.update' ||
-          where.capability_key === 'lead.inbox.assign'
-        ) {
-          return { id: 'cap-1' };
+      findMany: async ({
+        where,
+      }: {
+        where: { capability_key: string; organization_id: string; group_id: { in: string[] }; scope_type: { in: string[] } };
+      }) => {
+        if (where.organization_id !== 'org-1') {
+          return [];
         }
-        return null;
+        const allowed = capabilityScopes.get(where.capability_key) ?? [];
+        const scopeUnitIdForOwnUnit = where.group_id.in.includes('group-3') ? 'unit-2' : 'unit-1';
+        return allowed
+          .filter((scopeType) => where.scope_type.in.includes(scopeType))
+          .map((scopeType) => ({
+            scope_type: scopeType,
+            scope_unit_id: scopeType === 'own_unit' ? scopeUnitIdForOwnUnit : null,
+          }));
+      },
+    },
+    organizationUnitClosure: {
+      findMany: async ({ where }: { where: { organization_id: string; ancestor_unit_id: { in: string[] } } }) => {
+        if (where.organization_id !== 'org-1') {
+          return [];
+        }
+        if (where.ancestor_unit_id.in.includes('unit-1')) {
+          return [{ descendant_unit_id: 'unit-1' }, { descendant_unit_id: 'unit-1-1' }];
+        }
+        return [];
       },
     },
     leadRecord: {
@@ -63,10 +95,26 @@ function createMocks() {
         if (where.organization_id !== 'org-1') {
           return [];
         }
+        if (
+          typeof where === 'object' &&
+          where !== null &&
+          'AND' in where &&
+          Array.isArray((where as { AND?: unknown[] }).AND) &&
+          ((where as { AND: unknown[] }).AND[0] as { OR?: Array<{ assigned_user_id?: string; organization_unit_id?: { in: string[] } }> })
+            ?.OR
+        ) {
+          const scopeOr = ((where as { AND: Array<{ OR?: Array<{ assigned_user_id?: string; organization_unit_id?: { in: string[] } }> }> }).AND[0].OR) ?? [];
+          const allowAssigned = scopeOr.some((item) => item.assigned_user_id === 'actor-1');
+          const allowUnit = scopeOr.some((item) => item.organization_unit_id?.in.includes('unit-1'));
+          if (!allowAssigned && !allowUnit) {
+            return [];
+          }
+        }
         return [
           {
             id: 'lead-1',
             organization_id: 'org-1',
+            organization_unit_id: 'unit-1',
             full_name: 'Lead One',
             phone_e164: '+923001234567',
             source_ref: 'web-form',
@@ -78,10 +126,26 @@ function createMocks() {
         ];
       },
       findFirst: async ({ where }: { where: { organization_id: string; id: string } }) => {
-        if (where.organization_id === 'org-1' && where.id === 'lead-1') {
+        const hasScopeOr =
+          typeof where === 'object' &&
+          where !== null &&
+          'AND' in where &&
+          Array.isArray((where as { AND?: unknown[] }).AND) &&
+          ((where as { AND: unknown[] }).AND[0] as { OR?: Array<{ assigned_user_id?: string; organization_unit_id?: { in: string[] } }> })
+            ?.OR;
+        const scopeOr = hasScopeOr
+          ? (((where as { AND: Array<{ OR?: Array<{ assigned_user_id?: string; organization_unit_id?: { in: string[] } }> }> }).AND[0].OR) ?? [])
+          : null;
+        const scopeAllowed =
+          scopeOr === null ||
+          scopeOr.some((item) => item.assigned_user_id === 'actor-1') ||
+          scopeOr.some((item) => item.organization_unit_id?.in.includes('unit-1'));
+
+        if (where.organization_id === 'org-1' && where.id === 'lead-1' && scopeAllowed) {
           return {
             id: 'lead-1',
             organization_id: 'org-1',
+            organization_unit_id: 'unit-1',
             full_name: 'Lead One',
             phone_e164: '+923001234567',
             source_ref: 'web-form',
@@ -106,6 +170,7 @@ function createMocks() {
           full_name: 'Lead One',
           phone_e164: '+923001234567',
           source_ref: 'web-form',
+          organization_unit_id: 'unit-1',
           status: data.status ?? 'new',
           assigned_user_id: data.assigned_user_id ?? null,
           created_at: now,
@@ -156,7 +221,7 @@ function createMocks() {
     gatekeeperPreflightService as never,
   );
 
-  return { service, state, gatekeeperPreflightService, db, auditLogService, eventOutboxService };
+  return { service, state, gatekeeperPreflightService, db, auditLogService, eventOutboxService, capabilityScopes };
 }
 
 function createMocksWithRealGatekeeper() {
@@ -238,6 +303,20 @@ async function testListLeadsHappyPath() {
   assert.equal(result.items[0].organization_id, 'org-1');
 }
 
+async function testListLeadsAssignedRecordsScopeOnly() {
+  const { service, capabilityScopes } = createMocks();
+  capabilityScopes.set('lead.inbox.view', ['assigned_records']);
+  const result = await service.listLeads('org-1', { limit: '10' }, 'actor-1');
+  assert.equal(result.items.length, 1);
+}
+
+async function testListLeadsOwnUnitScopeOnly() {
+  const { service, capabilityScopes } = createMocks();
+  capabilityScopes.set('lead.inbox.view', ['own_unit']);
+  const result = await service.listLeads('org-1', { limit: '10' }, 'actor-1');
+  assert.equal(result.items.length, 1);
+}
+
 async function testGetLeadDetailHappyPath() {
   const { service } = createMocks();
   const result = await service.getLeadDetail('org-1', 'lead-1', 'actor-1');
@@ -247,6 +326,12 @@ async function testGetLeadDetailHappyPath() {
 async function testGetLeadDetailCrossOrgNotFound() {
   const { service } = createMocks();
   await assert.rejects(service.getLeadDetail('org-1', 'lead-2', 'actor-1'), NotFoundException);
+}
+
+async function testGetLeadDetailUnauthorizedDoesNotRevealExistence() {
+  const { service, capabilityScopes } = createMocks();
+  capabilityScopes.set('lead.detail.view', ['assigned_records']);
+  await assert.rejects(service.getLeadDetail('org-1', 'lead-1', 'actor-3'), NotFoundException);
 }
 
 async function testUpdateLeadStatusHappyPath() {
@@ -329,6 +414,23 @@ async function testUpdateLeadStatusCrossOrgDenied() {
       'actor-1',
     ),
     ForbiddenException,
+  );
+}
+
+async function testUpdateLeadStatusDeniedOutsideScope() {
+  const { service, capabilityScopes } = createMocks();
+  capabilityScopes.set('lead.status.update', ['assigned_records']);
+  await assert.rejects(
+    service.updateLeadStatus(
+      'org-1',
+      'lead-1',
+      {
+        status: 'qualified',
+        requested_at: '2026-05-24T10:10:00.000Z',
+      },
+      'actor-3',
+    ),
+    NotFoundException,
   );
 }
 
@@ -446,6 +548,23 @@ async function testUpdateLeadAssignmentCrossOrgDenied() {
   );
 }
 
+async function testUpdateLeadAssignmentDeniedOutsideScope() {
+  const { service, capabilityScopes } = createMocks();
+  capabilityScopes.set('lead.inbox.assign', ['own_unit']);
+  await assert.rejects(
+    service.updateLeadAssignment(
+      'org-1',
+      'lead-1',
+      {
+        assigned_user_id: 'assignee-1',
+        requested_at: '2026-05-24T10:20:00.000Z',
+      },
+      'actor-3',
+    ),
+    NotFoundException,
+  );
+}
+
 async function testUpdateLeadAssignmentInvalidPayloadFails() {
   const { service } = createMocks();
   await assert.rejects(
@@ -490,13 +609,17 @@ async function run() {
   await testCreateLeadInvalidPayloadFails();
   await testCreateLeadGatekeeperDenied();
   await testListLeadsHappyPath();
+  await testListLeadsAssignedRecordsScopeOnly();
+  await testListLeadsOwnUnitScopeOnly();
   await testGetLeadDetailHappyPath();
   await testGetLeadDetailCrossOrgNotFound();
+  await testGetLeadDetailUnauthorizedDoesNotRevealExistence();
   await testUpdateLeadStatusHappyPath();
   await testUpdateLeadStatusHappyPathUsesRealGatekeeper();
   await testUpdateLeadStatusMissingActorFails();
   await testUpdateLeadStatusUnauthorizedActorFails();
   await testUpdateLeadStatusCrossOrgDenied();
+  await testUpdateLeadStatusDeniedOutsideScope();
   await testUpdateLeadStatusInvalidPayloadFails();
   await testUpdateLeadStatusGatekeeperDenied();
   await testUpdateLeadAssignmentHappyPath();
@@ -504,6 +627,7 @@ async function run() {
   await testUpdateLeadAssignmentMissingActorFails();
   await testUpdateLeadAssignmentUnauthorizedActorFails();
   await testUpdateLeadAssignmentCrossOrgDenied();
+  await testUpdateLeadAssignmentDeniedOutsideScope();
   await testUpdateLeadAssignmentInvalidPayloadFails();
   await testUpdateLeadAssignmentGatekeeperDenied();
   console.log('lead-desk.service tests passed');

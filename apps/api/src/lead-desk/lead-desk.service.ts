@@ -15,9 +15,11 @@ import {
 } from '@akti/contracts/lead-desk-core';
 
 import { GatekeeperPreflightService } from '../gatekeeper/gatekeeper-preflight.service';
+import { loadPhase2CapabilityScopeMap } from '../module-registry/module-registry.service';
 import { AuditLogService } from '../platform-observability/audit-log.service';
 import { EventOutboxService } from '../platform-observability/event-outbox.service';
 import { PrismaService } from '../prisma/prisma.service';
+import type { PermissionScopeType, Prisma } from '../prisma/prisma-client';
 
 const CAP_CREATE = 'lead.intake.create';
 const CAP_LIST = 'lead.inbox.view';
@@ -31,7 +33,10 @@ const LEAD_ASSIGNED_EVENT = 'lead.desk.lead.assigned';
 
 type ActiveActor = {
   actor_user_id: string;
+  primary_unit_id: string | null;
   active_group_ids: string[];
+  scope_types: Set<PermissionScopeType>;
+  own_unit_ids: string[];
 };
 
 @Injectable()
@@ -75,6 +80,7 @@ export class LeadDeskService {
       const lead = await tx.leadRecord.create({
         data: {
           organization_id: organizationId,
+          organization_unit_id: actor.primary_unit_id,
           source_ref: parsed.source_ref,
           full_name: parsed.full_name,
           phone_e164: parsed.phone_e164,
@@ -143,11 +149,13 @@ export class LeadDeskService {
       'invalid list query payload',
     );
 
-    await this.requireCapability(this.prisma, organizationId, actorUserId, CAP_LIST);
+    const actor = await this.requireCapability(this.prisma, organizationId, actorUserId, CAP_LIST);
+    const scopeWhere = this.buildLeadScopeWhere(actor);
 
     const rows = await this.prisma.leadRecord.findMany({
       where: {
         organization_id: organizationId,
+        ...(scopeWhere ? { AND: [scopeWhere] } : {}),
         status: input.status,
         assigned_user_id: input.assigned_user_id,
       },
@@ -203,18 +211,8 @@ export class LeadDeskService {
       'invalid detail request payload',
     );
 
-    await this.requireCapability(this.prisma, organizationId, actorUserId, CAP_DETAIL);
-
-    const lead = await this.prisma.leadRecord.findFirst({
-      where: {
-        organization_id: organizationId,
-        id: leadId,
-      },
-    });
-
-    if (!lead) {
-      throw new NotFoundException('lead not found in organization');
-    }
+    const actor = await this.requireCapability(this.prisma, organizationId, actorUserId, CAP_DETAIL);
+    const lead = await this.requireLeadInScope(this.prisma, organizationId, leadId, actor);
 
     return this.parseOrBadRequest(
       () =>
@@ -248,6 +246,7 @@ export class LeadDeskService {
 
     return this.prisma.$transaction(async (tx) => {
       const actor = await this.requireCapability(tx as never, organizationId, actorUserId, CAP_STATUS_UPDATE);
+      const lead = await this.requireLeadInScope(tx as never, organizationId, leadId, actor);
 
       await this.gatekeeperPreflightService.requireAllow({
         organization_id: organizationId,
@@ -263,16 +262,6 @@ export class LeadDeskService {
           reason: input.reason ?? null,
         },
       });
-
-      const lead = await tx.leadRecord.findFirst({
-        where: {
-          organization_id: organizationId,
-          id: leadId,
-        },
-      });
-      if (!lead) {
-        throw new NotFoundException('lead not found in organization');
-      }
 
       const updated = await tx.leadRecord.update({
         where: {
@@ -351,6 +340,7 @@ export class LeadDeskService {
 
     return this.prisma.$transaction(async (tx) => {
       const actor = await this.requireCapability(tx as never, organizationId, actorUserId, CAP_ASSIGN);
+      const lead = await this.requireLeadInScope(tx as never, organizationId, leadId, actor);
 
       await this.gatekeeperPreflightService.requireAllow({
         organization_id: organizationId,
@@ -366,13 +356,7 @@ export class LeadDeskService {
         },
       });
 
-      const [lead, assignedUser] = await Promise.all([
-        tx.leadRecord.findFirst({
-          where: {
-            organization_id: organizationId,
-            id: leadId,
-          },
-        }),
+      const [assignedUser] = await Promise.all([
         tx.user.findFirst({
           where: {
             organization_id: organizationId,
@@ -384,9 +368,6 @@ export class LeadDeskService {
         }),
       ]);
 
-      if (!lead) {
-        throw new NotFoundException('lead not found in organization');
-      }
       if (!assignedUser) {
         throw new BadRequestException('assigned_user_id must reference a user in the same organization');
       }
@@ -458,11 +439,17 @@ export class LeadDeskService {
   }
 
   private async requireCapability(
-    db: Pick<PrismaService, 'user' | 'userGroup' | 'groupCapability'>,
+    db: Pick<PrismaService, 'user' | 'userGroup' | 'groupCapability' | 'organizationUnitClosure'>,
     organizationId: string,
     actorUserId: string,
     capabilityKey: string,
   ): Promise<ActiveActor> {
+    const scopeMap = await loadPhase2CapabilityScopeMap();
+    const allowedScopeTypes = scopeMap.get(capabilityKey);
+    if (!allowedScopeTypes || allowedScopeTypes.length === 0) {
+      throw new ForbiddenException(`capability scope definition missing for ${capabilityKey}`);
+    }
+
     const actor = await db.user.findFirst({
       where: {
         organization_id: organizationId,
@@ -470,6 +457,7 @@ export class LeadDeskService {
       },
       select: {
         id: true,
+        primary_unit_id: true,
       },
     });
 
@@ -492,27 +480,125 @@ export class LeadDeskService {
       throw new ForbiddenException(`actor lacks ${capabilityKey}`);
     }
 
-    const assignment = await db.groupCapability.findFirst({
+    const assignments = await db.groupCapability.findMany({
       where: {
         organization_id: organizationId,
         group_id: {
           in: activeGroupIds,
         },
         capability_key: capabilityKey,
+        scope_type: {
+          in: [...allowedScopeTypes],
+        },
       },
       select: {
-        id: true,
+        scope_type: true,
+        scope_unit_id: true,
       },
     });
 
-    if (!assignment) {
+    if (assignments.length === 0) {
+      throw new ForbiddenException(`actor lacks ${capabilityKey}`);
+    }
+
+    const scopeTypes = new Set<PermissionScopeType>(assignments.map((item) => item.scope_type));
+    const ownUnitAncestorIds = Array.from(
+      new Set(
+        assignments
+          .filter((item) => item.scope_type === 'own_unit')
+          .map((item) => item.scope_unit_id)
+          .filter((scopeUnitId): scopeUnitId is string => typeof scopeUnitId === 'string' && scopeUnitId.length > 0),
+      ),
+    );
+
+    if (scopeTypes.has('own_unit') && ownUnitAncestorIds.length === 0 && actor.primary_unit_id) {
+      ownUnitAncestorIds.push(actor.primary_unit_id);
+    }
+
+    let ownUnitIds: string[] = [];
+    if (ownUnitAncestorIds.length > 0) {
+      const closureRows = await db.organizationUnitClosure.findMany({
+        where: {
+          organization_id: organizationId,
+          ancestor_unit_id: {
+            in: ownUnitAncestorIds,
+          },
+        },
+        select: {
+          descendant_unit_id: true,
+        },
+      });
+
+      ownUnitIds = Array.from(
+        new Set([
+          ...ownUnitAncestorIds,
+          ...closureRows.map((row) => row.descendant_unit_id),
+        ]),
+      );
+    }
+
+    if (scopeTypes.size === 0 || (scopeTypes.has('own_unit') && !scopeTypes.has('organization') && ownUnitIds.length === 0)) {
       throw new ForbiddenException(`actor lacks ${capabilityKey}`);
     }
 
     return {
       actor_user_id: actor.id,
+      primary_unit_id: actor.primary_unit_id ?? null,
       active_group_ids: activeGroupIds,
+      scope_types: scopeTypes,
+      own_unit_ids: ownUnitIds,
     };
+  }
+
+  private buildLeadScopeWhere(actor: ActiveActor): Prisma.LeadRecordWhereInput | null {
+    if (actor.scope_types.has('organization')) {
+      return null;
+    }
+
+    const orFilters: Prisma.LeadRecordWhereInput[] = [];
+    if (actor.scope_types.has('assigned_records')) {
+      orFilters.push({
+        assigned_user_id: actor.actor_user_id,
+      });
+    }
+
+    if (actor.scope_types.has('own_unit') && actor.own_unit_ids.length > 0) {
+      orFilters.push({
+        organization_unit_id: {
+          in: actor.own_unit_ids,
+        },
+      });
+    }
+
+    if (orFilters.length === 0) {
+      throw new ForbiddenException('actor lacks lead scope access');
+    }
+
+    return {
+      OR: orFilters,
+    };
+  }
+
+  private async requireLeadInScope(
+    db: Pick<PrismaService, 'leadRecord'>,
+    organizationId: string,
+    leadId: string,
+    actor: ActiveActor,
+  ) {
+    const scopeWhere = this.buildLeadScopeWhere(actor);
+    const lead = await db.leadRecord.findFirst({
+      where: {
+        organization_id: organizationId,
+        id: leadId,
+        ...(scopeWhere ? { AND: [scopeWhere] } : {}),
+      },
+    });
+
+    if (!lead) {
+      throw new NotFoundException('lead not found in organization');
+    }
+
+    return lead;
   }
 
   private parseOrBadRequest<T>(fn: () => T, message: string): T {
