@@ -109,6 +109,35 @@
     "runtime_state_rule": "Control documents define approved queue, boundaries, decision rules, and hard gates; runtime progress is derived from git and codex-review state sources, not per-ticket control-doc edits.",
     "per_ticket_control_doc_update_rule": "Do not require control-doc updates after every completed ticket during /goal execution.",
     "autonomous_loop_rule": "Codex may continue automatically to the next ticket when exact-file scope, validation, self-audit, lightweight artifacts, runtime state update, and commit/no-commit policy all pass with no hard gate trigger.",
+    "autonomous_validation_repair_rule": "Codex may auto-repair deterministic schema/type/test/lint failures inside active ticket scope with no dependency or authority change, no invented scope, and no forbidden-file edits.",
+    "autonomous_validation_repair_examples": [
+      "import/export name mismatch",
+      "TypeScript type mismatch inside active ticket files",
+      "Zod/schema shape mismatch",
+      "module manifest field mismatch",
+      "invalid manifest key format",
+      "duplicate action key",
+      "missing required capability key when an approved capability already exists",
+      "local test expectation mismatch caused by active ticket implementation"
+    ],
+    "autonomous_validation_repair_non_repairable": [
+      "file outside active ticket scope",
+      "new dependency",
+      "Prisma/schema change not allowed by ticket",
+      "migration strategy decision",
+      "new business rule",
+      "new capability/permission/role/module/event/screen",
+      "secret or external credential",
+      "direct WhatsApp/Meta coupling",
+      "frontend without screen contract",
+      "fake data or hardcoded tenant/campus/role/user/org assumptions"
+    ],
+    "autonomous_validation_repair_budget": {
+      "max_cycles_per_ticket": 3,
+      "budget_exhausted_outcome": "VALIDATION_FAILED",
+      "stop_immediately_on_true_hard_gate": true
+    },
+    "autonomous_validation_repair_reporting_policy": "Do not stop or report for each local repair attempt. Record attempts in ticket summary artifact. Report only when repair budget is exhausted, hard gate triggers, phase/final gate is reached, or run completes.",
     "artifact_only_ticket_rule": "If a ticket produces only ignored artifacts and no tracked source file changes, create artifacts, update journal/runtime state, record no tracked commit required, and continue.",
     "push_policy": "Codex may push only phase2/autonomous-full-run. Never push main. Never merge main. Never open PR unless explicitly requested."
   },

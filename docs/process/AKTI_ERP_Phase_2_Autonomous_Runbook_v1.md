@@ -132,6 +132,15 @@ If these materially conflict, stop with `RUN_STATE_CONFLICT`.
 
 Do not stop after each successful ticket only because `completed_tickets`, `completed_commits`, or `next_executable_ticket` fields are stale.
 
+Autonomous validation repair policy during `/goal`:
+
+- Codex may auto-repair deterministic validation failures (schema/type/test/lint) when the fix stays inside active ticket scope.
+- Auto-repair requires no new dependency, no architecture/control-doc/ADR mutation (except explicit control-doc correction ticket), no invented business rule/capability/permission/module/event/role/screen/workflow/status, and no forbidden-file edits.
+- Auto-repairable examples include import/export mismatch, type mismatch, Zod/schema shape mismatch, module manifest field mismatch, invalid manifest key format, duplicate action key, missing required capability key where approved capability already exists, and local test expectation mismatch caused by active ticket implementation.
+- Non-repairable cases are hard stops: file outside ticket scope, new dependency, disallowed Prisma/schema change, unclear migration strategy, new business rule, invented capability/permission/role/module/event/screen, secret or external credential use, direct WhatsApp/Meta coupling, frontend without screen contract, fake data, or hardcoded tenant/campus/role/user/org assumptions.
+- Repair budget is up to 3 autonomous repair cycles per ticket. If still failing after 3 cycles, stop with `VALIDATION_FAILED`. If a true hard gate appears, stop immediately.
+- Do not report to user for each repair attempt. Summarize repair attempts in the ticket summary artifact. Report only when repair budget is exhausted, hard gate triggers, phase/final gate is reached, or run completes.
+
 ## 9. Decision-Rule Execution
 
 - P2A-002: defer persistence if P2A-001 contracts do not require it; implement exact derivable models only after P2-VAL-001; stop if unclear.

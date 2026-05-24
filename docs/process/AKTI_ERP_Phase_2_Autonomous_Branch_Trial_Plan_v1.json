@@ -354,6 +354,54 @@
       "Exception does not authorize Phase 3 or non-Phase-2 scope."
     ],
     "p2b_gate_continuation_policy": "P2B-GATE is a validation checkpoint. If validation passes, continue automatically into P2C. If validation fails, stop.",
-    "full_phase2_autonomy_statement": "Codex may run complete Phase 2 autonomously from P2-VAL-002 through P2C-GATE and stops only on hard gate, validation failure twice, RUN_STATE_CONFLICT, or final run completion."
+    "full_phase2_autonomy_statement": "Codex may run complete Phase 2 autonomously from P2-VAL-002 through P2C-GATE and stops only on hard gate, validation failure twice, RUN_STATE_CONFLICT, or final run completion.",
+    "autonomous_validation_repair_policy": {
+      "enabled": true,
+      "allowed_when_all_true": [
+        "failure is deterministic from schema/type/test/lint output",
+        "fix is limited to the active ticket allowed files",
+        "no new dependency is required",
+        "no architecture/control-doc/ADR change is required, except explicit control-doc correction ticket",
+        "no business rule, role, permission, capability, module, event, status, workflow, or screen must be invented",
+        "no forbidden file must change"
+      ],
+      "auto_repairable_examples": [
+        "import/export name mismatch",
+        "TypeScript type mismatch inside active ticket files",
+        "Zod/schema shape mismatch",
+        "module manifest field mismatch",
+        "invalid manifest key format",
+        "duplicate action key",
+        "missing required capability key when an approved capability already exists",
+        "local test expectation mismatch caused by active ticket implementation"
+      ],
+      "non_repairable_hard_stops": [
+        "file outside active ticket scope",
+        "new dependency",
+        "Prisma/schema change not allowed by ticket",
+        "migration strategy decision",
+        "new business rule",
+        "new capability/permission/role/module/event/screen",
+        "secret or external credential",
+        "direct WhatsApp/Meta coupling",
+        "frontend without screen contract",
+        "fake data or hardcoded tenant/campus/role/user/org assumptions"
+      ],
+      "repair_budget": {
+        "max_repair_cycles_per_ticket": 3,
+        "stop_when_budget_exhausted": "VALIDATION_FAILED",
+        "stop_immediately_on_true_hard_gate": true
+      },
+      "reporting_policy": {
+        "no_per_attempt_user_stop_or_report": true,
+        "summarize_repair_attempts_in_ticket_summary_artifact": true,
+        "report_only_when": [
+          "repair budget exhausted",
+          "hard gate triggers",
+          "phase/final gate reached",
+          "run completes"
+        ]
+      }
+    }
   }
 }

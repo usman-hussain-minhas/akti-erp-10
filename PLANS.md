@@ -128,6 +128,53 @@ Control-doc progress fields are bootstrap/reference metadata only. Codex must no
 
 Codex may run complete Phase 2 autonomously from `P2-VAL-002` through `P2C-GATE`. Codex stops only on hard gate trigger, validation failure twice, `RUN_STATE_CONFLICT`, or final run completion.
 
+## Autonomous Validation Repair Policy
+
+Codex may automatically repair validation failures during a ticket when all are true:
+
+- failure is deterministic from schema/type/test/lint output
+- fix is limited to the active ticket's allowed files
+- no new dependency is required
+- no architecture/control-doc/ADR change is required, except an explicit control-doc correction ticket
+- no business rule, role, permission, capability, module, event, status, workflow, or screen must be invented
+- no forbidden file must change
+
+Auto-repairable examples include:
+
+- import/export name mismatch
+- TypeScript type mismatch inside active ticket files
+- Zod/schema shape mismatch
+- module manifest field mismatch
+- invalid manifest key format
+- duplicate action key
+- missing required capability key when an approved capability already exists
+- local test expectation mismatch caused by active ticket implementation
+
+Non-repairable cases must stop immediately:
+
+- file outside active ticket scope
+- new dependency
+- Prisma/schema change not allowed by ticket
+- migration strategy decision
+- new business rule
+- new capability/permission/role/module/event/screen
+- secret or external credential
+- direct WhatsApp/Meta coupling
+- frontend without screen contract
+- fake data or hardcoded tenant/campus/role/user/org assumptions
+
+Repair budget:
+
+- up to 3 autonomous repair cycles per ticket for local deterministic failures
+- if validation still fails after 3 repair cycles, stop with `VALIDATION_FAILED`
+- if any repair attempt reveals a true hard gate, stop immediately
+
+Reporting policy:
+
+- do not report or stop for each local repair attempt
+- summarize repair attempts in the ticket summary artifact
+- report to user only if repair budget is exhausted, hard gate triggers, phase/final gate is reached, or run completes
+
 ## Artifact Expectations
 
 Per ticket, lightweight artifacts are:
