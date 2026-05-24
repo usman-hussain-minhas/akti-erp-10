@@ -160,7 +160,23 @@
       "Ticket artifacts cannot be created or verified",
       "Dirty branch at ticket start except ignored review artifacts"
     ],
-    "p2_val_001_commit": "8b8b691227d6fff12c2bb7c8017e11bf49041e8b"
+    "p2_val_001_commit": "8b8b691227d6fff12c2bb7c8017e11bf49041e8b",
+    "goal_start_ticket": "P2A-002",
+    "pre_goal_completed_tickets": [
+      "P2-000",
+      "P2A-001",
+      "P2-VAL-001"
+    ],
+    "runtime_state_model": "stable_contract_not_live_ledger",
+    "runtime_progress_sources": [
+      "git_commit_history",
+      "codex-review/phase2-autonomous-full-run/autonomous-run-journal.md",
+      "codex-review/phase2-autonomous-full-run/ticket-artifacts/<ticket-id>/",
+      "codex-review/phase2-autonomous-full-run/run-state.json (optional)",
+      "active_v3_queue_order"
+    ],
+    "runtime_conflict_policy": "STOP_WITH_RUN_STATE_CONFLICT",
+    "bootstrap_metadata_note": "next_executable_ticket is bootstrap/reference metadata and is not a live per-ticket execution ledger."
   },
   "phase_scope": {
     "included": [
@@ -202,7 +218,8 @@
       "Direct WhatsApp/Meta API calls from Lead Desk",
       "Frontend screens without approved screen contracts",
       "Unapproved modules such as LMS, HR, Finance, Hiring, Certification, Website Builder, AI Content Editor",
-      "approval-never / no-approval autonomous mutation mode"
+      "approval-never / no-approval autonomous mutation mode",
+      "Stopping after each successful ticket only because control-doc progress fields are stale"
     ],
     "optional_later": [
       {
@@ -236,7 +253,7 @@
     "The runbook exists in docs/process/",
     "PLANS.md exists",
     "Codex has validated these documents against repo reality in Plan Mode",
-    "Corrections, if any, are applied before /goal starts",
+    "Corrections, if any, are applied before /goal starts; control docs remain stable run contract during execution",
     "The operational branch starts from current clean main after Phase 2 control-document corrections are merged; final Phase 1 implementation commit is 18f497d and Phase 2 control-doc merge commit is f02ac95",
     "Working tree is clean before branch creation",
     "No autonomous run starts without an approved active execution pack",
@@ -296,12 +313,12 @@
       "Ticket validations pass",
       "Phase-gate validations pass",
       "Per-ticket commits exist on operational branch",
-      "Per-ticket artifacts exist",
       "Final branch audit package exists",
       "main remains untouched",
       "P2-VAL-001 and P2-VAL-002 complete before dependent schema or screen-contract tickets",
       "V3 autonomous decision rules are followed before continuing through decision-rule tickets",
-      "P2A-001 artifact backfill is acknowledged and future ticket artifacts are created before commit"
+      "P2A-001 artifact backfill is acknowledged and future ticket artifacts are created before commit",
+      "Per-ticket lightweight artifacts exist (<ticket-id>-summary.md and <ticket-id>-changed-files.zip), with heavy audits at phase gates/final only"
     ],
     "architecture": [
       "No direct Lead Desk to WhatsApp/Meta API calls",

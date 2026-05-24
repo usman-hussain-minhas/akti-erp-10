@@ -19,7 +19,11 @@ Codex must use:
 
 as the active run contract. If the execution pack conflicts with Prisma, contracts, module manifests, generated registry, ADRs, or AGENTS.md, Codex must stop and report the conflict.
 
-P2-000 is complete. P2A-001 is complete at commit `944d0c84badbf9633c12c395f8e50cb08cc96571`. P2-VAL-001 is complete at commit `8b8b691227d6fff12c2bb7c8017e11bf49041e8b`. The next executable ticket is `P2A-002`.
+The active control docs define queue, boundaries, decision rules, and hard gates. They are a stable run contract, not a live per-ticket execution ledger.
+
+Goal start anchor: `P2A-002`.
+
+Tickets completed before this goal start: `P2-000`, `P2A-001` (`944d0c84badbf9633c12c395f8e50cb08cc96571`), and `P2-VAL-001` (`8b8b691227d6fff12c2bb7c8017e11bf49041e8b`).
 
 ## 4. Branch
 
@@ -82,7 +86,7 @@ Codex must confirm:
 - package scripts are available or missing scripts are reported honestly
 - no production secrets are required or accessed
 - execution environment is approved safe mode: not danger-full-access, not unrestricted network, not approval-never
-- next executable ticket is `P2A-002`
+- goal start ticket is `P2A-002`
 - P2-VAL-001 precedes schema-changing tickets
 - P2-VAL-002 precedes Lead Desk screen-contract tickets
 - Phase 2C is governance-blocked until ADR-0003 has a pilot target date or formal exception
@@ -116,6 +120,18 @@ For each ticket:
 15. Commit only ticket-approved files.
 16. Continue to next ticket or stop.
 
+Runtime progress during `/goal` is derived from:
+
+- git commit history
+- `codex-review/phase2-autonomous-full-run/autonomous-run-journal.md`
+- `codex-review/phase2-autonomous-full-run/ticket-artifacts/<ticket-id>/`
+- optional `codex-review/phase2-autonomous-full-run/run-state.json`
+- active v3 queue order
+
+If these materially conflict, stop with `RUN_STATE_CONFLICT`.
+
+Do not stop after each successful ticket only because `completed_tickets`, `completed_commits`, or `next_executable_ticket` fields are stale.
+
 ## 9. Decision-Rule Execution
 
 - P2A-002: defer persistence if P2A-001 contracts do not require it; implement exact derivable models only after P2-VAL-001; stop if unclear.
@@ -129,12 +145,11 @@ For each ticket:
 
 ## 10. Artifact Procedure
 
-For each future ticket create artifacts before commit:
+For each future ticket create lightweight artifacts before commit:
 
 ```text
-codex-review/phase2-autonomous-full-run/ticket-artifacts/<ticket-id>/<ticket-id>-file-manifest.md
+codex-review/phase2-autonomous-full-run/ticket-artifacts/<ticket-id>/<ticket-id>-summary.md
 codex-review/phase2-autonomous-full-run/ticket-artifacts/<ticket-id>/<ticket-id>-changed-files.zip
-codex-review/phase2-autonomous-full-run/ticket-artifacts/<ticket-id>/<ticket-id>-validation-summary.md
 ```
 
 Append:
@@ -143,13 +158,11 @@ Append:
 codex-review/phase2-autonomous-full-run/autonomous-run-journal.md
 ```
 
-After every 3 tickets create:
-
-```text
-codex-review/phase2-autonomous-full-run/checkpoints/checkpoint-<n>.md
-```
+Heavy audit artifacts are required at `P2A-GATE`, `P2B-GATE`, and final branch audit only.
 
 P2A-001 artifacts were backfilled after commit `944d0c84badbf9633c12c395f8e50cb08cc96571` because the implementation commit lacked artifacts. Do not rerun P2A-001. If `codex-review` is ignored, artifacts must still be included in the final audit package and reported in the journal.
+
+If a ticket has no tracked source-file changes by design (artifact-only ticket), create artifacts, update journal/runtime state, record `no tracked commit required`, and continue.
 
 ## 11. Commit Procedure
 
@@ -158,6 +171,7 @@ P2A-001 artifacts were backfilled after commit `944d0c84badbf9633c12c395f8e50cb0
 - Do not include unrelated changes.
 - Do not commit failed validation unless the ticket is explicitly a failure report artifact.
 - Do not merge.
+- Push is allowed only to `phase2/autonomous-full-run`. Never push or merge `main`. Never open PR unless explicitly asked.
 
 ## 12. Hard Gates
 
@@ -165,23 +179,19 @@ Stop if:
 
 - Unsafe execution environment
 - Required file outside exact ticket scope
+- Validation failure twice
 - New dependency required
-- Secret access, inspection, printing, copying, exporting, or use required
-- Active control docs need mutation outside an explicit control-doc correction ticket
+- Secret access required
 - Invented business rule, capability, permission, event, module, role, or screen required
 - Unclear migration strategy
-- Schema edit before P2-VAL-001
-- Migration scaffolding required but not explicitly ticketed
-- Unexpected generated registry drift
 - Direct WhatsApp/Meta coupling
-- Lead Desk direct WhatsApp/Meta call
 - Frontend without approved screen contract
 - Fake dashboards or fake operational data
 - Hardcoded tenant/campus/role/user assumptions
-- Phase 2C before ADR-0003 date/exception
-- Validation failure twice
-- Ticket artifacts cannot be created or verified
-- Dirty branch at ticket start except ignored review artifacts
+- Phase 2C governance block
+- RUN_STATE_CONFLICT
+- Phase gate reached
+- Final run complete
 
 When stopping, report ticket ID, reason, changed files, validation status, last successful commit, and recommended next action.
 

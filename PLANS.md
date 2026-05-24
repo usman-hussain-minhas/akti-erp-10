@@ -6,6 +6,20 @@ Status: active_v3_after_p2_ctrl_001
 
 This file is a human-readable roadmap for the AKTI ERP Phase 2 Autonomous Execution Run. It summarizes the active execution pack and is not the source of truth.
 
+## Runtime State Model
+
+The active control docs define the approved queue, boundaries, decision rules, and hard gates. They are the stable run contract, not the live execution ledger.
+
+During `/goal`, runtime progress is derived from:
+
+- git commit history
+- `codex-review/phase2-autonomous-full-run/autonomous-run-journal.md`
+- `codex-review/phase2-autonomous-full-run/ticket-artifacts/<ticket-id>/`
+- optional `codex-review/phase2-autonomous-full-run/run-state.json`
+- active v3 queue order
+
+If these sources conflict materially, Codex must stop with `RUN_STATE_CONFLICT`.
+
 ## Authority Notice
 
 PLANS.md does not override:
@@ -43,7 +57,7 @@ Reference commits:
 - P2-000: COMPLETE
 - P2A-001: COMPLETE
 - P2-VAL-001: COMPLETE
-- Next executable ticket: `P2A-002`
+- Goal start ticket: `P2A-002`
 - Phase 2B uses split v3 tickets, not the old broad P2B-001 through P2B-004 queue.
 - Phase 2C remains governance-blocked until ADR-0003 has a Phase 2C pilot target date or formal exception.
 
@@ -96,13 +110,39 @@ Codex must not build LMS, HR, Finance, Hiring, Certification, Website Builder, A
 
 Each ticket runs ticket-specific validation. Phase gates run the full validation ladder defined in the execution pack. Phase 2 schema tickets depend on P2-VAL-001. Lead Desk screen-contract work depends on P2-VAL-002.
 
+## Autonomous Loop Policy
+
+Codex may continue automatically to the next ticket when all are true:
+
+- exact-file plan fits active ticket scope
+- implementation stays within allowed files
+- validation passes
+- self-audit passes
+- lightweight artifacts are created
+- journal/runtime state is updated
+- commit succeeds, or no tracked commit is required
+- no hard gate triggers
+
+Control-doc progress fields are bootstrap/reference metadata only. Codex must not stop after each successful ticket only because those fields are no longer current.
+
 ## Artifact Expectations
 
-Future tickets create file manifest, changed-files zip, validation summary, and run journal entry before commit. P2A-001 artifacts were backfilled after commit `944d0c8`; do not rerun P2A-001. Ignored `codex-review` artifacts must still be reported in the journal and included in final audit packaging.
+Per ticket, lightweight artifacts are:
+
+- `<ticket-id>-summary.md`
+- `<ticket-id>-changed-files.zip`
+
+Heavy audit is required only at `P2A-GATE`, `P2B-GATE`, and final branch audit.
+
+If a ticket creates only ignored artifacts and no tracked source files, create artifacts, update journal/runtime state, record `no tracked commit required`, and continue.
 
 ## Stop Conditions Summary
 
-Codex must stop for unsafe environment, unexpected file scope, unapproved dependency, secret access, active control-doc mutation outside explicit correction tickets, invented business rule/capability/permission/event/module/role/screen, unclear migration strategy, schema edit before P2-VAL-001, unexpected registry drift, direct WhatsApp/Meta coupling, frontend without screen contract, fake data, hardcoded tenant/campus/role/user assumptions, Phase 2C before ADR-0003 date/exception, validation failure twice, missing artifacts, dirty branch, or main merge attempts.
+Codex must stop for unsafe environment, file scope breach, validation failure twice, new dependency required, secret access required, invented business rule/capability/permission/event/module/role/screen, unclear migration strategy, direct WhatsApp/Meta coupling, frontend without approved screen contract, fake data or hardcoded tenant/campus/role/user assumptions, Phase 2C governance block, run-state conflict, phase gate reached, or final run complete.
+
+## Push Policy
+
+Codex may push only `phase2/autonomous-full-run`. Never push `main`. Never merge `main`. Never open PR unless explicitly asked.
 
 ## Coordinator Note
 
