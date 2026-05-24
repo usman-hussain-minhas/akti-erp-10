@@ -11,6 +11,7 @@ function createMocks() {
     outboxCalls: [] as unknown[],
     created: [] as Record<string, unknown>[],
     statusHistory: [] as Record<string, unknown>[],
+    assignmentHistory: [] as Record<string, unknown>[],
   };
 
   const now = new Date('2026-05-24T10:00:00.000Z');
@@ -18,8 +19,8 @@ function createMocks() {
   const db = {
     user: {
       findFirst: async ({ where }: { where: { organization_id: string; id: string } }) => {
-        if (where.organization_id === 'org-1' && where.id === 'actor-1') {
-          return { id: 'actor-1' };
+        if (where.organization_id === 'org-1' && (where.id === 'actor-1' || where.id === 'assignee-1')) {
+          return { id: where.id };
         }
         return null;
       },
@@ -38,7 +39,8 @@ function createMocks() {
           where.capability_key === 'lead.intake.create' ||
           where.capability_key === 'lead.inbox.view' ||
           where.capability_key === 'lead.detail.view' ||
-          where.capability_key === 'lead.status.update'
+          where.capability_key === 'lead.status.update' ||
+          where.capability_key === 'lead.inbox.assign'
         ) {
           return { id: 'cap-1' };
         }
@@ -90,15 +92,21 @@ function createMocks() {
         }
         return null;
       },
-      update: async ({ where, data }: { where: { organization_id_id: { organization_id: string; id: string } }; data: { status: string } }) => {
+      update: async ({
+        where,
+        data,
+      }: {
+        where: { organization_id_id: { organization_id: string; id: string } };
+        data: { status?: string; assigned_user_id?: string };
+      }) => {
         return {
           id: where.organization_id_id.id,
           organization_id: where.organization_id_id.organization_id,
           full_name: 'Lead One',
           phone_e164: '+923001234567',
           source_ref: 'web-form',
-          status: data.status,
-          assigned_user_id: null,
+          status: data.status ?? 'new',
+          assigned_user_id: data.assigned_user_id ?? null,
           created_at: now,
           updated_at: now,
         };
@@ -108,6 +116,12 @@ function createMocks() {
       create: async ({ data }: { data: Record<string, unknown> }) => {
         state.statusHistory.push(data);
         return { id: 'history-1', ...data };
+      },
+    },
+    leadAssignmentHistory: {
+      create: async ({ data }: { data: Record<string, unknown> }) => {
+        state.assignmentHistory.push(data);
+        return { id: 'assign-history-1', ...data };
       },
     },
     $transaction: async <T>(fn: (tx: unknown) => Promise<T>) => fn(db),
@@ -314,6 +328,104 @@ async function testUpdateLeadStatusGatekeeperDenied() {
   );
 }
 
+async function testUpdateLeadAssignmentHappyPath() {
+  const { service, state } = createMocks();
+  const result = await service.updateLeadAssignment(
+    'org-1',
+    'lead-1',
+    {
+      assigned_user_id: 'assignee-1',
+      requested_at: '2026-05-24T10:20:00.000Z',
+    },
+    'actor-1',
+  );
+  assert.equal(result.assigned_user_id, 'assignee-1');
+  assert.equal(state.assignmentHistory.length, 1);
+}
+
+async function testUpdateLeadAssignmentMissingActorFails() {
+  const { service } = createMocks();
+  await assert.rejects(
+    service.updateLeadAssignment(
+      'org-1',
+      'lead-1',
+      {
+        assigned_user_id: 'assignee-1',
+        requested_at: '2026-05-24T10:20:00.000Z',
+      },
+      '',
+    ),
+    BadRequestException,
+  );
+}
+
+async function testUpdateLeadAssignmentUnauthorizedActorFails() {
+  const { service } = createMocks();
+  await assert.rejects(
+    service.updateLeadAssignment(
+      'org-1',
+      'lead-1',
+      {
+        assigned_user_id: 'assignee-1',
+        requested_at: '2026-05-24T10:20:00.000Z',
+      },
+      'actor-2',
+    ),
+    ForbiddenException,
+  );
+}
+
+async function testUpdateLeadAssignmentCrossOrgDenied() {
+  const { service } = createMocks();
+  await assert.rejects(
+    service.updateLeadAssignment(
+      'org-2',
+      'lead-1',
+      {
+        assigned_user_id: 'assignee-1',
+        requested_at: '2026-05-24T10:20:00.000Z',
+      },
+      'actor-1',
+    ),
+    ForbiddenException,
+  );
+}
+
+async function testUpdateLeadAssignmentInvalidPayloadFails() {
+  const { service } = createMocks();
+  await assert.rejects(
+    service.updateLeadAssignment(
+      'org-1',
+      'lead-1',
+      {
+        assigned_user_id: '',
+        requested_at: 'not-a-date',
+      },
+      'actor-1',
+    ),
+    BadRequestException,
+  );
+}
+
+async function testUpdateLeadAssignmentGatekeeperDenied() {
+  const { service, gatekeeperPreflightService } = createMocks();
+  gatekeeperPreflightService.requireAllow = async () => {
+    throw new ServiceUnavailableException('degraded');
+  };
+  await assert.rejects(
+    service.updateLeadAssignment(
+      'org-1',
+      'lead-1',
+      {
+        assigned_user_id: 'assignee-1',
+        requested_at: '2026-05-24T10:20:00.000Z',
+      },
+      'actor-1',
+    ),
+    ServiceUnavailableException,
+  );
+}
+
 async function run() {
   await testCreateLeadHappyPath();
   await testCreateLeadMissingActorFails();
@@ -330,6 +442,12 @@ async function run() {
   await testUpdateLeadStatusCrossOrgDenied();
   await testUpdateLeadStatusInvalidPayloadFails();
   await testUpdateLeadStatusGatekeeperDenied();
+  await testUpdateLeadAssignmentHappyPath();
+  await testUpdateLeadAssignmentMissingActorFails();
+  await testUpdateLeadAssignmentUnauthorizedActorFails();
+  await testUpdateLeadAssignmentCrossOrgDenied();
+  await testUpdateLeadAssignmentInvalidPayloadFails();
+  await testUpdateLeadAssignmentGatekeeperDenied();
   console.log('lead-desk.service tests passed');
 }
 

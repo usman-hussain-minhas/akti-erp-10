@@ -8,6 +8,8 @@ import {
   LeadDeskGetLeadDetailOutputSchema,
   LeadDeskListLeadsInputSchema,
   LeadDeskListLeadsOutputSchema,
+  LeadDeskAssignLeadInputSchema,
+  LeadDeskAssignLeadOutputSchema,
   LeadDeskUpdateLeadStatusInputSchema,
   LeadDeskUpdateLeadStatusOutputSchema,
 } from '@akti/contracts/lead-desk-core';
@@ -21,6 +23,7 @@ const CAP_CREATE = 'lead.intake.create';
 const CAP_LIST = 'lead.inbox.view';
 const CAP_DETAIL = 'lead.detail.view';
 const CAP_STATUS_UPDATE = 'lead.status.update';
+const CAP_ASSIGN = 'lead.inbox.assign';
 const MODULE_KEY = 'lead.desk';
 
 type ActiveActor = {
@@ -308,6 +311,112 @@ export class LeadDeskService {
         lead_id: updated.id,
         organization_id: updated.organization_id,
         status: updated.status,
+        updated_at: updated.updated_at.toISOString(),
+      });
+    });
+  }
+
+  async updateLeadAssignment(organizationId: string, leadId: string, body: unknown, actorUserIdRaw?: string) {
+    const actorUserId = this.requireActorUserId(actorUserIdRaw);
+    const input = this.parseOrBadRequest(
+      () =>
+        LeadDeskAssignLeadInputSchema.parse({
+          ...(typeof body === 'object' && body !== null ? body : {}),
+          organization_id: organizationId,
+          actor_user_id: actorUserId,
+          lead_id: leadId,
+        }),
+      'invalid assignment payload',
+    );
+
+    return this.prisma.$transaction(async (tx) => {
+      const actor = await this.requireCapability(tx as never, organizationId, actorUserId, CAP_ASSIGN);
+
+      await this.gatekeeperPreflightService.requireAllow({
+        organization_id: organizationId,
+        actor_user_id: actor.actor_user_id,
+        active_group_ids: actor.active_group_ids,
+        capability_key: CAP_ASSIGN,
+        module_key: MODULE_KEY,
+        entity_type: 'lead.record',
+        entity_id: leadId,
+        action_key: 'lead.desk.lead.assigned',
+        payload: {
+          assigned_user_id: input.assigned_user_id,
+        },
+      });
+
+      const [lead, assignedUser] = await Promise.all([
+        tx.leadRecord.findFirst({
+          where: {
+            organization_id: organizationId,
+            id: leadId,
+          },
+        }),
+        tx.user.findFirst({
+          where: {
+            organization_id: organizationId,
+            id: input.assigned_user_id,
+          },
+          select: {
+            id: true,
+          },
+        }),
+      ]);
+
+      if (!lead) {
+        throw new NotFoundException('lead not found in organization');
+      }
+      if (!assignedUser) {
+        throw new BadRequestException('assigned_user_id must reference a user in the same organization');
+      }
+
+      const updated = await tx.leadRecord.update({
+        where: {
+          organization_id_id: {
+            organization_id: organizationId,
+            id: leadId,
+          },
+        },
+        data: {
+          assigned_user_id: input.assigned_user_id,
+        },
+      });
+
+      await tx.leadAssignmentHistory.create({
+        data: {
+          organization_id: organizationId,
+          lead_id: leadId,
+          actor_user_id: actor.actor_user_id,
+          assigned_user_id: input.assigned_user_id,
+          requested_at: new Date(input.requested_at),
+        },
+      });
+
+      await this.auditLogService.writeAuditLog(tx as never, {
+        organization_id: organizationId,
+        actor_user_id: actor.actor_user_id,
+        action_key: 'lead.desk.lead.assigned',
+        entity_type: 'lead.record',
+        entity_id: leadId,
+        metadata: {
+          previous_assigned_user_id: lead.assigned_user_id,
+          next_assigned_user_id: updated.assigned_user_id,
+        },
+      });
+
+      await this.eventOutboxService.recordMutation(tx as never, {
+        organization_id: organizationId,
+        action_key: 'lead.desk.lead.assigned',
+        entity_type: 'lead.record',
+        entity_id: leadId,
+        actor_user_id: actor.actor_user_id,
+      });
+
+      return LeadDeskAssignLeadOutputSchema.parse({
+        lead_id: updated.id,
+        organization_id: updated.organization_id,
+        assigned_user_id: updated.assigned_user_id,
         updated_at: updated.updated_at.toISOString(),
       });
     });

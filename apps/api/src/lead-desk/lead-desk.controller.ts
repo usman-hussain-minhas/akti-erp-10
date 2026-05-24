@@ -56,4 +56,16 @@ export class LeadDeskController {
     const leadId = requireParam(leadIdRaw, 'lead_id');
     return this.leadDeskService.updateLeadStatus(organizationId, leadId, body, actorUserIdRaw);
   }
+
+  @Patch(':lead_id/assignment')
+  updateLeadAssignment(
+    @Param('organization_id') organizationIdRaw: string,
+    @Param('lead_id') leadIdRaw: string,
+    @Body() body: unknown,
+    @Headers('x-actor-user-id') actorUserIdRaw?: string,
+  ) {
+    const organizationId = requireParam(organizationIdRaw, 'organization_id');
+    const leadId = requireParam(leadIdRaw, 'lead_id');
+    return this.leadDeskService.updateLeadAssignment(organizationId, leadId, body, actorUserIdRaw);
+  }
 }
