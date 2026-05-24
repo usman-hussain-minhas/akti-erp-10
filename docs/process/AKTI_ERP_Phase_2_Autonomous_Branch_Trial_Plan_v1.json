@@ -1,8 +1,8 @@
 {
   "document": {
     "title": "AKTI ERP Phase 2 Autonomous Branch Trial Plan",
-    "version": "1.0.0",
-    "status": "draft_for_codex_plan_mode_validation",
+    "version": "1.1.0",
+    "status": "active_v3_after_p2_ctrl_001",
     "created_at": "2026-05-24T00:00:00+05:00",
     "owner": "AKTI / Usman Minhas",
     "recommended_repo_path": "docs/process/AKTI_ERP_Phase_2_Autonomous_Branch_Trial_Plan_v1.json",
@@ -19,7 +19,147 @@
     "branch_base": "current merged main containing Phase 1 final implementation plus Phase 2 control documents and approved control-document corrections",
     "final_phase_1_implementation_commit": "18f497d P1H-FINAL harden access reads and capability duplicates",
     "phase_2_control_doc_merge_commit": "f02ac95 Merge pull request #1 from usman-hussain-minhas/chore/phase2-control-docs",
-    "branch_creation_rule": "Create phase2/autonomous-full-run only from clean current main after control-document corrections are merged."
+    "branch_creation_rule": "Create phase2/autonomous-full-run only from clean current main after control-document corrections are merged.",
+    "active_queue_version": "v3",
+    "p2a_001_commit": "944d0c84badbf9633c12c395f8e50cb08cc96571",
+    "next_executable_ticket": "P2-VAL-001",
+    "v3_review_artifact": "codex-review/P2A-001-post-audit-and-phase2-v3-autonomy-plan/",
+    "v3_autonomy_summary": "V3 reduces human stops by allowing Codex to continue when an encoded decision rule passes, while preserving hard gates and Phase 2C governance blocking.",
+    "queue_status_policy": {
+      "COMPLETE": "Already satisfied in repo history.",
+      "AUTONOMOUS_READY": "May run next after normal prechecks.",
+      "AUTONOMOUS_AFTER_PREVIOUS": "May run after prior ticket passes validation and artifacts.",
+      "AUTONOMOUS_DECISION_RULE": "May continue only by applying the explicit autonomous_decision_rule for the ticket.",
+      "GOVERNANCE_BLOCKED": "Must not run until governance condition is resolved."
+    },
+    "v3_queue": [
+      {
+        "ticket_id": "P2-000",
+        "title": "Validate Phase 2 control documents",
+        "autonomy_status": "COMPLETE"
+      },
+      {
+        "ticket_id": "P2A-001",
+        "title": "Create Engagement Gateway Lite contracts and manifest boundary",
+        "autonomy_status": "COMPLETE"
+      },
+      {
+        "ticket_id": "P2-VAL-001",
+        "title": "Add Phase 2-aware registry verification",
+        "autonomy_status": "AUTONOMOUS_READY"
+      },
+      {
+        "ticket_id": "P2A-002",
+        "title": "Engagement Gateway persistence decision",
+        "autonomy_status": "AUTONOMOUS_DECISION_RULE"
+      },
+      {
+        "ticket_id": "P2A-003",
+        "title": "Implement Engagement Gateway Lite API/service foundation",
+        "autonomy_status": "AUTONOMOUS_AFTER_PREVIOUS"
+      },
+      {
+        "ticket_id": "P2A-GATE",
+        "title": "Phase 2A validation gate",
+        "autonomy_status": "AUTONOMOUS_AFTER_PREVIOUS"
+      },
+      {
+        "ticket_id": "P2-VAL-002",
+        "title": "Add Phase 2 screen-contract validation",
+        "autonomy_status": "AUTONOMOUS_AFTER_PREVIOUS"
+      },
+      {
+        "ticket_id": "P2B-001A",
+        "title": "Lead Desk contract and capability boundary",
+        "autonomy_status": "AUTONOMOUS_DECISION_RULE"
+      },
+      {
+        "ticket_id": "P2B-001B",
+        "title": "Lead Desk screen contracts",
+        "autonomy_status": "AUTONOMOUS_DECISION_RULE"
+      },
+      {
+        "ticket_id": "P2B-002A",
+        "title": "Lead Desk data model decision",
+        "autonomy_status": "AUTONOMOUS_DECISION_RULE"
+      },
+      {
+        "ticket_id": "P2B-002B",
+        "title": "Lead Desk schema and registry foundation",
+        "autonomy_status": "AUTONOMOUS_AFTER_PREVIOUS"
+      },
+      {
+        "ticket_id": "P2B-003A",
+        "title": "Lead Desk create/list/detail API",
+        "autonomy_status": "AUTONOMOUS_AFTER_PREVIOUS"
+      },
+      {
+        "ticket_id": "P2B-003B",
+        "title": "Lead Desk status/update API",
+        "autonomy_status": "AUTONOMOUS_AFTER_PREVIOUS"
+      },
+      {
+        "ticket_id": "P2B-003C",
+        "title": "Lead Desk assignment API",
+        "autonomy_status": "AUTONOMOUS_AFTER_PREVIOUS"
+      },
+      {
+        "ticket_id": "P2B-004A",
+        "title": "Lead Desk list/inbox frontend",
+        "autonomy_status": "AUTONOMOUS_AFTER_PREVIOUS"
+      },
+      {
+        "ticket_id": "P2B-004B",
+        "title": "Lead Desk detail frontend",
+        "autonomy_status": "AUTONOMOUS_AFTER_PREVIOUS"
+      },
+      {
+        "ticket_id": "P2B-004C",
+        "title": "Lead Desk create and assignment frontend",
+        "autonomy_status": "AUTONOMOUS_AFTER_PREVIOUS"
+      },
+      {
+        "ticket_id": "P2B-GATE",
+        "title": "Phase 2B validation gate",
+        "autonomy_status": "AUTONOMOUS_AFTER_PREVIOUS"
+      },
+      {
+        "ticket_id": "P2C-001",
+        "title": "WhatsApp integration contracts through gateway",
+        "autonomy_status": "GOVERNANCE_BLOCKED"
+      },
+      {
+        "ticket_id": "P2C-002",
+        "title": "Gateway-mediated WhatsApp stub integration",
+        "autonomy_status": "GOVERNANCE_BLOCKED"
+      },
+      {
+        "ticket_id": "P2C-GATE",
+        "title": "Final Phase 2 validation gate",
+        "autonomy_status": "GOVERNANCE_BLOCKED"
+      }
+    ],
+    "v3_hard_gates": [
+      "Unsafe execution environment",
+      "Required file outside exact ticket scope",
+      "New dependency required",
+      "Secret access, inspection, printing, copying, exporting, or use required",
+      "Active control docs need mutation outside an explicit control-doc correction ticket",
+      "Invented business rule, capability, permission, event, module, role, or screen required",
+      "Unclear migration strategy",
+      "Schema edit before P2-VAL-001",
+      "Migration scaffolding required but not explicitly ticketed",
+      "Unexpected generated registry drift",
+      "Direct WhatsApp/Meta coupling",
+      "Lead Desk direct WhatsApp/Meta call",
+      "Frontend without approved screen contract",
+      "Fake dashboards or fake operational data",
+      "Hardcoded tenant/campus/role/user assumptions",
+      "Phase 2C before ADR-0003 date/exception",
+      "Validation failure twice",
+      "Ticket artifacts cannot be created or verified",
+      "Dirty branch at ticket start except ignored review artifacts"
+    ]
   },
   "phase_scope": {
     "included": [
@@ -101,7 +241,10 @@
     "No autonomous run starts without an approved active execution pack",
     "P2-VAL-001 has provided a Phase 2-aware registry verification path before schema-changing tickets run",
     "P2-VAL-002 has provided Phase 2 screen-contract validation support before Lead Desk screen contracts are added",
-    "The Codex execution environment is approved safe mode: not danger-full-access, not unrestricted network, not approval-never, and no production secrets"
+    "The Codex execution environment is approved safe mode: not danger-full-access, not unrestricted network, not approval-never, and no production secrets",
+    "P2-000 is complete and P2A-001 is complete at commit 944d0c84badbf9633c12c395f8e50cb08cc96571",
+    "The active execution pack has adopted the v3 queue and next executable ticket is P2-VAL-001",
+    "Phase 2C remains blocked until ADR-0003 has a Phase 2C pilot target date or formal exception"
   ],
   "codex_config_recommendation": {
     "approval_policy": "on-request",
@@ -155,7 +298,9 @@
       "Per-ticket artifacts exist",
       "Final branch audit package exists",
       "main remains untouched",
-      "P2-VAL-001 and P2-VAL-002 complete before dependent schema or screen-contract tickets"
+      "P2-VAL-001 and P2-VAL-002 complete before dependent schema or screen-contract tickets",
+      "V3 autonomous decision rules are followed before continuing through decision-rule tickets",
+      "P2A-001 artifact backfill is acknowledged and future ticket artifacts are created before commit"
     ],
     "architecture": [
       "No direct Lead Desk to WhatsApp/Meta API calls",
