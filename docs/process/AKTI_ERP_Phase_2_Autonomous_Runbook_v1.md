@@ -141,6 +141,16 @@ Autonomous validation repair policy during `/goal`:
 - Repair budget is up to 3 autonomous repair cycles per ticket. If still failing after 3 cycles, stop with `VALIDATION_FAILED`. If a true hard gate appears, stop immediately.
 - Do not report to user for each repair attempt. Summarize repair attempts in the ticket summary artifact. Report only when repair budget is exhausted, hard gate triggers, phase/final gate is reached, or run completes.
 
+Validation/test-runner wiring policy during `/goal`:
+
+- Codex may update validation/test-runner wiring only when the active ticket requires tests, those tests exist or are added by the ticket, and current scripts exclude those tests.
+- Wiring updates must be narrowly scoped to include active-ticket tests only.
+- No dependency additions are allowed for wiring updates.
+- No unrelated script behavior or production/runtime behavior may change.
+- Allowed wiring files by context: `apps/api/package.json`, `apps/web/package.json`, `packages/contracts/package.json`, and root `package.json` only when explicit root orchestration is required.
+- Document any wiring update in the active ticket summary artifact.
+- Stop if wiring requires broad script rewrite, dependency additions, CI/workflow changes, or unrelated test behavior changes.
+
 ## 9. Decision-Rule Execution
 
 - P2A-002: defer persistence if P2A-001 contracts do not require it; implement exact derivable models only after P2-VAL-001; stop if unclear.

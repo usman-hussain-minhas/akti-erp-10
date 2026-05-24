@@ -175,6 +175,29 @@ Reporting policy:
 - summarize repair attempts in the ticket summary artifact
 - report to user only if repair budget is exhausted, hard gate triggers, phase/final gate is reached, or run completes
 
+## Validation Wiring Policy
+
+Codex may update validation/test-runner wiring when all are true:
+
+- the active ticket requires tests
+- the tests exist or are being added by the active ticket
+- existing package script excludes the new ticket tests
+- the wiring change is limited to including active-ticket tests
+- no dependency is added
+- no unrelated script behavior is changed
+- no production/runtime behavior changes
+
+Allowed validation wiring files only when relevant to active ticket:
+
+- `apps/api/package.json` for API tests
+- `apps/web/package.json` for web tests
+- `packages/contracts/package.json` for contract validation
+- root `package.json` only for explicit root orchestration needs
+
+Validation wiring updates must be documented in the ticket summary artifact.
+
+Codex must stop if required wiring change would rewrite broad scripts, add dependencies, change CI/workflows, or affect unrelated test behavior.
+
 ## Artifact Expectations
 
 Per ticket, lightweight artifacts are:

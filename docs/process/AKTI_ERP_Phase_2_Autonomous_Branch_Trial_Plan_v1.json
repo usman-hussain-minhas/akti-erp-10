@@ -402,6 +402,31 @@
           "run completes"
         ]
       }
+    },
+    "validation_test_runner_wiring_policy": {
+      "enabled": true,
+      "allowed_when_all_true": [
+        "active ticket requires tests",
+        "tests exist or are being added by active ticket",
+        "existing package script excludes active-ticket tests",
+        "wiring change only includes active-ticket tests",
+        "no dependency is added",
+        "no unrelated script behavior is changed",
+        "no production/runtime behavior changes"
+      ],
+      "allowed_files_by_context": [
+        "apps/api/package.json for API tests",
+        "apps/web/package.json for web tests",
+        "packages/contracts/package.json for contract validation",
+        "root package.json only when explicit root orchestration is required"
+      ],
+      "documentation_requirement": "Any validation wiring update must be recorded in the ticket summary artifact.",
+      "must_stop_if": [
+        "wiring change rewrites broad scripts",
+        "dependency addition is required",
+        "CI/workflow changes are required",
+        "unrelated test behavior would change"
+      ]
     }
   }
 }

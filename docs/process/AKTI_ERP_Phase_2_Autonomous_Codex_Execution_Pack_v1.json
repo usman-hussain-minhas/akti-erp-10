@@ -138,6 +138,19 @@
       "stop_immediately_on_true_hard_gate": true
     },
     "autonomous_validation_repair_reporting_policy": "Do not stop or report for each local repair attempt. Record attempts in ticket summary artifact. Report only when repair budget is exhausted, hard gate triggers, phase/final gate is reached, or run completes.",
+    "validation_test_runner_wiring_rule": "Codex may update test-runner wiring when active-ticket tests are required but excluded by existing scripts, only within approved package.json scope, with no dependency changes and no unrelated behavior changes.",
+    "validation_test_runner_wiring_allowed_files": [
+      "apps/api/package.json for API tests",
+      "apps/web/package.json for web tests",
+      "packages/contracts/package.json for contract validation",
+      "root package.json only for explicit root orchestration needs"
+    ],
+    "validation_test_runner_wiring_stop_conditions": [
+      "broad script rewrite required",
+      "dependency addition required",
+      "CI/workflow changes required",
+      "unrelated test behavior changes required"
+    ],
     "artifact_only_ticket_rule": "If a ticket produces only ignored artifacts and no tracked source file changes, create artifacts, update journal/runtime state, record no tracked commit required, and continue.",
     "push_policy": "Codex may push only phase2/autonomous-full-run. Never push main. Never merge main. Never open PR unless explicitly requested."
   },
