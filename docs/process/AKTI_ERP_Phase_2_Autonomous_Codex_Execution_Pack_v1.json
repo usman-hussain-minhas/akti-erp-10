@@ -5,11 +5,11 @@
     "status": "draft_for_codex_plan_mode_validation",
     "created_at": "2026-05-24T00:00:00+05:00",
     "recommended_repo_path": "docs/process/AKTI_ERP_Phase_2_Autonomous_Codex_Execution_Pack_v1.json",
-    "purpose": "Machine-readable active scope contract for the Phase 2 full autonomous stress-test branch run."
+    "purpose": "Machine-readable active scope contract for the Phase 2 full autonomous execution branch run."
   },
   "run_contract": {
-    "run_id": "phase2-full-autonomous-v1",
-    "branch": "experiment/phase2-full-autonomous",
+    "run_id": "phase2-autonomous-full-run-v1",
+    "branch": "phase2/autonomous-full-run",
     "start_point": "current merged main containing Phase 1 final implementation plus Phase 2 control documents and approved control-document corrections",
     "main_merge_policy": "never_auto_merge",
     "execution_mode": "approved_ticket_queue_only",
@@ -17,7 +17,7 @@
     "failure_model": "Failure is allowed. Codex must stop honestly and preserve audit artifacts.",
     "final_phase_1_implementation_commit": "18f497d P1H-FINAL harden access reads and capability duplicates",
     "phase_2_control_doc_merge_commit": "f02ac95 Merge pull request #1 from usman-hussain-minhas/chore/phase2-control-docs",
-    "branch_creation_rule": "Create experiment/phase2-full-autonomous only from clean current main after control-document corrections are merged."
+    "branch_creation_rule": "Create phase2/autonomous-full-run only from clean current main after control-document corrections are merged."
   },
   "global_non_scope": [
     "No auto-merge to main",
@@ -85,13 +85,13 @@
   },
   "artifact_policy": {
     "per_ticket": [
-      "codex-review/phase2-full-autonomous/ticket-artifacts/<ticket-id>/<ticket-id>-file-manifest.md",
-      "codex-review/phase2-full-autonomous/ticket-artifacts/<ticket-id>/<ticket-id>-changed-files.zip",
-      "codex-review/phase2-full-autonomous/ticket-artifacts/<ticket-id>/<ticket-id>-validation-summary.md"
+      "codex-review/phase2-autonomous-full-run/ticket-artifacts/<ticket-id>/<ticket-id>-file-manifest.md",
+      "codex-review/phase2-autonomous-full-run/ticket-artifacts/<ticket-id>/<ticket-id>-changed-files.zip",
+      "codex-review/phase2-autonomous-full-run/ticket-artifacts/<ticket-id>/<ticket-id>-validation-summary.md"
     ],
-    "journal": "codex-review/phase2-full-autonomous/autonomous-run-journal.md",
-    "checkpoints": "codex-review/phase2-full-autonomous/checkpoints/checkpoint-<n>.md after every 3 tickets",
-    "final_audit_package": "codex-review/phase2-full-autonomous/final-branch-audit/"
+    "journal": "codex-review/phase2-autonomous-full-run/autonomous-run-journal.md",
+    "checkpoints": "codex-review/phase2-autonomous-full-run/checkpoints/checkpoint-<n>.md after every 3 tickets",
+    "final_audit_package": "codex-review/phase2-autonomous-full-run/final-branch-audit/"
   },
   "stop_conditions": [
     "Validation fails twice on same ticket",
@@ -1047,7 +1047,7 @@
         "Missing artifacts",
         "Scope leak"
       ],
-      "commit_message": "P2C-GATE finalize phase 2 autonomous stress test",
+      "commit_message": "P2C-GATE finalize phase 2 autonomous controlled branch run",
       "rollback_notes": "If gate fails, stop for audit."
     }
   ]

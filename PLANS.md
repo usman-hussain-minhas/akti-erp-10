@@ -1,10 +1,10 @@
-# AKTI ERP Phase 2 Autonomous Stress Test — PLANS.md
+# AKTI ERP Phase 2 Autonomous Execution Run — PLANS.md
 
 Status: draft_for_codex_plan_mode_validation_after_control_doc_corrections
 
 ## Purpose
 
-This file is a human-readable roadmap for the AKTI ERP Phase 2 Full Autonomous Stress Test.
+This file is a human-readable roadmap for the AKTI ERP Phase 2 Autonomous Execution Run.
 
 It summarizes the approved execution pack. It is not the source of truth.
 
@@ -25,13 +25,13 @@ It does not override:
 
 If conflict exists, the higher-ranked source wins.
 
-## Experiment Name
+## Run Name
 
-AKTI ERP Phase 2 Full Autonomous Stress Test
+AKTI ERP Phase 2 Autonomous Execution Run
 
 ## Branch
 
-`experiment/phase2-full-autonomous`
+`phase2/autonomous-full-run`
 
 Branch base: current clean `main` after Phase 2 control-document corrections are merged.
 
@@ -42,7 +42,7 @@ Reference commits:
 
 ## Goal
 
-Test whether Codex can execute one full approved Phase 2 ticket queue autonomously, with per-ticket validation, artifacts, commits, and stop conditions, while keeping `main` safe.
+Validate whether Codex can execute one full approved Phase 2 ticket queue autonomously, with per-ticket validation, artifacts, commits, and stop conditions, while keeping `main` safe.
 
 ## Scope
 

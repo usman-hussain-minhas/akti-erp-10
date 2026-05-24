@@ -5,7 +5,7 @@ Recommended repo path: `docs/process/AKTI_ERP_Phase_2_Autonomous_Runbook_v1.md`
 
 ## 1. Purpose
 
-This runbook is the operational script for Codex during the AKTI ERP Phase 2 Full Autonomous Stress Test.
+This runbook is the operational script for Codex during the AKTI ERP Phase 2 Autonomous Execution Run.
 
 It does not define architecture by itself. It operationalizes the approved execution pack.
 
@@ -27,22 +27,22 @@ If the execution pack conflicts with Prisma, contracts, module manifests, genera
 
 Use only:
 
-`experiment/phase2-full-autonomous`
+`phase2/autonomous-full-run`
 
 Branch base: current clean `main` after Phase 2 control-document corrections are merged. Final Phase 1 implementation commit is `18f497d`; Phase 2 control-document merge commit is `f02ac95`.
 
 Rules:
 
-- Never work on `main` for the autonomous stress test.
+- Never work on `main` for the autonomous controlled branch run.
 - Never merge to `main`.
-- Commit per ticket on the experiment branch only.
+- Commit per ticket on the operational branch only.
 - If the branch becomes messy, stop and report.
 
 ## 5. Before Starting `/goal`
 
 Codex must confirm:
 
-- current branch is correct or can create the experiment branch from accepted main
+- current branch is correct or can create the operational branch from accepted main
 - worktree is clean
 - control docs exist
 - AGENTS.md exists
@@ -59,7 +59,7 @@ Codex must confirm:
 Use this after the execution pack is validated:
 
 ```text
-/goal Execute the approved full Phase 2 autonomous stress-test pack from docs/process/AKTI_ERP_Phase_2_Autonomous_Codex_Execution_Pack_v1.json on branch experiment/phase2-full-autonomous. Complete the approved ticket queue in order. Validate, self-audit, create artifacts, and commit each ticket on the experiment branch. Never merge to main. Never invent scope. Stop if any stop condition triggers.
+/goal Execute the approved Phase 2 autonomous execution pack from docs/process/AKTI_ERP_Phase_2_Autonomous_Codex_Execution_Pack_v1.json on branch phase2/autonomous-full-run. Complete the approved ticket queue in order. Validate, self-audit, create artifacts, and commit each ticket on the operational branch. Never merge to main. Never invent scope. Stop if any stop condition triggers.
 ```
 
 ## 7. Per-Ticket Procedure
@@ -68,7 +68,7 @@ For each ticket:
 
 1. Read current ticket only.
 2. Read required source files.
-3. Confirm branch is `experiment/phase2-full-autonomous`.
+3. Confirm branch is `phase2/autonomous-full-run`.
 4. Confirm working tree is clean except ignored artifacts.
 5. Produce an exact-file implementation plan from any broad allowed glob before editing.
 6. Implement only the exact-file plan derived from `files_expected_to_change`.
@@ -93,21 +93,21 @@ For each ticket:
 For each ticket create:
 
 ```text
-codex-review/phase2-full-autonomous/ticket-artifacts/<ticket-id>/<ticket-id>-file-manifest.md
-codex-review/phase2-full-autonomous/ticket-artifacts/<ticket-id>/<ticket-id>-changed-files.zip
-codex-review/phase2-full-autonomous/ticket-artifacts/<ticket-id>/<ticket-id>-validation-summary.md
+codex-review/phase2-autonomous-full-run/ticket-artifacts/<ticket-id>/<ticket-id>-file-manifest.md
+codex-review/phase2-autonomous-full-run/ticket-artifacts/<ticket-id>/<ticket-id>-changed-files.zip
+codex-review/phase2-autonomous-full-run/ticket-artifacts/<ticket-id>/<ticket-id>-validation-summary.md
 ```
 
 Append:
 
 ```text
-codex-review/phase2-full-autonomous/autonomous-run-journal.md
+codex-review/phase2-autonomous-full-run/autonomous-run-journal.md
 ```
 
 After every 3 tickets create:
 
 ```text
-codex-review/phase2-full-autonomous/checkpoints/checkpoint-<n>.md
+codex-review/phase2-autonomous-full-run/checkpoints/checkpoint-<n>.md
 ```
 
 ## 9. Commit Procedure
@@ -154,7 +154,7 @@ When stopping, report:
 At completion create:
 
 ```text
-codex-review/phase2-full-autonomous/final-branch-audit/
+codex-review/phase2-autonomous-full-run/final-branch-audit/
 ```
 
 Include:
@@ -176,7 +176,7 @@ Then stop.
 ## 12. What Codex Must Never Do
 
 - never merge to main
-- never run on main for this experiment
+- never run on main for this controlled branch run
 - never invent scope
 - never bypass AGENTS.md, ADRs, contracts, Prisma, or execution pack
 - never use production secrets
