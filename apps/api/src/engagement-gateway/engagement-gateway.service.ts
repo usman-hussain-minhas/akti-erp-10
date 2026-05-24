@@ -16,6 +16,7 @@ import { WhatsappStubProvider } from './whatsapp-stub.provider';
 const REQUEST_CREATE_CAPABILITY = 'engagement.gateway.request.create';
 const HEALTH_READ_CAPABILITY = 'engagement.gateway.health.read';
 const GATEWAY_MODULE_KEY = 'engagement.gateway';
+const GATEWAY_REQUEST_RECORDED_EVENT = 'engagement.gateway.request.recorded';
 
 @Injectable()
 export class EngagementGatewayService {
@@ -98,12 +99,21 @@ export class EngagementGatewayService {
         },
       });
 
-      await this.eventOutboxService.recordMutation(tx, {
+      await this.eventOutboxService.recordEvent(tx, {
         organization_id: organizationId,
-        action_key: 'engagement.gateway.request.recorded',
-        entity_type: 'engagement.gateway.request',
-        entity_id: gatewayRequestId,
-        actor_user_id: actor.id,
+        event_type: GATEWAY_REQUEST_RECORDED_EVENT,
+        version: '0.1.0',
+        idempotency_key: input.idempotency_key,
+        payload: {
+          organization_id: organizationId,
+          actor_user_id: actor.id,
+          entity_type: 'engagement.gateway.request',
+          entity_id: gatewayRequestId,
+          request_kind: input.request_kind,
+          recipient_ref: input.recipient_ref,
+          transport_channel: input.transport_channel,
+          occurred_at: recordedAtIso,
+        },
       });
     });
 

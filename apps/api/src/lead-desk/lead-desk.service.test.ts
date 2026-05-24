@@ -143,7 +143,7 @@ function createMocks() {
   };
 
   const eventOutboxService = {
-    recordMutation: async (_tx: unknown, input: unknown) => {
+    recordEvent: async (_tx: unknown, input: unknown) => {
       state.outboxCalls.push(input);
       return { written: true };
     },
@@ -191,6 +191,7 @@ async function testCreateLeadHappyPath() {
   assert.equal(state.gatekeeperCalls.length, 1);
   assert.equal(state.auditCalls.length, 1);
   assert.equal(state.outboxCalls.length, 1);
+  assert.equal((state.outboxCalls[0] as { event_type: string }).event_type, 'lead.desk.lead.created');
 }
 
 async function testCreateLeadHappyPathUsesRealGatekeeper() {
@@ -264,6 +265,7 @@ async function testUpdateLeadStatusHappyPath() {
   assert.equal(state.statusHistory.length, 1);
   assert.equal(state.auditCalls.length >= 1, true);
   assert.equal(state.outboxCalls.length >= 1, true);
+  assert.equal((state.outboxCalls[state.outboxCalls.length - 1] as { event_type: string }).event_type, 'lead.desk.lead.status.updated');
 }
 
 async function testUpdateLeadStatusHappyPathUsesRealGatekeeper() {
@@ -378,6 +380,7 @@ async function testUpdateLeadAssignmentHappyPath() {
   );
   assert.equal(result.assigned_user_id, 'assignee-1');
   assert.equal(state.assignmentHistory.length, 1);
+  assert.equal((state.outboxCalls[state.outboxCalls.length - 1] as { event_type: string }).event_type, 'lead.desk.lead.assigned');
 }
 
 async function testUpdateLeadAssignmentHappyPathUsesRealGatekeeper() {

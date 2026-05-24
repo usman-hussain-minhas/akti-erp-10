@@ -17,6 +17,14 @@ type RecordMutationOutboxInput = {
   idempotency_key?: string;
 };
 
+type RecordEventOutboxInput = {
+  organization_id: string;
+  event_type: string;
+  version: string;
+  payload: Record<string, unknown>;
+  idempotency_key: string;
+};
+
 export const PLATFORM_MUTATION_RECORDED_EVENT_TYPE = 'platform.mutation.recorded';
 export const PLATFORM_MUTATION_RECORDED_EVENT_VERSION = '0.1.0';
 
@@ -35,11 +43,27 @@ export class EventOutboxService {
         actor_user_id: actorUserId,
       });
 
-    const createData = {
+    return this.recordEvent(db, {
       organization_id: input.organization_id,
-      idempotency_key: idempotencyKey,
       event_type: PLATFORM_MUTATION_RECORDED_EVENT_TYPE,
       version: PLATFORM_MUTATION_RECORDED_EVENT_VERSION,
+      idempotency_key: idempotencyKey,
+      payload: {
+        action_key: input.action_key,
+        entity_type: input.entity_type,
+        entity_id: input.entity_id,
+        actor_user_id: actorUserId,
+        occurred_at: occurredAt.toISOString(),
+      },
+    });
+  }
+
+  async recordEvent(db: DbClient, input: RecordEventOutboxInput): Promise<{ written: true }> {
+    const createData = {
+      organization_id: input.organization_id,
+      idempotency_key: input.idempotency_key,
+      event_type: input.event_type,
+      version: input.version,
       status: 'pending',
       attempt_count: 0,
       next_attempt_at: null,
@@ -48,13 +72,7 @@ export class EventOutboxService {
       locked_at: null,
       locked_by: null,
       processed_at: null,
-      payload: {
-        action_key: input.action_key,
-        entity_type: input.entity_type,
-        entity_id: input.entity_id,
-        actor_user_id: actorUserId,
-        occurred_at: occurredAt.toISOString(),
-      },
+      payload: input.payload as Prisma.InputJsonValue,
     };
 
     if (typeof (db.eventOutbox as { upsert?: unknown }).upsert === 'function') {
@@ -62,7 +80,7 @@ export class EventOutboxService {
         where: {
           organization_id_idempotency_key: {
             organization_id: input.organization_id,
-            idempotency_key: idempotencyKey,
+            idempotency_key: input.idempotency_key,
           },
         },
         create: createData,

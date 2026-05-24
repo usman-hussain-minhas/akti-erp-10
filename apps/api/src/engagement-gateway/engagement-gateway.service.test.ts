@@ -60,7 +60,7 @@ function createMocks() {
   };
 
   const eventOutboxService = {
-    recordMutation: async (_tx: unknown, input: unknown) => {
+    recordEvent: async (_tx: unknown, input: unknown) => {
       state.outboxCalls.push(input);
       return { written: true };
     },
@@ -126,6 +126,7 @@ async function testCreateRequestHappyPath() {
   assert.equal(state.gatekeeperCalls.length, 1);
   assert.equal(state.auditCalls.length, 1);
   assert.equal(state.outboxCalls.length, 1);
+  assert.equal((state.outboxCalls[0] as { event_type: string }).event_type, 'engagement.gateway.request.recorded');
   assert.equal(state.stubDispatchCalls.length, 0);
   assert.equal(state.stubInboundCalls.length, 0);
 }

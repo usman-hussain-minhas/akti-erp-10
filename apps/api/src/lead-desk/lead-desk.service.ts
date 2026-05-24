@@ -25,6 +25,9 @@ const CAP_DETAIL = 'lead.detail.view';
 const CAP_STATUS_UPDATE = 'lead.status.update';
 const CAP_ASSIGN = 'lead.inbox.assign';
 const MODULE_KEY = 'lead.desk';
+const LEAD_CREATED_EVENT = 'lead.desk.lead.created';
+const LEAD_STATUS_UPDATED_EVENT = 'lead.desk.lead.status.updated';
+const LEAD_ASSIGNED_EVENT = 'lead.desk.lead.assigned';
 
 type ActiveActor = {
   actor_user_id: string;
@@ -93,12 +96,20 @@ export class LeadDeskService {
         },
       });
 
-      await this.eventOutboxService.recordMutation(tx as never, {
+      await this.eventOutboxService.recordEvent(tx as never, {
         organization_id: organizationId,
-        action_key: 'lead.desk.lead.created',
-        entity_type: 'lead.record',
-        entity_id: lead.id,
-        actor_user_id: actor.actor_user_id,
+        event_type: LEAD_CREATED_EVENT,
+        version: '0.1.0',
+        idempotency_key: `lead.created.${organizationId}.${lead.id}`,
+        payload: {
+          organization_id: organizationId,
+          actor_user_id: actor.actor_user_id,
+          entity_type: 'lead.record',
+          entity_id: lead.id,
+          source_ref: lead.source_ref,
+          status: lead.status,
+          occurred_at: lead.created_at.toISOString(),
+        },
       });
 
       return LeadDeskCreateLeadOutputSchema.parse({
@@ -299,12 +310,21 @@ export class LeadDeskService {
         },
       });
 
-      await this.eventOutboxService.recordMutation(tx as never, {
+      await this.eventOutboxService.recordEvent(tx as never, {
         organization_id: organizationId,
-        action_key: 'lead.desk.lead.status.updated',
-        entity_type: 'lead.record',
-        entity_id: leadId,
-        actor_user_id: actor.actor_user_id,
+        event_type: LEAD_STATUS_UPDATED_EVENT,
+        version: '0.1.0',
+        idempotency_key: `lead.status.updated.${organizationId}.${leadId}.${input.status}.${input.requested_at}`,
+        payload: {
+          organization_id: organizationId,
+          actor_user_id: actor.actor_user_id,
+          entity_type: 'lead.record',
+          entity_id: leadId,
+          previous_status: lead.status,
+          next_status: updated.status,
+          reason: input.reason ?? null,
+          occurred_at: input.requested_at,
+        },
       });
 
       return LeadDeskUpdateLeadStatusOutputSchema.parse({
@@ -405,12 +425,19 @@ export class LeadDeskService {
         },
       });
 
-      await this.eventOutboxService.recordMutation(tx as never, {
+      await this.eventOutboxService.recordEvent(tx as never, {
         organization_id: organizationId,
-        action_key: 'lead.desk.lead.assigned',
-        entity_type: 'lead.record',
-        entity_id: leadId,
-        actor_user_id: actor.actor_user_id,
+        event_type: LEAD_ASSIGNED_EVENT,
+        version: '0.1.0',
+        idempotency_key: `lead.assigned.${organizationId}.${leadId}.${input.assigned_user_id}.${input.requested_at}`,
+        payload: {
+          organization_id: organizationId,
+          actor_user_id: actor.actor_user_id,
+          entity_type: 'lead.record',
+          entity_id: leadId,
+          assigned_user_id: input.assigned_user_id,
+          occurred_at: input.requested_at,
+        },
       });
 
       return LeadDeskAssignLeadOutputSchema.parse({
