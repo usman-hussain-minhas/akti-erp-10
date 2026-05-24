@@ -73,6 +73,21 @@ if (!existsSync(accessCoreValidator)) {
 console.log(`Validating ${relative(packageRoot, accessCoreValidator)}`);
 run("pnpm", ["exec", "tsx", accessCoreValidator]);
 
+const engagementGatewayLiteValidator = join(
+  packageRoot,
+  "scripts",
+  "validate-engagement-gateway-lite-contracts.mjs",
+);
+if (!existsSync(engagementGatewayLiteValidator)) {
+  console.error(
+    `Required validator is missing: ${relative(packageRoot, engagementGatewayLiteValidator)}`,
+  );
+  process.exit(1);
+}
+
+console.log(`Validating ${relative(packageRoot, engagementGatewayLiteValidator)}`);
+run("pnpm", ["exec", "tsx", engagementGatewayLiteValidator]);
+
 const screenValidator = join(packageRoot, "scripts", "validate-screen-contracts.mjs");
 if (!existsSync(screenValidator)) {
   console.error(

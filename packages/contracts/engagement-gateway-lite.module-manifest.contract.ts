@@ -1,0 +1,168 @@
+import { ModuleManifestSchema, type ModuleManifest } from "./module-manifest.schema.js";
+
+export const engagementGatewayLiteModuleManifest: ModuleManifest = ModuleManifestSchema.parse({
+  module_key: "engagement.gateway",
+  display_name: "Engagement Gateway Lite",
+  module_type: "standard",
+  version: "0.1.0",
+  owner: "platform",
+  min_platform_version: "0.1.0",
+  dependencies: [
+    {
+      module_key: "core.access",
+      min_version: "0.1.0",
+    },
+  ],
+  optional_dependencies: [],
+  capabilities: [
+    {
+      key: "engagement.gateway.request.create",
+      description: "Record outbound engagement dispatch intent through the gateway boundary.",
+      module_key: "engagement.gateway",
+      risk_level: "high",
+      requires_permission: true,
+      requires_reauth: false,
+      requires_audit: true,
+      gatekeeper_required: true,
+      approval_chain_required: false,
+      input_schema: "engagement.gateway.request.create.input",
+      output_schema: "engagement.gateway.request.create.output",
+    },
+    {
+      key: "engagement.gateway.health.read",
+      description: "Read Engagement Gateway Lite health state.",
+      module_key: "engagement.gateway",
+      risk_level: "low",
+      requires_permission: true,
+      requires_reauth: false,
+      requires_audit: false,
+      gatekeeper_required: false,
+      approval_chain_required: false,
+      input_schema: null,
+      output_schema: "engagement.gateway.health.output",
+    },
+  ],
+  capabilities_consumed: [],
+  permissions: [
+    {
+      key: "engagement.gateway.request.create",
+      label: "Create engagement gateway requests",
+      module_key: "engagement.gateway",
+      description: "Allow recording outbound engagement dispatch intent.",
+      allowed_scope_types: ["organization"],
+    },
+    {
+      key: "engagement.gateway.health.read",
+      label: "Read engagement gateway health",
+      module_key: "engagement.gateway",
+      description: "Allow reading Engagement Gateway Lite health state.",
+      allowed_scope_types: ["organization"],
+    },
+  ],
+  api_routes: [
+    {
+      method: "POST",
+      path: "/platform/engagement-gateway/organizations/:organization_id/requests",
+      capability_key: "engagement.gateway.request.create",
+      auth_required: true,
+      public_route: false,
+      rate_limited: true,
+      input_schema: "engagement.gateway.request.create.input",
+      output_schema: "engagement.gateway.request.create.output",
+    },
+    {
+      method: "GET",
+      path: "/platform/engagement-gateway/organizations/:organization_id/health",
+      capability_key: "engagement.gateway.health.read",
+      auth_required: true,
+      public_route: false,
+      rate_limited: true,
+      input_schema: null,
+      output_schema: "engagement.gateway.health.output",
+    },
+  ],
+  events_emitted: [
+    {
+      event_type: "engagement.gateway.request.recorded",
+      version: "0.1.0",
+      source_module: "engagement.gateway",
+      schema: "engagement.gateway.request.recorded.event",
+      delivery_mode: "transactional_outbox",
+      retry_policy: {
+        strategy: "none",
+        max_attempts: 0,
+        initial_delay_ms: 0,
+      },
+      idempotency_key_fields: ["idempotency_key"],
+    },
+  ],
+  events_consumed: [],
+  schemas: [
+    {
+      key: "engagement.gateway.request.create.input",
+      version: "0.1.0",
+      description: "Provider-neutral gateway request creation input.",
+    },
+    {
+      key: "engagement.gateway.request.create.output",
+      version: "0.1.0",
+      description: "Provider-neutral gateway request creation output.",
+    },
+    {
+      key: "engagement.gateway.request.recorded.event",
+      version: "0.1.0",
+      description: "Declaration-only gateway request recorded event payload.",
+    },
+    {
+      key: "engagement.gateway.health.output",
+      version: "0.1.0",
+      description: "Engagement Gateway Lite health output.",
+    },
+  ],
+  migrations: [],
+  settings: [],
+  menu_entries: [],
+  dashboard_widgets: [],
+  gatekeeper_hooks: [
+    {
+      key: "engagement.gateway.request.create.gatekeeper",
+      capability_key: "engagement.gateway.request.create",
+      description: "Gatekeeper preflight for outbound engagement dispatch intent.",
+      required: true,
+    },
+  ],
+  audit_hooks: [
+    {
+      key: "engagement.gateway.request.recorded.audit",
+      event_type: "engagement.gateway.request.recorded",
+      description: "Audit hook for recorded engagement gateway dispatch intent.",
+      required: true,
+    },
+  ],
+  health_checks: [
+    {
+      key: "engagement.gateway.health",
+      description: "Engagement Gateway Lite contract health boundary.",
+      endpoint: "/platform/engagement-gateway/organizations/:organization_id/health",
+      critical: false,
+      timeout_ms: 1000,
+    },
+  ],
+  degraded_mode_behavior: {
+    mode: "limited",
+    description: "Request creation is disabled while health reads remain available.",
+    disabled_capabilities: ["engagement.gateway.request.create"],
+  },
+  disable_behavior: {
+    description: "Disabling Engagement Gateway Lite blocks dependent engagement dispatch operations.",
+    blocks_dependent_modules: true,
+    data_retention_required: true,
+  },
+  data_ownership: {
+    owner_module_key: "engagement.gateway",
+    tenant_scoped: true,
+    entity_refs: [],
+    retention_policy: "Retain gateway request metadata according to platform audit and outbox policy.",
+    sensitive_data: true,
+  },
+});
