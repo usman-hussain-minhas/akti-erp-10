@@ -6,6 +6,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigurationController } from './configuration/configuration.controller';
 import { ConfigurationService } from './configuration/configuration.service';
+import { EngagementGatewayController } from './engagement-gateway/engagement-gateway.controller';
+import { EngagementGatewayService } from './engagement-gateway/engagement-gateway.service';
 import { GatekeeperPreflightService } from './gatekeeper/gatekeeper-preflight.service';
 import { HierarchyController } from './hierarchy/hierarchy.controller';
 import { HierarchyClosureService } from './hierarchy/hierarchy-closure.service';
@@ -27,6 +29,7 @@ import { PrismaService } from './prisma/prisma.service';
     ModuleRegistryController,
     HierarchyController,
     ConfigurationController,
+    EngagementGatewayController,
   ],
   providers: [
     AppService,
@@ -37,6 +40,7 @@ import { PrismaService } from './prisma/prisma.service';
     HierarchyService,
     ConfigurationService,
     AccessCoreService,
+    EngagementGatewayService,
     GatekeeperPreflightService,
     AuditLogService,
     EventOutboxService,
