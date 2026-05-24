@@ -1,0 +1,175 @@
+{
+  "document": {
+    "title": "AKTI ERP Phase 2 Autonomous Branch Trial Plan",
+    "version": "1.0.0",
+    "status": "draft_for_codex_plan_mode_validation",
+    "created_at": "2026-05-24T00:00:00+05:00",
+    "owner": "AKTI / Usman Minhas",
+    "recommended_repo_path": "docs/process/AKTI_ERP_Phase_2_Autonomous_Branch_Trial_Plan_v1.json",
+    "purpose": "Define the controlled full Phase 2 autonomous stress-test experiment for Codex. This document is a strategy/control plan, not implementation approval.",
+    "principle": "ChatGPT designs and audits. Codex validates and executes. The coordinator transfers outputs between them. Codex executes only the approved ticket queue."
+  },
+  "experiment": {
+    "name": "AKTI ERP Phase 2 Full Autonomous Stress Test",
+    "branch": "experiment/phase2-full-autonomous",
+    "mode": "full_phase_autonomous_stress_test",
+    "goal": "Test whether Codex can execute a full approved Phase 2 ticket queue autonomously for an extended run while preserving scope, architecture, validation, and auditability.",
+    "important_note": "This is a disposable experiment branch. Passing the stress test does not automatically make the branch production-ready or merge-ready.",
+    "main_branch_policy": "main is protected; Codex must never merge to main automatically."
+  },
+  "phase_scope": {
+    "included": [
+      {
+        "phase": "Phase 2A",
+        "name": "Engagement Gateway Lite",
+        "purpose": "Create the messaging/engagement transport abstraction before Lead Desk depends on messaging."
+      },
+      {
+        "phase": "Phase 2B",
+        "name": "Lead Desk Core",
+        "purpose": "Create the lead-management/admissions workflow without direct WhatsApp/Meta coupling."
+      },
+      {
+        "phase": "Phase 2C",
+        "name": "WhatsApp Lead Desk Integration",
+        "purpose": "Connect Lead Desk to WhatsApp only through Engagement Gateway Lite or future Engagement Hub boundary."
+      }
+    ],
+    "architecture_boundary": [
+      "Lead Desk must not call Meta WhatsApp API directly.",
+      "All messaging transport must go through Engagement Gateway Lite or future Engagement Hub.",
+      "Temporary CRM/shared inbox remains operationally separate until Phase 2C is tested and accepted."
+    ]
+  },
+  "filtered_out": {
+    "not_allowed": [
+      "Running autonomous work on main",
+      "Auto-merge to main",
+      "danger-full-access / YOLO mode",
+      "Broad permission=auto / unrestricted auto-approve",
+      "Codex inventing missing tickets or business rules",
+      "Parallel agents editing overlapping files",
+      "Fake 100 percent coverage requirements",
+      "External web scraping by default",
+      "Unapproved new dependencies",
+      "Production deployment",
+      "Production auth/session unless separately approved",
+      "Direct WhatsApp/Meta API calls from Lead Desk",
+      "Frontend screens without approved screen contracts",
+      "Unapproved modules such as LMS, HR, Finance, Hiring, Certification, Website Builder, AI Content Editor"
+    ],
+    "optional_later": [
+      {
+        "item": "WarpGrep MCP",
+        "decision": "Optional read-only pilot later, not mandatory for first run."
+      },
+      {
+        "item": "Playwright MCP",
+        "decision": "Allowed only for frontend tickets after screen contracts exist."
+      },
+      {
+        "item": "Local Docs MCP",
+        "decision": "Recommended read-only context tool if available."
+      }
+    ]
+  },
+  "authority_order": [
+    "prisma/schema.prisma",
+    "packages/contracts",
+    "module manifests",
+    "generated/entity-registry.generated.json",
+    "docs/adr",
+    "AGENTS.md operating rules",
+    "docs/process/AKTI_ERP_Phase_2_Autonomous_Codex_Execution_Pack_v1.json",
+    "docs/process/AKTI_ERP_Phase_2_Autonomous_Runbook_v1.md",
+    "PLANS.md",
+    "chat prompts"
+  ],
+  "required_preconditions": [
+    "The execution pack exists in docs/process/",
+    "The runbook exists in docs/process/",
+    "PLANS.md exists",
+    "Codex has validated these documents against repo reality in Plan Mode",
+    "Corrections, if any, are applied before /goal starts",
+    "The branch starts from the accepted final Phase 1 hardened commit",
+    "Working tree is clean before branch creation",
+    "No autonomous run starts without an approved active execution pack"
+  ],
+  "codex_config_recommendation": {
+    "approval_policy": "on-request",
+    "approvals_reviewer": "auto_review",
+    "sandbox_mode": "workspace-write",
+    "features": {
+      "goals": true,
+      "multi_agent": true
+    },
+    "sandbox_workspace_write": {
+      "network_access": false
+    },
+    "forbidden": [
+      "danger-full-access",
+      "unrestricted network",
+      "production secrets",
+      "auto-merge",
+      "unapproved dependency install"
+    ]
+  },
+  "multi_agent_policy": {
+    "enabled": true,
+    "allowed_roles": [
+      "security_reviewer",
+      "test_reviewer",
+      "diff_scope_reviewer",
+      "schema_registry_reviewer",
+      "screen_contract_reviewer",
+      "frontend_usability_reviewer"
+    ],
+    "edit_policy": "Main worker edits files. Subagents are review-only unless a ticket explicitly delegates non-overlapping files.",
+    "forbidden_parallel_edits": [
+      "Prisma schema",
+      "entity registry metadata",
+      "generated registry",
+      "contracts",
+      "Access Core",
+      "Gatekeeper",
+      "same service/controller/test pair",
+      "same frontend screen"
+    ]
+  },
+  "success_criteria": {
+    "technical": [
+      "Approved ticket queue executed in order",
+      "Ticket validations pass",
+      "Phase-gate validations pass",
+      "Per-ticket commits exist on experiment branch",
+      "Per-ticket artifacts exist",
+      "Final branch audit package exists",
+      "main remains untouched"
+    ],
+    "architecture": [
+      "No direct Lead Desk to WhatsApp/Meta API calls",
+      "No unapproved modules",
+      "No invented capabilities, roles, permissions, events, or screens",
+      "No frontend screen without screen contract",
+      "No schema/registry drift outside approved tickets",
+      "Access Core and Gatekeeper boundaries preserved",
+      "Audit/outbox decisions exist for mutations"
+    ],
+    "failure_success": [
+      "If Codex fails, it stops cleanly",
+      "Failure point is identifiable by ticket",
+      "Branch remains auditable",
+      "main remains safe",
+      "Lessons identify the safe future batch size"
+    ]
+  },
+  "coordinator_workflow": [
+    "Place these documents under docs/process/ and PLANS.md at repo root.",
+    "Ask Codex to validate them in Plan Mode only.",
+    "Bring Codex validation result back to ChatGPT.",
+    "ChatGPT returns PASS or corrections.",
+    "After PASS, Codex may start the full Phase 2 autonomous stress test on the experiment branch.",
+    "When Codex stops or completes, bring final artifacts back to ChatGPT for audit."
+  ],
+  "codex_plan_mode_validation_prompt": "We are in Plan Mode only.\n\nValidate the Phase 2 autonomous control documents against the current repo.\n\nDo not implement.\nDo not create branches.\nDo not run /goal.\nDo not modify files.\nDo not commit.\nDo not push.\n\nInspect:\n- AGENTS.md\n- docs/adr/*\n- docs/specs/*\n- docs/process/*\n- packages/contracts/*\n- prisma/schema.prisma\n- generated/entity-registry.generated.json\n- apps/api/*\n- apps/web/*\n- package.json\n- pnpm-workspace.yaml\n- CI workflows\n\nReturn only:\n1. Files inspected\n2. Whether these control documents match repo reality\n3. Missing files/paths/scripts\n4. Unsafe assumptions\n5. Corrections required\n6. Whether the documents are safe to use as the active autonomous run contract\n\nDo not write code."
+}
