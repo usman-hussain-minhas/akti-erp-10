@@ -5,8 +5,20 @@ import { ManifestKeySchema, ModuleKeySchema } from "./module-manifest.schema.js"
 const NonEmptyStringSchema = z.string().min(1);
 const TimestampSchema = z.string().datetime({ offset: true });
 const PayloadSchema = z.record(z.string(), z.unknown());
+export const EngagementGatewayWhatsappStubPayloadSchema = z
+  .object({
+    template_key: NonEmptyStringSchema,
+    locale: NonEmptyStringSchema,
+    message_variables: z.record(z.string(), NonEmptyStringSchema),
+    dry_run_only: z.literal(true),
+  })
+  .strict();
 
 export const EngagementGatewayRequestKindSchema = z.enum(["outbound_engagement"]);
+export const EngagementGatewayTransportChannelSchema = z.enum([
+  "generic_stub",
+  "whatsapp_stub",
+]);
 export const EngagementGatewayPrioritySchema = z.enum(["normal", "urgent"]);
 export const EngagementGatewayRequestStatusSchema = z.enum(["recorded"]);
 export const EngagementGatewayHealthStatusSchema = z.enum([
@@ -25,6 +37,7 @@ export const EngagementGatewayCreateRequestInputSchema = z
     request_kind: EngagementGatewayRequestKindSchema,
     recipient_ref: NonEmptyStringSchema,
     payload: PayloadSchema,
+    transport_channel: EngagementGatewayTransportChannelSchema.default("generic_stub"),
     idempotency_key: NonEmptyStringSchema,
     priority: EngagementGatewayPrioritySchema,
     requested_at: TimestampSchema,
@@ -64,6 +77,9 @@ export const EngagementGatewayHealthOutputSchema = z
   .strict();
 
 export type EngagementGatewayRequestKind = z.infer<typeof EngagementGatewayRequestKindSchema>;
+export type EngagementGatewayTransportChannel = z.infer<
+  typeof EngagementGatewayTransportChannelSchema
+>;
 export type EngagementGatewayPriority = z.infer<typeof EngagementGatewayPrioritySchema>;
 export type EngagementGatewayRequestStatus = z.infer<typeof EngagementGatewayRequestStatusSchema>;
 export type EngagementGatewayHealthStatus = z.infer<typeof EngagementGatewayHealthStatusSchema>;
@@ -77,6 +93,9 @@ export type EngagementGatewayRequestRecordedEvent = z.infer<
   typeof EngagementGatewayRequestRecordedEventSchema
 >;
 export type EngagementGatewayHealthOutput = z.infer<typeof EngagementGatewayHealthOutputSchema>;
+export type EngagementGatewayWhatsappStubPayload = z.infer<
+  typeof EngagementGatewayWhatsappStubPayloadSchema
+>;
 
 export function parseEngagementGatewayCreateRequestInput(
   input: unknown,
@@ -128,9 +147,21 @@ export const sampleEngagementGatewayCreateRequestInput =
       template_key: "engagement.gateway.sample",
       body_ref: "content_alpha",
     },
+    transport_channel: "generic_stub",
     idempotency_key: "engagement_gateway_request_alpha",
     priority: "normal",
     requested_at: "2026-05-24T10:00:00.000Z",
+  });
+
+export const sampleEngagementGatewayWhatsappStubPayload =
+  EngagementGatewayWhatsappStubPayloadSchema.parse({
+    template_key: "lead.intake.ack",
+    locale: "en-PK",
+    message_variables: {
+      lead_name: "Lead Alpha",
+      organization_name: "Organization Alpha",
+    },
+    dry_run_only: true,
   });
 
 export const sampleEngagementGatewayCreateRequestOutput =

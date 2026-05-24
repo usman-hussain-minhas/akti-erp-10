@@ -101,7 +101,8 @@ export const engagementGatewayLiteModuleManifest: ModuleManifest = ModuleManifes
     {
       key: "engagement.gateway.request.create.input",
       version: "0.1.0",
-      description: "Provider-neutral gateway request creation input.",
+      description:
+        "Provider-neutral gateway request creation input with stub transport channel declaration.",
     },
     {
       key: "engagement.gateway.request.create.output",
@@ -112,6 +113,12 @@ export const engagementGatewayLiteModuleManifest: ModuleManifest = ModuleManifes
       key: "engagement.gateway.request.recorded.event",
       version: "0.1.0",
       description: "Declaration-only gateway request recorded event payload.",
+    },
+    {
+      key: "engagement.gateway.whatsapp.stub.payload",
+      version: "0.1.0",
+      description:
+        "Stub-only non-production payload contract for gateway-mediated WhatsApp transport planning.",
     },
     {
       key: "engagement.gateway.health.output",

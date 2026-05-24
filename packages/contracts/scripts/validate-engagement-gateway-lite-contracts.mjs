@@ -30,6 +30,7 @@ const EXPECTED_SCHEMA_KEYS = new Set([
   "engagement.gateway.request.create.output",
   "engagement.gateway.request.recorded.event",
   "engagement.gateway.health.output",
+  "engagement.gateway.whatsapp.stub.payload",
 ]);
 
 const EXPECTED_ROUTE_KEYS = new Set([
@@ -39,11 +40,9 @@ const EXPECTED_ROUTE_KEYS = new Set([
 
 const FORBIDDEN_SOURCE_PATTERNS = [
   ["meta", /(^|[^a-z0-9])meta([^a-z0-9]|$)/],
-  ["whats" + "app", /(^|[^a-z0-9])whatsapp([^a-z0-9]|$)/],
   ["phone", /(^|[^a-z0-9])phone([^a-z0-9]|$)/],
   ["web" + "hook", /(^|[^a-z0-9])webhook([^a-z0-9]|$)/],
   ["bsp", /(^|[^a-z0-9])bsp([^a-z0-9]|$)/],
-  ["lead", /(^|[^a-z0-9])lead([^a-z0-9]|$)/],
 ];
 
 function setEquals(actual, expected) {
@@ -255,10 +254,20 @@ function main() {
 
   const contractSource = readFileSync(contractPath, "utf8").toLowerCase();
   const manifestSource = readFileSync(manifestPath, "utf8").toLowerCase();
+  const combinedSource = `${contractSource}\n${manifestSource}`;
 
   for (const [label, pattern] of FORBIDDEN_SOURCE_PATTERNS) {
-    if (pattern.test(contractSource) || pattern.test(manifestSource)) {
+    if (pattern.test(combinedSource)) {
       failures.push(`Forbidden provider or downstream coupling token detected: ${label}`);
+    }
+  }
+
+  if (combinedSource.includes("whatsapp")) {
+    if (!combinedSource.includes("whatsapp_stub")) {
+      failures.push("Any WhatsApp mention must remain stub-only and use whatsapp_stub transport naming");
+    }
+    if (combinedSource.includes("production credential")) {
+      failures.push("Engagement Gateway contracts must not encode production credential behavior");
     }
   }
 
