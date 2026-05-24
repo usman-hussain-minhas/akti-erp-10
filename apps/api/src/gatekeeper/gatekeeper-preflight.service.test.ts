@@ -114,6 +114,49 @@ async function testDefaultProviderAllowsValidAccessCorePreflight() {
   assert.ok(decision.decision_token);
 }
 
+async function testDefaultProviderAllowsValidPhase2Preflights() {
+  const service = new GatekeeperPreflightService();
+  const capabilities = [
+    {
+      capability_key: 'engagement.gateway.request.create',
+      module_key: 'engagement.gateway',
+      entity_type: 'engagement.gateway.request',
+      action_key: 'engagement.gateway.request.recorded',
+    },
+    {
+      capability_key: 'lead.intake.create',
+      module_key: 'lead.desk',
+      entity_type: 'lead.record',
+      action_key: 'lead.desk.lead.created',
+    },
+    {
+      capability_key: 'lead.status.update',
+      module_key: 'lead.desk',
+      entity_type: 'lead.record',
+      action_key: 'lead.desk.lead.status.updated',
+    },
+    {
+      capability_key: 'lead.inbox.assign',
+      module_key: 'lead.desk',
+      entity_type: 'lead.record',
+      action_key: 'lead.desk.lead.assigned',
+    },
+  ] as const;
+
+  for (const capability of capabilities) {
+    const decision = await service.requireAllow(
+      preflightInput({
+        ...capability,
+      }),
+    );
+
+    assert.equal(decision.decision, 'allow');
+    assert.equal(decision.capability_key, capability.capability_key);
+    assert.equal(decision.actor_user_id, 'actor-1');
+    assert.ok(decision.decision_token);
+  }
+}
+
 async function testDefaultProviderDeniesInvalidContext() {
   const service = new GatekeeperPreflightService();
 
@@ -135,6 +178,68 @@ async function testDefaultProviderDeniesInvalidContext() {
     service.requireAllow(
       preflightInput({
         capability_key: 'access.unknown',
+      }),
+    ),
+    (error: unknown) => {
+      assert.ok(error instanceof ForbiddenException);
+      return true;
+    },
+  );
+
+  await assert.rejects(
+    service.requireAllow(
+      preflightInput({
+        capability_key: 'lead.intake.create',
+        module_key: 'lead.desk',
+        module_health: {
+          'core.access': 'healthy',
+        },
+      }),
+    ),
+    (error: unknown) => {
+      assert.ok(error instanceof ServiceUnavailableException);
+      return true;
+    },
+  );
+
+  await assert.rejects(
+    service.requireAllow(
+      preflightInput({
+        capability_key: 'lead.intake.create',
+        module_key: 'lead.desk',
+        dependency_health: {
+          'core.access': 'healthy',
+        },
+      }),
+    ),
+    (error: unknown) => {
+      assert.ok(error instanceof ServiceUnavailableException);
+      return true;
+    },
+  );
+
+  await assert.rejects(
+    service.requireAllow(
+      preflightInput({
+        capability_key: 'lead.intake.create',
+        module_key: 'lead.desk',
+        dependency_health: {
+          'core.access': 'healthy',
+          'engagement.gateway': 'degraded',
+        },
+      }),
+    ),
+    (error: unknown) => {
+      assert.ok(error instanceof ServiceUnavailableException);
+      return true;
+    },
+  );
+
+  await assert.rejects(
+    service.requireAllow(
+      preflightInput({
+        capability_key: 'lead.intake.create',
+        module_key: 'engagement.gateway',
       }),
     ),
     (error: unknown) => {
@@ -247,6 +352,7 @@ function testGatekeeperSchemasAreNotDuplicatedInApi() {
 
 async function run() {
   await testDefaultProviderAllowsValidAccessCorePreflight();
+  await testDefaultProviderAllowsValidPhase2Preflights();
   await testDefaultProviderDeniesInvalidContext();
   await testDenyApprovalAndInvalidDecisionsFailClosed();
   await testInvalidRequestFailsClosedBeforeProvider();

@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 
 import { BadRequestException, ForbiddenException, NotFoundException, ServiceUnavailableException } from '@nestjs/common';
 
+import { GatekeeperPreflightService } from '../gatekeeper/gatekeeper-preflight.service';
 import { LeadDeskService } from './lead-desk.service';
 
 function createMocks() {
@@ -155,7 +156,18 @@ function createMocks() {
     gatekeeperPreflightService as never,
   );
 
-  return { service, state, gatekeeperPreflightService };
+  return { service, state, gatekeeperPreflightService, db, auditLogService, eventOutboxService };
+}
+
+function createMocksWithRealGatekeeper() {
+  const { state, db, auditLogService, eventOutboxService } = createMocks();
+  const service = new LeadDeskService(
+    db as never,
+    auditLogService as never,
+    eventOutboxService as never,
+    new GatekeeperPreflightService() as never,
+  );
+  return { service, state };
 }
 
 function createInput(overrides?: Partial<Record<string, unknown>>) {
@@ -177,6 +189,15 @@ async function testCreateLeadHappyPath() {
   assert.equal(result.organization_id, 'org-1');
   assert.equal(result.status, 'new');
   assert.equal(state.gatekeeperCalls.length, 1);
+  assert.equal(state.auditCalls.length, 1);
+  assert.equal(state.outboxCalls.length, 1);
+}
+
+async function testCreateLeadHappyPathUsesRealGatekeeper() {
+  const { service, state } = createMocksWithRealGatekeeper();
+  const result = await service.createLead('org-1', createInput(), 'actor-1');
+  assert.equal(result.organization_id, 'org-1');
+  assert.equal(result.status, 'new');
   assert.equal(state.auditCalls.length, 1);
   assert.equal(state.outboxCalls.length, 1);
 }
@@ -243,6 +264,22 @@ async function testUpdateLeadStatusHappyPath() {
   assert.equal(state.statusHistory.length, 1);
   assert.equal(state.auditCalls.length >= 1, true);
   assert.equal(state.outboxCalls.length >= 1, true);
+}
+
+async function testUpdateLeadStatusHappyPathUsesRealGatekeeper() {
+  const { service, state } = createMocksWithRealGatekeeper();
+  const result = await service.updateLeadStatus(
+    'org-1',
+    'lead-1',
+    {
+      status: 'contacted',
+      reason: 'Reached by phone',
+      requested_at: '2026-05-24T10:10:00.000Z',
+    },
+    'actor-1',
+  );
+  assert.equal(result.status, 'contacted');
+  assert.equal(state.statusHistory.length, 1);
 }
 
 async function testUpdateLeadStatusMissingActorFails() {
@@ -343,6 +380,21 @@ async function testUpdateLeadAssignmentHappyPath() {
   assert.equal(state.assignmentHistory.length, 1);
 }
 
+async function testUpdateLeadAssignmentHappyPathUsesRealGatekeeper() {
+  const { service, state } = createMocksWithRealGatekeeper();
+  const result = await service.updateLeadAssignment(
+    'org-1',
+    'lead-1',
+    {
+      assigned_user_id: 'assignee-1',
+      requested_at: '2026-05-24T10:20:00.000Z',
+    },
+    'actor-1',
+  );
+  assert.equal(result.assigned_user_id, 'assignee-1');
+  assert.equal(state.assignmentHistory.length, 1);
+}
+
 async function testUpdateLeadAssignmentMissingActorFails() {
   const { service } = createMocks();
   await assert.rejects(
@@ -428,6 +480,7 @@ async function testUpdateLeadAssignmentGatekeeperDenied() {
 
 async function run() {
   await testCreateLeadHappyPath();
+  await testCreateLeadHappyPathUsesRealGatekeeper();
   await testCreateLeadMissingActorFails();
   await testCreateLeadUnauthorizedActorFails();
   await testCreateLeadCrossOrgDenied();
@@ -437,12 +490,14 @@ async function run() {
   await testGetLeadDetailHappyPath();
   await testGetLeadDetailCrossOrgNotFound();
   await testUpdateLeadStatusHappyPath();
+  await testUpdateLeadStatusHappyPathUsesRealGatekeeper();
   await testUpdateLeadStatusMissingActorFails();
   await testUpdateLeadStatusUnauthorizedActorFails();
   await testUpdateLeadStatusCrossOrgDenied();
   await testUpdateLeadStatusInvalidPayloadFails();
   await testUpdateLeadStatusGatekeeperDenied();
   await testUpdateLeadAssignmentHappyPath();
+  await testUpdateLeadAssignmentHappyPathUsesRealGatekeeper();
   await testUpdateLeadAssignmentMissingActorFails();
   await testUpdateLeadAssignmentUnauthorizedActorFails();
   await testUpdateLeadAssignmentCrossOrgDenied();

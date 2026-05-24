@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 
 import { BadRequestException, ForbiddenException, ServiceUnavailableException } from '@nestjs/common';
 
+import { GatekeeperPreflightService } from '../gatekeeper/gatekeeper-preflight.service';
 import { EngagementGatewayService } from './engagement-gateway.service';
 
 function createMocks() {
@@ -84,7 +85,21 @@ function createMocks() {
     whatsappStubProvider as never,
   );
 
-  return { service, state, gatekeeperPreflightService };
+  return { service, state, gatekeeperPreflightService, prisma, auditLogService, eventOutboxService, whatsappStubProvider };
+}
+
+function createMocksWithRealGatekeeper() {
+  const { state, prisma, auditLogService, eventOutboxService, whatsappStubProvider } = createMocks();
+  const realGatekeeperService = new GatekeeperPreflightService();
+  const realService = new EngagementGatewayService(
+    prisma as never,
+    auditLogService as never,
+    eventOutboxService as never,
+    realGatekeeperService as never,
+    whatsappStubProvider as never,
+  );
+
+  return { service: realService, state };
 }
 
 function createInput(overrides?: Partial<Record<string, unknown>>) {
@@ -113,6 +128,15 @@ async function testCreateRequestHappyPath() {
   assert.equal(state.outboxCalls.length, 1);
   assert.equal(state.stubDispatchCalls.length, 0);
   assert.equal(state.stubInboundCalls.length, 0);
+}
+
+async function testCreateRequestHappyPathUsesRealGatekeeper() {
+  const { service, state } = createMocksWithRealGatekeeper();
+  const result = await service.createRequest('org-1', createInput(), 'actor-1');
+  assert.equal(result.organization_id, 'org-1');
+  assert.equal(result.status, 'recorded');
+  assert.equal(state.auditCalls.length, 1);
+  assert.equal(state.outboxCalls.length, 1);
 }
 
 async function testCreateRequestWhatsappStubFlow() {
@@ -168,6 +192,7 @@ async function testHealthRead() {
 
 async function run() {
   await testCreateRequestHappyPath();
+  await testCreateRequestHappyPathUsesRealGatekeeper();
   await testCreateRequestWhatsappStubFlow();
   await testMissingActorFails();
   await testCrossOrgActorFails();
