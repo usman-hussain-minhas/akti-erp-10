@@ -3,7 +3,7 @@
   "sources": {
     "prisma_schema": "prisma/schema.prisma",
     "metadata": "prisma/entity-registry.metadata.json",
-    "prisma_schema_hash": "sha256:12b227318ef0bc0749f178c3777edc55fdb087b6ba6a1236b130032253e804c3",
+    "prisma_schema_hash": "sha256:be351f989d824edef0b5326cc326cc66979894dc1a27db64e69ba6523a18e54f",
     "metadata_hash": "sha256:adc4541f1dc14df289e76d8abde594316a142e0bb96eeae94972c7c9765c82df"
   },
   "entities": [
@@ -309,10 +309,28 @@
       "organization_id_column": "organization_id",
       "fields": [
         {
+          "field_name": "attempt_count",
+          "column_name": "attempt_count",
+          "type": "Int",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
           "field_name": "created_at",
           "column_name": "created_at",
           "type": "DateTime",
           "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "dead_lettered_at",
+          "column_name": "dead_lettered_at",
+          "type": "DateTime",
+          "is_required": false,
           "is_unique": false,
           "is_id": false,
           "is_relation": false
@@ -333,6 +351,51 @@
           "is_required": true,
           "is_unique": false,
           "is_id": true,
+          "is_relation": false
+        },
+        {
+          "field_name": "idempotency_key",
+          "column_name": "idempotency_key",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "last_error",
+          "column_name": "last_error",
+          "type": "String",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "locked_at",
+          "column_name": "locked_at",
+          "type": "DateTime",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "locked_by",
+          "column_name": "locked_by",
+          "type": "String",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "next_attempt_at",
+          "column_name": "next_attempt_at",
+          "type": "DateTime",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
           "is_relation": false
         },
         {
@@ -413,6 +476,30 @@
           "is_unique": true
         },
         {
+          "name": "EventOutbox_organization_id_dead_lettered_at_idx",
+          "fields": [
+            "organization_id",
+            "dead_lettered_at"
+          ],
+          "columns": [
+            "organization_id",
+            "dead_lettered_at"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "EventOutbox_organization_id_idempotency_key_key",
+          "fields": [
+            "organization_id",
+            "idempotency_key"
+          ],
+          "columns": [
+            "organization_id",
+            "idempotency_key"
+          ],
+          "is_unique": true
+        },
+        {
           "name": "EventOutbox_organization_id_status_created_at_idx",
           "fields": [
             "organization_id",
@@ -422,6 +509,22 @@
           "columns": [
             "organization_id",
             "status",
+            "created_at"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "EventOutbox_organization_id_status_next_attempt_at_created_at_idx",
+          "fields": [
+            "organization_id",
+            "status",
+            "next_attempt_at",
+            "created_at"
+          ],
+          "columns": [
+            "organization_id",
+            "status",
+            "next_attempt_at",
             "created_at"
           ],
           "is_unique": false
@@ -435,6 +538,17 @@
           ],
           "columns": [
             "id"
+          ]
+        },
+        {
+          "name": "EventOutbox_organization_id_idempotency_key_key",
+          "fields": [
+            "organization_id",
+            "idempotency_key"
+          ],
+          "columns": [
+            "organization_id",
+            "idempotency_key"
           ]
         }
       ],

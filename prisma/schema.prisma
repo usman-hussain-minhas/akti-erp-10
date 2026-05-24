@@ -214,15 +214,25 @@ model AuditLog {
 model EventOutbox {
   id              String       @id @default(cuid())
   organization_id String
+  idempotency_key String
   event_type      String
   version         String
   payload         Json
   status          String
+  attempt_count   Int          @default(0)
+  next_attempt_at DateTime?
+  last_error      String?
+  dead_lettered_at DateTime?
+  locked_at       DateTime?
+  locked_by       String?
   created_at      DateTime     @default(now())
   processed_at    DateTime?
   organization    Organization @relation(fields: [organization_id], references: [id])
 
+  @@unique([organization_id, idempotency_key])
   @@index([organization_id, status, created_at])
+  @@index([organization_id, status, next_attempt_at, created_at])
+  @@index([organization_id, dead_lettered_at])
   @@index([event_type])
 }
 
