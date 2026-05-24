@@ -87,7 +87,9 @@
     "broad_glob_rule": "Broad globs are inspection hints only. They do not grant edit permission until converted into an exact-file implementation plan.",
     "frontend_test_rule": "Because apps/web currently has a scaffold test script, P2H-012 must use available no-new-dependency tooling for meaningful tests or stop for explicit dependency/tooling approval.",
     "outbox_architecture_rule": "If P2H-005 changes outbox retry/dead-letter behavior beyond foundation metadata, Codex must create or reference an ADR/subdecision before implementation continues.",
-    "stronger_path_authority_rule": "The stronger implementation path must be derived only from Prisma, contracts, manifests, generated registry, ADRs, and active control docs. If a stronger path requires a new business rule, capability, permission, role, event, screen, module, or architecture decision, stop."
+    "stronger_path_authority_rule": "The stronger implementation path must be derived only from Prisma, contracts, manifests, generated registry, ADRs, and active control docs. If a stronger path requires a new business rule, capability, permission, role, event, screen, module, or architecture decision, stop.",
+    "execution_environment_rule": "Default execution profile is workspace-write with approval-gated mutations and restricted network. Full-access execution is permitted only when explicitly authorized by active control docs for the current run, with no production secrets, no production deployment, and all hard-stop boundaries preserved.",
+    "full_access_exception_rule": "When a full-access run is explicitly authorized, danger-full-access, approval-never, and network-enabled operation are allowed for the active run only; this does not relax scope, validation, governance, or secret-handling rules."
   },
   "standard_validation_ladder": [
     "pnpm --filter @akti/api test",
@@ -107,7 +109,7 @@
     "git status --short --branch"
   ],
   "stop_conditions": [
-    "unsafe execution environment",
+    "unsafe execution environment without explicit active control-doc authorization",
     "required file outside exact ticket scope",
     "new dependency required but not approved",
     "secret or production credential needed",

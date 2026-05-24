@@ -258,7 +258,7 @@
     "No autonomous run starts without an approved active execution pack",
     "P2-VAL-001 has provided a Phase 2-aware registry verification path before schema-changing tickets run",
     "P2-VAL-002 has provided Phase 2 screen-contract validation support before Lead Desk screen contracts are added",
-    "The Codex execution environment is approved safe mode: not danger-full-access, not unrestricted network, not approval-never, and no production secrets",
+    "The Codex execution environment default is approved safe mode: workspace-write, approval-gated mutation, restricted network, and no production secrets. A full-access profile is allowed only when explicitly authorized by active control docs for the current run.",
     "P2-000 is complete and P2A-001 is complete at commit 944d0c84badbf9633c12c395f8e50cb08cc96571",
     "The active execution pack has adopted the v3 queue and next executable ticket is P2A-002",
     "Phase 2C is unlocked under ADR-0003 formal exception and remains limited to stub/non-production implementation constraints"
@@ -275,14 +275,25 @@
       "network_access": false
     },
     "forbidden": [
-      "danger-full-access",
-      "unrestricted network",
       "production secrets",
       "auto-merge",
-      "unapproved dependency install",
-      "approval-never"
+      "unapproved dependency install"
     ],
-    "network_access": "disabled unless explicitly approved for a ticket"
+    "full_access_exception": {
+      "allowed_only_with_active_control_doc_authorization": true,
+      "profile": [
+        "danger-full-access",
+        "approval-never",
+        "network-enabled"
+      ],
+      "constraints_preserved": [
+        "scope boundaries",
+        "validation gates",
+        "governance controls",
+        "secret handling rules"
+      ]
+    },
+    "network_access": "restricted by default; network-enabled allowed only with explicit active control-doc authorization"
   },
   "multi_agent_policy": {
     "enabled": true,

@@ -87,7 +87,7 @@
     "phase2_screen_contract_rule": "P2-VAL-002 must add Phase 2 screen-contract validation support before Lead Desk screen contracts are added.",
     "migration_policy": "If the repo still has no Prisma migrations directory, schema/data tickets must explicitly decide schema/registry-only versus migration scaffolding. If migration scaffolding is required, Codex must stop unless that work is explicitly ticketed. Destructive migrations are forbidden.",
     "phase2c_governance_rule": "Phase 2C is unlocked only under the ADR-0003 formal exception recorded on 2026-05-24 and is limited to stub/non-production implementation with no production credentials, no real outbound WhatsApp messages, no direct Lead Desk-to-Meta/WhatsApp coupling, and all transport through Engagement Gateway Lite.",
-    "execution_environment_rule": "Autonomous execution must run only in an approved safe Codex environment: not danger-full-access, not unrestricted network, not approval-never, and no production secrets. workspace-write/on-request/no-network is preferred unless explicitly approved otherwise.",
+    "execution_environment_rule": "Autonomous execution default is approved safe mode: workspace-write, approval-gated mutation, restricted network, and no production secrets. A full-access profile (danger-full-access, approval-never, network-enabled) is allowed only when explicitly authorized by active control docs for the current run and does not relax scope, validation, governance, or secret-handling rules.",
     "v3_autonomy_rule": "Codex may continue through AUTONOMOUS_READY, AUTONOMOUS_AFTER_PREVIOUS, and AUTONOMOUS_DECISION_RULE tickets when the encoded decision rule passes and no hard gate triggers.",
     "autonomous_status_policy": {
       "COMPLETE": "Already satisfied in repo history.",
@@ -196,7 +196,7 @@
     "artifact_only_ticket_policy": "No tracked commit required when no tracked source changes are expected by ticket scope."
   },
   "stop_conditions": [
-    "Unsafe execution environment",
+    "Unsafe execution environment without explicit active control-doc authorization",
     "Required file outside exact ticket scope",
     "Validation failure twice",
     "New dependency required",

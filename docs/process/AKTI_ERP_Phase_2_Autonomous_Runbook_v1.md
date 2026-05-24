@@ -85,7 +85,7 @@ Codex must confirm:
 - execution pack is readable and has active queue version v3
 - package scripts are available or missing scripts are reported honestly
 - no production secrets are required or accessed
-- execution environment is approved safe mode: not danger-full-access, not unrestricted network, not approval-never
+- execution environment default is approved safe mode (`workspace-write`, approval-gated mutation, restricted network); full-access profile is allowed only when explicitly authorized by active control docs for the current run
 - goal start ticket is `P2A-002`
 - P2-VAL-001 precedes schema-changing tickets
 - P2-VAL-002 precedes Lead Desk screen-contract tickets
@@ -197,7 +197,7 @@ If a ticket has no tracked source-file changes by design (artifact-only ticket),
 
 Stop if:
 
-- Unsafe execution environment
+- Unsafe execution environment without explicit active control-doc authorization
 - Required file outside exact ticket scope
 - Validation failure twice
 - New dependency required
@@ -231,7 +231,7 @@ Include source zip from branch HEAD, commit log, file list, checksums, validatio
 - never invent scope
 - never bypass AGENTS.md, ADRs, contracts, Prisma, or execution pack
 - never use or inspect production secrets
-- never run autonomous execution in danger-full-access, unrestricted-network, or approval-never mode unless explicitly approved before the run
+- never run autonomous execution in danger-full-access, unrestricted-network, or approval-never mode unless explicitly approved by active control docs before the run
 - never weaken tests to pass
 - never create fake dashboards
 - never implement frontend without screen contract

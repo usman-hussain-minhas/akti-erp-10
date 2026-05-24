@@ -65,6 +65,10 @@ Reference commits:
 
 Execute the approved Phase 2 v3 autonomous queue with per-ticket validation, artifacts, commits, and hard stop conditions while keeping `main` safe.
 
+## Execution Environment
+
+Default mode remains safe-profile (`workspace-write`, approval-gated mutations, restricted network). A full-access runtime profile (`danger-full-access`, `approval-never`, network enabled) is allowed only when explicitly authorized by the active hardening control docs for the current run, and it does not relax scope, validation, governance, or secret-handling constraints.
+
 ## Non-Scope
 
 Codex must not build LMS, HR, Finance, Hiring, Certification, Website Builder, AI Content Editor, production deployment, production auth/session unless separately approved, direct Meta/WhatsApp calls from Lead Desk, or unapproved modules/capabilities/roles/events/screens.

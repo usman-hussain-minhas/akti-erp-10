@@ -125,3 +125,15 @@ The branch is not merge-ready until:
 - final external audit package is generated from committed branch `HEAD`;
 - excluded local/build/secret paths are absent from the source ZIP;
 - known deferrals are explicit and bounded.
+
+---
+
+## 8. Execution Environment Authorization
+
+Default Phase 2 operating posture remains safe-mode (`workspace-write`, approval-gated mutation, restricted network).
+
+For the active Phase 2 hardening run, a full-access exception may be used only when explicitly authorized in active control docs for the current run. This authorization:
+
+- permits `danger-full-access`, `approval-never`, and network-enabled execution for the active run only;
+- does not permit production secrets, production deployment, or real outbound WhatsApp delivery;
+- does not weaken scope boundaries, validation requirements, governance constraints, or hard-stop conditions.
