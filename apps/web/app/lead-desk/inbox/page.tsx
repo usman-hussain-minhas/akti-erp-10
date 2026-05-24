@@ -1,7 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
+
+import { hasOperatorContext, leadDeskApiFetch } from '../api-client';
+import { useLeadDeskOperatorContext } from '../operator-context';
 
 type LeadRow = {
   lead_id: string;
@@ -13,36 +16,36 @@ type LeadRow = {
 
 type LoadState = 'idle' | 'loading' | 'ready' | 'error' | 'permission' | 'degraded';
 
-function buildApiBase(): string | null {
-  const configured = process.env.NEXT_PUBLIC_API_BASE_URL?.trim();
-  if (configured) {
-    return configured.replace(/\/$/, '');
-  }
-  return null;
-}
-
 export default function LeadDeskInboxPage() {
-  const [organizationId, setOrganizationId] = useState('');
-  const [actorUserId, setActorUserId] = useState('');
+  const { context, hasContext, updateContext } = useLeadDeskOperatorContext();
+  const [organizationIdDraft, setOrganizationIdDraft] = useState('');
+  const [actorUserIdDraft, setActorUserIdDraft] = useState('');
   const [statusFilter, setStatusFilter] = useState('');
   const [assignedFilter, setAssignedFilter] = useState('');
   const [rows, setRows] = useState<LeadRow[]>([]);
   const [state, setState] = useState<LoadState>('idle');
-  const [message, setMessage] = useState('Enter organization and actor details to load the lead inbox.');
+  const [message, setMessage] = useState('Set temporary operator context to load the lead inbox.');
 
-  const canLoad = organizationId.trim().length > 0 && actorUserId.trim().length > 0;
-  const apiBase = useMemo(() => buildApiBase(), []);
+  const canSetContext = organizationIdDraft.trim().length > 0 && actorUserIdDraft.trim().length > 0;
+  const canLoad = hasOperatorContext(context);
 
-  async function loadInbox() {
-    if (!canLoad) {
+  function applyContext() {
+    if (!canSetContext) {
       setState('error');
       setMessage('Organization and actor are required.');
       return;
     }
+    updateContext({
+      organizationId: organizationIdDraft,
+      actorUserId: actorUserIdDraft,
+    });
+    setMessage('Temporary operator context applied.');
+  }
 
-    if (!apiBase) {
-      setState('degraded');
-      setMessage('Lead inbox is limited because API base URL is not configured.');
+  async function loadInbox() {
+    if (!canLoad) {
+      setState('permission');
+      setMessage('Set temporary operator context before loading inbox.');
       return;
     }
 
@@ -57,16 +60,9 @@ export default function LeadDeskInboxPage() {
       params.set('assigned_user_id', assignedFilter.trim());
     }
 
-    const endpoint = `${apiBase}/api/lead-desk/organizations/${encodeURIComponent(organizationId.trim())}/leads${
-      params.size > 0 ? `?${params.toString()}` : ''
-    }`;
-
     try {
-      const response = await fetch(endpoint, {
+      const response = await leadDeskApiFetch(context, `/leads${params.size > 0 ? `?${params.toString()}` : ''}`, {
         method: 'GET',
-        headers: {
-          'x-actor-user-id': actorUserId.trim(),
-        },
       });
 
       if (response.status === 401 || response.status === 403) {
@@ -95,8 +91,8 @@ export default function LeadDeskInboxPage() {
       }
     } catch {
       setRows([]);
-      setState('error');
-      setMessage('Could not load inbox. Try again or contact support if the issue continues.');
+      setState('degraded');
+      setMessage('Lead inbox is limited because API base URL is not configured.');
     }
   }
 
@@ -105,6 +101,9 @@ export default function LeadDeskInboxPage() {
       <header className="space-y-2">
         <h1 className="text-2xl font-semibold">Lead Inbox</h1>
         <p className="text-sm text-gray-700">Review and open leads without leaving organization scope.</p>
+        <p className="rounded border border-blue-200 bg-blue-50 px-3 py-2 text-xs text-blue-900">
+          Temporary operator context: {hasContext ? `${context.organizationId} / ${context.actorUserId}` : 'not set'}
+        </p>
       </header>
 
       <section className="grid gap-3 rounded-lg border border-gray-200 bg-white p-4 md:grid-cols-2">
@@ -112,8 +111,8 @@ export default function LeadDeskInboxPage() {
           <span>Organization ID</span>
           <input
             className="w-full rounded border border-gray-300 px-3 py-2"
-            value={organizationId}
-            onChange={(event) => setOrganizationId(event.target.value)}
+            value={organizationIdDraft}
+            onChange={(event) => setOrganizationIdDraft(event.target.value)}
             placeholder="Enter organization ID"
           />
         </label>
@@ -121,8 +120,8 @@ export default function LeadDeskInboxPage() {
           <span>Actor User ID</span>
           <input
             className="w-full rounded border border-gray-300 px-3 py-2"
-            value={actorUserId}
-            onChange={(event) => setActorUserId(event.target.value)}
+            value={actorUserIdDraft}
+            onChange={(event) => setActorUserIdDraft(event.target.value)}
             placeholder="Enter actor user ID"
           />
         </label>
@@ -146,13 +145,11 @@ export default function LeadDeskInboxPage() {
         </label>
 
         <div className="md:col-span-2 flex items-center gap-3">
-          <button
-            type="button"
-            onClick={loadInbox}
-            className="rounded bg-black px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
-            disabled={!canLoad || state === 'loading'}
-          >
-            {state === 'loading' ? 'Loading inbox' : 'Apply filters'}
+          <button type="button" onClick={applyContext} className="rounded border border-gray-300 px-4 py-2 text-sm" disabled={!canSetContext}>
+            Set context
+          </button>
+          <button type="button" onClick={loadInbox} className="rounded bg-black px-4 py-2 text-sm font-medium text-white disabled:opacity-50" disabled={!canLoad || state === 'loading'}>
+            {state === 'loading' ? 'Loading inbox' : 'Load inbox'}
           </button>
           <span className="text-sm text-gray-600">{message}</span>
         </div>
@@ -195,9 +192,7 @@ export default function LeadDeskInboxPage() {
                   <td className="px-3 py-2">
                     <Link
                       className="rounded border border-gray-300 px-2 py-1 text-xs"
-                      href={`/lead-desk/leads/${encodeURIComponent(row.lead_id)}?organization_id=${encodeURIComponent(
-                        organizationId.trim(),
-                      )}&actor_user_id=${encodeURIComponent(actorUserId.trim())}`}
+                      href={`/lead-desk/leads/${encodeURIComponent(row.lead_id)}`}
                     >
                       Open
                     </Link>

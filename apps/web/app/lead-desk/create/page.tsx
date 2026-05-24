@@ -1,7 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
+
+import { hasOperatorContext, leadDeskApiFetch } from '../api-client';
+import { useLeadDeskOperatorContext } from '../operator-context';
 
 type LoadState = 'idle' | 'loading' | 'ready' | 'error' | 'permission' | 'degraded';
 
@@ -12,16 +15,10 @@ type CreateResponse = {
   created_at: string;
 };
 
-function apiBase(): string | null {
-  const configured = process.env.NEXT_PUBLIC_API_BASE_URL?.trim();
-  return configured ? configured.replace(/\/$/, '') : null;
-}
-
 export default function LeadDeskCreatePage() {
-  const base = useMemo(() => apiBase(), []);
-
-  const [organizationId, setOrganizationId] = useState('');
-  const [actorUserId, setActorUserId] = useState('');
+  const { context, hasContext, updateContext } = useLeadDeskOperatorContext();
+  const [organizationIdDraft, setOrganizationIdDraft] = useState('');
+  const [actorUserIdDraft, setActorUserIdDraft] = useState('');
   const [fullName, setFullName] = useState('');
   const [phoneE164, setPhoneE164] = useState('');
   const [sourceRef, setSourceRef] = useState('');
@@ -31,12 +28,21 @@ export default function LeadDeskCreatePage() {
   const [message, setMessage] = useState('Enter lead details to create a new intake record.');
   const [created, setCreated] = useState<CreateResponse | null>(null);
 
-  const canSubmit =
-    organizationId.trim().length > 0 &&
-    actorUserId.trim().length > 0 &&
-    fullName.trim().length > 0 &&
-    phoneE164.trim().length > 0 &&
-    sourceRef.trim().length > 0;
+  const canSetContext = organizationIdDraft.trim().length > 0 && actorUserIdDraft.trim().length > 0;
+  const canSubmit = hasOperatorContext(context) && fullName.trim().length > 0 && phoneE164.trim().length > 0 && sourceRef.trim().length > 0;
+
+  function applyContext() {
+    if (!canSetContext) {
+      setState('error');
+      setMessage('Organization and actor are required.');
+      return;
+    }
+    updateContext({
+      organizationId: organizationIdDraft,
+      actorUserId: actorUserIdDraft,
+    });
+    setMessage('Temporary operator context applied.');
+  }
 
   function resetForm() {
     setFullName('');
@@ -50,32 +56,23 @@ export default function LeadDeskCreatePage() {
 
   async function createLead() {
     if (!canSubmit) {
-      setState('error');
-      setMessage('Organization, actor, and required lead fields are needed.');
-      return;
-    }
-
-    if (!base) {
-      setState('degraded');
-      setMessage('Lead creation is temporarily unavailable because API base URL is not configured.');
+      setState('permission');
+      setMessage('Set temporary context and fill required lead fields.');
       return;
     }
 
     setState('loading');
     setMessage('Submitting lead intake.');
 
-    const endpoint = `${base}/api/lead-desk/organizations/${encodeURIComponent(organizationId.trim())}/leads`;
-
     try {
-      const response = await fetch(endpoint, {
+      const response = await leadDeskApiFetch(context, '/leads', {
         method: 'POST',
         headers: {
           'content-type': 'application/json',
-          'x-actor-user-id': actorUserId.trim(),
         },
         body: JSON.stringify({
-          organization_id: organizationId.trim(),
-          actor_user_id: actorUserId.trim(),
+          organization_id: context.organizationId.trim(),
+          actor_user_id: context.actorUserId.trim(),
           full_name: fullName.trim(),
           phone_e164: phoneE164.trim(),
           source_ref: sourceRef.trim(),
@@ -104,8 +101,8 @@ export default function LeadDeskCreatePage() {
       setMessage('Lead created successfully.');
     } catch {
       setCreated(null);
-      setState('error');
-      setMessage('Could not create lead. Check required fields and try again.');
+      setState('degraded');
+      setMessage('Lead creation is temporarily unavailable because API base URL is not configured.');
     }
   }
 
@@ -114,6 +111,9 @@ export default function LeadDeskCreatePage() {
       <header className="space-y-2">
         <h1 className="text-2xl font-semibold">Create Lead</h1>
         <p className="text-sm text-gray-700">Capture new lead intake in one capability-guarded flow.</p>
+        <p className="rounded border border-blue-200 bg-blue-50 px-3 py-2 text-xs text-blue-900">
+          Temporary operator context: {hasContext ? `${context.organizationId} / ${context.actorUserId}` : 'not set'}
+        </p>
       </header>
 
       <section className="grid gap-3 rounded-lg border border-gray-200 bg-white p-4">
@@ -121,8 +121,8 @@ export default function LeadDeskCreatePage() {
           <span>Organization ID</span>
           <input
             className="w-full rounded border border-gray-300 px-3 py-2"
-            value={organizationId}
-            onChange={(event) => setOrganizationId(event.target.value)}
+            value={organizationIdDraft}
+            onChange={(event) => setOrganizationIdDraft(event.target.value)}
             placeholder="Enter organization ID"
           />
         </label>
@@ -131,8 +131,8 @@ export default function LeadDeskCreatePage() {
           <span>Actor User ID</span>
           <input
             className="w-full rounded border border-gray-300 px-3 py-2"
-            value={actorUserId}
-            onChange={(event) => setActorUserId(event.target.value)}
+            value={actorUserIdDraft}
+            onChange={(event) => setActorUserIdDraft(event.target.value)}
             placeholder="Enter actor user ID"
           />
         </label>
@@ -179,12 +179,10 @@ export default function LeadDeskCreatePage() {
         </label>
 
         <div className="flex flex-wrap items-center gap-3">
-          <button
-            type="button"
-            onClick={createLead}
-            className="rounded bg-black px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
-            disabled={!canSubmit || state === 'loading'}
-          >
+          <button type="button" onClick={applyContext} className="rounded border border-gray-300 px-4 py-2 text-sm" disabled={!canSetContext}>
+            Set context
+          </button>
+          <button type="button" onClick={createLead} className="rounded bg-black px-4 py-2 text-sm font-medium text-white disabled:opacity-50" disabled={!canSubmit || state === 'loading'}>
             {state === 'loading' ? 'Creating lead' : 'Create lead'}
           </button>
           <button type="button" onClick={resetForm} className="rounded border border-gray-300 px-4 py-2 text-sm">
@@ -213,17 +211,13 @@ export default function LeadDeskCreatePage() {
           <div className="flex flex-wrap gap-2 pt-1">
             <Link
               className="rounded border border-gray-300 bg-white px-3 py-2"
-              href={`/lead-desk/leads/${encodeURIComponent(created.lead_id)}?organization_id=${encodeURIComponent(
-                created.organization_id,
-              )}&actor_user_id=${encodeURIComponent(actorUserId.trim())}`}
+              href={`/lead-desk/leads/${encodeURIComponent(created.lead_id)}`}
             >
               Open lead detail
             </Link>
             <Link
               className="rounded border border-gray-300 bg-white px-3 py-2"
-              href={`/lead-desk/inbox?organization_id=${encodeURIComponent(created.organization_id)}&actor_user_id=${encodeURIComponent(
-                actorUserId.trim(),
-              )}`}
+              href="/lead-desk/inbox"
             >
               Go to inbox
             </Link>

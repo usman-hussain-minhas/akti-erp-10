@@ -1,8 +1,11 @@
 'use client';
 
 import Link from 'next/link';
-import { useParams, useSearchParams } from 'next/navigation';
-import { useMemo, useState } from 'react';
+import { useParams } from 'next/navigation';
+import { useState } from 'react';
+
+import { hasOperatorContext, leadDeskApiFetch } from '../../../api-client';
+import { useLeadDeskOperatorContext } from '../../../operator-context';
 
 type LeadDetail = {
   lead_id: string;
@@ -15,18 +18,12 @@ type LoadState = 'idle' | 'loading' | 'ready' | 'error' | 'permission' | 'degrad
 
 type ActionState = 'idle' | 'submitting' | 'success' | 'error' | 'permission';
 
-function apiBase(): string | null {
-  const configured = process.env.NEXT_PUBLIC_API_BASE_URL?.trim();
-  return configured ? configured.replace(/\/$/, '') : null;
-}
-
 export default function LeadDeskActionsPage() {
   const params = useParams<{ leadId: string }>();
-  const query = useSearchParams();
-
   const routeLeadId = decodeURIComponent(params.leadId);
-  const [organizationId, setOrganizationId] = useState(query.get('organization_id') ?? '');
-  const [actorUserId, setActorUserId] = useState(query.get('actor_user_id') ?? '');
+  const { context, hasContext, updateContext } = useLeadDeskOperatorContext();
+  const [organizationIdDraft, setOrganizationIdDraft] = useState('');
+  const [actorUserIdDraft, setActorUserIdDraft] = useState('');
 
   const [detailState, setDetailState] = useState<LoadState>('idle');
   const [detailMessage, setDetailMessage] = useState('Load lead context to update status or assignment.');
@@ -41,35 +38,35 @@ export default function LeadDeskActionsPage() {
   const [assignActionState, setAssignActionState] = useState<ActionState>('idle');
   const [assignActionMessage, setAssignActionMessage] = useState('');
 
-  const base = useMemo(() => apiBase(), []);
-  const canLoad = organizationId.trim().length > 0 && actorUserId.trim().length > 0;
+  const canSetContext = organizationIdDraft.trim().length > 0 && actorUserIdDraft.trim().length > 0;
+  const canLoad = hasOperatorContext(context);
 
-  async function loadLeadContext() {
-    if (!canLoad) {
+  function applyContext() {
+    if (!canSetContext) {
       setDetailState('error');
       setDetailMessage('Organization and actor are required.');
       return;
     }
+    updateContext({
+      organizationId: organizationIdDraft,
+      actorUserId: actorUserIdDraft,
+    });
+    setDetailMessage('Temporary operator context applied.');
+  }
 
-    if (!base) {
-      setDetailState('degraded');
-      setDetailMessage('Lead actions are limited because API base URL is not configured.');
+  async function loadLeadContext() {
+    if (!canLoad) {
+      setDetailState('permission');
+      setDetailMessage('Set temporary operator context before loading actions.');
       return;
     }
 
     setDetailState('loading');
     setDetailMessage('Loading lead action context.');
 
-    const endpoint = `${base}/api/lead-desk/organizations/${encodeURIComponent(organizationId.trim())}/leads/${encodeURIComponent(
-      routeLeadId,
-    )}`;
-
     try {
-      const response = await fetch(endpoint, {
+      const response = await leadDeskApiFetch(context, `/leads/${encodeURIComponent(routeLeadId)}`, {
         method: 'GET',
-        headers: {
-          'x-actor-user-id': actorUserId.trim(),
-        },
       });
 
       if (response.status === 401 || response.status === 403) {
@@ -119,25 +116,20 @@ export default function LeadDeskActionsPage() {
       return;
     }
 
-    if (!base) {
-      setStatusActionState('error');
-      setStatusActionMessage('Status updates are temporarily limited.');
+    if (!canLoad) {
+      setStatusActionState('permission');
+      setStatusActionMessage('Set temporary operator context before updating status.');
       return;
     }
 
     setStatusActionState('submitting');
     setStatusActionMessage('Submitting status update.');
 
-    const endpoint = `${base}/api/lead-desk/organizations/${encodeURIComponent(organizationId.trim())}/leads/${encodeURIComponent(
-      routeLeadId,
-    )}/status`;
-
     try {
-      const response = await fetch(endpoint, {
+      const response = await leadDeskApiFetch(context, `/leads/${encodeURIComponent(routeLeadId)}/status`, {
         method: 'PATCH',
         headers: {
           'content-type': 'application/json',
-          'x-actor-user-id': actorUserId.trim(),
         },
         body: JSON.stringify({
           status: statusValue.trim(),
@@ -181,25 +173,20 @@ export default function LeadDeskActionsPage() {
       return;
     }
 
-    if (!base) {
-      setAssignActionState('error');
-      setAssignActionMessage('Assignment updates are temporarily limited.');
+    if (!canLoad) {
+      setAssignActionState('permission');
+      setAssignActionMessage('Set temporary operator context before assignment update.');
       return;
     }
 
     setAssignActionState('submitting');
     setAssignActionMessage('Submitting assignment update.');
 
-    const endpoint = `${base}/api/lead-desk/organizations/${encodeURIComponent(organizationId.trim())}/leads/${encodeURIComponent(
-      routeLeadId,
-    )}/assignment`;
-
     try {
-      const response = await fetch(endpoint, {
+      const response = await leadDeskApiFetch(context, `/leads/${encodeURIComponent(routeLeadId)}/assignment`, {
         method: 'PATCH',
         headers: {
           'content-type': 'application/json',
-          'x-actor-user-id': actorUserId.trim(),
         },
         body: JSON.stringify({
           assigned_user_id: assigneeUserId.trim(),
@@ -225,7 +212,7 @@ export default function LeadDeskActionsPage() {
       setAssignActionMessage('Lead assignment updated.');
     } catch {
       setAssignActionState('error');
-      setAssignActionMessage('Could not apply assignment update. Check values and try again.');
+      setAssignActionMessage('Assignment updates are temporarily limited.');
     }
   }
 
@@ -234,6 +221,9 @@ export default function LeadDeskActionsPage() {
       <header className="space-y-2">
         <h1 className="text-2xl font-semibold">Lead Status and Assignment</h1>
         <p className="text-sm text-gray-700">Update status and assignment with organization-scoped checks.</p>
+        <p className="rounded border border-blue-200 bg-blue-50 px-3 py-2 text-xs text-blue-900">
+          Temporary operator context: {hasContext ? `${context.organizationId} / ${context.actorUserId}` : 'not set'}
+        </p>
       </header>
 
       <section className="grid gap-3 rounded-lg border border-gray-200 bg-white p-4 md:grid-cols-2">
@@ -243,26 +233,29 @@ export default function LeadDeskActionsPage() {
         </label>
 
         <label className="space-y-1 text-sm">
-          <span>Organization ID</span>
+          <span>Organization ID (temporary context)</span>
           <input
             className="w-full rounded border border-gray-300 px-3 py-2"
-            value={organizationId}
-            onChange={(event) => setOrganizationId(event.target.value)}
+            value={organizationIdDraft}
+            onChange={(event) => setOrganizationIdDraft(event.target.value)}
             placeholder="Enter organization ID"
           />
         </label>
 
         <label className="space-y-1 text-sm md:col-span-2">
-          <span>Actor User ID</span>
+          <span>Actor User ID (temporary context)</span>
           <input
             className="w-full rounded border border-gray-300 px-3 py-2"
-            value={actorUserId}
-            onChange={(event) => setActorUserId(event.target.value)}
+            value={actorUserIdDraft}
+            onChange={(event) => setActorUserIdDraft(event.target.value)}
             placeholder="Enter actor user ID"
           />
         </label>
 
         <div className="md:col-span-2 flex items-center gap-3">
+          <button type="button" onClick={applyContext} className="rounded border border-gray-300 px-4 py-2 text-sm" disabled={!canSetContext}>
+            Set context
+          </button>
           <button
             type="button"
             onClick={loadLeadContext}
@@ -356,18 +349,11 @@ export default function LeadDeskActionsPage() {
           <div className="flex flex-wrap gap-2">
             <Link
               className="rounded border border-gray-300 px-3 py-2 text-sm"
-              href={`/lead-desk/leads/${encodeURIComponent(routeLeadId)}?organization_id=${encodeURIComponent(
-                organizationId.trim(),
-              )}&actor_user_id=${encodeURIComponent(actorUserId.trim())}`}
+              href={`/lead-desk/leads/${encodeURIComponent(routeLeadId)}`}
             >
               Back to detail
             </Link>
-            <Link
-              className="rounded border border-gray-300 px-3 py-2 text-sm"
-              href={`/lead-desk/inbox?organization_id=${encodeURIComponent(organizationId.trim())}&actor_user_id=${encodeURIComponent(
-                actorUserId.trim(),
-              )}`}
-            >
+            <Link className="rounded border border-gray-300 px-3 py-2 text-sm" href="/lead-desk/inbox">
               Back to inbox
             </Link>
           </div>
