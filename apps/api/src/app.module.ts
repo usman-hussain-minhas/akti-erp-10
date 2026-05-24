@@ -12,6 +12,8 @@ import { GatekeeperPreflightService } from './gatekeeper/gatekeeper-preflight.se
 import { HierarchyController } from './hierarchy/hierarchy.controller';
 import { HierarchyClosureService } from './hierarchy/hierarchy-closure.service';
 import { HierarchyService } from './hierarchy/hierarchy.service';
+import { LeadDeskController } from './lead-desk/lead-desk.controller';
+import { LeadDeskService } from './lead-desk/lead-desk.service';
 import { ModuleRegistryController } from './module-registry/module-registry.controller';
 import { ModuleRegistryService } from './module-registry/module-registry.service';
 import { OrganizationSetupController } from './organization-setup/organization-setup.controller';
@@ -30,6 +32,7 @@ import { PrismaService } from './prisma/prisma.service';
     HierarchyController,
     ConfigurationController,
     EngagementGatewayController,
+    LeadDeskController,
   ],
   providers: [
     AppService,
@@ -41,6 +44,7 @@ import { PrismaService } from './prisma/prisma.service';
     ConfigurationService,
     AccessCoreService,
     EngagementGatewayService,
+    LeadDeskService,
     GatekeeperPreflightService,
     AuditLogService,
     EventOutboxService,
