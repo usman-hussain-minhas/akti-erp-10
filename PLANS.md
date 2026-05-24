@@ -59,7 +59,7 @@ Reference commits:
 - P2-VAL-001: COMPLETE
 - Goal start ticket: `P2A-002`
 - Phase 2B uses split v3 tickets, not the old broad P2B-001 through P2B-004 queue.
-- Phase 2C remains governance-blocked until ADR-0003 has a Phase 2C pilot target date or formal exception.
+- Phase 2C is unlocked for stub/non-production execution under the ADR-0003 formal exception recorded on 2026-05-24.
 
 ## Goal
 
@@ -91,9 +91,9 @@ Codex must not build LMS, HR, Finance, Hiring, Certification, Website Builder, A
 | P2B-004B | Lead Desk detail frontend | AUTONOMOUS_AFTER_PREVIOUS |
 | P2B-004C | Lead Desk create and assignment frontend | AUTONOMOUS_AFTER_PREVIOUS |
 | P2B-GATE | Phase 2B validation gate | AUTONOMOUS_AFTER_PREVIOUS |
-| P2C-001 | WhatsApp integration contracts through gateway | GOVERNANCE_BLOCKED |
-| P2C-002 | Gateway-mediated WhatsApp stub integration | GOVERNANCE_BLOCKED |
-| P2C-GATE | Final Phase 2 validation gate | GOVERNANCE_BLOCKED |
+| P2C-001 | WhatsApp integration contracts through gateway | AUTONOMOUS_AFTER_PREVIOUS |
+| P2C-002 | Gateway-mediated WhatsApp stub integration | AUTONOMOUS_AFTER_PREVIOUS |
+| P2C-GATE | Final Phase 2 validation gate | AUTONOMOUS_AFTER_PREVIOUS |
 
 ## Decision Rules
 
@@ -104,7 +104,8 @@ Codex must not build LMS, HR, Finance, Hiring, Certification, Website Builder, A
 - P2B-002B: implement schema/registry only after P2B-002A and P2-VAL-001; stop if migration scaffolding is required but not ticketed.
 - P2B API tickets: implement only APIs backed by approved contracts/models; no direct WhatsApp/Meta, unapproved status workflows, fake data, or hardcoded tenant/campus/role/user/org assumptions.
 - P2B frontend tickets: implement only approved screen-contract screens with required empty/loading/error/permission-denied states; no fake dashboards or hardcoded tenant assumptions.
-- Phase 2C: blocked until ADR-0003 has a Phase 2C pilot target date or formal exception.
+- P2B-GATE: if validation passes, continue automatically into Phase 2C; if validation fails, stop.
+- Phase 2C: allowed only as stub/non-production under ADR-0003 formal exception; no production credentials, no real outbound WhatsApp messages, no direct Lead Desk-to-Meta/WhatsApp coupling, and all transport through Engagement Gateway Lite.
 
 ## Validation Expectations
 
@@ -125,6 +126,8 @@ Codex may continue automatically to the next ticket when all are true:
 
 Control-doc progress fields are bootstrap/reference metadata only. Codex must not stop after each successful ticket only because those fields are no longer current.
 
+Codex may run complete Phase 2 autonomously from `P2-VAL-002` through `P2C-GATE`. Codex stops only on hard gate trigger, validation failure twice, `RUN_STATE_CONFLICT`, or final run completion.
+
 ## Artifact Expectations
 
 Per ticket, lightweight artifacts are:
@@ -138,7 +141,7 @@ If a ticket creates only ignored artifacts and no tracked source files, create a
 
 ## Stop Conditions Summary
 
-Codex must stop for unsafe environment, file scope breach, validation failure twice, new dependency required, secret access required, invented business rule/capability/permission/event/module/role/screen, unclear migration strategy, direct WhatsApp/Meta coupling, frontend without approved screen contract, fake data or hardcoded tenant/campus/role/user assumptions, Phase 2C governance block, run-state conflict, phase gate reached, or final run complete.
+Codex must stop for unsafe environment, file scope breach, validation failure twice, new dependency required, secret access required, invented business rule/capability/permission/event/module/role/screen, unclear migration strategy, direct WhatsApp/Meta coupling, frontend without approved screen contract, fake data or hardcoded tenant/campus/role/user assumptions, run-state conflict, final Phase 2 gate reached (`P2C-GATE`), or final run complete.
 
 ## Push Policy
 

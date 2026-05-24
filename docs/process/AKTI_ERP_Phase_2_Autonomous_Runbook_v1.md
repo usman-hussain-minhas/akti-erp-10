@@ -62,9 +62,9 @@ Rules:
 | P2B-004B - Lead Desk detail frontend | AUTONOMOUS_AFTER_PREVIOUS |
 | P2B-004C - Lead Desk create and assignment frontend | AUTONOMOUS_AFTER_PREVIOUS |
 | P2B-GATE - Phase 2B validation gate | AUTONOMOUS_AFTER_PREVIOUS |
-| P2C-001 - WhatsApp integration contracts through gateway | GOVERNANCE_BLOCKED |
-| P2C-002 - Gateway-mediated WhatsApp stub integration | GOVERNANCE_BLOCKED |
-| P2C-GATE - Final Phase 2 validation gate | GOVERNANCE_BLOCKED |
+| P2C-001 - WhatsApp integration contracts through gateway | AUTONOMOUS_AFTER_PREVIOUS |
+| P2C-002 - Gateway-mediated WhatsApp stub integration | AUTONOMOUS_AFTER_PREVIOUS |
+| P2C-GATE - Final Phase 2 validation gate | AUTONOMOUS_AFTER_PREVIOUS |
 
 Status meanings:
 
@@ -89,7 +89,7 @@ Codex must confirm:
 - goal start ticket is `P2A-002`
 - P2-VAL-001 precedes schema-changing tickets
 - P2-VAL-002 precedes Lead Desk screen-contract tickets
-- Phase 2C is governance-blocked until ADR-0003 has a pilot target date or formal exception
+- Phase 2C is unlocked only for stub/non-production implementation under ADR-0003 formal exception
 
 ## 7. Goal Command
 
@@ -141,7 +141,8 @@ Do not stop after each successful ticket only because `completed_tickets`, `comp
 - P2B-002B: implement schema/registry only after P2B-002A and P2-VAL-001.
 - P2B API tickets: implement only APIs backed by approved contracts/models; no direct WhatsApp/Meta, unapproved workflows, fake data, or hardcoded tenant/campus/role/user/org assumptions.
 - P2B frontend tickets: implement only approved screen-contract screens with required empty/loading/error/permission-denied states.
-- P2C tickets: do not run until ADR-0003 has a Phase 2C pilot target date or formal exception.
+- P2B-GATE: if validation passes, continue automatically into Phase 2C; if validation fails, stop.
+- P2C tickets: run only under ADR-0003 stub/non-production exception limits: no production credentials, no real outbound WhatsApp messages, no direct Lead Desk-to-Meta/WhatsApp coupling, and all transport through Engagement Gateway Lite.
 
 ## 10. Artifact Procedure
 
@@ -188,9 +189,8 @@ Stop if:
 - Frontend without approved screen contract
 - Fake dashboards or fake operational data
 - Hardcoded tenant/campus/role/user assumptions
-- Phase 2C governance block
 - RUN_STATE_CONFLICT
-- Phase gate reached
+- Final Phase 2 gate reached (`P2C-GATE`)
 - Final run complete
 
 When stopping, report ticket ID, reason, changed files, validation status, last successful commit, and recommended next action.

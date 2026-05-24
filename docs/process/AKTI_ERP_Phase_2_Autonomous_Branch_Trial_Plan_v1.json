@@ -24,13 +24,13 @@
     "p2a_001_commit": "944d0c84badbf9633c12c395f8e50cb08cc96571",
     "next_executable_ticket": "P2A-002",
     "v3_review_artifact": "codex-review/P2A-001-post-audit-and-phase2-v3-autonomy-plan/",
-    "v3_autonomy_summary": "V3 reduces human stops by allowing Codex to continue when an encoded decision rule passes, while preserving hard gates and Phase 2C governance blocking.",
+    "v3_autonomy_summary": "V3 allows Codex to continue ticket-to-ticket through complete Phase 2 when decision rules pass, while preserving hard gates and final gate stops.",
     "queue_status_policy": {
       "COMPLETE": "Already satisfied in repo history.",
       "AUTONOMOUS_READY": "May run next after normal prechecks.",
       "AUTONOMOUS_AFTER_PREVIOUS": "May run after prior ticket passes validation and artifacts.",
       "AUTONOMOUS_DECISION_RULE": "May continue only by applying the explicit autonomous_decision_rule for the ticket.",
-      "GOVERNANCE_BLOCKED": "Must not run until governance condition is resolved."
+      "GOVERNANCE_BLOCKED": "Reserved status for unresolved governance constraints; Phase 2C is currently unlocked under the ADR-0003 formal exception."
     },
     "v3_queue": [
       {
@@ -126,17 +126,17 @@
       {
         "ticket_id": "P2C-001",
         "title": "WhatsApp integration contracts through gateway",
-        "autonomy_status": "GOVERNANCE_BLOCKED"
+        "autonomy_status": "AUTONOMOUS_AFTER_PREVIOUS"
       },
       {
         "ticket_id": "P2C-002",
         "title": "Gateway-mediated WhatsApp stub integration",
-        "autonomy_status": "GOVERNANCE_BLOCKED"
+        "autonomy_status": "AUTONOMOUS_AFTER_PREVIOUS"
       },
       {
         "ticket_id": "P2C-GATE",
         "title": "Final Phase 2 validation gate",
-        "autonomy_status": "GOVERNANCE_BLOCKED"
+        "autonomy_status": "AUTONOMOUS_AFTER_PREVIOUS"
       }
     ],
     "v3_hard_gates": [
@@ -155,7 +155,6 @@
       "Frontend without approved screen contract",
       "Fake dashboards or fake operational data",
       "Hardcoded tenant/campus/role/user assumptions",
-      "Phase 2C before ADR-0003 date/exception",
       "Validation failure twice",
       "Ticket artifacts cannot be created or verified",
       "Dirty branch at ticket start except ignored review artifacts"
@@ -262,7 +261,7 @@
     "The Codex execution environment is approved safe mode: not danger-full-access, not unrestricted network, not approval-never, and no production secrets",
     "P2-000 is complete and P2A-001 is complete at commit 944d0c84badbf9633c12c395f8e50cb08cc96571",
     "The active execution pack has adopted the v3 queue and next executable ticket is P2A-002",
-    "Phase 2C remains blocked until ADR-0003 has a Phase 2C pilot target date or formal exception"
+    "Phase 2C is unlocked under ADR-0003 formal exception and remains limited to stub/non-production implementation constraints"
   ],
   "codex_config_recommendation": {
     "approval_policy": "on-request",
@@ -345,5 +344,16 @@
     "After PASS, Codex may start the Phase 2 autonomous execution run on the operational branch.",
     "When Codex stops or completes, bring final artifacts back to ChatGPT for audit."
   ],
-  "codex_plan_mode_validation_prompt": "We are in Plan Mode only.\n\nValidate the Phase 2 autonomous control documents against the current repo.\n\nDo not implement.\nDo not create branches.\nDo not run /goal.\nDo not modify files.\nDo not commit.\nDo not push.\n\nInspect:\n- AGENTS.md\n- docs/adr/*\n- docs/specs/*\n- docs/process/*\n- packages/contracts/*\n- prisma/schema.prisma\n- generated/entity-registry.generated.json\n- apps/api/*\n- apps/web/*\n- package.json\n- pnpm-workspace.yaml\n- CI workflows\n\nReturn only:\n1. Files inspected\n2. Whether these control documents match repo reality\n3. Missing files/paths/scripts\n4. Unsafe assumptions\n5. Corrections required\n6. Whether the documents are safe to use as the active autonomous run contract\n\nDo not write code."
+  "codex_plan_mode_validation_prompt": "We are in Plan Mode only.\n\nValidate the Phase 2 autonomous control documents against the current repo.\n\nDo not implement.\nDo not create branches.\nDo not run /goal.\nDo not modify files.\nDo not commit.\nDo not push.\n\nInspect:\n- AGENTS.md\n- docs/adr/*\n- docs/specs/*\n- docs/process/*\n- packages/contracts/*\n- prisma/schema.prisma\n- generated/entity-registry.generated.json\n- apps/api/*\n- apps/web/*\n- package.json\n- pnpm-workspace.yaml\n- CI workflows\n\nReturn only:\n1. Files inspected\n2. Whether these control documents match repo reality\n3. Missing files/paths/scripts\n4. Unsafe assumptions\n5. Corrections required\n6. Whether the documents are safe to use as the active autonomous run contract\n\nDo not write code.",
+  "execution_controls": {
+    "phase2c_exception_constraints": [
+      "Phase 2C is unlocked only for stub/non-production implementation under ADR-0003 formal exception (2026-05-24).",
+      "No production credentials for WhatsApp/Meta are allowed in Phase 2C.",
+      "No real outbound WhatsApp messages are allowed in Phase 2C.",
+      "No direct Lead Desk to Meta/WhatsApp coupling is allowed; transport must pass through Engagement Gateway Lite.",
+      "Exception does not authorize Phase 3 or non-Phase-2 scope."
+    ],
+    "p2b_gate_continuation_policy": "P2B-GATE is a validation checkpoint. If validation passes, continue automatically into P2C. If validation fails, stop.",
+    "full_phase2_autonomy_statement": "Codex may run complete Phase 2 autonomously from P2-VAL-002 through P2C-GATE and stops only on hard gate, validation failure twice, RUN_STATE_CONFLICT, or final run completion."
+  }
 }

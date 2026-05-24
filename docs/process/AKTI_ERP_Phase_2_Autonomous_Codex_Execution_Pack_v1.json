@@ -86,7 +86,7 @@
     "phase2_registry_rule": "Do not use pnpm registry:verify:phase1 as the final validator for Phase 2 schema additions. P2-VAL-001 must add a Phase 2-aware verification path before schema tickets edit Prisma models.",
     "phase2_screen_contract_rule": "P2-VAL-002 must add Phase 2 screen-contract validation support before Lead Desk screen contracts are added.",
     "migration_policy": "If the repo still has no Prisma migrations directory, schema/data tickets must explicitly decide schema/registry-only versus migration scaffolding. If migration scaffolding is required, Codex must stop unless that work is explicitly ticketed. Destructive migrations are forbidden.",
-    "phase2c_governance_rule": "Phase 2A and Phase 2B are not blocked by ADR-0003 pilot-date status. Phase 2C cannot execute until ADR-0003 Phase 2C pilot target date is assigned or a formal exception is recorded.",
+    "phase2c_governance_rule": "Phase 2C is unlocked only under the ADR-0003 formal exception recorded on 2026-05-24 and is limited to stub/non-production implementation with no production credentials, no real outbound WhatsApp messages, no direct Lead Desk-to-Meta/WhatsApp coupling, and all transport through Engagement Gateway Lite.",
     "execution_environment_rule": "Autonomous execution must run only in an approved safe Codex environment: not danger-full-access, not unrestricted network, not approval-never, and no production secrets. workspace-write/on-request/no-network is preferred unless explicitly approved otherwise.",
     "v3_autonomy_rule": "Codex may continue through AUTONOMOUS_READY, AUTONOMOUS_AFTER_PREVIOUS, and AUTONOMOUS_DECISION_RULE tickets when the encoded decision rule passes and no hard gate triggers.",
     "autonomous_status_policy": {
@@ -104,7 +104,7 @@
       "P2B-002B": "Implement Lead Desk schema/registry only after P2B-002A confirms exact model set and P2-VAL-001 is complete. If migration scaffolding is required but not explicitly ticketed, stop. No destructive migrations.",
       "P2B_API": "Codex may implement only APIs backed by approved contracts and models. No direct WhatsApp/Meta. No unapproved status workflows. No fake data. No hardcoded tenant, campus, role, user, or organization assumptions.",
       "P2B_FRONTEND": "Codex may implement only screens with approved screen contracts. No fake dashboards. No hardcoded campus, role, user, tenant, or organization assumptions. Must include empty/loading/error/permission-denied states as required by screen contracts.",
-      "P2C": "P2C remains blocked until ADR-0003 has a Phase 2C pilot target date or a formal exception."
+      "P2C": "P2C may proceed only under the ADR-0003 stub/non-production exception: no production credentials, no real outbound WhatsApp messages, no direct Lead Desk-to-Meta/WhatsApp coupling, and all transport through Engagement Gateway Lite."
     },
     "runtime_state_rule": "Control documents define approved queue, boundaries, decision rules, and hard gates; runtime progress is derived from git and codex-review state sources, not per-ticket control-doc edits.",
     "per_ticket_control_doc_update_rule": "Do not require control-doc updates after every completed ticket during /goal execution.",
@@ -165,9 +165,8 @@
     "Frontend without approved screen contract",
     "Fake dashboards or fake operational data",
     "Hardcoded tenant/campus/role/user assumptions",
-    "Phase 2C before ADR-0003 date/exception",
     "RUN_STATE_CONFLICT",
-    "Phase gate reached",
+    "Final Phase 2 gate reached (P2C-GATE)",
     "Final run complete"
   ],
   "ticket_schema": {
@@ -1269,8 +1268,8 @@
       "title": "Phase 2B validation gate",
       "autonomy_status": "AUTONOMOUS_AFTER_PREVIOUS",
       "risk_tier": "phase_gate",
-      "objective": "Validate Lead Desk Core completion before Phase 2C consideration.",
-      "autonomous_decision_rule": "Proceed autonomously if full validation passes and no direct WhatsApp/Meta or screen-contract violation exists. Stop otherwise.",
+      "objective": "Validate Lead Desk Core completion and continue automatically into Phase 2C when validation passes.",
+      "autonomous_decision_rule": "Continue automatically into P2C when full validation passes and no direct WhatsApp/Meta or screen-contract violation exists. Stop if validation fails.",
       "scope": [
         "Audit and validation only."
       ],
@@ -1311,10 +1310,10 @@
         "checkpoint"
       ],
       "stop_conditions": [
-        "Validation failure",
         "Missing artifact",
         "Direct WhatsApp/Meta risk",
-        "Unresolved screen-contract risk"
+        "Unresolved screen-contract risk",
+        "Validation failure"
       ],
       "commit_message": "P2B-GATE validate lead desk core phase",
       "rollback_notes": "No source changes expected."
@@ -1323,17 +1322,21 @@
       "ticket_id": "P2C-001",
       "phase": "Phase 2C",
       "title": "WhatsApp integration contracts through gateway",
-      "autonomy_status": "GOVERNANCE_BLOCKED",
+      "autonomy_status": "AUTONOMOUS_AFTER_PREVIOUS",
       "risk_tier": "blocked",
       "objective": "WhatsApp integration contracts through gateway after ADR-0003 governance unlock.",
-      "autonomous_decision_rule": "P2C remains blocked until ADR-0003 has a Phase 2C pilot target date or a formal exception.",
+      "autonomous_decision_rule": "Proceed only under the ADR-0003 stub/non-production exception: no production credentials, no real outbound WhatsApp messages, no direct Lead Desk-to-Meta/WhatsApp coupling, and all transport through Engagement Gateway Lite.",
       "scope": [
-        "Do not run until ADR-0003 has a Phase 2C pilot target date or formal exception."
+        "Stub/non-production implementation only.",
+        "All WhatsApp-related integration must pass through Engagement Gateway Lite.",
+        "Temporary CRM/shared inbox remains operational until Phase 2C is tested and accepted."
       ],
       "non_scope": [
-        "No direct Lead Desk to WhatsApp/Meta.",
+        "No direct Lead Desk to Meta/WhatsApp coupling.",
         "No production credentials.",
-        "No secrets."
+        "No real outbound WhatsApp messages.",
+        "No production deployment.",
+        "No non-Phase-2 scope."
       ],
       "source_files_to_inspect": [
         "ADR-0003",
@@ -1366,8 +1369,11 @@
         "codex-review/phase2-autonomous-full-run/autonomous-run-journal.md"
       ],
       "stop_conditions": [
-        "ADR-0003 still TBD",
-        "Direct provider coupling required"
+        "Production credential use required",
+        "Real outbound WhatsApp message required",
+        "Direct Lead Desk to Meta/WhatsApp coupling required",
+        "Secret access required",
+        "Validation failure twice"
       ],
       "commit_message": "P2C-001 add WhatsApp gateway integration contracts",
       "rollback_notes": "Revert files changed by this ticket."
@@ -1376,17 +1382,21 @@
       "ticket_id": "P2C-002",
       "phase": "Phase 2C",
       "title": "Gateway-mediated WhatsApp stub integration",
-      "autonomy_status": "GOVERNANCE_BLOCKED",
+      "autonomy_status": "AUTONOMOUS_AFTER_PREVIOUS",
       "risk_tier": "blocked",
       "objective": "Gateway-mediated WhatsApp stub integration after ADR-0003 governance unlock.",
-      "autonomous_decision_rule": "P2C remains blocked until ADR-0003 has a Phase 2C pilot target date or a formal exception.",
+      "autonomous_decision_rule": "Proceed only under the ADR-0003 stub/non-production exception: no production credentials, no real outbound WhatsApp messages, no direct Lead Desk-to-Meta/WhatsApp coupling, and all transport through Engagement Gateway Lite.",
       "scope": [
-        "Do not run until ADR-0003 has a Phase 2C pilot target date or formal exception."
+        "Stub/non-production implementation only.",
+        "All WhatsApp-related integration must pass through Engagement Gateway Lite.",
+        "Temporary CRM/shared inbox remains operational until Phase 2C is tested and accepted."
       ],
       "non_scope": [
-        "No direct Lead Desk to WhatsApp/Meta.",
+        "No direct Lead Desk to Meta/WhatsApp coupling.",
         "No production credentials.",
-        "No secrets."
+        "No real outbound WhatsApp messages.",
+        "No production deployment.",
+        "No non-Phase-2 scope."
       ],
       "source_files_to_inspect": [
         "ADR-0003",
@@ -1419,8 +1429,11 @@
         "codex-review/phase2-autonomous-full-run/autonomous-run-journal.md"
       ],
       "stop_conditions": [
-        "ADR-0003 still TBD",
-        "Direct provider coupling required"
+        "Production credential use required",
+        "Real outbound WhatsApp message required",
+        "Direct Lead Desk to Meta/WhatsApp coupling required",
+        "Secret access required",
+        "Validation failure twice"
       ],
       "commit_message": "P2C-002 implement gateway-mediated WhatsApp stub",
       "rollback_notes": "Revert files changed by this ticket."
@@ -1429,17 +1442,21 @@
       "ticket_id": "P2C-GATE",
       "phase": "Phase 2C",
       "title": "Final Phase 2 validation gate",
-      "autonomy_status": "GOVERNANCE_BLOCKED",
+      "autonomy_status": "AUTONOMOUS_AFTER_PREVIOUS",
       "risk_tier": "blocked",
-      "objective": "Final Phase 2 validation gate after ADR-0003 governance unlock.",
-      "autonomous_decision_rule": "P2C remains blocked until ADR-0003 has a Phase 2C pilot target date or a formal exception.",
+      "objective": "Final Phase 2 validation gate and final branch audit under stub/non-production Phase 2C exception.",
+      "autonomous_decision_rule": "Run final validation and audit. Stop at completion of P2C-GATE/final audit.",
       "scope": [
-        "Do not run until ADR-0003 has a Phase 2C pilot target date or formal exception."
+        "Stub/non-production implementation only.",
+        "All WhatsApp-related integration must pass through Engagement Gateway Lite.",
+        "Temporary CRM/shared inbox remains operational until Phase 2C is tested and accepted."
       ],
       "non_scope": [
-        "No direct Lead Desk to WhatsApp/Meta.",
+        "No direct Lead Desk to Meta/WhatsApp coupling.",
         "No production credentials.",
-        "No secrets."
+        "No real outbound WhatsApp messages.",
+        "No production deployment.",
+        "No non-Phase-2 scope."
       ],
       "source_files_to_inspect": [
         "ADR-0003",
@@ -1472,8 +1489,11 @@
         "codex-review/phase2-autonomous-full-run/autonomous-run-journal.md"
       ],
       "stop_conditions": [
-        "ADR-0003 still TBD",
-        "Direct provider coupling required"
+        "Production credential use required",
+        "Real outbound WhatsApp message required",
+        "Direct Lead Desk to Meta/WhatsApp coupling required",
+        "Secret access required",
+        "Validation failure twice"
       ],
       "commit_message": "P2C-GATE finalize phase 2 autonomous controlled branch run",
       "rollback_notes": "Revert files changed by this ticket."
