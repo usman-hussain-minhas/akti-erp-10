@@ -235,6 +235,30 @@ function createMocksWithRealGatekeeper() {
   return { service, state };
 }
 
+function createMocksWithHistoryFailure(kind: 'status' | 'assignment') {
+  const base = createMocks();
+  if (kind === 'status') {
+    (base.db.leadStatusHistory.create as unknown as (args: unknown) => Promise<unknown>) = async () => {
+      throw new Error('status history write failed');
+    };
+  }
+
+  if (kind === 'assignment') {
+    (base.db.leadAssignmentHistory.create as unknown as (args: unknown) => Promise<unknown>) = async () => {
+      throw new Error('assignment history write failed');
+    };
+  }
+
+  const service = new LeadDeskService(
+    base.db as never,
+    base.auditLogService as never,
+    base.eventOutboxService as never,
+    base.gatekeeperPreflightService as never,
+  );
+
+  return { service, state: base.state };
+}
+
 function createInput(overrides?: Partial<Record<string, unknown>>) {
   return {
     organization_id: 'org-1',
@@ -469,6 +493,23 @@ async function testUpdateLeadStatusGatekeeperDenied() {
   );
 }
 
+async function testUpdateLeadStatusHistoryFailureDoesNotWriteAuditOrOutbox() {
+  const { service, state } = createMocksWithHistoryFailure('status');
+  await assert.rejects(
+    service.updateLeadStatus(
+      'org-1',
+      'lead-1',
+      {
+        status: 'contacted',
+        requested_at: '2026-05-24T10:10:00.000Z',
+      },
+      'actor-1',
+    ),
+  );
+  assert.equal(state.auditCalls.length, 0);
+  assert.equal(state.outboxCalls.length, 0);
+}
+
 async function testUpdateLeadAssignmentHappyPath() {
   const { service, state } = createMocks();
   const result = await service.updateLeadAssignment(
@@ -600,6 +641,23 @@ async function testUpdateLeadAssignmentGatekeeperDenied() {
   );
 }
 
+async function testUpdateLeadAssignmentHistoryFailureDoesNotWriteAuditOrOutbox() {
+  const { service, state } = createMocksWithHistoryFailure('assignment');
+  await assert.rejects(
+    service.updateLeadAssignment(
+      'org-1',
+      'lead-1',
+      {
+        assigned_user_id: 'assignee-1',
+        requested_at: '2026-05-24T10:20:00.000Z',
+      },
+      'actor-1',
+    ),
+  );
+  assert.equal(state.auditCalls.length, 0);
+  assert.equal(state.outboxCalls.length, 0);
+}
+
 async function run() {
   await testCreateLeadHappyPath();
   await testCreateLeadHappyPathUsesRealGatekeeper();
@@ -622,6 +680,7 @@ async function run() {
   await testUpdateLeadStatusDeniedOutsideScope();
   await testUpdateLeadStatusInvalidPayloadFails();
   await testUpdateLeadStatusGatekeeperDenied();
+  await testUpdateLeadStatusHistoryFailureDoesNotWriteAuditOrOutbox();
   await testUpdateLeadAssignmentHappyPath();
   await testUpdateLeadAssignmentHappyPathUsesRealGatekeeper();
   await testUpdateLeadAssignmentMissingActorFails();
@@ -630,6 +689,7 @@ async function run() {
   await testUpdateLeadAssignmentDeniedOutsideScope();
   await testUpdateLeadAssignmentInvalidPayloadFails();
   await testUpdateLeadAssignmentGatekeeperDenied();
+  await testUpdateLeadAssignmentHistoryFailureDoesNotWriteAuditOrOutbox();
   console.log('lead-desk.service tests passed');
 }
 

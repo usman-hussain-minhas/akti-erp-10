@@ -125,6 +125,10 @@ model User {
   primary_unit   OrganizationUnit? @relation("User_PrimaryUnit", fields: [organization_id, primary_unit_id], references: [organization_id, id])
   user_groups    UserGroup[]      @relation("UserGroup_User")
   audit_logs_as_actor AuditLog[]  @relation("AuditLog_ActorUser")
+  lead_records_assigned LeadRecord[] @relation("LeadRecord_AssignedUser")
+  lead_status_history_as_actor LeadStatusHistory[] @relation("LeadStatusHistory_ActorUser")
+  lead_assignment_history_as_actor LeadAssignmentHistory[] @relation("LeadAssignmentHistory_ActorUser")
+  lead_assignment_history_as_assigned LeadAssignmentHistory[] @relation("LeadAssignmentHistory_AssignedUser")
 
   @@unique([organization_id, email])
   @@unique([organization_id, id])
@@ -272,6 +276,7 @@ model LeadRecord {
   created_at       DateTime     @default(now())
   updated_at       DateTime     @updatedAt
   organization     Organization @relation(fields: [organization_id], references: [id])
+  assigned_user    User?        @relation("LeadRecord_AssignedUser", fields: [organization_id, assigned_user_id], references: [organization_id, id])
   organization_unit OrganizationUnit? @relation(fields: [organization_id, organization_unit_id], references: [organization_id, id])
   status_history   LeadStatusHistory[]
   assignment_history LeadAssignmentHistory[]
@@ -296,6 +301,7 @@ model LeadStatusHistory {
   changed_at      DateTime     @default(now())
   organization    Organization @relation(fields: [organization_id], references: [id])
   lead            LeadRecord   @relation(fields: [organization_id, lead_id], references: [organization_id, id])
+  actor_user      User         @relation("LeadStatusHistory_ActorUser", fields: [organization_id, actor_user_id], references: [organization_id, id])
 
   @@index([organization_id, lead_id, changed_at])
   @@index([organization_id, actor_user_id, changed_at])
@@ -311,6 +317,8 @@ model LeadAssignmentHistory {
   changed_at       DateTime     @default(now())
   organization     Organization @relation(fields: [organization_id], references: [id])
   lead             LeadRecord   @relation(fields: [organization_id, lead_id], references: [organization_id, id])
+  actor_user       User         @relation("LeadAssignmentHistory_ActorUser", fields: [organization_id, actor_user_id], references: [organization_id, id])
+  assigned_user    User         @relation("LeadAssignmentHistory_AssignedUser", fields: [organization_id, assigned_user_id], references: [organization_id, id])
 
   @@index([organization_id, lead_id, changed_at])
   @@index([organization_id, actor_user_id, changed_at])
