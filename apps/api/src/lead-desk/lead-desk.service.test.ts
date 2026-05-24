@@ -1,6 +1,11 @@
 import assert from 'node:assert/strict';
 
 import { BadRequestException, ForbiddenException, NotFoundException, ServiceUnavailableException } from '@nestjs/common';
+import {
+  LeadDeskLeadAssignedEventSchema,
+  LeadDeskLeadCreatedEventSchema,
+  LeadDeskLeadStatusUpdatedEventSchema,
+} from '@akti/contracts/lead-desk-core';
 
 import { GatekeeperPreflightService } from '../gatekeeper/gatekeeper-preflight.service';
 import { LeadDeskService } from './lead-desk.service';
@@ -281,6 +286,7 @@ async function testCreateLeadHappyPath() {
   assert.equal(state.auditCalls.length, 1);
   assert.equal(state.outboxCalls.length, 1);
   assert.equal((state.outboxCalls[0] as { event_type: string }).event_type, 'lead.desk.lead.created');
+  assert.equal(LeadDeskLeadCreatedEventSchema.safeParse((state.outboxCalls[0] as { payload: unknown }).payload).success, true);
 }
 
 async function testCreateLeadHappyPathUsesRealGatekeeper() {
@@ -375,6 +381,12 @@ async function testUpdateLeadStatusHappyPath() {
   assert.equal(state.auditCalls.length >= 1, true);
   assert.equal(state.outboxCalls.length >= 1, true);
   assert.equal((state.outboxCalls[state.outboxCalls.length - 1] as { event_type: string }).event_type, 'lead.desk.lead.status.updated');
+  assert.equal(
+    LeadDeskLeadStatusUpdatedEventSchema.safeParse(
+      (state.outboxCalls[state.outboxCalls.length - 1] as { payload: unknown }).payload,
+    ).success,
+    true,
+  );
 }
 
 async function testUpdateLeadStatusHappyPathUsesRealGatekeeper() {
@@ -524,6 +536,12 @@ async function testUpdateLeadAssignmentHappyPath() {
   assert.equal(result.assigned_user_id, 'assignee-1');
   assert.equal(state.assignmentHistory.length, 1);
   assert.equal((state.outboxCalls[state.outboxCalls.length - 1] as { event_type: string }).event_type, 'lead.desk.lead.assigned');
+  assert.equal(
+    LeadDeskLeadAssignedEventSchema.safeParse(
+      (state.outboxCalls[state.outboxCalls.length - 1] as { payload: unknown }).payload,
+    ).success,
+    true,
+  );
 }
 
 async function testUpdateLeadAssignmentHappyPathUsesRealGatekeeper() {

@@ -167,12 +167,11 @@ export class EngagementGatewayService {
           gateway_request_id: created.id,
           organization_id: organizationId,
           actor_user_id: actor.id,
-          entity_type: 'engagement.gateway.request',
-          entity_id: created.id,
+          source_module: input.source_module,
+          capability_key: input.capability_key,
           request_kind: input.request_kind,
-          recipient_ref: input.recipient_ref,
-          transport_channel: input.transport_channel,
-          occurred_at: recordedAtIso,
+          idempotency_key: input.idempotency_key,
+          recorded_at: recordedAtIso,
         },
       });
       return created;

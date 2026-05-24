@@ -108,13 +108,12 @@ export class LeadDeskService {
         version: '0.1.0',
         idempotency_key: `lead.created.${organizationId}.${lead.id}`,
         payload: {
+          event_type: LEAD_CREATED_EVENT,
+          version: '0.1.0',
           organization_id: organizationId,
+          lead_id: lead.id,
           actor_user_id: actor.actor_user_id,
-          entity_type: 'lead.record',
-          entity_id: lead.id,
-          source_ref: lead.source_ref,
-          status: lead.status,
-          occurred_at: lead.created_at.toISOString(),
+          created_at: lead.created_at.toISOString(),
         },
       });
 
@@ -305,14 +304,13 @@ export class LeadDeskService {
         version: '0.1.0',
         idempotency_key: `lead.status.updated.${organizationId}.${leadId}.${input.status}.${input.requested_at}`,
         payload: {
+          event_type: LEAD_STATUS_UPDATED_EVENT,
+          version: '0.1.0',
           organization_id: organizationId,
+          lead_id: leadId,
           actor_user_id: actor.actor_user_id,
-          entity_type: 'lead.record',
-          entity_id: leadId,
-          previous_status: lead.status,
-          next_status: updated.status,
-          reason: input.reason ?? null,
-          occurred_at: input.requested_at,
+          status: updated.status,
+          updated_at: updated.updated_at.toISOString(),
         },
       });
 
@@ -412,12 +410,13 @@ export class LeadDeskService {
         version: '0.1.0',
         idempotency_key: `lead.assigned.${organizationId}.${leadId}.${input.assigned_user_id}.${input.requested_at}`,
         payload: {
+          event_type: LEAD_ASSIGNED_EVENT,
+          version: '0.1.0',
           organization_id: organizationId,
+          lead_id: leadId,
           actor_user_id: actor.actor_user_id,
-          entity_type: 'lead.record',
-          entity_id: leadId,
           assigned_user_id: input.assigned_user_id,
-          occurred_at: input.requested_at,
+          updated_at: updated.updated_at.toISOString(),
         },
       });
 

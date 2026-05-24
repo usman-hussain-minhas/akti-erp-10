@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 
 import { BadRequestException, ForbiddenException, ServiceUnavailableException } from '@nestjs/common';
+import { EngagementGatewayRequestRecordedEventSchema } from '@akti/contracts/engagement-gateway-lite';
 
 import { GatekeeperPreflightService } from '../gatekeeper/gatekeeper-preflight.service';
 import { EngagementGatewayService } from './engagement-gateway.service';
@@ -165,6 +166,10 @@ async function testCreateRequestHappyPath() {
   assert.equal(
     (state.outboxCalls[0] as { idempotency_key: string }).idempotency_key,
     'engagement.gateway.request.recorded.org-1.idem-1',
+  );
+  assert.equal(
+    EngagementGatewayRequestRecordedEventSchema.safeParse((state.outboxCalls[0] as { payload: unknown }).payload).success,
+    true,
   );
   assert.equal(state.stubDispatchCalls.length, 0);
   assert.equal(state.stubInboundCalls.length, 0);
