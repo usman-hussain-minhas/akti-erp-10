@@ -10,6 +10,7 @@ function createMocks() {
     auditCalls: [] as unknown[],
     outboxCalls: [] as unknown[],
     created: [] as Record<string, unknown>[],
+    statusHistory: [] as Record<string, unknown>[],
   };
 
   const now = new Date('2026-05-24T10:00:00.000Z');
@@ -33,7 +34,12 @@ function createMocks() {
     },
     groupCapability: {
       findFirst: async ({ where }: { where: { capability_key: string } }) => {
-        if (where.capability_key === 'lead.intake.create' || where.capability_key === 'lead.inbox.view' || where.capability_key === 'lead.detail.view') {
+        if (
+          where.capability_key === 'lead.intake.create' ||
+          where.capability_key === 'lead.inbox.view' ||
+          where.capability_key === 'lead.detail.view' ||
+          where.capability_key === 'lead.status.update'
+        ) {
           return { id: 'cap-1' };
         }
         return null;
@@ -83,6 +89,25 @@ function createMocks() {
           };
         }
         return null;
+      },
+      update: async ({ where, data }: { where: { organization_id_id: { organization_id: string; id: string } }; data: { status: string } }) => {
+        return {
+          id: where.organization_id_id.id,
+          organization_id: where.organization_id_id.organization_id,
+          full_name: 'Lead One',
+          phone_e164: '+923001234567',
+          source_ref: 'web-form',
+          status: data.status,
+          assigned_user_id: null,
+          created_at: now,
+          updated_at: now,
+        };
+      },
+    },
+    leadStatusHistory: {
+      create: async ({ data }: { data: Record<string, unknown> }) => {
+        state.statusHistory.push(data);
+        return { id: 'history-1', ...data };
       },
     },
     $transaction: async <T>(fn: (tx: unknown) => Promise<T>) => fn(db),
@@ -188,6 +213,107 @@ async function testGetLeadDetailCrossOrgNotFound() {
   await assert.rejects(service.getLeadDetail('org-1', 'lead-2', 'actor-1'), NotFoundException);
 }
 
+async function testUpdateLeadStatusHappyPath() {
+  const { service, state } = createMocks();
+  const result = await service.updateLeadStatus(
+    'org-1',
+    'lead-1',
+    {
+      status: 'contacted',
+      reason: 'Reached by phone',
+      requested_at: '2026-05-24T10:10:00.000Z',
+    },
+    'actor-1',
+  );
+  assert.equal(result.status, 'contacted');
+  assert.equal(state.statusHistory.length, 1);
+  assert.equal(state.auditCalls.length >= 1, true);
+  assert.equal(state.outboxCalls.length >= 1, true);
+}
+
+async function testUpdateLeadStatusMissingActorFails() {
+  const { service } = createMocks();
+  await assert.rejects(
+    service.updateLeadStatus(
+      'org-1',
+      'lead-1',
+      {
+        status: 'contacted',
+        requested_at: '2026-05-24T10:10:00.000Z',
+      },
+      '',
+    ),
+    BadRequestException,
+  );
+}
+
+async function testUpdateLeadStatusUnauthorizedActorFails() {
+  const { service } = createMocks();
+  await assert.rejects(
+    service.updateLeadStatus(
+      'org-1',
+      'lead-1',
+      {
+        status: 'qualified',
+        requested_at: '2026-05-24T10:10:00.000Z',
+      },
+      'actor-2',
+    ),
+    ForbiddenException,
+  );
+}
+
+async function testUpdateLeadStatusCrossOrgDenied() {
+  const { service } = createMocks();
+  await assert.rejects(
+    service.updateLeadStatus(
+      'org-2',
+      'lead-1',
+      {
+        status: 'qualified',
+        requested_at: '2026-05-24T10:10:00.000Z',
+      },
+      'actor-1',
+    ),
+    ForbiddenException,
+  );
+}
+
+async function testUpdateLeadStatusInvalidPayloadFails() {
+  const { service } = createMocks();
+  await assert.rejects(
+    service.updateLeadStatus(
+      'org-1',
+      'lead-1',
+      {
+        status: 'invalid-status',
+        requested_at: 'not-a-date',
+      },
+      'actor-1',
+    ),
+    BadRequestException,
+  );
+}
+
+async function testUpdateLeadStatusGatekeeperDenied() {
+  const { service, gatekeeperPreflightService } = createMocks();
+  gatekeeperPreflightService.requireAllow = async () => {
+    throw new ServiceUnavailableException('degraded');
+  };
+  await assert.rejects(
+    service.updateLeadStatus(
+      'org-1',
+      'lead-1',
+      {
+        status: 'contacted',
+        requested_at: '2026-05-24T10:10:00.000Z',
+      },
+      'actor-1',
+    ),
+    ServiceUnavailableException,
+  );
+}
+
 async function run() {
   await testCreateLeadHappyPath();
   await testCreateLeadMissingActorFails();
@@ -198,6 +324,12 @@ async function run() {
   await testListLeadsHappyPath();
   await testGetLeadDetailHappyPath();
   await testGetLeadDetailCrossOrgNotFound();
+  await testUpdateLeadStatusHappyPath();
+  await testUpdateLeadStatusMissingActorFails();
+  await testUpdateLeadStatusUnauthorizedActorFails();
+  await testUpdateLeadStatusCrossOrgDenied();
+  await testUpdateLeadStatusInvalidPayloadFails();
+  await testUpdateLeadStatusGatekeeperDenied();
   console.log('lead-desk.service tests passed');
 }
 

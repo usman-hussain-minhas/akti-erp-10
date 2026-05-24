@@ -8,6 +8,8 @@ import {
   LeadDeskGetLeadDetailOutputSchema,
   LeadDeskListLeadsInputSchema,
   LeadDeskListLeadsOutputSchema,
+  LeadDeskUpdateLeadStatusInputSchema,
+  LeadDeskUpdateLeadStatusOutputSchema,
 } from '@akti/contracts/lead-desk-core';
 
 import { GatekeeperPreflightService } from '../gatekeeper/gatekeeper-preflight.service';
@@ -18,6 +20,7 @@ import { PrismaService } from '../prisma/prisma.service';
 const CAP_CREATE = 'lead.intake.create';
 const CAP_LIST = 'lead.inbox.view';
 const CAP_DETAIL = 'lead.detail.view';
+const CAP_STATUS_UPDATE = 'lead.status.update';
 const MODULE_KEY = 'lead.desk';
 
 type ActiveActor = {
@@ -214,6 +217,100 @@ export class LeadDeskService {
         }),
       'failed to shape detail response',
     );
+  }
+
+  async updateLeadStatus(organizationId: string, leadId: string, body: unknown, actorUserIdRaw?: string) {
+    const actorUserId = this.requireActorUserId(actorUserIdRaw);
+    const input = this.parseOrBadRequest(
+      () =>
+        LeadDeskUpdateLeadStatusInputSchema.parse({
+          ...(typeof body === 'object' && body !== null ? body : {}),
+          organization_id: organizationId,
+          actor_user_id: actorUserId,
+          lead_id: leadId,
+        }),
+      'invalid status update payload',
+    );
+
+    return this.prisma.$transaction(async (tx) => {
+      const actor = await this.requireCapability(tx as never, organizationId, actorUserId, CAP_STATUS_UPDATE);
+
+      await this.gatekeeperPreflightService.requireAllow({
+        organization_id: organizationId,
+        actor_user_id: actor.actor_user_id,
+        active_group_ids: actor.active_group_ids,
+        capability_key: CAP_STATUS_UPDATE,
+        module_key: MODULE_KEY,
+        entity_type: 'lead.record',
+        entity_id: leadId,
+        action_key: 'lead.desk.lead.status.updated',
+        payload: {
+          status: input.status,
+          reason: input.reason ?? null,
+        },
+      });
+
+      const lead = await tx.leadRecord.findFirst({
+        where: {
+          organization_id: organizationId,
+          id: leadId,
+        },
+      });
+      if (!lead) {
+        throw new NotFoundException('lead not found in organization');
+      }
+
+      const updated = await tx.leadRecord.update({
+        where: {
+          organization_id_id: {
+            organization_id: organizationId,
+            id: leadId,
+          },
+        },
+        data: {
+          status: input.status,
+        },
+      });
+
+      await tx.leadStatusHistory.create({
+        data: {
+          organization_id: organizationId,
+          lead_id: leadId,
+          actor_user_id: actor.actor_user_id,
+          status: input.status,
+          reason: input.reason ?? null,
+          requested_at: new Date(input.requested_at),
+        },
+      });
+
+      await this.auditLogService.writeAuditLog(tx as never, {
+        organization_id: organizationId,
+        actor_user_id: actor.actor_user_id,
+        action_key: 'lead.desk.lead.status.updated',
+        entity_type: 'lead.record',
+        entity_id: leadId,
+        metadata: {
+          previous_status: lead.status,
+          next_status: updated.status,
+          reason: input.reason ?? null,
+        },
+      });
+
+      await this.eventOutboxService.recordMutation(tx as never, {
+        organization_id: organizationId,
+        action_key: 'lead.desk.lead.status.updated',
+        entity_type: 'lead.record',
+        entity_id: leadId,
+        actor_user_id: actor.actor_user_id,
+      });
+
+      return LeadDeskUpdateLeadStatusOutputSchema.parse({
+        lead_id: updated.id,
+        organization_id: updated.organization_id,
+        status: updated.status,
+        updated_at: updated.updated_at.toISOString(),
+      });
+    });
   }
 
   private requireActorUserId(actorUserIdRaw?: string) {
