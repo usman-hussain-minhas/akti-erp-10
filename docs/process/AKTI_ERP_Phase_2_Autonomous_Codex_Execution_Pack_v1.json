@@ -1327,16 +1327,15 @@
       "objective": "WhatsApp integration contracts through gateway after ADR-0003 governance unlock.",
       "autonomous_decision_rule": "Proceed only under the ADR-0003 stub/non-production exception: no production credentials, no real outbound WhatsApp messages, no direct Lead Desk-to-Meta/WhatsApp coupling, and all transport through Engagement Gateway Lite.",
       "scope": [
-        "Stub/non-production implementation only.",
-        "All WhatsApp-related integration must pass through Engagement Gateway Lite.",
-        "Temporary CRM/shared inbox remains operational until Phase 2C is tested and accepted."
+        "Gateway-mediated WhatsApp integration contracts only.",
+        "Provider-neutral and stub-only WhatsApp integration boundary.",
+        "All transport through Engagement Gateway Lite."
       ],
       "non_scope": [
-        "No direct Lead Desk to Meta/WhatsApp coupling.",
         "No production credentials.",
         "No real outbound WhatsApp messages.",
-        "No production deployment.",
-        "No non-Phase-2 scope."
+        "No direct Lead Desk to Meta/WhatsApp coupling.",
+        "No .env or secret material changes."
       ],
       "source_files_to_inspect": [
         "ADR-0003",
@@ -1344,12 +1343,18 @@
         "Lead Desk contracts"
       ],
       "files_expected_to_change": [
-        "not determined until governance unlock"
+        "packages/contracts/lead-desk*.contract.ts and/or packages/contracts/engagement-gateway-lite*.contract.ts after exact-file plan",
+        "packages/contracts/*module-manifest*.contract.ts after exact-file plan",
+        "packages/contracts/scripts/validate-*.mjs if contract validation wiring is required",
+        "apps/api/src/engagement-gateway/** only for runtime interface references if explicitly required by contract compatibility checks"
       ],
       "files_forbidden_to_change": [
-        "secrets",
-        "production credentials",
-        "direct Lead Desk to Meta/WhatsApp"
+        "apps/web/**",
+        "prisma/**",
+        "generated/**",
+        ".env*",
+        "docs/adr/**",
+        "docs/process/** outside explicit control-doc correction tickets"
       ],
       "schema_impact": "none",
       "registry_impact": "none",
@@ -1360,7 +1365,10 @@
       "audit_outbox_policy": "No audit/outbox behavior changes.",
       "tests_required": [],
       "validation_commands": [
-        "not runnable until governance unlock"
+        "pnpm contracts:validate",
+        "pnpm lint",
+        "pnpm typecheck",
+        "git diff --check"
       ],
       "artifact_rules": [
         "codex-review/phase2-autonomous-full-run/ticket-artifacts/P2C-001/P2C-001-file-manifest.md",
@@ -1387,16 +1395,15 @@
       "objective": "Gateway-mediated WhatsApp stub integration after ADR-0003 governance unlock.",
       "autonomous_decision_rule": "Proceed only under the ADR-0003 stub/non-production exception: no production credentials, no real outbound WhatsApp messages, no direct Lead Desk-to-Meta/WhatsApp coupling, and all transport through Engagement Gateway Lite.",
       "scope": [
-        "Stub/non-production implementation only.",
-        "All WhatsApp-related integration must pass through Engagement Gateway Lite.",
-        "Temporary CRM/shared inbox remains operational until Phase 2C is tested and accepted."
+        "Gateway-mediated WhatsApp stub provider implementation only.",
+        "Inbound and outbound flow tests through stub provider only.",
+        "Lead Desk calls Engagement Gateway only."
       ],
       "non_scope": [
-        "No direct Lead Desk to Meta/WhatsApp coupling.",
-        "No production credentials.",
+        "No production Meta/WhatsApp credentials.",
         "No real outbound WhatsApp messages.",
-        "No production deployment.",
-        "No non-Phase-2 scope."
+        "No direct provider calls from Lead Desk.",
+        "No apps/web changes unless separately ticketed."
       ],
       "source_files_to_inspect": [
         "ADR-0003",
@@ -1404,12 +1411,17 @@
         "Lead Desk contracts"
       ],
       "files_expected_to_change": [
-        "not determined until governance unlock"
+        "apps/api/src/engagement-gateway/** for gateway-mediated stub implementation and tests after exact-file plan",
+        "apps/api/src/lead-desk/** only where gateway boundary integration is required after exact-file plan",
+        "apps/api/src/app.module.ts if module wiring is required",
+        "packages/contracts/** only if already-approved P2C contracts require matching runtime typings"
       ],
       "files_forbidden_to_change": [
-        "secrets",
-        "production credentials",
-        "direct Lead Desk to Meta/WhatsApp"
+        "apps/web/**",
+        "prisma/**",
+        "generated/**",
+        ".env*",
+        "direct Meta/WhatsApp provider SDK credentials or secret files"
       ],
       "schema_impact": "none",
       "registry_impact": "none",
@@ -1420,7 +1432,12 @@
       "audit_outbox_policy": "No audit/outbox behavior changes.",
       "tests_required": [],
       "validation_commands": [
-        "not runnable until governance unlock"
+        "pnpm --filter @akti/api test",
+        "pnpm contracts:validate",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm build",
+        "git diff --check"
       ],
       "artifact_rules": [
         "codex-review/phase2-autonomous-full-run/ticket-artifacts/P2C-002/P2C-002-file-manifest.md",
@@ -1447,16 +1464,14 @@
       "objective": "Final Phase 2 validation gate and final branch audit under stub/non-production Phase 2C exception.",
       "autonomous_decision_rule": "Run final validation and audit. Stop at completion of P2C-GATE/final audit.",
       "scope": [
-        "Stub/non-production implementation only.",
-        "All WhatsApp-related integration must pass through Engagement Gateway Lite.",
-        "Temporary CRM/shared inbox remains operational until Phase 2C is tested and accepted."
+        "Final Phase 2 validation ladder and final branch audit package.",
+        "No-real-message static check and no direct Lead Desk-to-Meta/WhatsApp check.",
+        "No production credential usage check and final journal/runtime-state update."
       ],
       "non_scope": [
-        "No direct Lead Desk to Meta/WhatsApp coupling.",
-        "No production credentials.",
-        "No real outbound WhatsApp messages.",
+        "No product feature expansion.",
         "No production deployment.",
-        "No non-Phase-2 scope."
+        "No secret usage."
       ],
       "source_files_to_inspect": [
         "ADR-0003",
@@ -1464,7 +1479,9 @@
         "Lead Desk contracts"
       ],
       "files_expected_to_change": [
-        "not determined until governance unlock"
+        "codex-review/phase2-autonomous-full-run/final-branch-audit/**",
+        "codex-review/phase2-autonomous-full-run/autonomous-run-journal.md",
+        "codex-review/phase2-autonomous-full-run/run-state.json"
       ],
       "files_forbidden_to_change": [
         "secrets",
@@ -1480,7 +1497,19 @@
       "audit_outbox_policy": "No audit/outbox behavior changes.",
       "tests_required": [],
       "validation_commands": [
-        "not runnable until governance unlock"
+        "pnpm --filter @akti/api test",
+        "pnpm contracts:validate",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm exec prisma generate --schema prisma/schema.prisma",
+        "pnpm registry:generate",
+        "pnpm registry:check",
+        "pnpm registry:verify:phase2",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff --check",
+        "git status --short"
       ],
       "artifact_rules": [
         "codex-review/phase2-autonomous-full-run/ticket-artifacts/P2C-GATE/P2C-GATE-file-manifest.md",
