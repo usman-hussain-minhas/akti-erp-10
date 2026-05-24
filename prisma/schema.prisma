@@ -89,6 +89,7 @@ model OrganizationUnit {
   child_units             OrganizationUnit[]        @relation("OrganizationUnit_ParentChild")
   users_primary           User[]                    @relation("User_PrimaryUnit")
   group_capability_scopes GroupCapability[]         @relation("GroupCapability_ScopeUnit")
+  lead_records            LeadRecord[]
   closure_as_ancestor     OrganizationUnitClosure[] @relation("OrgUnitClosure_Ancestor")
   closure_as_descendant   OrganizationUnitClosure[] @relation("OrgUnitClosure_Descendant")
 
@@ -261,6 +262,7 @@ model OrganizationSetting {
 model LeadRecord {
   id               String       @id @default(cuid())
   organization_id  String
+  organization_unit_id String?
   source_ref       String
   full_name        String
   phone_e164       String
@@ -270,13 +272,17 @@ model LeadRecord {
   created_at       DateTime     @default(now())
   updated_at       DateTime     @updatedAt
   organization     Organization @relation(fields: [organization_id], references: [id])
+  organization_unit OrganizationUnit? @relation(fields: [organization_id, organization_unit_id], references: [organization_id, id])
   status_history   LeadStatusHistory[]
   assignment_history LeadAssignmentHistory[]
 
   @@unique([organization_id, id])
   @@index([organization_id, created_at])
+  @@index([organization_id, organization_unit_id, created_at])
   @@index([organization_id, status, created_at])
+  @@index([organization_id, organization_unit_id, status, created_at])
   @@index([organization_id, assigned_user_id, created_at])
+  @@index([organization_id, organization_unit_id, assigned_user_id, created_at])
 }
 
 model LeadStatusHistory {
