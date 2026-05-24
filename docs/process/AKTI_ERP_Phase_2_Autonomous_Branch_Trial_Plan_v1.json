@@ -6,16 +6,20 @@
     "created_at": "2026-05-24T00:00:00+05:00",
     "owner": "AKTI / Usman Minhas",
     "recommended_repo_path": "docs/process/AKTI_ERP_Phase_2_Autonomous_Branch_Trial_Plan_v1.json",
-    "purpose": "Define the controlled full Phase 2 autonomous stress-test experiment for Codex. This document is a strategy/control plan, not implementation approval.",
+    "purpose": "Define the controlled Phase 2 autonomous execution run for Codex. This document is a strategy/control plan, not implementation approval.",
     "principle": "ChatGPT designs and audits. Codex validates and executes. The coordinator transfers outputs between them. Codex executes only the approved ticket queue."
   },
-  "experiment": {
-    "name": "AKTI ERP Phase 2 Full Autonomous Stress Test",
-    "branch": "experiment/phase2-full-autonomous",
-    "mode": "full_phase_autonomous_stress_test",
-    "goal": "Test whether Codex can execute a full approved Phase 2 ticket queue autonomously for an extended run while preserving scope, architecture, validation, and auditability.",
-    "important_note": "This is a disposable experiment branch. Passing the stress test does not automatically make the branch production-ready or merge-ready.",
-    "main_branch_policy": "main is protected; Codex must never merge to main automatically."
+  "branch_run": {
+    "name": "AKTI ERP Phase 2 Autonomous Execution Run",
+    "branch": "phase2/autonomous-full-run",
+    "mode": "full_phase_autonomous_execution_run",
+    "goal": "Validate whether Codex can execute a full approved Phase 2 ticket queue autonomously for an extended run while preserving scope, architecture, validation, and auditability.",
+    "important_note": "This is a disposable operational branch. Passing the controlled branch run does not automatically make the branch production-ready or merge-ready.",
+    "main_branch_policy": "main is protected; Codex must never merge to main automatically.",
+    "branch_base": "current merged main containing Phase 1 final implementation plus Phase 2 control documents and approved control-document corrections",
+    "final_phase_1_implementation_commit": "18f497d P1H-FINAL harden access reads and capability duplicates",
+    "phase_2_control_doc_merge_commit": "f02ac95 Merge pull request #1 from usman-hussain-minhas/chore/phase2-control-docs",
+    "branch_creation_rule": "Create phase2/autonomous-full-run only from clean current main after control-document corrections are merged."
   },
   "phase_scope": {
     "included": [
@@ -56,7 +60,8 @@
       "Production auth/session unless separately approved",
       "Direct WhatsApp/Meta API calls from Lead Desk",
       "Frontend screens without approved screen contracts",
-      "Unapproved modules such as LMS, HR, Finance, Hiring, Certification, Website Builder, AI Content Editor"
+      "Unapproved modules such as LMS, HR, Finance, Hiring, Certification, Website Builder, AI Content Editor",
+      "approval-never / no-approval autonomous mutation mode"
     ],
     "optional_later": [
       {
@@ -91,9 +96,12 @@
     "PLANS.md exists",
     "Codex has validated these documents against repo reality in Plan Mode",
     "Corrections, if any, are applied before /goal starts",
-    "The branch starts from the accepted final Phase 1 hardened commit",
+    "The operational branch starts from current clean main after Phase 2 control-document corrections are merged; final Phase 1 implementation commit is 18f497d and Phase 2 control-doc merge commit is f02ac95",
     "Working tree is clean before branch creation",
-    "No autonomous run starts without an approved active execution pack"
+    "No autonomous run starts without an approved active execution pack",
+    "P2-VAL-001 has provided a Phase 2-aware registry verification path before schema-changing tickets run",
+    "P2-VAL-002 has provided Phase 2 screen-contract validation support before Lead Desk screen contracts are added",
+    "The Codex execution environment is approved safe mode: not danger-full-access, not unrestricted network, not approval-never, and no production secrets"
   ],
   "codex_config_recommendation": {
     "approval_policy": "on-request",
@@ -111,8 +119,10 @@
       "unrestricted network",
       "production secrets",
       "auto-merge",
-      "unapproved dependency install"
-    ]
+      "unapproved dependency install",
+      "approval-never"
+    ],
+    "network_access": "disabled unless explicitly approved for a ticket"
   },
   "multi_agent_policy": {
     "enabled": true,
@@ -141,10 +151,11 @@
       "Approved ticket queue executed in order",
       "Ticket validations pass",
       "Phase-gate validations pass",
-      "Per-ticket commits exist on experiment branch",
+      "Per-ticket commits exist on operational branch",
       "Per-ticket artifacts exist",
       "Final branch audit package exists",
-      "main remains untouched"
+      "main remains untouched",
+      "P2-VAL-001 and P2-VAL-002 complete before dependent schema or screen-contract tickets"
     ],
     "architecture": [
       "No direct Lead Desk to WhatsApp/Meta API calls",
@@ -168,7 +179,7 @@
     "Ask Codex to validate them in Plan Mode only.",
     "Bring Codex validation result back to ChatGPT.",
     "ChatGPT returns PASS or corrections.",
-    "After PASS, Codex may start the full Phase 2 autonomous stress test on the experiment branch.",
+    "After PASS, Codex may start the Phase 2 autonomous execution run on the operational branch.",
     "When Codex stops or completes, bring final artifacts back to ChatGPT for audit."
   ],
   "codex_plan_mode_validation_prompt": "We are in Plan Mode only.\n\nValidate the Phase 2 autonomous control documents against the current repo.\n\nDo not implement.\nDo not create branches.\nDo not run /goal.\nDo not modify files.\nDo not commit.\nDo not push.\n\nInspect:\n- AGENTS.md\n- docs/adr/*\n- docs/specs/*\n- docs/process/*\n- packages/contracts/*\n- prisma/schema.prisma\n- generated/entity-registry.generated.json\n- apps/api/*\n- apps/web/*\n- package.json\n- pnpm-workspace.yaml\n- CI workflows\n\nReturn only:\n1. Files inspected\n2. Whether these control documents match repo reality\n3. Missing files/paths/scripts\n4. Unsafe assumptions\n5. Corrections required\n6. Whether the documents are safe to use as the active autonomous run contract\n\nDo not write code."

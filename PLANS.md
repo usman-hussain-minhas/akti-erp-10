@@ -1,10 +1,10 @@
-# AKTI ERP Phase 2 Autonomous Stress Test — PLANS.md
+# AKTI ERP Phase 2 Autonomous Execution Run — PLANS.md
 
-Status: draft_for_codex_plan_mode_validation
+Status: draft_for_codex_plan_mode_validation_after_control_doc_corrections
 
 ## Purpose
 
-This file is a human-readable roadmap for the AKTI ERP Phase 2 Full Autonomous Stress Test.
+This file is a human-readable roadmap for the AKTI ERP Phase 2 Autonomous Execution Run.
 
 It summarizes the approved execution pack. It is not the source of truth.
 
@@ -25,17 +25,24 @@ It does not override:
 
 If conflict exists, the higher-ranked source wins.
 
-## Experiment Name
+## Run Name
 
-AKTI ERP Phase 2 Full Autonomous Stress Test
+AKTI ERP Phase 2 Autonomous Execution Run
 
 ## Branch
 
-`experiment/phase2-full-autonomous`
+`phase2/autonomous-full-run`
+
+Branch base: current clean `main` after Phase 2 control-document corrections are merged.
+
+Reference commits:
+
+- Final Phase 1 implementation commit: `18f497d P1H-FINAL harden access reads and capability duplicates`
+- Phase 2 control-document merge commit: `f02ac95 Merge pull request #1 from usman-hussain-minhas/chore/phase2-control-docs`
 
 ## Goal
 
-Test whether Codex can execute one full approved Phase 2 ticket queue autonomously, with per-ticket validation, artifacts, commits, and stop conditions, while keeping `main` safe.
+Validate whether Codex can execute one full approved Phase 2 ticket queue autonomously, with per-ticket validation, artifacts, commits, and stop conditions, while keeping `main` safe.
 
 ## Scope
 
@@ -81,12 +88,14 @@ PLANS.md
 ### Phase 2A — Engagement Gateway Lite
 
 - P2A-001 — Create Engagement Gateway Lite contracts and manifest boundary
+- P2-VAL-001 — Add Phase 2-aware registry verification path
 - P2A-002 — Add Engagement Gateway Lite data model if required by approved contract
 - P2A-003 — Implement Engagement Gateway Lite API/service foundation
 - P2A-GATE — Phase 2A validation gate
 
 ### Phase 2B — Lead Desk Core
 
+- P2-VAL-002 — Add Phase 2 screen-contract validation support
 - P2B-001 — Create Lead Desk Core contracts and screen contracts
 - P2B-002 — Add Lead Desk Core data foundation
 - P2B-003 — Implement Lead Desk Core API foundation
@@ -103,7 +112,7 @@ PLANS.md
 
 Each ticket runs ticket-specific validation.
 
-Phase gates run the full validation ladder defined in the execution pack.
+Phase gates run the full validation ladder defined in the execution pack. Phase 2 schema tickets depend on `P2-VAL-001` and must not rely on `pnpm registry:verify:phase1` as the final Phase 2 schema verifier. Lead Desk screen-contract work depends on `P2-VAL-002`.
 
 ## Artifact Expectations
 
@@ -116,6 +125,7 @@ Each ticket creates:
 
 Final completion creates:
 
+- exact-file implementation plan before editing when a ticket starts from a broad allowed glob
 - final branch audit package
 - source zip
 - commit log
@@ -138,6 +148,9 @@ Codex must stop if it needs to:
 - weaken tests
 - ignore validation failures
 - merge to main
+- mutate active Phase 2 control documents during autonomous implementation tickets
+- run Phase 2C before ADR-0003 has a Phase 2C pilot target date or formal exception
+- run in danger-full-access, unrestricted-network, or approval-never mode without explicit approval
 
 ## Coordinator Note
 

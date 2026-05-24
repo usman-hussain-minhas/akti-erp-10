@@ -5,16 +5,19 @@
     "status": "draft_for_codex_plan_mode_validation",
     "created_at": "2026-05-24T00:00:00+05:00",
     "recommended_repo_path": "docs/process/AKTI_ERP_Phase_2_Autonomous_Codex_Execution_Pack_v1.json",
-    "purpose": "Machine-readable active scope contract for the Phase 2 full autonomous stress-test branch run."
+    "purpose": "Machine-readable active scope contract for the Phase 2 full autonomous execution branch run."
   },
   "run_contract": {
-    "run_id": "phase2-full-autonomous-v1",
-    "branch": "experiment/phase2-full-autonomous",
-    "start_point": "accepted final Phase 1 hardened main commit",
+    "run_id": "phase2-autonomous-full-run-v1",
+    "branch": "phase2/autonomous-full-run",
+    "start_point": "current merged main containing Phase 1 final implementation plus Phase 2 control documents and approved control-document corrections",
     "main_merge_policy": "never_auto_merge",
     "execution_mode": "approved_ticket_queue_only",
     "scope_authority": "This execution pack is the active run contract after Codex validates it against repo reality.",
-    "failure_model": "Failure is allowed. Codex must stop honestly and preserve audit artifacts."
+    "failure_model": "Failure is allowed. Codex must stop honestly and preserve audit artifacts.",
+    "final_phase_1_implementation_commit": "18f497d P1H-FINAL harden access reads and capability duplicates",
+    "phase_2_control_doc_merge_commit": "f02ac95 Merge pull request #1 from usman-hussain-minhas/chore/phase2-control-docs",
+    "branch_creation_rule": "Create phase2/autonomous-full-run only from clean current main after control-document corrections are merged."
   },
   "global_non_scope": [
     "No auto-merge to main",
@@ -26,7 +29,8 @@
     "No frontend screen without screen contract",
     "No unapproved dependencies",
     "No secrets, production data, or destructive operations",
-    "No broad schema redesign outside planned tickets"
+    "No broad schema redesign outside planned tickets",
+    "Mutation of active Phase 2 control documents during autonomous implementation tickets"
   ],
   "global_rules": {
     "source_of_truth": [
@@ -46,7 +50,15 @@
     "scope_invention_rule": "Stop if a capability, role, permission, event, module, screen, business rule, or data model must be invented.",
     "frontend_rule": "No frontend screen implementation without approved screen contract.",
     "lead_whatsapp_rule": "Lead Desk must not call Meta/WhatsApp directly; integration must pass through Engagement Gateway Lite.",
-    "test_rule": "Use risk-based exhaustive tests, not fake 100 percent coverage."
+    "test_rule": "Use risk-based exhaustive tests, not fake 100 percent coverage.",
+    "exact_file_plan_rule": "Before editing, each ticket must produce an exact-file implementation plan from any broad allowed glob. If required files fall outside that exact plan, Codex must stop.",
+    "active_control_docs_rule": "Active Phase 2 control documents under docs/process and PLANS.md must not be mutated during the autonomous run except by an explicit control-document correction ticket.",
+    "module_manifest_repo_pattern": "This repo currently uses TypeScript manifest/contract files under packages/contracts, such as *module-manifest*.contract.ts, unless a future approved ticket introduces a separate manifest directory.",
+    "phase2_registry_rule": "Do not use pnpm registry:verify:phase1 as the final validator for Phase 2 schema additions. P2-VAL-001 must add a Phase 2-aware verification path before schema tickets edit Prisma models.",
+    "phase2_screen_contract_rule": "P2-VAL-002 must add Phase 2 screen-contract validation support before Lead Desk screen contracts are added.",
+    "migration_policy": "If the repo still has no Prisma migrations directory, schema/data tickets must explicitly decide schema/registry-only versus migration scaffolding. If migration scaffolding is required, Codex must stop unless that work is explicitly ticketed. Destructive migrations are forbidden.",
+    "phase2c_governance_rule": "Phase 2A and Phase 2B are not blocked by ADR-0003 pilot-date status. Phase 2C cannot execute until ADR-0003 Phase 2C pilot target date is assigned or a formal exception is recorded.",
+    "execution_environment_rule": "Autonomous execution must run only in an approved safe Codex environment: not danger-full-access, not unrestricted network, not approval-never, and no production secrets. workspace-write/on-request/no-network is preferred unless explicitly approved otherwise."
   },
   "standard_validation_ladder": [
     "pnpm --filter @akti/api test",
@@ -56,7 +68,7 @@
     "pnpm registry:generate",
     "git diff -- generated/entity-registry.generated.json",
     "pnpm registry:check",
-    "pnpm registry:verify:phase1",
+    "pnpm registry:verify:phase2",
     "pnpm lint",
     "pnpm typecheck",
     "pnpm test",
@@ -73,13 +85,13 @@
   },
   "artifact_policy": {
     "per_ticket": [
-      "codex-review/phase2-full-autonomous/ticket-artifacts/<ticket-id>/<ticket-id>-file-manifest.md",
-      "codex-review/phase2-full-autonomous/ticket-artifacts/<ticket-id>/<ticket-id>-changed-files.zip",
-      "codex-review/phase2-full-autonomous/ticket-artifacts/<ticket-id>/<ticket-id>-validation-summary.md"
+      "codex-review/phase2-autonomous-full-run/ticket-artifacts/<ticket-id>/<ticket-id>-file-manifest.md",
+      "codex-review/phase2-autonomous-full-run/ticket-artifacts/<ticket-id>/<ticket-id>-changed-files.zip",
+      "codex-review/phase2-autonomous-full-run/ticket-artifacts/<ticket-id>/<ticket-id>-validation-summary.md"
     ],
-    "journal": "codex-review/phase2-full-autonomous/autonomous-run-journal.md",
-    "checkpoints": "codex-review/phase2-full-autonomous/checkpoints/checkpoint-<n>.md after every 3 tickets",
-    "final_audit_package": "codex-review/phase2-full-autonomous/final-branch-audit/"
+    "journal": "codex-review/phase2-autonomous-full-run/autonomous-run-journal.md",
+    "checkpoints": "codex-review/phase2-autonomous-full-run/checkpoints/checkpoint-<n>.md after every 3 tickets",
+    "final_audit_package": "codex-review/phase2-autonomous-full-run/final-branch-audit/"
   },
   "stop_conditions": [
     "Validation fails twice on same ticket",
@@ -133,8 +145,11 @@
       "risk_tier": "phase_gate",
       "objective": "Validate trial plan, execution pack, runbook, and PLANS.md against repo reality before starting autonomous implementation.",
       "scope": [
-        "Inspect repo control files and current source layout",
-        "Report corrections required",
+        "Confirm clean main and origin/main alignment",
+        "Confirm Phase 2 control documents are present on committed main",
+        "Inspect repo reality across AGENTS, ADRs, specs, process docs, contracts, Prisma, registry, scripts, apps, package scripts, and workflows",
+        "Validate paths, scripts, branch assumptions, artifact paths, ticket sequence, and safety rules against repo reality",
+        "Return correction-only report if mismatches exist",
         "Do not modify files unless separately approved"
       ],
       "non_scope": [
@@ -169,12 +184,21 @@
       "audit_outbox_policy": "not_applicable",
       "tests_required": [],
       "validation_commands": [
-        "git status --short"
+        "git status --short --branch",
+        "git branch --show-current",
+        "git fetch origin",
+        "git pull --ff-only origin main",
+        "git log --oneline --decorate -15",
+        "confirm expected control docs exist on committed main",
+        "inspect repo reality and report mismatches without editing"
       ],
       "artifact_rules": [
         "Return Plan Mode validation report only"
       ],
       "stop_conditions": [
+        "Working tree is not clean",
+        "main is not aligned with origin/main",
+        "Control document missing",
         "Any repo mismatch or unsafe assumption found"
       ],
       "commit_message": "not_applicable",
@@ -190,7 +214,8 @@
         "Add approved contracts/schemas for gateway requests/responses if required",
         "Define module manifest boundary for Engagement Gateway Lite",
         "Declare capabilities, routes, and event policy",
-        "Keep provider runtime stub-only unless separately ticketed"
+        "Keep provider runtime stub-only unless separately ticketed",
+        "Use the repo pattern of TypeScript module manifest contract files under packages/contracts unless a future approved ticket introduces a separate manifest directory"
       ],
       "non_scope": [
         "No direct Meta/WhatsApp integration",
@@ -206,8 +231,8 @@
       ],
       "files_expected_to_change": [
         "packages/contracts/**",
-        "docs/process/**",
-        "docs/adr/**"
+        "docs/adr/**",
+        "packages/contracts/*module-manifest*.contract.ts"
       ],
       "files_forbidden_to_change": [
         "apps/web/**",
@@ -236,10 +261,84 @@
       ],
       "stop_conditions": [
         "Contract requires unapproved architecture",
-        "Prisma change required unexpectedly"
+        "Prisma change required unexpectedly",
+        "Requires mutation of active Phase 2 control documents"
       ],
       "commit_message": "P2A-001 add engagement gateway contracts",
       "rollback_notes": "Revert contract/doc changes for this ticket."
+    },
+    {
+      "ticket_id": "P2-VAL-001",
+      "phase": "Phase 2 Validation Foundation",
+      "title": "Add Phase 2-aware registry verification path",
+      "risk_tier": "high",
+      "objective": "Create or update registry verification so Phase 1 protections remain intact while Phase 2 entities can be validated before schema-changing tickets run.",
+      "scope": [
+        "Add a Phase 2-aware registry verification script or make registry verification phase-aware",
+        "Keep existing Phase 1 verifier/protections intact; do not weaken failures to make checks pass",
+        "Update package scripts and CI validation references if required",
+        "Document which command Phase 2 schema tickets must run before adding models"
+      ],
+      "non_scope": [
+        "No Phase 2 business models",
+        "No weakening Phase 1 registry verification",
+        "No product runtime behavior"
+      ],
+      "source_files_to_inspect": [
+        "AGENTS.md",
+        "docs/adr/ADR-0004-prisma-derived-entity-registry.md",
+        "prisma/schema.prisma",
+        "prisma/entity-registry.metadata.json",
+        "generated/entity-registry.generated.json",
+        "scripts/registry/*",
+        "package.json",
+        ".github/workflows/*"
+      ],
+      "files_expected_to_change": [
+        "scripts/registry/**",
+        "package.json",
+        ".github/workflows/**"
+      ],
+      "files_forbidden_to_change": [
+        "apps/api/src/**",
+        "apps/web/**",
+        "prisma/schema.prisma",
+        "prisma/entity-registry.metadata.json",
+        "generated/entity-registry.generated.json",
+        ".env*",
+        "production secrets"
+      ],
+      "schema_impact": "none",
+      "registry_impact": "validator_only",
+      "contract_impact": "none",
+      "screen_contract_impact": "none",
+      "permission_model": "No permission model changes.",
+      "gatekeeper_policy": "No Gatekeeper behavior changes.",
+      "audit_outbox_policy": "No event/outbox policy changes.",
+      "tests_required": [
+        "Phase 1 verifier still rejects Phase 1 drift",
+        "Phase 2-aware verifier accepts approved Phase 2 metadata once schema tickets add entities",
+        "Package script and CI command references are consistent"
+      ],
+      "validation_commands": [
+        "pnpm registry:generate",
+        "pnpm registry:check",
+        "pnpm registry:verify:phase1",
+        "pnpm registry:verify:phase2",
+        "pnpm lint",
+        "pnpm typecheck",
+        "git diff --check"
+      ],
+      "artifact_rules": [
+        "Create ticket artifact and journal entry"
+      ],
+      "stop_conditions": [
+        "Cannot preserve Phase 1 verifier behavior",
+        "Phase 2 entity policy is unclear",
+        "CI update requires unrelated workflow changes"
+      ],
+      "commit_message": "P2-VAL-001 add phase 2 registry verification",
+      "rollback_notes": "Revert registry verification script/package/workflow changes for this ticket."
     },
     {
       "ticket_id": "P2A-002",
@@ -248,10 +347,12 @@
       "risk_tier": "high",
       "objective": "Add minimal approved gateway persistence only if P2A-001 defines required entities.",
       "scope": [
+        "Stop before schema edits unless P2-VAL-001 has passed and the Phase 2-aware registry verifier command is available",
         "Add Prisma model(s) only if explicitly required",
         "Add entity registry metadata",
         "Regenerate generated registry",
-        "Add tenant isolation metadata and indexes"
+        "Add tenant isolation metadata and indexes",
+        "Decide explicitly whether this remains schema/registry-only or requires migration scaffolding"
       ],
       "non_scope": [
         "No provider API integration",
@@ -293,7 +394,7 @@
         "pnpm exec prisma validate --schema prisma/schema.prisma",
         "pnpm registry:generate",
         "pnpm registry:check",
-        "pnpm registry:verify:phase1",
+        "pnpm registry:verify:phase2",
         "pnpm test",
         "pnpm build"
       ],
@@ -303,7 +404,9 @@
       "stop_conditions": [
         "Model scope unclear",
         "Migration strategy unclear",
-        "Unapproved entity needed"
+        "Unapproved entity needed",
+        "P2-VAL-001 not complete",
+        "Migration scaffolding required but not explicitly ticketed"
       ],
       "commit_message": "P2A-002 add engagement gateway data foundation",
       "rollback_notes": "Revert Prisma, metadata, generated registry, and tests."
@@ -419,12 +522,77 @@
       "rollback_notes": "If gate fails, stop for audit."
     },
     {
+      "ticket_id": "P2-VAL-002",
+      "phase": "Phase 2 Validation Foundation",
+      "title": "Add Phase 2 screen-contract validation support",
+      "risk_tier": "high",
+      "objective": "Define and validate Phase 2 screen-contract location and script behavior before Lead Desk screen contracts are added.",
+      "scope": [
+        "Define Phase 2 screen-contract directory policy, expected to be docs/screen-contracts/phase-2",
+        "Update validation script behavior or add a new script so Phase 2 screen contracts are validated",
+        "Keep Phase 1 screen-contract validation intact"
+      ],
+      "non_scope": [
+        "No Lead Desk screen contracts yet",
+        "No frontend implementation",
+        "No weakening Phase 1 screen-contract validation"
+      ],
+      "source_files_to_inspect": [
+        "packages/contracts/scripts/validate-screen-contracts.mjs",
+        "packages/contracts/screen-contract.schema.ts",
+        "docs/screen-contracts/phase-1/*",
+        "package.json",
+        "packages/contracts/package.json"
+      ],
+      "files_expected_to_change": [
+        "packages/contracts/scripts/validate-screen-contracts.mjs",
+        "packages/contracts/package.json if a new validation script is added",
+        "package.json if root validation command changes",
+        "docs/screen-contracts/phase-2/** if a directory marker is required"
+      ],
+      "files_forbidden_to_change": [
+        "apps/api/src/**",
+        "apps/web/**",
+        "prisma/**",
+        ".env*",
+        "production secrets"
+      ],
+      "schema_impact": "none",
+      "registry_impact": "none",
+      "contract_impact": "validator_only",
+      "screen_contract_impact": "validator_only",
+      "permission_model": "No permission model changes.",
+      "gatekeeper_policy": "No Gatekeeper behavior changes.",
+      "audit_outbox_policy": "No event/outbox policy changes.",
+      "tests_required": [
+        "Phase 1 screen contracts still validate",
+        "Phase 2 screen-contract directory policy is enforced",
+        "Unexpected screen-contract files fail validation"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm lint",
+        "pnpm typecheck",
+        "git diff --check"
+      ],
+      "artifact_rules": [
+        "Create ticket artifact and journal entry"
+      ],
+      "stop_conditions": [
+        "Cannot preserve Phase 1 screen validation behavior",
+        "Phase 2 screen contract schema needs architecture changes"
+      ],
+      "commit_message": "P2-VAL-002 add phase 2 screen contract validation",
+      "rollback_notes": "Revert validation script/package/screen-contract directory policy changes for this ticket."
+    },
+    {
       "ticket_id": "P2B-001",
       "phase": "Phase 2B",
       "title": "Create Lead Desk Core contracts and screen contracts",
       "risk_tier": "high",
       "objective": "Define Lead Desk API contracts, capability boundaries, and required screen contracts before implementation.",
       "scope": [
+        "Requires P2-VAL-002 to be complete before adding Lead Desk screen contracts",
         "Define lead desk contracts",
         "Define capabilities/permissions",
         "Create screen contracts for lead list/detail/create/assignment as approved",
@@ -442,8 +610,7 @@
       ],
       "files_expected_to_change": [
         "packages/contracts/**",
-        "docs/screen-contracts/**",
-        "docs/process/**"
+        "docs/screen-contracts/**"
       ],
       "files_forbidden_to_change": [
         "apps/api/src/**",
@@ -470,7 +637,9 @@
       ],
       "stop_conditions": [
         "Screen purpose unclear",
-        "Capability invented without contract rationale"
+        "Capability invented without contract rationale",
+        "P2-VAL-002 not complete",
+        "Requires mutation of active Phase 2 control documents"
       ],
       "commit_message": "P2B-001 add lead desk contracts and screen contracts",
       "rollback_notes": "Revert contract/screen files."
@@ -482,11 +651,13 @@
       "risk_tier": "high",
       "objective": "Add minimal Lead Desk models approved by contracts and screen requirements.",
       "scope": [
+        "Stop before schema edits unless P2-VAL-001 has passed and the Phase 2-aware registry verifier command is available",
         "Add Prisma models",
         "Add metadata",
         "Regenerate registry",
         "Add indexes/constraints",
-        "Add tenant isolation tests"
+        "Add tenant isolation tests",
+        "Decide explicitly whether this remains schema/registry-only or requires migration scaffolding"
       ],
       "non_scope": [
         "No WhatsApp integration",
@@ -524,7 +695,7 @@
         "pnpm exec prisma validate --schema prisma/schema.prisma",
         "pnpm registry:generate",
         "pnpm registry:check",
-        "pnpm registry:verify:phase1",
+        "pnpm registry:verify:phase2",
         "pnpm test",
         "pnpm build"
       ],
@@ -533,7 +704,9 @@
       ],
       "stop_conditions": [
         "Unapproved model needed",
-        "Domain model unclear"
+        "Domain model unclear",
+        "P2-VAL-001 not complete",
+        "Migration scaffolding required but not explicitly ticketed"
       ],
       "commit_message": "P2B-002 add lead desk data foundation",
       "rollback_notes": "Revert schema, metadata, generated registry, and tests."
@@ -715,6 +888,7 @@
       "risk_tier": "high",
       "objective": "Define WhatsApp integration contracts without direct Lead Desk to Meta coupling.",
       "scope": [
+        "Requires ADR-0003 Phase 2C pilot target date or formal exception before execution",
         "Gateway-mediated integration contracts",
         "Inbound/outbound event policy",
         "Provider abstraction boundary"
@@ -730,8 +904,7 @@
         "apps/api/src/**"
       ],
       "files_expected_to_change": [
-        "packages/contracts/**",
-        "docs/process/**"
+        "packages/contracts/**"
       ],
       "files_forbidden_to_change": [
         ".env*",
@@ -757,7 +930,9 @@
       ],
       "stop_conditions": [
         "Direct Meta coupling proposed",
-        "Provider credentials required"
+        "Provider credentials required",
+        "ADR-0003 Phase 2C pilot target date missing and no formal exception recorded",
+        "Requires mutation of active Phase 2 control documents"
       ],
       "commit_message": "P2C-001 add WhatsApp gateway integration contracts",
       "rollback_notes": "Revert contract/doc changes."
@@ -769,6 +944,7 @@
       "risk_tier": "high",
       "objective": "Implement safe provider-stub integration path through Engagement Gateway Lite.",
       "scope": [
+        "Requires ADR-0003 Phase 2C pilot target date or formal exception before execution",
         "Provider interface",
         "stub provider",
         "inbound/outbound flow tests",
@@ -818,7 +994,8 @@
       "stop_conditions": [
         "Production provider needed",
         "Direct Meta API needed",
-        "Secret needed"
+        "Secret needed",
+        "ADR-0003 Phase 2C pilot target date missing and no formal exception recorded"
       ],
       "commit_message": "P2C-002 implement gateway-mediated WhatsApp stub",
       "rollback_notes": "Revert integration service/test changes."
@@ -870,7 +1047,7 @@
         "Missing artifacts",
         "Scope leak"
       ],
-      "commit_message": "P2C-GATE finalize phase 2 autonomous stress test",
+      "commit_message": "P2C-GATE finalize phase 2 autonomous controlled branch run",
       "rollback_notes": "If gate fails, stop for audit."
     }
   ]
