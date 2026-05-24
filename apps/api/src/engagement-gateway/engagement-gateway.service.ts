@@ -4,6 +4,7 @@ import {
   parseEngagementGatewayCreateRequestOutput,
   parseEngagementGatewayHealthOutput,
 } from '@akti/contracts/engagement-gateway-lite';
+import type { GatekeeperRequest } from '@akti/contracts/gatekeeper-contract';
 
 import { GatekeeperPreflightService } from '../gatekeeper/gatekeeper-preflight.service';
 import { AuditLogService } from '../platform-observability/audit-log.service';
@@ -13,8 +14,11 @@ import { WhatsappStubProvider } from './whatsapp-stub.provider';
 
 const REQUEST_CREATE_CAPABILITY = 'engagement.gateway.request.create';
 const HEALTH_READ_CAPABILITY = 'engagement.gateway.health.read';
+const ACCESS_MODULE_KEY = 'core.access';
 const GATEWAY_MODULE_KEY = 'engagement.gateway';
 const GATEWAY_REQUEST_RECORDED_EVENT = 'engagement.gateway.request.recorded';
+
+type GatekeeperHealthStatus = GatekeeperRequest['context']['module_health'][string];
 
 type GatewayRequestRepo = {
   findFirst(args: unknown): Promise<
@@ -61,6 +65,7 @@ export class EngagementGatewayService {
 
     const actor = await this.requireActorInOrganization(organizationId, actorUserId);
     const activeGroupIds = await this.requireCapability(organizationId, actorUserId, REQUEST_CREATE_CAPABILITY);
+    const healthContext = await this.resolveGatekeeperHealthContext([GATEWAY_MODULE_KEY, ACCESS_MODULE_KEY]);
     const existingRequest = await gatewayRequestRepo(this.prisma).findFirst({
       where: {
         organization_id: organizationId,
@@ -93,6 +98,12 @@ export class EngagementGatewayService {
       entity_type: 'engagement.gateway.request',
       entity_id: null,
       action_key: 'engagement.gateway.request.recorded',
+      module_health: {
+        [GATEWAY_MODULE_KEY]: healthContext[GATEWAY_MODULE_KEY],
+      },
+      dependency_health: {
+        [ACCESS_MODULE_KEY]: healthContext[ACCESS_MODULE_KEY],
+      },
       payload: {
         request_kind: input.request_kind,
         idempotency_key: input.idempotency_key,
@@ -267,4 +278,39 @@ export class EngagementGatewayService {
 
     return activeGroupIds;
   }
+
+  private async resolveGatekeeperHealthContext(moduleKeys: string[]): Promise<Record<string, GatekeeperHealthStatus>> {
+    const rows = await this.prisma.moduleRegistryEntry.findMany({
+      where: {
+        module_key: {
+          in: moduleKeys,
+        },
+      },
+      select: {
+        module_key: true,
+        status: true,
+      },
+    });
+
+    const statusByModule = new Map(rows.map((row) => [row.module_key, row.status]));
+    return Object.fromEntries(
+      moduleKeys.map((moduleKey) => [moduleKey, mapModuleStatusToGatekeeperHealth(statusByModule.get(moduleKey))]),
+    );
+  }
+}
+
+function mapModuleStatusToGatekeeperHealth(status?: string): GatekeeperHealthStatus {
+  if (status === 'available' || status === 'healthy') {
+    return 'healthy';
+  }
+
+  if (status === 'degraded') {
+    return 'degraded';
+  }
+
+  if (status === 'disabled' || status === 'unavailable') {
+    return 'disabled';
+  }
+
+  return 'unknown';
 }

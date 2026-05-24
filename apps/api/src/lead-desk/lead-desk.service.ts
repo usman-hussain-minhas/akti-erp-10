@@ -13,6 +13,7 @@ import {
   LeadDeskUpdateLeadStatusInputSchema,
   LeadDeskUpdateLeadStatusOutputSchema,
 } from '@akti/contracts/lead-desk-core';
+import type { GatekeeperRequest } from '@akti/contracts/gatekeeper-contract';
 
 import { GatekeeperPreflightService } from '../gatekeeper/gatekeeper-preflight.service';
 import { loadPhase2CapabilityScopeMap } from '../module-registry/module-registry.service';
@@ -26,10 +27,14 @@ const CAP_LIST = 'lead.inbox.view';
 const CAP_DETAIL = 'lead.detail.view';
 const CAP_STATUS_UPDATE = 'lead.status.update';
 const CAP_ASSIGN = 'lead.inbox.assign';
+const ACCESS_MODULE_KEY = 'core.access';
+const ENGAGEMENT_MODULE_KEY = 'engagement.gateway';
 const MODULE_KEY = 'lead.desk';
 const LEAD_CREATED_EVENT = 'lead.desk.lead.created';
 const LEAD_STATUS_UPDATED_EVENT = 'lead.desk.lead.status.updated';
 const LEAD_ASSIGNED_EVENT = 'lead.desk.lead.assigned';
+
+type GatekeeperHealthStatus = GatekeeperRequest['context']['module_health'][string];
 
 type ActiveActor = {
   actor_user_id: string;
@@ -62,6 +67,11 @@ export class LeadDeskService {
 
     return this.prisma.$transaction(async (tx) => {
       const actor = await this.requireCapability(tx as never, organizationId, actorUserId, CAP_CREATE);
+      const healthContext = await this.resolveGatekeeperHealthContext(tx as never, [
+        MODULE_KEY,
+        ACCESS_MODULE_KEY,
+        ENGAGEMENT_MODULE_KEY,
+      ]);
 
       await this.gatekeeperPreflightService.requireAllow({
         organization_id: organizationId,
@@ -72,6 +82,13 @@ export class LeadDeskService {
         entity_type: 'lead.record',
         entity_id: null,
         action_key: 'lead.desk.lead.created',
+        module_health: {
+          [MODULE_KEY]: healthContext[MODULE_KEY],
+        },
+        dependency_health: {
+          [ACCESS_MODULE_KEY]: healthContext[ACCESS_MODULE_KEY],
+          [ENGAGEMENT_MODULE_KEY]: healthContext[ENGAGEMENT_MODULE_KEY],
+        },
         payload: {
           source_ref: parsed.source_ref,
         },
@@ -246,6 +263,11 @@ export class LeadDeskService {
     return this.prisma.$transaction(async (tx) => {
       const actor = await this.requireCapability(tx as never, organizationId, actorUserId, CAP_STATUS_UPDATE);
       const lead = await this.requireLeadInScope(tx as never, organizationId, leadId, actor);
+      const healthContext = await this.resolveGatekeeperHealthContext(tx as never, [
+        MODULE_KEY,
+        ACCESS_MODULE_KEY,
+        ENGAGEMENT_MODULE_KEY,
+      ]);
 
       await this.gatekeeperPreflightService.requireAllow({
         organization_id: organizationId,
@@ -256,6 +278,13 @@ export class LeadDeskService {
         entity_type: 'lead.record',
         entity_id: leadId,
         action_key: 'lead.desk.lead.status.updated',
+        module_health: {
+          [MODULE_KEY]: healthContext[MODULE_KEY],
+        },
+        dependency_health: {
+          [ACCESS_MODULE_KEY]: healthContext[ACCESS_MODULE_KEY],
+          [ENGAGEMENT_MODULE_KEY]: healthContext[ENGAGEMENT_MODULE_KEY],
+        },
         payload: {
           status: input.status,
           reason: input.reason ?? null,
@@ -339,6 +368,11 @@ export class LeadDeskService {
     return this.prisma.$transaction(async (tx) => {
       const actor = await this.requireCapability(tx as never, organizationId, actorUserId, CAP_ASSIGN);
       const lead = await this.requireLeadInScope(tx as never, organizationId, leadId, actor);
+      const healthContext = await this.resolveGatekeeperHealthContext(tx as never, [
+        MODULE_KEY,
+        ACCESS_MODULE_KEY,
+        ENGAGEMENT_MODULE_KEY,
+      ]);
 
       await this.gatekeeperPreflightService.requireAllow({
         organization_id: organizationId,
@@ -349,6 +383,13 @@ export class LeadDeskService {
         entity_type: 'lead.record',
         entity_id: leadId,
         action_key: 'lead.desk.lead.assigned',
+        module_health: {
+          [MODULE_KEY]: healthContext[MODULE_KEY],
+        },
+        dependency_health: {
+          [ACCESS_MODULE_KEY]: healthContext[ACCESS_MODULE_KEY],
+          [ENGAGEMENT_MODULE_KEY]: healthContext[ENGAGEMENT_MODULE_KEY],
+        },
         payload: {
           assigned_user_id: input.assigned_user_id,
         },
@@ -600,6 +641,28 @@ export class LeadDeskService {
     return lead;
   }
 
+  private async resolveGatekeeperHealthContext(
+    db: Pick<PrismaService, 'moduleRegistryEntry'>,
+    moduleKeys: string[],
+  ): Promise<Record<string, GatekeeperHealthStatus>> {
+    const rows = await db.moduleRegistryEntry.findMany({
+      where: {
+        module_key: {
+          in: moduleKeys,
+        },
+      },
+      select: {
+        module_key: true,
+        status: true,
+      },
+    });
+
+    const statusByModule = new Map(rows.map((row) => [row.module_key, row.status]));
+    return Object.fromEntries(
+      moduleKeys.map((moduleKey) => [moduleKey, mapModuleStatusToGatekeeperHealth(statusByModule.get(moduleKey))]),
+    );
+  }
+
   private parseOrBadRequest<T>(fn: () => T, message: string): T {
     try {
       return fn();
@@ -607,4 +670,20 @@ export class LeadDeskService {
       throw new BadRequestException(message);
     }
   }
+}
+
+function mapModuleStatusToGatekeeperHealth(status?: string): GatekeeperHealthStatus {
+  if (status === 'available' || status === 'healthy') {
+    return 'healthy';
+  }
+
+  if (status === 'degraded') {
+    return 'degraded';
+  }
+
+  if (status === 'disabled' || status === 'unavailable') {
+    return 'disabled';
+  }
+
+  return 'unknown';
 }

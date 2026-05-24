@@ -33,6 +33,10 @@ function preflightInput(overrides?: Partial<GatekeeperPreflightInput>): Gatekeep
     entity_type: 'access.group',
     entity_id: null,
     action_key: 'access.group.created',
+    module_health: {
+      'core.access': 'healthy',
+    },
+    dependency_health: {},
     ...overrides,
   };
 }
@@ -122,24 +126,51 @@ async function testDefaultProviderAllowsValidPhase2Preflights() {
       module_key: 'engagement.gateway',
       entity_type: 'engagement.gateway.request',
       action_key: 'engagement.gateway.request.recorded',
+      module_health: {
+        'engagement.gateway': 'healthy',
+      },
+      dependency_health: {
+        'core.access': 'healthy',
+      },
     },
     {
       capability_key: 'lead.intake.create',
       module_key: 'lead.desk',
       entity_type: 'lead.record',
       action_key: 'lead.desk.lead.created',
+      module_health: {
+        'lead.desk': 'healthy',
+      },
+      dependency_health: {
+        'core.access': 'healthy',
+        'engagement.gateway': 'healthy',
+      },
     },
     {
       capability_key: 'lead.status.update',
       module_key: 'lead.desk',
       entity_type: 'lead.record',
       action_key: 'lead.desk.lead.status.updated',
+      module_health: {
+        'lead.desk': 'healthy',
+      },
+      dependency_health: {
+        'core.access': 'healthy',
+        'engagement.gateway': 'healthy',
+      },
     },
     {
       capability_key: 'lead.inbox.assign',
       module_key: 'lead.desk',
       entity_type: 'lead.record',
       action_key: 'lead.desk.lead.assigned',
+      module_health: {
+        'lead.desk': 'healthy',
+      },
+      dependency_health: {
+        'core.access': 'healthy',
+        'engagement.gateway': 'healthy',
+      },
     },
   ] as const;
 
@@ -244,6 +275,22 @@ async function testDefaultProviderDeniesInvalidContext() {
     ),
     (error: unknown) => {
       assert.ok(error instanceof ForbiddenException);
+      return true;
+    },
+  );
+}
+
+async function testDefaultProviderRequiresExplicitHealthContext() {
+  const service = new GatekeeperPreflightService();
+
+  await assert.rejects(
+    service.requireAllow({
+      ...preflightInput(),
+      module_health: undefined,
+      dependency_health: undefined,
+    }),
+    (error: unknown) => {
+      assert.ok(error instanceof ServiceUnavailableException);
       return true;
     },
   );
@@ -354,6 +401,7 @@ async function run() {
   await testDefaultProviderAllowsValidAccessCorePreflight();
   await testDefaultProviderAllowsValidPhase2Preflights();
   await testDefaultProviderDeniesInvalidContext();
+  await testDefaultProviderRequiresExplicitHealthContext();
   await testDenyApprovalAndInvalidDecisionsFailClosed();
   await testInvalidRequestFailsClosedBeforeProvider();
   await testDegradedAndProviderErrorsFailClosed();

@@ -305,18 +305,6 @@ export class GatekeeperPreflightService {
     const capabilityKey = input.capability_key ?? ACCESS_POLICY_MANAGE_CAPABILITY_KEY;
     const capabilityPolicy = CAPABILITY_POLICIES[capabilityKey];
     const moduleKey = input.module_key ?? capabilityPolicy?.module_key ?? ACCESS_MODULE_KEY;
-    const moduleHealthDefaults =
-      capabilityPolicy === undefined
-        ? {
-            [moduleKey]: 'healthy',
-          }
-        : {
-            [capabilityPolicy.module_key]: 'healthy',
-          };
-    const dependencyHealthDefaults =
-      capabilityPolicy === undefined
-        ? {}
-        : Object.fromEntries(capabilityPolicy.required_dependency_modules.map((module) => [module, 'healthy']));
 
     return {
       request_id: `gk_req_${randomUUID()}`,
@@ -338,8 +326,8 @@ export class GatekeeperPreflightService {
         active_scope_unit_id: null,
         active_group_ids: input.active_group_ids,
         capabilities: [capabilityKey],
-        module_health: input.module_health ?? moduleHealthDefaults,
-        dependency_health: input.dependency_health ?? dependencyHealthDefaults,
+        module_health: input.module_health ?? {},
+        dependency_health: input.dependency_health ?? {},
         reauth_status: input.reauth_status ?? 'not_required',
       },
     };

@@ -14,9 +14,20 @@ function createMocks() {
     stubDispatchCalls: [] as unknown[],
     stubInboundCalls: [] as unknown[],
     persistedRequests: [] as Array<Record<string, unknown>>,
+    moduleStatuses: new Map<string, string>([
+      ['core.access', 'available'],
+      ['engagement.gateway', 'available'],
+    ]),
   };
 
   const prisma = {
+    moduleRegistryEntry: {
+      findMany: async ({ where }: { where: { module_key: { in: string[] } } }) =>
+        where.module_key.in.flatMap((moduleKey) => {
+          const status = state.moduleStatuses.get(moduleKey);
+          return status ? [{ module_key: moduleKey, status }] : [];
+        }),
+    },
     user: {
       findFirst: async ({ where }: { where: { organization_id: string; id: string } }) => {
         if (where.organization_id === 'org-1' && where.id === 'actor-1') {
@@ -158,6 +169,12 @@ async function testCreateRequestHappyPath() {
   assert.equal(result.organization_id, 'org-1');
   assert.equal(result.status, 'recorded');
   assert.equal(state.gatekeeperCalls.length, 1);
+  assert.deepEqual((state.gatekeeperCalls[0] as { module_health: unknown }).module_health, {
+    'engagement.gateway': 'healthy',
+  });
+  assert.deepEqual((state.gatekeeperCalls[0] as { dependency_health: unknown }).dependency_health, {
+    'core.access': 'healthy',
+  });
   assert.equal(state.auditCalls.length, 1);
   assert.equal(state.outboxCalls.length, 1);
   assert.equal(state.persistedRequests.length, 1);
@@ -240,6 +257,16 @@ async function testGatekeeperDegradedFails() {
   await assert.rejects(service.createRequest('org-1', createInput(), 'actor-1'), ServiceUnavailableException);
 }
 
+async function testRealGatekeeperUsesRegistryHealthContext() {
+  const { service, state } = createMocksWithRealGatekeeper();
+  state.moduleStatuses.set('engagement.gateway', 'degraded');
+
+  await assert.rejects(service.createRequest('org-1', createInput(), 'actor-1'), ServiceUnavailableException);
+  assert.equal(state.persistedRequests.length, 0);
+  assert.equal(state.auditCalls.length, 0);
+  assert.equal(state.outboxCalls.length, 0);
+}
+
 async function testHealthRead() {
   const { service } = createMocks();
   const result = await service.readHealth('org-1', 'actor-1');
@@ -256,6 +283,7 @@ async function run() {
   await testCrossOrgActorFails();
   await testInvalidPayloadFails();
   await testGatekeeperDegradedFails();
+  await testRealGatekeeperUsesRegistryHealthContext();
   await testHealthRead();
   console.log('engagement-gateway.service tests passed');
 }

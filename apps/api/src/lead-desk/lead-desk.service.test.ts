@@ -18,6 +18,11 @@ function createMocks() {
     created: [] as Record<string, unknown>[],
     statusHistory: [] as Record<string, unknown>[],
     assignmentHistory: [] as Record<string, unknown>[],
+    moduleStatuses: new Map<string, string>([
+      ['core.access', 'available'],
+      ['engagement.gateway', 'available'],
+      ['lead.desk', 'available'],
+    ]),
   };
 
   const now = new Date('2026-05-24T10:00:00.000Z');
@@ -30,6 +35,13 @@ function createMocks() {
   ]);
 
   const db = {
+    moduleRegistryEntry: {
+      findMany: async ({ where }: { where: { module_key: { in: string[] } } }) =>
+        where.module_key.in.flatMap((moduleKey) => {
+          const status = state.moduleStatuses.get(moduleKey);
+          return status ? [{ module_key: moduleKey, status }] : [];
+        }),
+    },
     user: {
       findFirst: async ({ where }: { where: { organization_id: string; id: string } }) => {
         if (where.organization_id === 'org-1' && where.id === 'actor-1') {
@@ -283,6 +295,13 @@ async function testCreateLeadHappyPath() {
   assert.equal(result.organization_id, 'org-1');
   assert.equal(result.status, 'new');
   assert.equal(state.gatekeeperCalls.length, 1);
+  assert.deepEqual((state.gatekeeperCalls[0] as { module_health: unknown }).module_health, {
+    'lead.desk': 'healthy',
+  });
+  assert.deepEqual((state.gatekeeperCalls[0] as { dependency_health: unknown }).dependency_health, {
+    'core.access': 'healthy',
+    'engagement.gateway': 'healthy',
+  });
   assert.equal(state.auditCalls.length, 1);
   assert.equal(state.outboxCalls.length, 1);
   assert.equal((state.outboxCalls[0] as { event_type: string }).event_type, 'lead.desk.lead.created');
@@ -324,6 +343,16 @@ async function testCreateLeadGatekeeperDenied() {
     throw new ServiceUnavailableException('degraded');
   };
   await assert.rejects(service.createLead('org-1', createInput(), 'actor-1'), ServiceUnavailableException);
+}
+
+async function testCreateLeadRealGatekeeperUsesRegistryHealthContext() {
+  const { service, state } = createMocksWithRealGatekeeper();
+  state.moduleStatuses.set('engagement.gateway', 'degraded');
+
+  await assert.rejects(service.createLead('org-1', createInput(), 'actor-1'), ServiceUnavailableException);
+  assert.equal(state.created.length, 0);
+  assert.equal(state.auditCalls.length, 0);
+  assert.equal(state.outboxCalls.length, 0);
 }
 
 async function testListLeadsHappyPath() {
@@ -377,6 +406,16 @@ async function testUpdateLeadStatusHappyPath() {
     'actor-1',
   );
   assert.equal(result.status, 'contacted');
+  assert.deepEqual((state.gatekeeperCalls[state.gatekeeperCalls.length - 1] as { module_health: unknown }).module_health, {
+    'lead.desk': 'healthy',
+  });
+  assert.deepEqual(
+    (state.gatekeeperCalls[state.gatekeeperCalls.length - 1] as { dependency_health: unknown }).dependency_health,
+    {
+      'core.access': 'healthy',
+      'engagement.gateway': 'healthy',
+    },
+  );
   assert.equal(state.statusHistory.length, 1);
   assert.equal(state.auditCalls.length >= 1, true);
   assert.equal(state.outboxCalls.length >= 1, true);
@@ -534,6 +573,16 @@ async function testUpdateLeadAssignmentHappyPath() {
     'actor-1',
   );
   assert.equal(result.assigned_user_id, 'assignee-1');
+  assert.deepEqual((state.gatekeeperCalls[state.gatekeeperCalls.length - 1] as { module_health: unknown }).module_health, {
+    'lead.desk': 'healthy',
+  });
+  assert.deepEqual(
+    (state.gatekeeperCalls[state.gatekeeperCalls.length - 1] as { dependency_health: unknown }).dependency_health,
+    {
+      'core.access': 'healthy',
+      'engagement.gateway': 'healthy',
+    },
+  );
   assert.equal(state.assignmentHistory.length, 1);
   assert.equal((state.outboxCalls[state.outboxCalls.length - 1] as { event_type: string }).event_type, 'lead.desk.lead.assigned');
   assert.equal(
@@ -684,6 +733,7 @@ async function run() {
   await testCreateLeadCrossOrgDenied();
   await testCreateLeadInvalidPayloadFails();
   await testCreateLeadGatekeeperDenied();
+  await testCreateLeadRealGatekeeperUsesRegistryHealthContext();
   await testListLeadsHappyPath();
   await testListLeadsAssignedRecordsScopeOnly();
   await testListLeadsOwnUnitScopeOnly();
