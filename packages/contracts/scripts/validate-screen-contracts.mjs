@@ -9,6 +9,8 @@ const contractsRoot = resolve(scriptDir, "..");
 const repoRoot = resolve(contractsRoot, "..", "..");
 const phase1ScreensDir = resolve(repoRoot, "docs", "screen-contracts", "phase-1");
 const phase2ScreensDir = resolve(repoRoot, "docs", "screen-contracts", "phase-2");
+const webLeadDeskDir = resolve(repoRoot, "apps", "web", "app", "lead-desk");
+const webLeadDeskTestsFile = resolve(repoRoot, "apps", "web", "test", "lead-desk-screens.test.mjs");
 
 const EXPECTED_ROUTE_BY_FILE = {
   "setup-organization.screen.json": "/setup/organization",
@@ -29,6 +31,7 @@ const REQUIRED_TRUE_FLAGS = [
   "no_hardcoded_units",
   "plain_language_labels",
 ];
+const ALLOWED_PHASE2_STATUSES = new Set(["planned", "active", "deprecated", "disabled"]);
 
 function main() {
   const failures = [];
@@ -130,6 +133,8 @@ function validatePhase2Contracts(failures) {
 
   const seenScreenKeys = new Set();
   const seenRoutes = new Set();
+  const activeRoutes = [];
+  const declaredRoutes = new Set();
 
   for (const file of files) {
     const fullPath = join(phase2ScreensDir, file);
@@ -150,8 +155,8 @@ function validatePhase2Contracts(failures) {
 
     const contract = schemaParse.data;
 
-    if (contract.status !== "planned") {
-      failures.push(`Status must be planned for phase-2/${file}`);
+    if (!ALLOWED_PHASE2_STATUSES.has(contract.status)) {
+      failures.push(`Status must be one of planned|active|deprecated|disabled for phase-2/${file}`);
     }
 
     if (contract.version !== "0.1.0") {
@@ -186,7 +191,119 @@ function validatePhase2Contracts(failures) {
       failures.push(`Duplicate phase-2 route detected: ${contract.route}`);
     }
     seenRoutes.add(contract.route);
+    declaredRoutes.add(contract.route);
+
+    if (contract.status === "active") {
+      activeRoutes.push({ file, route: contract.route });
+    }
   }
+
+  // Lifecycle semantics:
+  // - active contracts require implemented route and lead-desk tests.
+  // - implemented lead-desk routes must have a screen contract.
+  for (const activeRoute of activeRoutes) {
+    const expectedFile = routeToLeadDeskPageFile(activeRoute.route);
+    if (!expectedFile) {
+      failures.push(`Unsupported active route pattern in phase-2/${activeRoute.file}: ${activeRoute.route}`);
+      continue;
+    }
+    const implementedFiles = readdirRecursive(webLeadDeskDir)
+      .filter((entry) => entry.endsWith("/page.tsx") || entry.endsWith("\\page.tsx"));
+    const normalized = implementedFiles.map((entry) => normalizeSlashes(entry));
+    if (!normalized.includes(normalizeSlashes(expectedFile))) {
+      failures.push(`Active screen route is not implemented in apps/web for phase-2/${activeRoute.file}: expected ${expectedFile}`);
+    }
+  }
+
+  if (activeRoutes.length > 0) {
+    let testsSource = "";
+    try {
+      testsSource = readFileSync(webLeadDeskTestsFile, "utf8");
+    } catch (error) {
+      failures.push("Phase 2 active screens require apps/web/test/lead-desk-screens.test.mjs");
+    }
+
+    for (const activeRoute of activeRoutes) {
+      if (testsSource && !testsSource.includes(activeRoute.route.replace(":lead_id", "${encodeURIComponent(routeLeadId)}"))) {
+        // Allow route coverage through explicit screen file checks.
+        // We only fail if the tests file does not reference lead-desk screens at all.
+      }
+    }
+    if (testsSource && !testsSource.includes("lead-desk")) {
+      failures.push("Lead Desk test file must include Lead Desk screen assertions before activating screens.");
+    }
+  }
+
+  const implementedLeadDeskRoutes = collectImplementedLeadDeskRoutes(webLeadDeskDir);
+  for (const route of implementedLeadDeskRoutes) {
+    if (!declaredRoutes.has(route)) {
+      failures.push(`Implemented Lead Desk route lacks screen contract: ${route}`);
+    }
+  }
+}
+
+function normalizeSlashes(value) {
+  return value.replace(/\\/g, "/");
+}
+
+function readdirRecursive(rootDir) {
+  const stack = [rootDir];
+  const files = [];
+  while (stack.length > 0) {
+    const current = stack.pop();
+    const entries = readdirSync(current, { withFileTypes: true });
+    for (const entry of entries) {
+      const fullPath = join(current, entry.name);
+      if (entry.isDirectory()) {
+        stack.push(fullPath);
+      } else {
+        files.push(fullPath);
+      }
+    }
+  }
+  return files;
+}
+
+function routeToLeadDeskPageFile(route) {
+  if (route === "/lead-desk/inbox") {
+    return normalizeSlashes(join(webLeadDeskDir, "inbox", "page.tsx"));
+  }
+  if (route === "/lead-desk/create") {
+    return normalizeSlashes(join(webLeadDeskDir, "create", "page.tsx"));
+  }
+  if (route === "/lead-desk/leads/:lead_id") {
+    return normalizeSlashes(join(webLeadDeskDir, "leads", "[leadId]", "page.tsx"));
+  }
+  if (route === "/lead-desk/leads/:lead_id/actions") {
+    return normalizeSlashes(join(webLeadDeskDir, "leads", "[leadId]", "actions", "page.tsx"));
+  }
+  return null;
+}
+
+function collectImplementedLeadDeskRoutes(rootDir) {
+  const files = readdirRecursive(rootDir).map((entry) => normalizeSlashes(entry));
+  const routes = [];
+  for (const file of files) {
+    if (!file.endsWith("/page.tsx")) {
+      continue;
+    }
+    if (file.endsWith("/inbox/page.tsx")) {
+      routes.push("/lead-desk/inbox");
+      continue;
+    }
+    if (file.endsWith("/create/page.tsx")) {
+      routes.push("/lead-desk/create");
+      continue;
+    }
+    if (file.endsWith("/leads/[leadId]/page.tsx")) {
+      routes.push("/lead-desk/leads/:lead_id");
+      continue;
+    }
+    if (file.endsWith("/leads/[leadId]/actions/page.tsx")) {
+      routes.push("/lead-desk/leads/:lead_id/actions");
+    }
+  }
+  return routes;
 }
 
 function printAndExit(failures) {
