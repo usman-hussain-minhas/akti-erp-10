@@ -19,7 +19,7 @@ Codex must use:
 
 as the active run contract. If the execution pack conflicts with Prisma, contracts, module manifests, generated registry, ADRs, or AGENTS.md, Codex must stop and report the conflict.
 
-P2-000 is complete. P2A-001 is complete at commit `944d0c84badbf9633c12c395f8e50cb08cc96571`. The next executable ticket is `P2-VAL-001`.
+P2-000 is complete. P2A-001 is complete at commit `944d0c84badbf9633c12c395f8e50cb08cc96571`. P2-VAL-001 is complete at commit `8b8b691227d6fff12c2bb7c8017e11bf49041e8b`. The next executable ticket is `P2A-002`.
 
 ## 4. Branch
 
@@ -42,7 +42,7 @@ Rules:
 | --- | --- |
 | P2-000 - Validate Phase 2 control documents | COMPLETE |
 | P2A-001 - Create Engagement Gateway Lite contracts and manifest boundary | COMPLETE |
-| P2-VAL-001 - Add Phase 2-aware registry verification | AUTONOMOUS_READY |
+| P2-VAL-001 - Add Phase 2-aware registry verification | COMPLETE |
 | P2A-002 - Engagement Gateway persistence decision | AUTONOMOUS_DECISION_RULE |
 | P2A-003 - Implement Engagement Gateway Lite API/service foundation | AUTONOMOUS_AFTER_PREVIOUS |
 | P2A-GATE - Phase 2A validation gate | AUTONOMOUS_AFTER_PREVIOUS |
@@ -82,7 +82,7 @@ Codex must confirm:
 - package scripts are available or missing scripts are reported honestly
 - no production secrets are required or accessed
 - execution environment is approved safe mode: not danger-full-access, not unrestricted network, not approval-never
-- next executable ticket is `P2-VAL-001`
+- next executable ticket is `P2A-002`
 - P2-VAL-001 precedes schema-changing tickets
 - P2-VAL-002 precedes Lead Desk screen-contract tickets
 - Phase 2C is governance-blocked until ADR-0003 has a pilot target date or formal exception
@@ -92,7 +92,7 @@ Codex must confirm:
 Use this after the execution pack is validated:
 
 ```text
-/goal Execute the approved Phase 2 v3 autonomous execution pack from docs/process/AKTI_ERP_Phase_2_Autonomous_Codex_Execution_Pack_v1.json on branch phase2/autonomous-full-run. Start at P2-VAL-001. Complete the approved ticket queue in order. Apply each autonomous decision rule, validate, self-audit, create artifacts, update the journal, and commit each ticket on the operational branch. Never merge to main. Never invent scope. Stop if any hard gate triggers.
+/goal Execute the approved Phase 2 v3 autonomous execution pack from docs/process/AKTI_ERP_Phase_2_Autonomous_Codex_Execution_Pack_v1.json on branch phase2/autonomous-full-run. Start at P2A-002. Complete the approved ticket queue in order. Apply each autonomous decision rule, validate, self-audit, create artifacts, update the journal, and commit each ticket on the operational branch. Never merge to main. Never invent scope. Stop if any hard gate triggers.
 ```
 
 ## 8. Per-Ticket Procedure

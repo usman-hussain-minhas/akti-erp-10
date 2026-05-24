@@ -42,7 +42,8 @@ Reference commits:
 - Active queue version: v3
 - P2-000: COMPLETE
 - P2A-001: COMPLETE
-- Next executable ticket: `P2-VAL-001`
+- P2-VAL-001: COMPLETE
+- Next executable ticket: `P2A-002`
 - Phase 2B uses split v3 tickets, not the old broad P2B-001 through P2B-004 queue.
 - Phase 2C remains governance-blocked until ADR-0003 has a Phase 2C pilot target date or formal exception.
 
@@ -60,7 +61,7 @@ Codex must not build LMS, HR, Finance, Hiring, Certification, Website Builder, A
 | --- | --- | --- |
 | P2-000 | Validate Phase 2 control documents | COMPLETE |
 | P2A-001 | Create Engagement Gateway Lite contracts and manifest boundary | COMPLETE |
-| P2-VAL-001 | Add Phase 2-aware registry verification | AUTONOMOUS_READY |
+| P2-VAL-001 | Add Phase 2-aware registry verification | COMPLETE |
 | P2A-002 | Engagement Gateway persistence decision | AUTONOMOUS_DECISION_RULE |
 | P2A-003 | Implement Engagement Gateway Lite API/service foundation | AUTONOMOUS_AFTER_PREVIOUS |
 | P2A-GATE | Phase 2A validation gate | AUTONOMOUS_AFTER_PREVIOUS |
