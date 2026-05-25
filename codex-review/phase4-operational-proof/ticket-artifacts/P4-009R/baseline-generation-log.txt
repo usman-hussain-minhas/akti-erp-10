@@ -1,0 +1,3 @@
+COMMAND: git show b8961d3^:prisma/schema.prisma > /tmp/p4_pre_first_migration.schema.prisma
+COMMAND: DATABASE_URL="postgresql://placeholder@127.0.0.1:1/placeholder" pnpm exec prisma migrate diff --from-empty --to-schema /tmp/p4_pre_first_migration.schema.prisma --script --config prisma.config.ts > prisma/migrations/20260525180000_initial_schema_baseline/migration.sql
+EXIT:0

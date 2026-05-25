@@ -1,0 +1,24 @@
+COMMAND: Phase 3 app-level route-limit smoke only; P4-015 owns infrastructure/distributed/proxy posture
+FIRST_EXPLICIT_STATUS: 200
+{"service":"api","status":"healthy"}
+SECOND_EXPLICIT_STATUS: 429
+HTTP/1.1 429 Too Many Requests
+X-Powered-By: Express
+X-Content-Type-Options: nosniff
+X-Frame-Options: DENY
+Referrer-Policy: no-referrer
+Permissions-Policy: camera=(), microphone=(), geolocation=()
+Cross-Origin-Opener-Policy: same-origin
+X-RateLimit-Limit: 2
+X-RateLimit-Remaining: 0
+X-RateLimit-Reset: 1779743834
+Retry-After: 60
+Content-Type: application/json; charset=utf-8
+Content-Length: 77
+ETag: W/"4d-322LtUCUKiBJ3LrME+SsZL690SI"
+Date: Mon, 25 May 2026 21:16:13 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"error":"rate_limited","retry_after_seconds":60,"limit":2,"window_ms":60000}
+EXIT:0

@@ -1,0 +1,12 @@
+P4-009 seed/bootstrap evidence
+
+Bootstrap was executed through the existing setup organization path after applying committed Prisma migrations with migrate deploy.
+
+Evidence:
+- migration-log.txt proves committed migrations applied to a clean disposable database.
+- setup-organization-smoke-log.txt proves POST /platform/setup/organization completed.
+- capability-registry-check-log.txt proves registry validation passed after bootstrap.
+- api-health-after-bootstrap-log.txt proves the API stayed healthy after setup.
+
+No prisma db push fallback was used as final proof.
+No manual database inserts, updates, deletes, or schema edits were used.

@@ -1,0 +1,18 @@
+# P4-015 Route Limiting Validation
+started: 2026-05-25T21:53:37Z
+COMMAND: rg -n createRateLimitMiddleware apps/api/src/main.ts apps/api/src/security/rate-limit.middleware.ts
+apps/api/src/main.ts:6:import { createRateLimitMiddleware } from './security/rate-limit.middleware';
+apps/api/src/main.ts:17:  app.use(createRateLimitMiddleware(runtimeEnvironment.rateLimit));
+apps/api/src/security/rate-limit.middleware.ts:7:  trustProxyHeaders: boolean;
+apps/api/src/security/rate-limit.middleware.ts:42:    trustProxyHeaders: env.AKTI_TRUST_PROXY_HEADERS === 'true',
+apps/api/src/security/rate-limit.middleware.ts:91:export function createRateLimitMiddleware(
+apps/api/src/security/rate-limit.middleware.ts:138:  if (config.trustProxyHeaders) {
+COMMAND: rg -n AKTI_TRUST_PROXY_HEADERS .env.example apps/api/src/security/request-context.test.ts
+.env.example:12:AKTI_TRUST_PROXY_HEADERS=false
+apps/api/src/security/request-context.test.ts:431:    AKTI_TRUST_PROXY_HEADERS: 'yes',
+apps/api/src/security/request-context.test.ts:531:      AKTI_TRUST_PROXY_HEADERS: 'true',
+apps/api/src/security/request-context.test.ts:544:      AKTI_TRUST_PROXY_HEADERS: 'yes',
+apps/api/src/security/request-context.test.ts:592:      AKTI_TRUST_PROXY_HEADERS: 'true',
+COMMAND: pnpm --filter @akti/api exec tsx src/security/request-context.test.ts
+request-context tests passed
+finished: 2026-05-25T21:53:41Z

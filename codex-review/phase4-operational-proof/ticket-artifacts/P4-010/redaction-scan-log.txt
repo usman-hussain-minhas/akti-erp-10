@@ -1,0 +1,12 @@
+COMMAND: rg -n "secret|token|credential|postgresql://|DATABASE_URL|private key|session|password|AKTI_AUTH_SESSION_SECRET" P4-010 artifacts
+codex-review/phase4-operational-proof/ticket-artifacts/P4-010/shutdown-restart-log.txt:6:{"service":"api","status":"healthy"}bash: line 16:  4164 Terminated: 15          PORT="$PORT_API" AKTI_AUTH_SESSION_SECRET=<placeholder-redacted> AKTI_CORS_ALLOWED_ORIGINS="http://localhost:$PORT_WEB,http://127.0.0.1:$PORT_WEB" DATABASE_URL="$DATABASE_URL" pnpm --filter @akti/api start > /tmp/p4-010-api-restart.log 2>&1
+codex-review/phase4-operational-proof/ticket-artifacts/P4-010/test-log.txt:39:✔ operator context stores bearer session token and decoded metadata (1.620119ms)
+codex-review/phase4-operational-proof/ticket-artifacts/P4-010/conditional-replan.md:16:This does not create production launch, cloud staging, provider deployment, real credentials, new dependencies, Phase 5/6 scope, or runtime source changes.
+codex-review/phase4-operational-proof/ticket-artifacts/P4-010/conditional-replan.md:22:- Do not modify runtime source, Prisma schema, existing migrations, contracts, generated registry, package files, deployment files, real env files, or secrets.
+codex-review/phase4-operational-proof/ticket-artifacts/P4-010/env-injection-evidence.md:5:Non-secret placeholder values used:
+codex-review/phase4-operational-proof/ticket-artifacts/P4-010/env-injection-evidence.md:7:- DATABASE_URL: disposable local PostgreSQL URL, redacted in logs.
+codex-review/phase4-operational-proof/ticket-artifacts/P4-010/env-injection-evidence.md:9:- AKTI_AUTH_SESSION_SECRET: local placeholder value only.
+codex-review/phase4-operational-proof/ticket-artifacts/P4-010/env-injection-evidence.md:13:No real .env files, local env files, production credential files, deployment secrets, or production data were used.
+codex-review/phase4-operational-proof/ticket-artifacts/P4-010/api-startup-log.txt:1:COMMAND: PORT=3101 AKTI_AUTH_SESSION_SECRET=<placeholder-redacted> AKTI_CORS_ALLOWED_ORIGINS=http://localhost:3000,http://127.0.0.1:3000 DATABASE_URL=postgresql://<local-redacted> pnpm --filter @akti/api start
+codex-review/phase4-operational-proof/ticket-artifacts/P4-010/api-startup-log.txt:78:bash: line 92:  4006 Terminated: 15          PORT="$PORT_API" AKTI_AUTH_SESSION_SECRET=<placeholder-redacted> AKTI_CORS_ALLOWED_ORIGINS="http://localhost:$PORT_WEB,http://127.0.0.1:$PORT_WEB" DATABASE_URL="$DATABASE_URL" pnpm --filter @akti/api start
+EXIT:0

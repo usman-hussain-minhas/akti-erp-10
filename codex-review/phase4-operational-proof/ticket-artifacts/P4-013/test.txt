@@ -1,0 +1,61 @@
+# test
+# command: pnpm test
+# started: 2026-05-25T21:49:51Z
+
+> akti-erp@ test /Volumes/UsmanWork/AKTI ERP 10
+> pnpm --filter @akti/api test && pnpm --filter @akti/web test
+
+
+> @akti/api@0.0.0 test /Volumes/UsmanWork/AKTI ERP 10/apps/api
+> pnpm --filter @akti/contracts build && pnpm exec tsx src/prisma/prisma-import-boundary.test.ts && pnpm exec tsx src/phase1-hardening/phase1-release-blockers.test.ts && pnpm exec tsx src/organization-setup/dto/create-organization-setup.dto.test.ts && pnpm exec tsx src/organization-setup/organization-setup.service.test.ts && pnpm exec tsx src/hierarchy/dto/hierarchy.dto.test.ts && pnpm exec tsx src/hierarchy/hierarchy-closure.service.test.ts && pnpm exec tsx src/hierarchy/hierarchy.controller.test.ts && pnpm exec tsx src/hierarchy/hierarchy.service.test.ts && pnpm exec tsx src/configuration/dto/configuration.dto.test.ts && pnpm exec tsx src/configuration/configuration.controller.test.ts && pnpm exec tsx src/configuration/configuration.service.test.ts && pnpm exec tsx src/platform-observability/audit-log.service.test.ts && pnpm exec tsx src/platform-observability/event-outbox.service.test.ts && pnpm exec tsx src/module-registry/module-registry.service.test.ts && pnpm exec tsx src/access-core/dto/access-core.dto.test.ts && pnpm exec tsx src/security/request-context.test.ts && pnpm exec tsx src/gatekeeper/gatekeeper-preflight.service.test.ts && pnpm exec tsx src/access-core/access-core.service.test.ts && pnpm exec tsx src/engagement-gateway/engagement-gateway.service.test.ts && (cd ../.. && pnpm exec tsx apps/api/src/lead-desk/lead-desk-scope-model-foundation.test.ts) && pnpm exec tsx src/lead-desk/lead-desk.service.test.ts
+
+
+> @akti/contracts@0.0.0 build /Volumes/UsmanWork/AKTI ERP 10/packages/contracts
+> pnpm exec tsc -p tsconfig.build.json
+
+prisma-import-boundary tests passed
+phase1-release-blockers tests passed
+create-organization-setup.dto tests passed
+organization-setup.service tests passed
+hierarchy.dto tests passed
+hierarchy-closure.service tests passed
+hierarchy.controller tests passed
+hierarchy.service tests passed
+configuration.dto tests passed
+configuration.controller tests passed
+configuration.service tests passed
+audit-log.service tests passed
+event-outbox.service tests passed
+module-registry.service tests passed
+access-core.dto tests passed
+request-context tests passed
+gatekeeper-preflight.service tests passed
+access-core.service tests passed
+engagement-gateway.service tests passed
+lead-desk-scope-model-foundation tests passed
+lead-desk.service tests passed
+
+> @akti/web@0.0.0 test /Volumes/UsmanWork/AKTI ERP 10/apps/web
+> node --test test/*.test.mjs
+
+✔ operator context stores bearer session token and decoded metadata (1.638873ms)
+✔ api client injects bearer authorization and organization scoped path (0.182048ms)
+✔ inbox screen has explicit loading error permission and degraded states (0.205524ms)
+✔ create screen submits required payload fields (0.169969ms)
+✔ detail screen fetches scoped lead path and handles context state (0.158067ms)
+✔ actions screen posts status and assignment to scoped endpoints (0.157658ms)
+✔ frontend no longer sends caller-controlled actor header (0.352332ms)
+✔ lead desk links do not expose actor_user_id query parameter (0.207765ms)
+✔ lead desk navigation does not propagate actor or organization through hrefs (0.652976ms)
+✔ lead desk screens do not hardcode tenant actor role or campus fixtures (0.633055ms)
+✔ lead desk screens include permission and degraded handling around api calls (0.26272ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 181.285635
+# exited: 0
+# finished: 2026-05-25T21:50:22Z

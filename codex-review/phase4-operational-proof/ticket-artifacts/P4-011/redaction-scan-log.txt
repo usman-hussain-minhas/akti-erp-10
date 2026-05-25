@@ -1,0 +1,34 @@
+COMMAND: rg -n sensitive patterns P4-011 artifacts
+codex-review/phase4-operational-proof/ticket-artifacts/P4-011/P4-011-summary.md:17:No runtime source, Prisma schema, existing migration folders, contracts, generated registry, package files, dependency files, deployment implementation files, real env files, production credentials, WhatsApp production behavior, Foundry work, AI runtime, or Phase 5/6 scope were changed.
+codex-review/phase4-operational-proof/ticket-artifacts/P4-011/P4-011-summary.md:22:- Attempt 2 shortened the local bearer-token lifetime after the verifier correctly rejected a token whose `expires_at - issued_at` interval exceeded the configured max-age boundary by a few milliseconds.
+codex-review/phase4-operational-proof/ticket-artifacts/P4-011/P4-011-summary.md:32:- Phase 3 bearer-session success returned Lead Desk list data.
+codex-review/phase4-operational-proof/ticket-artifacts/P4-011/P4-011-summary.md:33:- Missing and malformed bearer sessions returned `401`.
+codex-review/phase4-operational-proof/ticket-artifacts/P4-011/P4-011-summary.md:57:- `auth-session-smoke-log.txt`
+codex-review/phase4-operational-proof/ticket-artifacts/P4-011/tenant-denial-smoke-log.txt:4:{"message":"AKTI session organization does not match route organization","error":"Forbidden","statusCode":403}
+codex-review/phase4-operational-proof/ticket-artifacts/P4-011/redaction-review.md:9:- `secret`
+codex-review/phase4-operational-proof/ticket-artifacts/P4-011/redaction-review.md:10:- `token`
+codex-review/phase4-operational-proof/ticket-artifacts/P4-011/redaction-review.md:11:- `credential`
+codex-review/phase4-operational-proof/ticket-artifacts/P4-011/redaction-review.md:12:- `postgresql://`
+codex-review/phase4-operational-proof/ticket-artifacts/P4-011/redaction-review.md:13:- `DATABASE_URL`
+codex-review/phase4-operational-proof/ticket-artifacts/P4-011/redaction-review.md:14:- `private key`
+codex-review/phase4-operational-proof/ticket-artifacts/P4-011/redaction-review.md:15:- `session`
+codex-review/phase4-operational-proof/ticket-artifacts/P4-011/redaction-review.md:16:- `password`
+codex-review/phase4-operational-proof/ticket-artifacts/P4-011/redaction-review.md:17:- `AKTI_AUTH_SESSION_SECRET`
+codex-review/phase4-operational-proof/ticket-artifacts/P4-011/redaction-review.md:18:- `Bearer`
+codex-review/phase4-operational-proof/ticket-artifacts/P4-011/redaction-review.md:26:- `token` and `session` appear in smoke matrix labels and expected auth failure text, not as token values.
+codex-review/phase4-operational-proof/ticket-artifacts/P4-011/redaction-review.md:27:- `credentials` appears in the Engagement Gateway stub-only assertion that no production WhatsApp credentials or real outbound provider were used.
+codex-review/phase4-operational-proof/ticket-artifacts/P4-011/redaction-review.md:28:- No bearer token value appears in committed artifacts.
+codex-review/phase4-operational-proof/ticket-artifacts/P4-011/redaction-review.md:29:- No concrete `DATABASE_URL`, database password, private key, production credential, or session value appears in committed artifacts.
+codex-review/phase4-operational-proof/ticket-artifacts/P4-011/redaction-review.md:31:The local disposable database URL and local auth secret placeholder were redacted from logs before artifact retention.
+codex-review/phase4-operational-proof/ticket-artifacts/P4-011/redaction-review.md:35:P4-011 evidence is safe to retain as a local proof artifact. Real env files, production credentials, production data, bearer token values, and secret-bearing values were not used or committed.
+codex-review/phase4-operational-proof/ticket-artifacts/P4-011/P4-011-validation-summary.md:19:| Auth/session success and failure | PASS | `auth-session-smoke-log.txt` |
+codex-review/phase4-operational-proof/ticket-artifacts/P4-011/P4-011-validation-summary.md:54:- No runtime source, contracts, package files, dependency files, deployment implementation files, real env files, production credentials, or secrets changed.
+codex-review/phase4-operational-proof/ticket-artifacts/P4-011/test-log.txt:39:✔ operator context stores bearer session token and decoded metadata (1.938408ms)
+codex-review/phase4-operational-proof/ticket-artifacts/P4-011/smoke-test-matrix.md:8:| Auth/session success | GET Lead Desk list with Phase 3 bearer token | 200 | items array | auth-session-smoke-log.txt | validation_blocker |
+codex-review/phase4-operational-proof/ticket-artifacts/P4-011/smoke-test-matrix.md:9:| Auth/session failure | GET Lead Desk list without/invalid bearer token | 401 | AKTI bearer session required or malformed | auth-session-smoke-log.txt | security_blocker |
+codex-review/phase4-operational-proof/ticket-artifacts/P4-011/smoke-test-matrix.md:10:| Route org mismatch denial | GET Lead Desk list with mismatched route organization | 403 | session organization mismatch | tenant-denial-smoke-log.txt | security_blocker |
+codex-review/phase4-operational-proof/ticket-artifacts/P4-011/engagement-gateway-stub-smoke-log.txt:6:Stub-only assertion: transport_channel whatsapp_stub records local stub metadata only; no production WhatsApp credentials or real outbound provider are used.
+codex-review/phase4-operational-proof/ticket-artifacts/P4-011/auth-session-smoke-log.txt:1:COMMAND: auth/session success and failure smoke
+codex-review/phase4-operational-proof/ticket-artifacts/P4-011/auth-session-smoke-log.txt:5:{"message":"AKTI bearer session is required","error":"Unauthorized","statusCode":401}
+codex-review/phase4-operational-proof/ticket-artifacts/P4-011/auth-session-smoke-log.txt:7:{"message":"AKTI bearer session is malformed","error":"Unauthorized","statusCode":401}
+EXIT:0

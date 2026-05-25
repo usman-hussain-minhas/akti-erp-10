@@ -1,0 +1,34 @@
+COMMAND: CORS and security header smoke
+--- allowed ---
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Access-Control-Allow-Origin: http://localhost:3002
+Vary: Origin
+X-Content-Type-Options: nosniff
+X-Frame-Options: DENY
+Referrer-Policy: no-referrer
+Permissions-Policy: camera=(), microphone=(), geolocation=()
+Cross-Origin-Opener-Policy: same-origin
+X-RateLimit-Limit: 200
+X-RateLimit-Remaining: 190
+X-RateLimit-Reset: 1779743826
+Content-Type: application/json; charset=utf-8
+Content-Length: 36
+ETag: W/"24-6m29jGfvI8wLyoeIiJ2i3/zRDKI"
+Date: Mon, 25 May 2026 21:16:10 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"service":"api","status":"healthy"}
+--- rejected ---
+HTTP/1.1 500 Internal Server Error
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 52
+ETag: W/"34-rlKccw1E+/fV8niQk4oFitDfPro"
+Date: Mon, 25 May 2026 21:16:10 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"statusCode":500,"message":"Internal server error"}
+EXIT:0
