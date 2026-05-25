@@ -79,3 +79,18 @@ Execution notes:
 - Approved manual no-new-dependency security headers and CORS controls for P3-011.
 - Forbade production env files, production secrets, deployment infrastructure, and hosting-specific logic.
 - No bounded repair attempts were needed.
+
+## P3-005 - Runtime Route Limiting Decision
+
+Exact-file plan:
+
+- Add `docs/adr/ADR-0011-runtime-route-limiting.md`.
+- Create P3-005 summary, changed-files archive, and validation summary under `codex-review/phase3-security-auth-tenant/ticket-artifacts/P3-005/`.
+- Do not modify runtime source, Prisma, contracts, generated registry, dependencies, workflows, deployment files, or secrets.
+
+Execution notes:
+
+- Selected no-new-dependency in-app API route limiting for Phase 3.
+- P3-010 must re-plan as runtime implementation plus tests, not docs-only deferral.
+- Infrastructure/edge limiting remains a Phase 4 or deployment concern.
+- No bounded repair attempts were needed.
