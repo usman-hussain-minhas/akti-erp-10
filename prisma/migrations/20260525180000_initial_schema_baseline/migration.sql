@@ -1,0 +1,451 @@
+
+-- CreateSchema
+CREATE SCHEMA IF NOT EXISTS "public";
+
+-- CreateEnum
+CREATE TYPE "CapabilityRiskLevel" AS ENUM ('low', 'medium', 'high', 'critical');
+
+-- CreateEnum
+CREATE TYPE "PermissionScopeType" AS ENUM ('global', 'organization', 'own_unit', 'child_units', 'own_record', 'assigned_records');
+
+-- CreateTable
+CREATE TABLE "Organization" (
+    "id" TEXT NOT NULL,
+    "slug" TEXT NOT NULL,
+    "display_name" TEXT NOT NULL,
+    "status" TEXT NOT NULL,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "Organization_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "OrganizationDomain" (
+    "id" TEXT NOT NULL,
+    "organization_id" TEXT NOT NULL,
+    "domain" TEXT NOT NULL,
+    "is_primary" BOOLEAN NOT NULL,
+    "verified_at" TIMESTAMP(3),
+
+    CONSTRAINT "OrganizationDomain_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "UnitType" (
+    "id" TEXT NOT NULL,
+    "organization_id" TEXT NOT NULL,
+    "key" TEXT NOT NULL,
+    "label" TEXT NOT NULL,
+    "sort_order" INTEGER NOT NULL,
+
+    CONSTRAINT "UnitType_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "OrganizationUnit" (
+    "id" TEXT NOT NULL,
+    "organization_id" TEXT NOT NULL,
+    "unit_type_id" TEXT NOT NULL,
+    "parent_unit_id" TEXT,
+    "key" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "status" TEXT NOT NULL,
+
+    CONSTRAINT "OrganizationUnit_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "OrganizationUnitClosure" (
+    "organization_id" TEXT NOT NULL,
+    "ancestor_unit_id" TEXT NOT NULL,
+    "descendant_unit_id" TEXT NOT NULL,
+    "depth" INTEGER NOT NULL,
+
+    CONSTRAINT "OrganizationUnitClosure_pkey" PRIMARY KEY ("organization_id","ancestor_unit_id","descendant_unit_id")
+);
+
+-- CreateTable
+CREATE TABLE "User" (
+    "id" TEXT NOT NULL,
+    "organization_id" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "display_name" TEXT NOT NULL,
+    "status" TEXT NOT NULL,
+    "primary_unit_id" TEXT,
+
+    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Group" (
+    "id" TEXT NOT NULL,
+    "organization_id" TEXT NOT NULL,
+    "key" TEXT NOT NULL,
+    "label" TEXT NOT NULL,
+    "status" TEXT NOT NULL,
+
+    CONSTRAINT "Group_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "UserGroup" (
+    "id" TEXT NOT NULL,
+    "organization_id" TEXT NOT NULL,
+    "user_id" TEXT NOT NULL,
+    "group_id" TEXT NOT NULL,
+    "assigned_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "UserGroup_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Capability" (
+    "key" TEXT NOT NULL,
+    "module_key" TEXT NOT NULL,
+    "description" TEXT NOT NULL,
+    "risk_level" "CapabilityRiskLevel" NOT NULL,
+    "gatekeeper_required" BOOLEAN NOT NULL,
+    "approval_chain_required" BOOLEAN NOT NULL,
+
+    CONSTRAINT "Capability_pkey" PRIMARY KEY ("key")
+);
+
+-- CreateTable
+CREATE TABLE "GroupCapability" (
+    "id" TEXT NOT NULL,
+    "organization_id" TEXT NOT NULL,
+    "group_id" TEXT NOT NULL,
+    "capability_key" TEXT NOT NULL,
+    "scope_type" "PermissionScopeType" NOT NULL,
+    "scope_unit_id" TEXT,
+
+    CONSTRAINT "GroupCapability_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "AuditLog" (
+    "id" TEXT NOT NULL,
+    "organization_id" TEXT NOT NULL,
+    "actor_user_id" TEXT NOT NULL,
+    "action_key" TEXT NOT NULL,
+    "entity_type" TEXT NOT NULL,
+    "entity_id" TEXT NOT NULL,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "metadata" JSONB NOT NULL,
+
+    CONSTRAINT "AuditLog_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "EventOutbox" (
+    "id" TEXT NOT NULL,
+    "organization_id" TEXT NOT NULL,
+    "event_type" TEXT NOT NULL,
+    "version" TEXT NOT NULL,
+    "payload" JSONB NOT NULL,
+    "status" TEXT NOT NULL,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "processed_at" TIMESTAMP(3),
+
+    CONSTRAINT "EventOutbox_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "ModuleRegistryEntry" (
+    "module_key" TEXT NOT NULL,
+    "display_name" TEXT NOT NULL,
+    "version" TEXT NOT NULL,
+    "status" TEXT NOT NULL,
+    "manifest_hash" TEXT NOT NULL,
+
+    CONSTRAINT "ModuleRegistryEntry_pkey" PRIMARY KEY ("module_key")
+);
+
+-- CreateTable
+CREATE TABLE "OrganizationSetting" (
+    "id" TEXT NOT NULL,
+    "organization_id" TEXT NOT NULL,
+    "key" TEXT NOT NULL,
+    "value_json" JSONB NOT NULL,
+    "updated_at" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "OrganizationSetting_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "LeadRecord" (
+    "id" TEXT NOT NULL,
+    "organization_id" TEXT NOT NULL,
+    "source_ref" TEXT NOT NULL,
+    "full_name" TEXT NOT NULL,
+    "phone_e164" TEXT NOT NULL,
+    "notes" TEXT,
+    "status" TEXT NOT NULL,
+    "assigned_user_id" TEXT,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "LeadRecord_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "LeadStatusHistory" (
+    "id" TEXT NOT NULL,
+    "organization_id" TEXT NOT NULL,
+    "lead_id" TEXT NOT NULL,
+    "actor_user_id" TEXT NOT NULL,
+    "status" TEXT NOT NULL,
+    "reason" TEXT,
+    "requested_at" TIMESTAMP(3) NOT NULL,
+    "changed_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "LeadStatusHistory_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "LeadAssignmentHistory" (
+    "id" TEXT NOT NULL,
+    "organization_id" TEXT NOT NULL,
+    "lead_id" TEXT NOT NULL,
+    "actor_user_id" TEXT NOT NULL,
+    "assigned_user_id" TEXT NOT NULL,
+    "requested_at" TIMESTAMP(3) NOT NULL,
+    "changed_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "LeadAssignmentHistory_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Organization_slug_key" ON "Organization"("slug");
+
+-- CreateIndex
+CREATE INDEX "Organization_status_idx" ON "Organization"("status");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "OrganizationDomain_domain_key" ON "OrganizationDomain"("domain");
+
+-- CreateIndex
+CREATE INDEX "OrganizationDomain_organization_id_idx" ON "OrganizationDomain"("organization_id");
+
+-- CreateIndex
+CREATE INDEX "OrganizationDomain_domain_idx" ON "OrganizationDomain"("domain");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "OrganizationDomain_organization_id_domain_key" ON "OrganizationDomain"("organization_id", "domain");
+
+-- CreateIndex
+CREATE INDEX "UnitType_organization_id_idx" ON "UnitType"("organization_id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "UnitType_organization_id_key_key" ON "UnitType"("organization_id", "key");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "UnitType_organization_id_id_key" ON "UnitType"("organization_id", "id");
+
+-- CreateIndex
+CREATE INDEX "OrganizationUnit_organization_id_idx" ON "OrganizationUnit"("organization_id");
+
+-- CreateIndex
+CREATE INDEX "OrganizationUnit_parent_unit_id_idx" ON "OrganizationUnit"("parent_unit_id");
+
+-- CreateIndex
+CREATE INDEX "OrganizationUnit_unit_type_id_idx" ON "OrganizationUnit"("unit_type_id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "OrganizationUnit_organization_id_key_key" ON "OrganizationUnit"("organization_id", "key");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "OrganizationUnit_organization_id_id_key" ON "OrganizationUnit"("organization_id", "id");
+
+-- CreateIndex
+CREATE INDEX "OrganizationUnitClosure_organization_id_ancestor_unit_id_idx" ON "OrganizationUnitClosure"("organization_id", "ancestor_unit_id");
+
+-- CreateIndex
+CREATE INDEX "OrganizationUnitClosure_organization_id_descendant_unit_id_idx" ON "OrganizationUnitClosure"("organization_id", "descendant_unit_id");
+
+-- CreateIndex
+CREATE INDEX "User_organization_id_idx" ON "User"("organization_id");
+
+-- CreateIndex
+CREATE INDEX "User_primary_unit_id_idx" ON "User"("primary_unit_id");
+
+-- CreateIndex
+CREATE INDEX "User_status_idx" ON "User"("status");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_organization_id_email_key" ON "User"("organization_id", "email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_organization_id_id_key" ON "User"("organization_id", "id");
+
+-- CreateIndex
+CREATE INDEX "Group_organization_id_idx" ON "Group"("organization_id");
+
+-- CreateIndex
+CREATE INDEX "Group_status_idx" ON "Group"("status");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Group_organization_id_key_key" ON "Group"("organization_id", "key");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Group_organization_id_id_key" ON "Group"("organization_id", "id");
+
+-- CreateIndex
+CREATE INDEX "UserGroup_organization_id_user_id_idx" ON "UserGroup"("organization_id", "user_id");
+
+-- CreateIndex
+CREATE INDEX "UserGroup_organization_id_group_id_idx" ON "UserGroup"("organization_id", "group_id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "UserGroup_organization_id_user_id_group_id_key" ON "UserGroup"("organization_id", "user_id", "group_id");
+
+-- CreateIndex
+CREATE INDEX "Capability_module_key_idx" ON "Capability"("module_key");
+
+-- CreateIndex
+CREATE INDEX "Capability_risk_level_idx" ON "Capability"("risk_level");
+
+-- CreateIndex
+CREATE INDEX "GroupCapability_organization_id_group_id_idx" ON "GroupCapability"("organization_id", "group_id");
+
+-- CreateIndex
+CREATE INDEX "GroupCapability_organization_id_capability_key_idx" ON "GroupCapability"("organization_id", "capability_key");
+
+-- CreateIndex
+CREATE INDEX "GroupCapability_scope_unit_id_idx" ON "GroupCapability"("scope_unit_id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "GroupCapability_organization_id_group_id_capability_key_sco_key" ON "GroupCapability"("organization_id", "group_id", "capability_key", "scope_type", "scope_unit_id");
+
+-- CreateIndex
+CREATE INDEX "AuditLog_organization_id_created_at_idx" ON "AuditLog"("organization_id", "created_at");
+
+-- CreateIndex
+CREATE INDEX "AuditLog_actor_user_id_idx" ON "AuditLog"("actor_user_id");
+
+-- CreateIndex
+CREATE INDEX "AuditLog_entity_type_entity_id_idx" ON "AuditLog"("entity_type", "entity_id");
+
+-- CreateIndex
+CREATE INDEX "EventOutbox_organization_id_status_created_at_idx" ON "EventOutbox"("organization_id", "status", "created_at");
+
+-- CreateIndex
+CREATE INDEX "EventOutbox_event_type_idx" ON "EventOutbox"("event_type");
+
+-- CreateIndex
+CREATE INDEX "ModuleRegistryEntry_status_idx" ON "ModuleRegistryEntry"("status");
+
+-- CreateIndex
+CREATE INDEX "OrganizationSetting_organization_id_idx" ON "OrganizationSetting"("organization_id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "OrganizationSetting_organization_id_key_key" ON "OrganizationSetting"("organization_id", "key");
+
+-- CreateIndex
+CREATE INDEX "LeadRecord_organization_id_created_at_idx" ON "LeadRecord"("organization_id", "created_at");
+
+-- CreateIndex
+CREATE INDEX "LeadRecord_organization_id_status_created_at_idx" ON "LeadRecord"("organization_id", "status", "created_at");
+
+-- CreateIndex
+CREATE INDEX "LeadRecord_organization_id_assigned_user_id_created_at_idx" ON "LeadRecord"("organization_id", "assigned_user_id", "created_at");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "LeadRecord_organization_id_id_key" ON "LeadRecord"("organization_id", "id");
+
+-- CreateIndex
+CREATE INDEX "LeadStatusHistory_organization_id_lead_id_changed_at_idx" ON "LeadStatusHistory"("organization_id", "lead_id", "changed_at");
+
+-- CreateIndex
+CREATE INDEX "LeadStatusHistory_organization_id_actor_user_id_changed_at_idx" ON "LeadStatusHistory"("organization_id", "actor_user_id", "changed_at");
+
+-- CreateIndex
+CREATE INDEX "LeadAssignmentHistory_organization_id_lead_id_changed_at_idx" ON "LeadAssignmentHistory"("organization_id", "lead_id", "changed_at");
+
+-- CreateIndex
+CREATE INDEX "LeadAssignmentHistory_organization_id_actor_user_id_changed_idx" ON "LeadAssignmentHistory"("organization_id", "actor_user_id", "changed_at");
+
+-- CreateIndex
+CREATE INDEX "LeadAssignmentHistory_organization_id_assigned_user_id_chan_idx" ON "LeadAssignmentHistory"("organization_id", "assigned_user_id", "changed_at");
+
+-- AddForeignKey
+ALTER TABLE "OrganizationDomain" ADD CONSTRAINT "OrganizationDomain_organization_id_fkey" FOREIGN KEY ("organization_id") REFERENCES "Organization"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "UnitType" ADD CONSTRAINT "UnitType_organization_id_fkey" FOREIGN KEY ("organization_id") REFERENCES "Organization"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "OrganizationUnit" ADD CONSTRAINT "OrganizationUnit_organization_id_fkey" FOREIGN KEY ("organization_id") REFERENCES "Organization"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "OrganizationUnit" ADD CONSTRAINT "OrganizationUnit_organization_id_unit_type_id_fkey" FOREIGN KEY ("organization_id", "unit_type_id") REFERENCES "UnitType"("organization_id", "id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "OrganizationUnit" ADD CONSTRAINT "OrganizationUnit_organization_id_parent_unit_id_fkey" FOREIGN KEY ("organization_id", "parent_unit_id") REFERENCES "OrganizationUnit"("organization_id", "id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "OrganizationUnitClosure" ADD CONSTRAINT "OrganizationUnitClosure_organization_id_fkey" FOREIGN KEY ("organization_id") REFERENCES "Organization"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "OrganizationUnitClosure" ADD CONSTRAINT "OrganizationUnitClosure_organization_id_ancestor_unit_id_fkey" FOREIGN KEY ("organization_id", "ancestor_unit_id") REFERENCES "OrganizationUnit"("organization_id", "id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "OrganizationUnitClosure" ADD CONSTRAINT "OrganizationUnitClosure_organization_id_descendant_unit_id_fkey" FOREIGN KEY ("organization_id", "descendant_unit_id") REFERENCES "OrganizationUnit"("organization_id", "id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "User" ADD CONSTRAINT "User_organization_id_fkey" FOREIGN KEY ("organization_id") REFERENCES "Organization"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "User" ADD CONSTRAINT "User_organization_id_primary_unit_id_fkey" FOREIGN KEY ("organization_id", "primary_unit_id") REFERENCES "OrganizationUnit"("organization_id", "id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Group" ADD CONSTRAINT "Group_organization_id_fkey" FOREIGN KEY ("organization_id") REFERENCES "Organization"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "UserGroup" ADD CONSTRAINT "UserGroup_organization_id_fkey" FOREIGN KEY ("organization_id") REFERENCES "Organization"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "UserGroup" ADD CONSTRAINT "UserGroup_organization_id_user_id_fkey" FOREIGN KEY ("organization_id", "user_id") REFERENCES "User"("organization_id", "id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "UserGroup" ADD CONSTRAINT "UserGroup_organization_id_group_id_fkey" FOREIGN KEY ("organization_id", "group_id") REFERENCES "Group"("organization_id", "id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "GroupCapability" ADD CONSTRAINT "GroupCapability_organization_id_fkey" FOREIGN KEY ("organization_id") REFERENCES "Organization"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "GroupCapability" ADD CONSTRAINT "GroupCapability_organization_id_group_id_fkey" FOREIGN KEY ("organization_id", "group_id") REFERENCES "Group"("organization_id", "id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "GroupCapability" ADD CONSTRAINT "GroupCapability_capability_key_fkey" FOREIGN KEY ("capability_key") REFERENCES "Capability"("key") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "GroupCapability" ADD CONSTRAINT "GroupCapability_organization_id_scope_unit_id_fkey" FOREIGN KEY ("organization_id", "scope_unit_id") REFERENCES "OrganizationUnit"("organization_id", "id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "AuditLog" ADD CONSTRAINT "AuditLog_organization_id_fkey" FOREIGN KEY ("organization_id") REFERENCES "Organization"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "AuditLog" ADD CONSTRAINT "AuditLog_organization_id_actor_user_id_fkey" FOREIGN KEY ("organization_id", "actor_user_id") REFERENCES "User"("organization_id", "id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "EventOutbox" ADD CONSTRAINT "EventOutbox_organization_id_fkey" FOREIGN KEY ("organization_id") REFERENCES "Organization"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "OrganizationSetting" ADD CONSTRAINT "OrganizationSetting_organization_id_fkey" FOREIGN KEY ("organization_id") REFERENCES "Organization"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "LeadRecord" ADD CONSTRAINT "LeadRecord_organization_id_fkey" FOREIGN KEY ("organization_id") REFERENCES "Organization"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "LeadStatusHistory" ADD CONSTRAINT "LeadStatusHistory_organization_id_fkey" FOREIGN KEY ("organization_id") REFERENCES "Organization"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "LeadStatusHistory" ADD CONSTRAINT "LeadStatusHistory_organization_id_lead_id_fkey" FOREIGN KEY ("organization_id", "lead_id") REFERENCES "LeadRecord"("organization_id", "id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "LeadAssignmentHistory" ADD CONSTRAINT "LeadAssignmentHistory_organization_id_fkey" FOREIGN KEY ("organization_id") REFERENCES "Organization"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "LeadAssignmentHistory" ADD CONSTRAINT "LeadAssignmentHistory_organization_id_lead_id_fkey" FOREIGN KEY ("organization_id", "lead_id") REFERENCES "LeadRecord"("organization_id", "id") ON DELETE RESTRICT ON UPDATE CASCADE;

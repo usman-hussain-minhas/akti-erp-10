@@ -48,3 +48,9 @@ Created validation gap inventory and proof-ticket validation strategy before P4-
 Status: STOPPED_WITH_FINDINGS.
 
 Executed the P4-004 fresh DB/bootstrap proof against a disposable local PostgreSQL database. Local runtime bootstrap succeeded only after using `prisma db push --url` as a bounded local/demo fallback, but the formal `prisma migrate deploy` path failed because the checked-in migration set is additive and expects baseline tables such as `EventOutbox` to already exist. After three bounded repair attempts, the migration bootstrap blocker remained. Execution stopped before P4-010 per the P4-009 minimum concrete requirement and hard-stop policy.
+
+## P4-009R
+
+Status: COMPLETE.
+
+Added a committed Prisma CLI config, an initial schema baseline migration generated from `b8961d3^:prisma/schema.prisma`, and a narrow post-delta migration-chain alignment migration. Clean disposable PostgreSQL `prisma migrate deploy` now applies the committed migration chain successfully, and DB-to-schema diff returns an empty migration. API start, setup organization smoke, health smoke, registry checks, contracts validation, lint, typecheck, tests, and build passed against the repaired chain. P4-009 can now be resumed separately; P4-010 has not started.

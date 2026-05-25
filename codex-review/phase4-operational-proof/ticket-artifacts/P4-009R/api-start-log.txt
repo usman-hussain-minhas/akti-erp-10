@@ -1,0 +1,54 @@
+COMMAND: PORT=3101 AKTI_AUTH_SESSION_SECRET=<placeholder-redacted> AKTI_CORS_ALLOWED_ORIGINS=http://localhost:3000,http://127.0.0.1:3000 DATABASE_URL=postgresql://<local-redacted> pnpm --filter @akti/api start
+
+> @akti/api@0.0.0 start /Volumes/UsmanWork/AKTI ERP 10/apps/api
+> node dist/main.js
+
+[Nest] 99002  - 05/26/2026, 1:42:59 AM     LOG [NestFactory] Starting Nest application...
+[Nest] 99002  - 05/26/2026, 1:42:59 AM     LOG [InstanceLoader] AppModule dependencies initialized +27ms
+[Nest] 99002  - 05/26/2026, 1:42:59 AM     LOG [RoutesResolver] AppController {/}: +6ms
+[Nest] 99002  - 05/26/2026, 1:42:59 AM     LOG [RouterExplorer] Mapped {/, GET} route +2ms
+[Nest] 99002  - 05/26/2026, 1:42:59 AM     LOG [RouterExplorer] Mapped {/health, GET} route +0ms
+[Nest] 99002  - 05/26/2026, 1:42:59 AM     LOG [RoutesResolver] OrganizationSetupController {/platform/setup/organization}: +0ms
+[Nest] 99002  - 05/26/2026, 1:42:59 AM     LOG [RouterExplorer] Mapped {/platform/setup/organization, POST} route +1ms
+[Nest] 99002  - 05/26/2026, 1:42:59 AM     LOG [RoutesResolver] AccessCoreController {/platform/access}: +0ms
+[Nest] 99002  - 05/26/2026, 1:42:59 AM     LOG [RouterExplorer] Mapped {/platform/access/capabilities, GET} route +0ms
+[Nest] 99002  - 05/26/2026, 1:42:59 AM     LOG [RouterExplorer] Mapped {/platform/access/organizations/:organization_id/users, POST} route +1ms
+[Nest] 99002  - 05/26/2026, 1:42:59 AM     LOG [RouterExplorer] Mapped {/platform/access/organizations/:organization_id/users, GET} route +1ms
+[Nest] 99002  - 05/26/2026, 1:42:59 AM     LOG [RouterExplorer] Mapped {/platform/access/organizations/:organization_id/users/:user_id, GET} route +0ms
+[Nest] 99002  - 05/26/2026, 1:42:59 AM     LOG [RouterExplorer] Mapped {/platform/access/organizations/:organization_id/users/:user_id, PATCH} route +0ms
+[Nest] 99002  - 05/26/2026, 1:42:59 AM     LOG [RouterExplorer] Mapped {/platform/access/organizations/:organization_id/users/:user_id, DELETE} route +0ms
+[Nest] 99002  - 05/26/2026, 1:42:59 AM     LOG [RouterExplorer] Mapped {/platform/access/organizations/:organization_id/groups, POST} route +1ms
+[Nest] 99002  - 05/26/2026, 1:42:59 AM     LOG [RouterExplorer] Mapped {/platform/access/organizations/:organization_id/groups, GET} route +0ms
+[Nest] 99002  - 05/26/2026, 1:42:59 AM     LOG [RouterExplorer] Mapped {/platform/access/organizations/:organization_id/groups/:group_id, GET} route +0ms
+[Nest] 99002  - 05/26/2026, 1:42:59 AM     LOG [RouterExplorer] Mapped {/platform/access/organizations/:organization_id/groups/:group_id, PATCH} route +0ms
+[Nest] 99002  - 05/26/2026, 1:42:59 AM     LOG [RouterExplorer] Mapped {/platform/access/organizations/:organization_id/groups/:group_id, DELETE} route +0ms
+[Nest] 99002  - 05/26/2026, 1:42:59 AM     LOG [RouterExplorer] Mapped {/platform/access/organizations/:organization_id/user-groups, POST} route +0ms
+[Nest] 99002  - 05/26/2026, 1:42:59 AM     LOG [RouterExplorer] Mapped {/platform/access/organizations/:organization_id/user-groups, GET} route +1ms
+[Nest] 99002  - 05/26/2026, 1:42:59 AM     LOG [RouterExplorer] Mapped {/platform/access/organizations/:organization_id/user-groups/:membership_id, DELETE} route +0ms
+[Nest] 99002  - 05/26/2026, 1:42:59 AM     LOG [RouterExplorer] Mapped {/platform/access/organizations/:organization_id/group-capabilities, POST} route +0ms
+[Nest] 99002  - 05/26/2026, 1:42:59 AM     LOG [RouterExplorer] Mapped {/platform/access/organizations/:organization_id/group-capabilities, GET} route +0ms
+[Nest] 99002  - 05/26/2026, 1:42:59 AM     LOG [RouterExplorer] Mapped {/platform/access/organizations/:organization_id/group-capabilities/:assignment_id, DELETE} route +0ms
+[Nest] 99002  - 05/26/2026, 1:42:59 AM     LOG [RoutesResolver] ModuleRegistryController {/platform/modules}: +0ms
+[Nest] 99002  - 05/26/2026, 1:42:59 AM     LOG [RouterExplorer] Mapped {/platform/modules, GET} route +0ms
+[Nest] 99002  - 05/26/2026, 1:42:59 AM     LOG [RoutesResolver] HierarchyController {/platform/hierarchy}: +0ms
+[Nest] 99002  - 05/26/2026, 1:42:59 AM     LOG [RouterExplorer] Mapped {/platform/hierarchy/organizations/:organization_id/unit-types, POST} route +1ms
+[Nest] 99002  - 05/26/2026, 1:42:59 AM     LOG [RouterExplorer] Mapped {/platform/hierarchy/organizations/:organization_id/unit-types, GET} route +0ms
+[Nest] 99002  - 05/26/2026, 1:42:59 AM     LOG [RouterExplorer] Mapped {/platform/hierarchy/organizations/:organization_id/units, POST} route +0ms
+[Nest] 99002  - 05/26/2026, 1:42:59 AM     LOG [RouterExplorer] Mapped {/platform/hierarchy/organizations/:organization_id/units, GET} route +0ms
+[Nest] 99002  - 05/26/2026, 1:42:59 AM     LOG [RoutesResolver] ConfigurationController {/platform/configuration}: +0ms
+[Nest] 99002  - 05/26/2026, 1:42:59 AM     LOG [RouterExplorer] Mapped {/platform/configuration/organizations/:organization_id/portal-mode, GET} route +0ms
+[Nest] 99002  - 05/26/2026, 1:42:59 AM     LOG [RouterExplorer] Mapped {/platform/configuration/organizations/:organization_id/portal-mode, PUT} route +0ms
+[Nest] 99002  - 05/26/2026, 1:42:59 AM     LOG [RoutesResolver] EngagementGatewayController {/platform/engagement-gateway}: +0ms
+[Nest] 99002  - 05/26/2026, 1:42:59 AM     LOG [RouterExplorer] Mapped {/platform/engagement-gateway/organizations/:organization_id/requests, POST} route +0ms
+[Nest] 99002  - 05/26/2026, 1:42:59 AM     LOG [RouterExplorer] Mapped {/platform/engagement-gateway/organizations/:organization_id/health, GET} route +1ms
+[Nest] 99002  - 05/26/2026, 1:42:59 AM     LOG [RoutesResolver] LeadDeskController {/api/lead-desk/organizations/:organization_id/leads}: +0ms
+[Nest] 99002  - 05/26/2026, 1:42:59 AM     LOG [RouterExplorer] Mapped {/api/lead-desk/organizations/:organization_id/leads, POST} route +0ms
+[Nest] 99002  - 05/26/2026, 1:42:59 AM     LOG [RouterExplorer] Mapped {/api/lead-desk/organizations/:organization_id/leads, GET} route +0ms
+[Nest] 99002  - 05/26/2026, 1:42:59 AM     LOG [RouterExplorer] Mapped {/api/lead-desk/organizations/:organization_id/leads/:lead_id, GET} route +0ms
+[Nest] 99002  - 05/26/2026, 1:42:59 AM     LOG [RouterExplorer] Mapped {/api/lead-desk/organizations/:organization_id/leads/:lead_id/status, PATCH} route +0ms
+[Nest] 99002  - 05/26/2026, 1:42:59 AM     LOG [RouterExplorer] Mapped {/api/lead-desk/organizations/:organization_id/leads/:lead_id/assignment, PATCH} route +0ms
+[Nest] 99002  - 05/26/2026, 1:42:59 AM     LOG [NestApplication] Nest application successfully started +187ms
+/Volumes/UsmanWork/AKTI ERP 10/apps/api:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @akti/api@0.0.0 start: `node dist/main.js`
+Command failed with signal "SIGTERM"
+bash: line 58: 98982 Terminated: 15          PORT="$PORT_API" AKTI_AUTH_SESSION_SECRET=<placeholder-redacted> AKTI_CORS_ALLOWED_ORIGINS="http://localhost:3000,http://127.0.0.1:3000" DATABASE_URL="$DATABASE_URL" pnpm --filter @akti/api start
