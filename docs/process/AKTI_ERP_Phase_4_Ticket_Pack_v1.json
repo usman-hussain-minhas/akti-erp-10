@@ -19,14 +19,16 @@
     "P4-006",
     "P4-007",
     "P4-008",
+    "P4-014A",
+    "P4-016A",
     "P4-009",
     "P4-010",
     "P4-011",
     "P4-012",
     "P4-013",
-    "P4-014",
     "P4-015",
-    "P4-016",
+    "P4-014B",
+    "P4-016B",
     "P4-GATE"
   ],
   "global_invariants": [
@@ -1214,12 +1216,314 @@
       "bounded_repair_allowed": false
     },
     {
+      "ticket_id": "P4-014A",
+      "title": "Operational runbook skeleton and ownership model",
+      "type": "implementation/docs",
+      "priority": "high",
+      "dependencies": [
+        "P4-001",
+        "P4-002",
+        "P4-003",
+        "P4-004",
+        "P4-005",
+        "P4-006",
+        "P4-007",
+        "P4-008"
+      ],
+      "objective": "Create the operational runbook skeleton, ownership model, and incident/support outline before Phase 4 proof tickets begin.",
+      "scope": [
+        "Create the runbook skeleton after P4-001 through P4-008 decision/control tickets close.",
+        "Define operational ownership, support escalation, incident response outline, routine operation placeholders, env/secrets handling placeholders, backup/restore/rollback placeholders, route-limiting posture placeholder, and known-deferrals placeholders.",
+        "Create sections/placeholders that P4-009 through P4-015 must update later as proof evidence becomes available.",
+        "Must not claim final operational readiness."
+      ],
+      "non_scope": [
+        "final operational readiness claim",
+        "production SOP beyond Phase 4 evidence",
+        "real credentials",
+        "new business modules",
+        "Phase 5 planning"
+      ],
+      "source_files_to_inspect": [
+        "docs/process/AKTI_ERP_Phase_4_Operational_Proof_Boundary_Decision_v1.md",
+        "docs/process/AKTI_ERP_Phase_4_Environment_Secret_Provisioning_Decision_v1.md",
+        "docs/process/AKTI_ERP_Phase_4_Staging_Target_Deployment_Method_Decision_v1.md",
+        "docs/process/AKTI_ERP_Phase_4_Fresh_DB_Bootstrap_Decision_v1.md",
+        "docs/process/AKTI_ERP_Phase_4_Browser_Visual_QA_Decision_v1.md",
+        "docs/process/AKTI_ERP_Phase_4_Backup_Restore_Rollback_Decision_v1.md",
+        "docs/process/AKTI_ERP_Phase_4_Infrastructure_Route_Limiting_Decision_v1.md",
+        "docs/process/AKTI_ERP_Phase_4_Auth_Session_Provisioning_Decision_v1.md"
+      ],
+      "files_expected_to_change": [
+        "docs/process/AKTI_ERP_Phase_4_Operational_Runbook_v1.md",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-014A/runbook-skeleton-update-log.md",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-014A/runbook-ownership-model.md",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-014A/incident-support-outline.md",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-014A/runbook-redaction-review.md"
+      ],
+      "files_forbidden_to_change": [
+        ".env",
+        ".env.*",
+        "production credential files",
+        "real secrets",
+        "prisma/schema.prisma unless explicitly approved by active ticket",
+        "prisma/migrations/** unless explicitly approved by active ticket",
+        "packages/** unless explicitly approved by active ticket",
+        "generated/entity-registry.generated.json unless intentionally regenerated and checked",
+        "package.json unless explicitly approved",
+        "pnpm-lock.yaml unless explicitly approved",
+        "deployment/staging implementation files unless active ticket explicitly authorizes them"
+      ],
+      "required_outputs": [
+        "AKTI_ERP_Phase_4_Operational_Runbook_v1.md skeleton",
+        "runbook-skeleton-update-log.md",
+        "runbook-ownership-model.md",
+        "incident-support-outline.md",
+        "placeholder sections for P4-009 through P4-015 evidence updates",
+        "runbook-redaction-review.md"
+      ],
+      "evidence_artifacts": [
+        "runbook skeleton",
+        "ownership model",
+        "incident/support outline",
+        "update log proving skeleton creation before P4-009",
+        "redaction review"
+      ],
+      "tests_required": [
+        "Markdown/diff checks.",
+        "Redaction review for secrets/tokens/credentials.",
+        "Trace runbook skeleton sections to P4-001 through P4-008 decisions and P4-009 through P4-015 future proof placeholders.",
+        "Redaction review classifies grep/rg findings before ticket closure."
+      ],
+      "validation_commands": [
+        "rg -n \"secret|token|credential|password|DATABASE_URL\" docs/process/AKTI_ERP_Phase_4_Operational_Runbook_v1.md codex-review/phase4-operational-proof/ticket-artifacts/P4-014A || true",
+        "git diff --check",
+        "git status --short --branch",
+        "redaction scan with redaction-review.md classification if artifacts may contain sensitive values"
+      ],
+      "validation_expectation": [
+        "rg scan findings are classified in runbook-redaction-review.md",
+        "git diff --check",
+        "git status --short --branch",
+        "redaction scan with redaction-review.md classification if artifacts may contain sensitive values"
+      ],
+      "acceptance_criteria": [
+        "Runbook skeleton exists after P4-001 through P4-008 and before P4-009.",
+        "Ownership model and incident/support outline exist.",
+        "Every P4-009 through P4-015 proof ticket has a named section or placeholder to update later.",
+        "No final operational readiness claim is made.",
+        "Grep/rg scans are inspection evidence; redaction-review.md or equivalent must classify findings.",
+        "Real values fail the ticket.",
+        "Placeholders are acceptable only if explicitly identified as placeholders."
+      ],
+      "stop_conditions": [
+        "P4-001 through P4-008 are not closed.",
+        "Runbook requires production secret values.",
+        "Runbook implies production launch.",
+        "Runbook starts Phase 5 planning.",
+        "new dependency is required",
+        "production secret or credential access is required",
+        "production launch is required",
+        "real outbound WhatsApp is required",
+        "Foundry/module installer work is required",
+        "platform AI runtime work is required",
+        "new business module work is required",
+        "destructive migration is required",
+        "Any scan output that appears to contain a real secret, token, credential, database URL, private key, production credential, or session value is a stop condition unless proven to be a placeholder."
+      ],
+      "commit_message": "P4-014A add Phase 4 operational runbook skeleton",
+      "rollback_notes": "Revert runbook skeleton and P4-014A artifacts only.",
+      "stale_ticket_risk_notes": "Prevents the runbook from becoming a late documentation dump by creating its skeleton before proof tickets begin.",
+      "runtime_consistency_chain": "decisions -> early runbook skeleton -> proof-ticket update placeholders -> final runbook -> closure package",
+      "minimum_concrete_requirement": "A runbook skeleton, ownership model, incident/support outline, and proof-ticket update placeholders must exist before P4-009 starts.",
+      "requires_human_approval_if": [
+        "new dependency is required",
+        "production secret or credential access is required",
+        "production launch is required",
+        "real outbound WhatsApp is required",
+        "Foundry/module installer work is required",
+        "platform AI runtime work is required",
+        "new business module work is required",
+        "destructive migration is required"
+      ],
+      "failure_classification": {
+        "scope_blocker": "Required work is outside this ticket or Phase 4 boundaries.",
+        "approval_blocker": "Required work needs explicit human approval before proceeding.",
+        "validation_blocker": "Required validation fails after bounded repair.",
+        "evidence_blocker": "Required output or artifact cannot be produced without weakening evidence."
+      },
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": false,
+      "commands_to_run": [
+        "Create or update runbook skeleton from P4-001 through P4-008 decisions.",
+        "rg -n \"secret|token|credential|password|DATABASE_URL\" docs/process/AKTI_ERP_Phase_4_Operational_Runbook_v1.md codex-review/phase4-operational-proof/ticket-artifacts/P4-014A || true",
+        "Classify scan findings in runbook-redaction-review.md.",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "pass_fail_criteria": [
+        "PASS when runbook skeleton, ownership model, incident/support outline, placeholders, update log, and redaction review exist before P4-009.",
+        "FAIL when the skeleton claims final readiness, lacks proof-ticket placeholders, or requires production secrets."
+      ],
+      "split_if": "Split further only if ownership/support model and runbook skeleton require separate approvals or separate architecture decisions.",
+      "bounded_repair_allowed": true
+    },
+    {
+      "ticket_id": "P4-016A",
+      "title": "Phase 4 validation strategy and gap inventory",
+      "type": "validation",
+      "priority": "high",
+      "dependencies": [
+        "P4-000",
+        "P4-001",
+        "P4-002",
+        "P4-003",
+        "P4-004",
+        "P4-005",
+        "P4-006",
+        "P4-007",
+        "P4-008",
+        "P4-014A"
+      ],
+      "objective": "Identify Phase 4 validation gaps and proof-ticket validation requirements before operational proof tickets begin.",
+      "scope": [
+        "Use validation inventory generated in P4-000.",
+        "Identify validation gaps after P4-001 through P4-008 and before P4-009.",
+        "Define proof-ticket validation requirements for P4-009 through P4-015.",
+        "List missing validation support before operational proof starts.",
+        "Preserve existing validation."
+      ],
+      "non_scope": [
+        "broad CI redesign",
+        "weakening previous validation",
+        "deployment implementation",
+        "new dependencies without approval"
+      ],
+      "source_files_to_inspect": [
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-000/validation-script-inventory.md",
+        "docs/process/AKTI_ERP_Phase_4_Operational_Proof_Boundary_Decision_v1.md",
+        "docs/process/AKTI_ERP_Phase_4_Browser_Visual_QA_Decision_v1.md",
+        "docs/process/AKTI_ERP_Phase_4_Operational_Runbook_v1.md",
+        "package.json",
+        ".github/workflows/*",
+        "apps/api/package.json",
+        "apps/web/package.json"
+      ],
+      "files_expected_to_change": [
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-016A/validation-gap-inventory.md",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-016A/pre-implementation-validation-strategy.md",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-016A/proof-ticket-validation-requirements.md",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-016A/missing-validation-support-before-proof.md"
+      ],
+      "files_forbidden_to_change": [
+        ".env",
+        ".env.*",
+        "production credential files",
+        "real secrets",
+        "prisma/schema.prisma unless explicitly approved by active ticket",
+        "prisma/migrations/** unless explicitly approved by active ticket",
+        "packages/** unless explicitly approved by active ticket",
+        "generated/entity-registry.generated.json unless intentionally regenerated and checked",
+        "package.json unless explicitly approved",
+        "pnpm-lock.yaml unless explicitly approved",
+        "deployment/staging implementation files unless active ticket explicitly authorizes them"
+      ],
+      "required_outputs": [
+        "validation-gap-inventory.md",
+        "pre-implementation-validation-strategy.md",
+        "proof-ticket-validation-requirements.md",
+        "missing-validation-support-before-proof.md"
+      ],
+      "evidence_artifacts": [
+        "validation inventory from P4-000",
+        "gap report",
+        "pre-implementation validation strategy",
+        "per-proof-ticket validation requirements"
+      ],
+      "tests_required": [
+        "Compare P4-000 validation inventory against current package/workflow scripts.",
+        "Confirm P4-009 through P4-015 each have concrete validation requirements.",
+        "Check no prior validation commands were removed or weakened."
+      ],
+      "validation_commands": [
+        "Compare P4-000 validation inventory against current package/workflow scripts.",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "validation_expectation": [
+        "validation-gap-inventory.md identifies gaps before P4-009",
+        "proof-ticket-validation-requirements.md covers P4-009 through P4-015",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "acceptance_criteria": [
+        "Validation inventory from P4-000 is used.",
+        "Validation gaps are documented before P4-009 implementation proof.",
+        "Every proof ticket P4-009 through P4-015 has concrete validation requirements.",
+        "No previous validation is removed or weakened."
+      ],
+      "stop_conditions": [
+        "Validation would be weakened.",
+        "Broad CI redesign is required.",
+        "New dependency is required without approval.",
+        "Validation gap requires new dependency without approval.",
+        "new dependency is required",
+        "production secret or credential access is required",
+        "production launch is required",
+        "real outbound WhatsApp is required",
+        "Foundry/module installer work is required",
+        "platform AI runtime work is required",
+        "new business module work is required",
+        "destructive migration is required"
+      ],
+      "commit_message": "P4-016A define Phase 4 validation strategy",
+      "rollback_notes": "Revert P4-016A validation strategy artifacts only.",
+      "stale_ticket_risk_notes": "Prevents validation gaps from being discovered only after proof work starts.",
+      "runtime_consistency_chain": "baseline validation inventory -> pre-implementation gap strategy -> proof-ticket validation requirements -> proof tickets",
+      "minimum_concrete_requirement": "Validation gap inventory and per-proof-ticket validation requirements must exist before P4-009 starts.",
+      "requires_human_approval_if": [
+        "new dependency is required",
+        "production secret or credential access is required",
+        "production launch is required",
+        "real outbound WhatsApp is required",
+        "Foundry/module installer work is required",
+        "platform AI runtime work is required",
+        "new business module work is required",
+        "destructive migration is required"
+      ],
+      "failure_classification": {
+        "scope_blocker": "Required work is outside this ticket or Phase 4 boundaries.",
+        "approval_blocker": "Required work needs explicit human approval before proceeding.",
+        "validation_blocker": "Required validation fails after bounded repair.",
+        "evidence_blocker": "Required output or artifact cannot be produced without weakening evidence."
+      },
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": false,
+      "commands_to_run": [
+        "Compare P4-000 validation inventory against current package/workflow scripts.",
+        "Create validation-gap-inventory.md.",
+        "Create pre-implementation-validation-strategy.md.",
+        "Create proof-ticket-validation-requirements.md.",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "pass_fail_criteria": [
+        "PASS when validation gaps and proof-ticket validation requirements are documented before P4-009 and previous validation is preserved.",
+        "FAIL when validation gaps require unapproved dependencies, broad CI redesign, or weakening prior validation."
+      ],
+      "split_if": "Split if gap resolution requires approved validation wiring changes before proof tickets may begin.",
+      "bounded_repair_allowed": true
+    },
+    {
       "ticket_id": "P4-009",
       "title": "Fresh DB/bootstrap implementation proof",
       "type": "implementation/validation",
       "priority": "critical",
       "dependencies": [
-        "P4-004"
+        "P4-004",
+        "P4-016A"
       ],
       "objective": "Execute the P4-004 clean DB bootstrap contract and produce command-level proof or a classified blocker.",
       "scope": [
@@ -1281,7 +1585,8 @@
         "Clean DB bootstrap commands from P4-004.",
         "Setup organization smoke path.",
         "Capability/module registry seed verification.",
-        "Full validation ladder after proof."
+        "Full validation ladder after proof.",
+        "Redaction review classifies grep/rg findings before ticket closure."
       ],
       "validation_commands": [
         "pnpm contracts:validate",
@@ -1298,7 +1603,8 @@
         "git diff -- prisma/schema.prisma",
         "git diff -- prisma/entity-registry.metadata.json",
         "git diff --check",
-        "git status --short --branch"
+        "git status --short --branch",
+        "redaction scan with redaction-review.md classification if artifacts may contain sensitive values"
       ],
       "validation_expectation": [
         "pnpm contracts:validate",
@@ -1315,13 +1621,17 @@
         "git diff -- prisma/schema.prisma",
         "git diff -- prisma/entity-registry.metadata.json",
         "git diff --check",
-        "git status --short --branch"
+        "git status --short --branch",
+        "redaction scan with redaction-review.md classification if artifacts may contain sensitive values"
       ],
       "acceptance_criteria": [
         "P4-004 is closed before work starts.",
         "All required artifacts exist.",
         "No manual DB hacks are used.",
-        "Any blocker is classified exactly."
+        "Any blocker is classified exactly.",
+        "Grep/rg scans are inspection evidence; redaction-review.md or equivalent must classify findings.",
+        "Real values fail the ticket.",
+        "Placeholders are acceptable only if explicitly identified as placeholders."
       ],
       "stop_conditions": [
         "P4-004 is not closed.",
@@ -1335,7 +1645,8 @@
         "Foundry/module installer work is required",
         "platform AI runtime work is required",
         "new business module work is required",
-        "destructive migration is required"
+        "destructive migration is required",
+        "Any scan output that appears to contain a real secret, token, credential, database URL, private key, production credential, or session value is a stop condition unless proven to be a placeholder."
       ],
       "commit_message": "P4-009 prove fresh DB bootstrap",
       "rollback_notes": "Remove P4-009 artifacts and revert any approved proof-support changes from this ticket only.",
@@ -1471,7 +1782,8 @@
         "Staging/demo process startup checks.",
         "DB connection check.",
         "API/web/CORS checks.",
-        "Full validation ladder."
+        "Full validation ladder.",
+        "Redaction review classifies grep/rg findings before ticket closure."
       ],
       "validation_commands": [
         "pnpm contracts:validate",
@@ -1488,7 +1800,8 @@
         "git diff -- prisma/schema.prisma",
         "git diff -- prisma/entity-registry.metadata.json",
         "git diff --check",
-        "git status --short --branch"
+        "git status --short --branch",
+        "redaction scan with redaction-review.md classification if artifacts may contain sensitive values"
       ],
       "validation_expectation": [
         "pnpm contracts:validate",
@@ -1505,12 +1818,16 @@
         "git diff -- prisma/schema.prisma",
         "git diff -- prisma/entity-registry.metadata.json",
         "git diff --check",
-        "git status --short --branch"
+        "git status --short --branch",
+        "redaction scan with redaction-review.md classification if artifacts may contain sensitive values"
       ],
       "acceptance_criteria": [
         "P4-002, P4-003, and P4-009 are closed before work starts.",
         "All evidence artifacts exist.",
-        "No production launch or real secret access occurs."
+        "No production launch or real secret access occurs.",
+        "Grep/rg scans are inspection evidence; redaction-review.md or equivalent must classify findings.",
+        "Real values fail the ticket.",
+        "Placeholders are acceptable only if explicitly identified as placeholders."
       ],
       "stop_conditions": [
         "P4-002 or P4-003 is not closed.",
@@ -1524,7 +1841,8 @@
         "Foundry/module installer work is required",
         "platform AI runtime work is required",
         "new business module work is required",
-        "destructive migration is required"
+        "destructive migration is required",
+        "Any scan output that appears to contain a real secret, token, credential, database URL, private key, production credential, or session value is a stop condition unless proven to be a placeholder."
       ],
       "commit_message": "P4-010 prove controlled staging demo deployment",
       "rollback_notes": "Stop running local/staging processes, remove P4-010 artifacts, and revert approved proof-support changes from this ticket only.",
@@ -1589,12 +1907,15 @@
       "priority": "critical",
       "dependencies": [
         "P4-009",
-        "P4-010"
+        "P4-010",
+        "P4-008"
       ],
       "objective": "Create and run a concrete smoke-test matrix for the controlled staging/demo environment.",
       "scope": [
         "Create smoke-test-matrix.md with smoke case, command, expected status, expected body/header, evidence artifact, failure classification.",
-        "Cover API /health, web root/app availability, setup organization path, auth/session success, auth/session failure, route org mismatch denial, Lead Desk list/create/detail if available, Engagement Gateway stub-only path, audit/outbox verification for smoke cases that write audit/outbox records with not-applicable classification for read-only cases, rate-limit negative path if exposed in staging, and CORS/security header checks."
+        "Cover API /health, web root/app availability, setup organization path, auth/session success, auth/session failure, route org mismatch denial, Lead Desk list/create/detail if available, Engagement Gateway stub-only path, audit/outbox verification for smoke cases that write audit/outbox records with not-applicable classification for read-only cases, rate-limit negative path if exposed in staging, and CORS/security header checks.",
+        "P4-011 may test Phase 3 app-level route limiting only if exposed in the staging/demo path.",
+        "P4-011 must not invent P4-015 infrastructure assumptions."
       ],
       "non_scope": [
         "new business behavior",
@@ -1648,26 +1969,34 @@
       ],
       "tests_required": [
         "All smoke cases listed in smoke-test-matrix.md.",
-        "Security regression cases for auth failure, route org mismatch, CORS/header, and rate limit where exposed."
+        "Security regression cases for auth failure, route org mismatch, CORS/header, and rate limit where exposed.",
+        "Redaction review classifies grep/rg findings before ticket closure."
       ],
       "validation_commands": [
         "Run every command in smoke-test-matrix.md",
         "pnpm test",
         "pnpm build",
         "git diff --check",
-        "git status --short --branch"
+        "git status --short --branch",
+        "redaction scan with redaction-review.md classification if artifacts may contain sensitive values"
       ],
       "validation_expectation": [
         "Run every command in smoke-test-matrix.md",
         "pnpm test",
         "pnpm build",
         "git diff --check",
-        "git status --short --branch"
+        "git status --short --branch",
+        "redaction scan with redaction-review.md classification if artifacts may contain sensitive values"
       ],
       "acceptance_criteria": [
         "Smoke-test-matrix.md exists with required columns.",
         "Minimum cases are covered or explicitly classified.",
-        "Gateway remains stub-only and Lead Desk does not bypass Engagement Gateway."
+        "Gateway remains stub-only and Lead Desk does not bypass Engagement Gateway.",
+        "Rate-limit smoke evidence is limited to Phase 3 app-level route limiting if exposed in staging/demo.",
+        "Infrastructure/distributed/proxy route-limiting assumptions are left to P4-015.",
+        "Grep/rg scans are inspection evidence; redaction-review.md or equivalent must classify findings.",
+        "Real values fail the ticket.",
+        "Placeholders are acceptable only if explicitly identified as placeholders."
       ],
       "stop_conditions": [
         "Smoke path requires invented business data.",
@@ -1680,12 +2009,14 @@
         "Foundry/module installer work is required",
         "platform AI runtime work is required",
         "new business module work is required",
-        "destructive migration is required"
+        "destructive migration is required",
+        "Smoke test scope would invent infrastructure/distributed/proxy route-limiting assumptions owned by P4-015.",
+        "Any scan output that appears to contain a real secret, token, credential, database URL, private key, production credential, or session value is a stop condition unless proven to be a placeholder."
       ],
       "commit_message": "P4-011 add Phase 4 smoke checks",
       "rollback_notes": "Remove P4-011 artifacts and revert approved smoke script/test changes from this ticket only.",
       "stale_ticket_risk_notes": "Replaces vague smoke-test language with an explicit command matrix and failure classification.",
-      "runtime_consistency_chain": "staging/demo run -> smoke matrix -> API/web/auth/tenant/module checks -> closure evidence",
+      "runtime_consistency_chain": "staging/demo run -> smoke matrix -> API/web/auth/tenant/module checks -> Phase 3 app-level route-limit check if exposed -> closure evidence",
       "minimum_concrete_requirement": "A smoke-test matrix and command evidence must exist; screenshots or narrative health claims are insufficient.",
       "requires_human_approval_if": [
         "new dependency is required",
@@ -1728,7 +2059,8 @@
       "dependencies": [
         "P4-005",
         "P4-010",
-        "P4-011"
+        "P4-011",
+        "P4-008"
       ],
       "objective": "Run browser-rendered frontend checks and visual QA from the P4-005 matrix, verifying behavior rather than only collecting screenshots.",
       "scope": [
@@ -1790,7 +2122,8 @@
         "No x-actor-user-id regression check.",
         "Screen contract consistency checks.",
         "No token/secret visible in DOM/screenshots/logs.",
-        "Responsive viewport baseline."
+        "Responsive viewport baseline.",
+        "Redaction review classifies grep/rg findings before ticket closure."
       ],
       "validation_commands": [
         "Browser/visual QA command listed in browser-visual-qa-matrix.md",
@@ -1798,7 +2131,8 @@
         "pnpm --filter @akti/web test",
         "pnpm --filter @akti/web build",
         "git diff --check",
-        "git status --short --branch"
+        "git status --short --branch",
+        "redaction scan with redaction-review.md classification if artifacts may contain sensitive values"
       ],
       "validation_expectation": [
         "Browser/visual QA command listed in browser-visual-qa-matrix.md",
@@ -1806,13 +2140,17 @@
         "pnpm --filter @akti/web test",
         "pnpm --filter @akti/web build",
         "git diff --check",
-        "git status --short --branch"
+        "git status --short --branch",
+        "redaction scan with redaction-review.md classification if artifacts may contain sensitive values"
       ],
       "acceptance_criteria": [
         "P4-005 is closed before work starts.",
         "Required checks are executed.",
         "Screenshots are evidence, not validation by themselves.",
-        "No secrets/tokens leak in artifacts."
+        "No secrets/tokens leak in artifacts.",
+        "Grep/rg scans are inspection evidence; redaction-review.md or equivalent must classify findings.",
+        "Real values fail the ticket.",
+        "Placeholders are acceptable only if explicitly identified as placeholders."
       ],
       "stop_conditions": [
         "P4-005 is not closed.",
@@ -1825,7 +2163,8 @@
         "Foundry/module installer work is required",
         "platform AI runtime work is required",
         "new business module work is required",
-        "destructive migration is required"
+        "destructive migration is required",
+        "Any scan output that appears to contain a real secret, token, credential, database URL, private key, production credential, or session value is a stop condition unless proven to be a placeholder."
       ],
       "commit_message": "P4-012 add browser visual QA proof",
       "rollback_notes": "Remove P4-012 artifacts and revert approved browser-test changes from this ticket only.",
@@ -1937,24 +2276,30 @@
         "Restore command listed in backup-restore-rollback-decision.md.",
         "Rollback command listed in backup-restore-rollback-decision.md.",
         "Restore/rollback validation commands.",
-        "Redaction/no-production-data review."
+        "Redaction/no-production-data review.",
+        "Redaction review classifies grep/rg findings before ticket closure."
       ],
       "validation_commands": [
         "Backup/restore/rollback commands listed in backup-restore-rollback-decision.md",
         "Redaction review command listed in backup-restore-rollback-decision.md",
         "git diff --check",
-        "git status --short --branch"
+        "git status --short --branch",
+        "redaction scan with redaction-review.md classification if artifacts may contain sensitive values"
       ],
       "validation_expectation": [
         "Backup/restore/rollback commands listed in backup-restore-rollback-decision.md",
         "Redaction review command listed in backup-restore-rollback-decision.md",
         "git diff --check",
-        "git status --short --branch"
+        "git status --short --branch",
+        "redaction scan with redaction-review.md classification if artifacts may contain sensitive values"
       ],
       "acceptance_criteria": [
         "P4-006 is closed before work starts.",
         "All required artifacts exist.",
-        "Database restore, app rollback, config/env rollback, and migration rollback/no-destructive policy are distinguished."
+        "Database restore, app rollback, config/env rollback, and migration rollback/no-destructive policy are distinguished.",
+        "Grep/rg scans are inspection evidence; redaction-review.md or equivalent must classify findings.",
+        "Real values fail the ticket.",
+        "Placeholders are acceptable only if explicitly identified as placeholders."
       ],
       "stop_conditions": [
         "P4-006 is not closed.",
@@ -1968,7 +2313,8 @@
         "Foundry/module installer work is required",
         "platform AI runtime work is required",
         "new business module work is required",
-        "destructive migration is required"
+        "destructive migration is required",
+        "Any scan output that appears to contain a real secret, token, credential, database URL, private key, production credential, or session value is a stop condition unless proven to be a placeholder."
       ],
       "commit_message": "P4-013 prove backup restore rollback drill",
       "rollback_notes": "Remove P4-013 artifacts and revert approved drill-support changes from this ticket only.",
@@ -2012,159 +2358,22 @@
       "bounded_repair_allowed": true
     },
     {
-      "ticket_id": "P4-014",
-      "title": "Operational runbook and incident/support flow",
-      "type": "implementation/docs",
-      "priority": "high",
-      "dependencies": [
-        "P4-002",
-        "P4-003",
-        "P4-004",
-        "P4-005",
-        "P4-006",
-        "P4-007",
-        "P4-008",
-        "P4-009",
-        "P4-010",
-        "P4-011",
-        "P4-012",
-        "P4-013"
-      ],
-      "objective": "Create the operational runbook as a living artifact, not a late documentation dump.",
-      "scope": [
-        "Create runbook skeleton after decision tickets P4-002 through P4-008.",
-        "Update runbook incrementally as P4-009 through P4-013 close.",
-        "Finalize admin access model, support escalation, incident response, routine operation, backup/restore/rollback instructions, env/secrets handling, and known deferrals after proofs."
-      ],
-      "non_scope": [
-        "production SOP beyond Phase 4 evidence",
-        "real credentials",
-        "new business modules",
-        "Phase 5 planning"
-      ],
-      "source_files_to_inspect": [
-        "docs/process/AKTI_ERP_Phase_4_Environment_Secret_Provisioning_Decision_v1.md",
-        "docs/process/AKTI_ERP_Phase_4_Staging_Target_Deployment_Method_Decision_v1.md",
-        "docs/process/AKTI_ERP_Phase_4_Fresh_DB_Bootstrap_Decision_v1.md",
-        "docs/process/AKTI_ERP_Phase_4_Backup_Restore_Rollback_Decision_v1.md",
-        "codex-review/phase4-operational-proof/ticket-artifacts/P4-009/*",
-        "codex-review/phase4-operational-proof/ticket-artifacts/P4-010/*",
-        "codex-review/phase4-operational-proof/ticket-artifacts/P4-011/*",
-        "codex-review/phase4-operational-proof/ticket-artifacts/P4-012/*",
-        "codex-review/phase4-operational-proof/ticket-artifacts/P4-013/*"
-      ],
-      "files_expected_to_change": [
-        "docs/process/AKTI_ERP_Phase_4_Operational_Runbook_v1.md",
-        "codex-review/phase4-operational-proof/ticket-artifacts/P4-014/runbook-update-log.md",
-        "codex-review/phase4-operational-proof/ticket-artifacts/P4-014/runbook-redaction-review.md"
-      ],
-      "files_forbidden_to_change": [
-        ".env",
-        ".env.*",
-        "production credential files",
-        "real secrets",
-        "prisma/schema.prisma unless explicitly approved by active ticket",
-        "prisma/migrations/** unless explicitly approved by active ticket",
-        "packages/** unless explicitly approved by active ticket",
-        "generated/entity-registry.generated.json unless intentionally regenerated and checked",
-        "package.json unless explicitly approved",
-        "pnpm-lock.yaml unless explicitly approved",
-        "deployment/staging implementation files unless active ticket explicitly authorizes them"
-      ],
-      "required_outputs": [
-        "AKTI_ERP_Phase_4_Operational_Runbook_v1.md",
-        "runbook-update-log.md showing skeleton and incremental updates",
-        "runbook-redaction-review.md",
-        "known-deferrals-section.md"
-      ],
-      "evidence_artifacts": [
-        "runbook",
-        "incremental update log",
-        "redaction review"
-      ],
-      "tests_required": [
-        "Markdown/diff checks.",
-        "Redaction review for secrets/tokens/credentials.",
-        "Trace runbook sections to P4-002 through P4-013 evidence."
-      ],
-      "validation_commands": [
-        "redaction grep over runbook and artifacts",
-        "git diff --check",
-        "git status --short --branch"
-      ],
-      "validation_expectation": [
-        "redaction grep over runbook and artifacts",
-        "git diff --check",
-        "git status --short --branch"
-      ],
-      "acceptance_criteria": [
-        "Runbook skeleton was created after P4-002 through P4-008.",
-        "Runbook was updated incrementally as proof tickets closed.",
-        "Final runbook covers all required topics and deferrals."
-      ],
-      "stop_conditions": [
-        "Runbook requires production secret values.",
-        "Runbook implies production launch.",
-        "Runbook starts Phase 5 planning.",
-        "new dependency is required",
-        "production secret or credential access is required",
-        "production launch is required",
-        "real outbound WhatsApp is required",
-        "Foundry/module installer work is required",
-        "platform AI runtime work is required",
-        "new business module work is required",
-        "destructive migration is required"
-      ],
-      "commit_message": "P4-014 add Phase 4 operational runbook",
-      "rollback_notes": "Revert runbook and P4-014 artifacts only.",
-      "stale_ticket_risk_notes": "Avoids a late documentation dump by requiring skeleton and incremental updates.",
-      "runtime_consistency_chain": "decisions -> proof artifacts -> runbook updates -> closure package",
-      "minimum_concrete_requirement": "A traceable operational runbook with incremental update evidence must exist.",
-      "requires_human_approval_if": [
-        "new dependency is required",
-        "production secret or credential access is required",
-        "production launch is required",
-        "real outbound WhatsApp is required",
-        "Foundry/module installer work is required",
-        "platform AI runtime work is required",
-        "new business module work is required",
-        "destructive migration is required"
-      ],
-      "failure_classification": {
-        "scope_blocker": "Required work is outside this ticket or Phase 4 boundaries.",
-        "approval_blocker": "Required work needs explicit human approval before proceeding.",
-        "validation_blocker": "Required validation fails after bounded repair.",
-        "evidence_blocker": "Required output or artifact cannot be produced without weakening evidence."
-      },
-      "exact_file_plan_required": true,
-      "broad_globs_are_inspection_hints_only": true,
-      "conditional_replan_required": false,
-      "commands_to_run": [
-        "rg -n \"secret|token|credential|password|DATABASE_URL\" docs/process/AKTI_ERP_Phase_4_Operational_Runbook_v1.md codex-review/phase4-operational-proof/ticket-artifacts/P4-014 || true",
-        "git diff --check",
-        "git status --short --branch"
-      ],
-      "pass_fail_criteria": [
-        "PASS when runbook skeleton exists after decision tickets, update log proves incremental updates through proof tickets, final runbook covers required operation/recovery/support topics, and no secret values are present.",
-        "FAIL when runbook is created only at the end without evidence traceability."
-      ],
-      "split_if": "Split into P4-014A runbook skeleton and P4-014B final runbook if the executor cannot update the runbook incrementally in one ticket.",
-      "bounded_repair_allowed": true
-    },
-    {
       "ticket_id": "P4-015",
       "title": "Infrastructure/distributed route limiting resolution",
       "type": "decision/implementation/validation",
       "priority": "high",
       "dependencies": [
-        "P4-007"
+        "P4-007",
+        "P4-010"
       ],
       "objective": "Execute or document the route-limiting resolution mode selected by P4-007 without weakening the Phase 3 app limiter.",
       "scope": [
         "Re-plan after P4-007 before any implementation.",
         "Use resolution_mode_set_by: P4-007.",
         "Reclassify after P4-007 as validation-only, documentation-only, implementation-with-approval, or accepted deferral.",
-        "Preserve Phase 3 in-app limiter."
+        "Preserve Phase 3 in-app limiter.",
+        "P4-015 owns infrastructure/distributed/proxy route-limiting posture.",
+        "If P4-007 selects proxy/staging validation or implementation-with-approval, P4-015 must use P4-003 and P4-010 evidence and must not invent infrastructure assumptions."
       ],
       "non_scope": [
         "removing Phase 3 app limiter",
@@ -2208,27 +2417,35 @@
       ],
       "tests_required": [
         "If runtime behavior changes, rate-limit negative tests are required.",
-        "If documentation-only or accepted deferral, evidence must prove app limiter remains and distributed limiter scope is bounded."
+        "If documentation-only or accepted deferral, evidence must prove app limiter remains and distributed limiter scope is bounded.",
+        "Redaction review classifies grep/rg findings before ticket closure."
       ],
       "validation_commands": [
         "P4-007-selected validation command",
         "rate-limit negative tests if runtime behavior changes",
         "pnpm test if runtime behavior changes",
         "git diff --check",
-        "git status --short --branch"
+        "git status --short --branch",
+        "redaction scan with redaction-review.md classification if artifacts may contain sensitive values"
       ],
       "validation_expectation": [
         "P4-007-selected validation command",
         "rate-limit negative tests if runtime behavior changes",
         "pnpm test if runtime behavior changes",
         "git diff --check",
-        "git status --short --branch"
+        "git status --short --branch",
+        "redaction scan with redaction-review.md classification if artifacts may contain sensitive values"
       ],
       "acceptance_criteria": [
         "P4-007 is closed.",
         "P4-015 reclassification is explicit.",
         "Resolution mode is traceable to P4-007.",
-        "App limiter is preserved."
+        "App limiter is preserved.",
+        "Infrastructure/distributed/proxy route-limiting posture is explicitly owned and resolved or deferred by P4-015.",
+        "If proxy/staging validation is selected, P4-003 and P4-010 evidence is used.",
+        "Grep/rg scans are inspection evidence; redaction-review.md or equivalent must classify findings.",
+        "Real values fail the ticket.",
+        "Placeholders are acceptable only if explicitly identified as placeholders."
       ],
       "stop_conditions": [
         "P4-007 is not closed.",
@@ -2241,12 +2458,14 @@
         "Foundry/module installer work is required",
         "platform AI runtime work is required",
         "new business module work is required",
-        "destructive migration is required"
+        "destructive migration is required",
+        "Proxy/staging validation or implementation path would invent infrastructure assumptions not supported by P4-003 and P4-010 evidence.",
+        "Any scan output that appears to contain a real secret, token, credential, database URL, private key, production credential, or session value is a stop condition unless proven to be a placeholder."
       ],
       "commit_message": "P4-015 resolve Phase 4 route limiting path",
       "rollback_notes": "Revert P4-015 artifacts and approved route-limiting changes from this ticket only.",
       "stale_ticket_risk_notes": "Prevents route limiting from being implemented, deferred, or documented without explicit P4-007 mode.",
-      "runtime_consistency_chain": "P4-007 mode -> route limiting resolution -> app limiter fallback -> validation/deferral evidence",
+      "runtime_consistency_chain": "P4-007 mode -> P4-003/P4-010 staging evidence where applicable -> route limiting resolution -> app limiter fallback -> validation/deferral evidence",
       "minimum_concrete_requirement": "A mode-specific resolution or accepted deferral must exist; generic infra limiting notes are insufficient.",
       "requires_human_approval_if": [
         "new dependency is required",
@@ -2283,14 +2502,12 @@
       "bounded_repair_allowed": true
     },
     {
-      "ticket_id": "P4-016",
-      "title": "Phase 4 validation alignment",
-      "type": "validation",
+      "ticket_id": "P4-014B",
+      "title": "Final operational runbook and incident/support flow",
+      "type": "implementation/docs",
       "priority": "high",
       "dependencies": [
-        "P4-000",
-        "P4-001",
-        "P4-005",
+        "P4-014A",
         "P4-009",
         "P4-010",
         "P4-011",
@@ -2298,33 +2515,34 @@
         "P4-013",
         "P4-015"
       ],
-      "objective": "Find Phase 4 validation gaps before proof tickets rely on them and align final validation without weakening existing checks.",
+      "objective": "Finalize the operational runbook using actual Phase 4 proof evidence and the final route-limiting posture.",
       "scope": [
-        "Use validation inventory generated in P4-000.",
-        "Identify validation gaps after P4-001/P4-005 and before P4-009.",
-        "Finalize validation alignment after implementation/proof tickets.",
-        "Preserve existing validation."
+        "Finalize the runbook after P4-009 through P4-013 and P4-015 close.",
+        "Incorporate fresh DB/bootstrap, staging/deployment, smoke tests, browser/visual QA, backup/restore/rollback, and route-limiting posture evidence.",
+        "Finalize admin access model, support escalation, incident response, routine operation, backup/restore/rollback instructions, env/secrets handling, and known deferrals.",
+        "Map every final runbook section to proof evidence or accepted deferral."
       ],
       "non_scope": [
-        "broad CI redesign",
-        "weakening previous validation",
-        "deployment implementation",
-        "new dependencies without approval"
+        "production SOP beyond Phase 4 evidence",
+        "real credentials",
+        "new business modules",
+        "Phase 5 planning"
       ],
       "source_files_to_inspect": [
-        "codex-review/phase4-operational-proof/ticket-artifacts/P4-000/validation-script-inventory.md",
-        "docs/process/AKTI_ERP_Phase_4_Operational_Proof_Boundary_Decision_v1.md",
-        "docs/process/AKTI_ERP_Phase_4_Browser_Visual_QA_Decision_v1.md",
-        "package.json",
-        ".github/workflows/*",
-        "apps/api/package.json",
-        "apps/web/package.json",
-        "codex-review/phase4-operational-proof/ticket-artifacts/*"
+        "docs/process/AKTI_ERP_Phase_4_Operational_Runbook_v1.md",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-014A/*",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-009/*",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-010/*",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-011/*",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-012/*",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-013/*",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-015/*"
       ],
       "files_expected_to_change": [
-        "codex-review/phase4-operational-proof/ticket-artifacts/P4-016/validation-gap-inventory.md",
-        "codex-review/phase4-operational-proof/ticket-artifacts/P4-016/pre-implementation-validation-strategy.md",
-        "codex-review/phase4-operational-proof/ticket-artifacts/P4-016/final-validation-alignment.md"
+        "docs/process/AKTI_ERP_Phase_4_Operational_Runbook_v1.md",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-014B/runbook-final-evidence-map.md",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-014B/runbook-redaction-review.md",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-014B/known-deferrals-section.md"
       ],
       "files_forbidden_to_change": [
         ".env",
@@ -2340,16 +2558,168 @@
         "deployment/staging implementation files unless active ticket explicitly authorizes them"
       ],
       "required_outputs": [
-        "validation-gap-inventory.md",
-        "pre-implementation-validation-strategy.md",
-        "final-validation-alignment.md",
-        "validation-preservation-attestation.md"
+        "final AKTI_ERP_Phase_4_Operational_Runbook_v1.md",
+        "runbook-final-evidence-map.md",
+        "runbook-redaction-review.md",
+        "known-deferrals-section.md"
       ],
       "evidence_artifacts": [
-        "validation inventory",
-        "gap report",
+        "final runbook",
+        "mapping to fresh DB, staging, smoke, browser/visual, recovery, and route-limiting evidence",
+        "redaction review",
+        "known deferrals section"
+      ],
+      "tests_required": [
+        "Markdown/diff checks.",
+        "Redaction review for secrets/tokens/credentials.",
+        "Trace final runbook sections to P4-009 through P4-015 evidence.",
+        "Redaction review classifies grep/rg findings before ticket closure."
+      ],
+      "validation_commands": [
+        "rg -n \"secret|token|credential|password|DATABASE_URL\" docs/process/AKTI_ERP_Phase_4_Operational_Runbook_v1.md codex-review/phase4-operational-proof/ticket-artifacts/P4-014B || true",
+        "git diff --check",
+        "git status --short --branch",
+        "redaction scan with redaction-review.md classification if artifacts may contain sensitive values"
+      ],
+      "validation_expectation": [
+        "rg scan findings are classified in runbook-redaction-review.md",
+        "git diff --check",
+        "git status --short --branch",
+        "redaction scan with redaction-review.md classification if artifacts may contain sensitive values"
+      ],
+      "acceptance_criteria": [
+        "P4-014A, P4-009, P4-010, P4-011, P4-012, P4-013, and P4-015 are closed.",
+        "Final runbook incorporates fresh DB/bootstrap, staging/deployment, smoke, browser/visual QA, backup/restore/rollback, and route-limiting posture evidence.",
+        "Route-limiting posture from P4-015 is included.",
+        "Final runbook covers all required operation/recovery/support topics and deferrals.",
+        "Grep/rg scans are inspection evidence; redaction-review.md or equivalent must classify findings.",
+        "Real values fail the ticket.",
+        "Placeholders are acceptable only if explicitly identified as placeholders."
+      ],
+      "stop_conditions": [
+        "Any dependency is incomplete.",
+        "Runbook requires production secret values.",
+        "Runbook implies production launch.",
+        "Runbook starts Phase 5 planning.",
+        "Route-limiting posture from P4-015 is missing.",
+        "new dependency is required",
+        "production secret or credential access is required",
+        "production launch is required",
+        "real outbound WhatsApp is required",
+        "Foundry/module installer work is required",
+        "platform AI runtime work is required",
+        "new business module work is required",
+        "destructive migration is required",
+        "Any scan output that appears to contain a real secret, token, credential, database URL, private key, production credential, or session value is a stop condition unless proven to be a placeholder."
+      ],
+      "commit_message": "P4-014B finalize Phase 4 operational runbook",
+      "rollback_notes": "Revert final runbook updates and P4-014B artifacts only; preserve P4-014A skeleton unless separately reverting that ticket.",
+      "stale_ticket_risk_notes": "Prevents final runbook closure before route-limiting and proof evidence are available.",
+      "runtime_consistency_chain": "early runbook skeleton -> proof artifacts -> route-limiting posture -> final runbook -> closure package",
+      "minimum_concrete_requirement": "A final runbook must map to actual proof evidence and P4-015 route-limiting posture; narrative documentation alone cannot close this ticket.",
+      "requires_human_approval_if": [
+        "new dependency is required",
+        "production secret or credential access is required",
+        "production launch is required",
+        "real outbound WhatsApp is required",
+        "Foundry/module installer work is required",
+        "platform AI runtime work is required",
+        "new business module work is required",
+        "destructive migration is required"
+      ],
+      "failure_classification": {
+        "scope_blocker": "Required work is outside this ticket or Phase 4 boundaries.",
+        "approval_blocker": "Required work needs explicit human approval before proceeding.",
+        "validation_blocker": "Required validation fails after bounded repair.",
+        "evidence_blocker": "Required output or artifact cannot be produced without weakening evidence."
+      },
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": false,
+      "commands_to_run": [
+        "Update final runbook from P4-009 through P4-015 evidence.",
+        "rg -n \"secret|token|credential|password|DATABASE_URL\" docs/process/AKTI_ERP_Phase_4_Operational_Runbook_v1.md codex-review/phase4-operational-proof/ticket-artifacts/P4-014B || true",
+        "Classify scan findings in runbook-redaction-review.md.",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "pass_fail_criteria": [
+        "PASS when final runbook maps to all proof evidence, includes P4-015 route-limiting posture, includes known deferrals, and redaction review passes.",
+        "FAIL when final runbook is missing evidence mapping, route-limiting posture, or contains real sensitive values."
+      ],
+      "split_if": "Split if final runbook, evidence mapping, and redaction review cannot be completed in one bounded documentation ticket.",
+      "bounded_repair_allowed": true
+    },
+    {
+      "ticket_id": "P4-016B",
+      "title": "Final Phase 4 validation alignment",
+      "type": "validation",
+      "priority": "high",
+      "dependencies": [
+        "P4-016A",
+        "P4-009",
+        "P4-010",
+        "P4-011",
+        "P4-012",
+        "P4-013",
+        "P4-015",
+        "P4-014B"
+      ],
+      "objective": "Finalize Phase 4 validation evidence after all proof tickets and preserve existing validation without weakening checks.",
+      "scope": [
+        "Use validation strategy and gap inventory from P4-016A.",
+        "Finalize validation alignment after P4-009 through P4-015 and P4-014B.",
+        "Create final validation command list and closure evidence mapping.",
+        "Preserve existing validation."
+      ],
+      "non_scope": [
+        "broad CI redesign",
+        "weakening previous validation",
+        "deployment implementation",
+        "new dependencies without approval"
+      ],
+      "source_files_to_inspect": [
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-016A/*",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-009/*",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-010/*",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-011/*",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-012/*",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-013/*",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-015/*",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-014B/*",
+        "package.json",
+        ".github/workflows/*"
+      ],
+      "files_expected_to_change": [
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-016B/final-validation-alignment.md",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-016B/validation-preservation-attestation.md",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-016B/final-validation-command-list.md",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-016B/closure-evidence-validation-map.md"
+      ],
+      "files_forbidden_to_change": [
+        ".env",
+        ".env.*",
+        "production credential files",
+        "real secrets",
+        "prisma/schema.prisma unless explicitly approved by active ticket",
+        "prisma/migrations/** unless explicitly approved by active ticket",
+        "packages/** unless explicitly approved by active ticket",
+        "generated/entity-registry.generated.json unless intentionally regenerated and checked",
+        "package.json unless explicitly approved",
+        "pnpm-lock.yaml unless explicitly approved",
+        "deployment/staging implementation files unless active ticket explicitly authorizes them"
+      ],
+      "required_outputs": [
+        "final-validation-alignment.md",
+        "validation-preservation-attestation.md",
+        "final-validation-command-list.md",
+        "closure-evidence-validation-map.md"
+      ],
+      "evidence_artifacts": [
         "final validation alignment",
-        "attestation that prior validation was not weakened"
+        "attestation that prior validation was not weakened",
+        "final validation command list",
+        "mapping validation commands to closure artifacts"
       ],
       "tests_required": [
         "Run full validation ladder after final alignment.",
@@ -2391,15 +2761,16 @@
         "git status --short --branch"
       ],
       "acceptance_criteria": [
-        "Validation inventory from P4-000 is used.",
-        "Validation gaps are documented before P4-009 implementation proof.",
-        "Final validation alignment exists after proof tickets.",
+        "P4-016A and all proof tickets are complete.",
+        "All proof-ticket validation evidence is mapped.",
+        "Final validation command list exists for P4-GATE.",
         "No previous validation is removed or weakened."
       ],
       "stop_conditions": [
         "Validation would be weakened.",
         "Broad CI redesign is required.",
         "New dependency is required without approval.",
+        "Final validation evidence cannot be mapped.",
         "new dependency is required",
         "production secret or credential access is required",
         "production launch is required",
@@ -2409,11 +2780,11 @@
         "new business module work is required",
         "destructive migration is required"
       ],
-      "commit_message": "P4-016 align Phase 4 validation evidence",
-      "rollback_notes": "Revert P4-016 validation artifacts and approved validation wiring changes only.",
-      "stale_ticket_risk_notes": "Prevents validation gaps from being discovered at P4-GATE after proof work is complete.",
-      "runtime_consistency_chain": "baseline validation inventory -> gap strategy -> proof ticket validation -> final validation alignment -> closure package",
-      "minimum_concrete_requirement": "Validation gap inventory and final alignment must exist; relying only on the old Phase 3 ladder is insufficient for Phase 4 closure.",
+      "commit_message": "P4-016B finalize Phase 4 validation alignment",
+      "rollback_notes": "Revert P4-016B validation artifacts and approved validation wiring changes only.",
+      "stale_ticket_risk_notes": "Prevents closure from inventing validation evidence after proof work is complete.",
+      "runtime_consistency_chain": "P4-016A validation strategy -> proof ticket validation -> final validation alignment -> closure package",
+      "minimum_concrete_requirement": "Final validation alignment, preservation attestation, command list, and closure evidence map must exist before P4-GATE.",
       "requires_human_approval_if": [
         "new dependency is required",
         "production secret or credential access is required",
@@ -2434,17 +2805,20 @@
       "broad_globs_are_inspection_hints_only": true,
       "conditional_replan_required": false,
       "commands_to_run": [
-        "Compare P4-000 validation inventory against current package/workflow scripts.",
         "Run full validation ladder.",
         "Run Phase 4 evidence validation commands from proof tickets.",
+        "Create final-validation-alignment.md.",
+        "Create validation-preservation-attestation.md.",
+        "Create final-validation-command-list.md.",
+        "Create closure-evidence-validation-map.md.",
         "git diff --check",
         "git status --short --branch"
       ],
       "pass_fail_criteria": [
-        "PASS when validation gaps are identified before implementation proof tickets, final validation commands pass, and previous validation is preserved.",
-        "FAIL when validation gaps are discovered only at closure or existing validation is weakened."
+        "PASS when all proof-ticket validation evidence is mapped, final validation commands pass, and previous validation is preserved.",
+        "FAIL when final validation fails, evidence cannot be mapped, or existing validation is weakened."
       ],
-      "split_if": "Split into P4-016A validation strategy/gap inventory and P4-016B final validation alignment if validation gaps require implementation changes or approval.",
+      "split_if": "Split if final validation alignment and validation wiring changes require separate approval or separate file sets.",
       "bounded_repair_allowed": true
     },
     {
@@ -2462,14 +2836,16 @@
         "P4-006",
         "P4-007",
         "P4-008",
+        "P4-014A",
+        "P4-016A",
         "P4-009",
         "P4-010",
         "P4-011",
         "P4-012",
         "P4-013",
-        "P4-014",
         "P4-015",
-        "P4-016"
+        "P4-014B",
+        "P4-016B"
       ],
       "objective": "Close Phase 4 with evidence only, classify deferrals honestly, and produce a Phase 5 readiness handoff without starting Phase 5.",
       "scope": [
@@ -2551,7 +2927,8 @@
         "Screenshot redaction confirmation.",
         "Backup artifact no-production-data confirmation.",
         "Checksum verification.",
-        "Source ZIP exclusion verification."
+        "Source ZIP exclusion verification.",
+        "Redaction review classifies grep/rg findings before ticket closure."
       ],
       "validation_commands": [
         "pnpm contracts:validate",
@@ -2574,7 +2951,8 @@
         "screenshot redaction verification",
         "backup artifact no-production-data verification",
         "checksum verification",
-        "source ZIP exclusion verification"
+        "source ZIP exclusion verification",
+        "redaction scan with redaction-review.md classification if artifacts may contain sensitive values"
       ],
       "validation_expectation": [
         "pnpm contracts:validate",
@@ -2597,13 +2975,17 @@
         "screenshot redaction verification",
         "backup artifact no-production-data verification",
         "checksum verification",
-        "source ZIP exclusion verification"
+        "source ZIP exclusion verification",
+        "redaction scan with redaction-review.md classification if artifacts may contain sensitive values"
       ],
       "acceptance_criteria": [
         "All dependencies are complete.",
         "Final package artifacts exist.",
         "Redaction checks pass: secret scan, token/session leak scan, screenshot redaction confirmation, backup artifact no-production-data confirmation.",
-        "Phase 5 readiness handoff exists but no Phase 5 ticket pack is created."
+        "Phase 5 readiness handoff exists but no Phase 5 ticket pack is created.",
+        "Grep/rg scans are inspection evidence; redaction-review.md or equivalent must classify findings.",
+        "Real values fail the ticket.",
+        "Placeholders are acceptable only if explicitly identified as placeholders."
       ],
       "stop_conditions": [
         "Any prerequisite ticket is incomplete.",
@@ -2617,7 +2999,8 @@
         "Foundry/module installer work is required",
         "platform AI runtime work is required",
         "new business module work is required",
-        "destructive migration is required"
+        "destructive migration is required",
+        "Any scan output that appears to contain a real secret, token, credential, database URL, private key, production credential, or session value is a stop condition unless proven to be a placeholder."
       ],
       "commit_message": "P4-GATE close Phase 4 operational proof",
       "rollback_notes": "Revert P4-GATE closure docs/package artifacts only; prior ticket commits remain unless separately reverted.",
