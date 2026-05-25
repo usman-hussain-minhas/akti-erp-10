@@ -60,3 +60,9 @@ Added a committed Prisma CLI config, an initial schema baseline migration genera
 Status: COMPLETE.
 
 Regenerated P4-009 clean DB/bootstrap evidence after P4-009R. A new disposable local PostgreSQL database applied all committed migrations through `prisma migrate deploy`, DB-to-schema diff returned an empty migration, the API started with non-secret placeholder env values, setup organization completed, health returned healthy, registry checks passed, and the full validation ladder passed. `prisma db push` was not used as final proof. P4-010 is unblocked after this evidence commit.
+
+## P4-010
+
+Status: COMPLETE.
+
+Executed the controlled local staging/demo deployment proof using disposable local PostgreSQL, local API, and local web processes. The P4-010 split rule was handled through explicit sub-proofs for DB/env connectivity, API process, web process, and integrated API/web/CORS/shutdown-restart behavior. Committed migrations applied successfully, DB-to-schema diff was empty, build passed, API `/health` and web root served, setup organization completed with non-production demo data, CORS allowed only the configured local origin, restart proof passed, proof services stopped cleanly, redaction review passed, and the full validation ladder passed. No production launch, production credentials, deployment implementation, real WhatsApp behavior, Foundry work, AI runtime, or Phase 5/6 scope was introduced.
