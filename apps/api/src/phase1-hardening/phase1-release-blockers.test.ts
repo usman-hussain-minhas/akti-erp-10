@@ -312,6 +312,67 @@ function testEnvHeadersAndCorsControlsAreWiredWithoutSecrets() {
   );
 }
 
+function testPhase3SecurityNegativeCoverageAndBoundariesRemainWired() {
+  const rootPackageJson = JSON.parse(readFileSync(resolve(repoRoot, 'package.json'), 'utf8')) as {
+    scripts?: Record<string, string>;
+  };
+  const apiPackageJson = JSON.parse(readFileSync(resolve(apiRoot, 'package.json'), 'utf8')) as {
+    scripts?: Record<string, string>;
+  };
+  const webPackageJson = JSON.parse(readFileSync(resolve(repoRoot, 'apps/web/package.json'), 'utf8')) as {
+    scripts?: Record<string, string>;
+  };
+  const apiTestScript = apiPackageJson.scripts?.test ?? '';
+
+  for (const wiredTest of [
+    'src/security/request-context.test.ts',
+    'src/gatekeeper/gatekeeper-preflight.service.test.ts',
+    'src/access-core/access-core.service.test.ts',
+    'src/engagement-gateway/engagement-gateway.service.test.ts',
+    'src/lead-desk/lead-desk.service.test.ts',
+  ]) {
+    assert.equal(apiTestScript.includes(wiredTest), true, `API test script must keep ${wiredTest} wired`);
+  }
+
+  assert.equal(rootPackageJson.scripts?.test?.includes('pnpm --filter @akti/api test'), true);
+  assert.equal(rootPackageJson.scripts?.test?.includes('pnpm --filter @akti/web test'), true);
+  assert.equal(webPackageJson.scripts?.test?.includes('node --test test/*.test.mjs'), true);
+
+  const requestContextTest = readFileSync(join(apiSourceRoot, 'security/request-context.test.ts'), 'utf8');
+  for (const requiredNegative of [
+    'testLegacyActorHeaderIsNotSessionFallback',
+    'testMalformedAuthorizationFailsClosed',
+    'testFutureIssuedAtFailsClosed',
+    'testMissingRequiredPayloadContextFailsClosed',
+    'testRateLimitAllowsWithinWindowAndFailsClosedAfterLimit',
+  ]) {
+    assert.equal(
+      requestContextTest.includes(requiredNegative),
+      true,
+      `request-context tests must include ${requiredNegative}`,
+    );
+  }
+
+  const leadDeskTest = readFileSync(join(apiSourceRoot, 'lead-desk/lead-desk.service.test.ts'), 'utf8');
+  const engagementGatewayTest = readFileSync(join(apiSourceRoot, 'engagement-gateway/engagement-gateway.service.test.ts'), 'utf8');
+  for (const source of [leadDeskTest, engagementGatewayTest]) {
+    assert.equal(source.includes('assert.equal(state.auditCalls.length, 0)'), true);
+    assert.equal(source.includes('assert.equal(state.outboxCalls.length, 0)'), true);
+  }
+
+  const leadDeskSource = readFileSync(join(apiSourceRoot, 'lead-desk/lead-desk.service.ts'), 'utf8');
+  const engagementGatewaySource = readFileSync(join(apiSourceRoot, 'engagement-gateway/engagement-gateway.service.ts'), 'utf8');
+  assert.equal(leadDeskSource.toLowerCase().includes('whatsapp'), false, 'Lead Desk must not couple directly to WhatsApp');
+  assert.equal(engagementGatewaySource.includes('WhatsappStubProvider'), true);
+  for (const forbiddenOutbound of ['fetch(', 'axios', 'graph.facebook', 'wa.me']) {
+    assert.equal(
+      engagementGatewaySource.includes(forbiddenOutbound),
+      false,
+      `Engagement Gateway must not add real outbound WhatsApp behavior: ${forbiddenOutbound}`,
+    );
+  }
+}
+
 function testApiTestFixturesDoNotLeakHardcodedBusinessTerms() {
   const forbiddenTerms = [
     ['cam', 'pus'].join(''),
@@ -348,6 +409,7 @@ function run() {
   testAccessCoreGatekeeperTrustedContextInvariants();
   testRuntimeRouteLimiterIsWiredBeforeApiListen();
   testEnvHeadersAndCorsControlsAreWiredWithoutSecrets();
+  testPhase3SecurityNegativeCoverageAndBoundariesRemainWired();
   testApiTestFixturesDoNotLeakHardcodedBusinessTerms();
 
   console.log('phase1-release-blockers tests passed');

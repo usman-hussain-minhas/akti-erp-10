@@ -58,6 +58,42 @@ function testMissingBearerFailsClosed() {
   );
 }
 
+function testLegacyActorHeaderIsNotSessionFallback() {
+  assert.throws(
+    () =>
+      resolveTrustedRequestContext(
+        {
+          'x-actor-user-id': 'user-1',
+        },
+        { secret, now, routeOrganizationId: 'org-1' },
+      ),
+    UnauthorizedException,
+  );
+}
+
+function testMalformedAuthorizationFailsClosed() {
+  assert.throws(
+    () =>
+      resolveTrustedRequestContext(
+        {
+          authorization: `Basic ${validToken()}`,
+        },
+        { secret, now, routeOrganizationId: 'org-1' },
+      ),
+    UnauthorizedException,
+  );
+  assert.throws(
+    () =>
+      resolveTrustedRequestContext(
+        {
+          authorization: 'Bearer    ',
+        },
+        { secret, now, routeOrganizationId: 'org-1' },
+      ),
+    UnauthorizedException,
+  );
+}
+
 function testTamperedTokenFailsClosed() {
   const token = validToken();
   const tampered = `${token.slice(0, -2)}aa`;
@@ -75,6 +111,36 @@ function testExpiredTokenFailsClosed() {
   );
 
   assert.throws(() => verifyPhase3SessionToken(token, { secret, now }), UnauthorizedException);
+}
+
+function testFutureIssuedAtFailsClosed() {
+  const token = createPhase3SessionToken(
+    {
+      ...validPayload(),
+      issued_at: '2026-05-25T12:02:01.000Z',
+      expires_at: '2026-05-25T12:30:00.000Z',
+    },
+    secret,
+  );
+
+  assert.throws(() => verifyPhase3SessionToken(token, { secret, now }), UnauthorizedException);
+}
+
+function testMissingRequiredPayloadContextFailsClosed() {
+  const token = createPhase3SessionToken(
+    {
+      ...validPayload(),
+      actor_user_id: '   ',
+    },
+    secret,
+  );
+
+  assert.throws(() => verifyPhase3SessionToken(token, { secret, now }), UnauthorizedException);
+}
+
+function testShortSessionSecretFailsClosed() {
+  assert.throws(() => createPhase3SessionToken(validPayload(), 'short'), UnauthorizedException);
+  assert.throws(() => verifyPhase3SessionToken(validToken(), { secret: 'short', now }), UnauthorizedException);
 }
 
 function testRouteOrganizationMismatchFailsClosed() {
@@ -383,8 +449,13 @@ function testCorsAllowListValidatorAndConfiguration() {
 function run() {
   testValidTokenResolvesTrustedContext();
   testMissingBearerFailsClosed();
+  testLegacyActorHeaderIsNotSessionFallback();
+  testMalformedAuthorizationFailsClosed();
   testTamperedTokenFailsClosed();
   testExpiredTokenFailsClosed();
+  testFutureIssuedAtFailsClosed();
+  testMissingRequiredPayloadContextFailsClosed();
+  testShortSessionSecretFailsClosed();
   testRouteOrganizationMismatchFailsClosed();
   testBodyContextMismatchFailsClosed();
   testRateLimitAllowsWithinWindowAndFailsClosedAfterLimit();

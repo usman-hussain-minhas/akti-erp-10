@@ -269,26 +269,49 @@ async function testUnsupportedCapabilityScopeFailsClosedBeforeGatekeeper() {
 }
 
 async function testMissingActorFails() {
-  const { service } = createMocks();
+  const { service, state } = createMocks();
   await assert.rejects(service.createRequest('org-1', createInput(), ''), BadRequestException);
+  assert.equal(state.gatekeeperCalls.length, 0);
+  assert.equal(state.persistedRequests.length, 0);
+  assert.equal(state.auditCalls.length, 0);
+  assert.equal(state.outboxCalls.length, 0);
+  assert.equal(state.stubDispatchCalls.length, 0);
+  assert.equal(state.stubInboundCalls.length, 0);
 }
 
 async function testCrossOrgActorFails() {
-  const { service } = createMocks();
+  const { service, state } = createMocks();
   await assert.rejects(service.createRequest('org-2', createInput({ organization_id: 'org-2' }), 'actor-1'), ForbiddenException);
+  assert.equal(state.gatekeeperCalls.length, 0);
+  assert.equal(state.persistedRequests.length, 0);
+  assert.equal(state.auditCalls.length, 0);
+  assert.equal(state.outboxCalls.length, 0);
+  assert.equal(state.stubDispatchCalls.length, 0);
+  assert.equal(state.stubInboundCalls.length, 0);
 }
 
 async function testInvalidPayloadFails() {
-  const { service } = createMocks();
+  const { service, state } = createMocks();
   await assert.rejects(service.createRequest('org-1', { invalid: true }, 'actor-1'), BadRequestException);
+  assert.equal(state.gatekeeperCalls.length, 0);
+  assert.equal(state.persistedRequests.length, 0);
+  assert.equal(state.auditCalls.length, 0);
+  assert.equal(state.outboxCalls.length, 0);
+  assert.equal(state.stubDispatchCalls.length, 0);
+  assert.equal(state.stubInboundCalls.length, 0);
 }
 
 async function testGatekeeperDegradedFails() {
-  const { service, gatekeeperPreflightService } = createMocks();
+  const { service, state, gatekeeperPreflightService } = createMocks();
   gatekeeperPreflightService.requireAllow = async () => {
     throw new ServiceUnavailableException('degraded');
   };
   await assert.rejects(service.createRequest('org-1', createInput(), 'actor-1'), ServiceUnavailableException);
+  assert.equal(state.persistedRequests.length, 0);
+  assert.equal(state.auditCalls.length, 0);
+  assert.equal(state.outboxCalls.length, 0);
+  assert.equal(state.stubDispatchCalls.length, 0);
+  assert.equal(state.stubInboundCalls.length, 0);
 }
 
 async function testRealGatekeeperUsesRegistryHealthContext() {

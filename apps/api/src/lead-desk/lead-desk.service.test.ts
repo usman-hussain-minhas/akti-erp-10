@@ -328,13 +328,21 @@ async function testCreateLeadMissingActorFails() {
 }
 
 async function testCreateLeadUnauthorizedActorFails() {
-  const { service } = createMocks();
+  const { service, state } = createMocks();
   await assert.rejects(service.createLead('org-1', createInput({ actor_user_id: 'actor-2' }), 'actor-2'), ForbiddenException);
+  assert.equal(state.created.length, 0);
+  assert.equal(state.gatekeeperCalls.length, 0);
+  assert.equal(state.auditCalls.length, 0);
+  assert.equal(state.outboxCalls.length, 0);
 }
 
 async function testCreateLeadCrossOrgDenied() {
-  const { service } = createMocks();
+  const { service, state } = createMocks();
   await assert.rejects(service.createLead('org-2', createInput({ organization_id: 'org-2' }), 'actor-1'), ForbiddenException);
+  assert.equal(state.created.length, 0);
+  assert.equal(state.gatekeeperCalls.length, 0);
+  assert.equal(state.auditCalls.length, 0);
+  assert.equal(state.outboxCalls.length, 0);
 }
 
 async function testCreateLeadInvalidPayloadFails() {
@@ -343,11 +351,15 @@ async function testCreateLeadInvalidPayloadFails() {
 }
 
 async function testCreateLeadGatekeeperDenied() {
-  const { service, gatekeeperPreflightService } = createMocks();
+  const { service, state, gatekeeperPreflightService } = createMocks();
   gatekeeperPreflightService.requireAllow = async () => {
     throw new ServiceUnavailableException('degraded');
   };
   await assert.rejects(service.createLead('org-1', createInput(), 'actor-1'), ServiceUnavailableException);
+  assert.equal(state.gatekeeperCalls.length, 0);
+  assert.equal(state.created.length, 0);
+  assert.equal(state.auditCalls.length, 0);
+  assert.equal(state.outboxCalls.length, 0);
 }
 
 async function testCreateLeadOwnUnitScopeCannotUseUnauthorizedPrimaryUnit() {
@@ -478,7 +490,7 @@ async function testUpdateLeadStatusMissingActorFails() {
 }
 
 async function testUpdateLeadStatusUnauthorizedActorFails() {
-  const { service } = createMocks();
+  const { service, state } = createMocks();
   await assert.rejects(
     service.updateLeadStatus(
       'org-1',
@@ -491,10 +503,14 @@ async function testUpdateLeadStatusUnauthorizedActorFails() {
     ),
     ForbiddenException,
   );
+  assert.equal(state.statusHistory.length, 0);
+  assert.equal(state.gatekeeperCalls.length, 0);
+  assert.equal(state.auditCalls.length, 0);
+  assert.equal(state.outboxCalls.length, 0);
 }
 
 async function testUpdateLeadStatusCrossOrgDenied() {
-  const { service } = createMocks();
+  const { service, state } = createMocks();
   await assert.rejects(
     service.updateLeadStatus(
       'org-2',
@@ -507,6 +523,10 @@ async function testUpdateLeadStatusCrossOrgDenied() {
     ),
     ForbiddenException,
   );
+  assert.equal(state.statusHistory.length, 0);
+  assert.equal(state.gatekeeperCalls.length, 0);
+  assert.equal(state.auditCalls.length, 0);
+  assert.equal(state.outboxCalls.length, 0);
 }
 
 async function testUpdateLeadStatusDeniedOutsideScope() {
@@ -543,7 +563,7 @@ async function testUpdateLeadStatusInvalidPayloadFails() {
 }
 
 async function testUpdateLeadStatusGatekeeperDenied() {
-  const { service, gatekeeperPreflightService } = createMocks();
+  const { service, state, gatekeeperPreflightService } = createMocks();
   gatekeeperPreflightService.requireAllow = async () => {
     throw new ServiceUnavailableException('degraded');
   };
@@ -559,6 +579,9 @@ async function testUpdateLeadStatusGatekeeperDenied() {
     ),
     ServiceUnavailableException,
   );
+  assert.equal(state.statusHistory.length, 0);
+  assert.equal(state.auditCalls.length, 0);
+  assert.equal(state.outboxCalls.length, 0);
 }
 
 async function testUpdateLeadStatusHistoryFailureDoesNotWriteAuditOrOutbox() {
@@ -664,7 +687,7 @@ async function testUpdateLeadAssignmentMissingActorFails() {
 }
 
 async function testUpdateLeadAssignmentUnauthorizedActorFails() {
-  const { service } = createMocks();
+  const { service, state } = createMocks();
   await assert.rejects(
     service.updateLeadAssignment(
       'org-1',
@@ -677,10 +700,14 @@ async function testUpdateLeadAssignmentUnauthorizedActorFails() {
     ),
     ForbiddenException,
   );
+  assert.equal(state.assignmentHistory.length, 0);
+  assert.equal(state.gatekeeperCalls.length, 0);
+  assert.equal(state.auditCalls.length, 0);
+  assert.equal(state.outboxCalls.length, 0);
 }
 
 async function testUpdateLeadAssignmentCrossOrgDenied() {
-  const { service } = createMocks();
+  const { service, state } = createMocks();
   await assert.rejects(
     service.updateLeadAssignment(
       'org-2',
@@ -693,6 +720,10 @@ async function testUpdateLeadAssignmentCrossOrgDenied() {
     ),
     ForbiddenException,
   );
+  assert.equal(state.assignmentHistory.length, 0);
+  assert.equal(state.gatekeeperCalls.length, 0);
+  assert.equal(state.auditCalls.length, 0);
+  assert.equal(state.outboxCalls.length, 0);
 }
 
 async function testUpdateLeadAssignmentDeniedOutsideScope() {
@@ -729,7 +760,7 @@ async function testUpdateLeadAssignmentInvalidPayloadFails() {
 }
 
 async function testUpdateLeadAssignmentGatekeeperDenied() {
-  const { service, gatekeeperPreflightService } = createMocks();
+  const { service, state, gatekeeperPreflightService } = createMocks();
   gatekeeperPreflightService.requireAllow = async () => {
     throw new ServiceUnavailableException('degraded');
   };
@@ -745,6 +776,9 @@ async function testUpdateLeadAssignmentGatekeeperDenied() {
     ),
     ServiceUnavailableException,
   );
+  assert.equal(state.assignmentHistory.length, 0);
+  assert.equal(state.auditCalls.length, 0);
+  assert.equal(state.outboxCalls.length, 0);
 }
 
 async function testUpdateLeadAssignmentHistoryFailureDoesNotWriteAuditOrOutbox() {

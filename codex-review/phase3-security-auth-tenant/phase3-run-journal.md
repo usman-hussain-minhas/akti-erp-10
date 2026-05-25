@@ -273,3 +273,25 @@ Execution notes:
 - Frontend tests were replaced with equivalent or stronger bearer-context coverage.
 - Full implementation-ticket validation ladder passed.
 - No bounded repair attempts were needed.
+
+## P3-013 - Security and Tenant Negative Test Pass
+
+Exact-file plan:
+
+- Add auth/session and rate-limit negative coverage:
+  - `apps/api/src/security/request-context.test.ts`
+- Strengthen service no-write negative coverage:
+  - `apps/api/src/lead-desk/lead-desk.service.test.ts`
+  - `apps/api/src/engagement-gateway/engagement-gateway.service.test.ts`
+- Add static coverage and boundary guards:
+  - `apps/api/src/phase1-hardening/phase1-release-blockers.test.ts`
+- Create P3-013 summary, changed-files archive, and validation summary under `codex-review/phase3-security-auth-tenant/ticket-artifacts/P3-013/`.
+- Do not modify production source, Prisma, generated registry, contracts, package dependencies, workflows, deployment files, production credentials, or secrets.
+
+Execution notes:
+
+- Added auth/session negative tests for legacy actor-header fallback denial, malformed authorization, future issued-at timestamps, missing required payload context, and short session secrets.
+- Strengthened Lead Desk and Engagement Gateway negative tests to verify denied paths do not write audit/outbox evidence, persistence rows, histories, or WhatsApp stub dispatches.
+- Added static guards that Phase 3 negative test coverage remains wired and that Lead Desk does not couple directly to WhatsApp or real outbound WhatsApp behavior.
+- Focused API/web tests and the full validation ladder passed.
+- No bounded repair attempts were needed.
