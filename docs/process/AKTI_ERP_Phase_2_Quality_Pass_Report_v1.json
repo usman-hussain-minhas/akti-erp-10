@@ -276,6 +276,17 @@
         "No Prisma schema or migration files were changed by P2Q-007.",
         "A future deployment-readiness phase should either provide an approved full baseline migration path or an explicitly approved non-production bootstrap procedure before claiming fresh production database readiness."
       ]
+    },
+    {
+      "ticket_id": "P2Q-008",
+      "status": "deferred_to_phase_3_security",
+      "title": "Route rate-limit contract/runtime status",
+      "summary": "Current manifests declare route-level rate_limited intent, but this branch does not include a runtime NestJS throttler, rate-limit middleware, or no-new-dependency production-grade limiter.",
+      "security_boundary": [
+        "No production auth/session or security architecture was introduced by P2Q-008.",
+        "No package dependencies were added.",
+        "The rate_limited manifest fields remain treated as contract intent until a separately approved Phase 3 security ticket wires runtime enforcement."
+      ]
     }
   ],
   "recommended_ticket_queue": [
