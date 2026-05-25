@@ -54,3 +54,9 @@ Executed the P4-004 fresh DB/bootstrap proof against a disposable local PostgreS
 Status: COMPLETE.
 
 Added a committed Prisma CLI config, an initial schema baseline migration generated from `b8961d3^:prisma/schema.prisma`, and a narrow post-delta migration-chain alignment migration. Clean disposable PostgreSQL `prisma migrate deploy` now applies the committed migration chain successfully, and DB-to-schema diff returns an empty migration. API start, setup organization smoke, health smoke, registry checks, contracts validation, lint, typecheck, tests, and build passed against the repaired chain. P4-009 can now be resumed separately; P4-010 has not started.
+
+## P4-009 Resume
+
+Status: COMPLETE.
+
+Regenerated P4-009 clean DB/bootstrap evidence after P4-009R. A new disposable local PostgreSQL database applied all committed migrations through `prisma migrate deploy`, DB-to-schema diff returned an empty migration, the API started with non-secret placeholder env values, setup organization completed, health returned healthy, registry checks passed, and the full validation ladder passed. `prisma db push` was not used as final proof. P4-010 is unblocked after this evidence commit.

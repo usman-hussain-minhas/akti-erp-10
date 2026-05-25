@@ -1,4 +1,4 @@
-COMMAND: initdb -A trust --encoding=UTF8 --locale=C -D codex-review/phase4-operational-proof/local-runtime/pgdata
+COMMAND: rm -rf codex-review/phase4-operational-proof/local-runtime/p4-009-resume && initdb -A trust --encoding=UTF8 --locale=C -D codex-review/phase4-operational-proof/local-runtime/p4-009-resume/pgdata && pg_ctl start && createdb
 The files belonging to this database system will be owned by user "usman".
 This user must also own the server process.
 
@@ -7,7 +7,7 @@ The default text search configuration will be set to "english".
 
 Data page checksums are disabled.
 
-creating directory codex-review/phase4-operational-proof/local-runtime/pgdata ... ok
+creating directory codex-review/phase4-operational-proof/local-runtime/p4-009-resume/pgdata ... ok
 creating subdirectories ... ok
 selecting dynamic shared memory implementation ... posix
 selecting default max_connections ... 100
@@ -20,6 +20,8 @@ syncing data to disk ... ok
 
 Success. You can now start the database server using:
 
-    pg_ctl -D codex-review/phase4-operational-proof/local-runtime/pgdata -l logfile start
+    pg_ctl -D codex-review/phase4-operational-proof/local-runtime/p4-009-resume/pgdata -l logfile start
 
+waiting for server to start.... done
+server started
 EXIT:0

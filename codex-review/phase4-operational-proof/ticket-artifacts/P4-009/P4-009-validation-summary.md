@@ -2,43 +2,53 @@
 
 Ticket: P4-009 - Fresh DB/bootstrap implementation proof
 
-Status: STOPPED_WITH_FINDINGS
+Status: PASS
 
 ## Ticket-Specific Validation
 
 | Check | Result | Evidence |
 | --- | --- | --- |
-| Initialize disposable local PostgreSQL | PASS | `fresh-db-run-log.txt` |
-| Start disposable local PostgreSQL | PASS | `postgres-start-log.txt` |
-| Create disposable proof database | PASS | `createdb-log.txt` |
-| Prisma migrate deploy against clean DB | FAIL | `migration-log.txt` |
-| Prisma db push bounded local/demo fallback | PASS | `db-push-bootstrap-log.txt` |
+| Pre-status check | PASS | `pre-status-log.txt` |
+| HEAD check | PASS | `pre-head-log.txt` |
+| Clean disposable DB init/start/create | PASS | `fresh-db-run-log.txt` |
+| Prisma migrate deploy against clean DB | PASS | `migration-log.txt` |
+| DB-to-schema diff | PASS | `db-to-schema-diff-log.txt` |
+| Prisma validate | PASS | `prisma-validate-log.txt` |
 | Prisma generate | PASS | `prisma-generate-log.txt` |
-| API build | PASS | `api-build-log.txt` |
+| Registry generate | PASS | `registry-generate-log.txt` |
+| Generated registry drift check | PASS | `generated-registry-diff-log.txt` |
+| Registry check | PASS | `capability-registry-check-log.txt` |
+| Registry Phase 2 verify | PASS | `registry-verify-phase2-log.txt` |
+| Contracts validate | PASS | `contracts-validate-log.txt` |
+| Lint | PASS | `lint-log.txt` |
+| Typecheck | PASS | `typecheck-log.txt` |
+| Test | PASS | `test-log.txt` |
+| Build | PASS | `build-log.txt` |
 | API start against proof DB | PASS | `api-start-for-bootstrap-log.txt` |
 | Setup organization smoke path | PASS | `setup-organization-smoke-log.txt` |
 | API health after setup | PASS | `api-health-after-bootstrap-log.txt` |
-| Registry check after setup | PASS | `capability-registry-check-log.txt` |
-| Manual DB hack attestation | PASS | `manual-hack-attestation.md` |
+| Prisma schema drift check | PASS | `schema-diff-log.txt` |
+| Registry metadata drift check | PASS | `metadata-diff-log.txt` |
+| Git diff whitespace check | PASS | `diff-check-log.txt` |
+| Disposable service stop check | PASS | `service-stop-log.txt` |
 | Redaction review | PASS | `redaction-review.md` |
 
-## Bounded Repair Attempts
+## DB-To-Schema Diff Result
 
-1. Fixed local PostgreSQL initialization by specifying a safe local locale after `initdb` rejected default locale settings.
-2. Added a temporary non-repo Prisma config path for Prisma 7 datasource URL handling; this reached the local database but exposed a schema engine connection/user issue.
-3. Used an explicit local PostgreSQL user in the disposable connection URL. Migration deploy then reached the database and failed because checked-in migrations do not create the baseline tables expected by the first migration.
+`pnpm exec prisma migrate diff --from-config-datasource --to-schema prisma/schema.prisma --script --exit-code --config prisma.config.ts` returned exit code 0 and:
 
-## Full Validation Ladder
-
-The full Phase 4 validation ladder was not run after P4-009 because the P4-009 success criterion did not pass and execution stopped before moving to P4-010.
+```sql
+-- This is an empty migration.
+```
 
 ## Drift Status
 
-- No runtime source changes were made.
-- No Prisma schema or migration files were changed.
-- No contracts, manifests, generated registry, package files, deployment files, real env files, or secrets were changed.
-- Local proof runtime files under `codex-review/phase4-operational-proof/local-runtime/` are disposable and not part of the source tree.
+- `prisma/schema.prisma`: no diff.
+- `prisma/entity-registry.metadata.json`: no diff.
+- `generated/entity-registry.generated.json`: no diff after `pnpm registry:generate`.
+- No existing migration folders were edited or deleted.
+- No runtime source, contracts, package files, deployment files, real env files, or secrets changed.
 
 ## Conclusion
 
-P4-009 produced useful controlled local/demo bootstrap evidence, but it did not satisfy the required Prisma migration bootstrap proof. Execution must stop for owner decision before P4-010.
+P4-009 clean disposable DB bootstrap now passes through committed migrations. `prisma db push` was not used as final proof.

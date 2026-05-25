@@ -1,9 +1,7 @@
 # P4-009 Blocker Classification
 
-Classification: migration issue / accepted deferral candidate.
+Status: RESOLVED_BY_P4_009R
 
-Prisma migrate deploy reaches the disposable local PostgreSQL database but cannot initialize a fresh empty database from the checked-in migration set. The checked-in migrations are Phase 2 alter/additive migrations and do not include a complete baseline migration for the existing Phase 1 structural tables.
+The earlier P4-009 blocker was that the checked-in migration chain lacked a baseline migration and failed on a clean disposable database. P4-009R added a committed baseline migration and narrow alignment migration without editing existing migrations or changing `prisma/schema.prisma`.
 
-Bounded proof fallback: `prisma db push --url` against the empty disposable DB was used to materialize the current schema for controlled local/demo runtime proof without source/schema changes or manual DB hacks.
-
-Impact: controlled local/demo runtime bootstrap is proven, but production-grade empty-database migration bootstrap remains a Phase 4 closure risk/deferral unless a later approved ticket adds the missing baseline migration/config path.
+Current P4-009 resumed proof applies committed migrations successfully with `prisma migrate deploy`. There is no active bootstrap blocker in the resumed evidence.
