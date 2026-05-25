@@ -14,6 +14,10 @@ function createMocks() {
     stubDispatchCalls: [] as unknown[],
     stubInboundCalls: [] as unknown[],
     persistedRequests: [] as Array<Record<string, unknown>>,
+    capabilityAssignmentScopes: new Map<string, string>([
+      ['engagement.gateway.request.create', 'organization'],
+      ['engagement.gateway.health.read', 'organization'],
+    ]),
     moduleStatuses: new Map<string, string>([
       ['core.access', 'available'],
       ['engagement.gateway', 'available'],
@@ -45,10 +49,11 @@ function createMocks() {
       },
     },
     groupCapability: {
-      findFirst: async ({ where }: { where: { capability_key: string } }) => {
+      findFirst: async ({ where }: { where: { capability_key: string; scope_type: { in: string[] } } }) => {
+        const assignmentScope = state.capabilityAssignmentScopes.get(where.capability_key);
         if (
-          where.capability_key === 'engagement.gateway.request.create' ||
-          where.capability_key === 'engagement.gateway.health.read'
+          assignmentScope &&
+          where.scope_type.in.includes(assignmentScope)
         ) {
           return { id: 'cap-1' };
         }
@@ -234,6 +239,17 @@ async function testCreateRequestWhatsappStubFlow() {
   assert.equal(state.stubInboundCalls.length, 1);
 }
 
+async function testUnsupportedCapabilityScopeFailsClosedBeforeGatekeeper() {
+  const { service, state } = createMocks();
+  state.capabilityAssignmentScopes.set('engagement.gateway.request.create', 'own_unit');
+
+  await assert.rejects(service.createRequest('org-1', createInput(), 'actor-1'), ForbiddenException);
+  assert.equal(state.gatekeeperCalls.length, 0);
+  assert.equal(state.persistedRequests.length, 0);
+  assert.equal(state.auditCalls.length, 0);
+  assert.equal(state.outboxCalls.length, 0);
+}
+
 async function testMissingActorFails() {
   const { service } = createMocks();
   await assert.rejects(service.createRequest('org-1', createInput(), ''), BadRequestException);
@@ -279,6 +295,7 @@ async function run() {
   await testCreateRequestHappyPathUsesRealGatekeeper();
   await testCreateRequestIdempotencyReturnsExistingRecord();
   await testCreateRequestWhatsappStubFlow();
+  await testUnsupportedCapabilityScopeFailsClosedBeforeGatekeeper();
   await testMissingActorFails();
   await testCrossOrgActorFails();
   await testInvalidPayloadFails();

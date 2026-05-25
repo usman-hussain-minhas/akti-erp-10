@@ -7,6 +7,7 @@ import {
 import type { GatekeeperRequest } from '@akti/contracts/gatekeeper-contract';
 
 import { GatekeeperPreflightService } from '../gatekeeper/gatekeeper-preflight.service';
+import { loadPhase2CapabilityScopeMap } from '../module-registry/module-registry.service';
 import { AuditLogService } from '../platform-observability/audit-log.service';
 import { EventOutboxService } from '../platform-observability/event-outbox.service';
 import { PrismaService } from '../prisma/prisma.service';
@@ -244,6 +245,12 @@ export class EngagementGatewayService {
   }
 
   private async requireCapability(organizationId: string, actorUserId: string, capabilityKey: string) {
+    const scopeMap = await loadPhase2CapabilityScopeMap();
+    const allowedScopeTypes = scopeMap.get(capabilityKey);
+    if (!allowedScopeTypes || allowedScopeTypes.length === 0) {
+      throw new ForbiddenException(`capability scope definition missing for ${capabilityKey}`);
+    }
+
     const memberships = await this.prisma.userGroup.findMany({
       where: {
         organization_id: organizationId,
@@ -266,6 +273,9 @@ export class EngagementGatewayService {
           in: activeGroupIds,
         },
         capability_key: capabilityKey,
+        scope_type: {
+          in: [...allowedScopeTypes],
+        },
       },
       select: {
         id: true,
