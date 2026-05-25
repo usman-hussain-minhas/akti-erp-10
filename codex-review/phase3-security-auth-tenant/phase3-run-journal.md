@@ -176,3 +176,27 @@ Execution notes:
 - Added static checks for tenant-scoped metadata and current service-level organization-scoped query patterns.
 - Full implementation-ticket validation ladder passed.
 - Bounded repair attempt 1: corrected an Access Core static evidence snippet to match the repo's actual organization-scoped delete pattern.
+
+## P3-009 - Access Core and Gatekeeper Auth Integration
+
+Exact-file plan:
+
+- Update Access Core trusted actor terminology and tests:
+  - `apps/api/src/access-core/access-core.service.ts`
+  - `apps/api/src/access-core/access-core.service.test.ts`
+- Harden Gatekeeper fail-closed checks and tests:
+  - `apps/api/src/gatekeeper/gatekeeper-preflight.service.ts`
+  - `apps/api/src/gatekeeper/gatekeeper-preflight.service.test.ts`
+- Update static release/security guard:
+  - `apps/api/src/phase1-hardening/phase1-release-blockers.test.ts`
+- Create P3-009 summary, changed-files archive, and validation summary under `codex-review/phase3-security-auth-tenant/ticket-artifacts/P3-009/`.
+- Do not modify Prisma, generated registry, contracts, dependencies, workflows, deployment files, production credentials, or secrets.
+
+Execution notes:
+
+- Reframed Access Core protected actor input as trusted actor context after P3-007B moved controller ingress to signed bearer context.
+- Preserved Access Core same-organization actor lookup, capability checks, Gatekeeper preflight ordering, audit, and outbox behavior.
+- Added Gatekeeper denial when preflight context has no active actor groups.
+- Added static invariants for trusted-context wording and Gatekeeper active-group fail-closed behavior.
+- Full implementation-ticket validation ladder passed.
+- No bounded repair attempts were needed.

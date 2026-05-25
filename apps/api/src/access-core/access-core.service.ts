@@ -134,10 +134,10 @@ export class AccessCoreService {
     };
   }
 
-  async createUser(organizationId: string, input: CreateUserInput, actorUserIdRaw?: string): Promise<User> {
+  async createUser(organizationId: string, input: CreateUserInput, trustedActorUserId?: string): Promise<User> {
     try {
       return await this.prisma.$transaction(async (tx) => {
-        const actor = await this.requireAccessPolicyManageActor(tx, organizationId, actorUserIdRaw);
+        const actor = await this.requireAccessPolicyManageActor(tx, organizationId, trustedActorUserId);
         await this.requireGatekeeperPreflight({
           organization_id: organizationId,
           actor,
@@ -185,8 +185,8 @@ export class AccessCoreService {
     }
   }
 
-  async listUsers(organizationId: string, actorUserIdRaw?: string): Promise<ListResponse<User>> {
-    await this.requireAccessPolicyManageActor(this.prisma, organizationId, actorUserIdRaw);
+  async listUsers(organizationId: string, trustedActorUserId?: string): Promise<ListResponse<User>> {
+    await this.requireAccessPolicyManageActor(this.prisma, organizationId, trustedActorUserId);
     await this.assertOrganizationExistsInDb(this.prisma, organizationId);
 
     const items = await this.prisma.user.findMany({
@@ -197,8 +197,8 @@ export class AccessCoreService {
     return { items };
   }
 
-  async getUser(organizationId: string, userId: string, actorUserIdRaw?: string): Promise<User> {
-    await this.requireAccessPolicyManageActor(this.prisma, organizationId, actorUserIdRaw);
+  async getUser(organizationId: string, userId: string, trustedActorUserId?: string): Promise<User> {
+    await this.requireAccessPolicyManageActor(this.prisma, organizationId, trustedActorUserId);
     return this.getUserInDb(this.prisma, organizationId, userId);
   }
 
@@ -206,11 +206,11 @@ export class AccessCoreService {
     organizationId: string,
     userId: string,
     input: UpdateUserInput,
-    actorUserIdRaw?: string,
+    trustedActorUserId?: string,
   ): Promise<User> {
     try {
       return await this.prisma.$transaction(async (tx) => {
-        const actor = await this.requireAccessPolicyManageActor(tx, organizationId, actorUserIdRaw);
+        const actor = await this.requireAccessPolicyManageActor(tx, organizationId, trustedActorUserId);
         await this.requireGatekeeperPreflight({
           organization_id: organizationId,
           actor,
@@ -278,9 +278,9 @@ export class AccessCoreService {
     }
   }
 
-  async deleteUser(organizationId: string, userId: string, actorUserIdRaw?: string): Promise<{ deleted: true }> {
+  async deleteUser(organizationId: string, userId: string, trustedActorUserId?: string): Promise<{ deleted: true }> {
     return this.prisma.$transaction(async (tx) => {
-      const actor = await this.requireAccessPolicyManageActor(tx, organizationId, actorUserIdRaw);
+      const actor = await this.requireAccessPolicyManageActor(tx, organizationId, trustedActorUserId);
       await this.requireGatekeeperPreflight({
         organization_id: organizationId,
         actor,
@@ -348,10 +348,10 @@ export class AccessCoreService {
     });
   }
 
-  async createGroup(organizationId: string, input: CreateGroupInput, actorUserIdRaw?: string): Promise<Group> {
+  async createGroup(organizationId: string, input: CreateGroupInput, trustedActorUserId?: string): Promise<Group> {
     try {
       return await this.prisma.$transaction(async (tx) => {
-        const actor = await this.requireAccessPolicyManageActor(tx, organizationId, actorUserIdRaw);
+        const actor = await this.requireAccessPolicyManageActor(tx, organizationId, trustedActorUserId);
         await this.requireGatekeeperPreflight({
           organization_id: organizationId,
           actor,
@@ -393,8 +393,8 @@ export class AccessCoreService {
     }
   }
 
-  async listGroups(organizationId: string, actorUserIdRaw?: string): Promise<ListResponse<Group>> {
-    await this.requireAccessPolicyManageActor(this.prisma, organizationId, actorUserIdRaw);
+  async listGroups(organizationId: string, trustedActorUserId?: string): Promise<ListResponse<Group>> {
+    await this.requireAccessPolicyManageActor(this.prisma, organizationId, trustedActorUserId);
     await this.assertOrganizationExistsInDb(this.prisma, organizationId);
 
     const items = await this.prisma.group.findMany({
@@ -405,8 +405,8 @@ export class AccessCoreService {
     return { items };
   }
 
-  async getGroup(organizationId: string, groupId: string, actorUserIdRaw?: string): Promise<Group> {
-    await this.requireAccessPolicyManageActor(this.prisma, organizationId, actorUserIdRaw);
+  async getGroup(organizationId: string, groupId: string, trustedActorUserId?: string): Promise<Group> {
+    await this.requireAccessPolicyManageActor(this.prisma, organizationId, trustedActorUserId);
     return this.getGroupInDb(this.prisma, organizationId, groupId);
   }
 
@@ -414,11 +414,11 @@ export class AccessCoreService {
     organizationId: string,
     groupId: string,
     input: UpdateGroupInput,
-    actorUserIdRaw?: string,
+    trustedActorUserId?: string,
   ): Promise<Group> {
     try {
       return await this.prisma.$transaction(async (tx) => {
-        const actor = await this.requireAccessPolicyManageActor(tx, organizationId, actorUserIdRaw);
+        const actor = await this.requireAccessPolicyManageActor(tx, organizationId, trustedActorUserId);
         await this.requireGatekeeperPreflight({
           organization_id: organizationId,
           actor,
@@ -478,9 +478,9 @@ export class AccessCoreService {
     }
   }
 
-  async deleteGroup(organizationId: string, groupId: string, actorUserIdRaw?: string): Promise<{ deleted: true }> {
+  async deleteGroup(organizationId: string, groupId: string, trustedActorUserId?: string): Promise<{ deleted: true }> {
     return this.prisma.$transaction(async (tx) => {
-      const actor = await this.requireAccessPolicyManageActor(tx, organizationId, actorUserIdRaw);
+      const actor = await this.requireAccessPolicyManageActor(tx, organizationId, trustedActorUserId);
       await this.requireGatekeeperPreflight({
         organization_id: organizationId,
         actor,
@@ -551,11 +551,11 @@ export class AccessCoreService {
   async createMembership(
     organizationId: string,
     input: CreateMembershipInput,
-    actorUserIdRaw?: string,
+    trustedActorUserId?: string,
   ): Promise<UserGroup> {
     try {
       return await this.prisma.$transaction(async (tx) => {
-        const actor = await this.requireAccessPolicyManageActor(tx, organizationId, actorUserIdRaw);
+        const actor = await this.requireAccessPolicyManageActor(tx, organizationId, trustedActorUserId);
         await this.requireGatekeeperPreflight({
           organization_id: organizationId,
           actor,
@@ -598,8 +598,8 @@ export class AccessCoreService {
     }
   }
 
-  async listMemberships(organizationId: string, actorUserIdRaw?: string): Promise<ListResponse<UserGroup>> {
-    await this.requireAccessPolicyManageActor(this.prisma, organizationId, actorUserIdRaw);
+  async listMemberships(organizationId: string, trustedActorUserId?: string): Promise<ListResponse<UserGroup>> {
+    await this.requireAccessPolicyManageActor(this.prisma, organizationId, trustedActorUserId);
     await this.assertOrganizationExistsInDb(this.prisma, organizationId);
 
     const items = await this.prisma.userGroup.findMany({
@@ -613,10 +613,10 @@ export class AccessCoreService {
   async deleteMembership(
     organizationId: string,
     membershipId: string,
-    actorUserIdRaw?: string,
+    trustedActorUserId?: string,
   ): Promise<{ deleted: true }> {
     return this.prisma.$transaction(async (tx) => {
-      const actor = await this.requireAccessPolicyManageActor(tx, organizationId, actorUserIdRaw);
+      const actor = await this.requireAccessPolicyManageActor(tx, organizationId, trustedActorUserId);
       await this.requireGatekeeperPreflight({
         organization_id: organizationId,
         actor,
@@ -668,11 +668,11 @@ export class AccessCoreService {
   async createGroupCapabilityAssignment(
     organizationId: string,
     input: CreateGroupCapabilityInput,
-    actorUserIdRaw?: string,
+    trustedActorUserId?: string,
   ): Promise<GroupCapability> {
     try {
       return await this.prisma.$transaction(async (tx) => {
-        const actor = await this.requireAccessPolicyManageActor(tx, organizationId, actorUserIdRaw);
+        const actor = await this.requireAccessPolicyManageActor(tx, organizationId, trustedActorUserId);
         await this.requireGatekeeperPreflight({
           organization_id: organizationId,
           actor,
@@ -770,9 +770,9 @@ export class AccessCoreService {
 
   async listGroupCapabilityAssignments(
     organizationId: string,
-    actorUserIdRaw?: string,
+    trustedActorUserId?: string,
   ): Promise<ListResponse<GroupCapability>> {
-    await this.requireAccessPolicyManageActor(this.prisma, organizationId, actorUserIdRaw);
+    await this.requireAccessPolicyManageActor(this.prisma, organizationId, trustedActorUserId);
     await this.assertOrganizationExistsInDb(this.prisma, organizationId);
 
     const items = await this.prisma.groupCapability.findMany({
@@ -786,10 +786,10 @@ export class AccessCoreService {
   async deleteGroupCapabilityAssignment(
     organizationId: string,
     assignmentId: string,
-    actorUserIdRaw?: string,
+    trustedActorUserId?: string,
   ): Promise<{ deleted: true }> {
     return this.prisma.$transaction(async (tx) => {
-      const actor = await this.requireAccessPolicyManageActor(tx, organizationId, actorUserIdRaw);
+      const actor = await this.requireAccessPolicyManageActor(tx, organizationId, trustedActorUserId);
       await this.requireGatekeeperPreflight({
         organization_id: organizationId,
         actor,
@@ -858,11 +858,11 @@ export class AccessCoreService {
   private async requireAccessPolicyManageActor(
     db: DbClient,
     organizationId: string,
-    actorUserIdRaw?: string,
+    trustedActorUserId?: string,
   ): Promise<AuthorizedAccessActor> {
-    const actorUserId = this.normalizeActorUserId(actorUserIdRaw);
+    const actorUserId = this.normalizeTrustedActorUserId(trustedActorUserId);
     if (!actorUserId) {
-      throw new BadRequestException('x-actor-user-id is required for protected Access Core operations');
+      throw new BadRequestException('trusted actor context is required for protected Access Core operations');
     }
 
     const actor = await db.user.findFirst({
@@ -876,7 +876,7 @@ export class AccessCoreService {
     });
 
     if (!actor) {
-      throw new BadRequestException('x-actor-user-id must reference a user in the same organization');
+      throw new BadRequestException('trusted actor context must reference a user in the same organization');
     }
 
     const capability = await db.capability.findUnique({
@@ -985,12 +985,12 @@ export class AccessCoreService {
     });
   }
 
-  private normalizeActorUserId(actorUserIdRaw?: string | null): string | null {
-    if (typeof actorUserIdRaw !== 'string') {
+  private normalizeTrustedActorUserId(trustedActorUserId?: string | null): string | null {
+    if (typeof trustedActorUserId !== 'string') {
       return null;
     }
 
-    const trimmed = actorUserIdRaw.trim();
+    const trimmed = trustedActorUserId.trim();
     return trimmed.length > 0 ? trimmed : null;
   }
 

@@ -1341,7 +1341,7 @@ async function testMissingActorPreflightRunsBeforeProtectedResourceReads() {
       assert.ok(error instanceof BadRequestException);
       assert.equal(
         (error as Error).message,
-        'x-actor-user-id is required for protected Access Core operations',
+        'trusted actor context is required for protected Access Core operations',
       );
       return true;
     },
@@ -1366,7 +1366,7 @@ async function testMissingActorPreflightRunsBeforeProtectedResourceReads() {
       assert.ok(error instanceof BadRequestException);
       assert.equal(
         (error as Error).message,
-        'x-actor-user-id is required for protected Access Core operations',
+        'trusted actor context is required for protected Access Core operations',
       );
       return true;
     },
@@ -1394,7 +1394,7 @@ async function testMissingActorPreflightRunsBeforeProtectedResourceReads() {
       assert.ok(error instanceof BadRequestException);
       assert.equal(
         (error as Error).message,
-        'x-actor-user-id is required for protected Access Core operations',
+        'trusted actor context is required for protected Access Core operations',
       );
       return true;
     },

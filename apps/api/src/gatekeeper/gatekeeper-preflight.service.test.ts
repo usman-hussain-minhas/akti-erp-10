@@ -220,6 +220,18 @@ async function testDefaultProviderDeniesInvalidContext() {
   await assert.rejects(
     service.requireAllow(
       preflightInput({
+        active_group_ids: [],
+      }),
+    ),
+    (error: unknown) => {
+      assert.ok(error instanceof ForbiddenException);
+      return true;
+    },
+  );
+
+  await assert.rejects(
+    service.requireAllow(
+      preflightInput({
         capability_key: 'lead.intake.create',
         module_key: 'lead.desk',
         module_health: {

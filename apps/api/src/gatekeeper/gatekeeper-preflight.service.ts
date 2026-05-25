@@ -130,6 +130,10 @@ class Phase1GatekeeperDecisionProvider implements GatekeeperDecisionProvider {
       return this.deny(request, 'gatekeeper.capability.missing', 'Gatekeeper context is missing requested capability.');
     }
 
+    if (request.context.active_group_ids.length === 0) {
+      return this.deny(request, 'gatekeeper.active-groups.missing', 'Gatekeeper context is missing active actor groups.');
+    }
+
     const moduleHealth = request.context.module_health[policy.module_key];
     if (moduleHealth === undefined) {
       return this.degradedBlock(

@@ -219,6 +219,27 @@ function testTenantScopedMetadataAndServicesRequireOrganizationIsolation() {
   }
 }
 
+function testAccessCoreGatekeeperTrustedContextInvariants() {
+  const accessCoreSource = readFileSync(join(apiSourceRoot, 'access-core/access-core.service.ts'), 'utf8');
+  const gatekeeperSource = readFileSync(join(apiSourceRoot, 'gatekeeper/gatekeeper-preflight.service.ts'), 'utf8');
+
+  assert.equal(
+    accessCoreSource.includes('trusted actor context is required for protected Access Core operations'),
+    true,
+    'Access Core must describe protected actor input as trusted context, not caller headers',
+  );
+  assert.equal(
+    accessCoreSource.includes('x-actor-user-id is required for protected Access Core operations'),
+    false,
+    'Access Core must not preserve header-trust wording after trusted-context migration',
+  );
+  assert.equal(
+    gatekeeperSource.includes('request.context.active_group_ids.length === 0'),
+    true,
+    'Gatekeeper must fail closed when trusted context has no active actor groups',
+  );
+}
+
 function testApiTestFixturesDoNotLeakHardcodedBusinessTerms() {
   const forbiddenTerms = [
     ['cam', 'pus'].join(''),
@@ -252,6 +273,7 @@ function run() {
   testAccessCoreTenantReadRoutesUseTrustedRequestContext();
   testApiControllersUseTrustedRequestContextAtIngress();
   testTenantScopedMetadataAndServicesRequireOrganizationIsolation();
+  testAccessCoreGatekeeperTrustedContextInvariants();
   testApiTestFixturesDoNotLeakHardcodedBusinessTerms();
 
   console.log('phase1-release-blockers tests passed');
