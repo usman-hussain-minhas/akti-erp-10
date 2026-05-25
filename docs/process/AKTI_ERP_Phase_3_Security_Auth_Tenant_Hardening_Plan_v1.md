@@ -1,700 +1,269 @@
-# AKTI ERP Phase 3 — Security, Auth, Tenant and Operational Trust Foundation Plan v1
+# AKTI ERP Phase 3 - Security/Auth/Tenant Hardening Plan v1
 
-**Status:** Planning brief only  
-**Active repo path:** `docs/process/AKTI_ERP_Phase_3_Security_Auth_Tenant_Hardening_Plan_v1.md`  
-**Purpose:** Define the direction, boundaries, required decisions, and planning requirements for Phase 3 before Codex creates the Phase 3 ticket pack.  
-**Authority:** This document is a planning control document. It is not an implementation ticket pack, audit report, deployment plan, or final source of truth for individual tickets.
+**Status:** Active Phase 3 control plan
+**Project:** AKTI ERP 1.0
+**Phase:** Phase 3 - Security/Auth/Tenant Hardening
+**Authority:** Planning and ticket-pack control document only. Prisma, contracts, module manifests, generated registry, ADRs, and `AGENTS.md` remain higher authority.
+**Audit rule:** The Phase 3 audit report is an exit artifact only. It must remain a stub during planning and must say: "To be completed at Phase 3 closure."
 
----
+## 1. Accepted Baseline
 
-## 1. Current Accepted State
+Phase 1 is `PASS`.
 
-AKTI ERP has completed and merged:
+Phase 2 is `PASS_WITH_ACCEPTED_DEFERRALS`.
 
-```text
-Phase 0 — Governance and source-of-truth baseline
-Phase 1 — Platform foundation
-Phase 1 hardening
-Phase 2 — First module-layer proof
-Phase 2 hardening
-Phase 2 quality pass
-Post-merge Phase 1 + Phase 2 audit
-Post-Phase-2 source refresh
+Phase 1 and Phase 2 are merged to `main`; post-merge audit, source refresh, and doctrine/process refresh have completed.
+
+Phase 3 is next. Phase 4 deployment/staging/visual QA must wait until Phase 3 security/auth/tenant decisions are complete.
+
+Architecture classifications to preserve:
+
+| Classification | Scope |
+|---|---|
+| Platform Core | Organization, Access, Hierarchy, Gatekeeper, Audit, Outbox, Module Registry, Configuration, Portal Shell |
+| Engagement Gateway Lite | Shared platform module |
+| Lead Desk | Business module |
+| WhatsApp stub | Integration adapter |
+
+Accepted deferrals carried into Phase 3/Phase 4:
+
+| Deferral | Phase 3 handling |
+|---|---|
+| production deployment | Not in Phase 3; Phase 4 only |
+| production auth/session | Phase 3 decision and bounded implementation |
+| production WhatsApp credentials | Not in Phase 3 |
+| real outbound WhatsApp | Not in Phase 3 |
+| fresh empty-database bootstrap baseline | Phase 3 decision or bounded deferral |
+| runtime route limiting | Phase 3 decision and bounded implementation/handoff |
+| browser-rendered frontend tests | Phase 4 unless explicitly scoped as Phase 3 security tests |
+
+## 2. Phase 3 Verdict
+
+Phase 3 is `HYBRID`, leaning `ADDING missing security/tenant architecture`.
+
+Existing foundations are real but partial:
+
+- service-level organization checks;
+- Access Core actor/capability boundaries;
+- Gatekeeper fail-closed checks;
+- audit/outbox evidence;
+- module manifests and generated registry;
+- CI validation ladder from Phase 2.
+
+Missing or incomplete foundations:
+
+- production auth/session;
+- trusted tenant context propagation;
+- DB RLS enforcement;
+- secrets/environment policy;
+- runtime route limiting;
+- session-aware frontend operator context;
+- fresh DB/bootstrap path.
+
+Phase 3 must not assume "hardening only." It must convert accepted decisions into runtime behavior, tests, and validation evidence wherever current repo authority and Phase 3 scope permit.
+
+## 3. Security/Tenant Reality Assessment
+
+| Area | Existing foundation | Repo evidence | Missing gaps | Verdict | Required decision |
+|---|---|---|---|---|---|
+| auth/session | no | `apps/api/src/main.ts`, API controllers, and web client rely on local/request-provided identity rather than a trusted auth/session layer | production auth/session strategy, trusted identity, session failure behavior | adding | P3-002 |
+| tenant context propagation | partial | tenant/org IDs exist in Prisma, Access Core, Lead Desk, Engagement Gateway, and tests; current API identity often uses `x-actor-user-id` and route/body org context | trusted request tenant context provider and migration away from caller-controlled headers | hybrid | P3-002, P3-007A, P3-007B |
+| RLS/database isolation | partial | Prisma tenant-scoped models include `organization_id`; registry metadata marks RLS requirements | no confirmed DB-level RLS policy implementation | hybrid | P3-003, P3-008 |
+| service-level tenant checks | partial | Access Core, Lead Desk, Engagement Gateway, and Gatekeeper perform same-org and org-scoped checks | consistency after trusted auth context and broader negative coverage | hardening | P3-007B, P3-009, P3-013 |
+| Access Core after auth | partial | Access Core checks actor/capability/org boundaries but actor identity is not session-backed | integration with trusted request context and equivalent/stronger tests | hybrid | P3-002, P3-009 |
+| Gatekeeper after auth | partial | Gatekeeper fail-closed behavior exists and is used for high-risk flows | authenticated context binding and no-write-on-failure evidence after auth integration | hybrid | P3-002, P3-009 |
+| secrets/env policy | partial | `DATABASE_URL` validation exists; no broad Phase 3 env/headers/CORS policy | non-secret templates, safe defaults, validation, headers/CORS controls | hybrid | P3-004, P3-011 |
+| runtime route limiting | no | workflow and manifests note validation; no runtime limiter is wired in API bootstrap | decision between in-app, dependency-backed, or infrastructure-level limiting | adding | P3-005, P3-010 |
+| frontend operator context | partial | Lead Desk web uses temporary `sessionStorage` operator context and sends `x-actor-user-id` | session-aware operator context replacement after auth/session decision | hybrid | P3-002, P3-012 |
+| fresh DB/bootstrap path | partial | migrations exist as ticket deltas; Phase 2 accepted deferral documents fresh DB baseline gap | decision on Phase 3 action or Phase 4 bounded handoff | hybrid | P3-006 |
+| CI/validation coverage | partial | `.github/workflows/phase1-validation.yml` is named Phase 1 but runs Phase 2 validation/job naming | Phase 3 naming/security-gate alignment without weakening Phase 1/2 checks | hardening | P3-014 |
+| Phase 4 readiness | partial | roadmap and accepted deferrals identify Phase 4 as deployment/staging/visual QA | Phase 3 closure evidence and readiness handoff only | hardening | P3-GATE |
+
+## 4. Maximum Concrete Capability Principle
+
+Phase 3 must implement the maximum concrete security/auth/tenant capability that is justified by current repo authority and current Phase 3 scope.
+
+Maximum concrete capability means:
+
+- do not choose the shallow/document-only path when runtime implementation is safely possible;
+- do not defer work merely because it is harder;
+- do not leave decorative contracts, placeholder policies, or untested claims;
+- convert accepted decisions into runtime behavior, tests, and validation evidence wherever current scope permits;
+- prefer stronger implementation over temporary documentation when the repo already has enough authority to implement safely.
+
+But it does not permit:
+
+- inventing business rules;
+- adding unapproved dependencies;
+- accessing production secrets;
+- implementing deployment/staging work;
+- enabling real WhatsApp production behavior;
+- expanding into Phase 4/5/6 work;
+- making destructive migrations;
+- bypassing ADRs, contracts, Prisma, manifests, or `AGENTS.md`.
+
+## 5. Ordered Ticket Queue
+
+The ordered ticket queue is authoritative. Phase groupings are explanatory only.
+
+| Ticket | Title | Type | Gate notes |
+|---|---|---|---|
+| P3-000 | Track Phase 3 controls and baseline | control | Starts Phase 3 control tracking |
+| P3-001 | Security Architecture ADR | decision/control | Decision only |
+| P3-002 | Auth, Session, Identity, and Tenant Context Decision | decision/control | Gates P3-007A, P3-007B, P3-009, P3-012 |
+| P3-003 | Tenant Isolation, RLS, and Service Enforcement Decision | decision/control | Gates P3-008 |
+| P3-004 | Secrets, Environment, Headers, and CORS Policy | decision/control | Gates P3-011 |
+| P3-005 | Runtime Route Limiting Decision | decision/control | Gates P3-010 |
+| P3-006 | Fresh DB and Bootstrap Decision | decision/control | Gates bootstrap action or bounded deferral |
+| P3-007A | Auth/Tenant Request Context Infrastructure | implementation | Infrastructure only; no broad API migration |
+| P3-007B | API Surface Migration to Trusted Context | implementation | Bounded slices; split further if broad |
+| P3-008 | Tenant Isolation Enforcement Implementation | implementation | Conditional re-plan required after P3-003 |
+| P3-009 | Access Core and Gatekeeper Auth Integration | implementation | Must preserve fail-closed behavior |
+| P3-010 | Runtime Route Limiting Resolution | implementation/control | Conditional re-plan required after P3-005 |
+| P3-011 | Secrets, Env, Headers, and CORS Implementation | implementation | Must not become deployment work |
+| P3-012 | Frontend Auth and Operator Context Replacement | implementation | Gated by P3-001 and P3-002 |
+| P3-013 | Security and Tenant Negative Test Pass | validation | Must not weaken Phase 1/2 tests |
+| P3-014 | Phase 3 CI / validation naming and security-gate alignment | implementation/control | Included because repo inspection confirms need and safe scope |
+| P3-GATE | Phase 3 Closure Audit and Phase 4 Readiness Handoff | closure | Closure evidence only; no Phase 4 plan |
+
+## 6. P3-014 Inclusion Decision
+
+P3-014 is included.
+
+Repo evidence:
+
+- `.github/workflows/phase1-validation.yml` is still Phase 1-named;
+- the workflow display name is `Phase 2 Validation`;
+- the job is `phase2-validation`;
+- the ladder includes Phase 2 registry verification.
+
+This is safely scoped because P3-014 may align naming and security-gate validation only. It must not add deployment, secrets, production credentials, package dependencies, or unrelated CI behavior.
+
+## 7. Global Ticket-Pack Rules
+
+- `ordered_ticket_queue` is authoritative.
+- Phase groupings are explanatory only.
+- Exact-file planning is required before edits.
+- Broad globs are inspection hints only.
+- Control docs are stable contract, not a runtime ledger.
+- Runtime progress comes from git commits, journal, artifacts, optional run-state, and queue order.
+- Bounded repair is allowed only inside active ticket scope.
+- Validation/test-runner wiring is allowed only when required by active-ticket tests.
+- Full-access/elevated execution exception remains bounded by active control docs and stop conditions.
+- Do not retire the full-access/elevated execution exception during Phase 3 planning or execution.
+- Any ticket whose scope depends on an earlier decision must include `conditional_replan_required: true`.
+- Any ticket with broad implementation risk must be split before execution, not repaired through broadening during execution.
+- P3-001 through P3-006 are decision/control tickets only.
+- P3-001 through P3-006 must not modify runtime source, Prisma schema, contracts, generated registry, dependencies, or workflow files unless reclassified and explicitly approved.
+- Tests using `x-actor-user-id` may be updated only if replaced by equivalent or stronger trusted-context coverage.
+- Removing old header-based tests without equivalent coverage is forbidden.
+- Stale-ticket risk prevention is mandatory: tickets must encode dependency gates, runtime consistency chains, validation gates, re-planning triggers, non-scope boundaries, and stop conditions before implementation starts.
+
+Phase 3 must not weaken Phase 1/2 protections:
+
+- Access Core actor/capability boundaries;
+- Gatekeeper fail-closed behavior;
+- Lead Desk scope enforcement;
+- Engagement Gateway mediated WhatsApp boundary;
+- audit/outbox evidence;
+- cross-org denial behavior.
+
+## 8. Validation Gate Policy
+
+After each decision/documentation ticket:
+
+- run syntax checks where applicable;
+- run `git diff --check`;
+- run `git status --short --branch`;
+- if JSON files changed, parse them with Node before commit.
+
+After each implementation ticket:
+
+- run ticket-specific validation;
+- run the full applicable validation ladder before starting the next implementation ticket.
+
+After schema, registry, auth, tenant, Access Core, Gatekeeper, CI, or security-boundary tickets:
+
+- run full validation and drift checks;
+- verify no previous Phase 1/2 tests or validation wiring were removed or weakened.
+
+Any validation failure outside active ticket scope is a stop unless bounded repair is explicitly allowed by the ticket.
+
+Standard full validation ladder:
+
+```bash
+pnpm contracts:validate
+pnpm exec prisma validate --schema prisma/schema.prisma
+pnpm exec prisma generate --schema prisma/schema.prisma
+pnpm registry:generate
+git diff --exit-code -- generated/entity-registry.generated.json
+pnpm registry:check
+pnpm registry:verify:phase2
+pnpm lint
+pnpm typecheck
+pnpm test
+pnpm build
+git diff -- prisma/schema.prisma
+git diff -- prisma/entity-registry.metadata.json
+git diff --check
+git status --short --branch
 ```
 
-Current strategic classification:
-
-```text
-Platform Core = Organization, Access, Hierarchy, Gatekeeper, Audit, Outbox, Module Registry, Configuration, Portal Shell
-Engagement Gateway Lite = shared platform module
-Lead Desk = business module
-WhatsApp stub = integration adapter
-```
-
-Current accepted deferrals carried from Phase 2:
-
-```text
-production deployment
-production auth/session
-production WhatsApp credentials
-real outbound WhatsApp
-fresh empty-database bootstrap baseline
-runtime route limiting
-browser-rendered frontend tests
-```
-
-Phase 3 must address the relevant security and trust deferrals before Phase 4 deployment/staging work begins.
-
----
-
-## 2. Phase 3 Name
-
-```text
-Phase 3 — Security, Auth, Tenant and Operational Trust Foundation
-```
-
----
-
-## 3. Phase 3 Purpose
-
-Phase 3 turns AKTI ERP from a validated internal platform into a **trust-ready platform foundation**.
-
-The goal is not to deploy the system yet. The goal is to make the system trustworthy enough that Phase 4 can safely prepare staging, deployment, visual QA, and operations.
-
-Phase 3 must resolve:
-
-```text
-authentication and session direction
-tenant context propagation
-tenant isolation strategy
-role/capability enforcement after auth exists
-Access Core and Gatekeeper relationship to authenticated identity
-secrets and environment policy
-runtime route limiting
-security headers and CORS policy
-temporary operator context replacement path
-cross-tenant negative testing
-fresh DB/bootstrap decision or bounded deferral
-Phase 4 readiness assumptions
-```
-
----
-
-## 4. Phase 3 Is Not
-
-Phase 3 must not become a hidden deployment or module-expansion phase.
-
-Phase 3 is not:
-
-```text
-production deployment
-staging deployment
-visual QA implementation
-real WhatsApp production enablement
-real outbound WhatsApp messaging
-new business module development
-Foundry/module installer implementation
-parallel module development
-platform AI operations
-marketplace or enterprise scaling
-```
-
-Those belong to later phases.
-
----
-
-## 5. Critical Phase 3 Question
-
-Before implementation, Codex must answer with repo evidence:
-
-```text
-Is Phase 3 mostly hardening existing security/tenant foundations,
-or is Phase 3 adding missing security/tenant architecture?
-```
-
-This is the highest-risk Phase 3 planning question.
-
-The answer changes the ticket pack:
-
-```text
-hardening = smaller ticket pack focused on strengthening existing foundations
-adding = larger ticket pack with architecture decisions and new foundations first
-hybrid = ADR decisions first, then implementation tickets based on the outcome
-```
-
-Codex must not assume “hardening only.” It must inspect repo reality and prove the answer.
-
----
-
-## 6. Required Security/Tenant Reality Assessment
-
-Before creating the final ticket pack, Codex must produce an evidence table like this:
-
-| Area | Existing foundation? | Repo evidence | Missing gaps | Verdict |
-|---|---|---|---|---|
-| Auth/session | yes / partial / no | files/tests/docs | gaps | hardening / adding / hybrid |
-| Tenant context propagation | yes / partial / no | files/tests/docs | gaps | hardening / adding / hybrid |
-| RLS/database isolation | yes / partial / no | Prisma/migrations/docs | gaps | hardening / adding / hybrid |
-| Service-level tenant checks | yes / partial / no | services/tests | gaps | hardening / adding / hybrid |
-| Access Core after auth | yes / partial / no | services/contracts/tests | gaps | hardening / adding / hybrid |
-| Gatekeeper after auth | yes / partial / no | services/contracts/tests | gaps | hardening / adding / hybrid |
-| Secrets/env policy | yes / partial / no | docs/config/scripts | gaps | hardening / adding / hybrid |
-| Runtime route limiting | yes / partial / no | manifests/runtime/tests | gaps | hardening / adding / hybrid |
-| Frontend operator context | yes / partial / no | frontend/tests | gaps | hardening / adding / hybrid |
-| Fresh DB/bootstrap path | yes / partial / no | migrations/docs | gaps | hardening / adding / hybrid |
-
-This table must be reviewed before Phase 3 implementation is approved.
-
----
-
-## 7. Required Phase 3 Documents
-
-### 7.1 Documents Created Before Implementation
-
-```text
-docs/process/AKTI_ERP_Phase_3_Security_Auth_Tenant_Hardening_Plan_v1.md
-docs/process/AKTI_ERP_Phase_3_Ticket_Pack_v1.json
-```
-
-The plan defines direction and boundaries.
-
-The ticket pack is the implementation contract.
-
-### 7.2 Exit Artifact Only
-
-```text
-docs/process/AKTI_ERP_Phase_3_Audit_Report_v1.md
-```
-
-Important rule:
-
-```text
-The Phase 3 Audit Report must not be populated during planning.
-It may be created only as a placeholder/template marked:
-"To be completed at Phase 3 closure."
-```
-
-Codex must not fill the audit report with planning-time assumptions or pretend Phase 3 findings are known before execution.
-
----
-
-## 8. Required ADRs / Decisions Before Implementation
-
-At minimum, Phase 3 needs decisions covering:
-
-```text
-Security Architecture Decision
-Auth / Session Decision
-Tenant Isolation / RLS Decision
-Secrets and Environment Policy
-Rate Limiting Decision
-Frontend Auth / Operator Context Policy
-Fresh DB / Bootstrap Decision or bounded deferral
-```
-
-If existing repo documents already cover part of this, Codex must cite the files and summarize the coverage.
-
-If these are missing, Codex must propose new ADRs or subdecisions before implementation tickets are approved.
-
----
-
-## 9. Phase 3 Workstreams
-
-These are workstreams, not final tickets. Codex must convert them into a repo-grounded ticket proposal after inspection.
-
----
-
-### Workstream A — Housekeeping and Baseline
-
-Purpose:
-
-```text
-confirm main branch
-confirm roadmap exists
-confirm Phase 1/2 closure docs exist
-confirm accepted deferrals exist
-confirm source-of-truth basis
-confirm Phase 3 plan file is tracked
-create Phase 3 planning/ticket documents after approval
-```
-
-Expected output:
-
-```text
-clean repo baseline
-Phase 3 source-of-truth context
-any housekeeping findings
-```
-
----
-
-### Workstream B — Security Architecture Decision
-
-Purpose:
-
-```text
-define auth/session/identity/tenant context strategy
-answer hardening-vs-adding question
-record decision before implementation
-```
-
-This workstream gates auth-dependent implementation.
-
-No frontend auth/operator-context implementation may occur before Workstream B is accepted.
-
----
-
-### Workstream C — Tenant Isolation and RLS / Service Strategy
-
-Purpose:
-
-```text
-inspect schema and services
-map tenant-scoped entities
-decide RLS, service-level, or hybrid enforcement
-define cross-tenant negative tests
-define no-write-on-failure expectations
-```
-
-This must clarify whether tenant isolation is already present and needs hardening, or whether it must be added as a new foundation.
-
----
-
-### Workstream D — Access Core, Gatekeeper and Auth Integration
-
-Purpose:
-
-```text
-define how authenticated identity interacts with Access Core
-define how Gatekeeper uses authenticated context
-avoid duplicate permission layers
-preserve capability-based authorization
-preserve high-risk preflight boundaries
-```
-
-Expected result:
-
-```text
-clear relationship between auth, organization membership, capabilities, Access Core, and Gatekeeper
-```
-
----
-
-### Workstream E — Secrets, Environment, Security Headers and CORS
-
-Purpose:
-
-```text
-define env templates
-define secrets that must never be committed
-define local/staging/production env boundaries
-define allowed Codex access boundaries
-define security headers
-define CORS policy
-prevent secret leakage
-```
-
-This workstream should produce rules that Phase 4 deployment can rely on.
-
----
-
-### Workstream F — Runtime Route Limiting
-
-Purpose:
-
-```text
-resolve Phase 2 runtime route-limiting deferral
-decide whether to implement in Phase 3 or formally bound to deployment/security infrastructure
-ensure manifests do not overclaim enforcement
-```
-
-If route limiting is deferred, the deferral must be explicit, bounded, and carried into Phase 4.
-
----
-
-### Workstream G — Frontend Auth / Operator Context Replacement
-
-Purpose:
-
-```text
-replace temporary operator context with session-aware pattern
-define what can be implemented now
-define what waits for provider/session implementation
-prevent temporary actor input from being mistaken for production auth
-```
-
-Mandatory dependency:
-
-```text
-Workstream G implementation must wait until Workstream B decisions are accepted.
-```
-
-Codex may inspect and plan frontend implications early, but it must not implement frontend auth-context changes before the Security/Auth decisions are settled.
-
----
-
-### Workstream H — Security and Tenant Negative Tests
-
-Purpose:
-
-```text
-cross-tenant denial tests
-missing auth tests
-invalid session/actor tests
-permission boundary tests
-Gatekeeper denial tests
-no-write-on-failure tests
-rate-limit/security boundary tests where applicable
-```
-
-This workstream turns security from an architectural statement into evidence.
-
----
-
-### Workstream I — Phase 3 Closure and Phase 4 Handoff
-
-Purpose:
-
-```text
-final validation
-security audit evidence
-accepted deferrals update
-Phase 4 readiness checklist
-Phase 3 audit report completed at closure
-```
-
-Phase 4 should not begin implementation until this handoff exists.
-
----
-
-## 10. Phase 3 Acceptance Target
-
-Phase 3 is complete only when:
-
-```text
-Security Architecture Decision exists
-Auth/session direction exists
-Tenant isolation/RLS/service strategy exists
-Access Core and Gatekeeper roles remain clear
-temporary operator context is no longer mistaken for production auth
-route limiting is resolved or formally bounded
-secrets/env policy exists
-security headers/CORS policy exists
-cross-tenant negative tests pass
-full validation passes
-Phase 4 readiness handoff exists
-Phase 3 audit report is completed at closure
-```
-
----
-
-## 11. Carry-Forward Deferrals from Phase 2
-
-Phase 3 must carry these forward and resolve or bound the relevant ones:
-
-```text
-production deployment
-production auth/session
-production WhatsApp credentials
-real outbound WhatsApp
-fresh empty-database bootstrap baseline
-runtime route limiting
-browser-rendered frontend tests
-```
-
-### Phase 3 should directly address
-
-```text
-production auth/session
-tenant/security model
-runtime route limiting
-secrets/env policy
-fresh DB/bootstrap decision or bounded handoff
-```
-
-### Phase 4 should address
-
-```text
-deployment
-staging
-visual QA
-browser-rendered frontend tests
-operational runbook
-```
-
----
-
-## 12. Phase 3 Boundaries
-
-Phase 3 must explicitly remain within security/auth/tenant hardening.
-
-### Out of Phase 3
-
-```text
-deployment/staging implementation
-visual QA implementation
-production WhatsApp credentials
-real outbound WhatsApp
-new business modules
-Foundry/module installer implementation
-parallel module development
-platform AI operations
-```
-
-### Must not weaken
-
-```text
-Access Core
-Gatekeeper
-Audit
-Outbox
-Module Registry
-Tenant/org scoping
-Phase 2 module boundaries
-No direct Lead Desk-to-Meta/WhatsApp coupling
-```
-
----
-
-## 13. Phase 3 Planning Output Expected from Codex
-
-Codex’s first Phase 3 planning run should return:
-
-```text
-A. Files inspected
-B. Repo state summary
-C. Housekeeping findings
-D. Security/Tenant Reality Assessment table
-E. Hardening-vs-Adding verdict
-F. Required ADRs / decisions before implementation
-G. Proposed Phase 3 ticket plan
-H. Dependency gates and sequencing risks
-I. What remains out of Phase 3
-J. Final recommendation
-```
-
-Codex must not write the Phase 3 ticket pack until this proposal is reviewed.
-
----
-
-## 14. Codex Plan Mode Prompt
-
-Use this prompt to begin Phase 3 planning.
-
-```text
-We are in PLAN MODE ONLY.
-
-Task:
-Perform Phase 3 housekeeping and create a repo-grounded Phase 3 planning/ticket proposal.
-
-Do not implement.
-Do not edit app/runtime code.
-Do not modify Prisma.
-Do not modify contracts.
-Do not modify generated registry.
-Do not add dependencies.
-Do not create a Phase 3 implementation branch.
-Do not commit.
-Do not push.
-Do not deploy.
-
-Current accepted state:
-- Phase 1: PASS
-- Phase 2: PASS_WITH_ACCEPTED_DEFERRALS
-- Phase 1 + Phase 2 merged and validated on main
-- docs/process/AKTI_ERP_Master_Roadmap_Reference_v1.md has been added
-- Next phase: Phase 3 Security/Auth/Tenant Hardening
-- Phase 4 must wait until Phase 3 security/tenant decisions are clear
-
-Inspect:
-- git status --short --branch
-- git rev-parse HEAD
-- git log --oneline --decorate -120
-- AGENTS.md
-- PLANS.md
-- docs/process/AKTI_ERP_Master_Roadmap_Reference_v1.md
-- docs/process/AKTI_ERP_Phase_3_4_Planning_Context_Stub_v1.md
-- docs/process/AKTI_ERP_Accepted_Deferrals_After_Phase_2_v1.md
-- docs/process/AKTI_ERP_Phase_1_2_Closure_Summary_v1.md
-- docs/doctrine/AKTI_ERP_Failure_Prevention_Codex_Operating_Doctrine_v1.json
-- docs/adr/*
-- docs/process/*
-- package.json
-- pnpm-workspace.yaml
-- .github/workflows/*
-- prisma/schema.prisma
-- prisma/migrations/*
-- prisma/entity-registry.metadata.json
-- generated/entity-registry.generated.json
-- packages/contracts/*
-- packages/contracts/scripts/*
-- apps/api/src/*
-- apps/web/app/*
-- apps/web/test/*
-
-Planning objectives:
-
-1. Housekeeping check
-- Confirm docs/process/AKTI_ERP_Master_Roadmap_Reference_v1.md exists and is tracked.
-- Confirm main is clean and aligned.
-- Confirm Phase 1 and Phase 2 closure docs exist.
-- Confirm accepted deferrals after Phase 2 exist.
-- Identify whether any doc-only housekeeping is needed before Phase 3 planning files are created.
-
-2. Security/Tenant Reality Assessment
-Create an evidence table for:
-- auth/session
-- tenant context propagation
-- RLS/database isolation
-- service-level tenant checks
-- Access Core after auth
-- Gatekeeper after auth
-- secrets/env policy
-- runtime route limiting
-- frontend operator context
-- fresh DB/bootstrap path
-
-For each area, state:
-- existing foundation: yes / partial / no
-- repo evidence
-- missing gaps
-- verdict: hardening / adding / hybrid
-
-3. Hardening-vs-Adding Determination
-State whether Phase 3 is:
-- mostly hardening
-- mostly adding
-- hybrid
-
-This must be evidence-backed.
-Do not assume “hardening only.”
-If the repo evidence is thin, say so.
-
-This answer determines ticket-pack size and must be credible.
-
-4. Required Phase 3 documents
-Propose the exact docs to create:
-- docs/process/AKTI_ERP_Phase_3_Security_Auth_Tenant_Hardening_Plan_v1.md
-- docs/process/AKTI_ERP_Phase_3_Ticket_Pack_v1.json
-
-Audit report handling:
-- docs/process/AKTI_ERP_Phase_3_Audit_Report_v1.md is an exit artifact.
-- Do not populate it during planning.
-- If recommended now, create only a stub/template marked:
-  “to be completed at Phase 3 closure.”
-
-5. Required ADRs / decisions
-Identify which decisions must exist before implementation:
-- Security Architecture Decision
-- Auth / Session Decision
-- Tenant Isolation / RLS Decision
-- Secrets / Environment Policy
-- Rate Limiting Decision
-- Frontend Auth / Operator Context Policy
-- Fresh DB / Bootstrap Decision or bounded deferral
-
-If existing repo docs already cover any of these, identify the file and summarize coverage.
-If missing, propose a new ADR/subdecision.
-
-6. Phase 3 ticket plan proposal
-Create a proposed ticket plan only.
-Do not write the ticket pack yet.
-
-Each proposed ticket should include:
-- ticket_id
-- title
-- objective
-- scope
-- non_scope
-- source_files_to_inspect
-- expected_files
-- forbidden_files
-- tests_required
-- validation_commands
-- stop_conditions
-- acceptance_criteria
-- dependencies
-- commit_message
-
-7. Dependency gates
-Explicitly enforce:
-- Frontend auth/operator-context implementation depends on Security Architecture Decision and Auth/Session Decision.
-- Deployment/staging implementation is out of Phase 3 and waits for Phase 4.
-- Browser-rendered frontend tests are out of Phase 3 unless explicitly scoped as security tests without deployment.
-- Production WhatsApp and real outbound WhatsApp remain out of Phase 3.
-
-8. Carry-forward deferrals
-Treat these as Phase 3/4 inputs:
-- production deployment
-- production auth/session
-- production WhatsApp credentials
-- real outbound WhatsApp
-- fresh empty-database bootstrap baseline
-- runtime route limiting
-- browser-rendered frontend tests
-
-Do not accidentally implement Phase 4 items.
-
-9. Boundaries
-Do not include:
-- deployment/staging implementation
-- visual QA implementation
-- production WhatsApp credentials
-- real outbound WhatsApp
-- new business modules
-- Foundry/module installer implementation
-- parallel module development
-- platform AI operations
-
-Required output:
-
-A. Files inspected
-
-B. Repo state summary
-
-C. Housekeeping findings:
-- what exists
-- what is missing
-- whether roadmap is tracked
-- whether Phase 3 planning files need to be created
-
-D. Security/Tenant Reality Assessment table
-
-E. Hardening-vs-Adding verdict:
-- verdict
-- evidence
-- implication for ticket pack size
-
-F. Required ADRs / decisions before implementation
-
-G. Proposed Phase 3 ticket plan:
-- table
-- detailed ticket descriptions
-
-H. Dependency gates and sequencing risks
-
-I. What should explicitly remain out of Phase 3
-
-J. Final recommendation:
-- READY_TO_CREATE_PHASE_3_PLAN_AND_TICKET_PACK
-- NEEDS_HOUSEKEEPING_FIRST
-- NEEDS_CLARIFICATION_BEFORE_PHASE_3
-```
-
----
-
-## 15. Next Workflow
-
-Recommended workflow:
-
-```text
-1. Place this file in docs/process/.
-2. Ask Codex to run the Plan Mode prompt.
-3. Bring Codex’s Phase 3 proposal back for review.
-4. Review hardening-vs-adding verdict carefully.
-5. If credible, ask Codex to create the Phase 3 plan and ticket pack.
-6. Review ticket pack.
-7. Approve autonomous Phase 3 execution.
-```
-
-No Phase 4 implementation should begin until Phase 3 closes and produces a Phase 4 readiness handoff.
+## 9. Runtime Consistency Chains
+
+- auth/session decision -> request context -> controller/service migration -> tests;
+- tenant isolation decision -> enforcement strategy -> cross-tenant negative tests;
+- Access Core/Gatekeeper integration -> fail-closed behavior -> no-write-on-failure tests;
+- frontend auth decision -> operator context replacement -> frontend tests;
+- route limiting decision -> runtime or bounded deferral -> manifest/runtime alignment;
+- fresh DB/bootstrap decision -> Phase 3 action or Phase 4 handoff.
+
+## 10. Hard Boundaries
+
+Phase 3 must not include:
+
+- deployment/staging implementation;
+- visual QA implementation;
+- production WhatsApp credentials;
+- real outbound WhatsApp;
+- direct Lead Desk-to-Meta/WhatsApp coupling;
+- new business modules;
+- Foundry/module installer implementation;
+- parallel module development;
+- platform AI operations;
+- destructive migrations;
+- committed secrets;
+- production credential access;
+- new dependencies unless a ticket stops for explicit approval.
+
+## 11. Phase 4 Deferrals
+
+The following are explicitly deferred to Phase 4 or later:
+
+- production deployment;
+- staging deployment;
+- deployment infrastructure;
+- hosting-specific runtime configuration;
+- production secret provisioning;
+- browser-rendered visual QA;
+- production WhatsApp credential activation;
+- real outbound WhatsApp behavior;
+- Foundry/module installer work;
+- parallel installable module development.
+
+## 12. Completion Target
+
+Phase 3 may close only when:
+
+- required ADRs/decisions are complete;
+- auth/session and trusted tenant context behavior exist or are bounded by explicit decision;
+- tenant isolation enforcement is implemented according to P3-003 and P3-008;
+- Access Core and Gatekeeper remain fail-closed and auth-aware;
+- route limiting is implemented or bounded by P3-005/P3-010;
+- secrets/env/header/CORS policy and implementation are complete without deployment drift;
+- frontend operator context no longer depends on caller-controlled temporary identity where Phase 3 authority permits;
+- security and tenant negative tests pass;
+- CI/security-gate naming alignment is resolved by P3-014;
+- Phase 1/2 protections are not weakened;
+- the Phase 3 audit report is completed at closure;
+- P3-GATE creates a Phase 4 readiness handoff, not a Phase 4 plan.

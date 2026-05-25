@@ -1,0 +1,1490 @@
+{
+  "document": {
+    "name": "AKTI ERP Phase 3 Ticket Pack v1",
+    "project": "AKTI ERP 1.0",
+    "phase": "Phase 3 - Security/Auth/Tenant Hardening",
+    "status": "active_control_document",
+    "authority": "implementation contract for Phase 3 tickets; lower authority than Prisma, contracts, manifests, generated registry, ADRs, and AGENTS.md",
+    "audit_report_rule": "Phase 3 audit report is a closure artifact only and must say: To be completed at Phase 3 closure."
+  },
+  "phase_3_verdict": {
+    "classification": "HYBRID",
+    "leaning": "ADDING missing security/tenant architecture",
+    "existing_foundations": [
+      "service-level organization checks",
+      "Access Core actor/capability boundaries",
+      "Gatekeeper fail-closed checks",
+      "audit/outbox evidence",
+      "module manifests and generated registry",
+      "CI validation ladder from Phase 2"
+    ],
+    "missing_or_incomplete": [
+      "production auth/session",
+      "trusted tenant context propagation",
+      "DB RLS enforcement",
+      "secrets/environment policy",
+      "runtime route limiting",
+      "session-aware frontend operator context",
+      "fresh DB/bootstrap path"
+    ]
+  },
+  "ordered_ticket_queue": [
+    "P3-000",
+    "P3-001",
+    "P3-002",
+    "P3-003",
+    "P3-004",
+    "P3-005",
+    "P3-006",
+    "P3-007A",
+    "P3-007B",
+    "P3-008",
+    "P3-009",
+    "P3-010",
+    "P3-011",
+    "P3-012",
+    "P3-013",
+    "P3-014",
+    "P3-GATE"
+  ],
+  "p3_014_inclusion_decision": {
+    "included": true,
+    "reason": "Repo inspection confirms CI naming/security-gate alignment is needed and safely scoped: .github/workflows/phase1-validation.yml is Phase 1-named while the workflow name and job are Phase 2-oriented.",
+    "allowed_scope": [
+      "workflow naming alignment",
+      "Phase 3 security-gate validation naming",
+      "preserving the existing Phase 1/2 validation ladder"
+    ],
+    "forbidden_scope": [
+      "deployment infrastructure",
+      "production secrets",
+      "production credentials",
+      "new dependencies",
+      "unrelated CI behavior"
+    ]
+  },
+  "implementation_principles": {
+    "maximum_concrete_capability": {
+      "statement": "Phase 3 must implement the maximum concrete security/auth/tenant capability that is justified by current repo authority and current Phase 3 scope.",
+      "means": [
+        "do not choose the shallow/document-only path when runtime implementation is safely possible",
+        "do not defer work merely because it is harder",
+        "do not leave decorative contracts, placeholder policies, or untested claims",
+        "convert accepted decisions into runtime behavior, tests, and validation evidence wherever current scope permits",
+        "prefer stronger implementation over temporary documentation when the repo already has enough authority to implement safely"
+      ],
+      "does_not_permit": [
+        "inventing business rules",
+        "adding unapproved dependencies",
+        "accessing production secrets",
+        "implementing deployment/staging work",
+        "enabling real WhatsApp production behavior",
+        "expanding into Phase 4/5/6 work",
+        "making destructive migrations",
+        "bypassing ADRs, contracts, Prisma, manifests, or AGENTS.md"
+      ]
+    }
+  },
+  "global_rules": [
+    "ordered_ticket_queue is authoritative",
+    "phase groupings are explanatory only",
+    "exact-file planning is required before edits",
+    "broad globs are inspection hints only",
+    "control docs are stable contract, not runtime ledger",
+    "runtime progress comes from git commits, journal, artifacts, optional run-state, and queue order",
+    "bounded repair is allowed only inside active ticket scope",
+    "validation/test-runner wiring is allowed only when required by active-ticket tests",
+    "full-access/elevated execution exception remains bounded by active control docs and stop conditions",
+    "do not retire full-access/elevated execution exception",
+    "do not weaken Phase 1/2 protections: Access Core actor/capability boundaries, Gatekeeper fail-closed behavior, Lead Desk scope enforcement, Engagement Gateway mediated WhatsApp boundary, audit/outbox evidence, cross-org denial behavior",
+    "tests using x-actor-user-id may be updated only if replaced by equivalent or stronger trusted-context coverage",
+    "removing old header-based tests without equivalent coverage is forbidden",
+    "P3-001 through P3-006 are decision/control tickets only",
+    "P3-001 through P3-006 must not modify runtime source, Prisma schema, contracts, generated registry, dependencies, or workflow files unless reclassified and explicitly approved",
+    "Any ticket whose scope depends on an earlier decision must include conditional_replan_required: true",
+    "Any ticket with broad implementation risk must be split before execution, not repaired through broadening during execution",
+    "stale-ticket risk prevention is mandatory: tickets must encode dependency gates, runtime consistency chains, validation gates, re-planning triggers, explicit non-scope boundaries, and stop conditions before implementation starts"
+  ],
+  "validation_gate_policy": {
+    "after_decision_or_documentation_ticket": [
+      "run syntax checks where applicable",
+      "run git diff --check",
+      "run git status --short --branch",
+      "if JSON files changed, parse them with Node before commit"
+    ],
+    "after_implementation_ticket": [
+      "run ticket-specific validation plus full applicable validation ladder before starting the next implementation ticket"
+    ],
+    "after_schema_registry_auth_tenant_access_gatekeeper_ci_or_security_boundary_ticket": [
+      "run full validation and drift checks",
+      "verify no previous Phase 1/2 tests or validation wiring were removed or weakened"
+    ],
+    "failure_policy": "Any validation failure outside active ticket scope is a stop unless bounded repair is explicitly allowed by the ticket."
+  },
+  "standard_full_validation_ladder": [
+    "pnpm contracts:validate",
+    "pnpm exec prisma validate --schema prisma/schema.prisma",
+    "pnpm exec prisma generate --schema prisma/schema.prisma",
+    "pnpm registry:generate",
+    "git diff --exit-code -- generated/entity-registry.generated.json",
+    "pnpm registry:check",
+    "pnpm registry:verify:phase2",
+    "pnpm lint",
+    "pnpm typecheck",
+    "pnpm test",
+    "pnpm build",
+    "git diff -- prisma/schema.prisma",
+    "git diff -- prisma/entity-registry.metadata.json",
+    "git diff --check",
+    "git status --short --branch"
+  ],
+  "runtime_consistency_chains": [
+    "auth/session decision -> request context -> controller/service migration -> tests",
+    "tenant isolation decision -> enforcement strategy -> cross-tenant negative tests",
+    "Access Core/Gatekeeper integration -> fail-closed behavior -> no-write-on-failure tests",
+    "frontend auth decision -> operator context replacement -> frontend tests",
+    "route limiting decision -> runtime or bounded deferral -> manifest/runtime alignment",
+    "fresh DB/bootstrap decision -> Phase 3 action or Phase 4 handoff"
+  ],
+  "hard_boundaries": [
+    "no deployment/staging implementation",
+    "no visual QA implementation",
+    "no production WhatsApp credentials",
+    "no real outbound WhatsApp",
+    "no direct Lead Desk-to-Meta/WhatsApp coupling",
+    "no new business modules",
+    "no Foundry/module installer implementation",
+    "no parallel module development",
+    "no platform AI operations",
+    "no destructive migrations",
+    "no secrets committed",
+    "no production credentials accessed",
+    "no new dependencies unless the ticket stops for explicit approval"
+  ],
+  "tickets": [
+    {
+      "ticket_id": "P3-000",
+      "title": "Track Phase 3 controls and baseline",
+      "type": "control",
+      "priority": "P0",
+      "objective": "Create the Phase 3 control baseline and confirm repo state before implementation tickets begin.",
+      "scope": [
+        "confirm main branch and current baseline",
+        "confirm Phase 3 control documents exist and are tracked",
+        "confirm ticket pack queue and audit stub rules",
+        "record that Phase 3 verdict is HYBRID leaning ADDING missing security/tenant architecture"
+      ],
+      "non_scope": [
+        "runtime implementation",
+        "Prisma changes",
+        "contract changes",
+        "generated registry changes",
+        "dependency changes",
+        "deployment work"
+      ],
+      "source_files_to_inspect": [
+        "AGENTS.md",
+        "PLANS.md",
+        "docs/process/AKTI_ERP_Master_Roadmap_Reference_v1.md",
+        "docs/process/AKTI_ERP_Phase_3_Security_Auth_Tenant_Hardening_Plan_v1.md",
+        "docs/process/AKTI_ERP_Phase_3_Ticket_Pack_v1.json",
+        "docs/process/AKTI_ERP_Phase_3_Audit_Report_v1.md"
+      ],
+      "files_expected_to_change": [
+        "docs/process/AKTI_ERP_Phase_3_Security_Auth_Tenant_Hardening_Plan_v1.md",
+        "docs/process/AKTI_ERP_Phase_3_Ticket_Pack_v1.json",
+        "docs/process/AKTI_ERP_Phase_3_Audit_Report_v1.md"
+      ],
+      "files_forbidden_to_change": [
+        "apps/**",
+        "packages/**",
+        "prisma/**",
+        "generated/**",
+        "package.json",
+        "pnpm-lock.yaml",
+        ".github/workflows/**"
+      ],
+      "tests_required": [
+        "JSON parse for ticket pack",
+        "search confirmations for required Phase 3 control language"
+      ],
+      "validation_commands": [
+        "node -e \"JSON.parse(require('fs').readFileSync('docs/process/AKTI_ERP_Phase_3_Ticket_Pack_v1.json','utf8'))\"",
+        "rg \"P3-007A|P3-007B|conditional_replan_required|maximum concrete security/auth/tenant capability|x-actor-user-id\" docs/process/AKTI_ERP_Phase_3_Ticket_Pack_v1.json",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "unexpected uncommitted files exist before starting",
+        "control docs require runtime code changes",
+        "JSON parse fails",
+        "audit report contains planning-time findings"
+      ],
+      "acceptance_criteria": [
+        "Phase 3 plan, ticket pack, and audit stub are tracked",
+        "ticket pack contains ordered queue P3-000 through P3-GATE",
+        "audit report remains a closure-only stub",
+        "Phase 3 verdict is encoded as HYBRID leaning ADDING missing security/tenant architecture"
+      ],
+      "dependencies": [],
+      "commit_message": "docs: add Phase 3 security auth tenant controls",
+      "rollback_notes": "Revert only the Phase 3 control-doc commit if this ticket needs rollback.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": false,
+      "stale_ticket_risk_notes": "This baseline ticket prevents stale ticket assumptions by making the queue, gates, and validation policy explicit before implementation begins.",
+      "runtime_consistency_chain": "control docs -> ordered ticket queue -> validation gates -> Phase 3 implementation"
+    },
+    {
+      "ticket_id": "P3-001",
+      "title": "Security Architecture ADR",
+      "type": "decision/control",
+      "priority": "P0",
+      "objective": "Create the Phase 3 security architecture decision that anchors auth, tenant isolation, Access Core, Gatekeeper, route limiting, secrets/env, and frontend operator context work.",
+      "scope": [
+        "document security architecture boundaries for Phase 3",
+        "confirm which foundations are hardening versus adding",
+        "define how ADRs, Prisma, contracts, manifests, and AGENTS.md constrain implementation",
+        "confirm Phase 4 remains blocked until Phase 3 decisions close"
+      ],
+      "non_scope": [
+        "runtime source changes",
+        "Prisma/schema/migration changes",
+        "contract or generated registry changes",
+        "dependency changes",
+        "workflow changes",
+        "deployment work"
+      ],
+      "source_files_to_inspect": [
+        "AGENTS.md",
+        "PLANS.md",
+        "docs/adr/*",
+        "docs/doctrine/AKTI_ERP_Failure_Prevention_Codex_Operating_Doctrine_v1.json",
+        "docs/process/*",
+        "prisma/schema.prisma",
+        "packages/contracts/*",
+        "generated/entity-registry.generated.json"
+      ],
+      "files_expected_to_change": [
+        "docs/adr/ADR-0007-phase-3-security-architecture.md"
+      ],
+      "files_forbidden_to_change": [
+        "apps/**",
+        "packages/**",
+        "prisma/**",
+        "generated/**",
+        "package.json",
+        "pnpm-lock.yaml",
+        ".github/workflows/**"
+      ],
+      "tests_required": [
+        "documentation syntax/readability check",
+        "ADR references validated by search"
+      ],
+      "validation_commands": [
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "decision requires implementation detail not authorized by existing source of truth",
+        "ADR attempts to bypass Prisma, contracts, manifests, generated registry, or AGENTS.md",
+        "ticket scope expands into Phase 4 deployment or staging"
+      ],
+      "acceptance_criteria": [
+        "ADR exists and is decision-only",
+        "ADR states Phase 3 is HYBRID leaning ADDING missing security/tenant architecture",
+        "ADR preserves Phase 1/2 protections",
+        "ADR gates implementation tickets behind required decisions"
+      ],
+      "dependencies": [
+        "P3-000"
+      ],
+      "commit_message": "docs: decide Phase 3 security architecture",
+      "rollback_notes": "Revert the ADR commit only; no runtime artifacts should exist.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": false,
+      "stale_ticket_risk_notes": "Decision must name downstream gates so implementation tickets do not rediscover basic security boundaries mid-run.",
+      "runtime_consistency_chain": "Security Architecture ADR -> Auth/Tenant decisions -> implementation ticket gates"
+    },
+    {
+      "ticket_id": "P3-002",
+      "title": "Auth, Session, Identity, and Tenant Context Decision",
+      "type": "decision/control",
+      "priority": "P0",
+      "objective": "Decide the trusted auth/session and request tenant-context model that replaces caller-controlled identity assumptions.",
+      "scope": [
+        "choose the Phase 3 auth/session direction within current dependency and secret constraints",
+        "define trusted actor and organization context shape",
+        "define treatment of x-actor-user-id during migration and tests",
+        "define frontend auth/operator-context policy for P3-012",
+        "define failure behavior for missing, invalid, or cross-tenant identity"
+      ],
+      "non_scope": [
+        "runtime auth implementation",
+        "production auth credentials",
+        "production session secret provisioning",
+        "Prisma/schema changes",
+        "contract changes",
+        "workflow changes",
+        "dependency additions without explicit approval"
+      ],
+      "source_files_to_inspect": [
+        "docs/adr/*",
+        "apps/api/src/*",
+        "apps/api/src/**/*.controller.ts",
+        "apps/api/src/**/*.service.ts",
+        "apps/api/src/**/*.spec.ts",
+        "apps/web/app/lead-desk/*",
+        "apps/web/test/*",
+        "packages/contracts/*"
+      ],
+      "files_expected_to_change": [
+        "docs/adr/ADR-0008-auth-session-identity-tenant-context.md"
+      ],
+      "files_forbidden_to_change": [
+        "apps/**",
+        "packages/**",
+        "prisma/**",
+        "generated/**",
+        "package.json",
+        "pnpm-lock.yaml",
+        ".github/workflows/**"
+      ],
+      "tests_required": [
+        "decision must identify tests required by P3-007A, P3-007B, P3-009, and P3-012"
+      ],
+      "validation_commands": [
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "decision requires accessing production secrets",
+        "decision requires a new dependency without explicit approval",
+        "decision invents roles, permissions, business rules, or tenant assumptions",
+        "decision would weaken existing x-actor-user-id coverage without replacement tests"
+      ],
+      "acceptance_criteria": [
+        "ADR defines trusted actor and tenant context model",
+        "ADR defines migration policy for x-actor-user-id tests",
+        "ADR gates frontend operator-context work behind auth/session policy",
+        "ADR preserves same-org behavior only where repo evidence authorizes it"
+      ],
+      "dependencies": [
+        "P3-001"
+      ],
+      "commit_message": "docs: decide Phase 3 auth session tenant context",
+      "rollback_notes": "Revert the ADR commit only; no runtime artifacts should exist.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": false,
+      "stale_ticket_risk_notes": "This ticket prevents stale auth assumptions by deciding trusted identity before request-context and frontend work begins.",
+      "runtime_consistency_chain": "auth/session decision -> request context -> controller/service migration -> tests"
+    },
+    {
+      "ticket_id": "P3-003",
+      "title": "Tenant Isolation, RLS, and Service Enforcement Decision",
+      "type": "decision/control",
+      "priority": "P0",
+      "objective": "Decide whether Phase 3 uses DB RLS, service-level enforcement, or a hybrid strategy for tenant isolation.",
+      "scope": [
+        "evaluate Prisma schema, migrations, registry metadata, and service-level checks",
+        "choose DB RLS, service-level enforcement, or hybrid enforcement",
+        "define negative cross-tenant test expectations",
+        "define whether P3-008 may touch Prisma/schema/migrations"
+      ],
+      "non_scope": [
+        "Prisma/schema/migration implementation",
+        "RLS policy implementation",
+        "service implementation changes",
+        "contract changes",
+        "generated registry changes",
+        "workflow changes"
+      ],
+      "source_files_to_inspect": [
+        "prisma/schema.prisma",
+        "prisma/migrations/*",
+        "prisma/entity-registry.metadata.json",
+        "generated/entity-registry.generated.json",
+        "scripts/registry/*",
+        "apps/api/src/**/*.service.ts",
+        "apps/api/src/**/*.spec.ts"
+      ],
+      "files_expected_to_change": [
+        "docs/adr/ADR-0009-tenant-isolation-rls-service-enforcement.md"
+      ],
+      "files_forbidden_to_change": [
+        "apps/**",
+        "packages/**",
+        "prisma/**",
+        "generated/**",
+        "package.json",
+        "pnpm-lock.yaml",
+        ".github/workflows/**"
+      ],
+      "tests_required": [
+        "decision must list required cross-tenant negative tests for P3-008 and P3-013"
+      ],
+      "validation_commands": [
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "decision proposes destructive migrations",
+        "decision disables or weakens tenant isolation",
+        "decision pre-authorizes Prisma changes without choosing DB RLS or hybrid enforcement",
+        "decision invents new tenant-scoped entities"
+      ],
+      "acceptance_criteria": [
+        "ADR selects DB RLS, service-level, or hybrid enforcement",
+        "ADR states whether P3-008 can modify Prisma/schema/migrations",
+        "ADR defines negative cross-tenant test requirements",
+        "ADR preserves registry metadata and tenant-scoped model expectations"
+      ],
+      "dependencies": [
+        "P3-001"
+      ],
+      "commit_message": "docs: decide Phase 3 tenant isolation enforcement",
+      "rollback_notes": "Revert the ADR commit only; no runtime artifacts should exist.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": false,
+      "stale_ticket_risk_notes": "P3-008 must be re-planned after this decision so stale RLS assumptions cannot authorize the wrong files.",
+      "runtime_consistency_chain": "tenant isolation decision -> enforcement strategy -> cross-tenant negative tests"
+    },
+    {
+      "ticket_id": "P3-004",
+      "title": "Secrets, Environment, Headers, and CORS Policy",
+      "type": "decision/control",
+      "priority": "P0",
+      "objective": "Define the non-secret environment, safe defaults, headers, and CORS policy for Phase 3 without drifting into deployment work.",
+      "scope": [
+        "define required non-secret env templates and validation expectations",
+        "define security headers and CORS policy boundaries",
+        "define secret handling rules and committed-file prohibitions",
+        "gate P3-011 implementation"
+      ],
+      "non_scope": [
+        "deployment infrastructure",
+        "production env files",
+        "production secrets",
+        "hosting-specific deployment logic",
+        "runtime implementation",
+        "dependency changes",
+        "workflow changes"
+      ],
+      "source_files_to_inspect": [
+        "apps/api/src/main.ts",
+        "apps/api/src/prisma/prisma.service.ts",
+        "apps/api/package.json",
+        "apps/web/package.json",
+        "package.json",
+        "docs/process/*"
+      ],
+      "files_expected_to_change": [
+        "docs/adr/ADR-0010-secrets-environment-headers-cors.md"
+      ],
+      "files_forbidden_to_change": [
+        "apps/**",
+        "packages/**",
+        "prisma/**",
+        "generated/**",
+        "package.json",
+        "pnpm-lock.yaml",
+        ".github/workflows/**"
+      ],
+      "tests_required": [
+        "decision must list validation/tests expected for P3-011"
+      ],
+      "validation_commands": [
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "policy requires production secret values",
+        "policy creates deployment/staging work",
+        "policy requires dependency additions without explicit approval",
+        "policy conflicts with accepted deferrals"
+      ],
+      "acceptance_criteria": [
+        "ADR defines non-secret env template and validation policy",
+        "ADR defines headers/CORS behavior within Phase 3",
+        "ADR forbids committed secrets and production credentials",
+        "ADR clearly gates P3-011"
+      ],
+      "dependencies": [
+        "P3-001"
+      ],
+      "commit_message": "docs: decide Phase 3 env headers cors policy",
+      "rollback_notes": "Revert the ADR commit only; no runtime artifacts should exist.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": false,
+      "stale_ticket_risk_notes": "This ticket prevents P3-011 from becoming hidden deployment work by recording allowed and forbidden implementation surfaces first.",
+      "runtime_consistency_chain": "secrets/env decision -> safe defaults and validation -> headers/CORS controls -> tests"
+    },
+    {
+      "ticket_id": "P3-005",
+      "title": "Runtime Route Limiting Decision",
+      "type": "decision/control",
+      "priority": "P0",
+      "objective": "Decide how Phase 3 resolves runtime route limiting without unapproved dependencies or Phase 4 infrastructure work.",
+      "scope": [
+        "evaluate existing API bootstrap and package dependencies",
+        "choose in-app no-new-dependency limiter, dependency-backed limiter requiring approval, infrastructure-level handoff, or bounded deferral",
+        "define manifest/runtime alignment requirements",
+        "gate P3-010 re-planning"
+      ],
+      "non_scope": [
+        "runtime limiter implementation",
+        "dependency installation",
+        "deployment infrastructure",
+        "hosting or edge configuration",
+        "workflow changes",
+        "Prisma or contract changes"
+      ],
+      "source_files_to_inspect": [
+        "apps/api/src/main.ts",
+        "apps/api/package.json",
+        "package.json",
+        "docs/process/AKTI_ERP_Accepted_Deferrals_After_Phase_2_v1.md",
+        "docs/process/AKTI_ERP_Phase_2_Quality_Pass_Report_v1.json"
+      ],
+      "files_expected_to_change": [
+        "docs/adr/ADR-0011-runtime-route-limiting.md"
+      ],
+      "files_forbidden_to_change": [
+        "apps/**",
+        "packages/**",
+        "prisma/**",
+        "generated/**",
+        "package.json",
+        "pnpm-lock.yaml",
+        ".github/workflows/**"
+      ],
+      "tests_required": [
+        "decision must list P3-010 validation expectations"
+      ],
+      "validation_commands": [
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "decision requires a new package without explicit approval",
+        "decision moves Phase 4 infrastructure into Phase 3",
+        "decision leaves route limiting as an unbounded deferral"
+      ],
+      "acceptance_criteria": [
+        "ADR selects a route limiting resolution path",
+        "ADR states whether P3-010 is implementation or docs/handoff only",
+        "ADR requires P3-010 re-plan after closure",
+        "ADR records approval stop if dependency-backed limiter is required"
+      ],
+      "dependencies": [
+        "P3-001"
+      ],
+      "commit_message": "docs: decide Phase 3 runtime route limiting",
+      "rollback_notes": "Revert the ADR commit only; no runtime artifacts should exist.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": false,
+      "stale_ticket_risk_notes": "P3-010 must not assume implementation shape until this decision closes.",
+      "runtime_consistency_chain": "route limiting decision -> runtime or bounded deferral -> manifest/runtime alignment"
+    },
+    {
+      "ticket_id": "P3-006",
+      "title": "Fresh DB and Bootstrap Decision",
+      "type": "decision/control",
+      "priority": "P0",
+      "objective": "Decide whether Phase 3 addresses the fresh empty-database bootstrap baseline or creates a bounded Phase 4 handoff.",
+      "scope": [
+        "evaluate migrations, seed/bootstrap assumptions, and accepted deferral docs",
+        "decide Phase 3 action versus bounded Phase 4 handoff",
+        "define validation expectations if any bootstrap action is authorized"
+      ],
+      "non_scope": [
+        "destructive migrations",
+        "deployment bootstrap execution",
+        "production database access",
+        "Prisma/schema changes unless separately approved by an implementation ticket",
+        "workflow changes"
+      ],
+      "source_files_to_inspect": [
+        "prisma/schema.prisma",
+        "prisma/migrations/*",
+        "package.json",
+        "docs/process/AKTI_ERP_Accepted_Deferrals_After_Phase_2_v1.md",
+        "docs/process/AKTI_ERP_Phase_2_Quality_Pass_Report_v1.json"
+      ],
+      "files_expected_to_change": [
+        "docs/adr/ADR-0012-fresh-db-bootstrap.md"
+      ],
+      "files_forbidden_to_change": [
+        "apps/**",
+        "packages/**",
+        "prisma/**",
+        "generated/**",
+        "package.json",
+        "pnpm-lock.yaml",
+        ".github/workflows/**"
+      ],
+      "tests_required": [
+        "decision must list bootstrap validation or bounded handoff evidence"
+      ],
+      "validation_commands": [
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "decision requires destructive migrations",
+        "decision requires production database access",
+        "decision expands into Phase 4 deployment",
+        "decision leaves the deferral unbounded"
+      ],
+      "acceptance_criteria": [
+        "ADR decides Phase 3 action or bounded Phase 4 handoff",
+        "ADR identifies any required validation commands",
+        "ADR preserves accepted deferral boundaries"
+      ],
+      "dependencies": [
+        "P3-001"
+      ],
+      "commit_message": "docs: decide Phase 3 fresh db bootstrap path",
+      "rollback_notes": "Revert the ADR commit only; no runtime artifacts should exist.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": false,
+      "stale_ticket_risk_notes": "This ticket prevents bootstrap assumptions from becoming hidden deployment work.",
+      "runtime_consistency_chain": "fresh DB/bootstrap decision -> Phase 3 action or Phase 4 handoff"
+    },
+    {
+      "ticket_id": "P3-007A",
+      "title": "Auth/Tenant Request Context Infrastructure",
+      "type": "implementation",
+      "priority": "P0",
+      "objective": "Build the request-context foundation required by the approved auth/session and tenant-context decision without migrating the full API surface.",
+      "scope": [
+        "add guard/middleware/context provider/helper foundation selected by P3-002",
+        "bind trusted actor and tenant context for downstream controllers/services",
+        "add focused tests for valid, missing, invalid, and cross-tenant context behavior",
+        "document exact usage pattern for P3-007B"
+      ],
+      "non_scope": [
+        "broad controller/service migration",
+        "frontend operator-context replacement",
+        "Prisma/schema changes",
+        "contract changes unless P3-002 explicitly requires and approves them",
+        "new dependencies without explicit approval",
+        "production credentials or secrets"
+      ],
+      "source_files_to_inspect": [
+        "docs/adr/ADR-0008-auth-session-identity-tenant-context.md",
+        "apps/api/src/main.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/**/*.controller.ts",
+        "apps/api/src/**/*.service.ts",
+        "apps/api/src/**/*.spec.ts",
+        "apps/api/package.json"
+      ],
+      "files_expected_to_change": [
+        "Exact file plan required after P3-002; expected area is apps/api/src auth/request-context infrastructure and focused tests only."
+      ],
+      "files_forbidden_to_change": [
+        "prisma/**",
+        "generated/**",
+        "pnpm-lock.yaml unless explicit dependency approval is granted",
+        ".github/workflows/**",
+        "apps/web/**"
+      ],
+      "tests_required": [
+        "request context unit tests",
+        "missing auth/session negative test",
+        "invalid tenant context negative test",
+        "no broad x-actor-user-id test deletion"
+      ],
+      "validation_commands": [
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "P3-002 is not closed",
+        "implementation requires a new dependency without explicit approval",
+        "exact-file planning reveals broad controller/service migration",
+        "tests using x-actor-user-id would be removed without equivalent trusted-context coverage"
+      ],
+      "acceptance_criteria": [
+        "request-context foundation exists and is tested",
+        "no broad API surface migration is included",
+        "failure modes are fail-closed",
+        "P3-007B has a clear migration pattern"
+      ],
+      "dependencies": [
+        "P3-001",
+        "P3-002"
+      ],
+      "commit_message": "feat(api): add Phase 3 auth tenant request context foundation",
+      "rollback_notes": "Revert request-context infrastructure and focused tests only; no schema or contract rollback should be needed unless separately approved.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": false,
+      "stale_ticket_risk_notes": "Split from P3-007B to avoid a hidden mega-ticket across the API surface.",
+      "runtime_consistency_chain": "auth/session decision -> request context -> controller/service migration -> tests"
+    },
+    {
+      "ticket_id": "P3-007B",
+      "title": "API Surface Migration to Trusted Context",
+      "type": "implementation",
+      "priority": "P0",
+      "objective": "Migrate API controllers/services from caller-controlled identity assumptions to the trusted request context in bounded slices.",
+      "scope": [
+        "identify exact controller/service/test slices before editing",
+        "replace x-actor-user-id usage only where equivalent or stronger trusted-context tests are added",
+        "preserve existing same-org and cross-org denial behavior",
+        "split further if exact-file planning shows broad blast radius"
+      ],
+      "non_scope": [
+        "new request-context infrastructure beyond P3-007A patterns",
+        "frontend auth/operator context",
+        "tenant RLS implementation",
+        "Access Core/Gatekeeper behavior changes outside approved integration path",
+        "new dependencies",
+        "Prisma/schema changes"
+      ],
+      "source_files_to_inspect": [
+        "docs/adr/ADR-0008-auth-session-identity-tenant-context.md",
+        "apps/api/src/access-core/*",
+        "apps/api/src/hierarchy/*",
+        "apps/api/src/configuration/*",
+        "apps/api/src/engagement-gateway/*",
+        "apps/api/src/lead-desk/*",
+        "apps/api/src/audit/*",
+        "apps/api/src/outbox/*",
+        "apps/api/src/**/*.spec.ts"
+      ],
+      "files_expected_to_change": [
+        "Exact bounded slice files selected during pre-edit planning; if more than one coherent API area is required, split before implementation."
+      ],
+      "files_forbidden_to_change": [
+        "prisma/**",
+        "generated/**",
+        "package.json",
+        "pnpm-lock.yaml",
+        ".github/workflows/**",
+        "apps/web/**"
+      ],
+      "tests_required": [
+        "equivalent or stronger trusted-context replacements for any x-actor-user-id tests changed",
+        "cross-org denial tests for migrated slices",
+        "missing/invalid context tests for migrated slices"
+      ],
+      "validation_commands": [
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "P3-007A is not closed",
+        "exact-file planning reveals broad blast radius across unrelated modules",
+        "old header-based tests would be removed without replacement coverage",
+        "migration would weaken Access Core, Gatekeeper, Lead Desk, Engagement Gateway, audit/outbox, or cross-org denial behavior"
+      ],
+      "acceptance_criteria": [
+        "migrated API slice uses trusted request context",
+        "legacy header coverage is replaced by equivalent or stronger trusted-context tests",
+        "Phase 1/2 security protections are preserved",
+        "remaining unmigrated surfaces are explicitly listed for later bounded slices or closure"
+      ],
+      "dependencies": [
+        "P3-007A"
+      ],
+      "commit_message": "refactor(api): migrate Phase 3 api slice to trusted context",
+      "rollback_notes": "Revert only the migrated slice and related tests; preserve P3-007A infrastructure unless it is the source of failure.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": false,
+      "stale_ticket_risk_notes": "This ticket must split further before execution if the exact-file plan is too large.",
+      "runtime_consistency_chain": "auth/session decision -> request context -> controller/service migration -> tests"
+    },
+    {
+      "ticket_id": "P3-008",
+      "title": "Tenant Isolation Enforcement Implementation",
+      "type": "implementation",
+      "priority": "P0",
+      "objective": "Implement the tenant isolation enforcement selected by P3-003, with re-planning before any Prisma/schema/migration authority exists.",
+      "scope": [
+        "re-plan after P3-003 closes",
+        "if P3-003 selects DB RLS or hybrid, plan exact Prisma/migration/security-policy files before editing",
+        "if P3-003 selects service-level enforcement only, do not force DB RLS work",
+        "add required cross-tenant negative tests"
+      ],
+      "non_scope": [
+        "pre-authorized Prisma/schema/migration changes before P3-003",
+        "destructive migrations",
+        "new tenant-scoped entities",
+        "weakening registry metadata",
+        "deployment database operations"
+      ],
+      "source_files_to_inspect": [
+        "docs/adr/ADR-0009-tenant-isolation-rls-service-enforcement.md",
+        "prisma/schema.prisma",
+        "prisma/migrations/*",
+        "prisma/entity-registry.metadata.json",
+        "generated/entity-registry.generated.json",
+        "scripts/registry/*",
+        "apps/api/src/**/*.service.ts",
+        "apps/api/src/**/*.spec.ts"
+      ],
+      "files_expected_to_change": [
+        "None until P3-003 closes and P3-008 re-plan is accepted; conditional options may include Prisma migrations for DB RLS/hybrid or API service/test files for service-only enforcement."
+      ],
+      "files_forbidden_to_change": [
+        "Prisma/schema/migration files before P3-003 explicitly selects DB RLS or hybrid enforcement",
+        "generated/entity-registry.generated.json unless registry generation is part of an approved drift-free path",
+        "package.json",
+        "pnpm-lock.yaml",
+        ".github/workflows/**"
+      ],
+      "tests_required": [
+        "cross-tenant negative tests required by P3-003",
+        "registry/drift checks if Prisma or metadata is touched",
+        "service-level denial tests if service enforcement is selected"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm exec prisma generate --schema prisma/schema.prisma",
+        "pnpm registry:generate",
+        "git diff --exit-code -- generated/entity-registry.generated.json",
+        "pnpm registry:check",
+        "pnpm registry:verify:phase2",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff -- prisma/schema.prisma",
+        "git diff -- prisma/entity-registry.metadata.json",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "P3-003 is not closed",
+        "P3-008 has not been re-planned after P3-003",
+        "implementation would require destructive migrations",
+        "implementation would weaken tenant-scoped metadata or cross-org denial tests",
+        "DB RLS work is attempted after P3-003 selects service-level enforcement only"
+      ],
+      "acceptance_criteria": [
+        "P3-008 re-plan records exact authorized file set",
+        "tenant isolation enforcement matches P3-003 decision",
+        "cross-tenant negative tests pass",
+        "schema/registry drift checks pass if relevant"
+      ],
+      "dependencies": [
+        "P3-003",
+        "P3-007A"
+      ],
+      "commit_message": "feat(api): implement Phase 3 tenant isolation enforcement",
+      "rollback_notes": "Rollback depends on P3-003 decision; if migrations exist, rollback must follow non-destructive migration policy and stop for approval if data risk exists.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": true,
+      "stale_ticket_risk_notes": "Scope depends entirely on P3-003 and must be re-planned after that decision closes.",
+      "runtime_consistency_chain": "tenant isolation decision -> enforcement strategy -> cross-tenant negative tests"
+    },
+    {
+      "ticket_id": "P3-009",
+      "title": "Access Core and Gatekeeper Auth Integration",
+      "type": "implementation",
+      "priority": "P0",
+      "objective": "Bind Access Core and Gatekeeper checks to trusted auth/tenant context while preserving Phase 1/2 boundaries and fail-closed behavior.",
+      "scope": [
+        "integrate trusted request context with Access Core checks",
+        "integrate trusted request context with Gatekeeper preflight behavior",
+        "preserve no-write-on-failure behavior",
+        "add or update tests for fail-closed, same-org, and cross-org denial behavior"
+      ],
+      "non_scope": [
+        "inventing permissions, roles, capabilities, or business rules",
+        "bypassing Gatekeeper for high-risk actions",
+        "Lead Desk-to-WhatsApp coupling",
+        "Prisma/schema changes unless required by P3-003/P3-008",
+        "frontend changes"
+      ],
+      "source_files_to_inspect": [
+        "docs/adr/ADR-0008-auth-session-identity-tenant-context.md",
+        "apps/api/src/access-core/*",
+        "apps/api/src/gatekeeper/*",
+        "apps/api/src/lead-desk/*",
+        "apps/api/src/engagement-gateway/*",
+        "apps/api/src/**/*.spec.ts",
+        "packages/contracts/*"
+      ],
+      "files_expected_to_change": [
+        "Exact Access Core, Gatekeeper, and affected API test files selected during pre-edit planning."
+      ],
+      "files_forbidden_to_change": [
+        "prisma/** unless explicitly authorized by P3-003/P3-008",
+        "generated/**",
+        "package.json",
+        "pnpm-lock.yaml",
+        ".github/workflows/**",
+        "apps/web/**"
+      ],
+      "tests_required": [
+        "Access Core actor/capability boundary tests",
+        "Gatekeeper fail-closed tests",
+        "no-write-on-failure tests",
+        "cross-org denial tests",
+        "equivalent or stronger trusted-context replacements for any x-actor-user-id tests changed"
+      ],
+      "validation_commands": [
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "P3-002 or P3-007A is not closed",
+        "implementation weakens Access Core or Gatekeeper behavior",
+        "new permissions, roles, or capabilities are needed",
+        "Gatekeeper no-write-on-failure behavior cannot be proven"
+      ],
+      "acceptance_criteria": [
+        "Access Core uses trusted auth/tenant context where in scope",
+        "Gatekeeper remains fail-closed",
+        "high-risk operations still require Gatekeeper",
+        "audit/outbox evidence behavior is preserved",
+        "tests prove no-write-on-failure and cross-org denial behavior"
+      ],
+      "dependencies": [
+        "P3-002",
+        "P3-007A",
+        "P3-007B"
+      ],
+      "commit_message": "feat(api): integrate access core gatekeeper with auth context",
+      "rollback_notes": "Revert Access Core/Gatekeeper integration changes and related tests; preserve unrelated request-context infrastructure.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": false,
+      "stale_ticket_risk_notes": "This ticket must use existing capabilities and Gatekeeper semantics, not rediscover or redefine authorization policy during implementation.",
+      "runtime_consistency_chain": "Access Core/Gatekeeper integration -> fail-closed behavior -> no-write-on-failure tests"
+    },
+    {
+      "ticket_id": "P3-010",
+      "title": "Runtime Route Limiting Resolution",
+      "type": "implementation/control",
+      "priority": "P1",
+      "objective": "Resolve runtime route limiting according to P3-005, with re-planning before implementation or bounded handoff.",
+      "scope": [
+        "re-plan after P3-005 closes",
+        "if P3-005 selects no-new-dependency in-app limiting, implement and test it",
+        "if P3-005 selects infrastructure-level limiting, create docs/handoff only without Phase 4 implementation",
+        "if P3-005 requires a dependency-backed limiter, stop for explicit approval before package changes"
+      ],
+      "non_scope": [
+        "dependency additions without approval",
+        "deployment infrastructure",
+        "hosting-specific limiter config",
+        "secrets",
+        "Prisma/schema changes",
+        "unrelated API behavior changes"
+      ],
+      "source_files_to_inspect": [
+        "docs/adr/ADR-0011-runtime-route-limiting.md",
+        "apps/api/src/main.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/package.json",
+        "package.json",
+        "docs/process/*"
+      ],
+      "files_expected_to_change": [
+        "None until P3-005 closes and P3-010 re-plan is accepted; conditional options may include API bootstrap/test files or docs-only handoff."
+      ],
+      "files_forbidden_to_change": [
+        "package.json and pnpm-lock.yaml unless explicit dependency approval is granted",
+        "prisma/**",
+        "generated/**",
+        ".github/workflows/** unless P3-014 explicitly handles validation alignment",
+        "deployment or hosting config"
+      ],
+      "tests_required": [
+        "limiter behavior tests if runtime implementation is selected",
+        "manifest/runtime alignment evidence if docs/handoff path is selected",
+        "validation that no Phase 4 deployment work is introduced"
+      ],
+      "validation_commands": [
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "P3-005 is not closed",
+        "P3-010 has not been re-planned after P3-005",
+        "implementation requires a new dependency without explicit approval",
+        "scope becomes infrastructure/deployment work",
+        "route limiting remains an unbounded deferral"
+      ],
+      "acceptance_criteria": [
+        "P3-010 re-plan records exact resolution path",
+        "runtime limiter is implemented and tested if selected",
+        "docs/handoff is explicit and bounded if infrastructure-level limiting is selected",
+        "no dependency is added without approval"
+      ],
+      "dependencies": [
+        "P3-005"
+      ],
+      "commit_message": "feat(api): resolve Phase 3 runtime route limiting",
+      "rollback_notes": "Revert limiter implementation or docs/handoff only; if dependencies were approved, rollback package changes in the same commit scope.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": true,
+      "stale_ticket_risk_notes": "Scope depends on P3-005 and must be re-planned to avoid implementing the wrong limiter layer.",
+      "runtime_consistency_chain": "route limiting decision -> runtime or bounded deferral -> manifest/runtime alignment"
+    },
+    {
+      "ticket_id": "P3-011",
+      "title": "Secrets, Env, Headers, and CORS Implementation",
+      "type": "implementation",
+      "priority": "P1",
+      "objective": "Implement the approved non-secret env validation, safe defaults, security headers, and CORS controls without creating deployment work.",
+      "scope": [
+        "create or update non-secret env templates",
+        "add runtime validation and safe defaults approved by P3-004",
+        "add headers/CORS controls approved by P3-004",
+        "add focused tests or validation evidence"
+      ],
+      "non_scope": [
+        "deployment infrastructure",
+        "production env files",
+        "production secrets",
+        "hosting-specific deployment logic",
+        "new dependencies without approval",
+        "production credential access"
+      ],
+      "source_files_to_inspect": [
+        "docs/adr/ADR-0010-secrets-environment-headers-cors.md",
+        "apps/api/src/main.ts",
+        "apps/api/src/prisma/prisma.service.ts",
+        "apps/api/package.json",
+        "apps/web/package.json",
+        "package.json",
+        ".gitignore",
+        "docs/process/*"
+      ],
+      "files_expected_to_change": [
+        "Exact env template, API bootstrap/config, docs, and test files selected during pre-edit planning."
+      ],
+      "files_forbidden_to_change": [
+        "production env files",
+        "secret files",
+        "deployment or hosting config",
+        "prisma/**",
+        "generated/**",
+        "package.json and pnpm-lock.yaml unless explicit dependency approval is granted",
+        ".github/workflows/**"
+      ],
+      "tests_required": [
+        "env validation tests or documented validation command",
+        "headers/CORS behavior tests where feasible",
+        "secret scanning by review/search for committed secret-like values"
+      ],
+      "validation_commands": [
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "P3-004 is not closed",
+        "implementation requires production secrets",
+        "implementation creates deployment/staging infrastructure",
+        "implementation requires a new dependency without explicit approval"
+      ],
+      "acceptance_criteria": [
+        "non-secret env templates and validation match P3-004",
+        "headers/CORS controls match P3-004",
+        "no secrets or production envs are committed",
+        "no deployment or hosting-specific logic is introduced"
+      ],
+      "dependencies": [
+        "P3-004"
+      ],
+      "commit_message": "feat(api): add Phase 3 env headers cors controls",
+      "rollback_notes": "Revert env/header/CORS implementation and related tests/templates only; do not alter unrelated deployment files.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": false,
+      "stale_ticket_risk_notes": "Non-scope boundaries are explicit so this ticket cannot drift into hidden Phase 4 deployment work.",
+      "runtime_consistency_chain": "secrets/env decision -> safe defaults and validation -> headers/CORS controls -> tests"
+    },
+    {
+      "ticket_id": "P3-012",
+      "title": "Frontend Auth and Operator Context Replacement",
+      "type": "implementation",
+      "priority": "P1",
+      "objective": "Replace temporary frontend operator context behavior with the session-aware policy approved by Phase 3 decisions.",
+      "scope": [
+        "replace or bound sessionStorage operator context according to P3-002",
+        "stop sending x-actor-user-id from frontend where trusted context is available",
+        "update frontend tests for authenticated/operator context behavior",
+        "preserve screen contracts and Lead Desk authorized same-org behavior"
+      ],
+      "non_scope": [
+        "frontend screens without screen contracts",
+        "fake dashboards",
+        "new business rules",
+        "browser-rendered visual QA unless explicitly scoped as security test",
+        "deployment/staging work",
+        "production auth credentials"
+      ],
+      "source_files_to_inspect": [
+        "docs/adr/ADR-0008-auth-session-identity-tenant-context.md",
+        "docs/screen-contracts/*",
+        "apps/web/app/lead-desk/operator-context.ts",
+        "apps/web/app/lead-desk/api-client.ts",
+        "apps/web/app/lead-desk/*",
+        "apps/web/test/*",
+        "apps/web/package.json"
+      ],
+      "files_expected_to_change": [
+        "Exact frontend operator-context, API client, route/component, and test files selected during pre-edit planning."
+      ],
+      "files_forbidden_to_change": [
+        "prisma/**",
+        "generated/**",
+        "package.json and pnpm-lock.yaml unless explicit dependency approval is granted",
+        ".github/workflows/**",
+        "deployment or hosting config"
+      ],
+      "tests_required": [
+        "frontend operator-context tests",
+        "API client no longer relies on caller-controlled x-actor-user-id where trusted context is available",
+        "empty/loading/error state behavior preserved where touched",
+        "build/typecheck"
+      ],
+      "validation_commands": [
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "P3-001 or P3-002 is not closed",
+        "screen contract is missing for changed frontend surface",
+        "implementation invents roles, permissions, or business rules",
+        "browser-rendered visual QA becomes required as hidden Phase 4 work"
+      ],
+      "acceptance_criteria": [
+        "frontend operator context follows P3-002 policy",
+        "x-actor-user-id frontend behavior is removed or bounded according to trusted-context migration",
+        "frontend tests provide equivalent or stronger coverage",
+        "Lead Desk same-org behavior remains authorized and evidenced"
+      ],
+      "dependencies": [
+        "P3-001",
+        "P3-002",
+        "P3-007A",
+        "P3-007B"
+      ],
+      "commit_message": "feat(web): replace lead desk operator context with auth context",
+      "rollback_notes": "Revert frontend context/API client/test changes only; preserve backend trusted-context infrastructure.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": false,
+      "stale_ticket_risk_notes": "Frontend work is gated behind security/auth decisions so temporary operator context is not replaced with another untrusted placeholder.",
+      "runtime_consistency_chain": "frontend auth decision -> operator context replacement -> frontend tests"
+    },
+    {
+      "ticket_id": "P3-013",
+      "title": "Security and Tenant Negative Test Pass",
+      "type": "validation",
+      "priority": "P0",
+      "objective": "Run a focused Phase 3 security/tenant negative test pass that proves Phase 1/2 protections were not weakened.",
+      "scope": [
+        "add missing negative tests discovered during Phase 3 implementation",
+        "verify missing/invalid auth/session behavior",
+        "verify cross-org denial behavior",
+        "verify Access Core and Gatekeeper fail-closed/no-write-on-failure behavior",
+        "verify audit/outbox evidence remains intact"
+      ],
+      "non_scope": [
+        "new features",
+        "new permissions or roles",
+        "schema changes unless already authorized by P3-008",
+        "browser-rendered visual QA",
+        "deployment/staging work"
+      ],
+      "source_files_to_inspect": [
+        "apps/api/src/**/*.spec.ts",
+        "apps/web/test/*",
+        "docs/adr/ADR-0008-auth-session-identity-tenant-context.md",
+        "docs/adr/ADR-0009-tenant-isolation-rls-service-enforcement.md",
+        "docs/process/AKTI_ERP_Phase_3_Ticket_Pack_v1.json"
+      ],
+      "files_expected_to_change": [
+        "Exact test files selected during pre-edit planning; production source changes allowed only as bounded repair inside active tested behavior."
+      ],
+      "files_forbidden_to_change": [
+        "prisma/** unless P3-008 already authorized and requires bounded repair",
+        "generated/**",
+        "package.json",
+        "pnpm-lock.yaml",
+        ".github/workflows/** unless P3-014 scope applies"
+      ],
+      "tests_required": [
+        "auth/session negative tests",
+        "tenant cross-org negative tests",
+        "Access Core boundary tests",
+        "Gatekeeper fail-closed/no-write-on-failure tests",
+        "Lead Desk scope enforcement tests",
+        "Engagement Gateway mediated WhatsApp boundary tests",
+        "audit/outbox evidence tests"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm exec prisma generate --schema prisma/schema.prisma",
+        "pnpm registry:generate",
+        "git diff --exit-code -- generated/entity-registry.generated.json",
+        "pnpm registry:check",
+        "pnpm registry:verify:phase2",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff -- prisma/schema.prisma",
+        "git diff -- prisma/entity-registry.metadata.json",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "tests require invented business rules or permissions",
+        "old Phase 1/2 tests are removed or weakened",
+        "validation failure is outside ticket scope and bounded repair is not explicitly allowed",
+        "real WhatsApp or production credentials would be required"
+      ],
+      "acceptance_criteria": [
+        "security and tenant negative tests pass",
+        "Phase 1/2 protections are not weakened",
+        "x-actor-user-id tests changed during Phase 3 have equivalent or stronger trusted-context coverage",
+        "full validation ladder passes"
+      ],
+      "dependencies": [
+        "P3-007B",
+        "P3-008",
+        "P3-009",
+        "P3-011",
+        "P3-012"
+      ],
+      "commit_message": "test: add Phase 3 security tenant negative coverage",
+      "rollback_notes": "Revert only test additions and any bounded repair made inside this ticket.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": false,
+      "stale_ticket_risk_notes": "This pass catches stale implementation assumptions before closure rather than relying on a later quality pass.",
+      "runtime_consistency_chain": "security implementation -> negative tests -> full validation evidence"
+    },
+    {
+      "ticket_id": "P3-014",
+      "title": "Phase 3 CI / validation naming and security-gate alignment",
+      "type": "implementation/control",
+      "priority": "P1",
+      "objective": "Align CI naming and Phase 3 security-gate validation without weakening the existing Phase 1/2 validation ladder.",
+      "scope": [
+        "rename or align workflow/job labels so Phase 3 validation intent is clear",
+        "add Phase 3 security-gate validation commands only if safely scoped and already available",
+        "preserve Phase 2 registry and validation checks",
+        "verify no previous validation wiring is weakened"
+      ],
+      "non_scope": [
+        "deployment CI/CD",
+        "secret provisioning",
+        "new GitHub Actions requiring secrets",
+        "new package dependencies",
+        "runtime code changes",
+        "Prisma/schema changes"
+      ],
+      "source_files_to_inspect": [
+        ".github/workflows/phase1-validation.yml",
+        "package.json",
+        "pnpm-workspace.yaml",
+        "docs/process/AKTI_ERP_Phase_3_Ticket_Pack_v1.json",
+        "docs/process/AKTI_ERP_Autonomous_Runbook_v2.md",
+        "docs/process/AKTI_ERP_Phase_Roadmap_v2.md"
+      ],
+      "files_expected_to_change": [
+        ".github/workflows/phase1-validation.yml or a narrowly named replacement workflow file selected during exact-file planning",
+        "docs/process/AKTI_ERP_Phase_3_Ticket_Pack_v1.json only if closure notes need correction before execution begins"
+      ],
+      "files_forbidden_to_change": [
+        "apps/**",
+        "packages/**",
+        "prisma/**",
+        "generated/**",
+        "package.json",
+        "pnpm-lock.yaml",
+        "deployment or hosting config"
+      ],
+      "tests_required": [
+        "workflow syntax review",
+        "full validation ladder locally",
+        "diff review proving Phase 1/2 validation was not removed or weakened"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm exec prisma generate --schema prisma/schema.prisma",
+        "pnpm registry:generate",
+        "git diff --exit-code -- generated/entity-registry.generated.json",
+        "pnpm registry:check",
+        "pnpm registry:verify:phase2",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff -- prisma/schema.prisma",
+        "git diff -- prisma/entity-registry.metadata.json",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "alignment requires deployment or secret-bearing CI",
+        "alignment weakens existing Phase 1/2 validation",
+        "alignment requires package dependencies",
+        "workflow changes exceed naming/security-gate scope"
+      ],
+      "acceptance_criteria": [
+        "CI naming reflects Phase 3 validation intent or the reason for retaining the existing file name is documented",
+        "existing Phase 1/2 validation ladder is preserved",
+        "Phase 3 security-gate alignment is present where safely scoped",
+        "full validation ladder passes"
+      ],
+      "dependencies": [
+        "P3-013"
+      ],
+      "commit_message": "ci: align Phase 3 validation gate naming",
+      "rollback_notes": "Revert workflow naming/alignment changes only; no runtime rollback should be required.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": false,
+      "stale_ticket_risk_notes": "Included only because repo inspection confirmed a safely scoped naming/security-gate mismatch.",
+      "runtime_consistency_chain": "Phase 3 security validation -> CI gate naming -> no weakened Phase 1/2 validation"
+    },
+    {
+      "ticket_id": "P3-GATE",
+      "title": "Phase 3 Closure Audit and Phase 4 Readiness Handoff",
+      "type": "closure",
+      "priority": "P0",
+      "objective": "Close Phase 3 with audit evidence and a Phase 4 readiness handoff without planning or implementing Phase 4.",
+      "scope": [
+        "complete the Phase 3 audit report at closure",
+        "summarize ticket completion and validation evidence",
+        "record accepted deferrals after Phase 3",
+        "create a Phase 4 readiness handoff only"
+      ],
+      "non_scope": [
+        "Phase 4 planning",
+        "deployment/staging implementation",
+        "visual QA implementation",
+        "production secrets",
+        "real WhatsApp production behavior",
+        "new modules or Foundry/module installer work"
+      ],
+      "source_files_to_inspect": [
+        "docs/process/AKTI_ERP_Phase_3_Audit_Report_v1.md",
+        "docs/process/AKTI_ERP_Phase_3_Ticket_Pack_v1.json",
+        "docs/process/AKTI_ERP_Accepted_Deferrals_After_Phase_2_v1.md",
+        "docs/process/AKTI_ERP_Master_Roadmap_Reference_v1.md",
+        "git log --oneline",
+        "validation artifacts from Phase 3 tickets"
+      ],
+      "files_expected_to_change": [
+        "docs/process/AKTI_ERP_Phase_3_Audit_Report_v1.md",
+        "a Phase 4 readiness handoff document under docs/process only if explicitly approved by the active ticket"
+      ],
+      "files_forbidden_to_change": [
+        "apps/**",
+        "packages/**",
+        "prisma/**",
+        "generated/**",
+        "package.json",
+        "pnpm-lock.yaml",
+        ".github/workflows/** unless closure requires documenting P3-014 evidence only"
+      ],
+      "tests_required": [
+        "full validation ladder",
+        "audit evidence review",
+        "git status cleanliness"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm exec prisma generate --schema prisma/schema.prisma",
+        "pnpm registry:generate",
+        "git diff --exit-code -- generated/entity-registry.generated.json",
+        "pnpm registry:check",
+        "pnpm registry:verify:phase2",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff -- prisma/schema.prisma",
+        "git diff -- prisma/entity-registry.metadata.json",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Phase 3 tickets are incomplete",
+        "audit report would need planning-time assumptions instead of execution evidence",
+        "Phase 4 plan or deployment implementation is requested inside closure",
+        "validation evidence is missing or failing"
+      ],
+      "acceptance_criteria": [
+        "Phase 3 audit report is completed with execution evidence",
+        "Phase 4 readiness handoff exists only as readiness evidence",
+        "Phase 4 planning and implementation have not started",
+        "final validation ladder passes",
+        "remaining risks and deferrals are explicit"
+      ],
+      "dependencies": [
+        "P3-013",
+        "P3-014"
+      ],
+      "commit_message": "docs: close Phase 3 security auth tenant hardening",
+      "rollback_notes": "Revert only closure documentation if evidence is incorrect; do not revert completed implementation tickets without separate approval.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": false,
+      "stale_ticket_risk_notes": "Closure must use git history, validation artifacts, and ticket evidence, not planning assumptions.",
+      "runtime_consistency_chain": "Phase 3 implementation evidence -> closure audit -> Phase 4 readiness handoff"
+    }
+  ],
+  "phase_4_deferred_workstreams": [
+    "production deployment",
+    "staging deployment",
+    "deployment infrastructure",
+    "hosting-specific runtime configuration",
+    "production secret provisioning",
+    "browser-rendered visual QA",
+    "production WhatsApp credential activation",
+    "real outbound WhatsApp behavior",
+    "Foundry/module installer work",
+    "parallel installable module development"
+  ]
+}
