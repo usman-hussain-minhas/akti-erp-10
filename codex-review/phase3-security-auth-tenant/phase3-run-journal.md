@@ -313,3 +313,23 @@ Execution notes:
 - Preserved contracts, Prisma validation/generation, registry generation/checks, `registry:verify:phase2`, lint, typecheck, tests, build, Prisma drift checks, and clean-status check.
 - Workflow YAML parsed and the full validation ladder passed.
 - No bounded repair attempts were needed.
+
+## P3-GATE - Phase 3 Closure Audit and Phase 4 Readiness Handoff
+
+Exact-file plan:
+
+- Complete closure evidence:
+  - `docs/process/AKTI_ERP_Phase_3_Audit_Report_v1.md`
+- Create Phase 4 readiness handoff only:
+  - `docs/process/AKTI_ERP_Phase_4_Readiness_Handoff_After_Phase_3_v1.md`
+- Create P3-GATE summary, changed-files archive, and validation summary under `codex-review/phase3-security-auth-tenant/ticket-artifacts/P3-GATE/`.
+- Do not modify runtime source, Prisma, generated registry, contracts, dependencies, workflow files, deployment config, production credentials, or secrets.
+- Do not plan or implement Phase 4 deployment/staging/visual QA.
+
+Execution notes:
+
+- Completed the Phase 3 audit report with execution evidence from commits, ADRs, ticket artifacts, and validation results.
+- Created a Phase 4 readiness handoff document explicitly marked as readiness evidence only, not a Phase 4 plan.
+- Recorded accepted deferrals and remaining risks after Phase 3.
+- Final full validation ladder passed after one bounded repair.
+- Bounded repair attempt 1: removed trailing whitespace from the new audit report so `git diff --check` passed.
