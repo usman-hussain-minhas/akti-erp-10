@@ -26,3 +26,7 @@ Accepted no-new-dependency localhost browser/visual QA path. Any new browser aut
 ## P4-006
 
 Accepted local disposable PostgreSQL backup/restore and git/build/env rollback proof model.
+
+## P4-007
+
+Accepted Phase 3 app limiter as sufficient for controlled local/demo proof; distributed/infrastructure limiting deferred to production deployment decision.
