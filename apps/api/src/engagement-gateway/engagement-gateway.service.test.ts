@@ -213,6 +213,19 @@ async function testCreateRequestIdempotencyReturnsExistingRecord() {
 
   assert.equal(first.gateway_request_id, 'gateway_request_1');
   assert.equal(second.gateway_request_id, 'gateway_request_1');
+  assert.equal(state.gatekeeperCalls.length, 2);
+  assert.equal(state.persistedRequests.length, 1);
+  assert.equal(state.auditCalls.length, 1);
+  assert.equal(state.outboxCalls.length, 1);
+}
+
+async function testIdempotencyReplayStillRequiresGatekeeperPreflight() {
+  const { service, state } = createMocksWithRealGatekeeper();
+  const first = await service.createRequest('org-1', createInput(), 'actor-1');
+  state.moduleStatuses.set('engagement.gateway', 'degraded');
+
+  await assert.rejects(service.createRequest('org-1', createInput(), 'actor-1'), ServiceUnavailableException);
+  assert.equal(first.gateway_request_id, 'gateway_request_1');
   assert.equal(state.persistedRequests.length, 1);
   assert.equal(state.auditCalls.length, 1);
   assert.equal(state.outboxCalls.length, 1);
@@ -294,6 +307,7 @@ async function run() {
   await testCreateRequestHappyPath();
   await testCreateRequestHappyPathUsesRealGatekeeper();
   await testCreateRequestIdempotencyReturnsExistingRecord();
+  await testIdempotencyReplayStillRequiresGatekeeperPreflight();
   await testCreateRequestWhatsappStubFlow();
   await testUnsupportedCapabilityScopeFailsClosedBeforeGatekeeper();
   await testMissingActorFails();

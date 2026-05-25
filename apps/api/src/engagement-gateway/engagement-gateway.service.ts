@@ -67,6 +67,27 @@ export class EngagementGatewayService {
     const actor = await this.requireActorInOrganization(organizationId, actorUserId);
     const activeGroupIds = await this.requireCapability(organizationId, actorUserId, REQUEST_CREATE_CAPABILITY);
     const healthContext = await this.resolveGatekeeperHealthContext([GATEWAY_MODULE_KEY, ACCESS_MODULE_KEY]);
+    await this.gatekeeperPreflightService.requireAllow({
+      organization_id: organizationId,
+      actor_user_id: actorUserId,
+      active_group_ids: activeGroupIds,
+      capability_key: REQUEST_CREATE_CAPABILITY,
+      module_key: GATEWAY_MODULE_KEY,
+      entity_type: 'engagement.gateway.request',
+      entity_id: null,
+      action_key: 'engagement.gateway.request.recorded',
+      module_health: {
+        [GATEWAY_MODULE_KEY]: healthContext[GATEWAY_MODULE_KEY],
+      },
+      dependency_health: {
+        [ACCESS_MODULE_KEY]: healthContext[ACCESS_MODULE_KEY],
+      },
+      payload: {
+        request_kind: input.request_kind,
+        idempotency_key: input.idempotency_key,
+      },
+    });
+
     const existingRequest = await gatewayRequestRepo(this.prisma).findFirst({
       where: {
         organization_id: organizationId,
@@ -89,27 +110,6 @@ export class EngagementGatewayService {
         recorded_at: existingRequest.recorded_at.toISOString(),
       });
     }
-
-    await this.gatekeeperPreflightService.requireAllow({
-      organization_id: organizationId,
-      actor_user_id: actorUserId,
-      active_group_ids: activeGroupIds,
-      capability_key: REQUEST_CREATE_CAPABILITY,
-      module_key: GATEWAY_MODULE_KEY,
-      entity_type: 'engagement.gateway.request',
-      entity_id: null,
-      action_key: 'engagement.gateway.request.recorded',
-      module_health: {
-        [GATEWAY_MODULE_KEY]: healthContext[GATEWAY_MODULE_KEY],
-      },
-      dependency_health: {
-        [ACCESS_MODULE_KEY]: healthContext[ACCESS_MODULE_KEY],
-      },
-      payload: {
-        request_kind: input.request_kind,
-        idempotency_key: input.idempotency_key,
-      },
-    });
 
     const recordedAtIso = new Date().toISOString();
     const persistedRequest = await this.prisma.$transaction(async (tx) => {
