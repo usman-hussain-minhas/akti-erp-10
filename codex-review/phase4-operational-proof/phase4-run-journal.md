@@ -38,3 +38,7 @@ Accepted Phase 3 bearer session token boundary for local/demo proof; production 
 ## P4-014A
 
 Created runbook skeleton with proof-ticket placeholders and ownership/support outline before implementation proof tickets.
+
+## P4-016A
+
+Created validation gap inventory and proof-ticket validation strategy before P4-009.
