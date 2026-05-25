@@ -40,7 +40,8 @@
     "Exact-file planning is required before every edit. Broad globs are inspection hints only.",
     "Maximum concrete capability means prove controlled staging/demo behavior wherever safe; it does not authorize production launch or out-of-scope implementation.",
     "DB-level RLS and Prisma tenant transaction architecture are not reopened by default in Phase 4 unless staging/bootstrap evidence proves service-level isolation is insufficient for operational proof.",
-    "Do not create permanent ADRs for every operational detail; use ADRs only for true architecture decisions and use process or artifact decision records for operational choices."
+    "Do not create permanent ADRs for every operational detail; use ADRs only for true architecture decisions and use process or artifact decision records for operational choices.",
+    "Real .env files, local env files, secret-bearing env files, and production credential files are forbidden. .env.example may be updated only as a non-secret template with exact-file planning when required by the active ticket."
   ],
   "adr_decision_record_discipline": {
     "use_adrs_for": [
@@ -163,9 +164,11 @@
         "docs/adr/**",
         "package.json",
         "pnpm-lock.yaml",
-        ".env",
-        ".env.*",
-        "deployment/staging implementation files"
+        "deployment/staging implementation files",
+        "real .env files",
+        "local env files",
+        "secret-bearing env files",
+        "production credential files"
       ],
       "required_outputs": [
         "baseline-report.md",
@@ -285,9 +288,11 @@
         "generated/**",
         "package.json",
         "pnpm-lock.yaml",
-        ".env",
-        ".env.*",
-        "deployment/staging implementation files"
+        "deployment/staging implementation files",
+        "real .env files",
+        "local env files",
+        "secret-bearing env files",
+        "production credential files"
       ],
       "required_outputs": [
         "operational-proof-boundary.md or ADR/control decision",
@@ -406,9 +411,11 @@
         "generated/**",
         "package.json",
         "pnpm-lock.yaml",
-        ".env",
-        ".env.*",
-        "deployment/staging implementation files"
+        "deployment/staging implementation files",
+        "real .env files",
+        "local env files",
+        "secret-bearing env files",
+        "production credential files"
       ],
       "required_outputs": [
         "env-matrix.md with Variable, Used by, Required for local, Required for staging, Required for production, Secret yes/no, Example allowed in .env.example yes/no, Default safe value, Failure behavior if missing, Validation source",
@@ -529,9 +536,11 @@
         "generated/**",
         "package.json",
         "pnpm-lock.yaml",
-        ".env",
-        ".env.*",
-        "deployment/staging implementation files"
+        "deployment/staging implementation files",
+        "real .env files",
+        "local env files",
+        "secret-bearing env files",
+        "production credential files"
       ],
       "required_outputs": [
         "staging-target-decision.md or ADR",
@@ -651,9 +660,11 @@
         "generated/**",
         "package.json",
         "pnpm-lock.yaml",
-        ".env",
-        ".env.*",
-        "deployment/staging implementation files"
+        "deployment/staging implementation files",
+        "real .env files",
+        "local env files",
+        "secret-bearing env files",
+        "production credential files"
       ],
       "required_outputs": [
         "fresh-db-bootstrap-contract.md with exact clean DB definition, allowed DB type, migration command, Prisma generate command, seed/bootstrap command, setup path, admin/operator strategy, capability/module registry expectations, idempotency, rollback/reset, manual DB hack prohibition, success criteria"
@@ -769,9 +780,11 @@
         "generated/**",
         "package.json",
         "pnpm-lock.yaml",
-        ".env",
-        ".env.*",
-        "deployment/staging implementation files"
+        "deployment/staging implementation files",
+        "real .env files",
+        "local env files",
+        "secret-bearing env files",
+        "production credential files"
       ],
       "required_outputs": [
         "browser-visual-qa-matrix.md with Route/screen, Purpose, Required user/session state, Data fixture needed, Expected visual state, Expected API calls, Viewports, Screenshot required, Redaction required, Pass/fail criteria",
@@ -889,9 +902,11 @@
         "generated/**",
         "package.json",
         "pnpm-lock.yaml",
-        ".env",
-        ".env.*",
-        "deployment/staging implementation files"
+        "deployment/staging implementation files",
+        "real .env files",
+        "local env files",
+        "secret-bearing env files",
+        "production credential files"
       ],
       "required_outputs": [
         "backup-restore-rollback-decision.md",
@@ -1010,9 +1025,11 @@
         "generated/**",
         "package.json",
         "pnpm-lock.yaml",
-        ".env",
-        ".env.*",
-        "deployment/staging implementation files"
+        "deployment/staging implementation files",
+        "real .env files",
+        "local env files",
+        "secret-bearing env files",
+        "production credential files"
       ],
       "required_outputs": [
         "route-limiting-resolution-mode.md with A/B/C/D decision",
@@ -1130,9 +1147,11 @@
         "generated/**",
         "package.json",
         "pnpm-lock.yaml",
-        ".env",
-        ".env.*",
-        "deployment/staging implementation files"
+        "deployment/staging implementation files",
+        "real .env files",
+        "local env files",
+        "secret-bearing env files",
+        "production credential files"
       ],
       "required_outputs": [
         "auth-session-provisioning-path.md",
@@ -1262,8 +1281,6 @@
         "codex-review/phase4-operational-proof/ticket-artifacts/P4-014A/runbook-redaction-review.md"
       ],
       "files_forbidden_to_change": [
-        ".env",
-        ".env.*",
         "production credential files",
         "real secrets",
         "prisma/schema.prisma unless explicitly approved by active ticket",
@@ -1272,7 +1289,10 @@
         "generated/entity-registry.generated.json unless intentionally regenerated and checked",
         "package.json unless explicitly approved",
         "pnpm-lock.yaml unless explicitly approved",
-        "deployment/staging implementation files unless active ticket explicitly authorizes them"
+        "deployment/staging implementation files unless active ticket explicitly authorizes them",
+        "real .env files",
+        "local env files",
+        "secret-bearing env files"
       ],
       "required_outputs": [
         "AKTI_ERP_Phase_4_Operational_Runbook_v1.md skeleton",
@@ -1417,8 +1437,6 @@
         "codex-review/phase4-operational-proof/ticket-artifacts/P4-016A/missing-validation-support-before-proof.md"
       ],
       "files_forbidden_to_change": [
-        ".env",
-        ".env.*",
         "production credential files",
         "real secrets",
         "prisma/schema.prisma unless explicitly approved by active ticket",
@@ -1427,7 +1445,10 @@
         "generated/entity-registry.generated.json unless intentionally regenerated and checked",
         "package.json unless explicitly approved",
         "pnpm-lock.yaml unless explicitly approved",
-        "deployment/staging implementation files unless active ticket explicitly authorizes them"
+        "deployment/staging implementation files unless active ticket explicitly authorizes them",
+        "real .env files",
+        "local env files",
+        "secret-bearing env files"
       ],
       "required_outputs": [
         "validation-gap-inventory.md",
@@ -1553,8 +1574,6 @@
         "codex-review/phase4-operational-proof/ticket-artifacts/P4-009/manual-hack-attestation.md"
       ],
       "files_forbidden_to_change": [
-        ".env",
-        ".env.*",
         "production credential files",
         "real secrets",
         "prisma/schema.prisma unless explicitly approved by active ticket",
@@ -1563,7 +1582,10 @@
         "generated/entity-registry.generated.json unless intentionally regenerated and checked",
         "package.json unless explicitly approved",
         "pnpm-lock.yaml unless explicitly approved",
-        "deployment/staging implementation files unless active ticket explicitly authorizes them"
+        "deployment/staging implementation files unless active ticket explicitly authorizes them",
+        "real .env files",
+        "local env files",
+        "secret-bearing env files"
       ],
       "required_outputs": [
         "fresh-db-run-log.txt",
@@ -1745,8 +1767,6 @@
         "codex-review/phase4-operational-proof/ticket-artifacts/P4-010/shutdown-restart-log.txt"
       ],
       "files_forbidden_to_change": [
-        ".env",
-        ".env.*",
         "production credential files",
         "real secrets",
         "prisma/schema.prisma unless explicitly approved by active ticket",
@@ -1755,7 +1775,10 @@
         "generated/entity-registry.generated.json unless intentionally regenerated and checked",
         "package.json unless explicitly approved",
         "pnpm-lock.yaml unless explicitly approved",
-        "deployment/staging implementation files unless active ticket explicitly authorizes them"
+        "deployment/staging implementation files unless active ticket explicitly authorizes them",
+        "real .env files",
+        "local env files",
+        "secret-bearing env files"
       ],
       "required_outputs": [
         "build-log.txt",
@@ -1945,8 +1968,6 @@
         "codex-review/phase4-operational-proof/ticket-artifacts/P4-011/rate-limit-smoke-log.txt"
       ],
       "files_forbidden_to_change": [
-        ".env",
-        ".env.*",
         "production credential files",
         "real secrets",
         "prisma/schema.prisma unless explicitly approved by active ticket",
@@ -1955,7 +1976,10 @@
         "generated/entity-registry.generated.json unless intentionally regenerated and checked",
         "package.json unless explicitly approved",
         "pnpm-lock.yaml unless explicitly approved",
-        "deployment/staging implementation files unless active ticket explicitly authorizes them"
+        "deployment/staging implementation files unless active ticket explicitly authorizes them",
+        "real .env files",
+        "local env files",
+        "secret-bearing env files"
       ],
       "required_outputs": [
         "smoke-test-matrix.md",
@@ -2090,8 +2114,6 @@
         "codex-review/phase4-operational-proof/ticket-artifacts/P4-012/responsive-viewport-log.txt"
       ],
       "files_forbidden_to_change": [
-        ".env",
-        ".env.*",
         "production credential files",
         "real secrets",
         "prisma/schema.prisma unless explicitly approved by active ticket",
@@ -2100,7 +2122,10 @@
         "generated/entity-registry.generated.json unless intentionally regenerated and checked",
         "package.json unless explicitly approved",
         "pnpm-lock.yaml unless explicitly approved",
-        "deployment/staging implementation files unless active ticket explicitly authorizes them"
+        "deployment/staging implementation files unless active ticket explicitly authorizes them",
+        "real .env files",
+        "local env files",
+        "secret-bearing env files"
       ],
       "required_outputs": [
         "browser-test-log.txt",
@@ -2242,8 +2267,6 @@
         "codex-review/phase4-operational-proof/ticket-artifacts/P4-013/redaction-review.md"
       ],
       "files_forbidden_to_change": [
-        ".env",
-        ".env.*",
         "production credential files",
         "real secrets",
         "prisma/schema.prisma unless explicitly approved by active ticket",
@@ -2252,7 +2275,10 @@
         "generated/entity-registry.generated.json unless intentionally regenerated and checked",
         "package.json unless explicitly approved",
         "pnpm-lock.yaml unless explicitly approved",
-        "deployment/staging implementation files unless active ticket explicitly authorizes them"
+        "deployment/staging implementation files unless active ticket explicitly authorizes them",
+        "real .env files",
+        "local env files",
+        "secret-bearing env files"
       ],
       "required_outputs": [
         "backup-command-log.txt",
@@ -2392,8 +2418,6 @@
         "codex-review/phase4-operational-proof/ticket-artifacts/P4-015/app-limiter-preservation-attestation.md"
       ],
       "files_forbidden_to_change": [
-        ".env",
-        ".env.*",
         "production credential files",
         "real secrets",
         "prisma/schema.prisma unless explicitly approved by active ticket",
@@ -2402,7 +2426,10 @@
         "generated/entity-registry.generated.json unless intentionally regenerated and checked",
         "package.json unless explicitly approved",
         "pnpm-lock.yaml unless explicitly approved",
-        "deployment/staging implementation files unless active ticket explicitly authorizes them"
+        "deployment/staging implementation files unless active ticket explicitly authorizes them",
+        "real .env files",
+        "local env files",
+        "secret-bearing env files"
       ],
       "required_outputs": [
         "route-limiting-resolution.md with resolution_mode_set_by: P4-007",
@@ -2499,7 +2526,23 @@
         "FAIL when app limiter is removed or infra dependency is required without approval."
       ],
       "split_if": "Split if P4-007 selects implementation-with-approval requiring proxy/staging configuration and API validation changes in separate layers.",
-      "bounded_repair_allowed": true
+      "bounded_repair_allowed": true,
+      "decision_options": [
+        "validation-only confirmation that Phase 3 app-level limiter is sufficient for controlled staging/demo",
+        "documentation-only bounded deferral for distributed/infrastructure limiting",
+        "implementation-with-approval for proxy/staging limiter validation",
+        "stop for explicit approval if new dependency, production infrastructure, secret-bearing config, or deployment-provider work is required"
+      ],
+      "selection_criteria": [
+        "selected mode must preserve the Phase 3 app-level limiter",
+        "selected mode must not require production secrets or production infrastructure",
+        "selected mode must use P4-003 and P4-010 evidence if proxy/staging behavior is involved",
+        "selected mode must not invent infrastructure assumptions",
+        "selected mode must produce validation evidence or bounded deferral evidence",
+        "selected mode must not weaken rate-limit protection",
+        "selected mode must clearly distinguish app-level limiting from infrastructure/distributed/proxy limiting"
+      ],
+      "decision_output_path": "codex-review/phase4-operational-proof/ticket-artifacts/P4-015/reclassification-decision.md"
     },
     {
       "ticket_id": "P4-014B",
@@ -2545,8 +2588,6 @@
         "codex-review/phase4-operational-proof/ticket-artifacts/P4-014B/known-deferrals-section.md"
       ],
       "files_forbidden_to_change": [
-        ".env",
-        ".env.*",
         "production credential files",
         "real secrets",
         "prisma/schema.prisma unless explicitly approved by active ticket",
@@ -2555,7 +2596,10 @@
         "generated/entity-registry.generated.json unless intentionally regenerated and checked",
         "package.json unless explicitly approved",
         "pnpm-lock.yaml unless explicitly approved",
-        "deployment/staging implementation files unless active ticket explicitly authorizes them"
+        "deployment/staging implementation files unless active ticket explicitly authorizes them",
+        "real .env files",
+        "local env files",
+        "secret-bearing env files"
       ],
       "required_outputs": [
         "final AKTI_ERP_Phase_4_Operational_Runbook_v1.md",
@@ -2697,8 +2741,6 @@
         "codex-review/phase4-operational-proof/ticket-artifacts/P4-016B/closure-evidence-validation-map.md"
       ],
       "files_forbidden_to_change": [
-        ".env",
-        ".env.*",
         "production credential files",
         "real secrets",
         "prisma/schema.prisma unless explicitly approved by active ticket",
@@ -2707,7 +2749,10 @@
         "generated/entity-registry.generated.json unless intentionally regenerated and checked",
         "package.json unless explicitly approved",
         "pnpm-lock.yaml unless explicitly approved",
-        "deployment/staging implementation files unless active ticket explicitly authorizes them"
+        "deployment/staging implementation files unless active ticket explicitly authorizes them",
+        "real .env files",
+        "local env files",
+        "secret-bearing env files"
       ],
       "required_outputs": [
         "final-validation-alignment.md",
@@ -2884,8 +2929,6 @@
         "codex-review/phase4-operational-proof/final-external-audit/phase4-source.zip"
       ],
       "files_forbidden_to_change": [
-        ".env",
-        ".env.*",
         "production credential files",
         "real secrets",
         "prisma/schema.prisma unless explicitly approved by active ticket",
@@ -2894,7 +2937,10 @@
         "generated/entity-registry.generated.json unless intentionally regenerated and checked",
         "package.json unless explicitly approved",
         "pnpm-lock.yaml unless explicitly approved",
-        "deployment/staging implementation files unless active ticket explicitly authorizes them"
+        "deployment/staging implementation files unless active ticket explicitly authorizes them",
+        "real .env files",
+        "local env files",
+        "secret-bearing env files"
       ],
       "required_outputs": [
         "phase4-audit-manifest.md",
