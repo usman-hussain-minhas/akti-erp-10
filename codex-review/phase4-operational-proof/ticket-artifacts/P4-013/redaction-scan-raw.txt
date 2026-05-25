@@ -1,0 +1,24 @@
+codex-review/phase4-operational-proof/ticket-artifacts/P4-013/test.txt:41:✔ operator context stores bearer session token and decoded metadata (1.638873ms)
+codex-review/phase4-operational-proof/ticket-artifacts/P4-013/rollback-command-log.txt:196:config/env rollback: restore non-secret command env values from P4-010/P4-013 logs
+codex-review/phase4-operational-proof/ticket-artifacts/P4-013/source-migration-log.txt:6:Datasource "db": PostgreSQL database "akti_phase4_p4013_source", schema "public" at "127.0.0.1:55435"
+codex-review/phase4-operational-proof/ticket-artifacts/P4-013/P4-013-validation-summary.md:19:| Redaction/no-production-data review | PASS | `redaction-review.md`, `no-production-data-attestation.md` |
+codex-review/phase4-operational-proof/ticket-artifacts/P4-013/rollback-validation-log.txt:5:config/env rollback validation: PASS (non-secret placeholder env values only; no real env files created)
+codex-review/phase4-operational-proof/ticket-artifacts/P4-013/backup-artifact-metadata.txt:7:production_data_used: no
+codex-review/phase4-operational-proof/ticket-artifacts/P4-013/backup-artifact-metadata.txt:8:production_credentials_used: no
+codex-review/phase4-operational-proof/ticket-artifacts/P4-013/rollback-meaning.md:15:Config/env rollback means restoring known non-secret command-injected environment values. No real env files, production credentials, or secret-bearing files are created by this proof.
+codex-review/phase4-operational-proof/ticket-artifacts/P4-013/no-production-data-attestation.md:5:P4-013 used only disposable local PostgreSQL databases on localhost port 55435. The source data was created through the local API setup organization endpoint using synthetic Phase 4 proof values. No production data, staging data, customer data, production credentials, or real secret-bearing env files were used.
+codex-review/phase4-operational-proof/ticket-artifacts/P4-013/conditional-replan.md:7:Expected repo changes are limited to P4-013 evidence artifacts and the Phase 4 run journal. No runtime source, package, Prisma schema, existing migrations, contracts, generated registry, deployment implementation, real env file, or secret file changes are authorized.
+codex-review/phase4-operational-proof/ticket-artifacts/P4-013/build.txt:22:   Creating an optimized production build ...
+codex-review/phase4-operational-proof/ticket-artifacts/P4-013/redaction-review.md:15:| Generic artifact scan for secret/token/credential/database/session terms | PASS_WITH_CLASSIFIED_PLACEHOLDERS | `redaction-scan-raw.txt` |
+codex-review/phase4-operational-proof/ticket-artifacts/P4-013/redaction-review.md:16:| No-production-data attestation | PASS | `no-production-data-attestation.md` |
+codex-review/phase4-operational-proof/ticket-artifacts/P4-013/redaction-review.md:23:- `production build` text from Next.js build output.
+codex-review/phase4-operational-proof/ticket-artifacts/P4-013/redaction-review.md:24:- Local PostgreSQL host and port `127.0.0.1:55435` in Prisma datasource output.
+codex-review/phase4-operational-proof/ticket-artifacts/P4-013/redaction-review.md:25:- Test names containing `session token`.
+codex-review/phase4-operational-proof/ticket-artifacts/P4-013/redaction-review.md:26:- Policy text stating non-secret env rollback and no production credentials.
+codex-review/phase4-operational-proof/ticket-artifacts/P4-013/redaction-review.md:27:- Backup metadata fields such as `production_data_used: no`.
+codex-review/phase4-operational-proof/ticket-artifacts/P4-013/redaction-review.md:29:No scan output contains a real secret, actual token, credential, private key, production credential, production database URL, or session value.
+codex-review/phase4-operational-proof/ticket-artifacts/P4-013/P4-013-summary.md:9:P4-013 executed the P4-006 local recovery proof model against disposable local PostgreSQL only. The run created a source database, applied committed migrations, generated synthetic setup data through the API setup route, produced a `pg_dump` backup, restored that backup into a second disposable database, and restored it again into a rollback database. Application rollback, config/env rollback, and migration rollback policy were recorded without changing runtime source or using production resources.
+codex-review/phase4-operational-proof/ticket-artifacts/P4-013/P4-013-summary.md:24:- No-production-data attestation: `no-production-data-attestation.md`
+codex-review/phase4-operational-proof/ticket-artifacts/P4-013/P4-013-summary.md:32:- Config/env rollback: restore known non-secret command-injected env values.
+codex-review/phase4-operational-proof/ticket-artifacts/P4-013/P4-013-summary.md:42:Neither repair changed runtime source, Prisma schema, migrations, dependencies, package files, deployment files, real env files, or secrets.
+codex-review/phase4-operational-proof/ticket-artifacts/P4-013/P4-013-summary.md:47:- Production secret/credential access required: NO
