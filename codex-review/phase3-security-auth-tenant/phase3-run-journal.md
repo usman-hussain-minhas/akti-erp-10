@@ -94,3 +94,18 @@ Execution notes:
 - P3-010 must re-plan as runtime implementation plus tests, not docs-only deferral.
 - Infrastructure/edge limiting remains a Phase 4 or deployment concern.
 - No bounded repair attempts were needed.
+
+## P3-006 - Fresh DB and Bootstrap Decision
+
+Exact-file plan:
+
+- Add `docs/adr/ADR-0012-fresh-db-bootstrap.md`.
+- Create P3-006 summary, changed-files archive, and validation summary under `codex-review/phase3-security-auth-tenant/ticket-artifacts/P3-006/`.
+- Do not modify runtime source, Prisma, contracts, generated registry, dependencies, workflows, deployment files, or secrets.
+
+Execution notes:
+
+- Kept fresh empty-database bootstrap as a bounded Phase 4 deployment-readiness handoff.
+- Required Phase 3 closure to report bootstrap readiness assumptions and remaining risk.
+- Did not authorize destructive migrations, production database access, or deployment bootstrap execution.
+- No bounded repair attempts were needed.
