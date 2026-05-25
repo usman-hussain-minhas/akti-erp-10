@@ -109,3 +109,23 @@ Execution notes:
 - Required Phase 3 closure to report bootstrap readiness assumptions and remaining risk.
 - Did not authorize destructive migrations, production database access, or deployment bootstrap execution.
 - No bounded repair attempts were needed.
+
+## P3-007A - Auth/Tenant Request Context Infrastructure
+
+Exact-file plan:
+
+- Add `apps/api/src/security/request-context.ts`.
+- Add `apps/api/src/security/request-context.test.ts`.
+- Update `apps/api/package.json` test wiring to run the new focused test.
+- Create P3-007A summary, changed-files archive, and validation summary under `codex-review/phase3-security-auth-tenant/ticket-artifacts/P3-007A/`.
+- Do not migrate API controllers/services broadly in this ticket.
+- Do not modify Prisma, contracts, generated registry, dependencies, workflows, deployment files, frontend files, production credentials, or secrets.
+
+Execution notes:
+
+- Added no-new-dependency HMAC signed bearer session token helpers.
+- Added trusted request context resolution and route-organization/body-context mismatch checks.
+- Added focused fail-closed tests for valid, missing, tampered, expired, route-mismatched, and body-mismatched session context.
+- Wired the new test into the API test command.
+- Full implementation-ticket validation ladder passed.
+- No bounded repair attempts were needed.
