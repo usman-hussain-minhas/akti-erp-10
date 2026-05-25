@@ -64,3 +64,18 @@ Execution notes:
 - Bounded DB RLS to a future decision/handoff because safe DB RLS requires a complete request-to-transaction tenant-setting strategy that is not currently present.
 - P3-008 must re-plan against this decision and must not force DB RLS work.
 - No bounded repair attempts were needed.
+
+## P3-004 - Secrets, Environment, Headers, and CORS Policy
+
+Exact-file plan:
+
+- Add `docs/adr/ADR-0010-secrets-environment-headers-cors.md`.
+- Create P3-004 summary, changed-files archive, and validation summary under `codex-review/phase3-security-auth-tenant/ticket-artifacts/P3-004/`.
+- Do not modify runtime source, Prisma, contracts, generated registry, dependencies, workflows, deployment files, or secrets.
+
+Execution notes:
+
+- Defined non-secret env names and validation expectations.
+- Approved manual no-new-dependency security headers and CORS controls for P3-011.
+- Forbade production env files, production secrets, deployment infrastructure, and hosting-specific logic.
+- No bounded repair attempts were needed.
