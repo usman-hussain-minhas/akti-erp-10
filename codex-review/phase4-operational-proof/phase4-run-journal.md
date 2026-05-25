@@ -84,3 +84,9 @@ Executed browser-rendered frontend and visual QA proof against the controlled lo
 Status: COMPLETE.
 
 Executed the backup/restore/rollback drill using disposable local PostgreSQL and synthetic local setup data only. The source database applied committed migrations, local API setup created proof data, `pg_dump` produced an ignored local backup artifact, restore into a second disposable database validated matching organization and migration counts plus empty DB-to-schema diff, and rollback restore into a third disposable database validated the selected database rollback posture. Application rollback was recorded as prior committed branch HEAD/build-artifact rollback, config/env rollback as restoring non-secret command-injected values, and migration rollback as restore/reset of disposable DBs with no destructive reverse migrations. Bounded repair attempt 1 fixed shell quoting in the local proof script; bounded repair attempt 2 corrected the health assertion to match the repository's `healthy` response. Redaction/no-production-data review passed, proof services stopped cleanly, and the full validation ladder passed.
+
+## P4-015
+
+Status: COMPLETE.
+
+Resolved the route-limiting posture selected by P4-007 as validation-only confirmation of the Phase 3 app-level limiter plus documentation-only bounded deferral for distributed/infrastructure limiting. P4-015 confirmed the limiter remains registered in API bootstrap, trust-proxy headers remain explicit opt-in, `.env.example` keeps non-secret limiter config, security tests pass, and P4-011 already proved the app-level limiter returns `429` in the local API path. No proxy/CDN/WAF/provider assumptions were invented, no infrastructure limiter was implemented, and no app limiter behavior was weakened. Distributed/infrastructure route limiting remains a production deployment decision. Full validation and redaction review passed.
