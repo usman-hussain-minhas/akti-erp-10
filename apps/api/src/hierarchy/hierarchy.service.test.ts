@@ -529,6 +529,13 @@ async function testUnitTypeCreateWritesAuditOutboxAndMapsDuplicateConflict() {
 }
 
 async function testUnitTypeListIsActorProtectedAndOrganizationScoped() {
+  const crossOrg = createService();
+  await assert.rejects(
+    crossOrg.service.listUnitTypes('org-1', 'actor-foreign'),
+    (error: unknown) => error instanceof BadRequestException,
+  );
+  assert.equal(crossOrg.state.calls.some((call) => call.fn === 'unitType.findMany'), false);
+
   const { service, state } = createService();
 
   await assert.rejects(

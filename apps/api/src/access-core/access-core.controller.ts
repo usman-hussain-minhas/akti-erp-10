@@ -25,6 +25,7 @@ import {
   validateUpdateUserBody,
   validateUserIdParam,
 } from './dto/access-core.dto';
+import { HeaderRecord, resolveTrustedRequestContext } from '../security/request-context';
 
 @Controller('platform/access')
 export class AccessCoreController {
@@ -39,31 +40,31 @@ export class AccessCoreController {
   createUser(
     @Param('organization_id') organizationIdRaw: string,
     @Body() body: unknown,
-    @Headers('x-actor-user-id') actorUserIdRaw?: string,
+    @Headers() headers: HeaderRecord,
   ) {
     const organizationId = this.validateParam(() => validateOrganizationIdParam(organizationIdRaw));
     const input = this.validate(() => validateCreateUserBody(body));
-    return this.accessCoreService.createUser(organizationId, input, actorUserIdRaw);
+    return this.accessCoreService.createUser(organizationId, input, this.resolveActorUserId(headers, organizationId));
   }
 
   @Get('organizations/:organization_id/users')
   listUsers(
     @Param('organization_id') organizationIdRaw: string,
-    @Headers('x-actor-user-id') actorUserIdRaw?: string,
+    @Headers() headers: HeaderRecord,
   ) {
     const organizationId = this.validateParam(() => validateOrganizationIdParam(organizationIdRaw));
-    return this.accessCoreService.listUsers(organizationId, actorUserIdRaw);
+    return this.accessCoreService.listUsers(organizationId, this.resolveActorUserId(headers, organizationId));
   }
 
   @Get('organizations/:organization_id/users/:user_id')
   getUser(
     @Param('organization_id') organizationIdRaw: string,
     @Param('user_id') userIdRaw: string,
-    @Headers('x-actor-user-id') actorUserIdRaw?: string,
+    @Headers() headers: HeaderRecord,
   ) {
     const organizationId = this.validateParam(() => validateOrganizationIdParam(organizationIdRaw));
     const userId = this.validateParam(() => validateUserIdParam(userIdRaw));
-    return this.accessCoreService.getUser(organizationId, userId, actorUserIdRaw);
+    return this.accessCoreService.getUser(organizationId, userId, this.resolveActorUserId(headers, organizationId));
   }
 
   @Patch('organizations/:organization_id/users/:user_id')
@@ -71,54 +72,54 @@ export class AccessCoreController {
     @Param('organization_id') organizationIdRaw: string,
     @Param('user_id') userIdRaw: string,
     @Body() body: unknown,
-    @Headers('x-actor-user-id') actorUserIdRaw?: string,
+    @Headers() headers: HeaderRecord,
   ) {
     const organizationId = this.validateParam(() => validateOrganizationIdParam(organizationIdRaw));
     const userId = this.validateParam(() => validateUserIdParam(userIdRaw));
     const input = this.validate(() => validateUpdateUserBody(body));
-    return this.accessCoreService.updateUser(organizationId, userId, input, actorUserIdRaw);
+    return this.accessCoreService.updateUser(organizationId, userId, input, this.resolveActorUserId(headers, organizationId));
   }
 
   @Delete('organizations/:organization_id/users/:user_id')
   deleteUser(
     @Param('organization_id') organizationIdRaw: string,
     @Param('user_id') userIdRaw: string,
-    @Headers('x-actor-user-id') actorUserIdRaw?: string,
+    @Headers() headers: HeaderRecord,
   ) {
     const organizationId = this.validateParam(() => validateOrganizationIdParam(organizationIdRaw));
     const userId = this.validateParam(() => validateUserIdParam(userIdRaw));
-    return this.accessCoreService.deleteUser(organizationId, userId, actorUserIdRaw);
+    return this.accessCoreService.deleteUser(organizationId, userId, this.resolveActorUserId(headers, organizationId));
   }
 
   @Post('organizations/:organization_id/groups')
   createGroup(
     @Param('organization_id') organizationIdRaw: string,
     @Body() body: unknown,
-    @Headers('x-actor-user-id') actorUserIdRaw?: string,
+    @Headers() headers: HeaderRecord,
   ) {
     const organizationId = this.validateParam(() => validateOrganizationIdParam(organizationIdRaw));
     const input = this.validate(() => validateCreateGroupBody(body));
-    return this.accessCoreService.createGroup(organizationId, input, actorUserIdRaw);
+    return this.accessCoreService.createGroup(organizationId, input, this.resolveActorUserId(headers, organizationId));
   }
 
   @Get('organizations/:organization_id/groups')
   listGroups(
     @Param('organization_id') organizationIdRaw: string,
-    @Headers('x-actor-user-id') actorUserIdRaw?: string,
+    @Headers() headers: HeaderRecord,
   ) {
     const organizationId = this.validateParam(() => validateOrganizationIdParam(organizationIdRaw));
-    return this.accessCoreService.listGroups(organizationId, actorUserIdRaw);
+    return this.accessCoreService.listGroups(organizationId, this.resolveActorUserId(headers, organizationId));
   }
 
   @Get('organizations/:organization_id/groups/:group_id')
   getGroup(
     @Param('organization_id') organizationIdRaw: string,
     @Param('group_id') groupIdRaw: string,
-    @Headers('x-actor-user-id') actorUserIdRaw?: string,
+    @Headers() headers: HeaderRecord,
   ) {
     const organizationId = this.validateParam(() => validateOrganizationIdParam(organizationIdRaw));
     const groupId = this.validateParam(() => validateGroupIdParam(groupIdRaw));
-    return this.accessCoreService.getGroup(organizationId, groupId, actorUserIdRaw);
+    return this.accessCoreService.getGroup(organizationId, groupId, this.resolveActorUserId(headers, organizationId));
   }
 
   @Patch('organizations/:organization_id/groups/:group_id')
@@ -126,85 +127,96 @@ export class AccessCoreController {
     @Param('organization_id') organizationIdRaw: string,
     @Param('group_id') groupIdRaw: string,
     @Body() body: unknown,
-    @Headers('x-actor-user-id') actorUserIdRaw?: string,
+    @Headers() headers: HeaderRecord,
   ) {
     const organizationId = this.validateParam(() => validateOrganizationIdParam(organizationIdRaw));
     const groupId = this.validateParam(() => validateGroupIdParam(groupIdRaw));
     const input = this.validate(() => validateUpdateGroupBody(body));
-    return this.accessCoreService.updateGroup(organizationId, groupId, input, actorUserIdRaw);
+    return this.accessCoreService.updateGroup(organizationId, groupId, input, this.resolveActorUserId(headers, organizationId));
   }
 
   @Delete('organizations/:organization_id/groups/:group_id')
   deleteGroup(
     @Param('organization_id') organizationIdRaw: string,
     @Param('group_id') groupIdRaw: string,
-    @Headers('x-actor-user-id') actorUserIdRaw?: string,
+    @Headers() headers: HeaderRecord,
   ) {
     const organizationId = this.validateParam(() => validateOrganizationIdParam(organizationIdRaw));
     const groupId = this.validateParam(() => validateGroupIdParam(groupIdRaw));
-    return this.accessCoreService.deleteGroup(organizationId, groupId, actorUserIdRaw);
+    return this.accessCoreService.deleteGroup(organizationId, groupId, this.resolveActorUserId(headers, organizationId));
   }
 
   @Post('organizations/:organization_id/user-groups')
   createMembership(
     @Param('organization_id') organizationIdRaw: string,
     @Body() body: unknown,
-    @Headers('x-actor-user-id') actorUserIdRaw?: string,
+    @Headers() headers: HeaderRecord,
   ) {
     const organizationId = this.validateParam(() => validateOrganizationIdParam(organizationIdRaw));
     const input = this.validate(() => validateCreateMembershipBody(body));
-    return this.accessCoreService.createMembership(organizationId, input, actorUserIdRaw);
+    return this.accessCoreService.createMembership(organizationId, input, this.resolveActorUserId(headers, organizationId));
   }
 
   @Get('organizations/:organization_id/user-groups')
   listMemberships(
     @Param('organization_id') organizationIdRaw: string,
-    @Headers('x-actor-user-id') actorUserIdRaw?: string,
+    @Headers() headers: HeaderRecord,
   ) {
     const organizationId = this.validateParam(() => validateOrganizationIdParam(organizationIdRaw));
-    return this.accessCoreService.listMemberships(organizationId, actorUserIdRaw);
+    return this.accessCoreService.listMemberships(organizationId, this.resolveActorUserId(headers, organizationId));
   }
 
   @Delete('organizations/:organization_id/user-groups/:membership_id')
   deleteMembership(
     @Param('organization_id') organizationIdRaw: string,
     @Param('membership_id') membershipIdRaw: string,
-    @Headers('x-actor-user-id') actorUserIdRaw?: string,
+    @Headers() headers: HeaderRecord,
   ) {
     const organizationId = this.validateParam(() => validateOrganizationIdParam(organizationIdRaw));
     const membershipId = this.validateParam(() => validateMembershipIdParam(membershipIdRaw));
-    return this.accessCoreService.deleteMembership(organizationId, membershipId, actorUserIdRaw);
+    return this.accessCoreService.deleteMembership(organizationId, membershipId, this.resolveActorUserId(headers, organizationId));
   }
 
   @Post('organizations/:organization_id/group-capabilities')
   createGroupCapabilityAssignment(
     @Param('organization_id') organizationIdRaw: string,
     @Body() body: unknown,
-    @Headers('x-actor-user-id') actorUserIdRaw?: string,
+    @Headers() headers: HeaderRecord,
   ) {
     const organizationId = this.validateParam(() => validateOrganizationIdParam(organizationIdRaw));
     const input = this.validate(() => validateCreateGroupCapabilityBody(body));
-    return this.accessCoreService.createGroupCapabilityAssignment(organizationId, input, actorUserIdRaw);
+    return this.accessCoreService.createGroupCapabilityAssignment(
+      organizationId,
+      input,
+      this.resolveActorUserId(headers, organizationId),
+    );
   }
 
   @Get('organizations/:organization_id/group-capabilities')
   listGroupCapabilityAssignments(
     @Param('organization_id') organizationIdRaw: string,
-    @Headers('x-actor-user-id') actorUserIdRaw?: string,
+    @Headers() headers: HeaderRecord,
   ) {
     const organizationId = this.validateParam(() => validateOrganizationIdParam(organizationIdRaw));
-    return this.accessCoreService.listGroupCapabilityAssignments(organizationId, actorUserIdRaw);
+    return this.accessCoreService.listGroupCapabilityAssignments(
+      organizationId,
+      this.resolveActorUserId(headers, organizationId),
+    );
   }
 
   @Delete('organizations/:organization_id/group-capabilities/:assignment_id')
   deleteGroupCapabilityAssignment(
     @Param('organization_id') organizationIdRaw: string,
     @Param('assignment_id') assignmentIdRaw: string,
-    @Headers('x-actor-user-id') actorUserIdRaw?: string,
+    @Headers() headers: HeaderRecord,
   ) {
     const organizationId = this.validateParam(() => validateOrganizationIdParam(organizationIdRaw));
     const assignmentId = this.validateParam(() => validateAssignmentIdParam(assignmentIdRaw));
-    return this.accessCoreService.deleteGroupCapabilityAssignment(organizationId, assignmentId, actorUserIdRaw);
+    return this.accessCoreService.deleteGroupCapabilityAssignment(
+      organizationId,
+      assignmentId,
+      this.resolveActorUserId(headers, organizationId),
+    );
   }
 
   private validate<T>(fn: () => T): T {
@@ -220,5 +232,9 @@ export class AccessCoreController {
 
   private validateParam<T>(fn: () => T): T {
     return this.validate(fn);
+  }
+
+  private resolveActorUserId(headers: HeaderRecord, organizationId: string): string {
+    return resolveTrustedRequestContext(headers, { routeOrganizationId: organizationId }).actor_user_id;
   }
 }

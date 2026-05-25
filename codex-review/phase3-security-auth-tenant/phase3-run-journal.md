@@ -1,0 +1,335 @@
+# AKTI ERP Phase 3 Autonomous Run Journal
+
+Branch: `phase3/security-auth-tenant-hardening`
+
+Start baseline: `adbc47123814f63a4b5f4ad8cfab99c32e9b1d38`
+
+## P3-000 - Track Phase 3 controls and baseline
+
+Exact-file plan:
+
+- Inspect repo state and active Phase 3 control docs.
+- Create this run journal.
+- Create P3-000 summary, changed-files archive, and validation summary under `codex-review/phase3-security-auth-tenant/ticket-artifacts/P3-000/`.
+- Do not modify runtime source, Prisma, contracts, generated registry, dependencies, workflows, or deployment files.
+
+Execution notes:
+
+- Confirmed branch was created from clean `main` at `adbc471`.
+- Confirmed Phase 3 ordered queue is present and control docs are tracked.
+- No bounded repair attempts were needed.
+
+## P3-001 - Security Architecture ADR
+
+Exact-file plan:
+
+- Add `docs/adr/ADR-0007-phase-3-security-architecture.md`.
+- Create P3-001 summary, changed-files archive, and validation summary under `codex-review/phase3-security-auth-tenant/ticket-artifacts/P3-001/`.
+- Do not modify runtime source, Prisma, contracts, generated registry, dependencies, workflows, deployment files, or secrets.
+
+Execution notes:
+
+- Recorded Phase 3 as a hybrid security/auth/tenant architecture phase leaning toward adding missing architecture.
+- Preserved ADR/source-of-truth hierarchy and Phase 1/2 protections.
+- Confirmed Phase 4 remains blocked until Phase 3 closes.
+- No bounded repair attempts were needed.
+
+## P3-002 - Auth, Session, Identity, and Tenant Context Decision
+
+Exact-file plan:
+
+- Add `docs/adr/ADR-0008-auth-session-identity-tenant-context.md`.
+- Create P3-002 summary, changed-files archive, and validation summary under `codex-review/phase3-security-auth-tenant/ticket-artifacts/P3-002/`.
+- Do not modify runtime source, Prisma, contracts, generated registry, dependencies, workflows, deployment files, or secrets.
+
+Execution notes:
+
+- Selected a no-new-dependency signed bearer session envelope for Phase 3 trusted request context.
+- Defined actor and organization context fields using existing `User.organization_id` and `User.id`.
+- Defined `x-actor-user-id` as legacy/migration-only; tests may change only with equivalent or stronger trusted-context coverage.
+- Confirmed frontend operator-context replacement is gated behind this decision and backend request context implementation.
+- No bounded repair attempts were needed.
+
+## P3-003 - Tenant Isolation, RLS, and Service Enforcement Decision
+
+Exact-file plan:
+
+- Add `docs/adr/ADR-0009-tenant-isolation-rls-service-enforcement.md`.
+- Create P3-003 summary, changed-files archive, and validation summary under `codex-review/phase3-security-auth-tenant/ticket-artifacts/P3-003/`.
+- Do not modify runtime source, Prisma, contracts, generated registry, dependencies, workflows, deployment files, or secrets.
+
+Execution notes:
+
+- Selected service-level tenant enforcement as the concrete Phase 3 implementation path.
+- Bounded DB RLS to a future decision/handoff because safe DB RLS requires a complete request-to-transaction tenant-setting strategy that is not currently present.
+- P3-008 must re-plan against this decision and must not force DB RLS work.
+- No bounded repair attempts were needed.
+
+## P3-004 - Secrets, Environment, Headers, and CORS Policy
+
+Exact-file plan:
+
+- Add `docs/adr/ADR-0010-secrets-environment-headers-cors.md`.
+- Create P3-004 summary, changed-files archive, and validation summary under `codex-review/phase3-security-auth-tenant/ticket-artifacts/P3-004/`.
+- Do not modify runtime source, Prisma, contracts, generated registry, dependencies, workflows, deployment files, or secrets.
+
+Execution notes:
+
+- Defined non-secret env names and validation expectations.
+- Approved manual no-new-dependency security headers and CORS controls for P3-011.
+- Forbade production env files, production secrets, deployment infrastructure, and hosting-specific logic.
+- No bounded repair attempts were needed.
+
+## P3-005 - Runtime Route Limiting Decision
+
+Exact-file plan:
+
+- Add `docs/adr/ADR-0011-runtime-route-limiting.md`.
+- Create P3-005 summary, changed-files archive, and validation summary under `codex-review/phase3-security-auth-tenant/ticket-artifacts/P3-005/`.
+- Do not modify runtime source, Prisma, contracts, generated registry, dependencies, workflows, deployment files, or secrets.
+
+Execution notes:
+
+- Selected no-new-dependency in-app API route limiting for Phase 3.
+- P3-010 must re-plan as runtime implementation plus tests, not docs-only deferral.
+- Infrastructure/edge limiting remains a Phase 4 or deployment concern.
+- No bounded repair attempts were needed.
+
+## P3-006 - Fresh DB and Bootstrap Decision
+
+Exact-file plan:
+
+- Add `docs/adr/ADR-0012-fresh-db-bootstrap.md`.
+- Create P3-006 summary, changed-files archive, and validation summary under `codex-review/phase3-security-auth-tenant/ticket-artifacts/P3-006/`.
+- Do not modify runtime source, Prisma, contracts, generated registry, dependencies, workflows, deployment files, or secrets.
+
+Execution notes:
+
+- Kept fresh empty-database bootstrap as a bounded Phase 4 deployment-readiness handoff.
+- Required Phase 3 closure to report bootstrap readiness assumptions and remaining risk.
+- Did not authorize destructive migrations, production database access, or deployment bootstrap execution.
+- No bounded repair attempts were needed.
+
+## P3-007A - Auth/Tenant Request Context Infrastructure
+
+Exact-file plan:
+
+- Add `apps/api/src/security/request-context.ts`.
+- Add `apps/api/src/security/request-context.test.ts`.
+- Update `apps/api/package.json` test wiring to run the new focused test.
+- Create P3-007A summary, changed-files archive, and validation summary under `codex-review/phase3-security-auth-tenant/ticket-artifacts/P3-007A/`.
+- Do not migrate API controllers/services broadly in this ticket.
+- Do not modify Prisma, contracts, generated registry, dependencies, workflows, deployment files, frontend files, production credentials, or secrets.
+
+Execution notes:
+
+- Added no-new-dependency HMAC signed bearer session token helpers.
+- Added trusted request context resolution and route-organization/body-context mismatch checks.
+- Added focused fail-closed tests for valid, missing, tampered, expired, route-mismatched, and body-mismatched session context.
+- Wired the new test into the API test command.
+- Full implementation-ticket validation ladder passed.
+- No bounded repair attempts were needed.
+
+## P3-007B - API Surface Migration to Trusted Context
+
+Exact-file plan:
+
+- Update bounded API ingress controllers:
+  - `apps/api/src/access-core/access-core.controller.ts`
+  - `apps/api/src/configuration/configuration.controller.ts`
+  - `apps/api/src/engagement-gateway/engagement-gateway.controller.ts`
+  - `apps/api/src/hierarchy/hierarchy.controller.ts`
+  - `apps/api/src/lead-desk/lead-desk.controller.ts`
+- Update equivalent or stronger trusted-context test coverage:
+  - `apps/api/src/configuration/configuration.controller.test.ts`
+  - `apps/api/src/hierarchy/hierarchy.controller.test.ts`
+  - `apps/api/src/phase1-hardening/phase1-release-blockers.test.ts`
+- Create P3-007B summary, changed-files archive, and validation summary under `codex-review/phase3-security-auth-tenant/ticket-artifacts/P3-007B/`.
+- Do not modify frontend files, Prisma, contracts, generated registry, dependencies, workflows, deployment files, production credentials, or secrets.
+
+Execution notes:
+
+- Determined the blast radius remained bounded to controller ingress plus focused tests; no further split was needed.
+- Replaced caller-controlled actor header reads at controller ingress with trusted signed bearer context resolution.
+- Preserved existing service-level actor enforcement by forwarding the trusted actor id into existing service calls.
+- Updated controller tests to use signed session headers and updated the Phase 1 static guard to require trusted-context ingress.
+- Full implementation-ticket validation ladder passed.
+- Bounded repair attempt 1: adjusted a static assertion to tolerate multiline formatting while retaining the trusted-context requirement.
+
+## P3-008 - Tenant Isolation Enforcement Implementation
+
+Exact-file re-plan after P3-003/ADR-0009:
+
+- Implement P3-008 as service-level tenant enforcement hardening only.
+- Update cross-tenant and metadata/service-boundary tests:
+  - `apps/api/src/configuration/configuration.service.test.ts`
+  - `apps/api/src/engagement-gateway/engagement-gateway.service.test.ts`
+  - `apps/api/src/hierarchy/hierarchy.service.test.ts`
+  - `apps/api/src/phase1-hardening/phase1-release-blockers.test.ts`
+- Create P3-008 summary, changed-files archive, and validation summary under `codex-review/phase3-security-auth-tenant/ticket-artifacts/P3-008/`.
+- Do not modify Prisma schema, migrations, generated registry, dependencies, workflows, deployment files, production credentials, or secrets.
+
+Execution notes:
+
+- Confirmed ADR-0009 chose service-level enforcement for Phase 3 and explicitly forbids DB RLS/Prisma migration work in P3-008.
+- Added targeted cross-organization denial tests for hierarchy reads, configuration writes, and Engagement Gateway health reads.
+- Added static checks for tenant-scoped metadata and current service-level organization-scoped query patterns.
+- Full implementation-ticket validation ladder passed.
+- Bounded repair attempt 1: corrected an Access Core static evidence snippet to match the repo's actual organization-scoped delete pattern.
+
+## P3-009 - Access Core and Gatekeeper Auth Integration
+
+Exact-file plan:
+
+- Update Access Core trusted actor terminology and tests:
+  - `apps/api/src/access-core/access-core.service.ts`
+  - `apps/api/src/access-core/access-core.service.test.ts`
+- Harden Gatekeeper fail-closed checks and tests:
+  - `apps/api/src/gatekeeper/gatekeeper-preflight.service.ts`
+  - `apps/api/src/gatekeeper/gatekeeper-preflight.service.test.ts`
+- Update static release/security guard:
+  - `apps/api/src/phase1-hardening/phase1-release-blockers.test.ts`
+- Create P3-009 summary, changed-files archive, and validation summary under `codex-review/phase3-security-auth-tenant/ticket-artifacts/P3-009/`.
+- Do not modify Prisma, generated registry, contracts, dependencies, workflows, deployment files, production credentials, or secrets.
+
+Execution notes:
+
+- Reframed Access Core protected actor input as trusted actor context after P3-007B moved controller ingress to signed bearer context.
+- Preserved Access Core same-organization actor lookup, capability checks, Gatekeeper preflight ordering, audit, and outbox behavior.
+- Added Gatekeeper denial when preflight context has no active actor groups.
+- Added static invariants for trusted-context wording and Gatekeeper active-group fail-closed behavior.
+- Full implementation-ticket validation ladder passed.
+- No bounded repair attempts were needed.
+
+## P3-010 - Runtime Route Limiting Resolution
+
+Exact-file re-plan after P3-005/ADR-0011:
+
+- Implement the selected no-new-dependency in-app API route limiter:
+  - `apps/api/src/security/rate-limit.middleware.ts`
+  - `apps/api/src/main.ts`
+- Add focused limiter tests through the already-wired security test file:
+  - `apps/api/src/security/request-context.test.ts`
+- Add static wiring and approved-env-name guard:
+  - `apps/api/src/phase1-hardening/phase1-release-blockers.test.ts`
+- Create P3-010 summary, changed-files archive, and validation summary under `codex-review/phase3-security-auth-tenant/ticket-artifacts/P3-010/`.
+- Do not modify package dependencies, deployment or hosting config, Prisma, generated registry, contracts, workflows, production credentials, or secrets.
+
+Execution notes:
+
+- Added in-memory per-client/per-route limiting with safe defaults and strict positive-integer env parsing for `AKTI_RATE_LIMIT_WINDOW_MS` and `AKTI_RATE_LIMIT_MAX_REQUESTS`.
+- API bootstrap now installs the limiter before listening.
+- Negative tests cover 429 responses, retry headers, reset behavior, route/client separation, forwarded identity, and invalid env values.
+- Full implementation-ticket validation ladder passed.
+- No bounded repair attempts were needed.
+
+## P3-011 - Secrets, Env, Headers, and CORS Implementation
+
+Exact-file plan:
+
+- Add non-secret environment template:
+  - `.env.example`
+- Add runtime env and header/CORS implementation:
+  - `apps/api/src/security/runtime-environment.ts`
+  - `apps/api/src/security/security-headers.middleware.ts`
+  - `apps/api/src/main.ts`
+- Add focused tests and static guards:
+  - `apps/api/src/security/request-context.test.ts`
+  - `apps/api/src/phase1-hardening/phase1-release-blockers.test.ts`
+- Create P3-011 summary, changed-files archive, and validation summary under `codex-review/phase3-security-auth-tenant/ticket-artifacts/P3-011/`.
+- Do not create production env files, real secrets, deployment infrastructure, hosting-specific logic, dependencies, Prisma changes, registry changes, contract changes, workflows, production credentials, or secret access.
+
+Execution notes:
+
+- Added runtime validation for `AKTI_AUTH_SESSION_SECRET`, session max age, CORS origins, security header toggle, and rate-limit variables.
+- Added manual API security headers and explicit CORS allow-list behavior.
+- API bootstrap now reads validated runtime env, configures CORS, security headers, and route limiting before listen.
+- Added tests and static guards for env parsing, secret absence from `.env.example`, security headers, and CORS behavior.
+- Full implementation-ticket validation ladder passed.
+- Bounded repair attempt 1: updated the P3-010 static limiter wiring guard after P3-011 consolidated route-limit config under runtime env.
+
+## P3-012 - Frontend Auth and Operator Context Replacement
+
+Exact-file plan:
+
+- Replace Lead Desk frontend context and API request construction:
+  - `apps/web/app/lead-desk/operator-context.ts`
+  - `apps/web/app/lead-desk/api-client.ts`
+- Update Lead Desk screens that gather context:
+  - `apps/web/app/lead-desk/inbox/page.tsx`
+  - `apps/web/app/lead-desk/create/page.tsx`
+  - `apps/web/app/lead-desk/leads/[leadId]/page.tsx`
+  - `apps/web/app/lead-desk/leads/[leadId]/actions/page.tsx`
+- Update frontend static tests:
+  - `apps/web/test/lead-desk-screens.test.mjs`
+- Create P3-012 summary, changed-files archive, and validation summary under `codex-review/phase3-security-auth-tenant/ticket-artifacts/P3-012/`.
+- Do not implement production login/session issuance, deployment, browser-rendered visual QA, new dependencies, Prisma, generated registry, contracts, production credentials, or secrets.
+
+Execution notes:
+
+- Replaced caller-controlled organization/actor input with a stored Phase 3 bearer session token and decoded convenience metadata.
+- API client now sends `Authorization: Bearer <sessionToken>` and no longer sends `x-actor-user-id`.
+- Lead Desk screens now ask for a Phase 3 session token and keep route/body organization and actor values derived from decoded token metadata.
+- Frontend tests were replaced with equivalent or stronger bearer-context coverage.
+- Full implementation-ticket validation ladder passed.
+- No bounded repair attempts were needed.
+
+## P3-013 - Security and Tenant Negative Test Pass
+
+Exact-file plan:
+
+- Add auth/session and rate-limit negative coverage:
+  - `apps/api/src/security/request-context.test.ts`
+- Strengthen service no-write negative coverage:
+  - `apps/api/src/lead-desk/lead-desk.service.test.ts`
+  - `apps/api/src/engagement-gateway/engagement-gateway.service.test.ts`
+- Add static coverage and boundary guards:
+  - `apps/api/src/phase1-hardening/phase1-release-blockers.test.ts`
+- Create P3-013 summary, changed-files archive, and validation summary under `codex-review/phase3-security-auth-tenant/ticket-artifacts/P3-013/`.
+- Do not modify production source, Prisma, generated registry, contracts, package dependencies, workflows, deployment files, production credentials, or secrets.
+
+Execution notes:
+
+- Added auth/session negative tests for legacy actor-header fallback denial, malformed authorization, future issued-at timestamps, missing required payload context, and short session secrets.
+- Strengthened Lead Desk and Engagement Gateway negative tests to verify denied paths do not write audit/outbox evidence, persistence rows, histories, or WhatsApp stub dispatches.
+- Added static guards that Phase 3 negative test coverage remains wired and that Lead Desk does not couple directly to WhatsApp or real outbound WhatsApp behavior.
+- Focused API/web tests and the full validation ladder passed.
+- No bounded repair attempts were needed.
+
+## P3-014 - Phase 3 CI / Validation Naming and Security-Gate Alignment
+
+Exact-file plan:
+
+- Align the existing workflow name/job and security-gate checks:
+  - `.github/workflows/phase1-validation.yml`
+- Create P3-014 summary, changed-files archive, and validation summary under `codex-review/phase3-security-auth-tenant/ticket-artifacts/P3-014/`.
+- Do not modify runtime source, Prisma, generated registry, contracts, package dependencies, package scripts, deployment configuration, production credentials, or secrets.
+
+Execution notes:
+
+- Retained the historical workflow filename because existing repo validation references inspect that path.
+- Renamed the visible workflow to `Phase 3 Security Validation` and the job to `phase3-security-validation`.
+- Added `git diff --check` to the workflow before drift and clean-status checks.
+- Preserved contracts, Prisma validation/generation, registry generation/checks, `registry:verify:phase2`, lint, typecheck, tests, build, Prisma drift checks, and clean-status check.
+- Workflow YAML parsed and the full validation ladder passed.
+- No bounded repair attempts were needed.
+
+## P3-GATE - Phase 3 Closure Audit and Phase 4 Readiness Handoff
+
+Exact-file plan:
+
+- Complete closure evidence:
+  - `docs/process/AKTI_ERP_Phase_3_Audit_Report_v1.md`
+- Create Phase 4 readiness handoff only:
+  - `docs/process/AKTI_ERP_Phase_4_Readiness_Handoff_After_Phase_3_v1.md`
+- Create P3-GATE summary, changed-files archive, and validation summary under `codex-review/phase3-security-auth-tenant/ticket-artifacts/P3-GATE/`.
+- Do not modify runtime source, Prisma, generated registry, contracts, dependencies, workflow files, deployment config, production credentials, or secrets.
+- Do not plan or implement Phase 4 deployment/staging/visual QA.
+
+Execution notes:
+
+- Completed the Phase 3 audit report with execution evidence from commits, ADRs, ticket artifacts, and validation results.
+- Created a Phase 4 readiness handoff document explicitly marked as readiness evidence only, not a Phase 4 plan.
+- Recorded accepted deferrals and remaining risks after Phase 3.
+- Final full validation ladder passed after one bounded repair.
+- Bounded repair attempt 1: removed trailing whitespace from the new audit report so `git diff --check` passed.

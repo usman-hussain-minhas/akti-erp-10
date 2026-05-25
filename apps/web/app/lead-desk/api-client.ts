@@ -8,7 +8,11 @@ function resolveApiBase(): string | null {
 }
 
 export function hasOperatorContext(context: LeadDeskOperatorContext): boolean {
-  return context.organizationId.trim().length > 0 && context.actorUserId.trim().length > 0;
+  return (
+    context.sessionToken.trim().length > 0 &&
+    context.organizationId.trim().length > 0 &&
+    context.actorUserId.trim().length > 0
+  );
 }
 
 export async function leadDeskApiFetch(
@@ -23,8 +27,8 @@ export async function leadDeskApiFetch(
 
   const url = `${base}/api/lead-desk/organizations/${encodeURIComponent(context.organizationId.trim())}${path}`;
   const headers: Record<string, string> = {
-    'x-actor-user-id': context.actorUserId.trim(),
     ...(init?.headers ?? {}),
+    Authorization: `Bearer ${context.sessionToken.trim()}`,
   };
 
   return fetch(url, {

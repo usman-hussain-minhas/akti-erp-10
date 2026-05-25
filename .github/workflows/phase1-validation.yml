@@ -1,4 +1,6 @@
-name: Phase 2 Validation
+# Historical filename retained for existing validation references; display and job names
+# now reflect the active Phase 3 security/auth/tenant validation gate.
+name: Phase 3 Security Validation
 
 on:
   pull_request:
@@ -7,7 +9,7 @@ on:
       - main
 
 jobs:
-  phase2-validation:
+  phase3-security-validation:
     runs-on: ubuntu-latest
 
     steps:
@@ -59,6 +61,9 @@ jobs:
 
       - name: pnpm build
         run: pnpm build
+
+      - name: Verify diff hygiene
+        run: git diff --check
 
       - name: Verify prisma/schema.prisma unchanged
         run: git diff --exit-code -- prisma/schema.prisma

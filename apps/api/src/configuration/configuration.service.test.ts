@@ -397,6 +397,21 @@ async function testPutRequiresActorBeforeSettingReadsOrWrites() {
   assert.equal(state.calls.some((call) => call.fn === 'organizationSetting.upsert'), false);
 }
 
+async function testPutRejectsCrossOrgActorBeforeSettingReadsOrWrites() {
+  const crossOrg = createService();
+
+  await assert.rejects(
+    crossOrg.service.updatePortalMode('org-1', { mode: 'builder' }, 'actor-foreign'),
+    (error: unknown) => error instanceof BadRequestException,
+  );
+
+  assert.equal(crossOrg.gatekeeper.calls.length, 0);
+  assert.equal(crossOrg.state.calls.some((call) => call.fn === 'organization.findUnique'), false);
+  assert.equal(crossOrg.state.calls.some((call) => call.fn === 'organizationSetting.upsert'), false);
+  assert.equal(crossOrg.state.auditLogs.length, 0);
+  assert.equal(crossOrg.state.outboxEntries.length, 0);
+}
+
 async function testPutRunsGatekeeperAfterActorAndBeforeSettingWrite() {
   const { service, state, gatekeeper } = createService();
 
@@ -491,6 +506,7 @@ async function run() {
   await testGetRejectsCrossOrgAndUnauthorizedActorBeforeSettingRead();
   await testGetReturnsDefaultStoredAndFailsClosedForInvalidStoredValue();
   await testPutRequiresActorBeforeSettingReadsOrWrites();
+  await testPutRejectsCrossOrgActorBeforeSettingReadsOrWrites();
   await testPutRunsGatekeeperAfterActorAndBeforeSettingWrite();
   await testGatekeeperBlocksBeforeSettingWrite();
   await testPutUpsertsIdempotentlyAndWritesAuditOutbox();
