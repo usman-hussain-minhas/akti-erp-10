@@ -222,3 +222,28 @@ Execution notes:
 - Negative tests cover 429 responses, retry headers, reset behavior, route/client separation, forwarded identity, and invalid env values.
 - Full implementation-ticket validation ladder passed.
 - No bounded repair attempts were needed.
+
+## P3-011 - Secrets, Env, Headers, and CORS Implementation
+
+Exact-file plan:
+
+- Add non-secret environment template:
+  - `.env.example`
+- Add runtime env and header/CORS implementation:
+  - `apps/api/src/security/runtime-environment.ts`
+  - `apps/api/src/security/security-headers.middleware.ts`
+  - `apps/api/src/main.ts`
+- Add focused tests and static guards:
+  - `apps/api/src/security/request-context.test.ts`
+  - `apps/api/src/phase1-hardening/phase1-release-blockers.test.ts`
+- Create P3-011 summary, changed-files archive, and validation summary under `codex-review/phase3-security-auth-tenant/ticket-artifacts/P3-011/`.
+- Do not create production env files, real secrets, deployment infrastructure, hosting-specific logic, dependencies, Prisma changes, registry changes, contract changes, workflows, production credentials, or secret access.
+
+Execution notes:
+
+- Added runtime validation for `AKTI_AUTH_SESSION_SECRET`, session max age, CORS origins, security header toggle, and rate-limit variables.
+- Added manual API security headers and explicit CORS allow-list behavior.
+- API bootstrap now reads validated runtime env, configures CORS, security headers, and route limiting before listen.
+- Added tests and static guards for env parsing, secret absence from `.env.example`, security headers, and CORS behavior.
+- Full implementation-ticket validation ladder passed.
+- Bounded repair attempt 1: updated the P3-010 static limiter wiring guard after P3-011 consolidated route-limit config under runtime env.

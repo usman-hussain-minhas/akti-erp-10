@@ -245,7 +245,7 @@ function testRuntimeRouteLimiterIsWiredBeforeApiListen() {
   const limiterSource = readFileSync(join(apiSourceRoot, 'security/rate-limit.middleware.ts'), 'utf8');
 
   assert.equal(
-    mainSource.includes('app.use(createRateLimitMiddleware(readRateLimitConfig()))'),
+    mainSource.includes('app.use(createRateLimitMiddleware(runtimeEnvironment.rateLimit))'),
     true,
     'API bootstrap must wire the runtime route limiter before listen',
   );
@@ -259,6 +259,56 @@ function testRuntimeRouteLimiterIsWiredBeforeApiListen() {
       limiterSource.includes('AKTI_RATE_LIMIT_MAX_REQUESTS'),
     true,
     'runtime route limiter must use approved non-secret rate-limit env names',
+  );
+}
+
+function testEnvHeadersAndCorsControlsAreWiredWithoutSecrets() {
+  const envExample = readFileSync(resolve(repoRoot, '.env.example'), 'utf8');
+  const mainSource = readFileSync(join(apiSourceRoot, 'main.ts'), 'utf8');
+  const runtimeEnvironmentSource = readFileSync(join(apiSourceRoot, 'security/runtime-environment.ts'), 'utf8');
+  const securityHeadersSource = readFileSync(join(apiSourceRoot, 'security/security-headers.middleware.ts'), 'utf8');
+
+  for (const key of [
+    'DATABASE_URL',
+    'PORT',
+    'AKTI_AUTH_SESSION_SECRET',
+    'AKTI_AUTH_SESSION_MAX_AGE_SECONDS',
+    'AKTI_CORS_ALLOWED_ORIGINS',
+    'AKTI_SECURITY_HEADERS_ENABLED',
+    'AKTI_RATE_LIMIT_WINDOW_MS',
+    'AKTI_RATE_LIMIT_MAX_REQUESTS',
+  ]) {
+    assert.equal(envExample.includes(`${key}=`), true, `.env.example must include ${key}`);
+  }
+
+  assert.equal(
+    envExample.includes('AKTI_AUTH_SESSION_SECRET=') &&
+      !envExample.includes('AKTI_AUTH_SESSION_SECRET=phase3-runtime-secret-value'),
+    true,
+    '.env.example must not contain a real auth session secret',
+  );
+  assert.equal(
+    mainSource.includes('configureCors(app, runtimeEnvironment.corsAllowedOrigins)'),
+    true,
+    'API bootstrap must wire explicit CORS allow-list controls',
+  );
+  assert.equal(
+    mainSource.includes('createSecurityHeadersMiddleware(runtimeEnvironment.securityHeadersEnabled)'),
+    true,
+    'API bootstrap must wire security headers',
+  );
+  assert.equal(
+    runtimeEnvironmentSource.includes("origin === '*'") &&
+      runtimeEnvironmentSource.includes('CORS origin is not allowed'),
+    true,
+    'runtime env must reject wildcard/unknown CORS origins',
+  );
+  assert.equal(
+    securityHeadersSource.includes('X-Content-Type-Options') &&
+      securityHeadersSource.includes('X-Frame-Options') &&
+      securityHeadersSource.includes('Permissions-Policy'),
+    true,
+    'security header middleware must include approved API headers',
   );
 }
 
@@ -297,6 +347,7 @@ function run() {
   testTenantScopedMetadataAndServicesRequireOrganizationIsolation();
   testAccessCoreGatekeeperTrustedContextInvariants();
   testRuntimeRouteLimiterIsWiredBeforeApiListen();
+  testEnvHeadersAndCorsControlsAreWiredWithoutSecrets();
   testApiTestFixturesDoNotLeakHardcodedBusinessTerms();
 
   console.log('phase1-release-blockers tests passed');

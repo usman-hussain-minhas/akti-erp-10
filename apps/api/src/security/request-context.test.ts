@@ -14,6 +14,12 @@ import {
   createRateLimitMiddleware,
   readRateLimitConfig,
 } from './rate-limit.middleware';
+import {
+  configureCors,
+  createCorsOriginValidator,
+  readApiRuntimeEnvironment,
+} from './runtime-environment';
+import { API_SECURITY_HEADERS, createSecurityHeadersMiddleware } from './security-headers.middleware';
 
 const secret = 'phase3-test-secret-value';
 const now = new Date('2026-05-25T12:00:00.000Z');
@@ -267,6 +273,113 @@ function testRateLimitConfigUsesSafeDefaultsAndRejectsInvalidValues() {
   );
 }
 
+function runtimeEnv(overrides?: NodeJS.ProcessEnv): NodeJS.ProcessEnv {
+  return {
+    AKTI_AUTH_SESSION_SECRET: 'phase3-runtime-secret-value',
+    ...(overrides ?? {}),
+  };
+}
+
+function testRuntimeEnvironmentRequiresSecretAndParsesApprovedEnv() {
+  assert.throws(
+    () => readApiRuntimeEnvironment({}),
+    /AKTI_AUTH_SESSION_SECRET must be configured outside source control/,
+  );
+
+  const env = readApiRuntimeEnvironment(
+    runtimeEnv({
+      PORT: '4001',
+      AKTI_AUTH_SESSION_MAX_AGE_SECONDS: '1800',
+      AKTI_CORS_ALLOWED_ORIGINS: 'http://localhost:3000,https://example.org',
+      AKTI_SECURITY_HEADERS_ENABLED: 'false',
+      AKTI_RATE_LIMIT_WINDOW_MS: '5000',
+      AKTI_RATE_LIMIT_MAX_REQUESTS: '10',
+    }),
+  );
+
+  assert.deepEqual(env, {
+    port: 4001,
+    authSessionSecret: 'phase3-runtime-secret-value',
+    authSessionMaxAgeSeconds: 1800,
+    corsAllowedOrigins: ['http://localhost:3000', 'https://example.org'],
+    securityHeadersEnabled: false,
+    rateLimit: {
+      windowMs: 5_000,
+      maxRequests: 10,
+    },
+  });
+
+  assert.throws(
+    () => readApiRuntimeEnvironment(runtimeEnv({ AKTI_SECURITY_HEADERS_ENABLED: 'yes' })),
+    /AKTI_SECURITY_HEADERS_ENABLED must be true or false/,
+  );
+  assert.throws(
+    () => readApiRuntimeEnvironment(runtimeEnv({ AKTI_CORS_ALLOWED_ORIGINS: '*' })),
+    /AKTI_CORS_ALLOWED_ORIGINS must not contain wildcard/,
+  );
+  assert.throws(
+    () => readApiRuntimeEnvironment(runtimeEnv({ AKTI_AUTH_SESSION_MAX_AGE_SECONDS: '0' })),
+    /AKTI_AUTH_SESSION_MAX_AGE_SECONDS must be a positive integer/,
+  );
+}
+
+function testSecurityHeadersMiddleware() {
+  const response = createResponse();
+  const nextCalls: string[] = [];
+
+  createSecurityHeadersMiddleware(true)({}, response, () => nextCalls.push('enabled'));
+
+  for (const [name, value] of API_SECURITY_HEADERS) {
+    assert.equal(response.headers[name], value);
+  }
+  assert.deepEqual(nextCalls, ['enabled']);
+
+  const disabledResponse = createResponse();
+  createSecurityHeadersMiddleware(false)({}, disabledResponse, () => nextCalls.push('disabled'));
+  assert.deepEqual(disabledResponse.headers, {});
+  assert.deepEqual(nextCalls, ['enabled', 'disabled']);
+}
+
+function testCorsAllowListValidatorAndConfiguration() {
+  const validator = createCorsOriginValidator(['http://localhost:3000']);
+
+  validator('http://localhost:3000', (error, allowed) => {
+    assert.equal(error, null);
+    assert.equal(allowed, true);
+  });
+
+  validator('http://unknown.example', (error, allowed) => {
+    assert.ok(error instanceof Error);
+    assert.equal(allowed, false);
+  });
+
+  validator(undefined, (error, allowed) => {
+    assert.equal(error, null);
+    assert.equal(allowed, false);
+  });
+
+  const corsCalls: unknown[] = [];
+  configureCors(
+    {
+      enableCors(options: unknown) {
+        corsCalls.push(options);
+      },
+    },
+    [],
+  );
+  assert.equal(corsCalls.length, 0);
+
+  configureCors(
+    {
+      enableCors(options: unknown) {
+        corsCalls.push(options);
+      },
+    },
+    ['http://localhost:3000'],
+  );
+  assert.equal(corsCalls.length, 1);
+}
+
 function run() {
   testValidTokenResolvesTrustedContext();
   testMissingBearerFailsClosed();
@@ -277,6 +390,9 @@ function run() {
   testRateLimitAllowsWithinWindowAndFailsClosedAfterLimit();
   testRateLimitSeparatesClientsAndRoutes();
   testRateLimitConfigUsesSafeDefaultsAndRejectsInvalidValues();
+  testRuntimeEnvironmentRequiresSecretAndParsesApprovedEnv();
+  testSecurityHeadersMiddleware();
+  testCorsAllowListValidatorAndConfiguration();
 
   console.log('request-context tests passed');
 }
