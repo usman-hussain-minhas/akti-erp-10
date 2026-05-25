@@ -1,7 +1,7 @@
 # AKTI ERP Master Roadmap Reference v2
 
 **Status:** Strategic reference only
-**Purpose:** Big-picture roadmap for AKTI ERP after Phase 3 merge
+**Purpose:** Big-picture roadmap for AKTI ERP after Phase 4 merge
 **Authority:** This document is not the source of truth. It is a reference compass only.
 
 Truth for each phase or module must be created separately through its own approved source-of-truth documents: phase plan, ticket pack, ADRs, contracts, module manifests, Prisma/schema changes, screen contracts, tests, validation evidence, and audit/closure package.
@@ -25,6 +25,8 @@ The long-term direction is:
 ```text
 Build trust first.
 Prove the platform operationally.
+Stabilize the local/demo/staging loop.
+Make the operator experience noob-proof before module installation.
 Define AI-ready module governance before module scale.
 Build installable modules with evidence and intelligence boundaries.
 Mature intelligence through real module evidence and versioned governance.
@@ -187,8 +189,10 @@ Governed intelligence is not a shortcut around the platform. It is a set of cont
 | Phase 1 | Platform Foundation | Complete |
 | Phase 2 | First Module-Layer Proof | Complete with accepted deferrals |
 | Phase 3 | Trust Foundation | Complete and merged |
-| Phase 4 | Operational Proof | Next planning target |
-| Phase 5 | Foundry / Module Installer / AI-Ready Module Governance | Future planning target |
+| Phase 4 | Operational Proof | Complete, validated, and merged |
+| Phase 4A | Local Demo / Staging Environment Stabilization | Next planning target |
+| Phase 4B | Frontend Operational Experience & Mission Control Shell | After Phase 4A |
+| Phase 5 | Foundry / Module Installer / AI-Ready Module Governance | After Phase 4A/4B unless later approved decision changes the order |
 | Phase 6 | Installable Business Modules with Governed In-Module AI | After Foundry/module rules exist |
 | Phase 6B or later | Evidence Foundation from Real Module Events | After real modules emit enough evidence |
 | Phase 7 | Intelligence Core / Predictability / Platform AI Operations | After Foundry and real module evidence exist |
@@ -259,7 +263,9 @@ Remaining bounded risks from Phase 3 include production auth/session provider, p
 
 **Purpose:** Make AKTI ERP runnable, inspectable, and operationally understandable in a controlled environment.
 
-Phase 4 should prove:
+**Status:** Complete, validated, and merged.
+
+Phase 4 proved:
 
 ```text
 Staging/deployment path
@@ -276,13 +282,65 @@ Production auth/session provider path, if approved for Phase 4
 Deployment-specific rate limiting and CORS decisions
 ```
 
-Phase 4 must not become heavy AI runtime work.
+Phase 4 proved operational readiness, clean DB/bootstrap, validation, audit packaging, and controlled demo/staging proof. Phase 4 frontend evidence showed the app is technically functional but not yet noob-proof or operator-ready.
 
-Phase 4 must not build Foundry, installable modules, marketplace, or parallel business modules.
+Phase 4 did not become heavy AI runtime work.
+
+Phase 4 did not build Foundry, installable modules, marketplace, or parallel business modules.
+
+### Phase 4A - Local Demo / Staging Environment Stabilization
+
+**Purpose:** Create a repeatable local/demo/staging environment where AKTI ERP can be run, reset, smoke-tested, opened in a browser, and inspected by humans and Codex.
+
+Phase 4A should define and prove:
+
+```text
+Docker Compose or equivalent local/demo runtime
+Local/demo Postgres
+API local/demo service
+Web local/demo service
+.env.local.example / .env.demo.example with non-secret placeholders
+local-up / local-down / local-reset / local-smoke scripts
+Clean DB migration/bootstrap path
+Browser URL for app inspection
+Codex browser testing support
+Screenshot/evidence capture path
+Local demo runbook
+```
+
+Phase 4A must not authorize production launch, production VPS/cloud deployment unless separately approved, production secrets, production credential access, real WhatsApp production behavior, new business modules, Foundry/module installer implementation, platform AI runtime, or frontend redesign beyond what is necessary to run and inspect the system.
+
+### Phase 4B - Frontend Operational Experience & Mission Control Shell
+
+**Purpose:** Make AKTI ERP noob-proof and operator-friendly before Foundry/module installation begins.
+
+AKTI ERP must be noob-proof by default. A non-technical operator should understand what to click, what is happening, and what to do next. Technical/admin details should exist, but under Advanced Options, Admin, or Diagnostics surfaces, not as the default interface.
+
+Phase 4B should define and prove:
+
+```text
+Mission Control / ERP shell
+Global navigation
+Module navigation
+Settings/control panel
+Module landing pages
+Setup/onboarding polish
+Lead Desk operator-friendly pages
+User/session context UI
+Advanced diagnostics hidden by default
+Friendly empty/error/loading states
+Responsive/readability baseline
+Browser-rendered tests
+Visual QA package
+```
+
+Phase 4B must not authorize new business modules, Foundry/module installer implementation, platform AI runtime, production launch, real WhatsApp production behavior, marketplace work, or Phase 6 parallel modules.
 
 ### Phase 5 - Foundry / Module Installer / AI-Ready Module Governance
 
 **Purpose:** Stop building future modules directly into the core and make future modules AI-ready before module scale.
+
+Phase 5 comes after Phase 4A and Phase 4B unless a later approved decision explicitly changes that order.
 
 Phase 5 creates the framework for installing, enabling, disabling, validating, auditing, and integrating modules.
 
@@ -538,10 +596,11 @@ AI governance declarations, if AI-assisted
 ```text
 Trust first.
 Operational proof before heavy intelligence.
+Local/demo/staging stabilization before operator experience scale.
+Noob-proof Mission Control before Foundry.
 AI-ready Foundry before module scale.
 Modules built with evidence and intelligence by default.
 Intelligence and predictability mature through real module evidence.
 AI maturity happens through versions, not premature infrastructure.
 Scale after operational maturity.
 ```
-
