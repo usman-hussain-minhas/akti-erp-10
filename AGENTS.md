@@ -14,6 +14,17 @@ This file is the operating guide for Codex in this repository. It summarizes `do
 - Tailwind + shadcn/ui
 - S3-compatible storage
 
+## Current Project State
+
+- Phase 1 status: PASS.
+- Phase 2 status: PASS_WITH_ACCEPTED_DEFERRALS.
+- Next planning target: Phase 3 Security/Auth/Tenant Hardening, then Phase 4 Deployment/Staging/Visual QA.
+- Phase 5 is Foundry/Module Installer Framework.
+- Phase 6+ is parallel installable modules after Foundry/module installer exists.
+- Lead Desk is a business module, not core.
+- Engagement Gateway is a shared platform module.
+- WhatsApp stub is an integration adapter; no production WhatsApp credentials or real outbound WhatsApp are in scope until separately approved.
+
 ## Source Of Truth Hierarchy
 
 Lower rank number wins when sources conflict:
@@ -32,6 +43,7 @@ Lower rank number wins when sources conflict:
 - Use Plan Mode for multi-step work.
 - Use Plan Mode for schema, auth, permission, RLS, payment, certification, WhatsApp, frontend screen, and module-boundary tasks.
 - Implement only from an approved plan unless the task is a tiny typo fix or single-file text edit with no architecture impact.
+- Future autonomous runs use a stable contract plus flexible runtime model: control docs define the contract, while runtime progress comes from git history, journals, artifacts, optional run-state files, and queue order.
 - Keep work ticket-sized: one ticket, one branch/worktree, one outcome.
 - Use worktrees only for bounded parallel tasks with non-overlapping files.
 - Do not run multiple agents on overlapping architecture, schema, contract, registry, manifest, Access Core, or Gatekeeper files.

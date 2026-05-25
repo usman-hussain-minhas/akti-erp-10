@@ -1,0 +1,333 @@
+{
+  "document": {
+    "title": "AKTI ERP Phase 2 Autonomous Run — Postmortem Report",
+    "version": "1.0.0",
+    "status": "source_file_ready_for_future_reference",
+    "created_at": "2026-05-24",
+    "owner": "AKTI / Usman Minhas",
+    "recommended_repo_path": "docs/process/AKTI_ERP_Phase_2_Autonomous_Run_Postmortem_v1.json",
+    "purpose": "Preserve the postmortem of the AKTI ERP Phase 2 autonomous Codex run, including patterns, process failures, corrections, autonomy model, and future improvements.",
+    "scope": "Phase 2 autonomous run from control-document setup through completion at P2C-GATE.",
+    "final_verdict": "PHASE_2_AUTONOMOUS_RUN_SUCCESSFUL_WITH_PROCESS_HARDENING_LESSONS",
+    "sha256_without_self_checksum": "10d2e5fe9d6ea72d316614baca7b4a6100bd68877106a03809f6c72ced7327ce"
+  },
+  "executive_summary": {
+    "summary": "The Phase 2 autonomous run was successful, but not frictionless. It began as a control-heavy, manual-review workflow and evolved into a stable autonomous execution model where Codex owns the ticket loop while humans/ChatGPT own phase-level direction, governance decisions, hard-gate review, and final acceptance.",
+    "outcome": "Codex completed Phase 2 autonomously through P2C-GATE after the runtime-loop, repair-policy, validation-wiring, and governance models were corrected.",
+    "main_lesson": "Autonomy requires a stable contract and flexible runtime.",
+    "before_model": "Human validates every step -> Codex executes one ticket -> human updates docs -> Codex continues.",
+    "after_model": "Codex plans, implements, validates, repairs, commits, pushes, and continues; humans intervene only for hard gates, governance issues, or final audit."
+  },
+  "phase_2_scope": {
+    "phase_2a": "Engagement Gateway Lite",
+    "phase_2b": "Lead Desk Core",
+    "phase_2c": "WhatsApp Lead Desk Integration through Engagement Gateway Lite",
+    "phase_2c_limit": "Stub/non-production only, no production credentials, no real outbound WhatsApp messages, and no direct Lead Desk-to-Meta/WhatsApp coupling."
+  },
+  "timeline": [
+    {
+      "stage": "Housekeeping and control-document setup",
+      "what_happened": "Initial validation found Phase 2 control docs were untracked and therefore not repo authority.",
+      "correction": "Created, pushed, reviewed, and merged housekeeping/control-doc branches so Phase 2 docs became committed repo authority.",
+      "lesson": "Codex must work from repo state, not untracked local files or chat memory."
+    },
+    {
+      "stage": "P2-000 readiness validation",
+      "what_happened": "Codex found mismatches: Phase 1-only registry verification, missing Phase 2 screen-contract validation, broad write globs, branch-base mismatch, and unresolved Phase 2C governance.",
+      "correction": "Added P2-VAL-001, P2-VAL-002, exact-file planning, migration policy, branch-base correction, and Phase 2C governance rules.",
+      "lesson": "Readiness validation finds cross-file runtime mismatches before implementation."
+    },
+    {
+      "stage": "Neutral terminology cleanup",
+      "what_happened": "Control docs still referred to the run as a stress test/experiment.",
+      "correction": "Renamed the run as Phase 2 Autonomous Execution Run and changed branch to phase2/autonomous-full-run.",
+      "lesson": "Control docs should avoid experimental language that may bias Codex."
+    },
+    {
+      "stage": "Safe environment gating",
+      "what_happened": "Codex refused to proceed under danger-full-access, unrestricted network, or approval-never posture.",
+      "correction": "Reconfigured to workspace-write, approval-gated, restricted/no-network style posture with no secret access.",
+      "lesson": "Autonomous does not mean unsafe. Environment constraints are part of the run contract."
+    },
+    {
+      "stage": "Ticket pack and v3 queue creation",
+      "what_happened": "Initial execution pack had control-level tickets too broad for implementation, especially Phase 2B.",
+      "correction": "Created ticket pack, v2 plan, and v3 queue with split Phase 2B tickets, autonomy statuses, decision rules, and hard gates.",
+      "lesson": "Autonomy depends on executable ticket design, not broad control-level task titles."
+    },
+    {
+      "stage": "P2A-001 and P2-VAL-001",
+      "what_happened": "Codex implemented Engagement Gateway Lite contracts and Phase 2-aware registry verification.",
+      "correction": "Reviewed early boundary tickets manually, then moved toward wider autonomy.",
+      "lesson": "Early architecture-boundary tickets deserve review, but the system should not require manual review forever."
+    },
+    {
+      "stage": "Runtime state model correction",
+      "what_happened": "Control docs mixed stable contract state with live execution ledger fields, causing repeated drift.",
+      "correction": "P2-CTRL-003 redefined control docs as stable contract and runtime progress as derived from git history, journal, artifacts, optional run-state.json, and queue order.",
+      "lesson": "Do not use control docs as the live execution ledger."
+    },
+    {
+      "stage": "Phase 2C governance unlock",
+      "what_happened": "ADR-0003 blocked Phase 2C because pilot date was TBD.",
+      "correction": "P2-CTRL-004 recorded a formal stub/non-production exception in ADR-0003 and control docs.",
+      "lesson": "Governance decisions must be recorded in repo authority before Codex can act on them."
+    },
+    {
+      "stage": "P2C stale-field cleanup",
+      "what_happened": "After the exception, Phase 2C tickets still had stale placeholder fields.",
+      "correction": "P2-CTRL-005 replaced stale placeholders with concrete executable stub/non-production scopes and validations.",
+      "lesson": "When governance state changes, executable fields must be concretely updated."
+    },
+    {
+      "stage": "Autonomous validation repair policy",
+      "what_happened": "Codex stopped on deterministic schema/type/contract validation errors safely fixable inside ticket scope.",
+      "correction": "P2-CTRL-006 allowed up to three autonomous repair cycles for local deterministic validation failures inside active ticket scope.",
+      "lesson": "Validation should guide repair, not automatically stop autonomy."
+    },
+    {
+      "stage": "Validation/test-runner wiring policy",
+      "what_happened": "Codex stopped because new Phase 2 tests required package test-runner wiring outside the active ticket's original file scope.",
+      "correction": "Added policy allowing scoped validation/test-runner wiring updates when required to run active-ticket tests.",
+      "lesson": "Tickets that add tests must be allowed to wire those tests into validation."
+    },
+    {
+      "stage": "Full autonomous run completion",
+      "what_happened": "Codex completed through P2C-GATE with full validation and final audit package.",
+      "correction": "No correction required; final verdict was RUN_COMPLETED.",
+      "lesson": "Once stable contract, runtime state, repair policy, and validation-wiring policy were in place, full autonomy became practical."
+    }
+  ],
+  "patterns_observed": [
+    {
+      "pattern": "Control docs acting as live execution ledger",
+      "symptom": "Repo reality advanced after ticket completion, but control docs still pointed to the previous next ticket.",
+      "impact": "Codex stopped even though implementation had succeeded.",
+      "fix": "Move live state to journal/artifacts/run-state/git history; control docs remain stable contract."
+    },
+    {
+      "pattern": "Normal validation errors treated as hard stops",
+      "symptom": "Codex stopped on import mismatch, manifest shape mismatch, invalid screen key, duplicate action key, and missing capability key.",
+      "impact": "Autonomous run required repeated human intervention for repairable errors.",
+      "fix": "Add autonomous validation repair policy with a bounded three-cycle repair budget."
+    },
+    {
+      "pattern": "Validation wiring outside ticket scope",
+      "symptom": "New tests existed but package test script did not run them, and package.json was outside ticket scope.",
+      "impact": "Codex stopped before implementing valid ticket tests.",
+      "fix": "Allow scoped validation/test-runner wiring updates inside relevant package files."
+    },
+    {
+      "pattern": "Evidence becoming too heavy",
+      "symptom": "Early process generated many zips, plans, and handoff artifacts.",
+      "impact": "Documentation loops slowed delivery.",
+      "fix": "Use lightweight per-ticket summaries and changed-files zips; reserve heavy audit for phase/final gates."
+    },
+    {
+      "pattern": "Phase gates unclear",
+      "symptom": "P2A-GATE and P2B-GATE were initially treated as human review stops even if passed.",
+      "impact": "Reduced autonomy.",
+      "fix": "P2B-GATE became pass-through on validation pass; P2C-GATE became final completion gate."
+    },
+    {
+      "pattern": "Governance by chat authorization",
+      "symptom": "User authorized Phase 2C, but ADR-0003 remained blocking.",
+      "impact": "Codex could not proceed into Phase 2C.",
+      "fix": "Record formal exception in ADR-0003 and update control docs."
+    }
+  ],
+  "successful_operating_model": {
+    "principle": "Strict boundaries, flexible execution.",
+    "codex_autonomous_loop": [
+      "read active ticket",
+      "inspect repo files",
+      "create exact-file implementation plan internally",
+      "implement within allowed scope",
+      "run validation",
+      "repair local deterministic failures within repair budget",
+      "self-audit",
+      "create lightweight artifacts",
+      "update journal/run-state",
+      "commit tracked files when required",
+      "push phase2/autonomous-full-run",
+      "continue to next ticket"
+    ],
+    "codex_stops_only_for": [
+      "hard gate",
+      "validation failure after repair budget",
+      "out-of-scope file requirement",
+      "dependency requirement",
+      "invented business logic requirement",
+      "unclear migration strategy",
+      "secret or credential need",
+      "direct WhatsApp/Meta coupling",
+      "frontend without screen contract",
+      "run-state conflict",
+      "final completion"
+    ],
+    "human_chatgpt_role": [
+      "approve autonomous operating model",
+      "review governance decisions",
+      "keep architecture and business direction aligned",
+      "review final audit package",
+      "decide merge/production readiness",
+      "approve production enablement separately"
+    ]
+  },
+  "control_doc_corrections": [
+    {
+      "id": "P2-CTRL-001",
+      "purpose": "Adopt v3 autonomous queue in active control docs."
+    },
+    {
+      "id": "P2-CTRL-002",
+      "purpose": "Mark P2-VAL-001 complete and move start marker to P2A-002."
+    },
+    {
+      "id": "P2-CTRL-003",
+      "purpose": "Simplify autonomous runtime loop and separate stable contract from runtime ledger."
+    },
+    {
+      "id": "P2-CTRL-004",
+      "purpose": "Record ADR-0003 Phase 2C stub/non-production exception and unlock Phase 2C under constraints."
+    },
+    {
+      "id": "P2-CTRL-005",
+      "purpose": "Clean stale Phase 2C governance placeholder fields."
+    },
+    {
+      "id": "P2-CTRL-006",
+      "purpose": "Add autonomous validation repair policy."
+    },
+    {
+      "id": "Validation wiring policy correction",
+      "purpose": "Allow scoped test-runner wiring updates when needed to run active-ticket tests."
+    }
+  ],
+  "delivered_or_reported_phase_2_outcomes": {
+    "phase_2a": [
+      "Engagement Gateway Lite contracts and manifest boundary",
+      "Phase 2-aware registry verification",
+      "Engagement Gateway persistence decision via deferral path",
+      "Engagement Gateway API/service boundary",
+      "P2A-GATE validation passed"
+    ],
+    "phase_2b": [
+      "Phase 2 screen-contract validation",
+      "Lead Desk contract and capability boundary",
+      "Lead Desk screen contracts",
+      "Lead Desk data model decision and schema/registry foundation",
+      "Lead Desk API slices",
+      "Lead Desk frontend slices",
+      "P2B-GATE validation pass-through"
+    ],
+    "phase_2c": [
+      "ADR-0003 stub/non-production exception",
+      "Gateway-mediated WhatsApp stub/non-production contracts",
+      "Gateway-mediated WhatsApp stub provider runtime integration",
+      "No production credentials",
+      "No real outbound WhatsApp messages",
+      "No direct Lead Desk-to-Meta/WhatsApp coupling",
+      "P2C-GATE final validation and audit"
+    ]
+  },
+  "what_went_well": [
+    "Codex respected boundaries and stopped on real policy issues.",
+    "Source-of-truth hierarchy prevented chat-memory-driven architecture.",
+    "The v3 queue turned broad tickets into executable autonomous work.",
+    "Repair policy unlocked practical autonomy without weakening safety.",
+    "Validation/test-runner wiring policy allowed tests to evolve with Phase 2.",
+    "Phase 2C was handled safely as stub/non-production with governance recorded."
+  ],
+  "what_did_not_go_well": [
+    "Too many control-doc corrections were required before stable autonomy emerged.",
+    "Plan Mode was overused after v3 became stable.",
+    "Evidence burden was too heavy early in the run.",
+    "Gate semantics were unclear until late in the process.",
+    "Test wiring policy was not included at the start.",
+    "Phase 2C governance exception had to be added late."
+  ],
+  "process_improvements": [
+    {
+      "improvement": "Separate contract, queue, and runtime state from day one.",
+      "details": "Use run_contract, ticket_queue, and run_state as separate concepts/files."
+    },
+    {
+      "improvement": "Include autonomous validation repair policy from the start.",
+      "details": "Allow bounded repair of deterministic local validation failures inside ticket scope."
+    },
+    {
+      "improvement": "Include validation/test-runner wiring policy from the start.",
+      "details": "Allow active ticket to wire its own tests into package validation without dependency additions or unrelated script rewrites."
+    },
+    {
+      "improvement": "Define phase gate semantics upfront.",
+      "details": "Each gate should be marked as pass-through, human-review-stop, or final-stop."
+    },
+    {
+      "improvement": "Use lightweight artifacts by default.",
+      "details": "Use summary.md and changed-files.zip per ticket; use heavy audit only at phase/final gates."
+    },
+    {
+      "improvement": "Preflight for autonomy blockers before /goal.",
+      "details": "Check stale placeholders, governance blocks, scripts, test wiring, queue scope, and missing validation tooling."
+    },
+    {
+      "improvement": "Define complete clearly.",
+      "details": "Complete means validated, tested, contract-backed, no fake data, no placeholder UX, and no skipped enforcement, while still not inventing unapproved business rules."
+    }
+  ],
+  "recommended_future_phase_model": {
+    "planning_package": [
+      "source-of-truth scan",
+      "phase scope",
+      "ticket queue",
+      "decision rules",
+      "gate semantics",
+      "repair policy",
+      "validation-wiring policy",
+      "artifact policy",
+      "runtime-state policy"
+    ],
+    "control_doc_strategy": "Create one mature control-doc commit before /goal instead of many iterative correction commits.",
+    "dry_run_strategy": "Run one final autonomy-blocker dry run before /goal.",
+    "goal_strategy": "Run /goal once with stable contract and allow Codex to continue until hard gate or final gate.",
+    "stop_strategy": [
+      "hard gate",
+      "governance issue",
+      "validation failure beyond repair budget",
+      "final completion"
+    ]
+  },
+  "key_lessons": [
+    "Autonomy needs a stable contract and flexible runtime.",
+    "Strict boundaries should not prevent local deterministic repairs.",
+    "Control docs must not become live state ledgers.",
+    "Governance must be committed to repo authority, not left in chat.",
+    "Evidence supports delivery; it must not become the deliverable.",
+    "Codex can operate autonomously when the queue, repair model, runtime state, and stop policy are designed correctly."
+  ],
+  "post_merge_status": {
+    "status": "historical_process_learning_after_phase_2_merge",
+    "phase_2_merged_to_main": true,
+    "p2h_completed": true,
+    "p2q_completed": true,
+    "accepted_deferrals_carried_forward": [
+      "production deployment",
+      "production auth/session",
+      "production WhatsApp credentials",
+      "real outbound WhatsApp",
+      "fresh empty-database bootstrap baseline",
+      "runtime route limiting",
+      "browser-rendered frontend tests"
+    ],
+    "authority_note": "This postmortem is historical/process learning. It is not an active Phase 3 or Phase 4 execution contract."
+  },
+  "next_steps": [
+    "Create external audit package for the completed Phase 2 branch.",
+    "Review final diff and artifacts.",
+    "Run external audit against contracts, Prisma, registry, API, frontend, and Phase 2C stub boundaries.",
+    "Decide whether branch is merge-candidate, needs hardening, or should be split into PRs.",
+    "Convert final autonomous operating model into reusable docs/process/AUTONOMOUS_RUNBOOK.md."
+  ]
+}

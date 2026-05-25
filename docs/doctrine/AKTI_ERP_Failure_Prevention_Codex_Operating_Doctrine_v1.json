@@ -2,10 +2,10 @@
   "document": {
     "title": "AKTI ERP Failure Prevention & Codex Operating Doctrine",
     "version": "1.0",
-    "status": "source_file_ready_for_codex_and_phase_0_governance",
+    "status": "post_phase_2_closure_updated",
     "created_on": "2026-05-22",
     "owner": "AKTI leadership / Usman Minhas until formally delegated",
-    "purpose": "Prevent AKTI ERP from repeating ARI, AKTI OS, plugin, and ERP IV failure patterns by forcing planning discipline, source-of-truth hierarchy, Codex operating rules, CI enforcement, and delivery-first behavior before any Phase 0 or Phase 1 work starts.",
+    "purpose": "Prevent AKTI ERP from repeating ARI, AKTI OS, plugin, and ERP IV failure patterns by forcing planning discipline, source-of-truth hierarchy, Codex operating rules, CI enforcement, and delivery-first behavior. This revision preserves the original doctrine and adds post-Phase-2 autonomous-run lessons.",
     "placement_recommendation": [
       "Save this JSON as docs/doctrine/akti-erp-failure-prevention-codex-operating-doctrine.v1.json",
       "Summarize the operational rules into AGENTS.md",
@@ -647,5 +647,83 @@
       "acceptance": "Implementation plan chooses generator/parsing strategy and CI drift check before code."
     }
   ],
+  "post_phase_2_doctrine_update": {
+    "revision_note": "Post-Phase-2 closure update. Filename remains v1; this section records lessons after Phase 1 PASS and Phase 2 PASS_WITH_ACCEPTED_DEFERRALS.",
+    "phase_status": {
+      "phase_1": "PASS",
+      "phase_1_hardening": "PASS",
+      "phase_2": "PASS_WITH_ACCEPTED_DEFERRALS",
+      "post_merge_main_audit": "PASS_WITH_ACCEPTED_DEFERRALS",
+      "next_planning_target": "Phase 3 Security/Auth/Tenant Hardening"
+    },
+    "corrected_roadmap": [
+      {
+        "phase": "Phase 0",
+        "name": "Governance and source-of-truth baseline",
+        "status": "complete"
+      },
+      {
+        "phase": "Phase 1",
+        "name": "Platform foundation",
+        "status": "complete"
+      },
+      {
+        "phase": "Phase 2",
+        "name": "First module-layer proof: Engagement Gateway, Lead Desk, and WhatsApp stub adapter",
+        "status": "complete_with_accepted_deferrals"
+      },
+      {
+        "phase": "Phase 3",
+        "name": "Security/Auth/Tenant Hardening",
+        "status": "next_planning_target"
+      },
+      {
+        "phase": "Phase 4",
+        "name": "Deployment/Staging/Visual QA",
+        "status": "future_planning_target"
+      },
+      {
+        "phase": "Phase 5",
+        "name": "Foundry/Module Installer Framework",
+        "status": "future_planning_target"
+      },
+      {
+        "phase": "Phase 6+",
+        "name": "Parallel installable modules",
+        "status": "after_foundry_module_installer_exists"
+      }
+    ],
+    "module_classification": {
+      "lead_desk": "business_module",
+      "engagement_gateway": "shared_platform_module",
+      "whatsapp_stub": "integration_adapter"
+    },
+    "autonomous_operating_model": {
+      "stable_contract_flexible_runtime": true,
+      "control_docs_are_not_live_execution_ledgers": true,
+      "runtime_state_sources": [
+        "git history",
+        "run journal",
+        "ticket artifacts",
+        "optional run-state file",
+        "ordered queue"
+      ],
+      "bounded_validation_repair_policy": "Allowed only for deterministic local validation failures inside active ticket scope, with a finite repair budget and hard stops for scope, dependency, architecture, secret, or business-rule issues.",
+      "validation_test_runner_wiring_policy": "Allowed only when wiring active-ticket tests into existing package validation without new dependencies or unrelated script changes.",
+      "exact_file_planning": "Required before edits; broad globs are inspection hints only.",
+      "hard_stops": "Use hard stops only for real blockers such as unsafe environment, forbidden file scope, new dependency, secret access, unclear migration strategy, invented behavior, direct WhatsApp/Meta coupling, frontend without screen contract, or repeated validation failure.",
+      "artifact_policy": "Use lightweight per-ticket artifacts. Heavy packages are reserved for phase gates and final closure.",
+      "full_access_elevated_exception": "The exception remains allowed only when explicitly bounded by active control docs for the current run; it is not retired and does not relax scope, validation, governance, or secret-handling rules."
+    },
+    "accepted_deferrals_after_phase_2": [
+      "production deployment",
+      "production auth/session",
+      "production WhatsApp credentials",
+      "real outbound WhatsApp",
+      "fresh empty-database bootstrap baseline",
+      "runtime route limiting",
+      "browser-rendered frontend tests"
+    ]
+  },
   "final_guardrail": "If the next output is another broad blueprint instead of AGENTS.md, ADRs, contracts, or small-ticket code, the project is repeating the old failure pattern."
 }
