@@ -731,6 +731,7 @@
       "exact_file_plan_required": true,
       "broad_globs_are_inspection_hints_only": true,
       "conditional_replan_required": false,
+      "minimum_concrete_requirement": "A tested auth/tenant request-context infrastructure must exist; docs alone cannot close this ticket.",
       "stale_ticket_risk_notes": "Split from P3-007B to avoid a hidden mega-ticket across the API surface.",
       "runtime_consistency_chain": "auth/session decision -> request context -> controller/service migration -> tests"
     },
@@ -895,6 +896,7 @@
       "exact_file_plan_required": true,
       "broad_globs_are_inspection_hints_only": true,
       "conditional_replan_required": true,
+      "minimum_concrete_requirement": "Tenant isolation enforcement must match P3-003; if implementation is selected, cross-tenant denial tests must pass.",
       "stale_ticket_risk_notes": "Scope depends entirely on P3-003 and must be re-planned after that decision closes.",
       "runtime_consistency_chain": "tenant isolation decision -> enforcement strategy -> cross-tenant negative tests"
     },
@@ -967,6 +969,7 @@
       ],
       "dependencies": [
         "P3-002",
+        "P3-003",
         "P3-007A",
         "P3-007B"
       ],
@@ -975,6 +978,7 @@
       "exact_file_plan_required": true,
       "broad_globs_are_inspection_hints_only": true,
       "conditional_replan_required": false,
+      "minimum_concrete_requirement": "Access Core and Gatekeeper must use trusted context without weakening fail-closed behavior.",
       "stale_ticket_risk_notes": "This ticket must use existing capabilities and Gatekeeper semantics, not rediscover or redefine authorization policy during implementation.",
       "runtime_consistency_chain": "Access Core/Gatekeeper integration -> fail-closed behavior -> no-write-on-failure tests"
     },
@@ -1050,6 +1054,7 @@
       "exact_file_plan_required": true,
       "broad_globs_are_inspection_hints_only": true,
       "conditional_replan_required": true,
+      "minimum_concrete_requirement": "Runtime limiting must be implemented if P3-005 selects an implementable Phase 3 path; otherwise bounded deferral evidence must exist.",
       "stale_ticket_risk_notes": "Scope depends on P3-005 and must be re-planned to avoid implementing the wrong limiter layer.",
       "runtime_consistency_chain": "route limiting decision -> runtime or bounded deferral -> manifest/runtime alignment"
     },
@@ -1128,6 +1133,7 @@
       "exact_file_plan_required": true,
       "broad_globs_are_inspection_hints_only": true,
       "conditional_replan_required": false,
+      "minimum_concrete_requirement": "Approved non-secret env/header/CORS controls must be implemented unless explicitly deferred by P3-004.",
       "stale_ticket_risk_notes": "Non-scope boundaries are explicit so this ticket cannot drift into hidden Phase 4 deployment work.",
       "runtime_consistency_chain": "secrets/env decision -> safe defaults and validation -> headers/CORS controls -> tests"
     },
@@ -1200,13 +1206,15 @@
         "P3-001",
         "P3-002",
         "P3-007A",
-        "P3-007B"
+        "P3-007B",
+        "P3-009"
       ],
       "commit_message": "feat(web): replace lead desk operator context with auth context",
       "rollback_notes": "Revert frontend context/API client/test changes only; preserve backend trusted-context infrastructure.",
       "exact_file_plan_required": true,
       "broad_globs_are_inspection_hints_only": true,
       "conditional_replan_required": false,
+      "minimum_concrete_requirement": "Frontend temporary operator context must be replaced or bounded according to P3-002 with equivalent or stronger tests.",
       "stale_ticket_risk_notes": "Frontend work is gated behind security/auth decisions so temporary operator context is not replaced with another untrusted placeholder.",
       "runtime_consistency_chain": "frontend auth decision -> operator context replacement -> frontend tests"
     },
@@ -1254,7 +1262,8 @@
         "Gatekeeper fail-closed/no-write-on-failure tests",
         "Lead Desk scope enforcement tests",
         "Engagement Gateway mediated WhatsApp boundary tests",
-        "audit/outbox evidence tests"
+        "audit/outbox evidence tests",
+        "Rate-limit negative tests are required if P3-010 implements runtime limiting; bounded deferral evidence is required if P3-010 defers runtime limiting."
       ],
       "validation_commands": [
         "pnpm contracts:validate",
@@ -1289,6 +1298,7 @@
         "P3-007B",
         "P3-008",
         "P3-009",
+        "P3-010",
         "P3-011",
         "P3-012"
       ],
@@ -1376,6 +1386,7 @@
         "full validation ladder passes"
       ],
       "dependencies": [
+        "P3-010",
         "P3-013"
       ],
       "commit_message": "ci: align Phase 3 validation gate naming",
