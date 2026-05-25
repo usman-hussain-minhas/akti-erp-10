@@ -66,3 +66,9 @@ Regenerated P4-009 clean DB/bootstrap evidence after P4-009R. A new disposable l
 Status: COMPLETE.
 
 Executed the controlled local staging/demo deployment proof using disposable local PostgreSQL, local API, and local web processes. The P4-010 split rule was handled through explicit sub-proofs for DB/env connectivity, API process, web process, and integrated API/web/CORS/shutdown-restart behavior. Committed migrations applied successfully, DB-to-schema diff was empty, build passed, API `/health` and web root served, setup organization completed with non-production demo data, CORS allowed only the configured local origin, restart proof passed, proof services stopped cleanly, redaction review passed, and the full validation ladder passed. No production launch, production credentials, deployment implementation, real WhatsApp behavior, Foundry work, AI runtime, or Phase 5/6 scope was introduced.
+
+## P4-011
+
+Status: COMPLETE.
+
+Created and executed a concrete smoke-test matrix against the controlled local staging/demo proof path. Bounded repair attempt 1 fixed shell quoting in the local artifact-generation script; bounded repair attempt 2 shortened the local bearer-token lifetime after Phase 3 max-age enforcement rejected a token at the exact configured boundary. The accepted run proved API health, web availability, setup organization, auth/session success and failure, route organization mismatch denial, Lead Desk create/list/detail, Engagement Gateway whatsapp_stub mediation, audit/outbox evidence, CORS/security headers, and Phase 3 app-level route limiting. P4-011 did not invent P4-015 infrastructure/distributed/proxy route-limiting assumptions. Proof services stopped cleanly, redaction review passed, and the full validation ladder passed.

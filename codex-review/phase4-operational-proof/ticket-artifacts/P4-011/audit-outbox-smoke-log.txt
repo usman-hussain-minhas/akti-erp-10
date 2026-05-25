@@ -1,0 +1,25 @@
+COMMAND: audit/outbox smoke verification
+             action_key              | count
+-------------------------------------+-------
+ engagement.gateway.request.recorded |     1
+ lead.desk.lead.created              |     1
+(2 rows)
+
+             event_type              | count
+-------------------------------------+-------
+ engagement.gateway.request.recorded |     1
+ lead.desk.lead.created              |     1
+ platform.mutation.recorded          |     1
+(3 rows)
+
+ lead_created_outbox
+---------------------
+                   1
+(1 row)
+
+ gateway_recorded_outbox
+-------------------------
+                       1
+(1 row)
+
+EXIT:0

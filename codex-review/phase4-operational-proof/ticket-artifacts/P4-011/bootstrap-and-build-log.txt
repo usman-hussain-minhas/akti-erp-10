@@ -1,0 +1,106 @@
+COMMAND: init disposable PostgreSQL, apply migrations, and build API/web
+The files belonging to this database system will be owned by user "usman".
+This user must also own the server process.
+
+The database cluster will be initialized with locale "C".
+The default text search configuration will be set to "english".
+
+Data page checksums are disabled.
+
+creating directory codex-review/phase4-operational-proof/local-runtime/p4-011/pgdata ... ok
+creating subdirectories ... ok
+selecting dynamic shared memory implementation ... posix
+selecting default max_connections ... 100
+selecting default shared_buffers ... 128MB
+selecting default time zone ... Asia/Karachi
+creating configuration files ... ok
+running bootstrap script ... ok
+performing post-bootstrap initialization ... ok
+syncing data to disk ... ok
+
+Success. You can now start the database server using:
+
+    pg_ctl -D codex-review/phase4-operational-proof/local-runtime/p4-011/pgdata -l logfile start
+
+waiting for server to start.... done
+server started
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "akti_phase4_p4_011_smoke", schema "public" at "127.0.0.1:55433"
+
+6 migrations found in prisma/migrations
+
+Applying migration `20260525180000_initial_schema_baseline`
+Applying migration `20260525193000_p2h005_durable_outbox_foundation`
+Applying migration `20260525200500_p2h007_lead_record_scope_foundation`
+Applying migration `20260525214000_p2h009_lead_history_user_relations`
+Applying migration `20260525220000_p2h010_gateway_request_persistence`
+Applying migration `20260526000000_p4_migration_chain_alignment`
+
+The following migration(s) have been applied:
+
+migrations/
+  └─ 20260525180000_initial_schema_baseline/
+    └─ migration.sql
+  └─ 20260525193000_p2h005_durable_outbox_foundation/
+    └─ migration.sql
+  └─ 20260525200500_p2h007_lead_record_scope_foundation/
+    └─ migration.sql
+  └─ 20260525214000_p2h009_lead_history_user_relations/
+    └─ migration.sql
+  └─ 20260525220000_p2h010_gateway_request_persistence/
+    └─ migration.sql
+  └─ 20260526000000_p4_migration_chain_alignment/
+    └─ migration.sql
+
+All migrations have been successfully applied.
+
+> akti-erp@ build /Volumes/UsmanWork/AKTI ERP 10
+> pnpm --filter @akti/api build && pnpm --filter @akti/web build
+
+
+> @akti/api@0.0.0 build /Volumes/UsmanWork/AKTI ERP 10/apps/api
+> pnpm --filter @akti/contracts build && pnpm exec tsc -p tsconfig.build.json
+
+
+> @akti/contracts@0.0.0 build /Volumes/UsmanWork/AKTI ERP 10/packages/contracts
+> pnpm exec tsc -p tsconfig.build.json
+
+
+> @akti/web@0.0.0 build /Volumes/UsmanWork/AKTI ERP 10/apps/web
+> next build
+
+   ▲ Next.js 15.5.18
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 3.5s
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/8) ...
+   Generating static pages (2/8)
+   Generating static pages (4/8)
+   Generating static pages (6/8)
+ ✓ Generating static pages (8/8)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                 Size  First Load JS
+┌ ○ /                                      129 B         102 kB
+├ ○ /_not-found                            999 B         103 kB
+├ ○ /app                                   129 B         102 kB
+├ ○ /lead-desk/create                    2.57 kB         108 kB
+├ ○ /lead-desk/inbox                     2.57 kB         108 kB
+├ ƒ /lead-desk/leads/[leadId]            2.53 kB         108 kB
+├ ƒ /lead-desk/leads/[leadId]/actions    3.02 kB         108 kB
+└ ○ /setup/organization                  2.13 kB         104 kB
++ First Load JS shared by all             102 kB
+  ├ chunks/1403cfaa-6db8521358bcd91a.js  54.2 kB
+  ├ chunks/159-2398f495578bc26c.js       45.8 kB
+  └ other shared chunks (total)           1.9 kB
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
+EXIT:0
