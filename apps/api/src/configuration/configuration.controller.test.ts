@@ -9,13 +9,16 @@ const AUTH_SECRET = 'phase3-controller-test-secret';
 process.env.AKTI_AUTH_SESSION_SECRET = AUTH_SECRET;
 
 function trustedHeaders(organizationId = 'org-1', actorUserId = 'actor-1'): HeaderRecord {
+  const issuedAt = new Date(Date.now() - 60_000).toISOString();
+  const expiresAt = new Date(Date.now() + 60_000).toISOString();
+
   return {
     authorization: `Bearer ${createPhase3SessionToken(
       {
         organization_id: organizationId,
         actor_user_id: actorUserId,
-        issued_at: '2026-01-01T00:00:00.000Z',
-        expires_at: '2027-01-01T00:00:00.000Z',
+        issued_at: issuedAt,
+        expires_at: expiresAt,
       },
       AUTH_SECRET,
     )}`,

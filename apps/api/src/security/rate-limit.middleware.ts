@@ -4,6 +4,7 @@ const DEFAULT_RATE_LIMIT_MAX_REQUESTS = 120;
 export type RateLimitConfig = {
   windowMs: number;
   maxRequests: number;
+  trustProxyHeaders: boolean;
 };
 
 export type RateLimitRequest = {
@@ -38,6 +39,7 @@ export function readRateLimitConfig(env: NodeJS.ProcessEnv = process.env): RateL
   return {
     windowMs: readPositiveIntegerEnv(env, 'AKTI_RATE_LIMIT_WINDOW_MS', DEFAULT_RATE_LIMIT_WINDOW_MS),
     maxRequests: readPositiveIntegerEnv(env, 'AKTI_RATE_LIMIT_MAX_REQUESTS', DEFAULT_RATE_LIMIT_MAX_REQUESTS),
+    trustProxyHeaders: env.AKTI_TRUST_PROXY_HEADERS === 'true',
   };
 }
 
@@ -91,7 +93,7 @@ export function createRateLimitMiddleware(
   limiter = new InMemoryRateLimiter(config),
 ) {
   return (request: RateLimitRequest, response: RateLimitResponse, next: () => void): void => {
-    const decision = limiter.check(resolveRateLimitKey(request));
+    const decision = limiter.check(resolveRateLimitKey(request, config));
     writeRateLimitHeaders(response, decision);
 
     if (decision.allowed) {
@@ -126,13 +128,22 @@ function writeRateLimitHeaders(response: RateLimitResponse, decision: RateLimitD
   }
 }
 
-function resolveRateLimitKey(request: RateLimitRequest): string {
-  const forwardedFor = readHeader(request, 'x-forwarded-for');
-  const client = forwardedFor?.split(',')[0]?.trim() || request.ip || 'unknown-client';
+function resolveRateLimitKey(request: RateLimitRequest, config: RateLimitConfig): string {
+  const client = resolveClientKey(request, config);
   const method = request.method?.toUpperCase() || 'UNKNOWN';
-  const url = request.originalUrl || request.url || 'unknown-route';
-  const route = url.split('?')[0] || 'unknown-route';
-  return `${client}:${method}:${route}`;
+  return `${client}:${method}`;
+}
+
+function resolveClientKey(request: RateLimitRequest, config: RateLimitConfig): string {
+  if (config.trustProxyHeaders) {
+    const forwardedFor = readHeader(request, 'x-forwarded-for');
+    const firstForwarded = forwardedFor?.split(',')[0]?.trim();
+    if (firstForwarded) {
+      return firstForwarded;
+    }
+  }
+
+  return request.ip || 'unknown-client';
 }
 
 function readHeader(request: RateLimitRequest, key: string): string | null {

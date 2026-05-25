@@ -5,6 +5,7 @@ import { ForbiddenException, UnauthorizedException } from '@nestjs/common';
 const AUTHORIZATION_HEADER = 'authorization';
 const BEARER_PREFIX = 'Bearer ';
 const MIN_SECRET_LENGTH = 16;
+const DEFAULT_SESSION_MAX_AGE_SECONDS = 3600;
 
 export type HeaderValue = string | string[] | undefined;
 
@@ -30,6 +31,7 @@ export type ResolveTrustedRequestContextOptions = {
   routeOrganizationId?: string;
   secret?: string;
   now?: Date;
+  maxAgeSeconds?: number;
 };
 
 function base64UrlEncode(input: string | Buffer): string {
@@ -62,7 +64,32 @@ function requireSecret(secret?: string): string {
   return resolved;
 }
 
-function assertTrustedPayload(input: unknown, now: Date): TrustedRequestContext {
+function resolveSessionMaxAgeSeconds(maxAgeSeconds?: number): number {
+  if (maxAgeSeconds !== undefined) {
+    if (
+      !Number.isSafeInteger(maxAgeSeconds) ||
+      maxAgeSeconds <= 0 ||
+      maxAgeSeconds > Number.MAX_SAFE_INTEGER / 1000
+    ) {
+      throw new UnauthorizedException('AKTI auth session max age is invalid');
+    }
+    return maxAgeSeconds;
+  }
+
+  const raw = process.env.AKTI_AUTH_SESSION_MAX_AGE_SECONDS;
+  if (raw === undefined || raw.trim().length === 0) {
+    return DEFAULT_SESSION_MAX_AGE_SECONDS;
+  }
+
+  const value = Number.parseInt(raw, 10);
+  if (!Number.isSafeInteger(value) || value <= 0 || value > Number.MAX_SAFE_INTEGER / 1000 || value.toString() !== raw.trim()) {
+    throw new UnauthorizedException('AKTI auth session max age is invalid');
+  }
+
+  return value;
+}
+
+function assertTrustedPayload(input: unknown, now: Date, maxAgeSeconds: number): TrustedRequestContext {
   if (!input || typeof input !== 'object') {
     throw new UnauthorizedException('AKTI session payload is invalid');
   }
@@ -89,6 +116,10 @@ function assertTrustedPayload(input: unknown, now: Date): TrustedRequestContext 
 
   if (expiresAtDate.getTime() <= now.getTime()) {
     throw new UnauthorizedException('AKTI session has expired');
+  }
+
+  if (expiresAtDate.getTime() - issuedAtDate.getTime() > maxAgeSeconds * 1000) {
+    throw new UnauthorizedException('AKTI session exceeds configured max age');
   }
 
   return {
@@ -133,6 +164,7 @@ export function verifyPhase3SessionToken(
   options: ResolveTrustedRequestContextOptions = {},
 ): TrustedRequestContext {
   const secret = requireSecret(options.secret);
+  const maxAgeSeconds = resolveSessionMaxAgeSeconds(options.maxAgeSeconds);
   const [encodedPayload, signature, unexpected] = token.split('.');
   if (!encodedPayload || !signature || unexpected !== undefined) {
     throw new UnauthorizedException('AKTI bearer session is malformed');
@@ -159,7 +191,7 @@ export function verifyPhase3SessionToken(
     throw new UnauthorizedException('AKTI bearer session payload is invalid');
   }
 
-  return assertTrustedPayload(parsed, options.now ?? new Date());
+  return assertTrustedPayload(parsed, options.now ?? new Date(), maxAgeSeconds);
 }
 
 export function resolveTrustedRequestContext(

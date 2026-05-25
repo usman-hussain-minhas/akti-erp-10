@@ -156,6 +156,7 @@ Result:
 - API security headers are installed.
 - CORS uses an explicit allow-list and rejects wildcard/unknown origins.
 - In-memory route limiting returns `429` with bounded retry information.
+- `.env.example` is intentionally included as a non-secret template; real `.env` files, local env files, secret-bearing env files, and production credential files remain excluded and out of scope.
 
 Residual risk:
 

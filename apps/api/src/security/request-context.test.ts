@@ -113,6 +113,51 @@ function testExpiredTokenFailsClosed() {
   assert.throws(() => verifyPhase3SessionToken(token, { secret, now }), UnauthorizedException);
 }
 
+function testTokenWithinConfiguredMaxAgePasses() {
+  const token = createPhase3SessionToken(
+    {
+      ...validPayload(),
+      issued_at: '2026-05-25T11:30:00.000Z',
+      expires_at: '2026-05-25T12:30:00.000Z',
+    },
+    secret,
+  );
+
+  const context = verifyPhase3SessionToken(token, { secret, now, maxAgeSeconds: 3600 });
+  assert.equal(context.organization_id, 'org-1');
+  assert.equal(context.actor_user_id, 'user-1');
+}
+
+function testTokenExceedingConfiguredMaxAgeFailsClosed() {
+  const token = createPhase3SessionToken(
+    {
+      ...validPayload(),
+      issued_at: '2026-05-25T10:30:00.000Z',
+      expires_at: '2026-05-25T12:30:00.000Z',
+    },
+    secret,
+  );
+
+  assert.throws(() => verifyPhase3SessionToken(token, { secret, now, maxAgeSeconds: 3600 }), UnauthorizedException);
+}
+
+function testInvalidSessionMaxAgeFailsClosed() {
+  assert.throws(() => verifyPhase3SessionToken(validToken(), { secret, now, maxAgeSeconds: 0 }), UnauthorizedException);
+
+  const previous = process.env.AKTI_AUTH_SESSION_MAX_AGE_SECONDS;
+  process.env.AKTI_AUTH_SESSION_MAX_AGE_SECONDS = 'invalid';
+
+  try {
+    assert.throws(() => verifyPhase3SessionToken(validToken(), { secret, now }), UnauthorizedException);
+  } finally {
+    if (previous === undefined) {
+      delete process.env.AKTI_AUTH_SESSION_MAX_AGE_SECONDS;
+    } else {
+      process.env.AKTI_AUTH_SESSION_MAX_AGE_SECONDS = previous;
+    }
+  }
+}
+
 function testFutureIssuedAtFailsClosed() {
   const token = createPhase3SessionToken(
     {
@@ -212,7 +257,7 @@ function createResponse(): RateLimitResponse & {
 
 function testRateLimitAllowsWithinWindowAndFailsClosedAfterLimit() {
   let nowMs = 1_000;
-  const config = { windowMs: 10_000, maxRequests: 2 };
+  const config = { windowMs: 10_000, maxRequests: 2, trustProxyHeaders: false };
   const limiter = new InMemoryRateLimiter(config, () => nowMs);
   const middleware = createRateLimitMiddleware(config, limiter);
   const request = {
@@ -248,8 +293,8 @@ function testRateLimitAllowsWithinWindowAndFailsClosedAfterLimit() {
   assert.deepEqual(nextCalls, ['first', 'second', 'after-reset']);
 }
 
-function testRateLimitSeparatesClientsAndRoutes() {
-  const config = { windowMs: 10_000, maxRequests: 1 };
+function testRateLimitSeparatesClientsButNotDynamicRoutes() {
+  const config = { windowMs: 10_000, maxRequests: 1, trustProxyHeaders: false };
   const limiter = new InMemoryRateLimiter(config, () => 1_000);
   const middleware = createRateLimitMiddleware(config, limiter);
   const nextCalls: string[] = [];
@@ -265,6 +310,7 @@ function testRateLimitSeparatesClientsAndRoutes() {
     () => nextCalls.push('first-route'),
   );
 
+  const secondRouteResponse = createResponse();
   middleware(
     {
       ip: '198.51.100.10',
@@ -272,7 +318,7 @@ function testRateLimitSeparatesClientsAndRoutes() {
       originalUrl: '/platform/access/organizations/org-1/groups',
       headers: {},
     },
-    createResponse(),
+    secondRouteResponse,
     () => nextCalls.push('second-route'),
   );
 
@@ -287,27 +333,183 @@ function testRateLimitSeparatesClientsAndRoutes() {
     () => nextCalls.push('second-client'),
   );
 
-  const forwardedResponse = createResponse();
+  assert.deepEqual(nextCalls, ['first-route', 'second-client']);
+  assert.equal(secondRouteResponse.statusCode, 429);
+}
+
+function testRateLimitDoesNotTrustForwardedForByDefault() {
+  const config = { windowMs: 10_000, maxRequests: 1, trustProxyHeaders: false };
+  const limiter = new InMemoryRateLimiter(config, () => 1_000);
+  const middleware = createRateLimitMiddleware(config, limiter);
+  const nextCalls: string[] = [];
+
   middleware(
     {
+      ip: '198.51.100.10',
+      method: 'GET',
+      originalUrl: '/platform/access/organizations/org-1/users',
+      headers: {
+        'x-forwarded-for': '203.0.113.20, 10.0.0.1',
+      },
+    },
+    createResponse(),
+    () => nextCalls.push('first'),
+  );
+
+  const spoofedForwardedResponse = createResponse();
+  middleware(
+    {
+      ip: '198.51.100.10',
+      method: 'GET',
+      originalUrl: '/platform/access/organizations/org-1/users',
+      headers: {
+        'x-forwarded-for': '203.0.113.21, 10.0.0.1',
+      },
+    },
+    spoofedForwardedResponse,
+    () => nextCalls.push('spoofed-forwarded'),
+  );
+
+  assert.deepEqual(nextCalls, ['first']);
+  assert.equal(spoofedForwardedResponse.statusCode, 429);
+}
+
+function testRateLimitTrustsFirstForwardedForOnlyWhenExplicitlyEnabled() {
+  const config = { windowMs: 10_000, maxRequests: 1, trustProxyHeaders: true };
+  const limiter = new InMemoryRateLimiter(config, () => 1_000);
+  const middleware = createRateLimitMiddleware(config, limiter);
+  const nextCalls: string[] = [];
+
+  middleware(
+    {
+      ip: '10.0.0.10',
       method: 'GET',
       originalUrl: '/platform/access/organizations/org-1/users',
       headers: {
         'x-forwarded-for': '198.51.100.10, 10.0.0.1',
       },
     },
-    forwardedResponse,
-    () => nextCalls.push('forwarded-repeat'),
+    createResponse(),
+    () => nextCalls.push('first-forwarded-client'),
   );
 
-  assert.deepEqual(nextCalls, ['first-route', 'second-route', 'second-client']);
-  assert.equal(forwardedResponse.statusCode, 429);
+  middleware(
+    {
+      ip: '10.0.0.10',
+      method: 'GET',
+      originalUrl: '/platform/access/organizations/org-1/users',
+      headers: {
+        'x-forwarded-for': '203.0.113.20, 198.51.100.10',
+      },
+    },
+    createResponse(),
+    () => nextCalls.push('second-forwarded-client'),
+  );
+
+  const repeatedForwardedResponse = createResponse();
+  middleware(
+    {
+      ip: '10.0.0.11',
+      method: 'GET',
+      originalUrl: '/platform/access/organizations/org-1/users',
+      headers: {
+        'x-forwarded-for': '198.51.100.10, 203.0.113.20',
+      },
+    },
+    repeatedForwardedResponse,
+    () => nextCalls.push('repeated-forwarded-client'),
+  );
+
+  assert.deepEqual(nextCalls, ['first-forwarded-client', 'second-forwarded-client']);
+  assert.equal(repeatedForwardedResponse.statusCode, 429);
+}
+
+function testInvalidTrustProxyConfigFallsBackSafely() {
+  const config = readRateLimitConfig({
+    AKTI_RATE_LIMIT_WINDOW_MS: '10000',
+    AKTI_RATE_LIMIT_MAX_REQUESTS: '1',
+    AKTI_TRUST_PROXY_HEADERS: 'yes',
+  });
+  const limiter = new InMemoryRateLimiter(config, () => 1_000);
+  const middleware = createRateLimitMiddleware(config, limiter);
+  const nextCalls: string[] = [];
+
+  middleware(
+    {
+      ip: '198.51.100.10',
+      method: 'GET',
+      originalUrl: '/platform/access/organizations/org-1/users',
+      headers: {
+        'x-forwarded-for': '203.0.113.20',
+      },
+    },
+    createResponse(),
+    () => nextCalls.push('first'),
+  );
+
+  const invalidTrustProxyResponse = createResponse();
+  middleware(
+    {
+      ip: '198.51.100.10',
+      method: 'GET',
+      originalUrl: '/platform/access/organizations/org-1/users',
+      headers: {
+        'x-forwarded-for': '203.0.113.21',
+      },
+    },
+    invalidTrustProxyResponse,
+    () => nextCalls.push('invalid-trust-proxy'),
+  );
+
+  assert.deepEqual(nextCalls, ['first']);
+  assert.equal(invalidTrustProxyResponse.statusCode, 429);
+}
+
+function testRateLimitDynamicPathAndQueryVariationCannotBypass() {
+  const config = { windowMs: 10_000, maxRequests: 1, trustProxyHeaders: false };
+
+  for (const [firstUrl, secondUrl] of [
+    ['/platform/access/organizations/org-1/users', '/platform/access/organizations/org-2/users'],
+    ['/api/lead-desk/organizations/org-1/leads/lead-1', '/api/lead-desk/organizations/org-1/leads/lead-2'],
+    ['/api/lead-desk/organizations/org-1/leads?status=new', '/api/lead-desk/organizations/org-1/leads?status=closed'],
+  ]) {
+    const limiter = new InMemoryRateLimiter(config, () => 1_000);
+    const middleware = createRateLimitMiddleware(config, limiter);
+    const nextCalls: string[] = [];
+
+    middleware(
+      {
+        ip: '198.51.100.10',
+        method: 'GET',
+        originalUrl: firstUrl,
+        headers: {},
+      },
+      createResponse(),
+      () => nextCalls.push(firstUrl),
+    );
+
+    const variedPathResponse = createResponse();
+    middleware(
+      {
+        ip: '198.51.100.10',
+        method: 'GET',
+        originalUrl: secondUrl,
+        headers: {},
+      },
+      variedPathResponse,
+      () => nextCalls.push(secondUrl),
+    );
+
+    assert.deepEqual(nextCalls, [firstUrl]);
+    assert.equal(variedPathResponse.statusCode, 429);
+  }
 }
 
 function testRateLimitConfigUsesSafeDefaultsAndRejectsInvalidValues() {
   assert.deepEqual(readRateLimitConfig({}), {
     windowMs: 60_000,
     maxRequests: 120,
+    trustProxyHeaders: false,
   });
 
   assert.deepEqual(
@@ -318,6 +520,33 @@ function testRateLimitConfigUsesSafeDefaultsAndRejectsInvalidValues() {
     {
       windowMs: 5_000,
       maxRequests: 10,
+      trustProxyHeaders: false,
+    },
+  );
+
+  assert.deepEqual(
+    readRateLimitConfig({
+      AKTI_RATE_LIMIT_WINDOW_MS: '5000',
+      AKTI_RATE_LIMIT_MAX_REQUESTS: '10',
+      AKTI_TRUST_PROXY_HEADERS: 'true',
+    }),
+    {
+      windowMs: 5_000,
+      maxRequests: 10,
+      trustProxyHeaders: true,
+    },
+  );
+
+  assert.deepEqual(
+    readRateLimitConfig({
+      AKTI_RATE_LIMIT_WINDOW_MS: '5000',
+      AKTI_RATE_LIMIT_MAX_REQUESTS: '10',
+      AKTI_TRUST_PROXY_HEADERS: 'yes',
+    }),
+    {
+      windowMs: 5_000,
+      maxRequests: 10,
+      trustProxyHeaders: false,
     },
   );
 
@@ -360,6 +589,7 @@ function testRuntimeEnvironmentRequiresSecretAndParsesApprovedEnv() {
       AKTI_SECURITY_HEADERS_ENABLED: 'false',
       AKTI_RATE_LIMIT_WINDOW_MS: '5000',
       AKTI_RATE_LIMIT_MAX_REQUESTS: '10',
+      AKTI_TRUST_PROXY_HEADERS: 'true',
     }),
   );
 
@@ -372,6 +602,7 @@ function testRuntimeEnvironmentRequiresSecretAndParsesApprovedEnv() {
     rateLimit: {
       windowMs: 5_000,
       maxRequests: 10,
+      trustProxyHeaders: true,
     },
   });
 
@@ -453,13 +684,20 @@ function run() {
   testMalformedAuthorizationFailsClosed();
   testTamperedTokenFailsClosed();
   testExpiredTokenFailsClosed();
+  testTokenWithinConfiguredMaxAgePasses();
+  testTokenExceedingConfiguredMaxAgeFailsClosed();
+  testInvalidSessionMaxAgeFailsClosed();
   testFutureIssuedAtFailsClosed();
   testMissingRequiredPayloadContextFailsClosed();
   testShortSessionSecretFailsClosed();
   testRouteOrganizationMismatchFailsClosed();
   testBodyContextMismatchFailsClosed();
   testRateLimitAllowsWithinWindowAndFailsClosedAfterLimit();
-  testRateLimitSeparatesClientsAndRoutes();
+  testRateLimitSeparatesClientsButNotDynamicRoutes();
+  testRateLimitDoesNotTrustForwardedForByDefault();
+  testRateLimitTrustsFirstForwardedForOnlyWhenExplicitlyEnabled();
+  testInvalidTrustProxyConfigFallsBackSafely();
+  testRateLimitDynamicPathAndQueryVariationCannotBypass();
   testRateLimitConfigUsesSafeDefaultsAndRejectsInvalidValues();
   testRuntimeEnvironmentRequiresSecretAndParsesApprovedEnv();
   testSecurityHeadersMiddleware();
