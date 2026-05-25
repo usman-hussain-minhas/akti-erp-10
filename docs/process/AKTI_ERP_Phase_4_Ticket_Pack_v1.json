@@ -1,6 +1,6 @@
 {
   "phase": "Phase 4 - Operational Proof",
-  "status": "PROPOSED_EXECUTION_CONTRACT_NOT_EXECUTED",
+  "status": "PROPOSED_EXECUTION_CONTRACT_NOT_EXECUTED_DEEPENED",
   "baseline": {
     "branch": "main",
     "head": "78b2fff6ba2fe8154f49e3b6768d5a8d2eeeb6fc",
@@ -37,8 +37,25 @@
     "Decision/control tickets P4-001 through P4-008 must not modify runtime source, Prisma, contracts, generated registry, dependencies, deployment implementation, secrets, or tests unless reclassified and explicitly approved.",
     "Exact-file planning is required before every edit. Broad globs are inspection hints only.",
     "Maximum concrete capability means prove controlled staging/demo behavior wherever safe; it does not authorize production launch or out-of-scope implementation.",
-    "DB-level RLS and Prisma tenant transaction architecture are not reopened by default in Phase 4 unless staging/bootstrap evidence proves service-level isolation is insufficient for operational proof."
+    "DB-level RLS and Prisma tenant transaction architecture are not reopened by default in Phase 4 unless staging/bootstrap evidence proves service-level isolation is insufficient for operational proof.",
+    "Do not create permanent ADRs for every operational detail; use ADRs only for true architecture decisions and use process or artifact decision records for operational choices."
   ],
+  "adr_decision_record_discipline": {
+    "use_adrs_for": [
+      "staging/deployment architecture",
+      "auth/session provider path if it changes architecture",
+      "DB/bootstrap architecture if it changes platform assumptions",
+      "route-limiting infrastructure decision if it changes architecture"
+    ],
+    "use_process_or_artifact_records_for": [
+      "screenshot redaction procedure",
+      "backup evidence format",
+      "runbook ownership",
+      "smoke test matrix",
+      "visual QA matrix",
+      "operational procedure choices that do not change architecture"
+    ]
+  },
   "validation_policy": {
     "existing_full_ladder": [
       "pnpm contracts:validate",
@@ -93,16 +110,13 @@
       "ticket_id": "P4-000",
       "title": "Baseline and Post-Phase-3 source confirmation",
       "type": "validation/control",
+      "priority": "critical",
       "dependencies": [],
+      "objective": "Create a concrete Phase 4 baseline inventory so execution starts from repo truth, not stale assumptions.",
       "scope": [
-        "confirm current branch, main/source state, and clean status",
-        "confirm Phase 3 merge commit and Roadmap v2 commit",
-        "confirm Post-Phase-3 source refresh manifest/checksum reference",
-        "confirm accepted deferrals entering Phase 4",
-        "record current validation ladder",
-        "record current public/private endpoint map",
-        "record current env variable list",
-        "record current scripts and CI status"
+        "Confirm main/source state, current HEAD, and clean worktree before Phase 4 work.",
+        "Record Phase 3 merge commit, Phase 3 micro-hardening commit, Roadmap v2 commit, and Post-Phase-3 source refresh manifest/checksum.",
+        "Inventory package scripts, CI workflows, public/protected endpoints, runtime env variables, and Phase 4 inputs from the Phase 3 readiness handoff."
       ],
       "non_scope": [
         "runtime changes",
@@ -118,50 +132,132 @@
         "docs/process/AKTI_ERP_Phase_3_Audit_Report_v1.md",
         "docs/process/AKTI_ERP_Phase_4_Readiness_Handoff_After_Phase_3_v1.md",
         "codex-review/post-phase-3-source-refresh/source-refresh-manifest.md",
+        "codex-review/post-phase-3-source-refresh/source-refresh-checksums.sha256",
         "package.json",
+        "apps/api/package.json",
+        "apps/web/package.json",
         ".github/workflows/*",
-        ".env.example"
+        ".env.example",
+        "apps/api/src/**/*controller.ts",
+        "apps/api/src/security/*",
+        "apps/api/src/main.ts",
+        "apps/web/app/**"
       ],
       "files_expected_to_change": [
-        "codex-review/phase4-operational-proof/ticket-artifacts/P4-000/*"
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-000/baseline-report.md",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-000/repo-state.txt",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-000/validation-script-inventory.md",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-000/env-variable-inventory.md",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-000/endpoint-map.md",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-000/public-private-route-map.md",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-000/accepted-deferrals-entering-phase4.md",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-000/source-refresh-verification.md"
       ],
       "files_forbidden_to_change": [
         "apps/**",
         "packages/**",
         "prisma/**",
         "generated/**",
+        "docs/adr/**",
         "package.json",
         "pnpm-lock.yaml",
-        ".env*",
+        ".env",
+        ".env.*",
         "deployment/staging implementation files"
       ],
-      "exact_file_plan_required": true,
-      "broad_globs_are_inspection_hints_only": true,
-      "conditional_replan_required": false,
+      "required_outputs": [
+        "baseline-report.md",
+        "repo-state.txt",
+        "validation-script-inventory.md",
+        "env-variable-inventory.md",
+        "endpoint-map.md",
+        "public-private-route-map.md",
+        "accepted-deferrals-entering-phase4.md",
+        "source-refresh-verification.md"
+      ],
+      "evidence_artifacts": [
+        "git status output",
+        "git rev-parse HEAD output",
+        "git log evidence for Phase 3 and Roadmap v2 commits",
+        "source refresh manifest/checksum verification summary",
+        "endpoint and env inventories"
+      ],
+      "tests_required": [
+        "No runtime tests. This ticket is inspection and artifact generation only."
+      ],
+      "validation_commands": [
+        "git status --short --branch",
+        "git rev-parse HEAD",
+        "git log --oneline --decorate -20",
+        "node -e \"const p=require('./package.json'); console.log(Object.keys(p.scripts||{}).sort().join('\\n'))\"",
+        "git diff --check",
+        "git status --short --branch"
+      ],
       "validation_expectation": [
         "git status --short --branch",
         "git rev-parse HEAD",
-        "git log -1 --oneline",
-        "git diff --check"
+        "git log --oneline --decorate -20",
+        "node -e \"const p=require('./package.json'); console.log(Object.keys(p.scripts||{}).sort().join('\\n'))\"",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "acceptance_criteria": [
+        "All required outputs exist.",
+        "Baseline records current main HEAD, Phase 3 merge commit, Roadmap v2 commit, source refresh manifest/checksum, scripts, workflows, endpoints, env vars, and Phase 4 handoff inputs.",
+        "No repo-tracked runtime/schema/package files changed."
       ],
       "stop_conditions": [
-        "main/source state is unclear",
-        "Phase 3 or Roadmap v2 evidence is missing",
-        "unexpected uncommitted changes exist"
-      ]
+        "Required source refresh manifest or Phase 4 handoff is missing.",
+        "Repo state is dirty before ticket work.",
+        "Endpoint/env inventory cannot be derived from repo files.",
+        "new dependency is required",
+        "production secret or credential access is required",
+        "production launch is required",
+        "real outbound WhatsApp is required",
+        "Foundry/module installer work is required",
+        "platform AI runtime work is required",
+        "new business module work is required",
+        "destructive migration is required"
+      ],
+      "commit_message": "P4-000 record Phase 4 baseline",
+      "rollback_notes": "Remove P4-000 artifact directory and revert only the P4-000 commit.",
+      "stale_ticket_risk_notes": "Prevents later tickets from assuming stale endpoint, env, script, CI, or source-refresh state.",
+      "runtime_consistency_chain": "baseline repo truth -> env/endpoint/script inventories -> later decisions -> implementation proof artifacts",
+      "minimum_concrete_requirement": "Concrete baseline artifacts must be produced; a narrative summary alone cannot close this ticket.",
+      "requires_human_approval_if": [
+        "new dependency is required",
+        "production secret or credential access is required",
+        "production launch is required",
+        "real outbound WhatsApp is required",
+        "Foundry/module installer work is required",
+        "platform AI runtime work is required",
+        "new business module work is required",
+        "destructive migration is required"
+      ],
+      "failure_classification": {
+        "scope_blocker": "Required work is outside this ticket or Phase 4 boundaries.",
+        "approval_blocker": "Required work needs explicit human approval before proceeding.",
+        "validation_blocker": "Required validation fails after bounded repair.",
+        "evidence_blocker": "Required output or artifact cannot be produced without weakening evidence."
+      },
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": false
     },
     {
       "ticket_id": "P4-001",
       "title": "Operational Proof architecture and boundary decision",
       "type": "decision",
+      "priority": "critical",
       "dependencies": [
         "P4-000"
       ],
+      "objective": "Define exactly what Phase 4 will prove and prevent staging/demo readiness from becoming production launch by implication.",
       "scope": [
-        "define staging/demo readiness vs production launch",
-        "define Phase 4 global boundaries",
-        "define maximum concrete capability rule for controlled operational proof",
-        "preserve Phase 1/2/3 protections"
+        "Define controlled staging/demo readiness.",
+        "Define what counts as running and operationally proven.",
+        "Define what does not count as production launch.",
+        "Define allowed/forbidden environments, evidence required for closure, stop conditions, and Phase 4 exit standard."
       ],
       "non_scope": [
         "runtime implementation",
@@ -172,12 +268,13 @@
       "source_files_to_inspect": [
         "docs/process/AKTI_ERP_Master_Roadmap_Reference_v2.md",
         "docs/process/AKTI_ERP_Phase_4_Readiness_Handoff_After_Phase_3_v1.md",
+        "docs/process/AKTI_ERP_Phase_3_Audit_Report_v1.md",
         "docs/adr/*",
         "AGENTS.md"
       ],
       "files_expected_to_change": [
-        "docs/adr/ADR-0013-phase-4-operational-proof.md",
-        "codex-review/phase4-operational-proof/ticket-artifacts/P4-001/*"
+        "docs/process/AKTI_ERP_Phase_4_Operational_Proof_Boundary_Decision_v1.md",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-001/operational-proof-boundary.md"
       ],
       "files_forbidden_to_change": [
         "apps/**",
@@ -186,33 +283,99 @@
         "generated/**",
         "package.json",
         "pnpm-lock.yaml",
-        ".env*"
+        ".env",
+        ".env.*",
+        "deployment/staging implementation files"
       ],
-      "exact_file_plan_required": true,
-      "broad_globs_are_inspection_hints_only": true,
-      "conditional_replan_required": false,
+      "required_outputs": [
+        "operational-proof-boundary.md or ADR/control decision",
+        "Phase 4 exit standard section",
+        "allowed/forbidden environment matrix",
+        "closure evidence checklist"
+      ],
+      "evidence_artifacts": [
+        "operational-proof-boundary.md",
+        "decision-summary.md",
+        "validation-summary.md"
+      ],
+      "tests_required": [
+        "No runtime tests required unless the decision changes validation docs; parse/check changed docs only."
+      ],
+      "validation_commands": [
+        "git diff --check",
+        "git status --short --branch"
+      ],
       "validation_expectation": [
         "git diff --check",
         "git status --short --branch"
       ],
+      "acceptance_criteria": [
+        "Decision defines controlled staging/demo readiness, running, operationally proven, non-production-launch boundaries, allowed/forbidden environments, closure evidence, stop conditions, and Phase 4 exit standard.",
+        "Exit standard includes clean DB bootstraps, staging/demo runs, smoke tests, browser-rendered proof, visual QA evidence, backup/restore proof, rollback proof, runbook, no-secret audit, and closure package."
+      ],
       "stop_conditions": [
-        "decision would authorize production launch by implication",
-        "decision conflicts with Phase 1/2/3 protections"
-      ]
+        "Decision would authorize production launch by implication.",
+        "Decision cannot define a non-production exit standard.",
+        "new dependency is required",
+        "production secret or credential access is required",
+        "production launch is required",
+        "real outbound WhatsApp is required",
+        "Foundry/module installer work is required",
+        "platform AI runtime work is required",
+        "new business module work is required",
+        "destructive migration is required"
+      ],
+      "commit_message": "P4-001 define Phase 4 operational proof boundary",
+      "rollback_notes": "Revert only the P4-001 decision/control-doc commit.",
+      "stale_ticket_risk_notes": "Prevents later deployment tickets from interpreting Phase 4 as production launch or under-defining operational proof.",
+      "runtime_consistency_chain": "Phase 4 boundary -> staging/demo decisions -> proof tickets -> closure package",
+      "minimum_concrete_requirement": "A decision record with explicit exit standard and environment boundaries must exist; generic scope prose is insufficient.",
+      "requires_human_approval_if": [
+        "new dependency is required",
+        "production secret or credential access is required",
+        "production launch is required",
+        "real outbound WhatsApp is required",
+        "Foundry/module installer work is required",
+        "platform AI runtime work is required",
+        "new business module work is required",
+        "destructive migration is required"
+      ],
+      "failure_classification": {
+        "scope_blocker": "Required work is outside this ticket or Phase 4 boundaries.",
+        "approval_blocker": "Required work needs explicit human approval before proceeding.",
+        "validation_blocker": "Required validation fails after bounded repair.",
+        "evidence_blocker": "Required output or artifact cannot be produced without weakening evidence."
+      },
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": false,
+      "decision_options": [
+        "local disposable staging/demo proof",
+        "containerized demo staging proof",
+        "cloud staging proof without production launch",
+        "stop and request production/deployment approval"
+      ],
+      "selection_criteria": [
+        "No production launch by implication.",
+        "No real production secrets required.",
+        "Sufficient evidence for clean DB bootstrap, staging/demo run, smoke, browser/visual QA, backup/restore, rollback, no-secret audit, and closure package.",
+        "Lowest safe complexity that still proves operational readiness."
+      ],
+      "decision_output_path": "docs/process/AKTI_ERP_Phase_4_Operational_Proof_Boundary_Decision_v1.md",
+      "bounded_repair_allowed": false
     },
     {
       "ticket_id": "P4-002",
       "title": "Environment and secret provisioning decision",
       "type": "decision",
+      "priority": "critical",
       "dependencies": [
         "P4-001"
       ],
+      "objective": "Create an environment matrix and secret provisioning decision that lets Phase 4 prove runtime readiness without accessing real secrets.",
       "scope": [
-        "define env variable model",
-        "define secret injection path",
-        "define no-secret policy",
-        "define .env.example handling",
-        "preserve production secret non-access rule"
+        "Define env variable model, secret injection path, no-secret policy, .env.example handling, and production secret non-access rule.",
+        "Inspect .env.example, runtime env handling, CORS, auth/session secret behavior, rate-limit config, database URL handling, and frontend env assumptions."
       ],
       "non_scope": [
         "real secrets",
@@ -224,47 +387,119 @@
         ".env.example",
         "apps/api/src/security/runtime-environment.ts",
         "apps/api/src/main.ts",
-        "docs/adr/ADR-0010-secrets-environment-headers-cors.md"
+        "apps/api/src/prisma/prisma.service.ts",
+        "apps/api/src/security/request-context.ts",
+        "apps/api/src/security/rate-limit.middleware.ts",
+        "apps/web/app/lead-desk/api-client.ts",
+        "apps/web/app/setup/organization/page.tsx"
       ],
       "files_expected_to_change": [
-        "docs/adr/ADR-0014-phase-4-environment-secret-provisioning.md",
-        "codex-review/phase4-operational-proof/ticket-artifacts/P4-002/*"
+        "docs/process/AKTI_ERP_Phase_4_Environment_Secret_Provisioning_Decision_v1.md",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-002/env-matrix.md"
       ],
       "files_forbidden_to_change": [
         "apps/**",
-        "prisma/**",
         "packages/**",
+        "prisma/**",
+        "generated/**",
+        "package.json",
+        "pnpm-lock.yaml",
         ".env",
         ".env.*",
-        "package.json",
-        "pnpm-lock.yaml"
+        "deployment/staging implementation files"
       ],
-      "exact_file_plan_required": true,
-      "broad_globs_are_inspection_hints_only": true,
-      "conditional_replan_required": false,
+      "required_outputs": [
+        "env-matrix.md with Variable, Used by, Required for local, Required for staging, Required for production, Secret yes/no, Example allowed in .env.example yes/no, Default safe value, Failure behavior if missing, Validation source",
+        "secret-provisioning-decision.md",
+        "env-gap-report.md"
+      ],
+      "evidence_artifacts": [
+        "env-matrix.md",
+        "env-gap-report.md",
+        "no-secret-policy.md",
+        "validation-summary.md"
+      ],
+      "tests_required": [
+        "No runtime tests required unless the decision changes validation docs; parse/check changed docs only."
+      ],
+      "validation_commands": [
+        "git diff --check",
+        "git status --short --branch"
+      ],
       "validation_expectation": [
         "git diff --check",
         "git status --short --branch"
       ],
+      "acceptance_criteria": [
+        "env-matrix.md exists with all required columns.",
+        "Every env var from .env.example and runtime env code is classified.",
+        "Frontend env assumptions are included.",
+        "Runtime-required env vars missing from .env.example or env-matrix cause a stop, not silent continuation."
+      ],
       "stop_conditions": [
-        "real secret access is required",
-        "production credential handling is requested",
-        "new dependency is required"
-      ]
+        "Runtime requires an env var not documented in .env.example or env-matrix.",
+        "Real secret access is required.",
+        "new dependency is required",
+        "production secret or credential access is required",
+        "production launch is required",
+        "real outbound WhatsApp is required",
+        "Foundry/module installer work is required",
+        "platform AI runtime work is required",
+        "new business module work is required",
+        "destructive migration is required"
+      ],
+      "commit_message": "P4-002 define Phase 4 env secret provisioning path",
+      "rollback_notes": "Revert only P4-002 decision artifacts.",
+      "stale_ticket_risk_notes": "Prevents staging proof from discovering undocumented env variables or secret handling too late.",
+      "runtime_consistency_chain": "env variable inventory -> runtime config -> staging config -> no-secret validation -> smoke tests",
+      "minimum_concrete_requirement": "A complete env matrix and secret-provisioning decision must exist; a generic no-secrets statement is insufficient.",
+      "requires_human_approval_if": [
+        "new dependency is required",
+        "production secret or credential access is required",
+        "production launch is required",
+        "real outbound WhatsApp is required",
+        "Foundry/module installer work is required",
+        "platform AI runtime work is required",
+        "new business module work is required",
+        "destructive migration is required"
+      ],
+      "failure_classification": {
+        "scope_blocker": "Required work is outside this ticket or Phase 4 boundaries.",
+        "approval_blocker": "Required work needs explicit human approval before proceeding.",
+        "validation_blocker": "Required validation fails after bounded repair.",
+        "evidence_blocker": "Required output or artifact cannot be produced without weakening evidence."
+      },
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": false,
+      "decision_options": [
+        "document current no-secret template and staging injection path",
+        "add non-secret template names only if approved by exact-file plan",
+        "stop for missing env contract if runtime requires undocumented variables",
+        "stop for production secret/provisioning approval"
+      ],
+      "selection_criteria": [
+        "All runtime-required env vars are documented.",
+        "No secret value is committed or requested.",
+        "Staging can inject secrets out of source control.",
+        "Missing/invalid env failure behavior is explicit."
+      ],
+      "decision_output_path": "docs/process/AKTI_ERP_Phase_4_Environment_Secret_Provisioning_Decision_v1.md",
+      "bounded_repair_allowed": false
     },
     {
       "ticket_id": "P4-003",
       "title": "Staging target and deployment method decision",
       "type": "decision",
+      "priority": "critical",
       "dependencies": [
         "P4-001",
         "P4-002"
       ],
+      "objective": "Select the controlled staging/demo proof path and define the exact minimum deployment evidence before any deployment work.",
       "scope": [
-        "decide local disposable staging vs containerized demo staging vs cloud staging",
-        "separate deployment proof from public production release",
-        "define target constraints and stop conditions",
-        "define allowed evidence shape"
+        "Decide local disposable staging vs containerized demo staging vs cloud staging.",
+        "Define minimum deployment proof, build artifact strategy, API/web process model, DB target, CORS/origin expectation, port/domain expectation, rollback expectation, and logging expectation."
       ],
       "non_scope": [
         "deployment implementation",
@@ -278,48 +513,115 @@
         "apps/web/package.json",
         ".github/workflows/*",
         "apps/api/src/main.ts",
-        "apps/web/next.config.mjs"
+        "apps/web/next.config.mjs",
+        ".env.example"
       ],
       "files_expected_to_change": [
-        "docs/adr/ADR-0015-phase-4-staging-target-deployment-method.md",
-        "codex-review/phase4-operational-proof/ticket-artifacts/P4-003/*"
+        "docs/process/AKTI_ERP_Phase_4_Staging_Target_Deployment_Method_Decision_v1.md",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-003/staging-target-decision.md"
       ],
       "files_forbidden_to_change": [
         "apps/**",
-        "prisma/**",
         "packages/**",
+        "prisma/**",
         "generated/**",
         "package.json",
         "pnpm-lock.yaml",
-        ".env*"
+        ".env",
+        ".env.*",
+        "deployment/staging implementation files"
       ],
-      "exact_file_plan_required": true,
-      "broad_globs_are_inspection_hints_only": true,
-      "conditional_replan_required": false,
+      "required_outputs": [
+        "staging-target-decision.md or ADR",
+        "option matrix with Option, Requirements, Secrets needed, New dependencies, Cost, Operational realism, Validation confidence, Risks, Why accepted/rejected",
+        "minimum-deployment-proof.md"
+      ],
+      "evidence_artifacts": [
+        "staging-target-decision.md",
+        "option-matrix.md",
+        "proof-requirements.md",
+        "validation-summary.md"
+      ],
+      "tests_required": [
+        "No runtime tests required unless the decision changes validation docs; parse/check changed docs only."
+      ],
+      "validation_commands": [
+        "git diff --check",
+        "git status --short --branch"
+      ],
       "validation_expectation": [
         "git diff --check",
         "git status --short --branch"
       ],
+      "acceptance_criteria": [
+        "Option matrix exists and accepts/rejects each option with reasons.",
+        "Minimum deployment proof is concrete.",
+        "Build artifact, process, DB, CORS/origin, port/domain, rollback, and logging expectations are explicit."
+      ],
       "stop_conditions": [
+        "Production launch is required.",
+        "Target requires secrets or dependencies without approval.",
+        "new dependency is required",
+        "production secret or credential access is required",
         "production launch is required",
-        "deployment target requires secrets or credentials",
-        "new dependency is required without approval"
-      ]
+        "real outbound WhatsApp is required",
+        "Foundry/module installer work is required",
+        "platform AI runtime work is required",
+        "new business module work is required",
+        "destructive migration is required"
+      ],
+      "commit_message": "P4-003 decide Phase 4 staging target",
+      "rollback_notes": "Revert only P4-003 decision artifacts.",
+      "stale_ticket_risk_notes": "Prevents P4-010 from discovering target topology, ports, DB target, or evidence requirements mid-run.",
+      "runtime_consistency_chain": "staging target decision -> API/web/DB process model -> staging proof -> smoke/browser/rollback evidence",
+      "minimum_concrete_requirement": "A selected staging/demo target and minimum deployment proof must exist before any staging implementation.",
+      "requires_human_approval_if": [
+        "new dependency is required",
+        "production secret or credential access is required",
+        "production launch is required",
+        "real outbound WhatsApp is required",
+        "Foundry/module installer work is required",
+        "platform AI runtime work is required",
+        "new business module work is required",
+        "destructive migration is required"
+      ],
+      "failure_classification": {
+        "scope_blocker": "Required work is outside this ticket or Phase 4 boundaries.",
+        "approval_blocker": "Required work needs explicit human approval before proceeding.",
+        "validation_blocker": "Required validation fails after bounded repair.",
+        "evidence_blocker": "Required output or artifact cannot be produced without weakening evidence."
+      },
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": false,
+      "decision_options": [
+        "local disposable staging",
+        "containerized demo staging",
+        "cloud staging without production launch",
+        "stop for approval if target requires production resources or new dependencies"
+      ],
+      "selection_criteria": [
+        "No production launch.",
+        "No real production secrets.",
+        "High enough operational realism for Phase 4.",
+        "Validation confidence for API/web/DB/CORS/logging/restart.",
+        "Cost and dependency impact are explicit."
+      ],
+      "decision_output_path": "docs/process/AKTI_ERP_Phase_4_Staging_Target_Deployment_Method_Decision_v1.md",
+      "bounded_repair_allowed": false
     },
     {
       "ticket_id": "P4-004",
       "title": "Fresh DB/bootstrap decision",
       "type": "decision",
+      "priority": "critical",
       "dependencies": [
         "P4-001",
         "P4-002"
       ],
+      "objective": "Define a clean DB bootstrap contract before any fresh database proof runs.",
       "scope": [
-        "define clean DB proof expectations",
-        "define migration path",
-        "define setup organization path",
-        "define seed/admin bootstrap model",
-        "define capability/module registry expectations"
+        "Define exact clean DB, allowed database type, migration command, Prisma generate command, seed/bootstrap command, setup organization path, admin/operator bootstrap strategy, capability seeding expectation, module registry expectation, idempotency expectation, rollback/reset expectation, manual DB hack prohibition, and success criteria."
       ],
       "non_scope": [
         "Prisma/schema implementation",
@@ -333,46 +635,114 @@
         "prisma/schema.prisma",
         "prisma/migrations/*",
         "apps/api/src/organization-setup/*",
-        "apps/api/src/module-registry/module-registry.service.ts"
+        "apps/api/src/module-registry/module-registry.service.ts",
+        "apps/api/src/prisma/prisma.service.ts"
       ],
       "files_expected_to_change": [
-        "docs/adr/ADR-0016-phase-4-fresh-db-bootstrap.md",
-        "codex-review/phase4-operational-proof/ticket-artifacts/P4-004/*"
+        "docs/process/AKTI_ERP_Phase_4_Fresh_DB_Bootstrap_Decision_v1.md",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-004/fresh-db-bootstrap-contract.md"
       ],
       "files_forbidden_to_change": [
         "apps/**",
+        "packages/**",
         "prisma/**",
         "generated/**",
-        "packages/**",
         "package.json",
-        "pnpm-lock.yaml"
+        "pnpm-lock.yaml",
+        ".env",
+        ".env.*",
+        "deployment/staging implementation files"
       ],
-      "exact_file_plan_required": true,
-      "broad_globs_are_inspection_hints_only": true,
-      "conditional_replan_required": false,
+      "required_outputs": [
+        "fresh-db-bootstrap-contract.md with exact clean DB definition, allowed DB type, migration command, Prisma generate command, seed/bootstrap command, setup path, admin/operator strategy, capability/module registry expectations, idempotency, rollback/reset, manual DB hack prohibition, success criteria"
+      ],
+      "evidence_artifacts": [
+        "fresh-db-bootstrap-contract.md",
+        "bootstrap-risk-classification.md",
+        "validation-summary.md"
+      ],
+      "tests_required": [
+        "No runtime tests required unless the decision changes validation docs; parse/check changed docs only."
+      ],
+      "validation_commands": [
+        "git diff --check",
+        "git status --short --branch"
+      ],
       "validation_expectation": [
         "git diff --check",
         "git status --short --branch"
       ],
+      "acceptance_criteria": [
+        "Fresh DB bootstrap contract exists with all required fields.",
+        "P4-009 can run exact commands from this contract or stop with classified blocker.",
+        "DB RLS remains closed unless evidence proves service-level isolation insufficient."
+      ],
       "stop_conditions": [
-        "fresh DB proof requires destructive migration",
-        "production DB access is required",
-        "hardcoded AKTI-only seed assumptions are required"
-      ]
+        "Fresh DB proof requires destructive migration.",
+        "Production DB access is required.",
+        "Hardcoded AKTI-only seed assumptions are required.",
+        "new dependency is required",
+        "production secret or credential access is required",
+        "production launch is required",
+        "real outbound WhatsApp is required",
+        "Foundry/module installer work is required",
+        "platform AI runtime work is required",
+        "new business module work is required",
+        "destructive migration is required"
+      ],
+      "commit_message": "P4-004 define fresh DB bootstrap contract",
+      "rollback_notes": "Revert only P4-004 decision artifacts.",
+      "stale_ticket_risk_notes": "Prevents fresh DB proof from inventing seed behavior, admin setup, reset method, or migration commands mid-run.",
+      "runtime_consistency_chain": "fresh DB decision -> migrations -> setup/bootstrap -> seeded capabilities/modules -> smoke test",
+      "minimum_concrete_requirement": "A command-level bootstrap contract must exist; high-level bootstrap intent is insufficient.",
+      "requires_human_approval_if": [
+        "new dependency is required",
+        "production secret or credential access is required",
+        "production launch is required",
+        "real outbound WhatsApp is required",
+        "Foundry/module installer work is required",
+        "platform AI runtime work is required",
+        "new business module work is required",
+        "destructive migration is required"
+      ],
+      "failure_classification": {
+        "scope_blocker": "Required work is outside this ticket or Phase 4 boundaries.",
+        "approval_blocker": "Required work needs explicit human approval before proceeding.",
+        "validation_blocker": "Required validation fails after bounded repair.",
+        "evidence_blocker": "Required output or artifact cannot be produced without weakening evidence."
+      },
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": false,
+      "decision_options": [
+        "prove against disposable local PostgreSQL",
+        "prove against selected staging PostgreSQL without production data",
+        "document blocker and stop if no safe DB target exists",
+        "reopen DB architecture only if service-level isolation is insufficient for operational proof"
+      ],
+      "selection_criteria": [
+        "Uses PostgreSQL-compatible behavior.",
+        "No production DB/data.",
+        "No destructive migrations.",
+        "No hardcoded AKTI-only assumptions.",
+        "Produces repeatable commands for P4-009."
+      ],
+      "decision_output_path": "docs/process/AKTI_ERP_Phase_4_Fresh_DB_Bootstrap_Decision_v1.md",
+      "bounded_repair_allowed": false
     },
     {
       "ticket_id": "P4-005",
       "title": "Browser-rendered frontend and visual QA decision",
       "type": "decision",
+      "priority": "critical",
       "dependencies": [
         "P4-001",
         "P4-003"
       ],
+      "objective": "Define browser-rendered and visual QA proof in enough detail that P4-012 verifies behavior, not just screenshots.",
       "scope": [
-        "decide browser/visual QA tool or no-new-dependency path",
-        "define routes/screens for browser proof",
-        "define screenshot and evidence redaction handling",
-        "define dependency approval gate"
+        "Decide browser/visual QA tool or no-new-dependency fallback.",
+        "Define routes/screens, user/session state, fixtures, expected visual states, API calls, viewports, screenshots, redaction, and pass/fail criteria."
       ],
       "non_scope": [
         "browser test implementation",
@@ -382,44 +752,116 @@
       "source_files_to_inspect": [
         "apps/web/package.json",
         "apps/web/app/*",
+        "apps/web/app/lead-desk/**",
         "apps/web/test/*",
         "docs/screen-contracts/*"
       ],
       "files_expected_to_change": [
-        "docs/adr/ADR-0017-phase-4-browser-visual-qa.md",
-        "codex-review/phase4-operational-proof/ticket-artifacts/P4-005/*"
+        "docs/process/AKTI_ERP_Phase_4_Browser_Visual_QA_Decision_v1.md",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-005/browser-visual-qa-matrix.md"
       ],
       "files_forbidden_to_change": [
         "apps/**",
+        "packages/**",
+        "prisma/**",
+        "generated/**",
         "package.json",
         "pnpm-lock.yaml",
-        "pnpm-workspace.yaml"
+        ".env",
+        ".env.*",
+        "deployment/staging implementation files"
       ],
-      "exact_file_plan_required": true,
-      "broad_globs_are_inspection_hints_only": true,
-      "conditional_replan_required": false,
+      "required_outputs": [
+        "browser-visual-qa-matrix.md with Route/screen, Purpose, Required user/session state, Data fixture needed, Expected visual state, Expected API calls, Viewports, Screenshot required, Redaction required, Pass/fail criteria",
+        "tool-decision.md",
+        "dependency-approval-status.md"
+      ],
+      "evidence_artifacts": [
+        "browser-visual-qa-matrix.md",
+        "tool-decision.md",
+        "screen-coverage-map.md",
+        "validation-summary.md"
+      ],
+      "tests_required": [
+        "No runtime tests required unless the decision changes validation docs; parse/check changed docs only."
+      ],
+      "validation_commands": [
+        "git diff --check",
+        "git status --short --branch"
+      ],
       "validation_expectation": [
         "git diff --check",
         "git status --short --branch"
       ],
+      "acceptance_criteria": [
+        "Browser/visual matrix exists and covers minimum screens.",
+        "Tool path is selected or explicit dependency approval stop is recorded.",
+        "P4-012 has behavior assertions and redaction requirements."
+      ],
       "stop_conditions": [
-        "Playwright or another browser test tool is needed without explicit dependency approval",
-        "browser evidence would expose tokens or secrets"
-      ]
+        "Playwright or another browser test tool is needed without explicit dependency approval.",
+        "No safe redaction path exists for screenshots.",
+        "new dependency is required",
+        "production secret or credential access is required",
+        "production launch is required",
+        "real outbound WhatsApp is required",
+        "Foundry/module installer work is required",
+        "platform AI runtime work is required",
+        "new business module work is required",
+        "destructive migration is required"
+      ],
+      "commit_message": "P4-005 decide browser visual QA path",
+      "rollback_notes": "Revert only P4-005 decision artifacts.",
+      "stale_ticket_risk_notes": "Prevents P4-012 from becoming screenshot-only evidence or discovering missing browser tooling late.",
+      "runtime_consistency_chain": "browser QA decision -> frontend route/session fixtures -> browser behavior checks -> visual evidence",
+      "minimum_concrete_requirement": "A screen-by-screen browser/visual QA matrix must exist; generic visual QA scope is insufficient.",
+      "requires_human_approval_if": [
+        "new dependency is required",
+        "production secret or credential access is required",
+        "production launch is required",
+        "real outbound WhatsApp is required",
+        "Foundry/module installer work is required",
+        "platform AI runtime work is required",
+        "new business module work is required",
+        "destructive migration is required"
+      ],
+      "failure_classification": {
+        "scope_blocker": "Required work is outside this ticket or Phase 4 boundaries.",
+        "approval_blocker": "Required work needs explicit human approval before proceeding.",
+        "validation_blocker": "Required validation fails after bounded repair.",
+        "evidence_blocker": "Required output or artifact cannot be produced without weakening evidence."
+      },
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": false,
+      "decision_options": [
+        "use already-approved browser tooling if present",
+        "stop for Playwright or other dependency approval",
+        "define bounded no-new-dependency fallback with explicit limitations",
+        "defer browser proof only if separately accepted as Phase 4 blocker/deferral"
+      ],
+      "selection_criteria": [
+        "Verifies behavior, not only screenshots.",
+        "Covers setup organization, portal/app shell, Lead Desk list/create/detail/actions where present, Engagement Gateway stub-related state if surfaced, auth/session/operator context flow, and existing error/empty states.",
+        "Prevents token/secret leakage in DOM/screenshots/logs.",
+        "Does not add dependencies without approval."
+      ],
+      "decision_output_path": "docs/process/AKTI_ERP_Phase_4_Browser_Visual_QA_Decision_v1.md",
+      "bounded_repair_allowed": false
     },
     {
       "ticket_id": "P4-006",
       "title": "Backup/restore and rollback decision",
       "type": "decision",
+      "priority": "critical",
       "dependencies": [
         "P4-003",
         "P4-004"
       ],
+      "objective": "Define recovery and rollback proof before any backup, restore, or rollback drill runs.",
       "scope": [
-        "define backup/restore method",
-        "define rollback method",
-        "define evidence shape",
-        "define no production data rule"
+        "Define backup target, restore target, allowed data source, no-production-data proof, RPO/RTO expectation for staging/demo, backup command/procedure, restore command/procedure, rollback trigger, rollback procedure, evidence files, redaction process.",
+        "Distinguish database restore, application rollback, config/env rollback, and migration rollback/no-destructive-migration policy."
       ],
       "non_scope": [
         "backup implementation",
@@ -431,43 +873,117 @@
         "prisma/schema.prisma",
         "prisma/migrations/*",
         "docs/adr/ADR-0012-fresh-db-bootstrap.md",
+        "docs/process/AKTI_ERP_Phase_4_Operational_Proof_Plan_v1.md",
         "docs/process/AKTI_ERP_Phase_4_Readiness_Handoff_After_Phase_3_v1.md"
       ],
       "files_expected_to_change": [
-        "docs/adr/ADR-0018-phase-4-backup-restore-rollback.md",
-        "codex-review/phase4-operational-proof/ticket-artifacts/P4-006/*"
+        "docs/process/AKTI_ERP_Phase_4_Backup_Restore_Rollback_Decision_v1.md",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-006/backup-restore-rollback-decision.md"
       ],
       "files_forbidden_to_change": [
         "apps/**",
-        "prisma/**",
         "packages/**",
+        "prisma/**",
         "generated/**",
-        ".env*"
+        "package.json",
+        "pnpm-lock.yaml",
+        ".env",
+        ".env.*",
+        "deployment/staging implementation files"
       ],
-      "exact_file_plan_required": true,
-      "broad_globs_are_inspection_hints_only": true,
-      "conditional_replan_required": false,
+      "required_outputs": [
+        "backup-restore-rollback-decision.md",
+        "backup-procedure.md",
+        "restore-procedure.md",
+        "rollback-procedure.md",
+        "redaction-procedure.md"
+      ],
+      "evidence_artifacts": [
+        "decision/runbook section",
+        "procedure files",
+        "RPO-RTO-staging-demo.md",
+        "validation-summary.md"
+      ],
+      "tests_required": [
+        "No runtime tests required unless the decision changes validation docs; parse/check changed docs only."
+      ],
+      "validation_commands": [
+        "git diff --check",
+        "git status --short --branch"
+      ],
       "validation_expectation": [
         "git diff --check",
         "git status --short --branch"
       ],
+      "acceptance_criteria": [
+        "Decision distinguishes database restore, application rollback, config/env rollback, and migration rollback policy.",
+        "Backup/restore/rollback evidence file list is concrete.",
+        "P4-013 can run exact commands or stop with classified blocker."
+      ],
       "stop_conditions": [
-        "production data is required",
-        "destructive operation is required",
-        "restore proof cannot be redacted"
-      ]
+        "Production data is required.",
+        "Destructive operation is required.",
+        "Restore proof cannot be redacted.",
+        "new dependency is required",
+        "production secret or credential access is required",
+        "production launch is required",
+        "real outbound WhatsApp is required",
+        "Foundry/module installer work is required",
+        "platform AI runtime work is required",
+        "new business module work is required",
+        "destructive migration is required"
+      ],
+      "commit_message": "P4-006 decide backup restore rollback proof",
+      "rollback_notes": "Revert only P4-006 decision artifacts.",
+      "stale_ticket_risk_notes": "Prevents P4-013 from inventing recovery definitions or using production data during drill execution.",
+      "runtime_consistency_chain": "backup/restore decision -> drill commands -> rollback runbook -> closure evidence",
+      "minimum_concrete_requirement": "A procedure-level recovery decision must exist; generic backup/rollback scope is insufficient.",
+      "requires_human_approval_if": [
+        "new dependency is required",
+        "production secret or credential access is required",
+        "production launch is required",
+        "real outbound WhatsApp is required",
+        "Foundry/module installer work is required",
+        "platform AI runtime work is required",
+        "new business module work is required",
+        "destructive migration is required"
+      ],
+      "failure_classification": {
+        "scope_blocker": "Required work is outside this ticket or Phase 4 boundaries.",
+        "approval_blocker": "Required work needs explicit human approval before proceeding.",
+        "validation_blocker": "Required validation fails after bounded repair.",
+        "evidence_blocker": "Required output or artifact cannot be produced without weakening evidence."
+      },
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": false,
+      "decision_options": [
+        "database snapshot/dump against non-production data",
+        "application rollback to prior git commit/build artifact",
+        "config/env rollback using redacted template inventory",
+        "stop if rollback requires destructive migration or production data"
+      ],
+      "selection_criteria": [
+        "No production data.",
+        "No destructive operations.",
+        "Repeatable evidence files.",
+        "Clear rollback meaning: prior git commit, prior build artifact, prior DB snapshot, or previous env config."
+      ],
+      "decision_output_path": "docs/process/AKTI_ERP_Phase_4_Backup_Restore_Rollback_Decision_v1.md",
+      "bounded_repair_allowed": false
     },
     {
       "ticket_id": "P4-007",
       "title": "Distributed/infrastructure route limiting decision",
       "type": "decision",
+      "priority": "high",
       "dependencies": [
         "P4-003"
       ],
+      "objective": "Resolve whether Phase 4 needs infra/distributed route limiting evidence while preserving the Phase 3 in-app limiter.",
       "scope": [
-        "decide whether Phase 4 proves infra limiter, documents bounded deferral, or configures staging-safe proxy behavior",
-        "preserve Phase 3 app limiter",
-        "define validation and negative evidence expectations"
+        "Decide one resolution mode: app limiter only sufficient for controlled staging/demo; staging proxy/header trust behavior documented; infra/distributed limiter required and stop for approval; or defer distributed limiter to production deployment decision.",
+        "Define P4-015 reclassification and validation needs."
       ],
       "non_scope": [
         "removing app limiter",
@@ -478,47 +994,116 @@
         "docs/adr/ADR-0011-runtime-route-limiting.md",
         "apps/api/src/security/rate-limit.middleware.ts",
         "apps/api/src/main.ts",
-        ".env.example"
+        ".env.example",
+        "docs/process/AKTI_ERP_Phase_4_Readiness_Handoff_After_Phase_3_v1.md"
       ],
       "files_expected_to_change": [
-        "docs/adr/ADR-0019-phase-4-infra-route-limiting.md",
-        "codex-review/phase4-operational-proof/ticket-artifacts/P4-007/*"
+        "docs/process/AKTI_ERP_Phase_4_Infrastructure_Route_Limiting_Decision_v1.md",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-007/route-limiting-resolution-mode.md"
       ],
       "files_forbidden_to_change": [
         "apps/**",
+        "packages/**",
+        "prisma/**",
+        "generated/**",
         "package.json",
         "pnpm-lock.yaml",
-        ".env*",
+        ".env",
+        ".env.*",
         "deployment/staging implementation files"
       ],
-      "exact_file_plan_required": true,
-      "broad_globs_are_inspection_hints_only": true,
-      "conditional_replan_required": false,
+      "required_outputs": [
+        "route-limiting-resolution-mode.md with A/B/C/D decision",
+        "proxy-header-trust-notes.md if applicable",
+        "P4-015-reclassification.md"
+      ],
+      "evidence_artifacts": [
+        "route-limiting-resolution-mode.md",
+        "validation-summary.md"
+      ],
+      "tests_required": [
+        "No runtime tests required unless the decision changes validation docs; parse/check changed docs only."
+      ],
+      "validation_commands": [
+        "git diff --check",
+        "git status --short --branch"
+      ],
       "validation_expectation": [
         "git diff --check",
         "git status --short --branch"
       ],
+      "acceptance_criteria": [
+        "One of A/B/C/D is selected.",
+        "P4-015 resolution_mode_set_by references P4-007.",
+        "Decision says app limiter must not be removed."
+      ],
       "stop_conditions": [
-        "app limiter would be removed",
-        "new infrastructure dependency is required without approval",
-        "production traffic control is requested"
-      ]
+        "App limiter would be removed.",
+        "New infrastructure dependency is required without approval.",
+        "Production traffic control is requested.",
+        "new dependency is required",
+        "production secret or credential access is required",
+        "production launch is required",
+        "real outbound WhatsApp is required",
+        "Foundry/module installer work is required",
+        "platform AI runtime work is required",
+        "new business module work is required",
+        "destructive migration is required"
+      ],
+      "commit_message": "P4-007 decide infrastructure route limiting path",
+      "rollback_notes": "Revert only P4-007 decision artifacts.",
+      "stale_ticket_risk_notes": "Prevents P4-015 from guessing whether route limiting is validation-only, docs-only, implementation-with-approval, or accepted deferral.",
+      "runtime_consistency_chain": "route limiting decision -> proxy/infra behavior -> app limiter fallback -> negative tests or bounded deferral",
+      "minimum_concrete_requirement": "A concrete A/B/C/D route-limiting resolution mode must be selected.",
+      "requires_human_approval_if": [
+        "new dependency is required",
+        "production secret or credential access is required",
+        "production launch is required",
+        "real outbound WhatsApp is required",
+        "Foundry/module installer work is required",
+        "platform AI runtime work is required",
+        "new business module work is required",
+        "destructive migration is required"
+      ],
+      "failure_classification": {
+        "scope_blocker": "Required work is outside this ticket or Phase 4 boundaries.",
+        "approval_blocker": "Required work needs explicit human approval before proceeding.",
+        "validation_blocker": "Required validation fails after bounded repair.",
+        "evidence_blocker": "Required output or artifact cannot be produced without weakening evidence."
+      },
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": false,
+      "decision_options": [
+        "A. app limiter only is sufficient for controlled staging/demo",
+        "B. staging proxy/header trust behavior must be documented",
+        "C. infra/distributed limiter is required and must stop for explicit approval",
+        "D. defer distributed limiter to production deployment decision"
+      ],
+      "selection_criteria": [
+        "Controlled staging/demo risk is addressed.",
+        "Phase 3 in-app limiter is preserved.",
+        "Header trust behavior is explicit.",
+        "No infra dependency is introduced without approval."
+      ],
+      "decision_output_path": "docs/process/AKTI_ERP_Phase_4_Infrastructure_Route_Limiting_Decision_v1.md",
+      "bounded_repair_allowed": false
     },
     {
       "ticket_id": "P4-008",
-      "title": "Production auth/session provider provisioning path decision",
+      "title": "Auth/session provisioning path and staging-safe auth decision",
       "type": "decision",
+      "priority": "critical",
       "dependencies": [
         "P4-002",
         "P4-003"
       ],
+      "objective": "Define acceptable Phase 4 staging-safe auth behavior while preserving Phase 3 request-context boundaries and leaving production provider work explicitly approved later.",
       "scope": [
-        "decide production provider path vs staging-safe auth path",
-        "define no real credentials boundary",
-        "define dependency approval gate",
-        "preserve Phase 3 request-context model"
+        "Define staging-safe auth behavior, production provider options, credentials not accessed, dependency approval gate, Phase 3 token/session boundary preservation, acceptable browser-test auth path, and remaining production decision."
       ],
       "non_scope": [
+        "Auth0/Clerk/Supabase/etc integration unless separately approved",
         "real credentials",
         "provider implementation",
         "login UX implementation",
@@ -527,50 +1112,119 @@
       "source_files_to_inspect": [
         "docs/adr/ADR-0008-auth-session-identity-tenant-context.md",
         "apps/api/src/security/request-context.ts",
+        "apps/api/src/security/runtime-environment.ts",
         "apps/web/app/lead-desk/operator-context.ts",
-        "apps/web/app/lead-desk/api-client.ts"
+        "apps/web/app/lead-desk/api-client.ts",
+        "apps/web/test/lead-desk-screens.test.mjs"
       ],
       "files_expected_to_change": [
-        "docs/adr/ADR-0020-phase-4-auth-provider-provisioning-path.md",
-        "codex-review/phase4-operational-proof/ticket-artifacts/P4-008/*"
+        "docs/process/AKTI_ERP_Phase_4_Auth_Session_Provisioning_Path_Decision_v1.md",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-008/auth-session-provisioning-path.md"
       ],
       "files_forbidden_to_change": [
         "apps/**",
         "packages/**",
         "prisma/**",
+        "generated/**",
         "package.json",
         "pnpm-lock.yaml",
-        ".env*"
+        ".env",
+        ".env.*",
+        "deployment/staging implementation files"
       ],
-      "exact_file_plan_required": true,
-      "broad_globs_are_inspection_hints_only": true,
-      "conditional_replan_required": false,
+      "required_outputs": [
+        "auth-session-provisioning-path.md",
+        "staging-safe-auth-behavior.md",
+        "production-provider-options.md",
+        "browser-test-auth-boundary.md",
+        "dependency-approval-gate.md"
+      ],
+      "evidence_artifacts": [
+        "auth-session-provisioning-path.md",
+        "provider-option-matrix.md",
+        "validation-summary.md"
+      ],
+      "tests_required": [
+        "No runtime tests required unless the decision changes validation docs; parse/check changed docs only."
+      ],
+      "validation_commands": [
+        "git diff --check",
+        "git status --short --branch"
+      ],
       "validation_expectation": [
         "git diff --check",
         "git status --short --branch"
       ],
+      "acceptance_criteria": [
+        "Decision defines staging-safe auth behavior and browser-test auth path.",
+        "Production provider options and remaining production decision are explicit.",
+        "Decision forbids Auth0/Clerk/Supabase/etc integration unless separately approved."
+      ],
       "stop_conditions": [
-        "real auth credentials are required",
-        "new auth dependency is required without approval",
-        "Phase 3 trusted context would be weakened"
-      ]
+        "Real auth credentials are required.",
+        "New auth dependency is required without approval.",
+        "Phase 3 trusted context would be weakened.",
+        "new dependency is required",
+        "production secret or credential access is required",
+        "production launch is required",
+        "real outbound WhatsApp is required",
+        "Foundry/module installer work is required",
+        "platform AI runtime work is required",
+        "new business module work is required",
+        "destructive migration is required"
+      ],
+      "commit_message": "P4-008 decide auth session provisioning path",
+      "rollback_notes": "Revert only P4-008 decision artifacts.",
+      "stale_ticket_risk_notes": "Prevents browser/staging tickets from treating Phase 3 bearer token as production auth or integrating a provider without approval.",
+      "runtime_consistency_chain": "auth provisioning decision -> request context -> frontend session context -> browser tests",
+      "minimum_concrete_requirement": "A staging-safe auth path and production-provider boundary must be documented before browser/staging proofs.",
+      "requires_human_approval_if": [
+        "new dependency is required",
+        "production secret or credential access is required",
+        "production launch is required",
+        "real outbound WhatsApp is required",
+        "Foundry/module installer work is required",
+        "platform AI runtime work is required",
+        "new business module work is required",
+        "destructive migration is required"
+      ],
+      "failure_classification": {
+        "scope_blocker": "Required work is outside this ticket or Phase 4 boundaries.",
+        "approval_blocker": "Required work needs explicit human approval before proceeding.",
+        "validation_blocker": "Required validation fails after bounded repair.",
+        "evidence_blocker": "Required output or artifact cannot be produced without weakening evidence."
+      },
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": false,
+      "decision_options": [
+        "continue Phase 3 signed session envelope for staging-safe browser tests",
+        "define production provider shortlist without integration",
+        "stop for explicit provider/dependency approval",
+        "defer production provider integration to production deployment decision"
+      ],
+      "selection_criteria": [
+        "Preserves Phase 3 trusted request context.",
+        "No real credentials.",
+        "No dependency without approval.",
+        "Browser tests can authenticate safely without exposing tokens in evidence.",
+        "Production provider work remains explicitly bounded."
+      ],
+      "decision_output_path": "docs/process/AKTI_ERP_Phase_4_Auth_Session_Provisioning_Path_Decision_v1.md",
+      "bounded_repair_allowed": false
     },
     {
       "ticket_id": "P4-009",
       "title": "Fresh DB/bootstrap implementation proof",
       "type": "implementation/validation",
+      "priority": "critical",
       "dependencies": [
         "P4-004"
       ],
+      "objective": "Execute the P4-004 clean DB bootstrap contract and produce command-level proof or a classified blocker.",
       "scope": [
-        "re-plan after P4-004 before implementation",
-        "prove clean DB can migrate",
-        "prove Prisma client/generation path works if needed",
-        "prove required capabilities/modules can seed/register",
-        "prove setup organization path works",
-        "prove admin/operator access can be created or simulated safely according to P4-004",
-        "prove API/web smoke path loads",
-        "prove no manual DB hacks are required"
+        "Re-plan after P4-004 before implementation.",
+        "Use exact DB target, reset method, migration command, Prisma generate command, seed/bootstrap command, setup organization path, capability/module registry checks, smoke evidence, and no-manual-hack evidence from P4-004."
       ],
       "non_scope": [
         "production DB access",
@@ -579,6 +1233,7 @@
         "DB RLS implementation unless separately approved"
       ],
       "source_files_to_inspect": [
+        "docs/process/AKTI_ERP_Phase_4_Fresh_DB_Bootstrap_Decision_v1.md",
         "prisma/schema.prisma",
         "prisma/migrations/*",
         "apps/api/src/organization-setup/*",
@@ -586,48 +1241,170 @@
         "apps/api/src/prisma/*"
       ],
       "files_expected_to_change": [
-        "exact-file plan required after P4-004",
-        "codex-review/phase4-operational-proof/ticket-artifacts/P4-009/*"
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-009/fresh-db-run-log.txt",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-009/migration-log.txt",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-009/seed-or-bootstrap-log.txt",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-009/setup-organization-smoke-log.txt",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-009/capability-registry-check-log.txt",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-009/manual-hack-attestation.md"
       ],
       "files_forbidden_to_change": [
         ".env",
         ".env.*",
         "production credential files",
-        "unapproved Prisma/schema/migration changes"
+        "real secrets",
+        "prisma/schema.prisma unless explicitly approved by active ticket",
+        "prisma/migrations/** unless explicitly approved by active ticket",
+        "packages/** unless explicitly approved by active ticket",
+        "generated/entity-registry.generated.json unless intentionally regenerated and checked",
+        "package.json unless explicitly approved",
+        "pnpm-lock.yaml unless explicitly approved",
+        "deployment/staging implementation files unless active ticket explicitly authorizes them"
       ],
-      "exact_file_plan_required": true,
-      "broad_globs_are_inspection_hints_only": true,
-      "conditional_replan_required": true,
-      "validation_expectation": [
-        "P4-004-defined clean DB/bootstrap proof",
+      "required_outputs": [
+        "fresh-db-run-log.txt",
+        "migration-log.txt",
+        "seed-or-bootstrap-log.txt",
+        "setup-organization-smoke-log.txt",
+        "capability-registry-check-log.txt",
+        "manual-hack-attestation.md",
+        "blocker-classification.md only if bootstrap cannot complete"
+      ],
+      "evidence_artifacts": [
+        "fresh DB command logs",
+        "migration evidence",
+        "bootstrap/setup evidence",
+        "capability/module registry evidence",
+        "manual hack attestation"
+      ],
+      "tests_required": [
+        "Clean DB bootstrap commands from P4-004.",
+        "Setup organization smoke path.",
+        "Capability/module registry seed verification.",
+        "Full validation ladder after proof."
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
         "pnpm exec prisma validate --schema prisma/schema.prisma",
         "pnpm exec prisma generate --schema prisma/schema.prisma",
         "pnpm registry:generate",
+        "git diff --exit-code -- generated/entity-registry.generated.json",
         "pnpm registry:check",
+        "pnpm registry:verify:phase2",
+        "pnpm lint",
+        "pnpm typecheck",
         "pnpm test",
-        "git diff --check"
+        "pnpm build",
+        "git diff -- prisma/schema.prisma",
+        "git diff -- prisma/entity-registry.metadata.json",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "validation_expectation": [
+        "pnpm contracts:validate",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm exec prisma generate --schema prisma/schema.prisma",
+        "pnpm registry:generate",
+        "git diff --exit-code -- generated/entity-registry.generated.json",
+        "pnpm registry:check",
+        "pnpm registry:verify:phase2",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff -- prisma/schema.prisma",
+        "git diff -- prisma/entity-registry.metadata.json",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "acceptance_criteria": [
+        "P4-004 is closed before work starts.",
+        "All required artifacts exist.",
+        "No manual DB hacks are used.",
+        "Any blocker is classified exactly."
       ],
       "stop_conditions": [
-        "P4-004 is not closed",
-        "destructive migration is required",
-        "manual DB hacks are required",
-        "production DB access is required"
-      ]
+        "P4-004 is not closed.",
+        "Clean DB cannot bootstrap without runtime/source changes outside exact-file plan.",
+        "Production DB access is required.",
+        "Manual DB hacks are required.",
+        "new dependency is required",
+        "production secret or credential access is required",
+        "production launch is required",
+        "real outbound WhatsApp is required",
+        "Foundry/module installer work is required",
+        "platform AI runtime work is required",
+        "new business module work is required",
+        "destructive migration is required"
+      ],
+      "commit_message": "P4-009 prove fresh DB bootstrap",
+      "rollback_notes": "Remove P4-009 artifacts and revert any approved proof-support changes from this ticket only.",
+      "stale_ticket_risk_notes": "Requires exact commands from P4-004 to avoid generic bootstrap claims.",
+      "runtime_consistency_chain": "fresh DB -> migrations -> bootstrap/setup -> seeded capabilities/modules -> smoke tests",
+      "minimum_concrete_requirement": "Command-level clean DB bootstrap evidence must exist or a classified blocker must stop execution.",
+      "requires_human_approval_if": [
+        "new dependency is required",
+        "production secret or credential access is required",
+        "production launch is required",
+        "real outbound WhatsApp is required",
+        "Foundry/module installer work is required",
+        "platform AI runtime work is required",
+        "new business module work is required",
+        "destructive migration is required"
+      ],
+      "failure_classification": {
+        "scope_blocker": "Required work is outside this ticket or Phase 4 boundaries.",
+        "approval_blocker": "Required work needs explicit human approval before proceeding.",
+        "validation_blocker": "Required validation fails after bounded repair.",
+        "evidence_blocker": "Required output or artifact cannot be produced without weakening evidence."
+      },
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": true,
+      "commands_to_run": [
+        "Run exact reset command from fresh-db-bootstrap-contract.md.",
+        "Run exact migration command from fresh-db-bootstrap-contract.md.",
+        "pnpm exec prisma generate --schema prisma/schema.prisma",
+        "Run exact seed/bootstrap command from fresh-db-bootstrap-contract.md.",
+        "Run exact setup organization smoke command from fresh-db-bootstrap-contract.md.",
+        "Run exact capability/module registry check command from fresh-db-bootstrap-contract.md.",
+        "pnpm contracts:validate",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm exec prisma generate --schema prisma/schema.prisma",
+        "pnpm registry:generate",
+        "git diff --exit-code -- generated/entity-registry.generated.json",
+        "pnpm registry:check",
+        "pnpm registry:verify:phase2",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff -- prisma/schema.prisma",
+        "git diff -- prisma/entity-registry.metadata.json",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "pass_fail_criteria": [
+        "PASS when all required logs exist, commands exit 0, clean DB bootstrap completes without manual DB hacks, setup path works, capability/module registry expectations pass, and no forbidden files drift.",
+        "FAIL/STOP when clean DB cannot bootstrap; classify as missing seed script, missing setup route support, missing capability registration, migration issue, config/env issue, or accepted deferral candidate."
+      ],
+      "split_if": "Split before implementation if P4-004 requires separate DB reset, migration, setup/bootstrap, registry, and smoke proof changes that touch different file sets or runtime layers.",
+      "bounded_repair_allowed": true
     },
     {
       "ticket_id": "P4-010",
       "title": "Staging/deployment proof",
       "type": "implementation/validation",
+      "priority": "critical",
       "dependencies": [
         "P4-002",
         "P4-003",
         "P4-009"
       ],
+      "objective": "Execute the selected controlled staging/demo deployment proof without turning it into production launch.",
       "scope": [
-        "re-plan after P4-002 and P4-003 before implementation",
-        "prove controlled staging/demo deployment path",
-        "separate staging proof from production launch",
-        "capture redacted staging evidence"
+        "Re-plan after P4-002 and P4-003 before implementation.",
+        "Produce evidence for build, process startup, env injection, DB connection, API health, web serving, CORS/origin, logs, shutdown/restart."
       ],
       "non_scope": [
         "production launch",
@@ -636,6 +1413,8 @@
         "unapproved dependencies"
       ],
       "source_files_to_inspect": [
+        "docs/process/AKTI_ERP_Phase_4_Staging_Target_Deployment_Method_Decision_v1.md",
+        "docs/process/AKTI_ERP_Phase_4_Environment_Secret_Provisioning_Decision_v1.md",
         "package.json",
         "apps/api/package.json",
         "apps/web/package.json",
@@ -644,49 +1423,178 @@
         ".env.example"
       ],
       "files_expected_to_change": [
-        "exact-file plan required after P4-002 and P4-003",
-        "codex-review/phase4-operational-proof/ticket-artifacts/P4-010/*"
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-010/build-log.txt",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-010/api-startup-log.txt",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-010/web-startup-log.txt",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-010/env-injection-evidence.md",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-010/db-connection-log.txt",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-010/api-health-log.txt",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-010/web-serving-log.txt",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-010/cors-origin-check-log.txt",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-010/shutdown-restart-log.txt"
       ],
       "files_forbidden_to_change": [
         ".env",
         ".env.*",
         "production credential files",
+        "real secrets",
+        "prisma/schema.prisma unless explicitly approved by active ticket",
+        "prisma/migrations/** unless explicitly approved by active ticket",
+        "packages/** unless explicitly approved by active ticket",
+        "generated/entity-registry.generated.json unless intentionally regenerated and checked",
         "package.json unless explicitly approved",
-        "pnpm-lock.yaml unless explicitly approved"
+        "pnpm-lock.yaml unless explicitly approved",
+        "deployment/staging implementation files unless active ticket explicitly authorizes them"
       ],
-      "exact_file_plan_required": true,
-      "broad_globs_are_inspection_hints_only": true,
-      "conditional_replan_required": true,
-      "validation_expectation": [
-        "P4-003-defined staging proof",
+      "required_outputs": [
+        "build-log.txt",
+        "api-startup-log.txt",
+        "web-startup-log.txt",
+        "env-injection-evidence.md",
+        "db-connection-log.txt",
+        "api-health-log.txt",
+        "web-serving-log.txt",
+        "cors-origin-check-log.txt",
+        "shutdown-restart-log.txt"
+      ],
+      "evidence_artifacts": [
+        "build evidence",
+        "process startup evidence",
+        "env injection evidence",
+        "DB connection evidence",
+        "API/web health evidence",
+        "CORS/origin evidence",
+        "shutdown/restart evidence"
+      ],
+      "tests_required": [
+        "Build commands from P4-003.",
+        "Staging/demo process startup checks.",
+        "DB connection check.",
+        "API/web/CORS checks.",
+        "Full validation ladder."
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm exec prisma generate --schema prisma/schema.prisma",
+        "pnpm registry:generate",
+        "git diff --exit-code -- generated/entity-registry.generated.json",
+        "pnpm registry:check",
+        "pnpm registry:verify:phase2",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
         "pnpm build",
-        "smoke/health checks where defined",
+        "git diff -- prisma/schema.prisma",
+        "git diff -- prisma/entity-registry.metadata.json",
         "git diff --check",
         "git status --short --branch"
       ],
+      "validation_expectation": [
+        "pnpm contracts:validate",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm exec prisma generate --schema prisma/schema.prisma",
+        "pnpm registry:generate",
+        "git diff --exit-code -- generated/entity-registry.generated.json",
+        "pnpm registry:check",
+        "pnpm registry:verify:phase2",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff -- prisma/schema.prisma",
+        "git diff -- prisma/entity-registry.metadata.json",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "acceptance_criteria": [
+        "P4-002, P4-003, and P4-009 are closed before work starts.",
+        "All evidence artifacts exist.",
+        "No production launch or real secret access occurs."
+      ],
       "stop_conditions": [
-        "P4-002 or P4-003 is not closed",
+        "P4-002 or P4-003 is not closed.",
+        "Production launch is required.",
+        "Real secrets are required.",
+        "Selected path requires more than one runtime component/layer and ticket is not split.",
+        "new dependency is required",
+        "production secret or credential access is required",
         "production launch is required",
-        "real secrets are required",
-        "new dependency is required without approval"
-      ]
+        "real outbound WhatsApp is required",
+        "Foundry/module installer work is required",
+        "platform AI runtime work is required",
+        "new business module work is required",
+        "destructive migration is required"
+      ],
+      "commit_message": "P4-010 prove controlled staging demo deployment",
+      "rollback_notes": "Stop running local/staging processes, remove P4-010 artifacts, and revert approved proof-support changes from this ticket only.",
+      "stale_ticket_risk_notes": "Prevents deployment proof from hiding API/web/DB/env/CORS/restart requirements behind vague staging language.",
+      "runtime_consistency_chain": "env -> runtime config -> staging config -> process startup -> DB/API/web/CORS checks -> smoke tests",
+      "minimum_concrete_requirement": "Concrete process/build/connectivity evidence must exist; a deployment decision alone cannot close this ticket.",
+      "requires_human_approval_if": [
+        "new dependency is required",
+        "production secret or credential access is required",
+        "production launch is required",
+        "real outbound WhatsApp is required",
+        "Foundry/module installer work is required",
+        "platform AI runtime work is required",
+        "new business module work is required",
+        "destructive migration is required"
+      ],
+      "failure_classification": {
+        "scope_blocker": "Required work is outside this ticket or Phase 4 boundaries.",
+        "approval_blocker": "Required work needs explicit human approval before proceeding.",
+        "validation_blocker": "Required validation fails after bounded repair.",
+        "evidence_blocker": "Required output or artifact cannot be produced without weakening evidence."
+      },
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": true,
+      "commands_to_run": [
+        "Run exact build command from P4-003.",
+        "Run exact API process command from P4-003.",
+        "Run exact web process command from P4-003.",
+        "Run exact DB connectivity command from P4-003.",
+        "Run exact API health command from P4-003.",
+        "Run exact web availability command from P4-003.",
+        "Run exact CORS/origin command from P4-003.",
+        "Run exact shutdown/restart command from P4-003.",
+        "pnpm contracts:validate",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm exec prisma generate --schema prisma/schema.prisma",
+        "pnpm registry:generate",
+        "git diff --exit-code -- generated/entity-registry.generated.json",
+        "pnpm registry:check",
+        "pnpm registry:verify:phase2",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff -- prisma/schema.prisma",
+        "git diff -- prisma/entity-registry.metadata.json",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "pass_fail_criteria": [
+        "PASS when all required deployment proof artifacts exist, commands exit 0, staging/demo runs without production secrets, API/web/DB/CORS/logging/restart evidence exists, and no production launch occurs.",
+        "FAIL/STOP when selected path requires unapproved dependency, real secret, production resource, or more layers than one ticket can safely cover."
+      ],
+      "split_if": "If P4-003 selects a path requiring more than one runtime component or environment layer, split before implementation into API staging proof, web staging proof, DB/env connectivity proof, and integrated staging proof.",
+      "bounded_repair_allowed": true
     },
     {
       "ticket_id": "P4-011",
       "title": "Smoke tests and health checks",
       "type": "implementation/validation",
+      "priority": "critical",
       "dependencies": [
         "P4-009",
         "P4-010"
       ],
+      "objective": "Create and run a concrete smoke-test matrix for the controlled staging/demo environment.",
       "scope": [
-        "API health smoke",
-        "web availability smoke",
-        "setup path smoke",
-        "auth/session/request context smoke",
-        "Lead Desk smoke path",
-        "Engagement Gateway stub boundary smoke",
-        "audit/outbox evidence where applicable"
+        "Create smoke-test-matrix.md with smoke case, command, expected status, expected body/header, evidence artifact, failure classification.",
+        "Cover API /health, web root/app availability, setup organization path, auth/session success, auth/session failure, route org mismatch denial, Lead Desk list/create/detail if available, Engagement Gateway stub-only path, audit/outbox verification for smoke cases that write audit/outbox records with not-applicable classification for read-only cases, rate-limit negative path if exposed in staging, and CORS/security header checks."
       ],
       "non_scope": [
         "new business behavior",
@@ -698,50 +1606,135 @@
         "apps/api/src/app.controller.ts",
         "apps/api/src/app.service.ts",
         "apps/api/src/security/*",
+        "apps/api/src/organization-setup/*",
         "apps/api/src/lead-desk/*",
         "apps/api/src/engagement-gateway/*",
-        "apps/web/app/*"
+        "apps/web/app/*",
+        "docs/screen-contracts/*"
       ],
       "files_expected_to_change": [
-        "exact-file plan required after P4-009 and P4-010",
-        "codex-review/phase4-operational-proof/ticket-artifacts/P4-011/*"
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-011/smoke-test-matrix.md",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-011/api-health-smoke-log.txt",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-011/web-availability-smoke-log.txt",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-011/auth-session-smoke-log.txt",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-011/tenant-denial-smoke-log.txt",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-011/lead-desk-smoke-log.txt",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-011/engagement-gateway-stub-smoke-log.txt",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-011/cors-security-header-smoke-log.txt",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-011/rate-limit-smoke-log.txt"
       ],
       "files_forbidden_to_change": [
         ".env",
         ".env.*",
         "production credential files",
-        "Prisma/schema changes unless explicitly approved"
+        "real secrets",
+        "prisma/schema.prisma unless explicitly approved by active ticket",
+        "prisma/migrations/** unless explicitly approved by active ticket",
+        "packages/** unless explicitly approved by active ticket",
+        "generated/entity-registry.generated.json unless intentionally regenerated and checked",
+        "package.json unless explicitly approved",
+        "pnpm-lock.yaml unless explicitly approved",
+        "deployment/staging implementation files unless active ticket explicitly authorizes them"
       ],
+      "required_outputs": [
+        "smoke-test-matrix.md",
+        "API/web/auth/tenant/Lead Desk/Gateway/CORS/header/rate-limit smoke logs as applicable",
+        "failure-classification.md for any smoke not runnable"
+      ],
+      "evidence_artifacts": [
+        "smoke-test-matrix.md",
+        "command logs for each minimum case",
+        "failure classification table"
+      ],
+      "tests_required": [
+        "All smoke cases listed in smoke-test-matrix.md.",
+        "Security regression cases for auth failure, route org mismatch, CORS/header, and rate limit where exposed."
+      ],
+      "validation_commands": [
+        "Run every command in smoke-test-matrix.md",
+        "pnpm test",
+        "pnpm build",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "validation_expectation": [
+        "Run every command in smoke-test-matrix.md",
+        "pnpm test",
+        "pnpm build",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "acceptance_criteria": [
+        "Smoke-test-matrix.md exists with required columns.",
+        "Minimum cases are covered or explicitly classified.",
+        "Gateway remains stub-only and Lead Desk does not bypass Engagement Gateway."
+      ],
+      "stop_conditions": [
+        "Smoke path requires invented business data.",
+        "Engagement Gateway boundary would be bypassed.",
+        "Trusted request context would be weakened.",
+        "new dependency is required",
+        "production secret or credential access is required",
+        "production launch is required",
+        "real outbound WhatsApp is required",
+        "Foundry/module installer work is required",
+        "platform AI runtime work is required",
+        "new business module work is required",
+        "destructive migration is required"
+      ],
+      "commit_message": "P4-011 add Phase 4 smoke checks",
+      "rollback_notes": "Remove P4-011 artifacts and revert approved smoke script/test changes from this ticket only.",
+      "stale_ticket_risk_notes": "Replaces vague smoke-test language with an explicit command matrix and failure classification.",
+      "runtime_consistency_chain": "staging/demo run -> smoke matrix -> API/web/auth/tenant/module checks -> closure evidence",
+      "minimum_concrete_requirement": "A smoke-test matrix and command evidence must exist; screenshots or narrative health claims are insufficient.",
+      "requires_human_approval_if": [
+        "new dependency is required",
+        "production secret or credential access is required",
+        "production launch is required",
+        "real outbound WhatsApp is required",
+        "Foundry/module installer work is required",
+        "platform AI runtime work is required",
+        "new business module work is required",
+        "destructive migration is required"
+      ],
+      "failure_classification": {
+        "scope_blocker": "Required work is outside this ticket or Phase 4 boundaries.",
+        "approval_blocker": "Required work needs explicit human approval before proceeding.",
+        "validation_blocker": "Required validation fails after bounded repair.",
+        "evidence_blocker": "Required output or artifact cannot be produced without weakening evidence."
+      },
       "exact_file_plan_required": true,
       "broad_globs_are_inspection_hints_only": true,
       "conditional_replan_required": false,
-      "validation_expectation": [
-        "ticket-specific smoke tests",
+      "commands_to_run": [
+        "Run each command listed in smoke-test-matrix.md.",
         "pnpm test",
         "pnpm build",
-        "git diff --check"
+        "git diff --check",
+        "git status --short --branch"
       ],
-      "stop_conditions": [
-        "smoke path requires invented business data",
-        "Engagement Gateway boundary would be bypassed",
-        "trusted request context would be weakened"
-      ]
+      "pass_fail_criteria": [
+        "PASS when every required smoke case has command, expected status/body/header, evidence artifact, and passing result or explicit not-applicable classification grounded in repo reality.",
+        "FAIL when any minimum smoke case is absent, unclassified, or requires forbidden scope."
+      ],
+      "split_if": "Split if smoke implementation requires both new test harness code and environment-specific staging commands touching unrelated files.",
+      "bounded_repair_allowed": true
     },
     {
       "ticket_id": "P4-012",
       "title": "Browser-rendered frontend and visual QA",
       "type": "implementation/validation",
+      "priority": "critical",
       "dependencies": [
         "P4-005",
         "P4-010",
         "P4-011"
       ],
+      "objective": "Run browser-rendered frontend checks and visual QA from the P4-005 matrix, verifying behavior rather than only collecting screenshots.",
       "scope": [
-        "re-plan after P4-005 before implementation",
-        "browser-rendered frontend tests",
-        "visual QA evidence",
-        "screenshot redaction/no-secret policy",
-        "screen-contract consistency checks"
+        "Re-plan after P4-005 before implementation.",
+        "Verify navigation works, API calls use bearer auth/session context, no x-actor-user-id regression, empty states render, error states render if available, existing forms submit, Lead Desk screens match screen contracts, no secret/token visible in DOM/screenshot/logs, responsive viewport baseline.",
+        "Screenshots are evidence, not validation by themselves."
       ],
       "non_scope": [
         "visual redesign",
@@ -750,52 +1743,143 @@
         "production data in screenshots"
       ],
       "source_files_to_inspect": [
+        "docs/process/AKTI_ERP_Phase_4_Browser_Visual_QA_Decision_v1.md",
         "apps/web/app/*",
+        "apps/web/app/lead-desk/**",
         "apps/web/test/*",
         "docs/screen-contracts/*",
         "apps/web/package.json"
       ],
       "files_expected_to_change": [
-        "exact-file plan required after P4-005",
-        "codex-review/phase4-operational-proof/ticket-artifacts/P4-012/*"
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-012/browser-test-log.txt",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-012/visual-qa-checklist.md",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-012/screenshots/*",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-012/dom-secret-token-scan.txt",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-012/responsive-viewport-log.txt"
       ],
       "files_forbidden_to_change": [
         ".env",
         ".env.*",
         "production credential files",
-        "package.json unless dependency approval is granted",
-        "pnpm-lock.yaml unless dependency approval is granted"
+        "real secrets",
+        "prisma/schema.prisma unless explicitly approved by active ticket",
+        "prisma/migrations/** unless explicitly approved by active ticket",
+        "packages/** unless explicitly approved by active ticket",
+        "generated/entity-registry.generated.json unless intentionally regenerated and checked",
+        "package.json unless explicitly approved",
+        "pnpm-lock.yaml unless explicitly approved",
+        "deployment/staging implementation files unless active ticket explicitly authorizes them"
       ],
+      "required_outputs": [
+        "browser-test-log.txt",
+        "visual-qa-checklist.md",
+        "redacted screenshots for required routes",
+        "dom-secret-token-scan.txt",
+        "responsive-viewport-log.txt",
+        "behavior-assertion-summary.md"
+      ],
+      "evidence_artifacts": [
+        "browser logs",
+        "redacted screenshots",
+        "DOM/log token scan",
+        "visual QA checklist",
+        "responsive viewport evidence"
+      ],
+      "tests_required": [
+        "Browser behavior checks listed in browser-visual-qa-matrix.md.",
+        "No x-actor-user-id regression check.",
+        "Screen contract consistency checks.",
+        "No token/secret visible in DOM/screenshots/logs.",
+        "Responsive viewport baseline."
+      ],
+      "validation_commands": [
+        "Browser/visual QA command listed in browser-visual-qa-matrix.md",
+        "Redaction scan command listed in browser-visual-qa-matrix.md",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "validation_expectation": [
+        "Browser/visual QA command listed in browser-visual-qa-matrix.md",
+        "Redaction scan command listed in browser-visual-qa-matrix.md",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "acceptance_criteria": [
+        "P4-005 is closed before work starts.",
+        "Required checks are executed.",
+        "Screenshots are evidence, not validation by themselves.",
+        "No secrets/tokens leak in artifacts."
+      ],
+      "stop_conditions": [
+        "P4-005 is not closed.",
+        "New browser dependency is required without approval.",
+        "Screenshots would expose tokens, secrets, or production data.",
+        "new dependency is required",
+        "production secret or credential access is required",
+        "production launch is required",
+        "real outbound WhatsApp is required",
+        "Foundry/module installer work is required",
+        "platform AI runtime work is required",
+        "new business module work is required",
+        "destructive migration is required"
+      ],
+      "commit_message": "P4-012 add browser visual QA proof",
+      "rollback_notes": "Remove P4-012 artifacts and revert approved browser-test changes from this ticket only.",
+      "stale_ticket_risk_notes": "Prevents browser QA from becoming a late screenshot collection without behavioral assertions.",
+      "runtime_consistency_chain": "frontend route -> browser behavior test -> visual QA evidence -> redaction scan -> closure evidence",
+      "minimum_concrete_requirement": "Browser-rendered behavior checks and redacted visual evidence must exist; screenshot-only evidence cannot close this ticket.",
+      "requires_human_approval_if": [
+        "new dependency is required",
+        "production secret or credential access is required",
+        "production launch is required",
+        "real outbound WhatsApp is required",
+        "Foundry/module installer work is required",
+        "platform AI runtime work is required",
+        "new business module work is required",
+        "destructive migration is required"
+      ],
+      "failure_classification": {
+        "scope_blocker": "Required work is outside this ticket or Phase 4 boundaries.",
+        "approval_blocker": "Required work needs explicit human approval before proceeding.",
+        "validation_blocker": "Required validation fails after bounded repair.",
+        "evidence_blocker": "Required output or artifact cannot be produced without weakening evidence."
+      },
       "exact_file_plan_required": true,
       "broad_globs_are_inspection_hints_only": true,
       "conditional_replan_required": true,
-      "validation_expectation": [
-        "P4-005-defined browser/visual QA validation",
+      "commands_to_run": [
+        "Run exact browser/visual QA command from P4-005.",
+        "Run exact DOM/screenshot redaction scan from P4-005.",
         "pnpm --filter @akti/web test",
         "pnpm --filter @akti/web build",
-        "git diff --check"
+        "git diff --check",
+        "git status --short --branch"
       ],
-      "stop_conditions": [
-        "P4-005 is not closed",
-        "new browser dependency is required without approval",
-        "screenshots would expose tokens, secrets, or production data"
-      ]
+      "pass_fail_criteria": [
+        "PASS when behavior assertions pass, screenshots are redacted evidence only, DOM/screenshots/logs contain no secrets/tokens, and required viewports render.",
+        "FAIL when evidence is screenshot-only without behavior verification."
+      ],
+      "split_if": "Split if browser tooling installation/approval, behavior tests, screenshot capture, and visual review require separate file sets or approvals.",
+      "bounded_repair_allowed": true
     },
     {
       "ticket_id": "P4-013",
       "title": "Backup/restore and rollback drill",
       "type": "implementation/validation",
+      "priority": "critical",
       "dependencies": [
         "P4-006",
         "P4-010"
       ],
+      "objective": "Run the P4-006 recovery drill and prove database restore, application rollback, config/env rollback, and migration rollback policy boundaries.",
       "scope": [
-        "re-plan after P4-006 before implementation",
-        "backup proof",
-        "restore proof",
-        "rollback proof",
-        "runbook evidence",
-        "no production data"
+        "Re-plan after P4-006 before implementation.",
+        "Produce backup proof, restore proof, rollback proof, runbook evidence, and no-production-data proof.",
+        "Define whether rollback means prior git commit, prior build artifact, prior DB snapshot, previous env config, or a combination selected by P4-006."
       ],
       "non_scope": [
         "production data",
@@ -804,41 +1888,134 @@
         "unapproved database tooling"
       ],
       "source_files_to_inspect": [
-        "docs/adr/ADR-0018-phase-4-backup-restore-rollback.md",
+        "docs/process/AKTI_ERP_Phase_4_Backup_Restore_Rollback_Decision_v1.md",
         "prisma/schema.prisma",
         "prisma/migrations/*",
         "docs/process/AKTI_ERP_Phase_4_Operational_Proof_Plan_v1.md"
       ],
       "files_expected_to_change": [
-        "exact-file plan required after P4-006",
-        "codex-review/phase4-operational-proof/ticket-artifacts/P4-013/*"
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-013/backup-command-log.txt",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-013/backup-artifact-metadata.txt",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-013/restore-command-log.txt",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-013/restore-validation-log.txt",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-013/rollback-command-log.txt",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-013/rollback-validation-log.txt",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-013/redaction-review.md"
       ],
       "files_forbidden_to_change": [
         ".env",
         ".env.*",
         "production credential files",
-        "production data dumps"
+        "real secrets",
+        "prisma/schema.prisma unless explicitly approved by active ticket",
+        "prisma/migrations/** unless explicitly approved by active ticket",
+        "packages/** unless explicitly approved by active ticket",
+        "generated/entity-registry.generated.json unless intentionally regenerated and checked",
+        "package.json unless explicitly approved",
+        "pnpm-lock.yaml unless explicitly approved",
+        "deployment/staging implementation files unless active ticket explicitly authorizes them"
       ],
-      "exact_file_plan_required": true,
-      "broad_globs_are_inspection_hints_only": true,
-      "conditional_replan_required": true,
-      "validation_expectation": [
-        "P4-006-defined backup/restore/rollback drill",
-        "redaction checks",
+      "required_outputs": [
+        "backup-command-log.txt",
+        "backup-artifact-metadata.txt",
+        "restore-command-log.txt",
+        "restore-validation-log.txt",
+        "rollback-command-log.txt",
+        "rollback-validation-log.txt",
+        "redaction-review.md",
+        "rollback-meaning.md"
+      ],
+      "evidence_artifacts": [
+        "backup metadata",
+        "restore logs",
+        "rollback logs",
+        "redaction review",
+        "no-production-data attestation"
+      ],
+      "tests_required": [
+        "Backup command listed in backup-restore-rollback-decision.md.",
+        "Restore command listed in backup-restore-rollback-decision.md.",
+        "Rollback command listed in backup-restore-rollback-decision.md.",
+        "Restore/rollback validation commands.",
+        "Redaction/no-production-data review."
+      ],
+      "validation_commands": [
+        "Backup/restore/rollback commands listed in backup-restore-rollback-decision.md",
+        "Redaction review command listed in backup-restore-rollback-decision.md",
         "git diff --check",
         "git status --short --branch"
       ],
+      "validation_expectation": [
+        "Backup/restore/rollback commands listed in backup-restore-rollback-decision.md",
+        "Redaction review command listed in backup-restore-rollback-decision.md",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "acceptance_criteria": [
+        "P4-006 is closed before work starts.",
+        "All required artifacts exist.",
+        "Database restore, app rollback, config/env rollback, and migration rollback/no-destructive policy are distinguished."
+      ],
       "stop_conditions": [
-        "P4-006 is not closed",
-        "production data is required",
-        "destructive operation is required",
-        "evidence cannot be redacted"
-      ]
+        "P4-006 is not closed.",
+        "Production data is required.",
+        "Destructive operation is required.",
+        "Evidence cannot be redacted.",
+        "new dependency is required",
+        "production secret or credential access is required",
+        "production launch is required",
+        "real outbound WhatsApp is required",
+        "Foundry/module installer work is required",
+        "platform AI runtime work is required",
+        "new business module work is required",
+        "destructive migration is required"
+      ],
+      "commit_message": "P4-013 prove backup restore rollback drill",
+      "rollback_notes": "Remove P4-013 artifacts and revert approved drill-support changes from this ticket only.",
+      "stale_ticket_risk_notes": "Prevents recovery proof from using vague rollback language or production-like data without classification.",
+      "runtime_consistency_chain": "backup command -> restore drill -> rollback procedure -> redaction review -> closure evidence",
+      "minimum_concrete_requirement": "Concrete backup/restore/rollback command evidence and redaction review must exist.",
+      "requires_human_approval_if": [
+        "new dependency is required",
+        "production secret or credential access is required",
+        "production launch is required",
+        "real outbound WhatsApp is required",
+        "Foundry/module installer work is required",
+        "platform AI runtime work is required",
+        "new business module work is required",
+        "destructive migration is required"
+      ],
+      "failure_classification": {
+        "scope_blocker": "Required work is outside this ticket or Phase 4 boundaries.",
+        "approval_blocker": "Required work needs explicit human approval before proceeding.",
+        "validation_blocker": "Required validation fails after bounded repair.",
+        "evidence_blocker": "Required output or artifact cannot be produced without weakening evidence."
+      },
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": true,
+      "commands_to_run": [
+        "Run exact backup command from P4-006.",
+        "Run exact restore command from P4-006.",
+        "Run exact restore validation command from P4-006.",
+        "Run exact rollback command from P4-006.",
+        "Run exact rollback validation command from P4-006.",
+        "Run exact redaction review from P4-006.",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "pass_fail_criteria": [
+        "PASS when backup, restore, rollback, validation, metadata, and redaction artifacts exist and contain no production data.",
+        "FAIL when rollback meaning is ambiguous or evidence cannot distinguish database/app/config/migration rollback."
+      ],
+      "split_if": "Split if database restore, app rollback, config/env rollback, and migration rollback proof require distinct environments or file changes.",
+      "bounded_repair_allowed": true
     },
     {
       "ticket_id": "P4-014",
       "title": "Operational runbook and incident/support flow",
       "type": "implementation/docs",
+      "priority": "high",
       "dependencies": [
         "P4-002",
         "P4-003",
@@ -853,14 +2030,11 @@
         "P4-012",
         "P4-013"
       ],
+      "objective": "Create the operational runbook as a living artifact, not a late documentation dump.",
       "scope": [
-        "admin access model",
-        "support escalation",
-        "incident response",
-        "routine operation",
-        "backup/restore/rollback instructions",
-        "env/secrets handling",
-        "known deferrals"
+        "Create runbook skeleton after decision tickets P4-002 through P4-008.",
+        "Update runbook incrementally as P4-009 through P4-013 close.",
+        "Finalize admin access model, support escalation, incident response, routine operation, backup/restore/rollback instructions, env/secrets handling, and known deferrals after proofs."
       ],
       "non_scope": [
         "production SOP beyond Phase 4 evidence",
@@ -869,50 +2043,128 @@
         "Phase 5 planning"
       ],
       "source_files_to_inspect": [
-        "docs/adr/ADR-0014-phase-4-environment-secret-provisioning.md",
-        "docs/adr/ADR-0015-phase-4-staging-target-deployment-method.md",
-        "docs/adr/ADR-0018-phase-4-backup-restore-rollback.md",
-        "codex-review/phase4-operational-proof/ticket-artifacts/*"
+        "docs/process/AKTI_ERP_Phase_4_Environment_Secret_Provisioning_Decision_v1.md",
+        "docs/process/AKTI_ERP_Phase_4_Staging_Target_Deployment_Method_Decision_v1.md",
+        "docs/process/AKTI_ERP_Phase_4_Fresh_DB_Bootstrap_Decision_v1.md",
+        "docs/process/AKTI_ERP_Phase_4_Backup_Restore_Rollback_Decision_v1.md",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-009/*",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-010/*",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-011/*",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-012/*",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-013/*"
       ],
       "files_expected_to_change": [
         "docs/process/AKTI_ERP_Phase_4_Operational_Runbook_v1.md",
-        "codex-review/phase4-operational-proof/ticket-artifacts/P4-014/*"
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-014/runbook-update-log.md",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-014/runbook-redaction-review.md"
       ],
       "files_forbidden_to_change": [
-        "apps/**",
-        "prisma/**",
-        "packages/**",
-        "generated/**",
-        ".env*",
-        "package.json",
-        "pnpm-lock.yaml"
+        ".env",
+        ".env.*",
+        "production credential files",
+        "real secrets",
+        "prisma/schema.prisma unless explicitly approved by active ticket",
+        "prisma/migrations/** unless explicitly approved by active ticket",
+        "packages/** unless explicitly approved by active ticket",
+        "generated/entity-registry.generated.json unless intentionally regenerated and checked",
+        "package.json unless explicitly approved",
+        "pnpm-lock.yaml unless explicitly approved",
+        "deployment/staging implementation files unless active ticket explicitly authorizes them"
       ],
+      "required_outputs": [
+        "AKTI_ERP_Phase_4_Operational_Runbook_v1.md",
+        "runbook-update-log.md showing skeleton and incremental updates",
+        "runbook-redaction-review.md",
+        "known-deferrals-section.md"
+      ],
+      "evidence_artifacts": [
+        "runbook",
+        "incremental update log",
+        "redaction review"
+      ],
+      "tests_required": [
+        "Markdown/diff checks.",
+        "Redaction review for secrets/tokens/credentials.",
+        "Trace runbook sections to P4-002 through P4-013 evidence."
+      ],
+      "validation_commands": [
+        "redaction grep over runbook and artifacts",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "validation_expectation": [
+        "redaction grep over runbook and artifacts",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "acceptance_criteria": [
+        "Runbook skeleton was created after P4-002 through P4-008.",
+        "Runbook was updated incrementally as proof tickets closed.",
+        "Final runbook covers all required topics and deferrals."
+      ],
+      "stop_conditions": [
+        "Runbook requires production secret values.",
+        "Runbook implies production launch.",
+        "Runbook starts Phase 5 planning.",
+        "new dependency is required",
+        "production secret or credential access is required",
+        "production launch is required",
+        "real outbound WhatsApp is required",
+        "Foundry/module installer work is required",
+        "platform AI runtime work is required",
+        "new business module work is required",
+        "destructive migration is required"
+      ],
+      "commit_message": "P4-014 add Phase 4 operational runbook",
+      "rollback_notes": "Revert runbook and P4-014 artifacts only.",
+      "stale_ticket_risk_notes": "Avoids a late documentation dump by requiring skeleton and incremental updates.",
+      "runtime_consistency_chain": "decisions -> proof artifacts -> runbook updates -> closure package",
+      "minimum_concrete_requirement": "A traceable operational runbook with incremental update evidence must exist.",
+      "requires_human_approval_if": [
+        "new dependency is required",
+        "production secret or credential access is required",
+        "production launch is required",
+        "real outbound WhatsApp is required",
+        "Foundry/module installer work is required",
+        "platform AI runtime work is required",
+        "new business module work is required",
+        "destructive migration is required"
+      ],
+      "failure_classification": {
+        "scope_blocker": "Required work is outside this ticket or Phase 4 boundaries.",
+        "approval_blocker": "Required work needs explicit human approval before proceeding.",
+        "validation_blocker": "Required validation fails after bounded repair.",
+        "evidence_blocker": "Required output or artifact cannot be produced without weakening evidence."
+      },
       "exact_file_plan_required": true,
       "broad_globs_are_inspection_hints_only": true,
       "conditional_replan_required": false,
-      "validation_expectation": [
+      "commands_to_run": [
+        "rg -n \"secret|token|credential|password|DATABASE_URL\" docs/process/AKTI_ERP_Phase_4_Operational_Runbook_v1.md codex-review/phase4-operational-proof/ticket-artifacts/P4-014 || true",
         "git diff --check",
-        "git status --short --branch",
-        "redaction review"
+        "git status --short --branch"
       ],
-      "stop_conditions": [
-        "runbook requires production secret values",
-        "runbook implies production launch",
-        "runbook starts Phase 5 planning"
-      ]
+      "pass_fail_criteria": [
+        "PASS when runbook skeleton exists after decision tickets, update log proves incremental updates through proof tickets, final runbook covers required operation/recovery/support topics, and no secret values are present.",
+        "FAIL when runbook is created only at the end without evidence traceability."
+      ],
+      "split_if": "Split into P4-014A runbook skeleton and P4-014B final runbook if the executor cannot update the runbook incrementally in one ticket.",
+      "bounded_repair_allowed": true
     },
     {
       "ticket_id": "P4-015",
       "title": "Infrastructure/distributed route limiting resolution",
       "type": "decision/implementation/validation",
+      "priority": "high",
       "dependencies": [
         "P4-007"
       ],
+      "objective": "Execute or document the route-limiting resolution mode selected by P4-007 without weakening the Phase 3 app limiter.",
       "scope": [
-        "re-plan after P4-007 before any implementation",
-        "bounded resolution of infra/distributed route limiting",
-        "preserve app limiter",
-        "avoid unapproved infra dependency"
+        "Re-plan after P4-007 before any implementation.",
+        "Use resolution_mode_set_by: P4-007.",
+        "Reclassify after P4-007 as validation-only, documentation-only, implementation-with-approval, or accepted deferral.",
+        "Preserve Phase 3 in-app limiter."
       ],
       "non_scope": [
         "removing Phase 3 app limiter",
@@ -920,41 +2172,125 @@
         "new dependency without approval"
       ],
       "source_files_to_inspect": [
+        "docs/process/AKTI_ERP_Phase_4_Infrastructure_Route_Limiting_Decision_v1.md",
         "docs/adr/ADR-0011-runtime-route-limiting.md",
-        "docs/adr/ADR-0019-phase-4-infra-route-limiting.md",
         "apps/api/src/security/rate-limit.middleware.ts",
         ".env.example"
       ],
       "files_expected_to_change": [
-        "exact-file plan required after P4-007",
-        "codex-review/phase4-operational-proof/ticket-artifacts/P4-015/*"
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-015/route-limiting-resolution.md",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-015/route-limiting-validation-log.txt",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-015/app-limiter-preservation-attestation.md"
       ],
       "files_forbidden_to_change": [
-        "apps/api/src/security/rate-limit.middleware.ts unless P4-007 explicitly authorizes a bounded implementation change",
+        ".env",
+        ".env.*",
+        "production credential files",
+        "real secrets",
+        "prisma/schema.prisma unless explicitly approved by active ticket",
+        "prisma/migrations/** unless explicitly approved by active ticket",
+        "packages/** unless explicitly approved by active ticket",
+        "generated/entity-registry.generated.json unless intentionally regenerated and checked",
         "package.json unless explicitly approved",
         "pnpm-lock.yaml unless explicitly approved",
-        ".env*"
+        "deployment/staging implementation files unless active ticket explicitly authorizes them"
       ],
+      "required_outputs": [
+        "route-limiting-resolution.md with resolution_mode_set_by: P4-007",
+        "reclassification-decision.md",
+        "route-limiting-validation-log.txt or accepted-deferral.md",
+        "app-limiter-preservation-attestation.md"
+      ],
+      "evidence_artifacts": [
+        "resolution document",
+        "validation log or accepted deferral",
+        "app limiter preservation attestation"
+      ],
+      "tests_required": [
+        "If runtime behavior changes, rate-limit negative tests are required.",
+        "If documentation-only or accepted deferral, evidence must prove app limiter remains and distributed limiter scope is bounded."
+      ],
+      "validation_commands": [
+        "P4-007-selected validation command",
+        "rate-limit negative tests if runtime behavior changes",
+        "pnpm test if runtime behavior changes",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "validation_expectation": [
+        "P4-007-selected validation command",
+        "rate-limit negative tests if runtime behavior changes",
+        "pnpm test if runtime behavior changes",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "acceptance_criteria": [
+        "P4-007 is closed.",
+        "P4-015 reclassification is explicit.",
+        "Resolution mode is traceable to P4-007.",
+        "App limiter is preserved."
+      ],
+      "stop_conditions": [
+        "P4-007 is not closed.",
+        "App limiter would be removed.",
+        "New dependency or production infra access is required without approval.",
+        "new dependency is required",
+        "production secret or credential access is required",
+        "production launch is required",
+        "real outbound WhatsApp is required",
+        "Foundry/module installer work is required",
+        "platform AI runtime work is required",
+        "new business module work is required",
+        "destructive migration is required"
+      ],
+      "commit_message": "P4-015 resolve Phase 4 route limiting path",
+      "rollback_notes": "Revert P4-015 artifacts and approved route-limiting changes from this ticket only.",
+      "stale_ticket_risk_notes": "Prevents route limiting from being implemented, deferred, or documented without explicit P4-007 mode.",
+      "runtime_consistency_chain": "P4-007 mode -> route limiting resolution -> app limiter fallback -> validation/deferral evidence",
+      "minimum_concrete_requirement": "A mode-specific resolution or accepted deferral must exist; generic infra limiting notes are insufficient.",
+      "requires_human_approval_if": [
+        "new dependency is required",
+        "production secret or credential access is required",
+        "production launch is required",
+        "real outbound WhatsApp is required",
+        "Foundry/module installer work is required",
+        "platform AI runtime work is required",
+        "new business module work is required",
+        "destructive migration is required"
+      ],
+      "failure_classification": {
+        "scope_blocker": "Required work is outside this ticket or Phase 4 boundaries.",
+        "approval_blocker": "Required work needs explicit human approval before proceeding.",
+        "validation_blocker": "Required validation fails after bounded repair.",
+        "evidence_blocker": "Required output or artifact cannot be produced without weakening evidence."
+      },
       "exact_file_plan_required": true,
       "broad_globs_are_inspection_hints_only": true,
       "conditional_replan_required": true,
-      "validation_expectation": [
-        "P4-007-defined route limiting validation",
-        "rate-limit negative tests if runtime behavior changes",
-        "pnpm test",
-        "git diff --check"
+      "commands_to_run": [
+        "Read resolution mode from P4-007.",
+        "Run exact validation command defined by P4-007 for selected mode.",
+        "If runtime behavior changes: pnpm --filter @akti/api exec tsx src/security/request-context.test.ts or successor security tests.",
+        "pnpm test if runtime behavior changes.",
+        "git diff --check",
+        "git status --short --branch"
       ],
-      "stop_conditions": [
-        "P4-007 is not closed",
-        "app limiter would be removed",
-        "new dependency or production infra access is required without approval"
-      ]
+      "pass_fail_criteria": [
+        "PASS when P4-007 mode is executed or bounded, app limiter remains, and selected validation/deferral evidence exists.",
+        "FAIL when app limiter is removed or infra dependency is required without approval."
+      ],
+      "split_if": "Split if P4-007 selects implementation-with-approval requiring proxy/staging configuration and API validation changes in separate layers.",
+      "bounded_repair_allowed": true
     },
     {
       "ticket_id": "P4-016",
       "title": "Phase 4 validation alignment",
       "type": "validation",
+      "priority": "high",
       "dependencies": [
+        "P4-000",
+        "P4-001",
+        "P4-005",
         "P4-009",
         "P4-010",
         "P4-011",
@@ -962,10 +2298,12 @@
         "P4-013",
         "P4-015"
       ],
+      "objective": "Find Phase 4 validation gaps before proof tickets rely on them and align final validation without weakening existing checks.",
       "scope": [
-        "ensure scripts/CI/validation ladder support Phase 4 evidence needs",
-        "preserve existing validation",
-        "add Phase 4 validation wiring only if needed by prior tickets"
+        "Use validation inventory generated in P4-000.",
+        "Identify validation gaps after P4-001/P4-005 and before P4-009.",
+        "Finalize validation alignment after implementation/proof tickets.",
+        "Preserve existing validation."
       ],
       "non_scope": [
         "broad CI redesign",
@@ -974,6 +2312,9 @@
         "new dependencies without approval"
       ],
       "source_files_to_inspect": [
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-000/validation-script-inventory.md",
+        "docs/process/AKTI_ERP_Phase_4_Operational_Proof_Boundary_Decision_v1.md",
+        "docs/process/AKTI_ERP_Phase_4_Browser_Visual_QA_Decision_v1.md",
         "package.json",
         ".github/workflows/*",
         "apps/api/package.json",
@@ -981,33 +2322,136 @@
         "codex-review/phase4-operational-proof/ticket-artifacts/*"
       ],
       "files_expected_to_change": [
-        "exact-file plan required",
-        "codex-review/phase4-operational-proof/ticket-artifacts/P4-016/*"
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-016/validation-gap-inventory.md",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-016/pre-implementation-validation-strategy.md",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-016/final-validation-alignment.md"
       ],
       "files_forbidden_to_change": [
-        "package.json unless validation wiring is explicitly required",
-        "pnpm-lock.yaml unless dependency approval is granted",
-        "runtime source unless a prior approved validation ticket requires it"
+        ".env",
+        ".env.*",
+        "production credential files",
+        "real secrets",
+        "prisma/schema.prisma unless explicitly approved by active ticket",
+        "prisma/migrations/** unless explicitly approved by active ticket",
+        "packages/** unless explicitly approved by active ticket",
+        "generated/entity-registry.generated.json unless intentionally regenerated and checked",
+        "package.json unless explicitly approved",
+        "pnpm-lock.yaml unless explicitly approved",
+        "deployment/staging implementation files unless active ticket explicitly authorizes them"
       ],
-      "exact_file_plan_required": true,
-      "broad_globs_are_inspection_hints_only": true,
-      "conditional_replan_required": false,
-      "validation_expectation": [
-        "full validation ladder",
-        "Phase 4 evidence validation commands from prior tickets",
+      "required_outputs": [
+        "validation-gap-inventory.md",
+        "pre-implementation-validation-strategy.md",
+        "final-validation-alignment.md",
+        "validation-preservation-attestation.md"
+      ],
+      "evidence_artifacts": [
+        "validation inventory",
+        "gap report",
+        "final validation alignment",
+        "attestation that prior validation was not weakened"
+      ],
+      "tests_required": [
+        "Run full validation ladder after final alignment.",
+        "Run any Phase 4 evidence validation commands introduced by proof tickets.",
+        "Check no prior validation commands were removed or weakened."
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm exec prisma generate --schema prisma/schema.prisma",
+        "pnpm registry:generate",
+        "git diff --exit-code -- generated/entity-registry.generated.json",
+        "pnpm registry:check",
+        "pnpm registry:verify:phase2",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff -- prisma/schema.prisma",
+        "git diff -- prisma/entity-registry.metadata.json",
         "git diff --check",
         "git status --short --branch"
       ],
+      "validation_expectation": [
+        "pnpm contracts:validate",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm exec prisma generate --schema prisma/schema.prisma",
+        "pnpm registry:generate",
+        "git diff --exit-code -- generated/entity-registry.generated.json",
+        "pnpm registry:check",
+        "pnpm registry:verify:phase2",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff -- prisma/schema.prisma",
+        "git diff -- prisma/entity-registry.metadata.json",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "acceptance_criteria": [
+        "Validation inventory from P4-000 is used.",
+        "Validation gaps are documented before P4-009 implementation proof.",
+        "Final validation alignment exists after proof tickets.",
+        "No previous validation is removed or weakened."
+      ],
       "stop_conditions": [
-        "validation would be weakened",
-        "broad CI redesign is required",
-        "new dependency is required without approval"
-      ]
+        "Validation would be weakened.",
+        "Broad CI redesign is required.",
+        "New dependency is required without approval.",
+        "new dependency is required",
+        "production secret or credential access is required",
+        "production launch is required",
+        "real outbound WhatsApp is required",
+        "Foundry/module installer work is required",
+        "platform AI runtime work is required",
+        "new business module work is required",
+        "destructive migration is required"
+      ],
+      "commit_message": "P4-016 align Phase 4 validation evidence",
+      "rollback_notes": "Revert P4-016 validation artifacts and approved validation wiring changes only.",
+      "stale_ticket_risk_notes": "Prevents validation gaps from being discovered at P4-GATE after proof work is complete.",
+      "runtime_consistency_chain": "baseline validation inventory -> gap strategy -> proof ticket validation -> final validation alignment -> closure package",
+      "minimum_concrete_requirement": "Validation gap inventory and final alignment must exist; relying only on the old Phase 3 ladder is insufficient for Phase 4 closure.",
+      "requires_human_approval_if": [
+        "new dependency is required",
+        "production secret or credential access is required",
+        "production launch is required",
+        "real outbound WhatsApp is required",
+        "Foundry/module installer work is required",
+        "platform AI runtime work is required",
+        "new business module work is required",
+        "destructive migration is required"
+      ],
+      "failure_classification": {
+        "scope_blocker": "Required work is outside this ticket or Phase 4 boundaries.",
+        "approval_blocker": "Required work needs explicit human approval before proceeding.",
+        "validation_blocker": "Required validation fails after bounded repair.",
+        "evidence_blocker": "Required output or artifact cannot be produced without weakening evidence."
+      },
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": false,
+      "commands_to_run": [
+        "Compare P4-000 validation inventory against current package/workflow scripts.",
+        "Run full validation ladder.",
+        "Run Phase 4 evidence validation commands from proof tickets.",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "pass_fail_criteria": [
+        "PASS when validation gaps are identified before implementation proof tickets, final validation commands pass, and previous validation is preserved.",
+        "FAIL when validation gaps are discovered only at closure or existing validation is weakened."
+      ],
+      "split_if": "Split into P4-016A validation strategy/gap inventory and P4-016B final validation alignment if validation gaps require implementation changes or approval.",
+      "bounded_repair_allowed": true
     },
     {
       "ticket_id": "P4-GATE",
       "title": "Phase 4 closure audit and Phase 5 readiness handoff",
       "type": "audit/closure",
+      "priority": "critical",
       "dependencies": [
         "P4-000",
         "P4-001",
@@ -1027,13 +2471,14 @@
         "P4-015",
         "P4-016"
       ],
+      "objective": "Close Phase 4 with evidence only, classify deferrals honestly, and produce a Phase 5 readiness handoff without starting Phase 5.",
       "scope": [
-        "complete Phase 4 audit report",
-        "produce evidence package",
-        "classify remaining deferrals",
-        "decide whether Phase 5 planning can begin",
-        "run final full validation ladder",
-        "verify no secrets, production data, or credentials in artifacts"
+        "Complete Phase 4 audit report.",
+        "Produce final evidence package.",
+        "Classify remaining deferrals.",
+        "Decide whether Phase 5 planning can begin.",
+        "Run final full validation ladder.",
+        "Verify no secrets, production data, credentials, or unapproved artifacts in package."
       ],
       "non_scope": [
         "creating Phase 5 ticket pack unless separately instructed",
@@ -1045,38 +2490,189 @@
         "docs/process/AKTI_ERP_Phase_4_Audit_Report_v1.md",
         "docs/process/AKTI_ERP_Phase_4_Operational_Proof_Plan_v1.md",
         "docs/process/AKTI_ERP_Phase_4_Ticket_Pack_v1.json",
+        "docs/process/AKTI_ERP_Phase_4_Operational_Runbook_v1.md",
         "codex-review/phase4-operational-proof/ticket-artifacts/*",
         "docs/adr/*"
       ],
       "files_expected_to_change": [
         "docs/process/AKTI_ERP_Phase_4_Audit_Report_v1.md",
         "docs/process/AKTI_ERP_Phase_5_Readiness_Handoff_After_Phase_4_v1.md",
-        "codex-review/phase4-operational-proof/final-external-audit/*"
+        "codex-review/phase4-operational-proof/final-external-audit/phase4-audit-manifest.md",
+        "codex-review/phase4-operational-proof/final-external-audit/phase4-validation-summary.md",
+        "codex-review/phase4-operational-proof/final-external-audit/phase4-closure-report.md",
+        "codex-review/phase4-operational-proof/final-external-audit/phase4-known-deferrals.md",
+        "codex-review/phase4-operational-proof/final-external-audit/phase4-exclusion-verification.md",
+        "codex-review/phase4-operational-proof/final-external-audit/phase4-final-branch-status.txt",
+        "codex-review/phase4-operational-proof/final-external-audit/phase4-file-list.txt",
+        "codex-review/phase4-operational-proof/final-external-audit/phase4-checksums.sha256",
+        "codex-review/phase4-operational-proof/final-external-audit/phase4-source.zip"
       ],
       "files_forbidden_to_change": [
-        "apps/** unless final validation repair is explicitly within prior approved scope",
-        "prisma/** unless prior approved scope requires it",
-        "packages/** unless prior approved scope requires it",
-        "generated/** unless intentionally regenerated and checked",
-        ".env*",
-        "production credential files"
+        ".env",
+        ".env.*",
+        "production credential files",
+        "real secrets",
+        "prisma/schema.prisma unless explicitly approved by active ticket",
+        "prisma/migrations/** unless explicitly approved by active ticket",
+        "packages/** unless explicitly approved by active ticket",
+        "generated/entity-registry.generated.json unless intentionally regenerated and checked",
+        "package.json unless explicitly approved",
+        "pnpm-lock.yaml unless explicitly approved",
+        "deployment/staging implementation files unless active ticket explicitly authorizes them"
       ],
+      "required_outputs": [
+        "phase4-audit-manifest.md",
+        "phase4-validation-summary.md",
+        "phase4-closure-report.md",
+        "phase4-known-deferrals.md",
+        "phase4-exclusion-verification.md",
+        "phase4-final-branch-status.txt",
+        "phase4-file-list.txt",
+        "phase4-checksums.sha256",
+        "phase4-source.zip",
+        "completed AKTI_ERP_Phase_4_Audit_Report_v1.md",
+        "Phase 5 readiness handoff"
+      ],
+      "evidence_artifacts": [
+        "final source zip",
+        "checksums",
+        "file list",
+        "manifest",
+        "validation summary",
+        "closure report",
+        "known deferrals",
+        "exclusion verification",
+        "branch status"
+      ],
+      "tests_required": [
+        "Final full validation ladder.",
+        "Secret scan.",
+        "Token/session leak scan.",
+        "Screenshot redaction confirmation.",
+        "Backup artifact no-production-data confirmation.",
+        "Checksum verification.",
+        "Source ZIP exclusion verification."
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm exec prisma generate --schema prisma/schema.prisma",
+        "pnpm registry:generate",
+        "git diff --exit-code -- generated/entity-registry.generated.json",
+        "pnpm registry:check",
+        "pnpm registry:verify:phase2",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff -- prisma/schema.prisma",
+        "git diff -- prisma/entity-registry.metadata.json",
+        "git diff --check",
+        "git status --short --branch",
+        "secret scan",
+        "token/session leak scan",
+        "screenshot redaction verification",
+        "backup artifact no-production-data verification",
+        "checksum verification",
+        "source ZIP exclusion verification"
+      ],
+      "validation_expectation": [
+        "pnpm contracts:validate",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm exec prisma generate --schema prisma/schema.prisma",
+        "pnpm registry:generate",
+        "git diff --exit-code -- generated/entity-registry.generated.json",
+        "pnpm registry:check",
+        "pnpm registry:verify:phase2",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff -- prisma/schema.prisma",
+        "git diff -- prisma/entity-registry.metadata.json",
+        "git diff --check",
+        "git status --short --branch",
+        "secret scan",
+        "token/session leak scan",
+        "screenshot redaction verification",
+        "backup artifact no-production-data verification",
+        "checksum verification",
+        "source ZIP exclusion verification"
+      ],
+      "acceptance_criteria": [
+        "All dependencies are complete.",
+        "Final package artifacts exist.",
+        "Redaction checks pass: secret scan, token/session leak scan, screenshot redaction confirmation, backup artifact no-production-data confirmation.",
+        "Phase 5 readiness handoff exists but no Phase 5 ticket pack is created."
+      ],
+      "stop_conditions": [
+        "Any prerequisite ticket is incomplete.",
+        "Validation fails after bounded repair.",
+        "Audit package would include secrets, credentials, production data, or unapproved artifacts.",
+        "Phase 5 implementation is requested.",
+        "new dependency is required",
+        "production secret or credential access is required",
+        "production launch is required",
+        "real outbound WhatsApp is required",
+        "Foundry/module installer work is required",
+        "platform AI runtime work is required",
+        "new business module work is required",
+        "destructive migration is required"
+      ],
+      "commit_message": "P4-GATE close Phase 4 operational proof",
+      "rollback_notes": "Revert P4-GATE closure docs/package artifacts only; prior ticket commits remain unless separately reverted.",
+      "stale_ticket_risk_notes": "Defines closure package and redaction checks upfront so the final audit is not invented at the end.",
+      "runtime_consistency_chain": "ticket evidence -> final validation -> redaction checks -> audit package -> Phase 5 readiness handoff",
+      "minimum_concrete_requirement": "Final audit package, completed audit report, validation summary, redaction checks, and source ZIP must exist; a narrative closure note cannot close Phase 4.",
+      "requires_human_approval_if": [
+        "new dependency is required",
+        "production secret or credential access is required",
+        "production launch is required",
+        "real outbound WhatsApp is required",
+        "Foundry/module installer work is required",
+        "platform AI runtime work is required",
+        "new business module work is required",
+        "destructive migration is required"
+      ],
+      "failure_classification": {
+        "scope_blocker": "Required work is outside this ticket or Phase 4 boundaries.",
+        "approval_blocker": "Required work needs explicit human approval before proceeding.",
+        "validation_blocker": "Required validation fails after bounded repair.",
+        "evidence_blocker": "Required output or artifact cannot be produced without weakening evidence."
+      },
       "exact_file_plan_required": true,
       "broad_globs_are_inspection_hints_only": true,
       "conditional_replan_required": false,
-      "validation_expectation": [
-        "final full validation ladder",
-        "audit package checksum/source package generation",
-        "redaction/no-secret verification",
+      "commands_to_run": [
+        "pnpm contracts:validate",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm exec prisma generate --schema prisma/schema.prisma",
+        "pnpm registry:generate",
+        "git diff --exit-code -- generated/entity-registry.generated.json",
+        "pnpm registry:check",
+        "pnpm registry:verify:phase2",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff -- prisma/schema.prisma",
+        "git diff -- prisma/entity-registry.metadata.json",
         "git diff --check",
-        "git status --short --branch"
+        "git status --short --branch",
+        "Run secret scan defined by P4-GATE exact-file plan.",
+        "Run token/session leak scan defined by P4-GATE exact-file plan.",
+        "Verify screenshot redaction confirmation.",
+        "Verify backup artifact no-production-data confirmation.",
+        "Generate phase4-source.zip from committed HEAD with exclusions.",
+        "shasum -a 256 generated package artifacts",
+        "Verify checksums."
       ],
-      "stop_conditions": [
-        "any prerequisite ticket is incomplete",
-        "validation fails after bounded repair",
-        "audit package would include secrets, credentials, production data, or unapproved artifacts",
-        "Phase 5 implementation is requested"
-      ]
+      "pass_fail_criteria": [
+        "PASS when every prior ticket is complete, final validation passes, package artifacts exist, redaction/no-secret checks pass, and Phase 4 audit report is evidence-backed.",
+        "FAIL when any package artifact is missing, validation fails, secrets/tokens/production data are detected, or Phase 5 implementation begins."
+      ],
+      "split_if": "Split if final package generation, audit completion, and Phase 5 readiness handoff cannot be completed in one bounded closure ticket.",
+      "bounded_repair_allowed": true
     }
   ]
 }
