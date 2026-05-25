@@ -10,3 +10,7 @@ Accepted the controlled local/demo staging boundary and Phase 4 exit standard.
 ## P4-002
 
 Accepted non-secret local/demo env injection and production secret non-access policy. `.env.example` remains a non-secret template. Bounded repair attempt 1 fixed artifact-generation quoting.
+
+## P4-003
+
+Selected local disposable staging/demo proof with API/web/local PostgreSQL. Cloud/container production-adjacent paths deferred unless approved.
