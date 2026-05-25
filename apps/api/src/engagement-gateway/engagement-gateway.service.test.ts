@@ -309,6 +309,16 @@ async function testHealthRead() {
   assert.equal(result.degraded_reason, null);
 }
 
+async function testHealthReadRejectsCrossOrgActorBeforeGatekeeperOrStatusRead() {
+  const { service, state } = createMocks();
+
+  await assert.rejects(service.readHealth('org-2', 'actor-1'), ForbiddenException);
+
+  assert.equal(state.gatekeeperCalls.length, 0);
+  assert.equal(state.auditCalls.length, 0);
+  assert.equal(state.outboxCalls.length, 0);
+}
+
 async function testHealthReadReflectsHealthyRegistryStatus() {
   const { service, state } = createMocks();
   state.moduleStatuses.set('engagement.gateway', 'healthy');
@@ -358,6 +368,7 @@ async function run() {
   await testGatekeeperDegradedFails();
   await testRealGatekeeperUsesRegistryHealthContext();
   await testHealthRead();
+  await testHealthReadRejectsCrossOrgActorBeforeGatekeeperOrStatusRead();
   await testHealthReadReflectsHealthyRegistryStatus();
   await testHealthReadReflectsDegradedRegistryStatus();
   await testHealthReadReflectsDisabledRegistryStatus();

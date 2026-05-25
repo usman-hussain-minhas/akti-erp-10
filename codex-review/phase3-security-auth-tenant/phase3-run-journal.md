@@ -155,3 +155,24 @@ Execution notes:
 - Updated controller tests to use signed session headers and updated the Phase 1 static guard to require trusted-context ingress.
 - Full implementation-ticket validation ladder passed.
 - Bounded repair attempt 1: adjusted a static assertion to tolerate multiline formatting while retaining the trusted-context requirement.
+
+## P3-008 - Tenant Isolation Enforcement Implementation
+
+Exact-file re-plan after P3-003/ADR-0009:
+
+- Implement P3-008 as service-level tenant enforcement hardening only.
+- Update cross-tenant and metadata/service-boundary tests:
+  - `apps/api/src/configuration/configuration.service.test.ts`
+  - `apps/api/src/engagement-gateway/engagement-gateway.service.test.ts`
+  - `apps/api/src/hierarchy/hierarchy.service.test.ts`
+  - `apps/api/src/phase1-hardening/phase1-release-blockers.test.ts`
+- Create P3-008 summary, changed-files archive, and validation summary under `codex-review/phase3-security-auth-tenant/ticket-artifacts/P3-008/`.
+- Do not modify Prisma schema, migrations, generated registry, dependencies, workflows, deployment files, production credentials, or secrets.
+
+Execution notes:
+
+- Confirmed ADR-0009 chose service-level enforcement for Phase 3 and explicitly forbids DB RLS/Prisma migration work in P3-008.
+- Added targeted cross-organization denial tests for hierarchy reads, configuration writes, and Engagement Gateway health reads.
+- Added static checks for tenant-scoped metadata and current service-level organization-scoped query patterns.
+- Full implementation-ticket validation ladder passed.
+- Bounded repair attempt 1: corrected an Access Core static evidence snippet to match the repo's actual organization-scoped delete pattern.

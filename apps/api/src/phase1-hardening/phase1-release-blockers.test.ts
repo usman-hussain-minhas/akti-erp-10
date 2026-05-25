@@ -150,6 +150,75 @@ function testApiControllersUseTrustedRequestContextAtIngress() {
   }
 }
 
+function testTenantScopedMetadataAndServicesRequireOrganizationIsolation() {
+  const metadata = JSON.parse(readFileSync(resolve(repoRoot, 'prisma/entity-registry.metadata.json'), 'utf8'));
+  const tenantScopedModels = Object.entries(
+    metadata.models as Record<
+      string,
+      { tenant_scoped?: boolean; organization_id_required?: boolean; rls_required?: boolean }
+    >,
+  ).filter(([, model]) => model.tenant_scoped === true);
+
+  assert.notEqual(tenantScopedModels.length, 0, 'tenant-scoped registry metadata must not be empty');
+
+  for (const [modelName, model] of tenantScopedModels) {
+    assert.equal(model.organization_id_required, true, `${modelName} must require organization_id metadata`);
+    assert.equal(model.rls_required, true, `${modelName} must keep RLS-required metadata`);
+  }
+
+  const serviceRequirements: Array<{ path: string; required: string[] }> = [
+    {
+      path: 'access-core/access-core.service.ts',
+      required: [
+        'where: {\n        organization_id: organizationId,\n        id: actorUserId,',
+        'organization_id: organizationId',
+        'deleteMany({\n        where: {\n          organization_id: organizationId,',
+      ],
+    },
+    {
+      path: 'configuration/configuration.service.ts',
+      required: [
+        'organization_id_key: {\n          organization_id: organizationId,',
+        'where: {\n        organization_id: organizationId,\n        id: actorUserId,',
+      ],
+    },
+    {
+      path: 'engagement-gateway/engagement-gateway.service.ts',
+      required: [
+        'where: {\n        organization_id: organizationId,\n        id: actorUserId,',
+        'organization_id: organizationId,\n        idempotency_key: input.idempotency_key,',
+      ],
+    },
+    {
+      path: 'hierarchy/hierarchy.service.ts',
+      required: [
+        'where: {\n        organization_id: organizationId,\n        id: actorUserId,',
+        'where: {\n        organization_id: organizationId,',
+        'assertUnitTypeExistsInOrganizationInDb',
+      ],
+    },
+    {
+      path: 'lead-desk/lead-desk.service.ts',
+      required: [
+        'where: {\n        organization_id: organizationId,\n        id: actorUserId,',
+        'organization_id_id: {',
+        'requireLeadInScope',
+      ],
+    },
+  ];
+
+  for (const requirement of serviceRequirements) {
+    const source = readFileSync(join(apiSourceRoot, requirement.path), 'utf8');
+    for (const requiredSnippet of requirement.required) {
+      assert.equal(
+        source.includes(requiredSnippet),
+        true,
+        `${requirement.path} must retain organization-scoped service enforcement: ${requiredSnippet}`,
+      );
+    }
+  }
+}
+
 function testApiTestFixturesDoNotLeakHardcodedBusinessTerms() {
   const forbiddenTerms = [
     ['cam', 'pus'].join(''),
@@ -182,6 +251,7 @@ function run() {
   testPhase1WorkflowKeepsGeneratedRegistryDriftGuard();
   testAccessCoreTenantReadRoutesUseTrustedRequestContext();
   testApiControllersUseTrustedRequestContextAtIngress();
+  testTenantScopedMetadataAndServicesRequireOrganizationIsolation();
   testApiTestFixturesDoNotLeakHardcodedBusinessTerms();
 
   console.log('phase1-release-blockers tests passed');
