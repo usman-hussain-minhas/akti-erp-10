@@ -240,6 +240,28 @@ function testAccessCoreGatekeeperTrustedContextInvariants() {
   );
 }
 
+function testRuntimeRouteLimiterIsWiredBeforeApiListen() {
+  const mainSource = readFileSync(join(apiSourceRoot, 'main.ts'), 'utf8');
+  const limiterSource = readFileSync(join(apiSourceRoot, 'security/rate-limit.middleware.ts'), 'utf8');
+
+  assert.equal(
+    mainSource.includes('app.use(createRateLimitMiddleware(readRateLimitConfig()))'),
+    true,
+    'API bootstrap must wire the runtime route limiter before listen',
+  );
+  assert.equal(
+    limiterSource.includes("response.status(429)"),
+    true,
+    'runtime route limiter must fail closed with 429 after the configured limit',
+  );
+  assert.equal(
+    limiterSource.includes('AKTI_RATE_LIMIT_WINDOW_MS') &&
+      limiterSource.includes('AKTI_RATE_LIMIT_MAX_REQUESTS'),
+    true,
+    'runtime route limiter must use approved non-secret rate-limit env names',
+  );
+}
+
 function testApiTestFixturesDoNotLeakHardcodedBusinessTerms() {
   const forbiddenTerms = [
     ['cam', 'pus'].join(''),
@@ -274,6 +296,7 @@ function run() {
   testApiControllersUseTrustedRequestContextAtIngress();
   testTenantScopedMetadataAndServicesRequireOrganizationIsolation();
   testAccessCoreGatekeeperTrustedContextInvariants();
+  testRuntimeRouteLimiterIsWiredBeforeApiListen();
   testApiTestFixturesDoNotLeakHardcodedBusinessTerms();
 
   console.log('phase1-release-blockers tests passed');

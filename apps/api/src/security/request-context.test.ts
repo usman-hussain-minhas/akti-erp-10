@@ -8,6 +8,12 @@ import {
   resolveTrustedRequestContext,
   verifyPhase3SessionToken,
 } from './request-context';
+import {
+  InMemoryRateLimiter,
+  RateLimitResponse,
+  createRateLimitMiddleware,
+  readRateLimitConfig,
+} from './rate-limit.middleware';
 
 const secret = 'phase3-test-secret-value';
 const now = new Date('2026-05-25T12:00:00.000Z');
@@ -110,6 +116,157 @@ function testBodyContextMismatchFailsClosed() {
   );
 }
 
+function createResponse(): RateLimitResponse & {
+  statusCode: number | null;
+  headers: Record<string, string | number>;
+  body: unknown;
+} {
+  return {
+    statusCode: null,
+    headers: {},
+    body: null,
+    setHeader(name: string, value: string | number) {
+      this.headers[name] = value;
+    },
+    status(code: number) {
+      this.statusCode = code;
+      return this;
+    },
+    json(body: unknown) {
+      this.body = body;
+    },
+  };
+}
+
+function testRateLimitAllowsWithinWindowAndFailsClosedAfterLimit() {
+  let nowMs = 1_000;
+  const config = { windowMs: 10_000, maxRequests: 2 };
+  const limiter = new InMemoryRateLimiter(config, () => nowMs);
+  const middleware = createRateLimitMiddleware(config, limiter);
+  const request = {
+    ip: '198.51.100.10',
+    method: 'GET',
+    originalUrl: '/api/lead-desk/organizations/org-1/leads?status=new',
+    headers: {},
+  };
+  const nextCalls: string[] = [];
+
+  middleware(request, createResponse(), () => nextCalls.push('first'));
+  middleware(request, createResponse(), () => nextCalls.push('second'));
+
+  const limitedResponse = createResponse();
+  middleware(request, limitedResponse, () => nextCalls.push('third'));
+
+  assert.deepEqual(nextCalls, ['first', 'second']);
+  assert.equal(limitedResponse.statusCode, 429);
+  assert.deepEqual(limitedResponse.body, {
+    error: 'rate_limited',
+    retry_after_seconds: 10,
+    limit: 2,
+    window_ms: 10_000,
+  });
+  assert.equal(limitedResponse.headers['Retry-After'], 10);
+  assert.equal(limitedResponse.headers['X-RateLimit-Remaining'], 0);
+
+  nowMs = 11_001;
+  const resetResponse = createResponse();
+  middleware(request, resetResponse, () => nextCalls.push('after-reset'));
+
+  assert.equal(resetResponse.statusCode, null);
+  assert.deepEqual(nextCalls, ['first', 'second', 'after-reset']);
+}
+
+function testRateLimitSeparatesClientsAndRoutes() {
+  const config = { windowMs: 10_000, maxRequests: 1 };
+  const limiter = new InMemoryRateLimiter(config, () => 1_000);
+  const middleware = createRateLimitMiddleware(config, limiter);
+  const nextCalls: string[] = [];
+
+  middleware(
+    {
+      ip: '198.51.100.10',
+      method: 'GET',
+      originalUrl: '/platform/access/organizations/org-1/users',
+      headers: {},
+    },
+    createResponse(),
+    () => nextCalls.push('first-route'),
+  );
+
+  middleware(
+    {
+      ip: '198.51.100.10',
+      method: 'GET',
+      originalUrl: '/platform/access/organizations/org-1/groups',
+      headers: {},
+    },
+    createResponse(),
+    () => nextCalls.push('second-route'),
+  );
+
+  middleware(
+    {
+      ip: '203.0.113.20',
+      method: 'GET',
+      originalUrl: '/platform/access/organizations/org-1/users',
+      headers: {},
+    },
+    createResponse(),
+    () => nextCalls.push('second-client'),
+  );
+
+  const forwardedResponse = createResponse();
+  middleware(
+    {
+      method: 'GET',
+      originalUrl: '/platform/access/organizations/org-1/users',
+      headers: {
+        'x-forwarded-for': '198.51.100.10, 10.0.0.1',
+      },
+    },
+    forwardedResponse,
+    () => nextCalls.push('forwarded-repeat'),
+  );
+
+  assert.deepEqual(nextCalls, ['first-route', 'second-route', 'second-client']);
+  assert.equal(forwardedResponse.statusCode, 429);
+}
+
+function testRateLimitConfigUsesSafeDefaultsAndRejectsInvalidValues() {
+  assert.deepEqual(readRateLimitConfig({}), {
+    windowMs: 60_000,
+    maxRequests: 120,
+  });
+
+  assert.deepEqual(
+    readRateLimitConfig({
+      AKTI_RATE_LIMIT_WINDOW_MS: '5000',
+      AKTI_RATE_LIMIT_MAX_REQUESTS: '10',
+    }),
+    {
+      windowMs: 5_000,
+      maxRequests: 10,
+    },
+  );
+
+  assert.throws(
+    () =>
+      readRateLimitConfig({
+        AKTI_RATE_LIMIT_WINDOW_MS: '0',
+        AKTI_RATE_LIMIT_MAX_REQUESTS: '10',
+      }),
+    /AKTI_RATE_LIMIT_WINDOW_MS must be a positive integer/,
+  );
+  assert.throws(
+    () =>
+      readRateLimitConfig({
+        AKTI_RATE_LIMIT_WINDOW_MS: '5000',
+        AKTI_RATE_LIMIT_MAX_REQUESTS: '1.5',
+      }),
+    /AKTI_RATE_LIMIT_MAX_REQUESTS must be a positive integer/,
+  );
+}
+
 function run() {
   testValidTokenResolvesTrustedContext();
   testMissingBearerFailsClosed();
@@ -117,6 +274,9 @@ function run() {
   testExpiredTokenFailsClosed();
   testRouteOrganizationMismatchFailsClosed();
   testBodyContextMismatchFailsClosed();
+  testRateLimitAllowsWithinWindowAndFailsClosedAfterLimit();
+  testRateLimitSeparatesClientsAndRoutes();
+  testRateLimitConfigUsesSafeDefaultsAndRejectsInvalidValues();
 
   console.log('request-context tests passed');
 }

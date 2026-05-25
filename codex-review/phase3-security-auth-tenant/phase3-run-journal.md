@@ -200,3 +200,25 @@ Execution notes:
 - Added static invariants for trusted-context wording and Gatekeeper active-group fail-closed behavior.
 - Full implementation-ticket validation ladder passed.
 - No bounded repair attempts were needed.
+
+## P3-010 - Runtime Route Limiting Resolution
+
+Exact-file re-plan after P3-005/ADR-0011:
+
+- Implement the selected no-new-dependency in-app API route limiter:
+  - `apps/api/src/security/rate-limit.middleware.ts`
+  - `apps/api/src/main.ts`
+- Add focused limiter tests through the already-wired security test file:
+  - `apps/api/src/security/request-context.test.ts`
+- Add static wiring and approved-env-name guard:
+  - `apps/api/src/phase1-hardening/phase1-release-blockers.test.ts`
+- Create P3-010 summary, changed-files archive, and validation summary under `codex-review/phase3-security-auth-tenant/ticket-artifacts/P3-010/`.
+- Do not modify package dependencies, deployment or hosting config, Prisma, generated registry, contracts, workflows, production credentials, or secrets.
+
+Execution notes:
+
+- Added in-memory per-client/per-route limiting with safe defaults and strict positive-integer env parsing for `AKTI_RATE_LIMIT_WINDOW_MS` and `AKTI_RATE_LIMIT_MAX_REQUESTS`.
+- API bootstrap now installs the limiter before listening.
+- Negative tests cover 429 responses, retry headers, reset behavior, route/client separation, forwarded identity, and invalid env values.
+- Full implementation-ticket validation ladder passed.
+- No bounded repair attempts were needed.
