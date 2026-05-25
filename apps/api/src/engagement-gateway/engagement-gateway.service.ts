@@ -35,6 +35,7 @@ type GatewayRequestRepo = {
   create(args: unknown): Promise<{
     id: string;
     status: string;
+    recorded_at: Date;
   }>;
 };
 
@@ -111,7 +112,6 @@ export class EngagementGatewayService {
       });
     }
 
-    const recordedAtIso = new Date().toISOString();
     const persistedRequest = await this.prisma.$transaction(async (tx) => {
       const created = await gatewayRequestRepo(tx).create({
         data: {
@@ -129,6 +129,7 @@ export class EngagementGatewayService {
           requested_at: new Date(input.requested_at),
         },
       });
+      const recordedAtIso = created.recorded_at.toISOString();
 
       const gatewayRequestId = created.id;
       const stubDispatchResult =
@@ -194,7 +195,7 @@ export class EngagementGatewayService {
       organization_id: organizationId,
       status: persistedRequest.status,
       idempotency_key: input.idempotency_key,
-      recorded_at: recordedAtIso,
+      recorded_at: persistedRequest.recorded_at.toISOString(),
     });
   }
 
@@ -202,12 +203,14 @@ export class EngagementGatewayService {
     const actorUserId = this.requireActorUserId(actorUserIdRaw);
     await this.requireActorInOrganization(organizationId, actorUserId);
     await this.requireCapability(organizationId, actorUserId, HEALTH_READ_CAPABILITY);
+    const healthContext = await this.resolveGatekeeperHealthContext([GATEWAY_MODULE_KEY]);
+    const status = healthContext[GATEWAY_MODULE_KEY];
 
     return parseEngagementGatewayHealthOutput({
       module_key: GATEWAY_MODULE_KEY,
-      status: 'healthy',
+      status,
       checked_at: new Date().toISOString(),
-      degraded_reason: null,
+      degraded_reason: status === 'healthy' ? null : `module registry health is ${status}`,
     });
   }
 

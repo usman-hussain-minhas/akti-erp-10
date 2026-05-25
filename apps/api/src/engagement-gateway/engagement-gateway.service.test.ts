@@ -173,6 +173,7 @@ async function testCreateRequestHappyPath() {
   const result = await service.createRequest('org-1', createInput(), 'actor-1');
   assert.equal(result.organization_id, 'org-1');
   assert.equal(result.status, 'recorded');
+  assert.equal(result.recorded_at, '2026-05-24T10:00:00.000Z');
   assert.equal(state.gatekeeperCalls.length, 1);
   assert.deepEqual((state.gatekeeperCalls[0] as { module_health: unknown }).module_health, {
     'engagement.gateway': 'healthy',
@@ -192,6 +193,10 @@ async function testCreateRequestHappyPath() {
   assert.equal(
     EngagementGatewayRequestRecordedEventSchema.safeParse((state.outboxCalls[0] as { payload: unknown }).payload).success,
     true,
+  );
+  assert.equal(
+    ((state.outboxCalls[0] as { payload: { recorded_at: string } }).payload).recorded_at,
+    '2026-05-24T10:00:00.000Z',
   );
   assert.equal(state.stubDispatchCalls.length, 0);
   assert.equal(state.stubInboundCalls.length, 0);
@@ -301,6 +306,43 @@ async function testHealthRead() {
   const result = await service.readHealth('org-1', 'actor-1');
   assert.equal(result.module_key, 'engagement.gateway');
   assert.equal(result.status, 'healthy');
+  assert.equal(result.degraded_reason, null);
+}
+
+async function testHealthReadReflectsHealthyRegistryStatus() {
+  const { service, state } = createMocks();
+  state.moduleStatuses.set('engagement.gateway', 'healthy');
+
+  const result = await service.readHealth('org-1', 'actor-1');
+  assert.equal(result.status, 'healthy');
+  assert.equal(result.degraded_reason, null);
+}
+
+async function testHealthReadReflectsDegradedRegistryStatus() {
+  const { service, state } = createMocks();
+  state.moduleStatuses.set('engagement.gateway', 'degraded');
+
+  const result = await service.readHealth('org-1', 'actor-1');
+  assert.equal(result.status, 'degraded');
+  assert.equal(result.degraded_reason, 'module registry health is degraded');
+}
+
+async function testHealthReadReflectsDisabledRegistryStatus() {
+  const { service, state } = createMocks();
+  state.moduleStatuses.set('engagement.gateway', 'disabled');
+
+  const result = await service.readHealth('org-1', 'actor-1');
+  assert.equal(result.status, 'disabled');
+  assert.equal(result.degraded_reason, 'module registry health is disabled');
+}
+
+async function testHealthReadReflectsMissingRegistryStatus() {
+  const { service, state } = createMocks();
+  state.moduleStatuses.delete('engagement.gateway');
+
+  const result = await service.readHealth('org-1', 'actor-1');
+  assert.equal(result.status, 'unknown');
+  assert.equal(result.degraded_reason, 'module registry health is unknown');
 }
 
 async function run() {
@@ -316,6 +358,10 @@ async function run() {
   await testGatekeeperDegradedFails();
   await testRealGatekeeperUsesRegistryHealthContext();
   await testHealthRead();
+  await testHealthReadReflectsHealthyRegistryStatus();
+  await testHealthReadReflectsDegradedRegistryStatus();
+  await testHealthReadReflectsDisabledRegistryStatus();
+  await testHealthReadReflectsMissingRegistryStatus();
   console.log('engagement-gateway.service tests passed');
 }
 
