@@ -22,3 +22,7 @@ Accepted disposable local PostgreSQL clean DB/bootstrap contract with migrations
 ## P4-005
 
 Accepted no-new-dependency localhost browser/visual QA path. Any new browser automation dependency is an approval stop.
+
+## P4-006
+
+Accepted local disposable PostgreSQL backup/restore and git/build/env rollback proof model.
