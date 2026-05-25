@@ -1,0 +1,12 @@
+# P4-005 Browser Visual QA Matrix
+
+| Route/screen | Purpose | Required state | Data fixture | Expected visual state | Expected API calls | Viewports | Screenshot? | Redaction? | Pass/fail criteria |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `/setup/organization` | Initial organization setup proof | Empty DB before setup; conflict state after setup | Phase 4 demo organization payload | Form, validation, success, and conflict/error states render | POST `/platform/setup/organization` | 390x844, 1366x768 | Yes | Yes | Form visible; validation works; success/conflict message visible; no secrets. |
+| `/app` | Portal shell/dashboard if present | Web process running | None | Portal shell or scaffold route loads | none or app bootstrap calls | 390x844, 1366x768 | Yes | Yes | Route responds and renders without crash. |
+| `/lead-desk/inbox` | Lead Desk list | Staging/demo API available and operator context from P4-008 | Existing seeded/demo data or empty state | Empty/list state renders per screen contract | Lead Desk list API | 390x844, 1366x768 | Yes | Yes | Uses bearer/session context; no x-actor-user-id regression. |
+| `/lead-desk/create` | Lead creation screen | Same as Lead Desk list | Demo form values | Form renders; submit behavior tested if API state allows | Lead create API | 390x844, 1366x768 | Yes | Yes | Existing form submits or failure is classified. |
+| `/lead-desk/leads/[leadId]` | Lead detail/actions | A demo lead exists if available | Demo lead ID | Detail/actions render or empty/not-found state classified | Lead detail/action APIs | 390x844, 1366x768 | Yes | Yes | Screen contract behavior verified where data exists. |
+| Engagement Gateway surfaced state | Stub boundary proof | If surfaced by web | Gateway stub data if available | Stub-only messaging visible or classified not surfaced | Gateway stub API if route exists | 1366x768 | Optional | Yes | No direct WhatsApp/Meta coupling. |
+| Auth/session/operator context flow | Trusted session proof | P4-008 staging-safe auth | Placeholder session token | API calls carry bearer/session context | API calls from web client | 1366x768 | Evidence log | Yes | No caller-controlled x-actor-user-id trusted ingress. |
+| Error/empty states | Resilience proof | Missing/empty data | None | Empty/error copy renders | relevant route/API | 390x844, 1366x768 | Yes | Yes | No crash; no secrets in DOM/logs. |

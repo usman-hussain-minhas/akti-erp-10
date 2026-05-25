@@ -18,3 +18,7 @@ Selected local disposable staging/demo proof with API/web/local PostgreSQL. Clou
 ## P4-004
 
 Accepted disposable local PostgreSQL clean DB/bootstrap contract with migrations, Prisma generate, setup route, and registry checks.
+
+## P4-005
+
+Accepted no-new-dependency localhost browser/visual QA path. Any new browser automation dependency is an approval stop.
