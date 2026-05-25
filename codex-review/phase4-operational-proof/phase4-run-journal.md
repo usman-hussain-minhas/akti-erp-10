@@ -90,3 +90,9 @@ Executed the backup/restore/rollback drill using disposable local PostgreSQL and
 Status: COMPLETE.
 
 Resolved the route-limiting posture selected by P4-007 as validation-only confirmation of the Phase 3 app-level limiter plus documentation-only bounded deferral for distributed/infrastructure limiting. P4-015 confirmed the limiter remains registered in API bootstrap, trust-proxy headers remain explicit opt-in, `.env.example` keeps non-secret limiter config, security tests pass, and P4-011 already proved the app-level limiter returns `429` in the local API path. No proxy/CDN/WAF/provider assumptions were invented, no infrastructure limiter was implemented, and no app limiter behavior was weakened. Distributed/infrastructure route limiting remains a production deployment decision. Full validation and redaction review passed.
+
+## P4-014B
+
+Status: COMPLETE.
+
+Finalized the Phase 4 operational runbook from the P4-014A skeleton using completed P4-009 through P4-015 evidence. The runbook now covers operating boundary, ownership, routine controlled demo procedure, environment/secrets handling, fresh DB/bootstrap, staging/demo proof, smoke/health checks, browser/visual QA, backup/restore/rollback, route-limiting posture, incident/support flow, redaction rules, known deferrals, and closure standard. Every final section maps to completed evidence or an accepted deferral. Redaction review, `git diff --check`, and branch status validation passed. No runtime source, Prisma schema, migrations, package files, deployment resources, production credentials, WhatsApp production behavior, Foundry work, AI runtime, business modules, or Phase 5 scope was introduced.
