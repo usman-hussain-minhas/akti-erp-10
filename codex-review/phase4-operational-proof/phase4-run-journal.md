@@ -72,3 +72,9 @@ Executed the controlled local staging/demo deployment proof using disposable loc
 Status: COMPLETE.
 
 Created and executed a concrete smoke-test matrix against the controlled local staging/demo proof path. Bounded repair attempt 1 fixed shell quoting in the local artifact-generation script; bounded repair attempt 2 shortened the local bearer-token lifetime after Phase 3 max-age enforcement rejected a token at the exact configured boundary. The accepted run proved API health, web availability, setup organization, auth/session success and failure, route organization mismatch denial, Lead Desk create/list/detail, Engagement Gateway whatsapp_stub mediation, audit/outbox evidence, CORS/security headers, and Phase 3 app-level route limiting. P4-011 did not invent P4-015 infrastructure/distributed/proxy route-limiting assumptions. Proof services stopped cleanly, redaction review passed, and the full validation ladder passed.
+
+## P4-012
+
+Status: COMPLETE.
+
+Executed browser-rendered frontend and visual QA proof against the controlled local staging/demo path. The browser run covered setup organization, app shell, Lead Desk inbox, create, detail, actions, and not-found/error states across desktop and mobile viewport baselines where required. Screenshots were treated as evidence, not validation by themselves; behavior assertions, DOM token/header scans, actual-token artifact scanning, screenshot strings scanning, and redaction review also passed. Bounded repair attempt 1 adjusted the browser automation procedure to clear bearer-token textareas with keyboard select-all/backspace before screenshots after `fill("")` did not reliably clear React-controlled fields. No runtime code, Prisma schema, migrations, package files, dependencies, deployment files, production secrets, real WhatsApp behavior, Foundry work, AI runtime, or Phase 5/6 scope was introduced. Web-specific validation and the full validation ladder passed.
