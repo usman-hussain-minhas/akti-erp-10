@@ -34,3 +34,7 @@ Accepted Phase 3 app limiter as sufficient for controlled local/demo proof; dist
 ## P4-008
 
 Accepted Phase 3 bearer session token boundary for local/demo proof; production auth provider and credentials remain deferred.
+
+## P4-014A
+
+Created runbook skeleton with proof-ticket placeholders and ownership/support outline before implementation proof tickets.
