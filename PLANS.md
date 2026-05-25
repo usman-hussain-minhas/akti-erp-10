@@ -1,65 +1,59 @@
-# AKTI ERP Post-Phase-2 Roadmap
+# AKTI ERP Roadmap
 
-Status: post_phase_2_merged
+Status: post_phase_3_merged
 
 ## Current State
 
 - Phase 1: PASS.
-- Phase 1 hardening: PASS.
 - Phase 2: PASS_WITH_ACCEPTED_DEFERRALS.
-- Phase 1 + Phase 2 are merged into `main`.
-- Latest post-merge validation on `main` passed.
+- Phase 3: PASS_WITH_ACCEPTED_DEFERRALS.
+- Phase 1, Phase 2, and Phase 3 are merged into `main`.
+- Phase 3 merge commit: `5f388ca93bdc87bdbbff229a53300ef1554e8157`.
 
 ## Authority Notice
 
-`PLANS.md` is a human-readable roadmap. It does not override Prisma, contracts, module manifests, generated registry, ADRs, `AGENTS.md`, or active process docs.
+`PLANS.md` is a human-readable roadmap summary. It does not override Prisma, contracts, module manifests, generated registry, ADRs, `AGENTS.md`, active process docs, tests, validation evidence, or closure packages.
 
-Historical Phase 2 process docs remain useful evidence and learning material. They are not active Phase 3 or Phase 4 execution contracts.
+The strategic roadmap reference is:
+
+```text
+docs/process/AKTI_ERP_Master_Roadmap_Reference_v2.md
+```
 
 ## Corrected Roadmap
 
 | Phase | Name | Status |
 | --- | --- | --- |
-| Phase 0 | Governance and source-of-truth baseline | Complete |
-| Phase 1 | Platform foundation | Complete |
-| Phase 2 | First module-layer proof: Engagement Gateway, Lead Desk, WhatsApp stub adapter | Complete with accepted deferrals |
-| Phase 3 | Security/Auth/Tenant Hardening | Next planning target |
-| Phase 4 | Deployment/Staging/Visual QA | Future planning target |
-| Phase 5 | Foundry/Module Installer Framework | Future planning target |
-| Phase 6+ | Parallel installable modules | After Foundry/module installer exists |
+| Phase 0 | Governance, Source-of-Truth and Architecture Decisions | Complete |
+| Phase 1 | Platform Foundation | Complete |
+| Phase 2 | First Module-Layer Proof | Complete with accepted deferrals |
+| Phase 3 | Trust Foundation | Complete with accepted deferrals |
+| Phase 4 | Operational Proof | Next planning target |
+| Phase 5 | Foundry / Module Installer / AI-Ready Module Governance | Future planning target |
+| Phase 6 | Installable Business Modules with Governed In-Module AI | After Foundry/module rules exist |
+| Phase 6B or later | Evidence Foundation from Real Module Events | After real modules emit enough evidence |
+| Phase 7 | Intelligence Core / Predictability / Platform AI Operations | After Foundry and real module evidence exist |
+| Phase 8 | Scale / Marketplace / Enterprise | Future maturity target |
 
 ## Module Classification
 
 - Lead Desk is a business module, not a core platform module.
-- Engagement Gateway is a shared platform module.
+- Engagement Gateway Lite is a shared platform module.
 - WhatsApp stub is an integration adapter and remains non-production.
 
-## Accepted Deferrals After Phase 2
+## Accepted Deferrals After Phase 3
 
 - Production deployment.
-- Production auth/session.
+- Production auth/session provider and credential provisioning.
 - Production WhatsApp credentials.
 - Real outbound WhatsApp.
-- Fresh empty-database bootstrap baseline.
-- Runtime route limiting.
+- Fresh empty-database bootstrap proof.
+- DB-level RLS policies and tenant transaction context.
 - Browser-rendered frontend tests.
+- Distributed/infrastructure-level rate limiting.
 
-These are documented deferrals, not hidden Phase 1/2 blockers.
-
-## Future Autonomous Operating Model
-
-Future autonomous runs must use stable contract plus flexible runtime:
-
-- Control docs define queue, scope, boundaries, gates, and stop conditions.
-- Control docs are not live execution ledgers.
-- Runtime state comes from git history, journal entries, ticket artifacts, optional run-state files, and ordered queue position.
-- Exact-file implementation plans are required before edits.
-- Bounded validation repair is allowed only inside active ticket scope.
-- Validation/test-runner wiring may be updated only to include active-ticket tests, without dependencies or unrelated script rewrites.
-- Lightweight artifacts are expected per ticket.
-- Heavy audit packages are reserved for gates and final closure.
-- Full-access/elevated execution exception remains bounded by active control docs and is not retired.
+These are documented deferrals, not hidden Phase 3 blockers.
 
 ## Next Step
 
-Create a Phase 3 planning package for Security/Auth/Tenant Hardening. Do not start Phase 3 or Phase 4 implementation from stale Phase 2 process docs.
+Create Phase 4 planning/control documents for Operational Proof when separately approved. Do not start Phase 4 implementation, Foundry/module installer work, AI runtime work, or module scale from this summary.
