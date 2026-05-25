@@ -1,0 +1,876 @@
+{
+  "document": {
+    "title": "AKTI ERP Phase 2 Quality Pass Ticket Pack",
+    "version": "1.0.0",
+    "revision_label": "v1",
+    "status": "ready_for_review",
+    "created_at": "2026-05-25",
+    "owner": "AKTI / Usman Minhas",
+    "active_repo_path": "docs/process/AKTI_ERP_Phase_2_Quality_Pass_Ticket_Pack_v1.json",
+    "companion_report": "docs/process/AKTI_ERP_Phase_2_Quality_Pass_Report_v1.json",
+    "purpose": "Define the focused Phase 2 quality pass queue after Phase 2 hardening, using repo-verified findings only."
+  },
+  "source_of_truth_order": [
+    "prisma/schema.prisma",
+    "packages/contracts",
+    "module manifests",
+    "generated/entity-registry.generated.json",
+    "docs/adr/*",
+    "AGENTS.md",
+    "docs/process/*",
+    "PLANS.md",
+    "chat/uploaded files as supporting context only"
+  ],
+  "global_rules": {
+    "ordered_ticket_queue_is_authoritative": true,
+    "pass_groupings_are_explanatory_only": true,
+    "exact_file_implementation_plan_required_before_edits": true,
+    "broad_globs_are_inspection_hints_only": true,
+    "no_production_deployment": true,
+    "no_production_auth_session": true,
+    "no_production_whatsapp_credentials": true,
+    "no_real_outbound_whatsapp_messages": true,
+    "no_direct_lead_desk_to_meta_whatsapp_api_calls": true,
+    "no_destructive_migrations": true,
+    "no_invented_modules_capabilities_permissions_roles_events_screens_or_business_rules": true,
+    "no_new_dependencies_without_explicit_approval": true,
+    "full_access_elevated_execution_exception": "Allowed only when bounded by active control docs for the current run; it must not relax scope, validation, governance, or secret-handling rules."
+  },
+  "quality_pass_product_rules": {
+    "same_org_lead_assignment": "Same-organization lead assignment/sharing may be allowed if authorized and evidenced.",
+    "own_unit_policy": "Own-unit policies must not silently attach records to unauthorized units.",
+    "gateway_replay": "Gateway replay/idempotency must not bypass high-risk Gatekeeper controls.",
+    "event_payloads": "Event payloads must match declared event schemas or contracts must be explicitly corrected.",
+    "frontend_tests": "Frontend tests should be strengthened without new dependencies; if meaningful behavior tests require dependencies, stop for approval."
+  },
+  "ordered_ticket_queue": [
+    "P2Q-000",
+    "P2Q-001",
+    "P2Q-002",
+    "P2Q-003",
+    "P2Q-004",
+    "P2Q-005",
+    "P2Q-006",
+    "P2Q-007",
+    "P2Q-008",
+    "P2Q-009",
+    "P2Q-GATE"
+  ],
+  "pass_groupings": [
+    {
+      "name": "Control and baseline",
+      "tickets": [
+        "P2Q-000"
+      ]
+    },
+    {
+      "name": "Runtime contract and permission consistency",
+      "tickets": [
+        "P2Q-001",
+        "P2Q-002",
+        "P2Q-003",
+        "P2Q-004",
+        "P2Q-009"
+      ]
+    },
+    {
+      "name": "Test depth and validation coverage",
+      "tickets": [
+        "P2Q-005",
+        "P2Q-006"
+      ]
+    },
+    {
+      "name": "Readiness and evidence",
+      "tickets": [
+        "P2Q-007",
+        "P2Q-008",
+        "P2Q-GATE"
+      ]
+    }
+  ],
+  "tickets": [
+    {
+      "ticket_id": "P2Q-000",
+      "title": "Track quality pass controls and baseline",
+      "priority": "P0",
+      "objective": "Make the Phase 2 quality pass report and ticket pack tracked repo authority before implementation tickets run.",
+      "scope": [
+        "Track docs/process/AKTI_ERP_Phase_2_Quality_Pass_Report_v1.json.",
+        "Track docs/process/AKTI_ERP_Phase_2_Quality_Pass_Ticket_Pack_v1.json.",
+        "Record branch baseline and current quality-pass start state."
+      ],
+      "non_scope": [
+        "No product code.",
+        "No Prisma changes.",
+        "No package/dependency changes.",
+        "No quality-pass implementation."
+      ],
+      "source_files_to_inspect": [
+        "AGENTS.md",
+        "PLANS.md",
+        "docs/process/*",
+        "git status --short --branch",
+        "git log --oneline --decorate -10"
+      ],
+      "files_expected_to_change": [
+        "docs/process/AKTI_ERP_Phase_2_Quality_Pass_Report_v1.json",
+        "docs/process/AKTI_ERP_Phase_2_Quality_Pass_Ticket_Pack_v1.json",
+        "PLANS.md only if a short quality-pass reference is explicitly needed"
+      ],
+      "files_forbidden_to_change": [
+        "apps/**",
+        "packages/**",
+        "prisma/**",
+        "generated/**",
+        "scripts/**",
+        ".github/**",
+        "package.json",
+        "pnpm-lock.yaml",
+        ".env*"
+      ],
+      "tests_required": [
+        "JSON parse both quality-pass control documents."
+      ],
+      "validation_commands": [
+        "node -e \"JSON.parse(require('fs').readFileSync('docs/process/AKTI_ERP_Phase_2_Quality_Pass_Report_v1.json','utf8')); console.log('quality report json valid')\"",
+        "node -e \"JSON.parse(require('fs').readFileSync('docs/process/AKTI_ERP_Phase_2_Quality_Pass_Ticket_Pack_v1.json','utf8')); console.log('quality ticket pack json valid')\"",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Any unrelated tracked changes exist.",
+        "Any implementation/source code change is required.",
+        "JSON cannot be validated.",
+        "Quality pass queue cannot be represented without inventing scope."
+      ],
+      "acceptance_criteria": [
+        "Both quality-pass control docs are tracked.",
+        "The ordered queue contains P2Q-000 through P2Q-GATE.",
+        "No product/source files are changed."
+      ],
+      "dependencies": [],
+      "commit_message": "P2Q-000 track quality pass controls",
+      "rollback_notes": "Revert the quality-pass process document commit only.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true
+    },
+    {
+      "ticket_id": "P2Q-001",
+      "title": "Align runtime event payloads with declared schemas",
+      "priority": "P0",
+      "objective": "Ensure Lead Desk and Engagement Gateway runtime outbox payloads parse against declared contract event schemas.",
+      "scope": [
+        "Compare runtime payloads for lead created, lead status updated, lead assigned, and gateway request recorded against strict contract schemas.",
+        "Prefer changing runtime payload shape to declared schemas unless repo authority proves contracts are wrong.",
+        "Add tests that parse captured emitted payloads with declared Zod schemas."
+      ],
+      "non_scope": [
+        "No event processor implementation.",
+        "No new event types unless a contract correction is explicitly justified.",
+        "No production messaging behavior."
+      ],
+      "source_files_to_inspect": [
+        "packages/contracts/lead-desk-core.contract.ts",
+        "packages/contracts/engagement-gateway-lite.contract.ts",
+        "packages/contracts/lead-desk-core.module-manifest.contract.ts",
+        "packages/contracts/engagement-gateway-lite.module-manifest.contract.ts",
+        "apps/api/src/lead-desk/lead-desk.service.ts",
+        "apps/api/src/lead-desk/lead-desk.service.test.ts",
+        "apps/api/src/engagement-gateway/engagement-gateway.service.ts",
+        "apps/api/src/engagement-gateway/engagement-gateway.service.test.ts",
+        "apps/api/src/platform-observability/event-outbox.service.ts"
+      ],
+      "files_expected_to_change": [
+        "apps/api/src/lead-desk/lead-desk.service.ts",
+        "apps/api/src/lead-desk/lead-desk.service.test.ts",
+        "apps/api/src/engagement-gateway/engagement-gateway.service.ts",
+        "apps/api/src/engagement-gateway/engagement-gateway.service.test.ts"
+      ],
+      "files_forbidden_to_change": [
+        "prisma/** unless explicit contract/source-of-truth conflict requires a stop",
+        "generated/**",
+        "apps/web/**",
+        ".github/**",
+        "package.json",
+        "pnpm-lock.yaml",
+        ".env*"
+      ],
+      "tests_required": [
+        "Lead create event payload parses with LeadDeskLeadCreatedEventSchema.",
+        "Lead status event payload parses with LeadDeskLeadStatusUpdatedEventSchema.",
+        "Lead assignment event payload parses with LeadDeskLeadAssignedEventSchema.",
+        "Gateway request recorded payload parses with EngagementGatewayRequestRecordedEventSchema.",
+        "Malformed event helper or captured payload is rejected where practical."
+      ],
+      "validation_commands": [
+        "pnpm --filter @akti/api test",
+        "pnpm contracts:validate",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff --check",
+        "git status --short"
+      ],
+      "stop_conditions": [
+        "Changing contract schemas appears necessary.",
+        "A new event or business rule is required.",
+        "Runtime payload cannot satisfy declared schemas without scope expansion."
+      ],
+      "acceptance_criteria": [
+        "All emitted Phase 2 runtime event payloads parse against declared schemas.",
+        "Tests fail if payload shape drifts from schemas.",
+        "No new runtime processor or production integration is introduced."
+      ],
+      "dependencies": [
+        "P2Q-000"
+      ],
+      "commit_message": "P2Q-001 align runtime event payload contracts",
+      "rollback_notes": "Revert service payload/test changes from this ticket.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true
+    },
+    {
+      "ticket_id": "P2Q-002",
+      "title": "Harden Gatekeeper module health context",
+      "priority": "P0",
+      "objective": "Remove optimistic high-risk Gatekeeper health defaults and define a repo-grounded module/dependency health source or mapping.",
+      "scope": [
+        "Define how ModuleRegistryEntry.status maps to Gatekeeper module/dependency health without schema expansion unless explicitly approved.",
+        "Ensure high-risk actions fail closed when required health is missing, unknown, degraded, or disabled.",
+        "Update Lead Desk and Engagement Gateway Gatekeeper usage if needed."
+      ],
+      "non_scope": [
+        "No new module registry schema unless the ticket stops for approval.",
+        "No production monitoring system.",
+        "No new dependency."
+      ],
+      "source_files_to_inspect": [
+        "apps/api/src/gatekeeper/gatekeeper-preflight.service.ts",
+        "apps/api/src/gatekeeper/gatekeeper-preflight.service.test.ts",
+        "apps/api/src/module-registry/module-registry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.test.ts",
+        "apps/api/src/lead-desk/lead-desk.service.ts",
+        "apps/api/src/engagement-gateway/engagement-gateway.service.ts",
+        "prisma/schema.prisma",
+        "packages/contracts/gatekeeper-contract.ts"
+      ],
+      "files_expected_to_change": [
+        "apps/api/src/gatekeeper/gatekeeper-preflight.service.ts",
+        "apps/api/src/gatekeeper/gatekeeper-preflight.service.test.ts",
+        "apps/api/src/module-registry/module-registry.service.ts only if exact health mapping belongs there",
+        "apps/api/src/module-registry/module-registry.service.test.ts only if module-registry mapping changes",
+        "apps/api/src/lead-desk/lead-desk.service.test.ts only if caller tests need health coverage",
+        "apps/api/src/engagement-gateway/engagement-gateway.service.test.ts only if caller tests need health coverage"
+      ],
+      "files_forbidden_to_change": [
+        "prisma/** unless stopped and approved",
+        "packages/contracts/** unless a contract defect is proven and approved",
+        "apps/web/**",
+        "generated/**",
+        "package.json",
+        "pnpm-lock.yaml",
+        ".env*"
+      ],
+      "tests_required": [
+        "Missing target module health fails closed for high-risk actions.",
+        "Missing dependency health fails closed for high-risk actions.",
+        "Unknown, degraded, or disabled dependency fails closed.",
+        "Healthy mapped status allows known valid high-risk path.",
+        "Read-only low-risk behavior remains as designed."
+      ],
+      "validation_commands": [
+        "pnpm --filter @akti/api test",
+        "pnpm contracts:validate",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff --check",
+        "git status --short"
+      ],
+      "stop_conditions": [
+        "A new schema field is required.",
+        "A new health-monitoring service is required.",
+        "A dependency is required.",
+        "Gatekeeper semantics would need architecture changes."
+      ],
+      "acceptance_criteria": [
+        "High-risk Gatekeeper preflights do not silently default missing health to healthy.",
+        "Health mapping is explicit and tested.",
+        "Existing valid Gatekeeper paths remain usable."
+      ],
+      "dependencies": [
+        "P2Q-000"
+      ],
+      "commit_message": "P2Q-002 harden Gatekeeper module health context",
+      "rollback_notes": "Revert Gatekeeper/module-health changes from this ticket.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true
+    },
+    {
+      "ticket_id": "P2Q-003",
+      "title": "Harden Lead Desk assignment and create-unit policy",
+      "priority": "P0",
+      "objective": "Preserve authorized same-organization lead transfer while enforcing explicit create-unit, assignment authorization, and evidence controls.",
+      "scope": [
+        "Define minimal runtime policy from existing capability scopes and current models.",
+        "Prevent own-unit lead creation from silently using an unauthorized actor primary unit.",
+        "Ensure same-org assignment is allowed only when capability/scope policy permits it.",
+        "Ensure assignment creates durable history/audit/outbox evidence."
+      ],
+      "non_scope": [
+        "No new complex sharing workflow.",
+        "No production notification system.",
+        "No settings schema unless explicitly approved.",
+        "No blanket ban on authorized same-org transfer."
+      ],
+      "source_files_to_inspect": [
+        "apps/api/src/lead-desk/lead-desk.service.ts",
+        "apps/api/src/lead-desk/lead-desk.service.test.ts",
+        "packages/contracts/lead-desk-core.contract.ts",
+        "packages/contracts/lead-desk-core.module-manifest.contract.ts",
+        "prisma/schema.prisma",
+        "docs/adr/*"
+      ],
+      "files_expected_to_change": [
+        "apps/api/src/lead-desk/lead-desk.service.ts",
+        "apps/api/src/lead-desk/lead-desk.service.test.ts"
+      ],
+      "files_forbidden_to_change": [
+        "prisma/** unless stopped and approved",
+        "packages/contracts/** unless exact contract correction is required and approved",
+        "apps/web/**",
+        "generated/**",
+        "package.json",
+        "pnpm-lock.yaml",
+        ".env*"
+      ],
+      "tests_required": [
+        "Own-unit create mismatch fails or attaches only to authorized unit.",
+        "Organization-scope same-org assignment succeeds with evidence.",
+        "Own-unit unauthorized cross-unit assignment is denied with no mutation.",
+        "Cross-organization assignment remains denied before target leakage.",
+        "Assignment history, audit, and outbox evidence are written only on successful assignment.",
+        "No-write-on-failure tests cover rejected assignment."
+      ],
+      "validation_commands": [
+        "pnpm --filter @akti/api test",
+        "pnpm contracts:validate",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff --check",
+        "git status --short"
+      ],
+      "stop_conditions": [
+        "A new business rule is needed.",
+        "Manual authorization/settings model is required but absent.",
+        "A new capability or permission would need to be invented.",
+        "Schema changes are required."
+      ],
+      "acceptance_criteria": [
+        "Authorized same-org transfer remains possible.",
+        "Unauthorized same-org and all cross-org transfer paths fail closed.",
+        "Own-unit create behavior is explicit and tested.",
+        "Evidence is complete for successful assignment."
+      ],
+      "dependencies": [
+        "P2Q-001",
+        "P2Q-002"
+      ],
+      "commit_message": "P2Q-003 harden Lead Desk assignment policy",
+      "rollback_notes": "Revert Lead Desk service/test changes from this ticket.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true
+    },
+    {
+      "ticket_id": "P2Q-004",
+      "title": "Enforce gateway manifest-supported capability scope",
+      "priority": "P1",
+      "objective": "Ensure Engagement Gateway runtime authorization accepts only manifest-supported permission scope types.",
+      "scope": [
+        "Use manifest-derived allowed scope types or a narrowly equivalent helper.",
+        "Deny non-organization scope assignments for gateway capabilities.",
+        "Add negative tests for unsupported scope rows."
+      ],
+      "non_scope": [
+        "No Access Core redesign.",
+        "No new permissions.",
+        "No schema changes."
+      ],
+      "source_files_to_inspect": [
+        "packages/contracts/engagement-gateway-lite.module-manifest.contract.ts",
+        "apps/api/src/engagement-gateway/engagement-gateway.service.ts",
+        "apps/api/src/engagement-gateway/engagement-gateway.service.test.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "files_expected_to_change": [
+        "apps/api/src/engagement-gateway/engagement-gateway.service.ts",
+        "apps/api/src/engagement-gateway/engagement-gateway.service.test.ts"
+      ],
+      "files_forbidden_to_change": [
+        "prisma/**",
+        "generated/**",
+        "packages/contracts/** unless contract defect is proven and approved",
+        "apps/web/**",
+        "package.json",
+        "pnpm-lock.yaml"
+      ],
+      "tests_required": [
+        "Gateway request create passes with organization scope.",
+        "Gateway health read passes with organization scope.",
+        "Gateway request create fails with unsupported non-organization scope.",
+        "Gateway health read fails with unsupported non-organization scope."
+      ],
+      "validation_commands": [
+        "pnpm --filter @akti/api test",
+        "pnpm contracts:validate",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff --check",
+        "git status --short"
+      ],
+      "stop_conditions": [
+        "Runtime requires new capability model.",
+        "Contract scope itself appears wrong.",
+        "Prisma changes are required."
+      ],
+      "acceptance_criteria": [
+        "Gateway authorization is constrained to manifest-declared organization scope.",
+        "Unsupported scope assignment cannot authorize runtime action."
+      ],
+      "dependencies": [
+        "P2Q-000"
+      ],
+      "commit_message": "P2Q-004 enforce gateway capability scope",
+      "rollback_notes": "Revert Engagement Gateway scope-check changes from this ticket.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true
+    },
+    {
+      "ticket_id": "P2Q-005",
+      "title": "Wire Lead Desk scope foundation test",
+      "priority": "P1",
+      "objective": "Ensure the Lead Desk scope model foundation test runs in normal API and root validation.",
+      "scope": [
+        "Add apps/api/src/lead-desk/lead-desk-scope-model-foundation.test.ts to the @akti/api test script.",
+        "Run API/root tests to prove the test is wired."
+      ],
+      "non_scope": [
+        "No root package script change unless exact plan proves unavoidable.",
+        "No dependency changes.",
+        "No production code changes unless the test exposes a narrow defect and the ticket stops for approval."
+      ],
+      "source_files_to_inspect": [
+        "apps/api/package.json",
+        "apps/api/src/lead-desk/lead-desk-scope-model-foundation.test.ts"
+      ],
+      "files_expected_to_change": [
+        "apps/api/package.json"
+      ],
+      "files_forbidden_to_change": [
+        "package.json unless stopped and approved",
+        "pnpm-lock.yaml",
+        "apps/web/**",
+        "prisma/**",
+        "packages/**",
+        "generated/**"
+      ],
+      "tests_required": [
+        "pnpm --filter @akti/api test executes lead-desk-scope-model-foundation.test.ts."
+      ],
+      "validation_commands": [
+        "pnpm --filter @akti/api test",
+        "pnpm test",
+        "git diff --check",
+        "git status --short"
+      ],
+      "stop_conditions": [
+        "Root package script change is needed.",
+        "The test fails due to production-code defect outside ticket scope.",
+        "Dependency changes are required."
+      ],
+      "acceptance_criteria": [
+        "No Phase 2 hardening test file is orphaned.",
+        "API test script includes scope foundation coverage."
+      ],
+      "dependencies": [
+        "P2Q-000"
+      ],
+      "commit_message": "P2Q-005 wire Lead Desk scope foundation test",
+      "rollback_notes": "Revert apps/api/package.json test-script change.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true
+    },
+    {
+      "ticket_id": "P2Q-006",
+      "title": "Strengthen Lead Desk frontend no-new-dependency tests",
+      "priority": "P1",
+      "objective": "Improve Lead Desk frontend test confidence using available no-new-dependency tooling.",
+      "scope": [
+        "Strengthen tests for API client request construction, actor header injection, no actor ID in URLs, required request bodies, and visible state coverage.",
+        "Document remaining render/browser limitation if no dependency-free strategy can cover it."
+      ],
+      "non_scope": [
+        "No Playwright, React Testing Library, jsdom, or other new dependencies unless stopped and explicitly approved.",
+        "No broad frontend redesign.",
+        "No production auth/session."
+      ],
+      "source_files_to_inspect": [
+        "apps/web/package.json",
+        "apps/web/test/lead-desk-screens.test.mjs",
+        "apps/web/app/lead-desk/api-client.ts",
+        "apps/web/app/lead-desk/operator-context.ts",
+        "apps/web/app/lead-desk/inbox/page.tsx",
+        "apps/web/app/lead-desk/create/page.tsx",
+        "apps/web/app/lead-desk/leads/[leadId]/page.tsx",
+        "apps/web/app/lead-desk/leads/[leadId]/actions/page.tsx",
+        "docs/screen-contracts/phase-2/*.json"
+      ],
+      "files_expected_to_change": [
+        "apps/web/test/lead-desk-screens.test.mjs",
+        "apps/web/app/lead-desk/api-client.ts only if tests expose a narrow verified defect",
+        "apps/web/app/lead-desk/**/*.tsx only if tests expose a narrow verified defect"
+      ],
+      "files_forbidden_to_change": [
+        "apps/web/package.json unless stopped and explicitly approved",
+        "package.json",
+        "pnpm-lock.yaml",
+        "apps/api/**",
+        "prisma/**",
+        "packages/**",
+        "generated/**"
+      ],
+      "tests_required": [
+        "Actor ID is not propagated through Lead Desk URLs.",
+        "API client injects x-actor-user-id header and organization-scoped path.",
+        "Create/status/assignment request body fields are asserted.",
+        "Missing-context, error, permission, loading, degraded, and not-found states are structurally covered where applicable.",
+        "If render testing remains impossible without dependencies, limitation is explicitly recorded in ticket artifact."
+      ],
+      "validation_commands": [
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff --check",
+        "git status --short"
+      ],
+      "stop_conditions": [
+        "Meaningful frontend behavior tests require a new dependency.",
+        "A UI redesign is required.",
+        "A screen contract change is required."
+      ],
+      "acceptance_criteria": [
+        "No-new-dependency frontend test coverage is stronger than the current static-only scan.",
+        "Any remaining browser/render gap is explicitly documented for future Visual QA."
+      ],
+      "dependencies": [
+        "P2Q-005"
+      ],
+      "commit_message": "P2Q-006 strengthen Lead Desk frontend tests",
+      "rollback_notes": "Revert web test and any narrow verified web source fixes from this ticket.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true
+    },
+    {
+      "ticket_id": "P2Q-007",
+      "title": "Document fresh deployment migration limits",
+      "priority": "P2",
+      "objective": "Make current fresh-database deployment readiness explicit without production deployment claims.",
+      "scope": [
+        "Inspect ADR-0006, prisma/migrations, schema, and final hardening evidence.",
+        "Document whether current migrations support an empty-database bootstrap.",
+        "Carry Phase 4 deployment-readiness prerequisite if a full baseline is not available."
+      ],
+      "non_scope": [
+        "No production deployment.",
+        "No broad baseline migration.",
+        "No destructive migrations.",
+        "No Prisma changes unless a separate migration ticket is approved."
+      ],
+      "source_files_to_inspect": [
+        "docs/adr/ADR-0006-phase-2-migration-policy.md",
+        "prisma/schema.prisma",
+        "prisma/migrations/*",
+        "codex-review/phase2-hardening/final-external-audit/*"
+      ],
+      "files_expected_to_change": [
+        "codex-review/phase2-quality-pass/ticket-artifacts/P2Q-007/P2Q-007-summary.md",
+        "docs/process/AKTI_ERP_Phase_2_Quality_Pass_Report_v1.json only if an explicit tracked report update is approved"
+      ],
+      "files_forbidden_to_change": [
+        "prisma/** unless separately approved",
+        "apps/**",
+        "packages/**",
+        "generated/**",
+        ".github/**",
+        "package.json",
+        "pnpm-lock.yaml"
+      ],
+      "tests_required": [
+        "No runtime tests required for documentation-only path.",
+        "JSON parse if tracked report JSON is touched."
+      ],
+      "validation_commands": [
+        "node -e \"JSON.parse(require('fs').readFileSync('docs/process/AKTI_ERP_Phase_2_Quality_Pass_Report_v1.json','utf8')); console.log('quality report json valid')\" if report touched",
+        "git diff --check",
+        "git status --short"
+      ],
+      "stop_conditions": [
+        "A production deployment claim is requested.",
+        "A baseline migration is requested without explicit approval.",
+        "Destructive migration would be required."
+      ],
+      "acceptance_criteria": [
+        "Fresh DB deployment limitation is explicit.",
+        "Phase 4 deployment-readiness prerequisite is recorded.",
+        "No production deployment or Prisma change occurs."
+      ],
+      "dependencies": [
+        "P2Q-000"
+      ],
+      "commit_message": "P2Q-007 document Phase 2 deployment readiness limits",
+      "rollback_notes": "Revert tracked documentation updates, if any; ignored artifacts need no source rollback.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true
+    },
+    {
+      "ticket_id": "P2Q-008",
+      "title": "Resolve route rate-limit contract/runtime status",
+      "priority": "P2",
+      "objective": "Ensure route rate_limited declarations are either enforced by runtime or explicitly deferred without overclaim.",
+      "scope": [
+        "Inspect manifests and API runtime for rate-limit enforcement.",
+        "Choose the strongest no-new-dependency in-scope correction.",
+        "Either implement a minimal tested guard where feasible or document Phase 3 security deferral with validation evidence."
+      ],
+      "non_scope": [
+        "No production-grade security platform.",
+        "No new dependencies without explicit approval.",
+        "No production auth/session."
+      ],
+      "source_files_to_inspect": [
+        "packages/contracts/*module-manifest*.contract.ts",
+        "docs/screen-contracts/phase-*/*.json",
+        "apps/api/src/main.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/**/*controller.ts",
+        "apps/api/package.json",
+        "package.json"
+      ],
+      "files_expected_to_change": [
+        "Exact-file plan required before edits.",
+        "If implemented: a narrow API rate-limit guard/middleware file and tests.",
+        "If deferred: quality-pass artifact and optionally a tracked process note if explicitly approved."
+      ],
+      "files_forbidden_to_change": [
+        "package.json unless stopped and explicitly approved",
+        "pnpm-lock.yaml",
+        "prisma/**",
+        "generated/**",
+        "packages/contracts/** unless manifest wording itself must be corrected and approved"
+      ],
+      "tests_required": [
+        "If implemented: allow/deny tests for the selected rate-limit guard path.",
+        "If deferred: validator/doc evidence that runtime rate limiting is intentionally not claimed as complete."
+      ],
+      "validation_commands": [
+        "pnpm --filter @akti/api test if runtime touched",
+        "pnpm contracts:validate if manifests touched",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff --check",
+        "git status --short"
+      ],
+      "stop_conditions": [
+        "A new dependency is required.",
+        "Production auth/session or security architecture is required.",
+        "Manifest semantics would need broad redesign."
+      ],
+      "acceptance_criteria": [
+        "The rate_limited manifest/runtime status is no longer undocumented.",
+        "No new dependency is added without approval.",
+        "If deferred, Phase 3 security follow-up is explicit."
+      ],
+      "dependencies": [
+        "P2Q-000"
+      ],
+      "commit_message": "P2Q-008 clarify route rate-limit enforcement",
+      "rollback_notes": "Revert runtime/doc changes from this ticket.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true
+    },
+    {
+      "ticket_id": "P2Q-009",
+      "title": "Preserve Gateway Gatekeeper checks on idempotent replay",
+      "priority": "P1",
+      "objective": "Ensure Engagement Gateway idempotent replay does not bypass high-risk Gatekeeper controls.",
+      "scope": [
+        "Inspect createRequest ordering around actor, capability, idempotency lookup, and Gatekeeper preflight.",
+        "Define safe replay semantics for existing gateway request IDs.",
+        "Ensure degraded/blocked Gatekeeper context cannot be bypassed by repeating an idempotency key."
+      ],
+      "non_scope": [
+        "No provider delivery.",
+        "No change to idempotency key format unless exact plan proves necessary.",
+        "No schema changes unless stopped and approved."
+      ],
+      "source_files_to_inspect": [
+        "apps/api/src/engagement-gateway/engagement-gateway.service.ts",
+        "apps/api/src/engagement-gateway/engagement-gateway.service.test.ts",
+        "apps/api/src/gatekeeper/gatekeeper-preflight.service.ts",
+        "packages/contracts/engagement-gateway-lite.contract.ts"
+      ],
+      "files_expected_to_change": [
+        "apps/api/src/engagement-gateway/engagement-gateway.service.ts",
+        "apps/api/src/engagement-gateway/engagement-gateway.service.test.ts"
+      ],
+      "files_forbidden_to_change": [
+        "prisma/** unless stopped and approved",
+        "packages/contracts/** unless stopped and approved",
+        "apps/web/**",
+        "generated/**",
+        "package.json",
+        "pnpm-lock.yaml"
+      ],
+      "tests_required": [
+        "Existing idempotent replay remains stable for authorized healthy actor.",
+        "Gatekeeper degraded/deny path blocks replay or safe replay policy is explicitly enforced.",
+        "Cross-org actor cannot discover existing idempotent request.",
+        "No duplicate persistence occurs."
+      ],
+      "validation_commands": [
+        "pnpm --filter @akti/api test",
+        "pnpm contracts:validate",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff --check",
+        "git status --short"
+      ],
+      "stop_conditions": [
+        "Product decision is needed on replay semantics.",
+        "Schema change is required.",
+        "Provider delivery semantics become involved."
+      ],
+      "acceptance_criteria": [
+        "High-risk Gatekeeper controls are preserved for gateway POST replay.",
+        "Authorized idempotency behavior remains deterministic.",
+        "No direct WhatsApp/Meta behavior is introduced."
+      ],
+      "dependencies": [
+        "P2Q-002"
+      ],
+      "commit_message": "P2Q-009 harden gateway idempotency preflight",
+      "rollback_notes": "Revert Gateway service/test changes from this ticket.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true
+    },
+    {
+      "ticket_id": "P2Q-GATE",
+      "title": "Final quality-pass validation and evidence refresh",
+      "priority": "P0",
+      "objective": "Run final quality-pass validation and create review evidence after all accepted quality-pass tickets are complete.",
+      "scope": [
+        "Run full validation ladder.",
+        "Create quality-pass evidence artifacts.",
+        "Report final gaps and deferrals.",
+        "Do not merge to main or create production deployment artifacts."
+      ],
+      "non_scope": [
+        "No product changes.",
+        "No final external audit package unless separately approved.",
+        "No production deployment.",
+        "No branch merge."
+      ],
+      "source_files_to_inspect": [
+        "git status --short --branch",
+        "git log --oneline --decorate -20",
+        "changed files from P2Q tickets",
+        "codex-review/phase2-hardening/final-external-audit/*",
+        "codex-review/phase2-quality-pass/* if present"
+      ],
+      "files_expected_to_change": [
+        "codex-review/phase2-quality-pass/final-validation-summary.md",
+        "codex-review/phase2-quality-pass/quality-pass-known-deferrals.md",
+        "codex-review/phase2-quality-pass/quality-pass-ticket-manifest.md"
+      ],
+      "files_forbidden_to_change": [
+        "apps/**",
+        "packages/**",
+        "prisma/**",
+        "generated/**",
+        "scripts/**",
+        ".github/**",
+        "package.json",
+        "pnpm-lock.yaml",
+        ".env*"
+      ],
+      "tests_required": [
+        "Full validation ladder must pass or failures must stop the run."
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm exec prisma generate --schema prisma/schema.prisma",
+        "pnpm registry:generate",
+        "git diff -- generated/entity-registry.generated.json",
+        "pnpm registry:check",
+        "pnpm registry:verify:phase2",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff -- prisma/schema.prisma",
+        "git diff -- prisma/entity-registry.metadata.json",
+        "git diff --check",
+        "git status --short"
+      ],
+      "stop_conditions": [
+        "Any validation command fails.",
+        "Tracked tree is dirty unexpectedly.",
+        "A final external audit package is requested without separate approval.",
+        "Ignored artifacts cannot be created or verified."
+      ],
+      "acceptance_criteria": [
+        "Validation results are recorded.",
+        "Known deferrals are explicit.",
+        "Quality-pass evidence is ready for review."
+      ],
+      "dependencies": [
+        "P2Q-000",
+        "P2Q-001",
+        "P2Q-002",
+        "P2Q-003",
+        "P2Q-004",
+        "P2Q-005",
+        "P2Q-006",
+        "P2Q-007",
+        "P2Q-008",
+        "P2Q-009"
+      ],
+      "commit_message": "No source commit unless a tracked closure file is explicitly approved",
+      "rollback_notes": "Ignored evidence artifacts can be removed; no source rollback is needed unless a tracked closure file was approved.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true
+    }
+  ],
+  "validation_for_this_control_pack": [
+    "JSON parse docs/process/AKTI_ERP_Phase_2_Quality_Pass_Report_v1.json",
+    "JSON parse docs/process/AKTI_ERP_Phase_2_Quality_Pass_Ticket_Pack_v1.json",
+    "Search confirms P2Q-000 through P2Q-GATE exist",
+    "Search confirms no instruction retires the full-access/elevated execution exception",
+    "Search confirms no instruction prohibits authorized same-org lead transfer",
+    "git diff --check",
+    "git status --short --branch"
+  ]
+}

@@ -1,0 +1,225 @@
+{
+  "screen_key": "lead-desk.actions",
+  "module_key": "lead.desk",
+  "title": "Lead Status and Assignment",
+  "route": "/lead-desk/leads/:lead_id/actions",
+  "screen_type": "private_portal",
+  "status": "active",
+  "version": "0.1.0",
+  "business_purpose": "Provide one controlled screen for status updates and lead assignment changes.",
+  "primary_user_context": "Admissions staff responsible for lead progression and ownership updates.",
+  "user_goal": "Update lead status or assignee with clear confirmation and audit coverage.",
+  "success_outcome": "Status and assignment actions execute with capability checks, gatekeeper preflight, and audit signals.",
+  "required_capabilities": ["lead.status.update", "lead.inbox.assign"],
+  "optional_capabilities": ["lead.detail.view"],
+  "visibility_rules": [
+    {
+      "key": "lead-desk.actions.visible",
+      "description": "Visible when either update capability is available.",
+      "capability_key": "lead.status.update"
+    }
+  ],
+  "record_scope_behavior": {
+    "default_scope": "organization",
+    "allowed_scope_types": ["organization", "own_unit", "assigned_records"],
+    "description": "Status and assignment mutations remain organization-scoped and capability-guarded."
+  },
+  "primary_action": {
+    "action_key": "lead-desk.actions.update-status",
+    "label": "Update status",
+    "capability_key": "lead.status.update",
+    "action_type": "update",
+    "risk_level": "medium",
+    "requires_confirmation": true,
+    "requires_reauth": false,
+    "gatekeeper_required": true,
+    "audit_required": true
+  },
+  "secondary_actions": [
+    {
+      "action_key": "lead-desk.actions.assign-owner",
+      "label": "Assign owner",
+      "capability_key": "lead.inbox.assign",
+      "action_type": "assign",
+      "risk_level": "medium",
+      "requires_confirmation": true,
+      "requires_reauth": false,
+      "gatekeeper_required": true,
+      "audit_required": true
+    },
+    {
+      "action_key": "lead-desk.actions.open-detail",
+      "label": "Back to detail",
+      "capability_key": "lead.detail.view",
+      "action_type": "open",
+      "risk_level": "low",
+      "requires_confirmation": false,
+      "requires_reauth": false,
+      "gatekeeper_required": false,
+      "audit_required": false
+    }
+  ],
+  "row_actions": [],
+  "bulk_actions": [],
+  "destructive_actions": [],
+  "data_sources": [
+    {
+      "key": "lead-desk.actions.detail-source",
+      "label": "Lead action context",
+      "source_type": "api",
+      "route_key": "lead-desk.actions.detail-route",
+      "description": "Load current lead record before applying status or assignment updates."
+    }
+  ],
+  "api_routes": [
+    {
+      "key": "lead-desk.actions.detail-route",
+      "method": "GET",
+      "path": "/api/lead-desk/organizations/:organization_id/leads/:lead_id",
+      "capability_key": "lead.detail.view",
+      "auth_required": true,
+      "public_route": false,
+      "rate_limited": true,
+      "input_schema": "lead.desk.lead.detail.input",
+      "output_schema": "lead.desk.lead.detail.output",
+      "description": "Load lead context for status/assignment actions."
+    },
+    {
+      "key": "lead-desk.actions.status-route",
+      "method": "PATCH",
+      "path": "/api/lead-desk/organizations/:organization_id/leads/:lead_id/status",
+      "capability_key": "lead.status.update",
+      "auth_required": true,
+      "public_route": false,
+      "rate_limited": true,
+      "input_schema": "lead.desk.lead.status.update.input",
+      "output_schema": "lead.desk.lead.status.update.output",
+      "description": "Update lead status."
+    },
+    {
+      "key": "lead-desk.actions.assignment-route",
+      "method": "PATCH",
+      "path": "/api/lead-desk/organizations/:organization_id/leads/:lead_id/assignment",
+      "capability_key": "lead.inbox.assign",
+      "auth_required": true,
+      "public_route": false,
+      "rate_limited": true,
+      "input_schema": "lead.desk.lead.assign.input",
+      "output_schema": "lead.desk.lead.assign.output",
+      "description": "Update lead assignment owner."
+    }
+  ],
+  "query_params": [],
+  "required_entities": [
+    {
+      "entity_key": "lead.record",
+      "purpose": "Provide current lead state before submitting updates."
+    }
+  ],
+  "empty_data_behavior": {
+    "title": "Lead not found",
+    "message": "A lead must be selected before status or assignment can be changed."
+  },
+  "table_columns": [],
+  "filters": [],
+  "search_fields": [],
+  "sorting": [],
+  "pagination": { "mode": "none" },
+  "saved_views": [],
+  "form_fields": [
+    { "key": "status", "label": "New status", "field_type": "select", "required": true },
+    { "key": "reason", "label": "Status note", "field_type": "textarea", "required": false },
+    { "key": "assigned_user_id", "label": "Assign to", "field_type": "text", "required": true }
+  ],
+  "validation_rules": [],
+  "submit_action": null,
+  "draft_behavior": { "supported": false, "autosave": false },
+  "file_uploads": [],
+  "empty_state": {
+    "title": "No action selected",
+    "message": "Select a lead to update status or assignment."
+  },
+  "loading_state": {
+    "title": "Submitting update",
+    "message": "The lead update is being submitted."
+  },
+  "error_state": {
+    "title": "Could not apply update",
+    "message": "Check the selected values and try again."
+  },
+  "permission_denied_state": {
+    "title": "Access needed",
+    "message": "You do not have permission to update lead status or assignment."
+  },
+  "degraded_mode_state": {
+    "title": "Lead updates limited",
+    "message": "Status and assignment actions are temporarily limited."
+  },
+  "desktop_layout": {
+    "layout": "single_column",
+    "primary_navigation": "Lead Desk",
+    "critical_content": ["status", "assigned_user_id"]
+  },
+  "tablet_layout": {
+    "layout": "single_column",
+    "primary_navigation": "Lead Desk",
+    "critical_content": ["status", "assigned_user_id"]
+  },
+  "mobile_layout": {
+    "layout": "stacked",
+    "primary_navigation": "Lead Desk",
+    "critical_content": ["status", "assigned_user_id"]
+  },
+  "no_technical_language": true,
+  "no_fake_data": true,
+  "no_placeholder_actions": true,
+  "no_hardcoded_roles": true,
+  "no_hardcoded_units": true,
+  "plain_language_labels": true,
+  "audit_hooks": [
+    {
+      "key": "lead-desk.actions.status.audit",
+      "action_key": "lead-desk.actions.update-status",
+      "description": "Audit lead status updates."
+    },
+    {
+      "key": "lead-desk.actions.assignment.audit",
+      "action_key": "lead-desk.actions.assign-owner",
+      "description": "Audit lead assignment updates."
+    }
+  ],
+  "events_expected": [
+    {
+      "event_type": "lead.desk.lead.status.updated",
+      "version": "0.1.0",
+      "trigger_action_key": "lead-desk.actions.update-status"
+    },
+    {
+      "event_type": "lead.desk.lead.assigned",
+      "version": "0.1.0",
+      "trigger_action_key": "lead-desk.actions.assign-owner"
+    }
+  ],
+  "notifications_triggered": [
+    {
+      "key": "lead-desk.actions.status.notice",
+      "label": "Lead status updated",
+      "trigger_action_key": "lead-desk.actions.update-status"
+    },
+    {
+      "key": "lead-desk.actions.assignment.notice",
+      "label": "Lead reassigned",
+      "trigger_action_key": "lead-desk.actions.assign-owner"
+    }
+  ],
+  "ai_allowed": false,
+  "ai_actions": [],
+  "ai_requires_human_approval": true,
+  "ai_forbidden_actions": ["publish", "send", "approve", "reject", "verify", "issue", "enroll", "delete", "export"],
+  "forbidden_behaviors": [
+    "Do not update lead status without required capability.",
+    "Do not assign users outside organization scope.",
+    "Do not call external messaging providers directly.",
+    "Do not hardcode owner or status defaults."
+  ]
+}

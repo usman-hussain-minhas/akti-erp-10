@@ -1,0 +1,310 @@
+{
+  "document": {
+    "title": "AKTI ERP Phase 2 Quality Pass Report",
+    "version": "1.0.0",
+    "revision_label": "v1",
+    "status": "ready_for_ticket_pack_review",
+    "created_at": "2026-05-25",
+    "updated_at": "2026-05-25",
+    "owner": "AKTI / Usman Minhas",
+    "active_repo_path": "docs/process/AKTI_ERP_Phase_2_Quality_Pass_Report_v1.json",
+    "companion_ticket_pack": "docs/process/AKTI_ERP_Phase_2_Quality_Pass_Ticket_Pack_v1.json",
+    "purpose": "Preserve the independent Phase 2 quality audit after Phase 2 hardening, record repo-verified findings, and provide neutral evidence for a focused quality pass ticket pack.",
+    "authority_note": "This report is quality-pass planning authority only after it is tracked in the repository. It does not override prisma/schema.prisma, packages/contracts, module manifests, generated registry, ADRs, AGENTS.md, or active process docs."
+  },
+  "audit_provenance": {
+    "report_source": "docs/process/AKTI_ERP_Phase_2_Quality_Pass_Report_v1.json was introduced as advisory source-file input and then reconciled with current repository reality.",
+    "codex_independent_repo_audit_summary": "Codex independently inspected current Phase 2 hardening branch files, contracts, manifests, Prisma schema and migrations, registry outputs, API runtime services, web Lead Desk screens, validation scripts, hardening artifacts, and final external audit evidence. The audit verified all eight uploaded report findings and added four material repo-derived findings.",
+    "files_inspected_summary": [
+      "AGENTS.md",
+      "PLANS.md",
+      "docs/adr/*",
+      "docs/specs/*",
+      "docs/process/*",
+      "package.json",
+      "pnpm-workspace.yaml",
+      ".github/workflows/*",
+      "prisma/schema.prisma",
+      "prisma/migrations/*",
+      "prisma/entity-registry.metadata.json",
+      "generated/entity-registry.generated.json",
+      "scripts/registry/*",
+      "packages/contracts/*",
+      "packages/contracts/scripts/*",
+      "apps/api/package.json",
+      "apps/api/src/*",
+      "apps/web/package.json",
+      "apps/web/app/lead-desk/*",
+      "apps/web/test/lead-desk-screens.test.mjs",
+      "codex-review/phase2-hardening/final-external-audit/*",
+      "codex-review/phase2-hardening/hardening-run-journal.md",
+      "codex-review/phase2-hardening/ticket-artifacts/*"
+    ],
+    "repo_state_observed": {
+      "branch": "phase2/hardening-runtime-consistency",
+      "reported_hardening_head": "1043db49025ac36823c69db43c6f79649a150217",
+      "reported_short_sha": "1043db4",
+      "quality_report_initial_tracking_status": "untracked before P2Q control-document creation",
+      "final_hardening_package_observed": "codex-review/phase2-hardening/final-external-audit/akti-erp-phase-2-hardened-source-1043db4.zip"
+    }
+  },
+  "source_of_truth_order": [
+    "prisma/schema.prisma",
+    "packages/contracts",
+    "module manifests",
+    "generated/entity-registry.generated.json",
+    "docs/adr/*",
+    "AGENTS.md",
+    "docs/process/*",
+    "PLANS.md",
+    "chat/uploaded files as supporting context only"
+  ],
+  "executive_verdict": {
+    "phase_2_hardening_status": "completed_and_validation_green_based_on_repo_artifacts",
+    "quality_pass_status": "recommended_before_final_acceptance",
+    "quality_pass_focus": [
+      "runtime consistency",
+      "negative tests",
+      "contract/runtime alignment",
+      "Gatekeeper health behavior",
+      "permission scope behavior",
+      "frontend no-new-dependency test depth",
+      "deployment-readiness wording",
+      "final evidence refresh"
+    ],
+    "reason": "Phase 2 hardening closed the approved P2H queue and produced final audit evidence, but repo inspection found remaining runtime/contract and test-depth issues that are focused enough for a bounded quality pass."
+  },
+  "corrected_interpretations": [
+    {
+      "id": "CORR-001",
+      "topic": "Full-access/elevated execution exception",
+      "correction": "Do not retire the full-access/elevated execution exception now. Keep it bounded by active control docs for future autonomous phases.",
+      "quality_pass_rule": "A quality-pass ticket may tighten boundaries and evidence, but must not remove the active-control-doc exception model by side effect."
+    },
+    {
+      "id": "CORR-002",
+      "topic": "Same-organization lead sharing and transfer",
+      "correction": "Same-organization lead sharing/transfer is allowed when authorized by capability, settings, manual authorization, group/branch/department scope, and evidence/audit policy.",
+      "quality_pass_rule": "Do not treat same-org transfer as automatically invalid. Harden missing authorization, notification, evidence, or audit checks instead."
+    },
+    {
+      "id": "CORR-003",
+      "topic": "WhatsApp and Meta boundary",
+      "correction": "Do not introduce production WhatsApp credentials, real outbound WhatsApp messages, production deployment, or direct Lead Desk-to-Meta/WhatsApp coupling.",
+      "quality_pass_rule": "WhatsApp-related behavior must remain stub-only and mediated through Engagement Gateway Lite unless a later approved ADR and ticket explicitly changes that boundary."
+    }
+  ],
+  "verified_report_findings": [
+    {
+      "id": "P2Q-001",
+      "title": "Runtime event payloads may not be validated against declared event schemas",
+      "severity": "high",
+      "classification": "contract_runtime_consistency",
+      "verified": true,
+      "evidence": [
+        "Lead Desk strict event schemas require event_type, version, lead_id, actor_user_id, and created_at/updated_at fields.",
+        "Engagement Gateway strict event schema requires gateway_request_id, organization_id, actor_user_id, source_module, capability_key, request_kind, idempotency_key, and recorded_at.",
+        "Runtime outbox payloads use entity_type/entity_id/occurred_at and omit several declared schema fields.",
+        "Current service tests assert event_type and limited outbox data rather than full schema parse."
+      ],
+      "risk": "Event names can appear aligned while payloads are incompatible with consumers.",
+      "recommended_ticket": "P2Q-001"
+    },
+    {
+      "id": "P2Q-002",
+      "title": "Gatekeeper module/dependency health may default to healthy instead of using real module health",
+      "severity": "high",
+      "classification": "gatekeeper_runtime_consistency",
+      "verified": true,
+      "evidence": [
+        "GatekeeperPreflightService.buildRequest defaults missing module_health and dependency_health to healthy.",
+        "Lead Desk and Engagement Gateway service callers do not supply verified module/dependency health context."
+      ],
+      "risk": "High-risk actions can be allowed even when real module health is missing, unknown, degraded, or disabled.",
+      "recommended_ticket": "P2Q-002"
+    },
+    {
+      "id": "P2Q-003",
+      "title": "Lead create/share/transfer policy needs explicit runtime authorization and evidence model",
+      "severity": "high",
+      "classification": "permission_scope_and_business_policy",
+      "verified": true,
+      "evidence": [
+        "Cross-organization assignment is denied and assignment writes history/audit/outbox.",
+        "Runtime assignment permits same-organization assignee if the actor can access the lead and has assignment capability.",
+        "Own-unit assignment and cross-unit transfer policy is not explicit enough to distinguish authorized same-org sharing from over-broad assignment."
+      ],
+      "risk": "Lead Desk may over-allow or over-block same-organization transfer without a clear evidence-backed policy.",
+      "recommended_ticket": "P2Q-003"
+    },
+    {
+      "id": "P2Q-004",
+      "title": "Engagement Gateway runtime capability check should enforce manifest-declared organization scope",
+      "severity": "medium_high",
+      "classification": "permission_scope_consistency",
+      "verified": true,
+      "evidence": [
+        "Engagement Gateway manifest permissions allow only organization scope.",
+        "EngagementGatewayService.requireCapability checks organization_id, group_id, and capability_key but not scope_type."
+      ],
+      "risk": "Invalid or manually inserted GroupCapability rows using unsupported scope types could authorize gateway runtime actions.",
+      "recommended_ticket": "P2Q-004"
+    },
+    {
+      "id": "P2Q-005",
+      "title": "New Lead Desk scope foundation test may not be wired into main API test script",
+      "severity": "medium",
+      "classification": "test_wiring",
+      "verified": true,
+      "evidence": [
+        "apps/api/src/lead-desk/lead-desk-scope-model-foundation.test.ts exists.",
+        "apps/api/package.json test script does not include that test file."
+      ],
+      "risk": "A material scope-foundation test can pass once manually but not run in normal validation.",
+      "recommended_ticket": "P2Q-005"
+    },
+    {
+      "id": "P2Q-006",
+      "title": "Frontend tests are improved but may still be static instead of behavioral",
+      "severity": "medium_high",
+      "classification": "frontend_test_depth",
+      "verified": true,
+      "evidence": [
+        "apps/web/test/lead-desk-screens.test.mjs reads source files and asserts regex/source-text patterns.",
+        "No render, component, or browser behavior test dependency exists in apps/web/package.json."
+      ],
+      "risk": "Static tests can pass while runtime component behavior fails.",
+      "recommended_ticket": "P2Q-006"
+    },
+    {
+      "id": "P2Q-007",
+      "title": "Fresh database deployment path remains limited if migrations are ticket-scoped only",
+      "severity": "medium_high_for_deployment",
+      "classification": "deployment_readiness",
+      "verified": true,
+      "evidence": [
+        "prisma/migrations contains ticket-scoped delta migrations for Phase 2 hardening.",
+        "The migrations do not create the full schema from an empty database.",
+        "Final hardening known deferrals state no production deployment was performed."
+      ],
+      "risk": "The branch can be source/audit ready without being fresh-production-deploy ready.",
+      "recommended_ticket": "P2Q-007"
+    },
+    {
+      "id": "P2Q-008",
+      "title": "Manifest route rate_limited flags may not have runtime middleware enforcement",
+      "severity": "medium",
+      "classification": "contract_runtime_consistency",
+      "verified": true,
+      "evidence": [
+        "Module and screen manifests declare rate_limited true.",
+        "No NestJS throttler, rate-limit guard, or rate-limit middleware was found in apps/api/src."
+      ],
+      "risk": "Manifests can overclaim runtime rate limiting.",
+      "recommended_ticket": "P2Q-008"
+    }
+  ],
+  "independent_codex_findings": [
+    {
+      "id": "IQ-001",
+      "title": "Quality pass report is not tracked repo authority yet",
+      "severity": "medium",
+      "affected_files": [
+        "docs/process/AKTI_ERP_Phase_2_Quality_Pass_Report_v1.json"
+      ],
+      "evidence": "git status showed the quality pass report as untracked before P2Q control-document creation.",
+      "risk": "A later autonomous pass needs tracked control inputs.",
+      "recommended_ticket": "P2Q-000"
+    },
+    {
+      "id": "IQ-002",
+      "title": "Engagement Gateway idempotency replay may bypass Gatekeeper preflight",
+      "severity": "high",
+      "affected_files": [
+        "apps/api/src/engagement-gateway/engagement-gateway.service.ts",
+        "apps/api/src/engagement-gateway/engagement-gateway.service.test.ts"
+      ],
+      "evidence": "EngagementGatewayService.createRequest checks existing requests and returns the existing response before Gatekeeper preflight.",
+      "risk": "A high-risk POST replay may succeed while module/dependency health would otherwise block the action.",
+      "recommended_ticket": "P2Q-009"
+    },
+    {
+      "id": "IQ-003",
+      "title": "Gatekeeper real-health mapping is undefined",
+      "severity": "high",
+      "affected_files": [
+        "apps/api/src/gatekeeper/gatekeeper-preflight.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts",
+        "prisma/schema.prisma"
+      ],
+      "evidence": "ModuleRegistryEntry.status stores string values such as available, while Gatekeeper contract health expects healthy/degraded/disabled-style values.",
+      "risk": "Removing optimistic defaults requires a defined runtime health source or mapping.",
+      "recommended_ticket": "P2Q-002"
+    },
+    {
+      "id": "IQ-004",
+      "title": "Own-unit lead creation can use actor primary unit rather than authorized capability scope unit",
+      "severity": "medium_high",
+      "affected_files": [
+        "apps/api/src/lead-desk/lead-desk.service.ts",
+        "apps/api/src/lead-desk/lead-desk.service.test.ts"
+      ],
+      "evidence": "createLead writes organization_unit_id from actor.primary_unit_id, while requireCapability can derive own-unit access from GroupCapability.scope_unit_id.",
+      "risk": "An own-unit grant for one unit should not silently create a record in a different primary unit.",
+      "recommended_ticket": "P2Q-003"
+    }
+  ],
+  "no_issue_confirmations": [
+    "No direct Lead Desk-to-Meta/WhatsApp coupling was found.",
+    "WhatsApp behavior remains stub-only under Engagement Gateway.",
+    "No production WhatsApp credentials were found.",
+    "No production secret leakage was found during repo inspection.",
+    "Phase 2 validation scripts exist, including contracts:validate and registry:verify:phase2.",
+    "The final Phase 2 hardening package exists under codex-review/phase2-hardening/final-external-audit/.",
+    "The final hardening package includes manifest, checksums, file list, exclusion verification, known deferrals, validation summary, closure report, and source zip.",
+    "A Phase 2 screen lifecycle validator exists and checks active Lead Desk route/contract parity.",
+    "No tracked .DS_Store, node_modules, build output, generated Prisma client output, or audit folder was found in git ls-files."
+  ],
+  "quality_pass_resolution_notes": [
+    {
+      "ticket_id": "P2Q-007",
+      "status": "documented",
+      "title": "Fresh deployment migration limits",
+      "summary": "Current Phase 2 migrations are ticket-scoped deltas for the existing branch state. They are not claimed as a full empty-database production bootstrap baseline.",
+      "deployment_readiness_boundary": [
+        "No production deployment was performed or claimed in Phase 2 quality pass.",
+        "No Prisma schema or migration files were changed by P2Q-007.",
+        "A future deployment-readiness phase should either provide an approved full baseline migration path or an explicitly approved non-production bootstrap procedure before claiming fresh production database readiness."
+      ]
+    },
+    {
+      "ticket_id": "P2Q-008",
+      "status": "deferred_to_phase_3_security",
+      "title": "Route rate-limit contract/runtime status",
+      "summary": "Current manifests declare route-level rate_limited intent, but this branch does not include a runtime NestJS throttler, rate-limit middleware, or no-new-dependency production-grade limiter.",
+      "security_boundary": [
+        "No production auth/session or security architecture was introduced by P2Q-008.",
+        "No package dependencies were added.",
+        "The rate_limited manifest fields remain treated as contract intent until a separately approved Phase 3 security ticket wires runtime enforcement."
+      ]
+    }
+  ],
+  "recommended_ticket_queue": [
+    "P2Q-000",
+    "P2Q-001",
+    "P2Q-002",
+    "P2Q-003",
+    "P2Q-004",
+    "P2Q-005",
+    "P2Q-006",
+    "P2Q-007",
+    "P2Q-008",
+    "P2Q-009",
+    "P2Q-GATE"
+  ],
+  "next_workflow": [
+    "Review docs/process/AKTI_ERP_Phase_2_Quality_Pass_Report_v1.json and docs/process/AKTI_ERP_Phase_2_Quality_Pass_Ticket_Pack_v1.json.",
+    "Approve the ticket pack before running any P2Q implementation.",
+    "Do not start P2Q tickets from this report alone; use the companion ticket pack as the execution contract."
+  ]
+}

@@ -1,11 +1,12 @@
 {
   "document": {
     "title": "AKTI ERP Phase 2 Autonomous Codex Execution Pack",
-    "version": "1.0.0",
-    "status": "draft_for_codex_plan_mode_validation",
+    "version": "1.1.0",
+    "status": "active_v3_after_p2_ctrl_001",
     "created_at": "2026-05-24T00:00:00+05:00",
     "recommended_repo_path": "docs/process/AKTI_ERP_Phase_2_Autonomous_Codex_Execution_Pack_v1.json",
-    "purpose": "Machine-readable active scope contract for the Phase 2 full autonomous execution branch run."
+    "purpose": "Machine-readable active scope contract for the Phase 2 full autonomous execution branch run.",
+    "p2_ctrl_001_note": "Adopts reviewed Phase 2 v3 autonomous queue and decision rules after P2A-001."
   },
   "run_contract": {
     "run_id": "phase2-autonomous-full-run-v1",
@@ -17,7 +18,35 @@
     "failure_model": "Failure is allowed. Codex must stop honestly and preserve audit artifacts.",
     "final_phase_1_implementation_commit": "18f497d P1H-FINAL harden access reads and capability duplicates",
     "phase_2_control_doc_merge_commit": "f02ac95 Merge pull request #1 from usman-hussain-minhas/chore/phase2-control-docs",
-    "branch_creation_rule": "Create phase2/autonomous-full-run only from clean current main after control-document corrections are merged."
+    "branch_creation_rule": "Create phase2/autonomous-full-run only from clean current main after control-document corrections are merged.",
+    "active_queue_version": "v3",
+    "completed_tickets": [
+      "P2-000",
+      "P2A-001",
+      "P2-VAL-001"
+    ],
+    "completed_commits": {
+      "P2A-001": "944d0c84badbf9633c12c395f8e50cb08cc96571",
+      "P2-VAL-001": "8b8b691227d6fff12c2bb7c8017e11bf49041e8b"
+    },
+    "next_executable_ticket": "P2A-002",
+    "v3_review_artifact": "codex-review/P2A-001-post-audit-and-phase2-v3-autonomy-plan/",
+    "goal_start_ticket": "P2A-002",
+    "pre_goal_completed_tickets": [
+      "P2-000",
+      "P2A-001",
+      "P2-VAL-001"
+    ],
+    "runtime_state_model": "stable_contract_not_live_ledger",
+    "runtime_progress_sources": [
+      "git_commit_history",
+      "codex-review/phase2-autonomous-full-run/autonomous-run-journal.md",
+      "codex-review/phase2-autonomous-full-run/ticket-artifacts/<ticket-id>/",
+      "codex-review/phase2-autonomous-full-run/run-state.json (optional)",
+      "active_v3_queue_order"
+    ],
+    "runtime_conflict_policy": "STOP_WITH_RUN_STATE_CONFLICT",
+    "bootstrap_metadata_note": "completed_tickets, completed_commits, and next_executable_ticket are bootstrap/reference metadata and are not a live per-ticket execution ledger."
   },
   "global_non_scope": [
     "No auto-merge to main",
@@ -57,8 +86,73 @@
     "phase2_registry_rule": "Do not use pnpm registry:verify:phase1 as the final validator for Phase 2 schema additions. P2-VAL-001 must add a Phase 2-aware verification path before schema tickets edit Prisma models.",
     "phase2_screen_contract_rule": "P2-VAL-002 must add Phase 2 screen-contract validation support before Lead Desk screen contracts are added.",
     "migration_policy": "If the repo still has no Prisma migrations directory, schema/data tickets must explicitly decide schema/registry-only versus migration scaffolding. If migration scaffolding is required, Codex must stop unless that work is explicitly ticketed. Destructive migrations are forbidden.",
-    "phase2c_governance_rule": "Phase 2A and Phase 2B are not blocked by ADR-0003 pilot-date status. Phase 2C cannot execute until ADR-0003 Phase 2C pilot target date is assigned or a formal exception is recorded.",
-    "execution_environment_rule": "Autonomous execution must run only in an approved safe Codex environment: not danger-full-access, not unrestricted network, not approval-never, and no production secrets. workspace-write/on-request/no-network is preferred unless explicitly approved otherwise."
+    "phase2c_governance_rule": "Phase 2C is unlocked only under the ADR-0003 formal exception recorded on 2026-05-24 and is limited to stub/non-production implementation with no production credentials, no real outbound WhatsApp messages, no direct Lead Desk-to-Meta/WhatsApp coupling, and all transport through Engagement Gateway Lite.",
+    "execution_environment_rule": "Autonomous execution default is approved safe mode: workspace-write, approval-gated mutation, restricted network, and no production secrets. A full-access profile (danger-full-access, approval-never, network-enabled) is allowed only when explicitly authorized by active control docs for the current run and does not relax scope, validation, governance, or secret-handling rules.",
+    "v3_autonomy_rule": "Codex may continue through AUTONOMOUS_READY, AUTONOMOUS_AFTER_PREVIOUS, and AUTONOMOUS_DECISION_RULE tickets when the encoded decision rule passes and no hard gate triggers.",
+    "autonomous_status_policy": {
+      "COMPLETE": "Already satisfied in repo history.",
+      "AUTONOMOUS_READY": "May run next after normal prechecks.",
+      "AUTONOMOUS_AFTER_PREVIOUS": "May run after prior ticket passes validation and artifacts.",
+      "AUTONOMOUS_DECISION_RULE": "May continue only by applying the explicit autonomous_decision_rule for the ticket.",
+      "GOVERNANCE_BLOCKED": "Must not run until governance condition is resolved."
+    },
+    "v3_decision_rules": {
+      "P2A-002": "If P2A-001 contracts do not require persisted gateway request state, formally defer persistence with artifact/journal and continue. If persistence is required and exact models are derivable without new business rules, implement after P2-VAL-001. If unclear, stop.",
+      "P2B-001A": "Codex may define minimal Lead Desk contract boundary only for lead intake, list, detail, status, and assignment. Exclude campaigns, finance, student lifecycle, LMS, HR, certification, direct WhatsApp, Meta, and provider concepts. If a business rule is unclear, use a neutral contract only if it does not create behavior; otherwise stop.",
+      "P2B-001B": "Codex may create screen contracts only for lead inbox/list, lead detail, lead create, and lead assignment/status action screens. No frontend implementation.",
+      "P2B-002A": "Codex may derive data model only from approved Lead Desk contracts and screen contracts. Proceed only if exact minimal model set, tenant ownership, indexes, registry metadata, and migration policy are clear. If unclear, stop.",
+      "P2B-002B": "Implement Lead Desk schema/registry only after P2B-002A confirms exact model set and P2-VAL-001 is complete. If migration scaffolding is required but not explicitly ticketed, stop. No destructive migrations.",
+      "P2B_API": "Codex may implement only APIs backed by approved contracts and models. No direct WhatsApp/Meta. No unapproved status workflows. No fake data. No hardcoded tenant, campus, role, user, or organization assumptions.",
+      "P2B_FRONTEND": "Codex may implement only screens with approved screen contracts. No fake dashboards. No hardcoded campus, role, user, tenant, or organization assumptions. Must include empty/loading/error/permission-denied states as required by screen contracts.",
+      "P2C": "P2C may proceed only under the ADR-0003 stub/non-production exception: no production credentials, no real outbound WhatsApp messages, no direct Lead Desk-to-Meta/WhatsApp coupling, and all transport through Engagement Gateway Lite."
+    },
+    "runtime_state_rule": "Control documents define approved queue, boundaries, decision rules, and hard gates; runtime progress is derived from git and codex-review state sources, not per-ticket control-doc edits.",
+    "per_ticket_control_doc_update_rule": "Do not require control-doc updates after every completed ticket during /goal execution.",
+    "autonomous_loop_rule": "Codex may continue automatically to the next ticket when exact-file scope, validation, self-audit, lightweight artifacts, runtime state update, and commit/no-commit policy all pass with no hard gate trigger.",
+    "autonomous_validation_repair_rule": "Codex may auto-repair deterministic schema/type/test/lint failures inside active ticket scope with no dependency or authority change, no invented scope, and no forbidden-file edits.",
+    "autonomous_validation_repair_examples": [
+      "import/export name mismatch",
+      "TypeScript type mismatch inside active ticket files",
+      "Zod/schema shape mismatch",
+      "module manifest field mismatch",
+      "invalid manifest key format",
+      "duplicate action key",
+      "missing required capability key when an approved capability already exists",
+      "local test expectation mismatch caused by active ticket implementation"
+    ],
+    "autonomous_validation_repair_non_repairable": [
+      "file outside active ticket scope",
+      "new dependency",
+      "Prisma/schema change not allowed by ticket",
+      "migration strategy decision",
+      "new business rule",
+      "new capability/permission/role/module/event/screen",
+      "secret or external credential",
+      "direct WhatsApp/Meta coupling",
+      "frontend without screen contract",
+      "fake data or hardcoded tenant/campus/role/user/org assumptions"
+    ],
+    "autonomous_validation_repair_budget": {
+      "max_cycles_per_ticket": 3,
+      "budget_exhausted_outcome": "VALIDATION_FAILED",
+      "stop_immediately_on_true_hard_gate": true
+    },
+    "autonomous_validation_repair_reporting_policy": "Do not stop or report for each local repair attempt. Record attempts in ticket summary artifact. Report only when repair budget is exhausted, hard gate triggers, phase/final gate is reached, or run completes.",
+    "validation_test_runner_wiring_rule": "Codex may update test-runner wiring when active-ticket tests are required but excluded by existing scripts, only within approved package.json scope, with no dependency changes and no unrelated behavior changes.",
+    "validation_test_runner_wiring_allowed_files": [
+      "apps/api/package.json for API tests",
+      "apps/web/package.json for web tests",
+      "packages/contracts/package.json for contract validation",
+      "root package.json only for explicit root orchestration needs"
+    ],
+    "validation_test_runner_wiring_stop_conditions": [
+      "broad script rewrite required",
+      "dependency addition required",
+      "CI/workflow changes required",
+      "unrelated test behavior changes required"
+    ],
+    "artifact_only_ticket_rule": "If a ticket produces only ignored artifacts and no tracked source file changes, create artifacts, update journal/runtime state, record no tracked commit required, and continue.",
+    "push_policy": "Codex may push only phase2/autonomous-full-run. Never push main. Never merge main. Never open PR unless explicitly requested."
   },
   "standard_validation_ladder": [
     "pnpm --filter @akti/api test",
@@ -85,30 +179,37 @@
   },
   "artifact_policy": {
     "per_ticket": [
-      "codex-review/phase2-autonomous-full-run/ticket-artifacts/<ticket-id>/<ticket-id>-file-manifest.md",
-      "codex-review/phase2-autonomous-full-run/ticket-artifacts/<ticket-id>/<ticket-id>-changed-files.zip",
-      "codex-review/phase2-autonomous-full-run/ticket-artifacts/<ticket-id>/<ticket-id>-validation-summary.md"
+      "codex-review/phase2-autonomous-full-run/ticket-artifacts/<ticket-id>/<ticket-id>-summary.md",
+      "codex-review/phase2-autonomous-full-run/ticket-artifacts/<ticket-id>/<ticket-id>-changed-files.zip"
     ],
     "journal": "codex-review/phase2-autonomous-full-run/autonomous-run-journal.md",
     "checkpoints": "codex-review/phase2-autonomous-full-run/checkpoints/checkpoint-<n>.md after every 3 tickets",
-    "final_audit_package": "codex-review/phase2-autonomous-full-run/final-branch-audit/"
+    "final_audit_package": "codex-review/phase2-autonomous-full-run/final-branch-audit/",
+    "p2a_001_backfill_note": "P2A-001 artifacts were backfilled after commit 944d0c84badbf9633c12c395f8e50cb08cc96571 because the implementation commit lacked artifacts.",
+    "future_ticket_rule": "Future tickets must create ticket artifacts and update the journal before committing ticket source changes.",
+    "ignored_artifacts_rule": "If codex-review is ignored, artifacts must still be included in the final audit package and reported in the journal.",
+    "phase_gates": [
+      "P2A-GATE heavy audit package",
+      "P2B-GATE heavy audit package",
+      "final branch audit package"
+    ],
+    "artifact_only_ticket_policy": "No tracked commit required when no tracked source changes are expected by ticket scope."
   },
   "stop_conditions": [
-    "Validation fails twice on same ticket",
-    "Unexpected file must change",
-    "New dependency required but not pre-approved",
-    "Prisma schema change required but ticket does not allow it",
-    "Generated registry changes unexpectedly",
-    "Contract change required but ticket does not allow it",
-    "Screen contract required but missing",
-    "Codex needs to invent capability, role, permission, module, event, screen, or business rule",
-    "Lead Desk attempts direct WhatsApp/Meta API call",
-    "Frontend implementation starts without screen contract",
-    "Runtime smoke check fails",
-    "Ticket artifacts cannot be created or verified",
-    "Branch is not clean at ticket start",
-    "Context/rate budget is too low for next ticket",
-    "Ticket queue complete"
+    "Unsafe execution environment without explicit active control-doc authorization",
+    "Required file outside exact ticket scope",
+    "Validation failure twice",
+    "New dependency required",
+    "Secret access, inspection, printing, copying, exporting, or use required",
+    "Invented business rule, capability, permission, event, module, role, or screen required",
+    "Unclear migration strategy",
+    "Direct WhatsApp/Meta coupling",
+    "Frontend without approved screen contract",
+    "Fake dashboards or fake operational data",
+    "Hardcoded tenant/campus/role/user assumptions",
+    "RUN_STATE_CONFLICT",
+    "Final Phase 2 gate reached (P2C-GATE)",
+    "Final run complete"
   ],
   "ticket_schema": {
     "required_fields": [
@@ -141,35 +242,25 @@
     {
       "ticket_id": "P2-000",
       "phase": "Phase 2 Setup",
-      "title": "Validate autonomous Phase 2 control documents",
+      "title": "Validate Phase 2 control documents",
+      "autonomy_status": "COMPLETE",
       "risk_tier": "phase_gate",
-      "objective": "Validate trial plan, execution pack, runbook, and PLANS.md against repo reality before starting autonomous implementation.",
+      "objective": "Completed readiness validation checkpoint before Phase 2 execution.",
+      "autonomous_decision_rule": "Already complete. Do not rerun unless branch/control-doc state changes.",
       "scope": [
-        "Confirm clean main and origin/main alignment",
-        "Confirm Phase 2 control documents are present on committed main",
-        "Inspect repo reality across AGENTS, ADRs, specs, process docs, contracts, Prisma, registry, scripts, apps, package scripts, and workflows",
-        "Validate paths, scripts, branch assumptions, artifact paths, ticket sequence, and safety rules against repo reality",
-        "Return correction-only report if mismatches exist",
-        "Do not modify files unless separately approved"
+        "Validate control documents against repo reality."
       ],
       "non_scope": [
-        "No implementation",
-        "No branch creation",
-        "No /goal run"
+        "No implementation."
       ],
       "source_files_to_inspect": [
         "AGENTS.md",
-        "docs/adr/*",
-        "docs/specs/*",
         "docs/process/*",
+        "PLANS.md",
+        "docs/adr/*",
         "packages/contracts/*",
         "prisma/schema.prisma",
-        "generated/entity-registry.generated.json",
-        "apps/api/*",
-        "apps/web/*",
-        "package.json",
-        "pnpm-workspace.yaml",
-        ".github/workflows/*"
+        "generated/entity-registry.generated.json"
       ],
       "files_expected_to_change": [],
       "files_forbidden_to_change": [
@@ -179,28 +270,17 @@
       "registry_impact": "none",
       "contract_impact": "none",
       "screen_contract_impact": "none",
-      "permission_model": "not_applicable",
-      "gatekeeper_policy": "not_applicable",
-      "audit_outbox_policy": "not_applicable",
+      "permission_model": "No permission model changes.",
+      "gatekeeper_policy": "No Gatekeeper behavior changes.",
+      "audit_outbox_policy": "No audit/outbox behavior changes.",
       "tests_required": [],
       "validation_commands": [
-        "git status --short --branch",
-        "git branch --show-current",
-        "git fetch origin",
-        "git pull --ff-only origin main",
-        "git log --oneline --decorate -15",
-        "confirm expected control docs exist on committed main",
-        "inspect repo reality and report mismatches without editing"
+        "read-only repo validation"
       ],
       "artifact_rules": [
-        "Return Plan Mode validation report only"
+        "Readiness report only"
       ],
-      "stop_conditions": [
-        "Working tree is not clean",
-        "main is not aligned with origin/main",
-        "Control document missing",
-        "Any repo mismatch or unsafe assumption found"
-      ],
+      "stop_conditions": [],
       "commit_message": "not_applicable",
       "rollback_notes": "No changes expected."
     },
@@ -208,105 +288,85 @@
       "ticket_id": "P2A-001",
       "phase": "Phase 2A",
       "title": "Create Engagement Gateway Lite contracts and manifest boundary",
+      "autonomy_status": "COMPLETE",
       "risk_tier": "high",
-      "objective": "Define gateway module contract, capability boundaries, event policy, and manifest entries before runtime implementation.",
+      "objective": "Completed provider-neutral Engagement Gateway Lite contract and manifest boundary.",
+      "autonomous_decision_rule": "Already complete at 944d0c84badbf9633c12c395f8e50cb08cc96571. Do not edit unless a later audit finds a defect.",
       "scope": [
-        "Add approved contracts/schemas for gateway requests/responses if required",
-        "Define module manifest boundary for Engagement Gateway Lite",
-        "Declare capabilities, routes, and event policy",
-        "Keep provider runtime stub-only unless separately ticketed",
-        "Use the repo pattern of TypeScript module manifest contract files under packages/contracts unless a future approved ticket introduces a separate manifest directory"
+        "Contracts package only.",
+        "Stable module key engagement.gateway."
       ],
       "non_scope": [
-        "No direct Meta/WhatsApp integration",
-        "No Lead Desk implementation",
-        "No production provider credentials"
+        "No runtime/API/persistence/provider/frontend behavior."
       ],
       "source_files_to_inspect": [
-        "AGENTS.md",
-        "docs/adr/ADR-0003-whatsapp-protected-timeline.md",
-        "packages/contracts/*",
-        "prisma/schema.prisma",
-        "generated/entity-registry.generated.json"
+        "packages/contracts/engagement-gateway-lite.contract.ts",
+        "packages/contracts/engagement-gateway-lite.module-manifest.contract.ts"
       ],
-      "files_expected_to_change": [
-        "packages/contracts/**",
-        "docs/adr/**",
-        "packages/contracts/*module-manifest*.contract.ts"
-      ],
+      "files_expected_to_change": [],
       "files_forbidden_to_change": [
-        "apps/web/**",
-        "production secrets",
-        ".env*"
+        "prisma/**",
+        "apps/**",
+        "generated/**",
+        "docs/process/**"
       ],
-      "schema_impact": "stop_and_ask",
-      "registry_impact": "stop_and_ask",
-      "contract_impact": "planned",
+      "schema_impact": "none",
+      "registry_impact": "none",
+      "contract_impact": "complete",
       "screen_contract_impact": "none",
-      "permission_model": "Declare capability model only; runtime permission enforcement in later ticket.",
-      "gatekeeper_policy": "Declare high-risk hooks if any; do not invent approval runtime.",
-      "audit_outbox_policy": "Declare event/audit expectations for later implementation.",
-      "tests_required": [
-        "contract validation",
-        "manifest validation"
-      ],
+      "permission_model": "No permission model changes.",
+      "gatekeeper_policy": "No Gatekeeper behavior changes.",
+      "audit_outbox_policy": "No audit/outbox behavior changes.",
+      "tests_required": [],
       "validation_commands": [
         "pnpm contracts:validate",
+        "pnpm --filter @akti/contracts build",
         "pnpm lint",
         "pnpm typecheck",
         "git diff --check"
       ],
       "artifact_rules": [
-        "Create ticket artifact and journal entry"
+        "Backfilled P2A-001 artifacts and journal entry exist under codex-review/phase2-autonomous-full-run/"
       ],
-      "stop_conditions": [
-        "Contract requires unapproved architecture",
-        "Prisma change required unexpectedly",
-        "Requires mutation of active Phase 2 control documents"
-      ],
+      "stop_conditions": [],
       "commit_message": "P2A-001 add engagement gateway contracts",
-      "rollback_notes": "Revert contract/doc changes for this ticket."
+      "rollback_notes": "Revert P2A-001 commit if a defect is found."
     },
     {
       "ticket_id": "P2-VAL-001",
       "phase": "Phase 2 Validation Foundation",
-      "title": "Add Phase 2-aware registry verification path",
+      "title": "Add Phase 2-aware registry verification",
+      "autonomy_status": "COMPLETE",
       "risk_tier": "high",
-      "objective": "Create or update registry verification so Phase 1 protections remain intact while Phase 2 entities can be validated before schema-changing tickets run.",
+      "objective": "Add Phase 2-aware registry verification while preserving Phase 1 protections.",
+      "autonomous_decision_rule": "Proceed autonomously if the exact-file plan changes only registry tooling/package-script files and Phase 1 verifier behavior remains intact. Stop if CI/workflow changes are broader than the exact plan.",
       "scope": [
-        "Add a Phase 2-aware registry verification script or make registry verification phase-aware",
-        "Keep existing Phase 1 verifier/protections intact; do not weaken failures to make checks pass",
-        "Update package scripts and CI validation references if required",
-        "Document which command Phase 2 schema tickets must run before adding models"
+        "Add registry:verify:phase2 path.",
+        "Preserve registry:verify:phase1 behavior."
       ],
       "non_scope": [
-        "No Phase 2 business models",
-        "No weakening Phase 1 registry verification",
-        "No product runtime behavior"
+        "No Phase 2 models.",
+        "No product runtime behavior."
       ],
       "source_files_to_inspect": [
-        "AGENTS.md",
-        "docs/adr/ADR-0004-prisma-derived-entity-registry.md",
-        "prisma/schema.prisma",
-        "prisma/entity-registry.metadata.json",
-        "generated/entity-registry.generated.json",
-        "scripts/registry/*",
-        "package.json",
-        ".github/workflows/*"
-      ],
-      "files_expected_to_change": [
         "scripts/registry/**",
         "package.json",
-        ".github/workflows/**"
-      ],
-      "files_forbidden_to_change": [
-        "apps/api/src/**",
-        "apps/web/**",
         "prisma/schema.prisma",
         "prisma/entity-registry.metadata.json",
         "generated/entity-registry.generated.json",
-        ".env*",
-        "production secrets"
+        "docs/adr/ADR-0004-prisma-derived-entity-registry.md"
+      ],
+      "files_expected_to_change": [
+        "scripts/registry/verify-phase2-registry.mjs",
+        "package.json if script wiring is required"
+      ],
+      "files_forbidden_to_change": [
+        "apps/**",
+        "prisma/schema.prisma",
+        "prisma/entity-registry.metadata.json",
+        "generated/entity-registry.generated.json",
+        "packages/contracts/**",
+        "docs/process/**"
       ],
       "schema_impact": "none",
       "registry_impact": "validator_only",
@@ -314,12 +374,8 @@
       "screen_contract_impact": "none",
       "permission_model": "No permission model changes.",
       "gatekeeper_policy": "No Gatekeeper behavior changes.",
-      "audit_outbox_policy": "No event/outbox policy changes.",
-      "tests_required": [
-        "Phase 1 verifier still rejects Phase 1 drift",
-        "Phase 2-aware verifier accepts approved Phase 2 metadata once schema tickets add entities",
-        "Package script and CI command references are consistent"
-      ],
+      "audit_outbox_policy": "No audit/outbox behavior changes.",
+      "tests_required": [],
       "validation_commands": [
         "pnpm registry:generate",
         "pnpm registry:check",
@@ -330,232 +386,237 @@
         "git diff --check"
       ],
       "artifact_rules": [
-        "Create ticket artifact and journal entry"
+        "codex-review/phase2-autonomous-full-run/ticket-artifacts/P2-VAL-001/P2-VAL-001-file-manifest.md",
+        "codex-review/phase2-autonomous-full-run/ticket-artifacts/P2-VAL-001/P2-VAL-001-changed-files.zip",
+        "codex-review/phase2-autonomous-full-run/ticket-artifacts/P2-VAL-001/P2-VAL-001-validation-summary.md",
+        "codex-review/phase2-autonomous-full-run/autonomous-run-journal.md"
       ],
       "stop_conditions": [
-        "Cannot preserve Phase 1 verifier behavior",
-        "Phase 2 entity policy is unclear",
-        "CI update requires unrelated workflow changes"
+        "Cannot preserve Phase 1 behavior",
+        "Phase 2 registry policy unclear",
+        "Unexpected files required"
       ],
       "commit_message": "P2-VAL-001 add phase 2 registry verification",
-      "rollback_notes": "Revert registry verification script/package/workflow changes for this ticket."
+      "rollback_notes": "Revert files changed by this ticket."
     },
     {
       "ticket_id": "P2A-002",
       "phase": "Phase 2A",
-      "title": "Add Engagement Gateway Lite data model if required by approved contract",
+      "title": "Engagement Gateway persistence decision",
+      "autonomy_status": "AUTONOMOUS_DECISION_RULE",
       "risk_tier": "high",
-      "objective": "Add minimal approved gateway persistence only if P2A-001 defines required entities.",
+      "objective": "Decide whether Engagement Gateway persistence is required now or formally deferred.",
+      "autonomous_decision_rule": "If P2A-001 contracts do not require persisted gateway request state, formally defer persistence with artifact/journal and continue. If persistence is required and exact models are derivable without new business rules, implement after P2-VAL-001. If unclear, stop.",
       "scope": [
-        "Stop before schema edits unless P2-VAL-001 has passed and the Phase 2-aware registry verifier command is available",
-        "Add Prisma model(s) only if explicitly required",
-        "Add entity registry metadata",
-        "Regenerate generated registry",
-        "Add tenant isolation metadata and indexes",
-        "Decide explicitly whether this remains schema/registry-only or requires migration scaffolding"
+        "Apply persistence decision rule.",
+        "Defer if contracts do not require persistence.",
+        "Implement only exact derivable models after P2-VAL-001."
       ],
       "non_scope": [
-        "No provider API integration",
-        "No Lead Desk tables",
-        "No frontend"
+        "No runtime/API/provider behavior."
       ],
       "source_files_to_inspect": [
+        "packages/contracts/engagement-gateway-lite*.ts",
         "prisma/schema.prisma",
         "prisma/entity-registry.metadata.json",
         "generated/entity-registry.generated.json",
-        "scripts/registry/*",
-        "packages/contracts/*"
+        "docs/adr/ADR-0005-phase-1-outbox-boundary.md"
       ],
       "files_expected_to_change": [
-        "prisma/schema.prisma",
-        "prisma/entity-registry.metadata.json",
-        "generated/entity-registry.generated.json",
-        "scripts/registry/**",
-        "apps/api/src/**"
+        "Decision path: artifacts/journal only",
+        "Implementation path: prisma/schema.prisma, prisma/entity-registry.metadata.json, generated/entity-registry.generated.json after exact-file plan"
       ],
       "files_forbidden_to_change": [
         "apps/web/**",
-        ".env*",
-        "production secrets"
+        "provider integration",
+        "docs/process/**",
+        "dependencies",
+        ".env*"
       ],
-      "schema_impact": "planned",
-      "registry_impact": "planned",
+      "schema_impact": "decision_rule",
+      "registry_impact": "decision_rule",
       "contract_impact": "none",
       "screen_contract_impact": "none",
-      "permission_model": "Tenant scoped models require organization_id and negative cross-org tests.",
-      "gatekeeper_policy": "No runtime Gatekeeper unless mutation API added.",
-      "audit_outbox_policy": "Audit/outbox decision must be explicit for each mutation.",
-      "tests_required": [
-        "registry checks",
-        "tenant metadata checks",
-        "cross-org negative tests if API added"
-      ],
+      "permission_model": "No permission model changes.",
+      "gatekeeper_policy": "No Gatekeeper behavior changes.",
+      "audit_outbox_policy": "Record whether persistence is needed for audit/outbox semantics; no runtime implementation here.",
+      "tests_required": [],
       "validation_commands": [
-        "pnpm exec prisma validate --schema prisma/schema.prisma",
-        "pnpm registry:generate",
-        "pnpm registry:check",
-        "pnpm registry:verify:phase2",
-        "pnpm test",
-        "pnpm build"
+        "Deferral path: git status and artifact verification",
+        "Implementation path: Prisma validate/generate, registry generate/check/verify:phase2, lint, typecheck, test, build, diff check"
       ],
       "artifact_rules": [
-        "Create schema/registry diff summary"
+        "codex-review/phase2-autonomous-full-run/ticket-artifacts/P2A-002/P2A-002-file-manifest.md",
+        "codex-review/phase2-autonomous-full-run/ticket-artifacts/P2A-002/P2A-002-changed-files.zip",
+        "codex-review/phase2-autonomous-full-run/ticket-artifacts/P2A-002/P2A-002-validation-summary.md",
+        "codex-review/phase2-autonomous-full-run/autonomous-run-journal.md"
       ],
       "stop_conditions": [
-        "Model scope unclear",
+        "Unclear model",
         "Migration strategy unclear",
-        "Unapproved entity needed",
-        "P2-VAL-001 not complete",
-        "Migration scaffolding required but not explicitly ticketed"
+        "Runtime behavior needed",
+        "Provider assumptions needed"
       ],
-      "commit_message": "P2A-002 add engagement gateway data foundation",
-      "rollback_notes": "Revert Prisma, metadata, generated registry, and tests."
+      "commit_message": "P2A-002 decide engagement gateway persistence",
+      "rollback_notes": "Revert files changed by this ticket."
     },
     {
       "ticket_id": "P2A-003",
       "phase": "Phase 2A",
       "title": "Implement Engagement Gateway Lite API/service foundation",
+      "autonomy_status": "AUTONOMOUS_AFTER_PREVIOUS",
       "risk_tier": "high",
-      "objective": "Implement minimal gateway service/controller boundary according to approved contracts.",
+      "objective": "Implement minimal Engagement Gateway API/service boundary according to approved contracts and P2A-002 decision.",
+      "autonomous_decision_rule": "Proceed if API can validate contracts, enforce actor/capability/Gatekeeper, and avoid provider delivery. Stop if persistence or delivery semantics are unclear.",
       "scope": [
-        "Add service/controller",
-        "Validate input DTOs",
-        "Enforce actor/capability boundary where applicable",
-        "Use audit/outbox policy",
-        "Keep provider as stub/internal abstraction"
+        "Service/controller boundary.",
+        "Contract validation.",
+        "Actor/capability/Gatekeeper enforcement for high-risk create request."
       ],
       "non_scope": [
-        "No real WhatsApp credentials",
-        "No direct Lead Desk dependency",
-        "No frontend"
+        "No provider delivery.",
+        "No Lead Desk dependency.",
+        "No production secrets."
       ],
       "source_files_to_inspect": [
-        "apps/api/src/*",
-        "packages/contracts/*",
-        "prisma/schema.prisma"
+        "apps/api/src/app.module.ts",
+        "apps/api/src/access-core/**",
+        "apps/api/src/gatekeeper/**",
+        "apps/api/src/platform-observability/**",
+        "packages/contracts/engagement-gateway-lite*"
       ],
       "files_expected_to_change": [
-        "apps/api/src/**",
-        "apps/api/package.json"
+        "apps/api/src/engagement-gateway/**",
+        "apps/api/src/app.module.ts after exact-file plan"
       ],
       "files_forbidden_to_change": [
         "apps/web/**",
-        ".env*",
-        "production secrets"
+        "prisma/** unless approved by P2A-002",
+        "generated/**",
+        ".env*"
       ],
       "schema_impact": "none",
       "registry_impact": "none",
       "contract_impact": "none",
       "screen_contract_impact": "none",
-      "permission_model": "Use existing Access Core pattern. Mutations require actor/capability. Reads scoped by organization where tenant data exists.",
-      "gatekeeper_policy": "Use Gatekeeper if high-risk capability is declared.",
-      "audit_outbox_policy": "Mutations require audit/outbox decision.",
+      "permission_model": "Create request requires actor and engagement.gateway.request.create capability.",
+      "gatekeeper_policy": "Create request uses Gatekeeper because capability is high risk.",
+      "audit_outbox_policy": "Follow approved Phase 1 audit/outbox policies; no provider delivery.",
       "tests_required": [
         "happy path",
         "missing actor",
         "unauthorized actor",
-        "cross-org",
+        "cross-org actor",
         "invalid payload",
-        "provider unavailable"
+        "Gatekeeper deny/degraded/approval-required/provider-error"
       ],
       "validation_commands": [
         "pnpm --filter @akti/api test",
+        "pnpm contracts:validate",
         "pnpm lint",
         "pnpm typecheck",
-        "pnpm build"
+        "pnpm build",
+        "git diff --check"
       ],
       "artifact_rules": [
-        "Create ticket artifact and journal entry"
+        "codex-review/phase2-autonomous-full-run/ticket-artifacts/P2A-003/P2A-003-file-manifest.md",
+        "codex-review/phase2-autonomous-full-run/ticket-artifacts/P2A-003/P2A-003-changed-files.zip",
+        "codex-review/phase2-autonomous-full-run/ticket-artifacts/P2A-003/P2A-003-validation-summary.md",
+        "codex-review/phase2-autonomous-full-run/autonomous-run-journal.md"
       ],
       "stop_conditions": [
-        "Needs new dependency",
-        "Needs real provider credentials",
-        "Gatekeeper boundary unclear"
+        "New dependency",
+        "Real provider credentials",
+        "Unclear Gatekeeper boundary",
+        "Unapproved schema"
       ],
       "commit_message": "P2A-003 implement engagement gateway API foundation",
-      "rollback_notes": "Revert API/service/test changes."
+      "rollback_notes": "Revert files changed by this ticket."
     },
     {
       "ticket_id": "P2A-GATE",
       "phase": "Phase 2A",
       "title": "Phase 2A validation gate",
+      "autonomy_status": "AUTONOMOUS_AFTER_PREVIOUS",
       "risk_tier": "phase_gate",
-      "objective": "Run full validation and audit Phase 2A boundary before moving to Lead Desk.",
+      "objective": "Validate Phase 2A before Lead Desk work begins.",
+      "autonomous_decision_rule": "Proceed autonomously if all Phase 2A validation passes and artifacts exist. Stop if validation fails twice or artifact evidence is missing.",
       "scope": [
-        "Run full validation ladder",
-        "Create phase gate artifact",
-        "Confirm no direct Lead Desk or WhatsApp implementation"
+        "Audit and validation only."
       ],
       "non_scope": [
-        "No implementation except fixing validation failures within current phase scope"
+        "No source edits."
       ],
       "source_files_to_inspect": [
-        "all changed files since branch start"
+        "Phase 2A commits",
+        "Phase 2A artifacts",
+        "contracts",
+        "API files if any",
+        "schema/registry if any"
       ],
       "files_expected_to_change": [
-        "codex-review/**"
+        "ignored review artifacts only"
       ],
       "files_forbidden_to_change": [
-        "main branch"
+        "source/control/product files"
       ],
       "schema_impact": "none",
       "registry_impact": "none",
       "contract_impact": "none",
       "screen_contract_impact": "none",
-      "permission_model": "Audit existing implemented boundaries.",
-      "gatekeeper_policy": "Audit only.",
-      "audit_outbox_policy": "Audit only.",
-      "tests_required": [
-        "full standard validation"
-      ],
+      "permission_model": "No permission model changes.",
+      "gatekeeper_policy": "No Gatekeeper behavior changes.",
+      "audit_outbox_policy": "No audit/outbox behavior changes.",
+      "tests_required": [],
       "validation_commands": [
-        "FULL_STANDARD_VALIDATION_LADDER"
+        "full available validation ladder including pnpm registry:verify:phase2"
       ],
       "artifact_rules": [
-        "Create Phase 2A gate summary"
+        "Phase 2A gate report",
+        "journal entry"
       ],
       "stop_conditions": [
-        "Any validation failure",
-        "Any scope leak"
+        "Validation failure",
+        "Missing artifacts",
+        "Unresolved persistence decision"
       ],
       "commit_message": "P2A-GATE validate engagement gateway phase",
-      "rollback_notes": "If gate fails, stop for audit."
+      "rollback_notes": "No source changes expected."
     },
     {
       "ticket_id": "P2-VAL-002",
       "phase": "Phase 2 Validation Foundation",
-      "title": "Add Phase 2 screen-contract validation support",
-      "risk_tier": "high",
-      "objective": "Define and validate Phase 2 screen-contract location and script behavior before Lead Desk screen contracts are added.",
+      "title": "Add Phase 2 screen-contract validation",
+      "autonomy_status": "AUTONOMOUS_AFTER_PREVIOUS",
+      "risk_tier": "medium",
+      "objective": "Add Phase 2 screen-contract validation before Lead Desk screen contracts.",
+      "autonomous_decision_rule": "Proceed if Phase 1 screen validation remains intact and Phase 2 directory policy is clear. Stop if validator schema needs architecture change.",
       "scope": [
-        "Define Phase 2 screen-contract directory policy, expected to be docs/screen-contracts/phase-2",
-        "Update validation script behavior or add a new script so Phase 2 screen contracts are validated",
-        "Keep Phase 1 screen-contract validation intact"
+        "Define Phase 2 screen-contract directory policy.",
+        "Preserve Phase 1 validation."
       ],
       "non_scope": [
-        "No Lead Desk screen contracts yet",
-        "No frontend implementation",
-        "No weakening Phase 1 screen-contract validation"
+        "No Lead Desk screen contracts.",
+        "No frontend implementation."
       ],
       "source_files_to_inspect": [
         "packages/contracts/scripts/validate-screen-contracts.mjs",
         "packages/contracts/screen-contract.schema.ts",
-        "docs/screen-contracts/phase-1/*",
+        "docs/screen-contracts/**",
         "package.json",
         "packages/contracts/package.json"
       ],
       "files_expected_to_change": [
         "packages/contracts/scripts/validate-screen-contracts.mjs",
-        "packages/contracts/package.json if a new validation script is added",
-        "package.json if root validation command changes",
-        "docs/screen-contracts/phase-2/** if a directory marker is required"
+        "package script if needed",
+        "docs/screen-contracts/phase-2/.gitkeep if needed"
       ],
       "files_forbidden_to_change": [
-        "apps/api/src/**",
-        "apps/web/**",
+        "apps/**",
         "prisma/**",
-        ".env*",
-        "production secrets"
+        "generated/**",
+        "docs/process/**",
+        "dependencies"
       ],
       "schema_impact": "none",
       "registry_impact": "none",
@@ -563,12 +624,8 @@
       "screen_contract_impact": "validator_only",
       "permission_model": "No permission model changes.",
       "gatekeeper_policy": "No Gatekeeper behavior changes.",
-      "audit_outbox_policy": "No event/outbox policy changes.",
-      "tests_required": [
-        "Phase 1 screen contracts still validate",
-        "Phase 2 screen-contract directory policy is enforced",
-        "Unexpected screen-contract files fail validation"
-      ],
+      "audit_outbox_policy": "No audit/outbox behavior changes.",
+      "tests_required": [],
       "validation_commands": [
         "pnpm contracts:validate",
         "pnpm lint",
@@ -576,479 +633,941 @@
         "git diff --check"
       ],
       "artifact_rules": [
-        "Create ticket artifact and journal entry"
+        "codex-review/phase2-autonomous-full-run/ticket-artifacts/P2-VAL-002/P2-VAL-002-file-manifest.md",
+        "codex-review/phase2-autonomous-full-run/ticket-artifacts/P2-VAL-002/P2-VAL-002-changed-files.zip",
+        "codex-review/phase2-autonomous-full-run/ticket-artifacts/P2-VAL-002/P2-VAL-002-validation-summary.md",
+        "codex-review/phase2-autonomous-full-run/autonomous-run-journal.md"
       ],
       "stop_conditions": [
-        "Cannot preserve Phase 1 screen validation behavior",
-        "Phase 2 screen contract schema needs architecture changes"
+        "Cannot preserve Phase 1 validation",
+        "Unclear directory policy",
+        "Architecture change required"
       ],
       "commit_message": "P2-VAL-002 add phase 2 screen contract validation",
-      "rollback_notes": "Revert validation script/package/screen-contract directory policy changes for this ticket."
+      "rollback_notes": "Revert files changed by this ticket."
     },
     {
-      "ticket_id": "P2B-001",
+      "ticket_id": "P2B-001A",
       "phase": "Phase 2B",
-      "title": "Create Lead Desk Core contracts and screen contracts",
+      "title": "Lead Desk contract and capability boundary",
+      "autonomy_status": "AUTONOMOUS_DECISION_RULE",
       "risk_tier": "high",
-      "objective": "Define Lead Desk API contracts, capability boundaries, and required screen contracts before implementation.",
+      "objective": "Define minimal Lead Desk Core contracts, manifest, capabilities, permissions, routes, and events.",
+      "autonomous_decision_rule": "Codex may define minimal Lead Desk contract boundary only for lead intake, list, detail, status, and assignment. Exclude campaigns, finance, student lifecycle, LMS, HR, certification, direct WhatsApp, Meta, and provider concepts. If a business rule is unclear, use a neutral contract only if it does not create behavior; otherwise stop.",
       "scope": [
-        "Requires P2-VAL-002 to be complete before adding Lead Desk screen contracts",
-        "Define lead desk contracts",
-        "Define capabilities/permissions",
-        "Create screen contracts for lead list/detail/create/assignment as approved",
-        "Declare non-direct WhatsApp boundary"
+        "Lead intake/list/detail/status/assignment contracts only."
       ],
       "non_scope": [
-        "No runtime implementation",
-        "No direct WhatsApp",
-        "No fake dashboards"
+        "Campaigns",
+        "Finance",
+        "Student lifecycle",
+        "LMS",
+        "HR",
+        "Certification",
+        "Direct WhatsApp/Meta",
+        "Provider concepts",
+        "Runtime",
+        "Frontend"
       ],
       "source_files_to_inspect": [
-        "packages/contracts/*",
-        "docs/screen-contracts/*",
+        "packages/contracts/**",
+        "packages/contracts/module-manifest.schema.ts",
+        "packages/contracts/engagement-gateway-lite*.ts",
         "docs/adr/ADR-0003-whatsapp-protected-timeline.md"
       ],
       "files_expected_to_change": [
-        "packages/contracts/**",
-        "docs/screen-contracts/**"
+        "packages/contracts/lead-desk*.contract.ts",
+        "validator",
+        "contracts package wiring after exact-file plan"
       ],
       "files_forbidden_to_change": [
-        "apps/api/src/**",
-        "apps/web/**"
+        "prisma/**",
+        "apps/**",
+        "generated/**",
+        "docs/process/**",
+        "workflows",
+        "dependencies"
       ],
-      "schema_impact": "stop_and_ask",
-      "registry_impact": "stop_and_ask",
+      "schema_impact": "none",
+      "registry_impact": "none",
       "contract_impact": "planned",
-      "screen_contract_impact": "planned",
-      "permission_model": "Lead Desk capabilities must be declared before API.",
-      "gatekeeper_policy": "High-risk assignment/reassignment rules must be explicit.",
-      "audit_outbox_policy": "Declare mutation audit/outbox policy.",
-      "tests_required": [
-        "contract validation",
-        "screen contract validation"
-      ],
+      "screen_contract_impact": "none",
+      "permission_model": "Declare only approved Lead Desk permissions and capabilities.",
+      "gatekeeper_policy": "High-risk actions require Gatekeeper declarations.",
+      "audit_outbox_policy": "Mutations require audit/outbox declarations where approved.",
+      "tests_required": [],
       "validation_commands": [
         "pnpm contracts:validate",
+        "pnpm --filter @akti/contracts build if available",
         "pnpm lint",
-        "pnpm typecheck"
+        "pnpm typecheck",
+        "git diff --check"
       ],
       "artifact_rules": [
-        "Create ticket artifact and journal entry"
+        "codex-review/phase2-autonomous-full-run/ticket-artifacts/P2B-001A/P2B-001A-file-manifest.md",
+        "codex-review/phase2-autonomous-full-run/ticket-artifacts/P2B-001A/P2B-001A-changed-files.zip",
+        "codex-review/phase2-autonomous-full-run/ticket-artifacts/P2B-001A/P2B-001A-validation-summary.md",
+        "codex-review/phase2-autonomous-full-run/autonomous-run-journal.md"
       ],
       "stop_conditions": [
-        "Screen purpose unclear",
-        "Capability invented without contract rationale",
-        "P2-VAL-002 not complete",
-        "Requires mutation of active Phase 2 control documents"
+        "Need to invent workflow, permission, event, screen, provider behavior, or non-Lead Desk module"
       ],
-      "commit_message": "P2B-001 add lead desk contracts and screen contracts",
-      "rollback_notes": "Revert contract/screen files."
+      "commit_message": "P2B-001A add lead desk contract boundary",
+      "rollback_notes": "Revert files changed by this ticket."
     },
     {
-      "ticket_id": "P2B-002",
+      "ticket_id": "P2B-001B",
       "phase": "Phase 2B",
-      "title": "Add Lead Desk Core data foundation",
-      "risk_tier": "high",
-      "objective": "Add minimal Lead Desk models approved by contracts and screen requirements.",
+      "title": "Lead Desk screen contracts",
+      "autonomy_status": "AUTONOMOUS_DECISION_RULE",
+      "risk_tier": "medium",
+      "objective": "Create approved Lead Desk screen contracts.",
+      "autonomous_decision_rule": "Codex may create screen contracts only for lead inbox/list, lead detail, lead create, and lead assignment/status action screens. No frontend implementation.",
       "scope": [
-        "Stop before schema edits unless P2-VAL-001 has passed and the Phase 2-aware registry verifier command is available",
-        "Add Prisma models",
-        "Add metadata",
-        "Regenerate registry",
-        "Add indexes/constraints",
-        "Add tenant isolation tests",
-        "Decide explicitly whether this remains schema/registry-only or requires migration scaffolding"
+        "Lead inbox/list screen contract",
+        "Lead detail screen contract",
+        "Lead create screen contract",
+        "Lead assignment/status action screen contract"
       ],
       "non_scope": [
-        "No WhatsApp integration",
-        "No frontend implementation"
+        "No frontend implementation."
+      ],
+      "source_files_to_inspect": [
+        "docs/screen-contracts/**",
+        "packages/contracts/screen-contract.schema.ts",
+        "packages/contracts/scripts/validate-screen-contracts.mjs",
+        "Lead Desk contracts"
+      ],
+      "files_expected_to_change": [
+        "docs/screen-contracts/phase-2/lead-desk*.json after exact-file plan"
+      ],
+      "files_forbidden_to_change": [
+        "apps/web/**",
+        "apps/api/**",
+        "prisma/**",
+        "generated/**",
+        "docs/process/**"
+      ],
+      "schema_impact": "none",
+      "registry_impact": "none",
+      "contract_impact": "none",
+      "screen_contract_impact": "planned",
+      "permission_model": "No permission model changes.",
+      "gatekeeper_policy": "No Gatekeeper behavior changes.",
+      "audit_outbox_policy": "No audit/outbox behavior changes.",
+      "tests_required": [],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "Phase 2 screen-contract validation",
+        "pnpm lint",
+        "pnpm typecheck",
+        "git diff --check"
+      ],
+      "artifact_rules": [
+        "codex-review/phase2-autonomous-full-run/ticket-artifacts/P2B-001B/P2B-001B-file-manifest.md",
+        "codex-review/phase2-autonomous-full-run/ticket-artifacts/P2B-001B/P2B-001B-changed-files.zip",
+        "codex-review/phase2-autonomous-full-run/ticket-artifacts/P2B-001B/P2B-001B-validation-summary.md",
+        "codex-review/phase2-autonomous-full-run/autonomous-run-journal.md"
+      ],
+      "stop_conditions": [
+        "Unclear screen behavior",
+        "Missing capability",
+        "Frontend required",
+        "Fake data required"
+      ],
+      "commit_message": "P2B-001B add lead desk screen contracts",
+      "rollback_notes": "Revert files changed by this ticket."
+    },
+    {
+      "ticket_id": "P2B-002A",
+      "phase": "Phase 2B",
+      "title": "Lead Desk data model decision",
+      "autonomy_status": "AUTONOMOUS_DECISION_RULE",
+      "risk_tier": "high",
+      "objective": "Derive minimal Lead Desk data model from approved contracts and screen contracts.",
+      "autonomous_decision_rule": "Codex may derive data model only from approved Lead Desk contracts and screen contracts. Proceed only if exact minimal model set, tenant ownership, indexes, registry metadata, and migration policy are clear. If unclear, stop.",
+      "scope": [
+        "Derive exact model set, tenancy, indexes, registry metadata, and migration policy."
+      ],
+      "non_scope": [
+        "No runtime APIs.",
+        "No frontend."
+      ],
+      "source_files_to_inspect": [
+        "Lead Desk contracts",
+        "Lead Desk screen contracts",
+        "prisma/schema.prisma",
+        "prisma/entity-registry.metadata.json",
+        "generated/entity-registry.generated.json",
+        "scripts/registry/**"
+      ],
+      "files_expected_to_change": [
+        "Decision artifact only unless exact schema implementation follows in P2B-002B"
+      ],
+      "files_forbidden_to_change": [
+        "apps/**",
+        "generated registry changes before implementation ticket",
+        "dependencies"
+      ],
+      "schema_impact": "decision_rule",
+      "registry_impact": "decision_rule",
+      "contract_impact": "none",
+      "screen_contract_impact": "none",
+      "permission_model": "No permission model changes.",
+      "gatekeeper_policy": "No Gatekeeper behavior changes.",
+      "audit_outbox_policy": "No audit/outbox behavior changes.",
+      "tests_required": [],
+      "validation_commands": [
+        "read-only inspection",
+        "existing registry checks if no edits"
+      ],
+      "artifact_rules": [
+        "codex-review/phase2-autonomous-full-run/ticket-artifacts/P2B-002A/P2B-002A-file-manifest.md",
+        "codex-review/phase2-autonomous-full-run/ticket-artifacts/P2B-002A/P2B-002A-changed-files.zip",
+        "codex-review/phase2-autonomous-full-run/ticket-artifacts/P2B-002A/P2B-002A-validation-summary.md",
+        "codex-review/phase2-autonomous-full-run/autonomous-run-journal.md"
+      ],
+      "stop_conditions": [
+        "Model ownership, tenancy, migration, event semantics, or API dependencies unclear"
+      ],
+      "commit_message": "P2B-002A decide lead desk data model",
+      "rollback_notes": "Revert files changed by this ticket."
+    },
+    {
+      "ticket_id": "P2B-002B",
+      "phase": "Phase 2B",
+      "title": "Lead Desk schema and registry foundation",
+      "autonomy_status": "AUTONOMOUS_AFTER_PREVIOUS",
+      "risk_tier": "high",
+      "objective": "Implement approved Lead Desk Prisma and registry foundation.",
+      "autonomous_decision_rule": "Implement Lead Desk schema/registry only after P2B-002A confirms exact model set and P2-VAL-001 is complete. If migration scaffolding is required but not explicitly ticketed, stop. No destructive migrations.",
+      "scope": [
+        "Implement exact model set approved by P2B-002A.",
+        "Update registry metadata and generated registry."
+      ],
+      "non_scope": [
+        "No runtime API.",
+        "No frontend.",
+        "No destructive migrations."
       ],
       "source_files_to_inspect": [
         "prisma/schema.prisma",
         "prisma/entity-registry.metadata.json",
         "generated/entity-registry.generated.json",
-        "packages/contracts/*"
+        "scripts/registry/**"
       ],
       "files_expected_to_change": [
         "prisma/schema.prisma",
         "prisma/entity-registry.metadata.json",
         "generated/entity-registry.generated.json",
-        "apps/api/src/**"
+        "maybe phase2 verifier policy after exact-file plan"
       ],
       "files_forbidden_to_change": [
         "apps/web/**",
-        ".env*"
+        "provider integration",
+        "docs/process/**",
+        "dependencies"
       ],
       "schema_impact": "planned",
       "registry_impact": "planned",
       "contract_impact": "none",
       "screen_contract_impact": "none",
-      "permission_model": "Tenant-scoped lead data requires organization_id and negative cross-org tests.",
-      "gatekeeper_policy": "No high-risk mutation implementation yet unless ticket expands.",
-      "audit_outbox_policy": "Declare later service mutation behavior.",
-      "tests_required": [
-        "registry",
-        "tenant metadata",
-        "cross-org negative tests where API exists"
-      ],
+      "permission_model": "No permission model changes.",
+      "gatekeeper_policy": "No Gatekeeper behavior changes.",
+      "audit_outbox_policy": "No audit/outbox behavior changes.",
+      "tests_required": [],
       "validation_commands": [
         "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm exec prisma generate --schema prisma/schema.prisma",
         "pnpm registry:generate",
         "pnpm registry:check",
         "pnpm registry:verify:phase2",
+        "pnpm lint",
+        "pnpm typecheck",
         "pnpm test",
-        "pnpm build"
+        "pnpm build",
+        "git diff --check"
       ],
       "artifact_rules": [
-        "Schema/registry diff artifact"
+        "codex-review/phase2-autonomous-full-run/ticket-artifacts/P2B-002B/P2B-002B-file-manifest.md",
+        "codex-review/phase2-autonomous-full-run/ticket-artifacts/P2B-002B/P2B-002B-changed-files.zip",
+        "codex-review/phase2-autonomous-full-run/ticket-artifacts/P2B-002B/P2B-002B-validation-summary.md",
+        "codex-review/phase2-autonomous-full-run/autonomous-run-journal.md"
       ],
       "stop_conditions": [
-        "Unapproved model needed",
-        "Domain model unclear",
-        "P2-VAL-001 not complete",
-        "Migration scaffolding required but not explicitly ticketed"
+        "Migration scaffolding required but not ticketed",
+        "New unapproved entity needed",
+        "Registry policy unclear"
       ],
-      "commit_message": "P2B-002 add lead desk data foundation",
-      "rollback_notes": "Revert schema, metadata, generated registry, and tests."
+      "commit_message": "P2B-002B add lead desk schema registry foundation",
+      "rollback_notes": "Revert files changed by this ticket."
     },
     {
-      "ticket_id": "P2B-003",
+      "ticket_id": "P2B-003A",
       "phase": "Phase 2B",
-      "title": "Implement Lead Desk Core API foundation",
+      "title": "Lead Desk create/list/detail API",
+      "autonomy_status": "AUTONOMOUS_AFTER_PREVIOUS",
       "risk_tier": "high",
-      "objective": "Implement lead create/list/detail/update/assignment APIs according to contracts.",
+      "objective": "Implement approved lead desk create/list/detail api slice.",
+      "autonomous_decision_rule": "Codex may implement only APIs backed by approved contracts and models. No direct WhatsApp/Meta. No unapproved status workflows. No fake data. No hardcoded tenant, campus, role, user, or organization assumptions.",
       "scope": [
-        "Controller/service/DTO tests",
-        "Permission boundaries",
-        "Gatekeeper for high-risk actions",
-        "Audit/outbox for mutations"
+        "Implement only APIs backed by approved contracts and models."
       ],
       "non_scope": [
-        "No WhatsApp direct calls",
-        "No frontend",
-        "No production auth/session"
+        "No direct WhatsApp/Meta.",
+        "No unapproved status workflows.",
+        "No fake data.",
+        "No hardcoded tenant/campus/role/user/org assumptions."
       ],
       "source_files_to_inspect": [
-        "apps/api/src/**",
-        "packages/contracts/**",
-        "prisma/schema.prisma"
+        "apps/api/src/access-core/**",
+        "apps/api/src/gatekeeper/**",
+        "apps/api/src/platform-observability/**",
+        "apps/api/src/app.module.ts",
+        "Lead Desk contracts",
+        "Prisma service"
       ],
       "files_expected_to_change": [
-        "apps/api/src/**",
-        "apps/api/package.json"
+        "apps/api/src/lead-desk/** and app.module.ts after exact-file plan"
       ],
       "files_forbidden_to_change": [
         "apps/web/**",
-        ".env*"
+        "prisma/** unless separately approved",
+        "generated/**",
+        "direct WhatsApp/Meta"
       ],
       "schema_impact": "none",
       "registry_impact": "none",
       "contract_impact": "none",
       "screen_contract_impact": "none",
-      "permission_model": "Use approved Lead Desk capabilities and Access Core actor pattern.",
-      "gatekeeper_policy": "Use Gatekeeper for high-risk lead assignment/reassignment if declared.",
-      "audit_outbox_policy": "Mutations require audit and outbox decision.",
+      "permission_model": "Use approved Lead Desk capabilities and tenant-scoped actor checks.",
+      "gatekeeper_policy": "Use Gatekeeper for approved high-risk mutations.",
+      "audit_outbox_policy": "Use audit/outbox for approved mutations.",
       "tests_required": [
         "happy path",
         "missing actor",
-        "unauthorized",
-        "cross-org",
-        "Gatekeeper denial",
-        "no-write-on-failure",
-        "invalid transition"
+        "unauthorized actor",
+        "cross-org negative cases",
+        "invalid payload",
+        "Gatekeeper outcomes where applicable"
       ],
       "validation_commands": [
         "pnpm --filter @akti/api test",
+        "pnpm contracts:validate",
         "pnpm lint",
         "pnpm typecheck",
-        "pnpm build"
+        "pnpm build",
+        "git diff --check"
       ],
       "artifact_rules": [
-        "Ticket artifact and journal"
+        "codex-review/phase2-autonomous-full-run/ticket-artifacts/P2B-003A/P2B-003A-file-manifest.md",
+        "codex-review/phase2-autonomous-full-run/ticket-artifacts/P2B-003A/P2B-003A-changed-files.zip",
+        "codex-review/phase2-autonomous-full-run/ticket-artifacts/P2B-003A/P2B-003A-validation-summary.md",
+        "codex-review/phase2-autonomous-full-run/autonomous-run-journal.md"
       ],
       "stop_conditions": [
-        "Needs direct WhatsApp",
-        "Needs unapproved capability",
-        "Gatekeeper unclear"
+        "Unclear authorization",
+        "Unapproved workflow",
+        "Direct messaging integration",
+        "Capability invention required"
       ],
-      "commit_message": "P2B-003 implement lead desk API foundation",
-      "rollback_notes": "Revert API/service/test changes."
+      "commit_message": "P2B-003A implement lead desk create list detail API",
+      "rollback_notes": "Revert files changed by this ticket."
     },
     {
-      "ticket_id": "P2B-004",
+      "ticket_id": "P2B-003B",
       "phase": "Phase 2B",
-      "title": "Implement Lead Desk frontend screens from approved screen contracts",
-      "risk_tier": "normal",
-      "objective": "Implement minimal Lead Desk UI only for approved screen contracts and real API boundaries.",
+      "title": "Lead Desk status/update API",
+      "autonomy_status": "AUTONOMOUS_AFTER_PREVIOUS",
+      "risk_tier": "high",
+      "objective": "Implement approved lead desk status/update api slice.",
+      "autonomous_decision_rule": "Codex may implement only APIs backed by approved contracts and models. No direct WhatsApp/Meta. No unapproved status workflows. No fake data. No hardcoded tenant, campus, role, user, or organization assumptions.",
       "scope": [
-        "Routes/pages",
-        "empty/loading/error states",
-        "permission-aware UI",
-        "no fake data",
-        "API integration or explicit mock contract if backend unavailable"
+        "Implement only APIs backed by approved contracts and models."
       ],
       "non_scope": [
-        "No fake dashboards",
-        "No uncontracted screens",
-        "No WhatsApp UI unless Phase 2C approved"
+        "No direct WhatsApp/Meta.",
+        "No unapproved status workflows.",
+        "No fake data.",
+        "No hardcoded tenant/campus/role/user/org assumptions."
       ],
       "source_files_to_inspect": [
-        "docs/screen-contracts/**",
-        "apps/web/**",
-        "packages/contracts/**"
+        "apps/api/src/access-core/**",
+        "apps/api/src/gatekeeper/**",
+        "apps/api/src/platform-observability/**",
+        "apps/api/src/app.module.ts",
+        "Lead Desk contracts",
+        "Prisma service"
       ],
       "files_expected_to_change": [
-        "apps/web/**"
+        "apps/api/src/lead-desk/** and app.module.ts after exact-file plan"
       ],
       "files_forbidden_to_change": [
-        "prisma/**",
-        "packages/contracts/** unless screen contract ticket allows"
+        "apps/web/**",
+        "prisma/** unless separately approved",
+        "generated/**",
+        "direct WhatsApp/Meta"
       ],
       "schema_impact": "none",
       "registry_impact": "none",
       "contract_impact": "none",
       "screen_contract_impact": "none",
-      "permission_model": "UI must reflect approved capabilities.",
-      "gatekeeper_policy": "High-risk UI actions must show confirmation/denied states if applicable.",
-      "audit_outbox_policy": "UI triggers backend only; backend owns audit/outbox.",
+      "permission_model": "Use approved Lead Desk capabilities and tenant-scoped actor checks.",
+      "gatekeeper_policy": "Use Gatekeeper for approved high-risk mutations.",
+      "audit_outbox_policy": "Use audit/outbox for approved mutations.",
       "tests_required": [
-        "build",
-        "route rendering",
-        "empty/error states",
-        "no fake data static guard"
+        "happy path",
+        "missing actor",
+        "unauthorized actor",
+        "cross-org negative cases",
+        "invalid payload",
+        "Gatekeeper outcomes where applicable"
       ],
       "validation_commands": [
+        "pnpm --filter @akti/api test",
+        "pnpm contracts:validate",
         "pnpm lint",
         "pnpm typecheck",
         "pnpm build",
-        "pnpm test"
+        "git diff --check"
       ],
       "artifact_rules": [
-        "Screenshot/artifact if Playwright is available"
+        "codex-review/phase2-autonomous-full-run/ticket-artifacts/P2B-003B/P2B-003B-file-manifest.md",
+        "codex-review/phase2-autonomous-full-run/ticket-artifacts/P2B-003B/P2B-003B-changed-files.zip",
+        "codex-review/phase2-autonomous-full-run/ticket-artifacts/P2B-003B/P2B-003B-validation-summary.md",
+        "codex-review/phase2-autonomous-full-run/autonomous-run-journal.md"
       ],
       "stop_conditions": [
-        "Screen contract missing",
-        "API contract unclear",
-        "Fake data needed"
+        "Unclear authorization",
+        "Unapproved workflow",
+        "Direct messaging integration",
+        "Capability invention required"
       ],
-      "commit_message": "P2B-004 implement lead desk screens",
-      "rollback_notes": "Revert web changes."
+      "commit_message": "P2B-003B implement lead desk status update API",
+      "rollback_notes": "Revert files changed by this ticket."
+    },
+    {
+      "ticket_id": "P2B-003C",
+      "phase": "Phase 2B",
+      "title": "Lead Desk assignment API",
+      "autonomy_status": "AUTONOMOUS_AFTER_PREVIOUS",
+      "risk_tier": "high",
+      "objective": "Implement approved lead desk assignment api slice.",
+      "autonomous_decision_rule": "Codex may implement only APIs backed by approved contracts and models. No direct WhatsApp/Meta. No unapproved status workflows. No fake data. No hardcoded tenant, campus, role, user, or organization assumptions.",
+      "scope": [
+        "Implement only APIs backed by approved contracts and models."
+      ],
+      "non_scope": [
+        "No direct WhatsApp/Meta.",
+        "No unapproved status workflows.",
+        "No fake data.",
+        "No hardcoded tenant/campus/role/user/org assumptions."
+      ],
+      "source_files_to_inspect": [
+        "apps/api/src/access-core/**",
+        "apps/api/src/gatekeeper/**",
+        "apps/api/src/platform-observability/**",
+        "apps/api/src/app.module.ts",
+        "Lead Desk contracts",
+        "Prisma service"
+      ],
+      "files_expected_to_change": [
+        "apps/api/src/lead-desk/** and app.module.ts after exact-file plan"
+      ],
+      "files_forbidden_to_change": [
+        "apps/web/**",
+        "prisma/** unless separately approved",
+        "generated/**",
+        "direct WhatsApp/Meta"
+      ],
+      "schema_impact": "none",
+      "registry_impact": "none",
+      "contract_impact": "none",
+      "screen_contract_impact": "none",
+      "permission_model": "Use approved Lead Desk capabilities and tenant-scoped actor checks.",
+      "gatekeeper_policy": "Use Gatekeeper for approved high-risk mutations.",
+      "audit_outbox_policy": "Use audit/outbox for approved mutations.",
+      "tests_required": [
+        "happy path",
+        "missing actor",
+        "unauthorized actor",
+        "cross-org negative cases",
+        "invalid payload",
+        "Gatekeeper outcomes where applicable"
+      ],
+      "validation_commands": [
+        "pnpm --filter @akti/api test",
+        "pnpm contracts:validate",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm build",
+        "git diff --check"
+      ],
+      "artifact_rules": [
+        "codex-review/phase2-autonomous-full-run/ticket-artifacts/P2B-003C/P2B-003C-file-manifest.md",
+        "codex-review/phase2-autonomous-full-run/ticket-artifacts/P2B-003C/P2B-003C-changed-files.zip",
+        "codex-review/phase2-autonomous-full-run/ticket-artifacts/P2B-003C/P2B-003C-validation-summary.md",
+        "codex-review/phase2-autonomous-full-run/autonomous-run-journal.md"
+      ],
+      "stop_conditions": [
+        "Unclear authorization",
+        "Unapproved workflow",
+        "Direct messaging integration",
+        "Capability invention required"
+      ],
+      "commit_message": "P2B-003C implement lead desk assignment API",
+      "rollback_notes": "Revert files changed by this ticket."
+    },
+    {
+      "ticket_id": "P2B-004A",
+      "phase": "Phase 2B",
+      "title": "Lead Desk list/inbox frontend",
+      "autonomy_status": "AUTONOMOUS_AFTER_PREVIOUS",
+      "risk_tier": "medium",
+      "objective": "Implement approved lead desk list/inbox frontend from screen contract.",
+      "autonomous_decision_rule": "Codex may implement only screens with approved screen contracts. No fake dashboards. No hardcoded campus, role, user, tenant, or organization assumptions. Must include empty/loading/error/permission-denied states as required by screen contracts.",
+      "scope": [
+        "Implement only screens with approved screen contracts.",
+        "Include empty/loading/error/permission-denied states as required by screen contracts."
+      ],
+      "non_scope": [
+        "No fake dashboards.",
+        "No hardcoded campus/role/user/tenant/org assumptions.",
+        "No direct provider calls."
+      ],
+      "source_files_to_inspect": [
+        "apps/web/app/**",
+        "approved Lead Desk screen contracts",
+        "Lead Desk API contracts"
+      ],
+      "files_expected_to_change": [
+        "Exact route/component/test files from screen contracts after exact-file plan"
+      ],
+      "files_forbidden_to_change": [
+        "prisma/**",
+        "generated/**",
+        "apps/api/** unless separately approved",
+        "docs/process/**"
+      ],
+      "schema_impact": "none",
+      "registry_impact": "none",
+      "contract_impact": "none",
+      "screen_contract_impact": "none",
+      "permission_model": "No permission model changes.",
+      "gatekeeper_policy": "No Gatekeeper behavior changes.",
+      "audit_outbox_policy": "No audit/outbox behavior changes.",
+      "tests_required": [],
+      "validation_commands": [
+        "web tests if available",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm build",
+        "browser check if runnable",
+        "git diff --check"
+      ],
+      "artifact_rules": [
+        "codex-review/phase2-autonomous-full-run/ticket-artifacts/P2B-004A/P2B-004A-file-manifest.md",
+        "codex-review/phase2-autonomous-full-run/ticket-artifacts/P2B-004A/P2B-004A-changed-files.zip",
+        "codex-review/phase2-autonomous-full-run/ticket-artifacts/P2B-004A/P2B-004A-validation-summary.md",
+        "codex-review/phase2-autonomous-full-run/autonomous-run-journal.md"
+      ],
+      "stop_conditions": [
+        "Missing screen contract",
+        "Missing API",
+        "Fake data required",
+        "Unapproved workflow needed"
+      ],
+      "commit_message": "P2B-004A implement lead desk inbox screen",
+      "rollback_notes": "Revert files changed by this ticket."
+    },
+    {
+      "ticket_id": "P2B-004B",
+      "phase": "Phase 2B",
+      "title": "Lead Desk detail frontend",
+      "autonomy_status": "AUTONOMOUS_AFTER_PREVIOUS",
+      "risk_tier": "medium",
+      "objective": "Implement approved lead desk detail frontend from screen contract.",
+      "autonomous_decision_rule": "Codex may implement only screens with approved screen contracts. No fake dashboards. No hardcoded campus, role, user, tenant, or organization assumptions. Must include empty/loading/error/permission-denied states as required by screen contracts.",
+      "scope": [
+        "Implement only screens with approved screen contracts.",
+        "Include empty/loading/error/permission-denied states as required by screen contracts."
+      ],
+      "non_scope": [
+        "No fake dashboards.",
+        "No hardcoded campus/role/user/tenant/org assumptions.",
+        "No direct provider calls."
+      ],
+      "source_files_to_inspect": [
+        "apps/web/app/**",
+        "approved Lead Desk screen contracts",
+        "Lead Desk API contracts"
+      ],
+      "files_expected_to_change": [
+        "Exact route/component/test files from screen contracts after exact-file plan"
+      ],
+      "files_forbidden_to_change": [
+        "prisma/**",
+        "generated/**",
+        "apps/api/** unless separately approved",
+        "docs/process/**"
+      ],
+      "schema_impact": "none",
+      "registry_impact": "none",
+      "contract_impact": "none",
+      "screen_contract_impact": "none",
+      "permission_model": "No permission model changes.",
+      "gatekeeper_policy": "No Gatekeeper behavior changes.",
+      "audit_outbox_policy": "No audit/outbox behavior changes.",
+      "tests_required": [],
+      "validation_commands": [
+        "web tests if available",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm build",
+        "browser check if runnable",
+        "git diff --check"
+      ],
+      "artifact_rules": [
+        "codex-review/phase2-autonomous-full-run/ticket-artifacts/P2B-004B/P2B-004B-file-manifest.md",
+        "codex-review/phase2-autonomous-full-run/ticket-artifacts/P2B-004B/P2B-004B-changed-files.zip",
+        "codex-review/phase2-autonomous-full-run/ticket-artifacts/P2B-004B/P2B-004B-validation-summary.md",
+        "codex-review/phase2-autonomous-full-run/autonomous-run-journal.md"
+      ],
+      "stop_conditions": [
+        "Missing screen contract",
+        "Missing API",
+        "Fake data required",
+        "Unapproved workflow needed"
+      ],
+      "commit_message": "P2B-004B implement lead desk detail screen",
+      "rollback_notes": "Revert files changed by this ticket."
+    },
+    {
+      "ticket_id": "P2B-004C",
+      "phase": "Phase 2B",
+      "title": "Lead Desk create and assignment frontend",
+      "autonomy_status": "AUTONOMOUS_AFTER_PREVIOUS",
+      "risk_tier": "medium",
+      "objective": "Implement approved lead desk create and assignment frontend from screen contract.",
+      "autonomous_decision_rule": "Codex may implement only screens with approved screen contracts. No fake dashboards. No hardcoded campus, role, user, tenant, or organization assumptions. Must include empty/loading/error/permission-denied states as required by screen contracts.",
+      "scope": [
+        "Implement only screens with approved screen contracts.",
+        "Include empty/loading/error/permission-denied states as required by screen contracts."
+      ],
+      "non_scope": [
+        "No fake dashboards.",
+        "No hardcoded campus/role/user/tenant/org assumptions.",
+        "No direct provider calls."
+      ],
+      "source_files_to_inspect": [
+        "apps/web/app/**",
+        "approved Lead Desk screen contracts",
+        "Lead Desk API contracts"
+      ],
+      "files_expected_to_change": [
+        "Exact route/component/test files from screen contracts after exact-file plan"
+      ],
+      "files_forbidden_to_change": [
+        "prisma/**",
+        "generated/**",
+        "apps/api/** unless separately approved",
+        "docs/process/**"
+      ],
+      "schema_impact": "none",
+      "registry_impact": "none",
+      "contract_impact": "none",
+      "screen_contract_impact": "none",
+      "permission_model": "No permission model changes.",
+      "gatekeeper_policy": "No Gatekeeper behavior changes.",
+      "audit_outbox_policy": "No audit/outbox behavior changes.",
+      "tests_required": [],
+      "validation_commands": [
+        "web tests if available",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm build",
+        "browser check if runnable",
+        "git diff --check"
+      ],
+      "artifact_rules": [
+        "codex-review/phase2-autonomous-full-run/ticket-artifacts/P2B-004C/P2B-004C-file-manifest.md",
+        "codex-review/phase2-autonomous-full-run/ticket-artifacts/P2B-004C/P2B-004C-changed-files.zip",
+        "codex-review/phase2-autonomous-full-run/ticket-artifacts/P2B-004C/P2B-004C-validation-summary.md",
+        "codex-review/phase2-autonomous-full-run/autonomous-run-journal.md"
+      ],
+      "stop_conditions": [
+        "Missing screen contract",
+        "Missing API",
+        "Fake data required",
+        "Unapproved workflow needed"
+      ],
+      "commit_message": "P2B-004C implement lead desk create assignment screens",
+      "rollback_notes": "Revert files changed by this ticket."
     },
     {
       "ticket_id": "P2B-GATE",
       "phase": "Phase 2B",
       "title": "Phase 2B validation gate",
+      "autonomy_status": "AUTONOMOUS_AFTER_PREVIOUS",
       "risk_tier": "phase_gate",
-      "objective": "Validate Lead Desk Core before WhatsApp integration.",
+      "objective": "Validate Lead Desk Core completion and continue automatically into Phase 2C when validation passes.",
+      "autonomous_decision_rule": "Continue automatically into P2C when full validation passes and no direct WhatsApp/Meta or screen-contract violation exists. Stop if validation fails.",
       "scope": [
-        "Full validation",
-        "Audit no direct WhatsApp",
-        "Audit screen contracts",
-        "Audit tests"
+        "Audit and validation only."
       ],
       "non_scope": [
-        "No implementation except fixing validation failures within current phase scope"
+        "No source edits."
       ],
       "source_files_to_inspect": [
-        "all changed files since P2A-GATE"
+        "Phase 2B commits",
+        "artifacts",
+        "contracts",
+        "screen contracts",
+        "schema",
+        "registry",
+        "API",
+        "frontend"
       ],
       "files_expected_to_change": [
-        "codex-review/**"
+        "ignored review artifacts only"
       ],
       "files_forbidden_to_change": [
-        "main branch"
+        "source/control/product files"
       ],
       "schema_impact": "none",
       "registry_impact": "none",
       "contract_impact": "none",
       "screen_contract_impact": "none",
-      "permission_model": "Audit only.",
-      "gatekeeper_policy": "Audit only.",
-      "audit_outbox_policy": "Audit only.",
-      "tests_required": [
-        "full standard validation"
-      ],
+      "permission_model": "No permission model changes.",
+      "gatekeeper_policy": "No Gatekeeper behavior changes.",
+      "audit_outbox_policy": "No audit/outbox behavior changes.",
+      "tests_required": [],
       "validation_commands": [
-        "FULL_STANDARD_VALIDATION_LADDER"
+        "full validation ladder",
+        "browser/frontend verification if applicable"
       ],
       "artifact_rules": [
-        "Create Phase 2B gate summary"
+        "Phase 2B gate report",
+        "journal entry",
+        "checkpoint"
       ],
       "stop_conditions": [
-        "Any validation failure",
-        "Any direct WhatsApp call"
+        "Missing artifact",
+        "Direct WhatsApp/Meta risk",
+        "Unresolved screen-contract risk",
+        "Validation failure"
       ],
       "commit_message": "P2B-GATE validate lead desk core phase",
-      "rollback_notes": "If gate fails, stop for audit."
+      "rollback_notes": "No source changes expected."
     },
     {
       "ticket_id": "P2C-001",
       "phase": "Phase 2C",
-      "title": "Create WhatsApp integration contracts through Engagement Gateway Lite",
-      "risk_tier": "high",
-      "objective": "Define WhatsApp integration contracts without direct Lead Desk to Meta coupling.",
+      "title": "WhatsApp integration contracts through gateway",
+      "autonomy_status": "AUTONOMOUS_AFTER_PREVIOUS",
+      "risk_tier": "blocked",
+      "objective": "WhatsApp integration contracts through gateway after ADR-0003 governance unlock.",
+      "autonomous_decision_rule": "Proceed only under the ADR-0003 stub/non-production exception: no production credentials, no real outbound WhatsApp messages, no direct Lead Desk-to-Meta/WhatsApp coupling, and all transport through Engagement Gateway Lite.",
       "scope": [
-        "Requires ADR-0003 Phase 2C pilot target date or formal exception before execution",
-        "Gateway-mediated integration contracts",
-        "Inbound/outbound event policy",
-        "Provider abstraction boundary"
+        "Gateway-mediated WhatsApp integration contracts only.",
+        "Provider-neutral and stub-only WhatsApp integration boundary.",
+        "All transport through Engagement Gateway Lite."
       ],
       "non_scope": [
-        "No production credentials",
-        "No direct Lead Desk Meta API calls",
-        "No deployment"
+        "No production credentials.",
+        "No real outbound WhatsApp messages.",
+        "No direct Lead Desk to Meta/WhatsApp coupling.",
+        "No .env or secret material changes."
       ],
       "source_files_to_inspect": [
-        "docs/adr/ADR-0003-whatsapp-protected-timeline.md",
-        "packages/contracts/**",
-        "apps/api/src/**"
+        "ADR-0003",
+        "Engagement Gateway contracts",
+        "Lead Desk contracts"
       ],
       "files_expected_to_change": [
-        "packages/contracts/**"
+        "packages/contracts/lead-desk*.contract.ts and/or packages/contracts/engagement-gateway-lite*.contract.ts after exact-file plan",
+        "packages/contracts/*module-manifest*.contract.ts after exact-file plan",
+        "packages/contracts/scripts/validate-*.mjs if contract validation wiring is required",
+        "apps/api/src/engagement-gateway/** only for runtime interface references if explicitly required by contract compatibility checks"
       ],
       "files_forbidden_to_change": [
+        "apps/web/**",
+        "prisma/**",
+        "generated/**",
         ".env*",
-        "production secrets"
+        "docs/adr/**",
+        "docs/process/** outside explicit control-doc correction tickets"
       ],
-      "schema_impact": "stop_and_ask",
-      "registry_impact": "stop_and_ask",
-      "contract_impact": "planned",
-      "screen_contract_impact": "stop_and_ask",
-      "permission_model": "Declare capabilities for message send/view if needed.",
-      "gatekeeper_policy": "High-risk messaging actions must be declared if applicable.",
-      "audit_outbox_policy": "Message send/receive audit/outbox policy required.",
-      "tests_required": [
-        "contract validation"
-      ],
+      "schema_impact": "none",
+      "registry_impact": "none",
+      "contract_impact": "none",
+      "screen_contract_impact": "none",
+      "permission_model": "No permission model changes.",
+      "gatekeeper_policy": "No Gatekeeper behavior changes.",
+      "audit_outbox_policy": "No audit/outbox behavior changes.",
+      "tests_required": [],
       "validation_commands": [
         "pnpm contracts:validate",
         "pnpm lint",
-        "pnpm typecheck"
+        "pnpm typecheck",
+        "git diff --check"
       ],
       "artifact_rules": [
-        "Ticket artifact and journal"
+        "codex-review/phase2-autonomous-full-run/ticket-artifacts/P2C-001/P2C-001-file-manifest.md",
+        "codex-review/phase2-autonomous-full-run/ticket-artifacts/P2C-001/P2C-001-changed-files.zip",
+        "codex-review/phase2-autonomous-full-run/ticket-artifacts/P2C-001/P2C-001-validation-summary.md",
+        "codex-review/phase2-autonomous-full-run/autonomous-run-journal.md"
       ],
       "stop_conditions": [
-        "Direct Meta coupling proposed",
-        "Provider credentials required",
-        "ADR-0003 Phase 2C pilot target date missing and no formal exception recorded",
-        "Requires mutation of active Phase 2 control documents"
+        "Production credential use required",
+        "Real outbound WhatsApp message required",
+        "Direct Lead Desk to Meta/WhatsApp coupling required",
+        "Secret access required",
+        "Validation failure twice"
       ],
       "commit_message": "P2C-001 add WhatsApp gateway integration contracts",
-      "rollback_notes": "Revert contract/doc changes."
+      "rollback_notes": "Revert files changed by this ticket."
     },
     {
       "ticket_id": "P2C-002",
       "phase": "Phase 2C",
-      "title": "Implement gateway-mediated WhatsApp stub integration",
-      "risk_tier": "high",
-      "objective": "Implement safe provider-stub integration path through Engagement Gateway Lite.",
+      "title": "Gateway-mediated WhatsApp stub integration",
+      "autonomy_status": "AUTONOMOUS_AFTER_PREVIOUS",
+      "risk_tier": "blocked",
+      "objective": "Gateway-mediated WhatsApp stub integration after ADR-0003 governance unlock.",
+      "autonomous_decision_rule": "Proceed only under the ADR-0003 stub/non-production exception: no production credentials, no real outbound WhatsApp messages, no direct Lead Desk-to-Meta/WhatsApp coupling, and all transport through Engagement Gateway Lite.",
       "scope": [
-        "Requires ADR-0003 Phase 2C pilot target date or formal exception before execution",
-        "Provider interface",
-        "stub provider",
-        "inbound/outbound flow tests",
-        "Lead Desk calls gateway only"
+        "Gateway-mediated WhatsApp stub provider implementation only.",
+        "Inbound and outbound flow tests through stub provider only.",
+        "Lead Desk calls Engagement Gateway only."
       ],
       "non_scope": [
-        "No production Meta credentials",
-        "No real outbound messages",
-        "No direct provider call from Lead Desk"
+        "No production Meta/WhatsApp credentials.",
+        "No real outbound WhatsApp messages.",
+        "No direct provider calls from Lead Desk.",
+        "No apps/web changes unless separately ticketed."
       ],
       "source_files_to_inspect": [
-        "apps/api/src/**",
-        "packages/contracts/**",
-        "docs/adr/ADR-0003-whatsapp-protected-timeline.md"
+        "ADR-0003",
+        "Engagement Gateway contracts",
+        "Lead Desk contracts"
       ],
       "files_expected_to_change": [
-        "apps/api/src/**"
+        "apps/api/src/engagement-gateway/** for gateway-mediated stub implementation and tests after exact-file plan",
+        "apps/api/src/lead-desk/** only where gateway boundary integration is required after exact-file plan",
+        "apps/api/src/app.module.ts if module wiring is required",
+        "packages/contracts/** only if already-approved P2C contracts require matching runtime typings"
       ],
       "files_forbidden_to_change": [
+        "apps/web/**",
+        "prisma/**",
+        "generated/**",
         ".env*",
-        "production secrets",
-        "apps/web/** unless ticket later allows"
+        "direct Meta/WhatsApp provider SDK credentials or secret files"
       ],
       "schema_impact": "none",
       "registry_impact": "none",
       "contract_impact": "none",
       "screen_contract_impact": "none",
-      "permission_model": "Use approved messaging capabilities.",
-      "gatekeeper_policy": "Use Gatekeeper if high-risk send action declared.",
-      "audit_outbox_policy": "Audit/outbox for send/receive state changes.",
-      "tests_required": [
-        "gateway-only enforcement",
-        "provider unavailable",
-        "invalid payload",
-        "no direct Meta call static scan",
-        "cross-org where tenant data exists"
-      ],
+      "permission_model": "No permission model changes.",
+      "gatekeeper_policy": "No Gatekeeper behavior changes.",
+      "audit_outbox_policy": "No audit/outbox behavior changes.",
+      "tests_required": [],
       "validation_commands": [
         "pnpm --filter @akti/api test",
+        "pnpm contracts:validate",
         "pnpm lint",
         "pnpm typecheck",
-        "pnpm build"
+        "pnpm build",
+        "git diff --check"
       ],
       "artifact_rules": [
-        "Ticket artifact and journal"
+        "codex-review/phase2-autonomous-full-run/ticket-artifacts/P2C-002/P2C-002-file-manifest.md",
+        "codex-review/phase2-autonomous-full-run/ticket-artifacts/P2C-002/P2C-002-changed-files.zip",
+        "codex-review/phase2-autonomous-full-run/ticket-artifacts/P2C-002/P2C-002-validation-summary.md",
+        "codex-review/phase2-autonomous-full-run/autonomous-run-journal.md"
       ],
       "stop_conditions": [
-        "Production provider needed",
-        "Direct Meta API needed",
-        "Secret needed",
-        "ADR-0003 Phase 2C pilot target date missing and no formal exception recorded"
+        "Production credential use required",
+        "Real outbound WhatsApp message required",
+        "Direct Lead Desk to Meta/WhatsApp coupling required",
+        "Secret access required",
+        "Validation failure twice"
       ],
       "commit_message": "P2C-002 implement gateway-mediated WhatsApp stub",
-      "rollback_notes": "Revert integration service/test changes."
+      "rollback_notes": "Revert files changed by this ticket."
     },
     {
       "ticket_id": "P2C-GATE",
       "phase": "Phase 2C",
-      "title": "Final Phase 2 validation and audit package",
-      "risk_tier": "phase_gate",
-      "objective": "Run full validation and create final branch audit package.",
+      "title": "Final Phase 2 validation gate",
+      "autonomy_status": "AUTONOMOUS_AFTER_PREVIOUS",
+      "risk_tier": "blocked",
+      "objective": "Final Phase 2 validation gate and final branch audit under stub/non-production Phase 2C exception.",
+      "autonomous_decision_rule": "Run final validation and audit. Stop at completion of P2C-GATE/final audit.",
       "scope": [
-        "Full validation",
-        "Final audit artifacts",
-        "Known gaps",
-        "Merge recommendation"
+        "Final Phase 2 validation ladder and final branch audit package.",
+        "No-real-message static check and no direct Lead Desk-to-Meta/WhatsApp check.",
+        "No production credential usage check and final journal/runtime-state update."
       ],
       "non_scope": [
-        "No merge to main",
-        "No production deployment"
+        "No product feature expansion.",
+        "No production deployment.",
+        "No secret usage."
       ],
       "source_files_to_inspect": [
-        "all branch changes"
+        "ADR-0003",
+        "Engagement Gateway contracts",
+        "Lead Desk contracts"
       ],
       "files_expected_to_change": [
-        "codex-review/**"
+        "codex-review/phase2-autonomous-full-run/final-branch-audit/**",
+        "codex-review/phase2-autonomous-full-run/autonomous-run-journal.md",
+        "codex-review/phase2-autonomous-full-run/run-state.json"
       ],
       "files_forbidden_to_change": [
-        "main branch"
+        "secrets",
+        "production credentials",
+        "direct Lead Desk to Meta/WhatsApp"
       ],
       "schema_impact": "none",
       "registry_impact": "none",
       "contract_impact": "none",
       "screen_contract_impact": "none",
-      "permission_model": "Audit only.",
-      "gatekeeper_policy": "Audit only.",
-      "audit_outbox_policy": "Audit only.",
-      "tests_required": [
-        "full standard validation",
-        "static no-direct-WhatsApp scan"
-      ],
+      "permission_model": "No permission model changes.",
+      "gatekeeper_policy": "No Gatekeeper behavior changes.",
+      "audit_outbox_policy": "No audit/outbox behavior changes.",
+      "tests_required": [],
       "validation_commands": [
-        "FULL_STANDARD_VALIDATION_LADDER"
+        "pnpm --filter @akti/api test",
+        "pnpm contracts:validate",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm exec prisma generate --schema prisma/schema.prisma",
+        "pnpm registry:generate",
+        "pnpm registry:check",
+        "pnpm registry:verify:phase2",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff --check",
+        "git status --short"
       ],
       "artifact_rules": [
-        "Create final branch audit package"
+        "codex-review/phase2-autonomous-full-run/ticket-artifacts/P2C-GATE/P2C-GATE-file-manifest.md",
+        "codex-review/phase2-autonomous-full-run/ticket-artifacts/P2C-GATE/P2C-GATE-changed-files.zip",
+        "codex-review/phase2-autonomous-full-run/ticket-artifacts/P2C-GATE/P2C-GATE-validation-summary.md",
+        "codex-review/phase2-autonomous-full-run/autonomous-run-journal.md"
       ],
       "stop_conditions": [
-        "Any validation failure",
-        "Missing artifacts",
-        "Scope leak"
+        "Production credential use required",
+        "Real outbound WhatsApp message required",
+        "Direct Lead Desk to Meta/WhatsApp coupling required",
+        "Secret access required",
+        "Validation failure twice"
       ],
       "commit_message": "P2C-GATE finalize phase 2 autonomous controlled branch run",
-      "rollback_notes": "If gate fails, stop for audit."
+      "rollback_notes": "Revert files changed by this ticket."
     }
   ]
 }

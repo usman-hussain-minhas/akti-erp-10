@@ -11,6 +11,40 @@ import type {
 
 const ACCESS_POLICY_MANAGE_CAPABILITY_KEY = 'access.policy.manage';
 const ACCESS_MODULE_KEY = 'core.access';
+const ENGAGEMENT_REQUEST_CREATE_CAPABILITY_KEY = 'engagement.gateway.request.create';
+const ENGAGEMENT_MODULE_KEY = 'engagement.gateway';
+const LEAD_CREATE_CAPABILITY_KEY = 'lead.intake.create';
+const LEAD_STATUS_UPDATE_CAPABILITY_KEY = 'lead.status.update';
+const LEAD_ASSIGN_CAPABILITY_KEY = 'lead.inbox.assign';
+const LEAD_MODULE_KEY = 'lead.desk';
+
+type CapabilityPolicy = {
+  module_key: string;
+  required_dependency_modules: string[];
+};
+
+const CAPABILITY_POLICIES: Record<string, CapabilityPolicy> = {
+  [ACCESS_POLICY_MANAGE_CAPABILITY_KEY]: {
+    module_key: ACCESS_MODULE_KEY,
+    required_dependency_modules: [],
+  },
+  [ENGAGEMENT_REQUEST_CREATE_CAPABILITY_KEY]: {
+    module_key: ENGAGEMENT_MODULE_KEY,
+    required_dependency_modules: [ACCESS_MODULE_KEY],
+  },
+  [LEAD_CREATE_CAPABILITY_KEY]: {
+    module_key: LEAD_MODULE_KEY,
+    required_dependency_modules: [ACCESS_MODULE_KEY, ENGAGEMENT_MODULE_KEY],
+  },
+  [LEAD_STATUS_UPDATE_CAPABILITY_KEY]: {
+    module_key: LEAD_MODULE_KEY,
+    required_dependency_modules: [ACCESS_MODULE_KEY, ENGAGEMENT_MODULE_KEY],
+  },
+  [LEAD_ASSIGN_CAPABILITY_KEY]: {
+    module_key: LEAD_MODULE_KEY,
+    required_dependency_modules: [ACCESS_MODULE_KEY, ENGAGEMENT_MODULE_KEY],
+  },
+};
 
 type HealthStatus = GatekeeperRequest['context']['module_health'][string];
 
@@ -75,11 +109,12 @@ export type GatekeeperDecisionProvider = {
 
 class Phase1GatekeeperDecisionProvider implements GatekeeperDecisionProvider {
   decide(request: GatekeeperRequest): GatekeeperDecisionResult {
-    if (request.capability_key !== ACCESS_POLICY_MANAGE_CAPABILITY_KEY) {
+    const policy = CAPABILITY_POLICIES[request.capability_key];
+    if (!policy) {
       return this.deny(request, 'gatekeeper.capability.unsupported', 'Gatekeeper denied unsupported capability.');
     }
 
-    if (request.module_key !== ACCESS_MODULE_KEY) {
+    if (request.module_key !== policy.module_key) {
       return this.deny(request, 'gatekeeper.module.unsupported', 'Gatekeeper denied unsupported module.');
     }
 
@@ -91,12 +126,41 @@ class Phase1GatekeeperDecisionProvider implements GatekeeperDecisionProvider {
       return this.deny(request, 'gatekeeper.actor.mismatch', 'Gatekeeper context actor mismatch.');
     }
 
-    if (!request.context.capabilities.includes(ACCESS_POLICY_MANAGE_CAPABILITY_KEY)) {
-      return this.deny(request, 'gatekeeper.capability.missing', 'Gatekeeper context is missing access.policy.manage.');
+    if (!request.context.capabilities.includes(request.capability_key)) {
+      return this.deny(request, 'gatekeeper.capability.missing', 'Gatekeeper context is missing requested capability.');
     }
 
-    if (request.context.module_health[ACCESS_MODULE_KEY] !== 'healthy') {
-      return this.degradedBlock(request, 'gatekeeper.module.unhealthy', 'Access Core is not healthy for mutation preflight.');
+    const moduleHealth = request.context.module_health[policy.module_key];
+    if (moduleHealth === undefined) {
+      return this.degradedBlock(
+        request,
+        'gatekeeper.module.health.missing',
+        'Gatekeeper requires module health for the target module.',
+      );
+    }
+
+    if (moduleHealth !== 'healthy') {
+      return this.degradedBlock(request, 'gatekeeper.module.unhealthy', 'Target module is not healthy for mutation preflight.');
+    }
+
+    for (const dependencyModuleKey of policy.required_dependency_modules) {
+      const dependencyHealth = request.context.dependency_health[dependencyModuleKey];
+
+      if (dependencyHealth === undefined) {
+        return this.degradedBlock(
+          request,
+          'gatekeeper.dependency.health.missing',
+          'Gatekeeper requires dependency health for the target capability.',
+        );
+      }
+
+      if (dependencyHealth !== 'healthy') {
+        return this.degradedBlock(
+          request,
+          'gatekeeper.dependency.unhealthy',
+          'Gatekeeper blocked the mutation because a dependency is not healthy.',
+        );
+      }
     }
 
     if (request.context.reauth_status !== 'not_required') {
@@ -238,12 +302,16 @@ export class GatekeeperPreflightService {
   }
 
   private buildRequest(input: GatekeeperPreflightInput): unknown {
+    const capabilityKey = input.capability_key ?? ACCESS_POLICY_MANAGE_CAPABILITY_KEY;
+    const capabilityPolicy = CAPABILITY_POLICIES[capabilityKey];
+    const moduleKey = input.module_key ?? capabilityPolicy?.module_key ?? ACCESS_MODULE_KEY;
+
     return {
       request_id: `gk_req_${randomUUID()}`,
       organization_id: input.organization_id,
       actor_user_id: input.actor_user_id,
-      capability_key: input.capability_key ?? ACCESS_POLICY_MANAGE_CAPABILITY_KEY,
-      module_key: input.module_key ?? ACCESS_MODULE_KEY,
+      capability_key: capabilityKey,
+      module_key: moduleKey,
       entity_type: input.entity_type,
       entity_id: input.entity_id,
       scope_unit_id: input.scope_unit_id ?? null,
@@ -257,10 +325,8 @@ export class GatekeeperPreflightService {
         current_user_id: input.actor_user_id,
         active_scope_unit_id: null,
         active_group_ids: input.active_group_ids,
-        capabilities: [input.capability_key ?? ACCESS_POLICY_MANAGE_CAPABILITY_KEY],
-        module_health: input.module_health ?? {
-          [ACCESS_MODULE_KEY]: 'healthy',
-        },
+        capabilities: [capabilityKey],
+        module_health: input.module_health ?? {},
         dependency_health: input.dependency_health ?? {},
         reauth_status: input.reauth_status ?? 'not_required',
       },

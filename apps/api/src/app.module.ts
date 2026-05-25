@@ -6,10 +6,15 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigurationController } from './configuration/configuration.controller';
 import { ConfigurationService } from './configuration/configuration.service';
+import { EngagementGatewayController } from './engagement-gateway/engagement-gateway.controller';
+import { EngagementGatewayService } from './engagement-gateway/engagement-gateway.service';
+import { WhatsappStubProvider } from './engagement-gateway/whatsapp-stub.provider';
 import { GatekeeperPreflightService } from './gatekeeper/gatekeeper-preflight.service';
 import { HierarchyController } from './hierarchy/hierarchy.controller';
 import { HierarchyClosureService } from './hierarchy/hierarchy-closure.service';
 import { HierarchyService } from './hierarchy/hierarchy.service';
+import { LeadDeskController } from './lead-desk/lead-desk.controller';
+import { LeadDeskService } from './lead-desk/lead-desk.service';
 import { ModuleRegistryController } from './module-registry/module-registry.controller';
 import { ModuleRegistryService } from './module-registry/module-registry.service';
 import { OrganizationSetupController } from './organization-setup/organization-setup.controller';
@@ -27,6 +32,8 @@ import { PrismaService } from './prisma/prisma.service';
     ModuleRegistryController,
     HierarchyController,
     ConfigurationController,
+    EngagementGatewayController,
+    LeadDeskController,
   ],
   providers: [
     AppService,
@@ -37,6 +44,9 @@ import { PrismaService } from './prisma/prisma.service';
     HierarchyService,
     ConfigurationService,
     AccessCoreService,
+    EngagementGatewayService,
+    WhatsappStubProvider,
+    LeadDeskService,
     GatekeeperPreflightService,
     AuditLogService,
     EventOutboxService,

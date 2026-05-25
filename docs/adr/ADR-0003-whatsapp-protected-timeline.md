@@ -59,6 +59,35 @@ Use one temporary shared inbox/CRM now, with one WhatsApp number and round-robin
 - CRM/BSP selection remains an operational decision, not final ERP architecture.
 - ADR-0003 must be updated with a concrete Phase 2C pilot target date before Phase 0 is fully accepted, unless a formal exception is accepted.
 
+## Formal exception
+
+### Exception title
+
+Phase 2C Stub/Non-Production Implementation Exception
+
+### Date
+
+2026-05-24
+
+### Approved by
+
+AKTI / User authorization
+
+### Scope
+
+- Phase 2C may proceed only as stub/non-production implementation.
+- No production WhatsApp/Meta credentials.
+- No real outbound WhatsApp messages.
+- No direct Lead Desk to Meta/WhatsApp coupling.
+- All WhatsApp-related integration must pass through Engagement Gateway Lite.
+- Temporary CRM/shared inbox remains operational until Phase 2C is tested and accepted.
+- This exception does not authorize Phase 3 or any non-Phase-2 scope.
+
+### Expiry and review
+
+- This exception must be reviewed before any production WhatsApp enablement.
+- Production credentials, real outbound messages, or production deployment require later explicit approval and ADR update.
+
 ## Affected modules
 
 Engagement Gateway Lite, future Engagement Hub, Lead Desk Core, WhatsApp Lead Desk Integration, CRM/BSP operational workflow, and Phase 2 planning.
