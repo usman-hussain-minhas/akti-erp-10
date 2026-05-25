@@ -30,3 +30,7 @@ Accepted local disposable PostgreSQL backup/restore and git/build/env rollback p
 ## P4-007
 
 Accepted Phase 3 app limiter as sufficient for controlled local/demo proof; distributed/infrastructure limiting deferred to production deployment decision.
+
+## P4-008
+
+Accepted Phase 3 bearer session token boundary for local/demo proof; production auth provider and credentials remain deferred.
