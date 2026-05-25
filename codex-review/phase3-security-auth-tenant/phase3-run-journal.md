@@ -33,3 +33,19 @@ Execution notes:
 - Preserved ADR/source-of-truth hierarchy and Phase 1/2 protections.
 - Confirmed Phase 4 remains blocked until Phase 3 closes.
 - No bounded repair attempts were needed.
+
+## P3-002 - Auth, Session, Identity, and Tenant Context Decision
+
+Exact-file plan:
+
+- Add `docs/adr/ADR-0008-auth-session-identity-tenant-context.md`.
+- Create P3-002 summary, changed-files archive, and validation summary under `codex-review/phase3-security-auth-tenant/ticket-artifacts/P3-002/`.
+- Do not modify runtime source, Prisma, contracts, generated registry, dependencies, workflows, deployment files, or secrets.
+
+Execution notes:
+
+- Selected a no-new-dependency signed bearer session envelope for Phase 3 trusted request context.
+- Defined actor and organization context fields using existing `User.organization_id` and `User.id`.
+- Defined `x-actor-user-id` as legacy/migration-only; tests may change only with equivalent or stronger trusted-context coverage.
+- Confirmed frontend operator-context replacement is gated behind this decision and backend request context implementation.
+- No bounded repair attempts were needed.
