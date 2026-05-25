@@ -1,0 +1,15 @@
+P4-009 seed/bootstrap note
+
+No separate seed script exists in the current repo for the clean DB proof. Bootstrap was executed through the existing setup organization path:
+
+- API build/start completed successfully.
+- POST /platform/setup/organization returned setup_state "completed".
+- The setup path invoked existing organization/domain creation and module registry seeding behavior.
+- pnpm registry:check passed after setup.
+
+Primary evidence:
+- setup-organization-smoke-log.txt
+- capability-registry-check-log.txt
+- api-start-for-bootstrap-log.txt
+
+No manual database inserts, updates, deletes, or schema edits were used.

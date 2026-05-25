@@ -42,3 +42,9 @@ Created runbook skeleton with proof-ticket placeholders and ownership/support ou
 ## P4-016A
 
 Created validation gap inventory and proof-ticket validation strategy before P4-009.
+
+## P4-009
+
+Status: STOPPED_WITH_FINDINGS.
+
+Executed the P4-004 fresh DB/bootstrap proof against a disposable local PostgreSQL database. Local runtime bootstrap succeeded only after using `prisma db push --url` as a bounded local/demo fallback, but the formal `prisma migrate deploy` path failed because the checked-in migration set is additive and expects baseline tables such as `EventOutbox` to already exist. After three bounded repair attempts, the migration bootstrap blocker remained. Execution stopped before P4-010 per the P4-009 minimum concrete requirement and hard-stop policy.
