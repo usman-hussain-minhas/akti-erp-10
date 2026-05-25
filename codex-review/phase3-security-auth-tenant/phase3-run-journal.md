@@ -129,3 +129,29 @@ Execution notes:
 - Wired the new test into the API test command.
 - Full implementation-ticket validation ladder passed.
 - No bounded repair attempts were needed.
+
+## P3-007B - API Surface Migration to Trusted Context
+
+Exact-file plan:
+
+- Update bounded API ingress controllers:
+  - `apps/api/src/access-core/access-core.controller.ts`
+  - `apps/api/src/configuration/configuration.controller.ts`
+  - `apps/api/src/engagement-gateway/engagement-gateway.controller.ts`
+  - `apps/api/src/hierarchy/hierarchy.controller.ts`
+  - `apps/api/src/lead-desk/lead-desk.controller.ts`
+- Update equivalent or stronger trusted-context test coverage:
+  - `apps/api/src/configuration/configuration.controller.test.ts`
+  - `apps/api/src/hierarchy/hierarchy.controller.test.ts`
+  - `apps/api/src/phase1-hardening/phase1-release-blockers.test.ts`
+- Create P3-007B summary, changed-files archive, and validation summary under `codex-review/phase3-security-auth-tenant/ticket-artifacts/P3-007B/`.
+- Do not modify frontend files, Prisma, contracts, generated registry, dependencies, workflows, deployment files, production credentials, or secrets.
+
+Execution notes:
+
+- Determined the blast radius remained bounded to controller ingress plus focused tests; no further split was needed.
+- Replaced caller-controlled actor header reads at controller ingress with trusted signed bearer context resolution.
+- Preserved existing service-level actor enforcement by forwarding the trusted actor id into existing service calls.
+- Updated controller tests to use signed session headers and updated the Phase 1 static guard to require trusted-context ingress.
+- Full implementation-ticket validation ladder passed.
+- Bounded repair attempt 1: adjusted a static assertion to tolerate multiline formatting while retaining the trusted-context requirement.

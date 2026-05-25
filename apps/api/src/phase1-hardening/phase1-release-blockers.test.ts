@@ -81,15 +81,15 @@ function testPhase1WorkflowKeepsGeneratedRegistryDriftGuard() {
   assert.equal(workflow.includes('git diff --exit-code -- generated/entity-registry.generated.json'), true);
 }
 
-function testAccessCoreTenantReadRoutesRequireActorHeader() {
+function testAccessCoreTenantReadRoutesUseTrustedRequestContext() {
   const source = readFileSync(join(apiSourceRoot, 'access-core/access-core.controller.ts'), 'utf8');
-  const requiredActorForwardingCalls = [
-    'this.accessCoreService.listUsers(organizationId, actorUserIdRaw)',
-    'this.accessCoreService.getUser(organizationId, userId, actorUserIdRaw)',
-    'this.accessCoreService.listGroups(organizationId, actorUserIdRaw)',
-    'this.accessCoreService.getGroup(organizationId, groupId, actorUserIdRaw)',
-    'this.accessCoreService.listMemberships(organizationId, actorUserIdRaw)',
-    'this.accessCoreService.listGroupCapabilityAssignments(organizationId, actorUserIdRaw)',
+  const requiredTrustedContextCalls: Array<string | RegExp> = [
+    'this.accessCoreService.listUsers(organizationId, this.resolveActorUserId(headers, organizationId))',
+    'this.accessCoreService.getUser(organizationId, userId, this.resolveActorUserId(headers, organizationId))',
+    'this.accessCoreService.listGroups(organizationId, this.resolveActorUserId(headers, organizationId))',
+    'this.accessCoreService.getGroup(organizationId, groupId, this.resolveActorUserId(headers, organizationId))',
+    'this.accessCoreService.listMemberships(organizationId, this.resolveActorUserId(headers, organizationId))',
+    /this\.accessCoreService\.listGroupCapabilityAssignments\(\s*organizationId,\s*this\.resolveActorUserId\(headers, organizationId\),\s*\)/,
   ];
   const forbiddenActorlessCalls = [
     'this.accessCoreService.listUsers(organizationId)',
@@ -100,12 +100,53 @@ function testAccessCoreTenantReadRoutesRequireActorHeader() {
     'this.accessCoreService.listGroupCapabilityAssignments(organizationId)',
   ];
 
-  for (const call of requiredActorForwardingCalls) {
-    assert.equal(source.includes(call), true, `${call} must forward x-actor-user-id`);
+  assert.equal(
+    source.includes('resolveTrustedRequestContext(headers, { routeOrganizationId: organizationId })'),
+    true,
+    'Access Core controller must resolve actor from trusted request context',
+  );
+  assert.equal(
+    source.includes("@Headers('x-actor-user-id')"),
+    false,
+    'Access Core controller must not trust caller-controlled x-actor-user-id at ingress',
+  );
+
+  for (const call of requiredTrustedContextCalls) {
+    const hasCall = typeof call === 'string' ? source.includes(call) : call.test(source);
+    assert.equal(hasCall, true, `${call.toString()} must forward the trusted context actor`);
   }
 
   for (const call of forbiddenActorlessCalls) {
     assert.equal(source.includes(call), false, `${call} must not remain actorless`);
+  }
+}
+
+function testApiControllersUseTrustedRequestContextAtIngress() {
+  const controllerPaths = [
+    'access-core/access-core.controller.ts',
+    'configuration/configuration.controller.ts',
+    'engagement-gateway/engagement-gateway.controller.ts',
+    'hierarchy/hierarchy.controller.ts',
+    'lead-desk/lead-desk.controller.ts',
+  ];
+
+  for (const controllerPath of controllerPaths) {
+    const source = readFileSync(join(apiSourceRoot, controllerPath), 'utf8');
+    assert.equal(
+      source.includes("@Headers('x-actor-user-id')"),
+      false,
+      `${controllerPath} must not read caller-controlled x-actor-user-id`,
+    );
+    assert.equal(
+      source.includes('resolveTrustedRequestContext'),
+      true,
+      `${controllerPath} must resolve trusted auth/tenant context`,
+    );
+    assert.equal(
+      source.includes('routeOrganizationId: organizationId'),
+      true,
+      `${controllerPath} must bind trusted context to the route organization`,
+    );
   }
 }
 
@@ -139,7 +180,8 @@ function testApiTestFixturesDoNotLeakHardcodedBusinessTerms() {
 function run() {
   testRegistryEventMetadataMatchesRuntimeConstants();
   testPhase1WorkflowKeepsGeneratedRegistryDriftGuard();
-  testAccessCoreTenantReadRoutesRequireActorHeader();
+  testAccessCoreTenantReadRoutesUseTrustedRequestContext();
+  testApiControllersUseTrustedRequestContextAtIngress();
   testApiTestFixturesDoNotLeakHardcodedBusinessTerms();
 
   console.log('phase1-release-blockers tests passed');

@@ -3,6 +3,24 @@ import assert from 'node:assert/strict';
 import { BadRequestException } from '@nestjs/common';
 
 import { HierarchyController } from './hierarchy.controller';
+import { HeaderRecord, createPhase3SessionToken } from '../security/request-context';
+
+const AUTH_SECRET = 'phase3-controller-test-secret';
+process.env.AKTI_AUTH_SESSION_SECRET = AUTH_SECRET;
+
+function trustedHeaders(organizationId = 'org-1', actorUserId = 'actor-1'): HeaderRecord {
+  return {
+    authorization: `Bearer ${createPhase3SessionToken(
+      {
+        organization_id: organizationId,
+        actor_user_id: actorUserId,
+        issued_at: '2026-01-01T00:00:00.000Z',
+        expires_at: '2027-01-01T00:00:00.000Z',
+      },
+      AUTH_SECRET,
+    )}`,
+  };
+}
 
 function createController() {
   const calls: Array<{ method: string; args: unknown[] }> = [];
@@ -41,9 +59,9 @@ async function testControllerRoutesNormalizeInputs() {
       label: ' Division ',
       sort_order: 1,
     },
-    'actor-1',
+    trustedHeaders(),
   );
-  await controller.listUnitTypes(' org-1 ', 'actor-1');
+  await controller.listUnitTypes(' org-1 ', trustedHeaders());
   await controller.createUnit(
     ' org-1 ',
     {
@@ -52,9 +70,9 @@ async function testControllerRoutesNormalizeInputs() {
       name: ' Branch A ',
       status: ' active ',
     },
-    'actor-1',
+    trustedHeaders(),
   );
-  await controller.listUnits(' org-1 ', 'actor-1');
+  await controller.listUnits(' org-1 ', trustedHeaders());
 
   assert.deepEqual(calls[0], {
     method: 'createUnitType',
@@ -88,7 +106,7 @@ function testControllerRejectsInvalidInputsAndDoesNotExposeDeferredMethods() {
   const { controller } = createController();
 
   assert.throws(
-    () => controller.createUnitType('org-1', { key: 'bad key', label: 'Division', sort_order: 1 }, 'actor-1'),
+    () => controller.createUnitType('org-1', { key: 'bad key', label: 'Division', sort_order: 1 }, trustedHeaders()),
     BadRequestException,
   );
   assert.equal('deleteUnit' in controller, false);

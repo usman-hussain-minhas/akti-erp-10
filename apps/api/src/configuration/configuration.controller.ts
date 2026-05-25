@@ -6,6 +6,7 @@ import {
   validateUpdatePortalModeBody,
 } from './dto/configuration.dto';
 import { ConfigurationService } from './configuration.service';
+import { HeaderRecord, resolveTrustedRequestContext } from '../security/request-context';
 
 @Controller('platform/configuration')
 export class ConfigurationController {
@@ -14,21 +15,21 @@ export class ConfigurationController {
   @Get('organizations/:organization_id/portal-mode')
   getPortalMode(
     @Param('organization_id') organizationIdRaw: string,
-    @Headers('x-actor-user-id') actorUserIdRaw?: string,
+    @Headers() headers: HeaderRecord,
   ) {
     const organizationId = this.validate(() => validateOrganizationIdParam(organizationIdRaw));
-    return this.configurationService.getPortalMode(organizationId, actorUserIdRaw);
+    return this.configurationService.getPortalMode(organizationId, this.resolveActorUserId(headers, organizationId));
   }
 
   @Put('organizations/:organization_id/portal-mode')
   updatePortalMode(
     @Param('organization_id') organizationIdRaw: string,
     @Body() body: unknown,
-    @Headers('x-actor-user-id') actorUserIdRaw?: string,
+    @Headers() headers: HeaderRecord,
   ) {
     const organizationId = this.validate(() => validateOrganizationIdParam(organizationIdRaw));
     const input = this.validate(() => validateUpdatePortalModeBody(body));
-    return this.configurationService.updatePortalMode(organizationId, input, actorUserIdRaw);
+    return this.configurationService.updatePortalMode(organizationId, input, this.resolveActorUserId(headers, organizationId));
   }
 
   private validate<T>(fn: () => T): T {
@@ -40,5 +41,9 @@ export class ConfigurationController {
       }
       throw error;
     }
+  }
+
+  private resolveActorUserId(headers: HeaderRecord, organizationId: string): string {
+    return resolveTrustedRequestContext(headers, { routeOrganizationId: organizationId }).actor_user_id;
   }
 }

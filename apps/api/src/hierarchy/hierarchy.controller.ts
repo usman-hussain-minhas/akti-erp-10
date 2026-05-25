@@ -7,6 +7,7 @@ import {
   validateOrganizationIdParam,
 } from './dto/hierarchy.dto';
 import { HierarchyService } from './hierarchy.service';
+import { HeaderRecord, resolveTrustedRequestContext } from '../security/request-context';
 
 @Controller('platform/hierarchy')
 export class HierarchyController {
@@ -16,40 +17,40 @@ export class HierarchyController {
   createUnitType(
     @Param('organization_id') organizationIdRaw: string,
     @Body() body: unknown,
-    @Headers('x-actor-user-id') actorUserIdRaw?: string,
+    @Headers() headers: HeaderRecord,
   ) {
     const organizationId = this.validateParam(() => validateOrganizationIdParam(organizationIdRaw));
     const input = this.validate(() => validateCreateUnitTypeBody(body));
-    return this.hierarchyService.createUnitType(organizationId, input, actorUserIdRaw);
+    return this.hierarchyService.createUnitType(organizationId, input, this.resolveActorUserId(headers, organizationId));
   }
 
   @Get('organizations/:organization_id/unit-types')
   listUnitTypes(
     @Param('organization_id') organizationIdRaw: string,
-    @Headers('x-actor-user-id') actorUserIdRaw?: string,
+    @Headers() headers: HeaderRecord,
   ) {
     const organizationId = this.validateParam(() => validateOrganizationIdParam(organizationIdRaw));
-    return this.hierarchyService.listUnitTypes(organizationId, actorUserIdRaw);
+    return this.hierarchyService.listUnitTypes(organizationId, this.resolveActorUserId(headers, organizationId));
   }
 
   @Post('organizations/:organization_id/units')
   createUnit(
     @Param('organization_id') organizationIdRaw: string,
     @Body() body: unknown,
-    @Headers('x-actor-user-id') actorUserIdRaw?: string,
+    @Headers() headers: HeaderRecord,
   ) {
     const organizationId = this.validateParam(() => validateOrganizationIdParam(organizationIdRaw));
     const input = this.validate(() => validateCreateOrganizationUnitBody(body));
-    return this.hierarchyService.createUnit(organizationId, input, actorUserIdRaw);
+    return this.hierarchyService.createUnit(organizationId, input, this.resolveActorUserId(headers, organizationId));
   }
 
   @Get('organizations/:organization_id/units')
   listUnits(
     @Param('organization_id') organizationIdRaw: string,
-    @Headers('x-actor-user-id') actorUserIdRaw?: string,
+    @Headers() headers: HeaderRecord,
   ) {
     const organizationId = this.validateParam(() => validateOrganizationIdParam(organizationIdRaw));
-    return this.hierarchyService.listUnits(organizationId, actorUserIdRaw);
+    return this.hierarchyService.listUnits(organizationId, this.resolveActorUserId(headers, organizationId));
   }
 
   private validate<T>(fn: () => T): T {
@@ -65,5 +66,9 @@ export class HierarchyController {
 
   private validateParam<T>(fn: () => T): T {
     return this.validate(fn);
+  }
+
+  private resolveActorUserId(headers: HeaderRecord, organizationId: string): string {
+    return resolveTrustedRequestContext(headers, { routeOrganizationId: organizationId }).actor_user_id;
   }
 }

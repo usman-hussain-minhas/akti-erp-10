@@ -1,6 +1,7 @@
 import { BadRequestException, Body, Controller, Get, Headers, Param, Patch, Post, Query } from '@nestjs/common';
 
 import { LeadDeskService } from './lead-desk.service';
+import { HeaderRecord, resolveTrustedRequestContext } from '../security/request-context';
 
 function requireParam(raw: string, name: string) {
   const value = raw?.trim();
@@ -18,31 +19,31 @@ export class LeadDeskController {
   createLead(
     @Param('organization_id') organizationIdRaw: string,
     @Body() body: unknown,
-    @Headers('x-actor-user-id') actorUserIdRaw?: string,
+    @Headers() headers: HeaderRecord,
   ) {
     const organizationId = requireParam(organizationIdRaw, 'organization_id');
-    return this.leadDeskService.createLead(organizationId, body, actorUserIdRaw);
+    return this.leadDeskService.createLead(organizationId, body, this.resolveActorUserId(headers, organizationId));
   }
 
   @Get()
   listLeads(
     @Param('organization_id') organizationIdRaw: string,
     @Query() query: Record<string, unknown>,
-    @Headers('x-actor-user-id') actorUserIdRaw?: string,
+    @Headers() headers: HeaderRecord,
   ) {
     const organizationId = requireParam(organizationIdRaw, 'organization_id');
-    return this.leadDeskService.listLeads(organizationId, query, actorUserIdRaw);
+    return this.leadDeskService.listLeads(organizationId, query, this.resolveActorUserId(headers, organizationId));
   }
 
   @Get(':lead_id')
   getLeadDetail(
     @Param('organization_id') organizationIdRaw: string,
     @Param('lead_id') leadIdRaw: string,
-    @Headers('x-actor-user-id') actorUserIdRaw?: string,
+    @Headers() headers: HeaderRecord,
   ) {
     const organizationId = requireParam(organizationIdRaw, 'organization_id');
     const leadId = requireParam(leadIdRaw, 'lead_id');
-    return this.leadDeskService.getLeadDetail(organizationId, leadId, actorUserIdRaw);
+    return this.leadDeskService.getLeadDetail(organizationId, leadId, this.resolveActorUserId(headers, organizationId));
   }
 
   @Patch(':lead_id/status')
@@ -50,11 +51,16 @@ export class LeadDeskController {
     @Param('organization_id') organizationIdRaw: string,
     @Param('lead_id') leadIdRaw: string,
     @Body() body: unknown,
-    @Headers('x-actor-user-id') actorUserIdRaw?: string,
+    @Headers() headers: HeaderRecord,
   ) {
     const organizationId = requireParam(organizationIdRaw, 'organization_id');
     const leadId = requireParam(leadIdRaw, 'lead_id');
-    return this.leadDeskService.updateLeadStatus(organizationId, leadId, body, actorUserIdRaw);
+    return this.leadDeskService.updateLeadStatus(
+      organizationId,
+      leadId,
+      body,
+      this.resolveActorUserId(headers, organizationId),
+    );
   }
 
   @Patch(':lead_id/assignment')
@@ -62,10 +68,19 @@ export class LeadDeskController {
     @Param('organization_id') organizationIdRaw: string,
     @Param('lead_id') leadIdRaw: string,
     @Body() body: unknown,
-    @Headers('x-actor-user-id') actorUserIdRaw?: string,
+    @Headers() headers: HeaderRecord,
   ) {
     const organizationId = requireParam(organizationIdRaw, 'organization_id');
     const leadId = requireParam(leadIdRaw, 'lead_id');
-    return this.leadDeskService.updateLeadAssignment(organizationId, leadId, body, actorUserIdRaw);
+    return this.leadDeskService.updateLeadAssignment(
+      organizationId,
+      leadId,
+      body,
+      this.resolveActorUserId(headers, organizationId),
+    );
+  }
+
+  private resolveActorUserId(headers: HeaderRecord, organizationId: string): string {
+    return resolveTrustedRequestContext(headers, { routeOrganizationId: organizationId }).actor_user_id;
   }
 }
