@@ -18,3 +18,18 @@ Execution notes:
 - Confirmed branch was created from clean `main` at `adbc471`.
 - Confirmed Phase 3 ordered queue is present and control docs are tracked.
 - No bounded repair attempts were needed.
+
+## P3-001 - Security Architecture ADR
+
+Exact-file plan:
+
+- Add `docs/adr/ADR-0007-phase-3-security-architecture.md`.
+- Create P3-001 summary, changed-files archive, and validation summary under `codex-review/phase3-security-auth-tenant/ticket-artifacts/P3-001/`.
+- Do not modify runtime source, Prisma, contracts, generated registry, dependencies, workflows, deployment files, or secrets.
+
+Execution notes:
+
+- Recorded Phase 3 as a hybrid security/auth/tenant architecture phase leaning toward adding missing architecture.
+- Preserved ADR/source-of-truth hierarchy and Phase 1/2 protections.
+- Confirmed Phase 4 remains blocked until Phase 3 closes.
+- No bounded repair attempts were needed.
