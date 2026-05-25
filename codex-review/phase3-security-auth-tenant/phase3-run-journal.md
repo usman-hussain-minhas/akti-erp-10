@@ -295,3 +295,21 @@ Execution notes:
 - Added static guards that Phase 3 negative test coverage remains wired and that Lead Desk does not couple directly to WhatsApp or real outbound WhatsApp behavior.
 - Focused API/web tests and the full validation ladder passed.
 - No bounded repair attempts were needed.
+
+## P3-014 - Phase 3 CI / Validation Naming and Security-Gate Alignment
+
+Exact-file plan:
+
+- Align the existing workflow name/job and security-gate checks:
+  - `.github/workflows/phase1-validation.yml`
+- Create P3-014 summary, changed-files archive, and validation summary under `codex-review/phase3-security-auth-tenant/ticket-artifacts/P3-014/`.
+- Do not modify runtime source, Prisma, generated registry, contracts, package dependencies, package scripts, deployment configuration, production credentials, or secrets.
+
+Execution notes:
+
+- Retained the historical workflow filename because existing repo validation references inspect that path.
+- Renamed the visible workflow to `Phase 3 Security Validation` and the job to `phase3-security-validation`.
+- Added `git diff --check` to the workflow before drift and clean-status checks.
+- Preserved contracts, Prisma validation/generation, registry generation/checks, `registry:verify:phase2`, lint, typecheck, tests, build, Prisma drift checks, and clean-status check.
+- Workflow YAML parsed and the full validation ladder passed.
+- No bounded repair attempts were needed.
