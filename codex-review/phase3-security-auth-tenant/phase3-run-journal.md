@@ -49,3 +49,18 @@ Execution notes:
 - Defined `x-actor-user-id` as legacy/migration-only; tests may change only with equivalent or stronger trusted-context coverage.
 - Confirmed frontend operator-context replacement is gated behind this decision and backend request context implementation.
 - No bounded repair attempts were needed.
+
+## P3-003 - Tenant Isolation, RLS, and Service Enforcement Decision
+
+Exact-file plan:
+
+- Add `docs/adr/ADR-0009-tenant-isolation-rls-service-enforcement.md`.
+- Create P3-003 summary, changed-files archive, and validation summary under `codex-review/phase3-security-auth-tenant/ticket-artifacts/P3-003/`.
+- Do not modify runtime source, Prisma, contracts, generated registry, dependencies, workflows, deployment files, or secrets.
+
+Execution notes:
+
+- Selected service-level tenant enforcement as the concrete Phase 3 implementation path.
+- Bounded DB RLS to a future decision/handoff because safe DB RLS requires a complete request-to-transaction tenant-setting strategy that is not currently present.
+- P3-008 must re-plan against this decision and must not force DB RLS work.
+- No bounded repair attempts were needed.
