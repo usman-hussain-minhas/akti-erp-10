@@ -247,3 +247,29 @@ Execution notes:
 - Added tests and static guards for env parsing, secret absence from `.env.example`, security headers, and CORS behavior.
 - Full implementation-ticket validation ladder passed.
 - Bounded repair attempt 1: updated the P3-010 static limiter wiring guard after P3-011 consolidated route-limit config under runtime env.
+
+## P3-012 - Frontend Auth and Operator Context Replacement
+
+Exact-file plan:
+
+- Replace Lead Desk frontend context and API request construction:
+  - `apps/web/app/lead-desk/operator-context.ts`
+  - `apps/web/app/lead-desk/api-client.ts`
+- Update Lead Desk screens that gather context:
+  - `apps/web/app/lead-desk/inbox/page.tsx`
+  - `apps/web/app/lead-desk/create/page.tsx`
+  - `apps/web/app/lead-desk/leads/[leadId]/page.tsx`
+  - `apps/web/app/lead-desk/leads/[leadId]/actions/page.tsx`
+- Update frontend static tests:
+  - `apps/web/test/lead-desk-screens.test.mjs`
+- Create P3-012 summary, changed-files archive, and validation summary under `codex-review/phase3-security-auth-tenant/ticket-artifacts/P3-012/`.
+- Do not implement production login/session issuance, deployment, browser-rendered visual QA, new dependencies, Prisma, generated registry, contracts, production credentials, or secrets.
+
+Execution notes:
+
+- Replaced caller-controlled organization/actor input with a stored Phase 3 bearer session token and decoded convenience metadata.
+- API client now sends `Authorization: Bearer <sessionToken>` and no longer sends `x-actor-user-id`.
+- Lead Desk screens now ask for a Phase 3 session token and keep route/body organization and actor values derived from decoded token metadata.
+- Frontend tests were replaced with equivalent or stronger bearer-context coverage.
+- Full implementation-ticket validation ladder passed.
+- No bounded repair attempts were needed.

@@ -17,8 +17,7 @@ type CreateResponse = {
 
 export default function LeadDeskCreatePage() {
   const { context, hasContext, updateContext } = useLeadDeskOperatorContext();
-  const [organizationIdDraft, setOrganizationIdDraft] = useState('');
-  const [actorUserIdDraft, setActorUserIdDraft] = useState('');
+  const [sessionTokenDraft, setSessionTokenDraft] = useState('');
   const [fullName, setFullName] = useState('');
   const [phoneE164, setPhoneE164] = useState('');
   const [sourceRef, setSourceRef] = useState('');
@@ -28,20 +27,17 @@ export default function LeadDeskCreatePage() {
   const [message, setMessage] = useState('Enter lead details to create a new intake record.');
   const [created, setCreated] = useState<CreateResponse | null>(null);
 
-  const canSetContext = organizationIdDraft.trim().length > 0 && actorUserIdDraft.trim().length > 0;
+  const canSetContext = sessionTokenDraft.trim().length > 0;
   const canSubmit = hasOperatorContext(context) && fullName.trim().length > 0 && phoneE164.trim().length > 0 && sourceRef.trim().length > 0;
 
   function applyContext() {
     if (!canSetContext) {
       setState('error');
-      setMessage('Organization and actor are required.');
+      setMessage('Session token is required.');
       return;
     }
-    updateContext({
-      organizationId: organizationIdDraft,
-      actorUserId: actorUserIdDraft,
-    });
-    setMessage('Temporary operator context applied.');
+    const applied = updateContext({ sessionToken: sessionTokenDraft });
+    setMessage(applied ? 'Session context applied.' : 'Session token must include organization and actor context.');
   }
 
   function resetForm() {
@@ -57,7 +53,7 @@ export default function LeadDeskCreatePage() {
   async function createLead() {
     if (!canSubmit) {
       setState('permission');
-      setMessage('Set temporary context and fill required lead fields.');
+      setMessage('Set session context and fill required lead fields.');
       return;
     }
 
@@ -112,28 +108,19 @@ export default function LeadDeskCreatePage() {
         <h1 className="text-2xl font-semibold">Create Lead</h1>
         <p className="text-sm text-gray-700">Capture new lead intake in one capability-guarded flow.</p>
         <p className="rounded border border-blue-200 bg-blue-50 px-3 py-2 text-xs text-blue-900">
-          Temporary operator context: {hasContext ? `${context.organizationId} / ${context.actorUserId}` : 'not set'}
+          Session context: {hasContext ? `${context.organizationId} / ${context.actorUserId}` : 'not set'}
         </p>
       </header>
 
       <section className="grid gap-3 rounded-lg border border-gray-200 bg-white p-4">
         <label className="space-y-1 text-sm">
-          <span>Organization ID</span>
-          <input
+          <span>Phase 3 session token</span>
+          <textarea
             className="w-full rounded border border-gray-300 px-3 py-2"
-            value={organizationIdDraft}
-            onChange={(event) => setOrganizationIdDraft(event.target.value)}
-            placeholder="Enter organization ID"
-          />
-        </label>
-
-        <label className="space-y-1 text-sm">
-          <span>Actor User ID</span>
-          <input
-            className="w-full rounded border border-gray-300 px-3 py-2"
-            value={actorUserIdDraft}
-            onChange={(event) => setActorUserIdDraft(event.target.value)}
-            placeholder="Enter actor user ID"
+            value={sessionTokenDraft}
+            onChange={(event) => setSessionTokenDraft(event.target.value)}
+            rows={3}
+            placeholder="Paste bearer session token"
           />
         </label>
 

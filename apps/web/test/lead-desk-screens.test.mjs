@@ -10,22 +10,27 @@ const apiClient = readFileSync(new URL('../app/lead-desk/api-client.ts', import.
 const contextHook = readFileSync(new URL('../app/lead-desk/operator-context.ts', import.meta.url), 'utf8');
 const leadDeskScreens = [inbox, create, detail, actions];
 
-test('operator context persists in session storage', () => {
+test('operator context stores bearer session token and decoded metadata', () => {
   assert.match(contextHook, /sessionStorage\.setItem/);
   assert.match(contextHook, /sessionStorage\.getItem/);
+  assert.match(contextHook, /sessionToken/);
+  assert.match(contextHook, /decodeSessionMetadata/);
+  assert.match(contextHook, /globalThis\.atob/);
   assert.match(contextHook, /organizationId/);
   assert.match(contextHook, /actorUserId/);
-  assert.match(contextHook, /next\.organizationId\.trim\(\)/);
-  assert.match(contextHook, /next\.actorUserId\.trim\(\)/);
-  assert.match(contextHook, /akti\.leadDesk\.operatorContext\.v1/);
+  assert.match(contextHook, /input\.sessionToken\.trim\(\)/);
+  assert.match(contextHook, /organization_id/);
+  assert.match(contextHook, /actor_user_id/);
+  assert.match(contextHook, /akti\.leadDesk\.sessionContext\.v1/);
+  assert.equal(contextHook.includes('akti.leadDesk.operatorContext.v1'), false);
 });
 
-test('api client injects actor header and organization scoped path', () => {
-  assert.match(apiClient, /'x-actor-user-id'/);
-  assert.match(apiClient, /context\.actorUserId\.trim\(\)/);
+test('api client injects bearer authorization and organization scoped path', () => {
+  assert.match(apiClient, /Authorization/);
+  assert.match(apiClient, /Bearer \$\{context\.sessionToken\.trim\(\)\}/);
   assert.match(apiClient, /organizations\/\$\{encodeURIComponent\(context\.organizationId\.trim\(\)\)\}/);
   assert.match(apiClient, /throw new Error\('API_BASE_UNAVAILABLE'\)/);
-  assert.equal(apiClient.includes('actor_user_id'), false);
+  assert.equal(apiClient.includes('x-actor-user-id'), false);
   assert.equal(apiClient.includes('organization_id'), false);
 });
 
@@ -43,12 +48,14 @@ test('create screen submits required payload fields', () => {
   assert.match(create, /requested_at/);
   assert.match(create, /organization_id: context\.organizationId\.trim\(\)/);
   assert.match(create, /actor_user_id: context\.actorUserId\.trim\(\)/);
+  assert.match(create, /sessionTokenDraft/);
   assert.match(create, /response\.status === 401 \|\| response\.status === 403/);
 });
 
 test('detail screen fetches scoped lead path and handles context state', () => {
   assert.match(detail, /\/leads\/\$\{encodeURIComponent\(routeLeadId\)\}/);
-  assert.match(detail, /temporary operator context/i);
+  assert.match(detail, /Session context/);
+  assert.match(detail, /sessionTokenDraft/);
   assert.match(detail, /state === 'not_found'/);
 });
 
@@ -56,9 +63,17 @@ test('actions screen posts status and assignment to scoped endpoints', () => {
   assert.match(actions, /\/status/);
   assert.match(actions, /\/assignment/);
   assert.match(actions, /requested_at/);
+  assert.match(actions, /sessionTokenDraft/);
   assert.match(actions, /response\.status === 401 \|\| response\.status === 403/);
   assert.equal(actions.includes('actor_user_id:'), false);
   assert.equal(actions.includes('organization_id:'), false);
+});
+
+test('frontend no longer sends caller-controlled actor header', () => {
+  for (const source of [apiClient, contextHook, ...leadDeskScreens]) {
+    assert.equal(source.includes('x-actor-user-id'), false);
+    assert.equal(source.includes('operatorContext.v1'), false);
+  }
 });
 
 test('lead desk links do not expose actor_user_id query parameter', () => {

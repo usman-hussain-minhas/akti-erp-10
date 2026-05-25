@@ -22,8 +22,7 @@ export default function LeadDeskActionsPage() {
   const params = useParams<{ leadId: string }>();
   const routeLeadId = decodeURIComponent(params.leadId);
   const { context, hasContext, updateContext } = useLeadDeskOperatorContext();
-  const [organizationIdDraft, setOrganizationIdDraft] = useState('');
-  const [actorUserIdDraft, setActorUserIdDraft] = useState('');
+  const [sessionTokenDraft, setSessionTokenDraft] = useState('');
 
   const [detailState, setDetailState] = useState<LoadState>('idle');
   const [detailMessage, setDetailMessage] = useState('Load lead context to update status or assignment.');
@@ -38,26 +37,23 @@ export default function LeadDeskActionsPage() {
   const [assignActionState, setAssignActionState] = useState<ActionState>('idle');
   const [assignActionMessage, setAssignActionMessage] = useState('');
 
-  const canSetContext = organizationIdDraft.trim().length > 0 && actorUserIdDraft.trim().length > 0;
+  const canSetContext = sessionTokenDraft.trim().length > 0;
   const canLoad = hasOperatorContext(context);
 
   function applyContext() {
     if (!canSetContext) {
       setDetailState('error');
-      setDetailMessage('Organization and actor are required.');
+      setDetailMessage('Session token is required.');
       return;
     }
-    updateContext({
-      organizationId: organizationIdDraft,
-      actorUserId: actorUserIdDraft,
-    });
-    setDetailMessage('Temporary operator context applied.');
+    const applied = updateContext({ sessionToken: sessionTokenDraft });
+    setDetailMessage(applied ? 'Session context applied.' : 'Session token must include organization and actor context.');
   }
 
   async function loadLeadContext() {
     if (!canLoad) {
       setDetailState('permission');
-      setDetailMessage('Set temporary operator context before loading actions.');
+      setDetailMessage('Set session context before loading actions.');
       return;
     }
 
@@ -118,7 +114,7 @@ export default function LeadDeskActionsPage() {
 
     if (!canLoad) {
       setStatusActionState('permission');
-      setStatusActionMessage('Set temporary operator context before updating status.');
+      setStatusActionMessage('Set session context before updating status.');
       return;
     }
 
@@ -175,7 +171,7 @@ export default function LeadDeskActionsPage() {
 
     if (!canLoad) {
       setAssignActionState('permission');
-      setAssignActionMessage('Set temporary operator context before assignment update.');
+      setAssignActionMessage('Set session context before assignment update.');
       return;
     }
 
@@ -222,7 +218,7 @@ export default function LeadDeskActionsPage() {
         <h1 className="text-2xl font-semibold">Lead Status and Assignment</h1>
         <p className="text-sm text-gray-700">Update status and assignment with organization-scoped checks.</p>
         <p className="rounded border border-blue-200 bg-blue-50 px-3 py-2 text-xs text-blue-900">
-          Temporary operator context: {hasContext ? `${context.organizationId} / ${context.actorUserId}` : 'not set'}
+          Session context: {hasContext ? `${context.organizationId} / ${context.actorUserId}` : 'not set'}
         </p>
       </header>
 
@@ -233,22 +229,13 @@ export default function LeadDeskActionsPage() {
         </label>
 
         <label className="space-y-1 text-sm">
-          <span>Organization ID (temporary context)</span>
-          <input
+          <span>Phase 3 session token</span>
+          <textarea
             className="w-full rounded border border-gray-300 px-3 py-2"
-            value={organizationIdDraft}
-            onChange={(event) => setOrganizationIdDraft(event.target.value)}
-            placeholder="Enter organization ID"
-          />
-        </label>
-
-        <label className="space-y-1 text-sm md:col-span-2">
-          <span>Actor User ID (temporary context)</span>
-          <input
-            className="w-full rounded border border-gray-300 px-3 py-2"
-            value={actorUserIdDraft}
-            onChange={(event) => setActorUserIdDraft(event.target.value)}
-            placeholder="Enter actor user ID"
+            value={sessionTokenDraft}
+            onChange={(event) => setSessionTokenDraft(event.target.value)}
+            rows={3}
+            placeholder="Paste bearer session token"
           />
         </label>
 
