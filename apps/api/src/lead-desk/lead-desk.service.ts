@@ -67,6 +67,7 @@ export class LeadDeskService {
 
     return this.prisma.$transaction(async (tx) => {
       const actor = await this.requireCapability(tx as never, organizationId, actorUserId, CAP_CREATE);
+      const createUnitId = this.resolveCreateUnitId(actor);
       const healthContext = await this.resolveGatekeeperHealthContext(tx as never, [
         MODULE_KEY,
         ACCESS_MODULE_KEY,
@@ -97,7 +98,7 @@ export class LeadDeskService {
       const lead = await tx.leadRecord.create({
         data: {
           organization_id: organizationId,
-          organization_unit_id: actor.primary_unit_id,
+          organization_unit_id: createUnitId,
           source_ref: parsed.source_ref,
           full_name: parsed.full_name,
           phone_e164: parsed.phone_e164,
@@ -373,6 +374,22 @@ export class LeadDeskService {
         ACCESS_MODULE_KEY,
         ENGAGEMENT_MODULE_KEY,
       ]);
+      const assignedUser = await tx.user.findFirst({
+        where: {
+          organization_id: organizationId,
+          id: input.assigned_user_id,
+        },
+        select: {
+          id: true,
+          primary_unit_id: true,
+        },
+      });
+
+      if (!assignedUser) {
+        throw new BadRequestException('assigned_user_id must reference a user in the same organization');
+      }
+
+      this.assertAssignmentTargetAllowed(actor, assignedUser.primary_unit_id ?? null);
 
       await this.gatekeeperPreflightService.requireAllow({
         organization_id: organizationId,
@@ -394,22 +411,6 @@ export class LeadDeskService {
           assigned_user_id: input.assigned_user_id,
         },
       });
-
-      const [assignedUser] = await Promise.all([
-        tx.user.findFirst({
-          where: {
-            organization_id: organizationId,
-            id: input.assigned_user_id,
-          },
-          select: {
-            id: true,
-          },
-        }),
-      ]);
-
-      if (!assignedUser) {
-        throw new BadRequestException('assigned_user_id must reference a user in the same organization');
-      }
 
       const updated = await tx.leadRecord.update({
         where: {
@@ -617,6 +618,36 @@ export class LeadDeskService {
     return {
       OR: orFilters,
     };
+  }
+
+  private resolveCreateUnitId(actor: ActiveActor): string | null {
+    if (actor.scope_types.has('organization')) {
+      return actor.primary_unit_id;
+    }
+
+    if (!actor.scope_types.has('own_unit')) {
+      throw new ForbiddenException('actor lacks lead creation unit scope');
+    }
+
+    if (!actor.primary_unit_id || !actor.own_unit_ids.includes(actor.primary_unit_id)) {
+      throw new ForbiddenException('actor primary unit is not authorized for lead creation');
+    }
+
+    return actor.primary_unit_id;
+  }
+
+  private assertAssignmentTargetAllowed(actor: ActiveActor, assignedUserUnitId: string | null): void {
+    if (actor.scope_types.has('organization')) {
+      return;
+    }
+
+    if (!actor.scope_types.has('own_unit')) {
+      throw new ForbiddenException('actor lacks lead assignment unit scope');
+    }
+
+    if (!assignedUserUnitId || !actor.own_unit_ids.includes(assignedUserUnitId)) {
+      throw new ForbiddenException('assigned user is outside actor assignment scope');
+    }
   }
 
   private async requireLeadInScope(

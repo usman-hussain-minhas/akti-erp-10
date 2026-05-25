@@ -23,6 +23,10 @@ function createMocks() {
       ['engagement.gateway', 'available'],
       ['lead.desk', 'available'],
     ]),
+    ownUnitScopeByGroup: new Map<string, string>([
+      ['group-1', 'unit-1'],
+      ['group-3', 'unit-2'],
+    ]),
   };
 
   const now = new Date('2026-05-24T10:00:00.000Z');
@@ -77,7 +81,8 @@ function createMocks() {
           return [];
         }
         const allowed = capabilityScopes.get(where.capability_key) ?? [];
-        const scopeUnitIdForOwnUnit = where.group_id.in.includes('group-3') ? 'unit-2' : 'unit-1';
+        const scopeUnitIdForOwnUnit =
+          where.group_id.in.map((groupId) => state.ownUnitScopeByGroup.get(groupId)).find(Boolean) ?? 'unit-1';
         return allowed
           .filter((scopeType) => where.scope_type.in.includes(scopeType))
           .map((scopeType) => ({
@@ -345,6 +350,18 @@ async function testCreateLeadGatekeeperDenied() {
   await assert.rejects(service.createLead('org-1', createInput(), 'actor-1'), ServiceUnavailableException);
 }
 
+async function testCreateLeadOwnUnitScopeCannotUseUnauthorizedPrimaryUnit() {
+  const { service, state, capabilityScopes } = createMocks();
+  capabilityScopes.set('lead.intake.create', ['own_unit']);
+  state.ownUnitScopeByGroup.set('group-1', 'unit-2');
+
+  await assert.rejects(service.createLead('org-1', createInput(), 'actor-1'), ForbiddenException);
+  assert.equal(state.created.length, 0);
+  assert.equal(state.gatekeeperCalls.length, 0);
+  assert.equal(state.auditCalls.length, 0);
+  assert.equal(state.outboxCalls.length, 0);
+}
+
 async function testCreateLeadRealGatekeeperUsesRegistryHealthContext() {
   const { service, state } = createMocksWithRealGatekeeper();
   state.moduleStatuses.set('engagement.gateway', 'degraded');
@@ -593,6 +610,28 @@ async function testUpdateLeadAssignmentHappyPath() {
   );
 }
 
+async function testUpdateLeadAssignmentOwnUnitScopeCannotAssignOutsideAuthorizedUnit() {
+  const { service, state, capabilityScopes } = createMocks();
+  capabilityScopes.set('lead.inbox.assign', ['own_unit']);
+
+  await assert.rejects(
+    service.updateLeadAssignment(
+      'org-1',
+      'lead-1',
+      {
+        assigned_user_id: 'assignee-1',
+        requested_at: '2026-05-24T10:20:00.000Z',
+      },
+      'actor-1',
+    ),
+    ForbiddenException,
+  );
+  assert.equal(state.gatekeeperCalls.length, 0);
+  assert.equal(state.assignmentHistory.length, 0);
+  assert.equal(state.auditCalls.length, 0);
+  assert.equal(state.outboxCalls.length, 0);
+}
+
 async function testUpdateLeadAssignmentHappyPathUsesRealGatekeeper() {
   const { service, state } = createMocksWithRealGatekeeper();
   const result = await service.updateLeadAssignment(
@@ -733,6 +772,7 @@ async function run() {
   await testCreateLeadCrossOrgDenied();
   await testCreateLeadInvalidPayloadFails();
   await testCreateLeadGatekeeperDenied();
+  await testCreateLeadOwnUnitScopeCannotUseUnauthorizedPrimaryUnit();
   await testCreateLeadRealGatekeeperUsesRegistryHealthContext();
   await testListLeadsHappyPath();
   await testListLeadsAssignedRecordsScopeOnly();
@@ -750,6 +790,7 @@ async function run() {
   await testUpdateLeadStatusGatekeeperDenied();
   await testUpdateLeadStatusHistoryFailureDoesNotWriteAuditOrOutbox();
   await testUpdateLeadAssignmentHappyPath();
+  await testUpdateLeadAssignmentOwnUnitScopeCannotAssignOutsideAuthorizedUnit();
   await testUpdateLeadAssignmentHappyPathUsesRealGatekeeper();
   await testUpdateLeadAssignmentMissingActorFails();
   await testUpdateLeadAssignmentUnauthorizedActorFails();
