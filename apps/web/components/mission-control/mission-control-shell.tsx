@@ -17,6 +17,7 @@ import {
 import { useState } from 'react';
 
 import { useLeadDeskOperatorContext } from '../../app/lead-desk/operator-context';
+import { DashboardOverview } from './dashboard-overview';
 import { ModuleLauncher } from './module-launcher';
 import { SessionStatusNotice } from '../session/session-status';
 import { Button } from '../ui/button';
@@ -130,21 +131,7 @@ export function MissionControlShell() {
 
           <ModuleLauncher />
 
-          <section className="grid gap-3" aria-labelledby="next-steps-title">
-            <h2 id="next-steps-title" className="m-0 text-lg font-semibold">
-              Next steps
-            </h2>
-            <div className="grid gap-3 md:grid-cols-2">
-              <EmptyState
-                title="Dashboard widgets are bounded"
-                message="Dashboard v1 uses existing APIs only. Missing data surfaces remain placeholders, not fake operational data."
-              />
-              <EmptyState
-                title="Advanced Diagnostics owns token entry"
-                message="Normal screens show session state only. Bearer-token entry stays inside Settings Advanced Diagnostics."
-              />
-            </div>
-          </section>
+          <DashboardOverview />
 
           <section id="notification-region" aria-labelledby="notification-title" className="grid gap-3">
             <h2 id="notification-title" className="m-0 text-lg font-semibold">

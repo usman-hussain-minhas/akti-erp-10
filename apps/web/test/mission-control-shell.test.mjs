@@ -4,6 +4,7 @@ import test from 'node:test';
 
 const page = readFileSync(new URL('../app/app/page.tsx', import.meta.url), 'utf8');
 const shell = readFileSync(new URL('../components/mission-control/mission-control-shell.tsx', import.meta.url), 'utf8');
+const dashboard = readFileSync(new URL('../components/mission-control/dashboard-overview.tsx', import.meta.url), 'utf8');
 
 test('/app route renders the Mission Control shell component', () => {
   assert.match(page, /MissionControlShell/);
@@ -19,6 +20,7 @@ test('Mission Control shell contains required desktop and mobile regions', () =>
     'User and organization menu',
     'Main content outlet',
     'ModuleLauncher',
+    'DashboardOverview',
     'Mobile navigation drawer',
     'Bottom primary navigation',
   ]) {
@@ -29,7 +31,7 @@ test('Mission Control shell contains required desktop and mobile regions', () =>
 test('Mission Control shell uses P4B-004 session indicator and diagnostics boundary', () => {
   assert.match(shell, /useLeadDeskOperatorContext/);
   assert.match(shell, /SessionStatusNotice/);
-  assert.match(shell, /Advanced Diagnostics owns token entry/);
+  assert.match(dashboard, /Advanced Diagnostics/);
   assert.equal(shell.includes('sessionToken'), false);
   assert.equal(shell.includes('organizationId'), false);
   assert.equal(shell.includes('actorUserId'), false);
@@ -37,8 +39,6 @@ test('Mission Control shell uses P4B-004 session indicator and diagnostics bound
 });
 
 test('Mission Control shell keeps later features as explicit placeholders without fake data', () => {
-  assert.match(shell, /Dashboard v1 uses existing APIs only/);
-  assert.match(shell, /not fake operational data/);
   assert.match(shell, /Notification infrastructure is ready as a shell region/);
   assert.equal(shell.includes('Foundry'), false);
   assert.equal(shell.includes('WhatsApp'), false);
