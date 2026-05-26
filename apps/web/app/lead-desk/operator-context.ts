@@ -14,6 +14,8 @@ export type LeadDeskOperatorContextInput = {
   sessionToken: string;
 };
 
+export type OperatorSessionState = 'active' | 'missing' | 'expired_invalid' | 'limited_diagnostics';
+
 function emptyContext(): LeadDeskOperatorContext {
   return { sessionToken: '', organizationId: '', actorUserId: '' };
 }
@@ -45,6 +47,22 @@ function normalizeContext(input: LeadDeskOperatorContextInput): LeadDeskOperator
     organizationId: metadata?.organizationId ?? '',
     actorUserId: metadata?.actorUserId ?? '',
   };
+}
+
+export function resolveOperatorSessionState(context: LeadDeskOperatorContext): OperatorSessionState {
+  if (context.sessionToken.trim().length === 0) {
+    return 'missing';
+  }
+
+  if (typeof globalThis.atob !== 'function') {
+    return 'limited_diagnostics';
+  }
+
+  if (context.organizationId.trim().length === 0 || context.actorUserId.trim().length === 0) {
+    return 'expired_invalid';
+  }
+
+  return 'active';
 }
 
 function decodeSessionMetadata(sessionToken: string): { organizationId: string; actorUserId: string } | null {
@@ -91,6 +109,7 @@ export function useLeadDeskOperatorContext() {
     () => context.sessionToken.length > 0 && context.organizationId.length > 0 && context.actorUserId.length > 0,
     [context.sessionToken, context.organizationId, context.actorUserId],
   );
+  const sessionState = useMemo(() => resolveOperatorSessionState(context), [context]);
 
-  return { context, hasContext, updateContext };
+  return { context, hasContext, sessionState, updateContext };
 }

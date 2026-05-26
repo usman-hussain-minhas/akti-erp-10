@@ -5,6 +5,7 @@ import { useState } from 'react';
 
 import { hasOperatorContext, leadDeskApiFetch } from '../api-client';
 import { useLeadDeskOperatorContext } from '../operator-context';
+import { SessionStatusNotice } from '../../../components/session/session-status';
 
 type LeadRow = {
   lead_id: string;
@@ -17,26 +18,14 @@ type LeadRow = {
 type LoadState = 'idle' | 'loading' | 'ready' | 'error' | 'permission' | 'degraded';
 
 export default function LeadDeskInboxPage() {
-  const { context, hasContext, updateContext } = useLeadDeskOperatorContext();
-  const [sessionTokenDraft, setSessionTokenDraft] = useState('');
+  const { context, sessionState } = useLeadDeskOperatorContext();
   const [statusFilter, setStatusFilter] = useState('');
   const [assignedFilter, setAssignedFilter] = useState('');
   const [rows, setRows] = useState<LeadRow[]>([]);
   const [state, setState] = useState<LoadState>('idle');
   const [message, setMessage] = useState('Set session context to load the lead inbox.');
 
-  const canSetContext = sessionTokenDraft.trim().length > 0;
   const canLoad = hasOperatorContext(context);
-
-  function applyContext() {
-    if (!canSetContext) {
-      setState('error');
-      setMessage('Session token is required.');
-      return;
-    }
-    const applied = updateContext({ sessionToken: sessionTokenDraft });
-    setMessage(applied ? 'Session context applied.' : 'Session token must include organization and actor context.');
-  }
 
   async function loadInbox() {
     if (!canLoad) {
@@ -97,22 +86,10 @@ export default function LeadDeskInboxPage() {
       <header className="space-y-2">
         <h1 className="text-2xl font-semibold">Lead Inbox</h1>
         <p className="text-sm text-gray-700">Review and open leads without leaving organization scope.</p>
-        <p className="rounded border border-blue-200 bg-blue-50 px-3 py-2 text-xs text-blue-900">
-          Session context: {hasContext ? `${context.organizationId} / ${context.actorUserId}` : 'not set'}
-        </p>
+        <SessionStatusNotice state={sessionState} />
       </header>
 
       <section className="grid gap-3 rounded-lg border border-gray-200 bg-white p-4 md:grid-cols-2">
-        <label className="space-y-1 text-sm md:col-span-2">
-          <span>Phase 3 session token</span>
-          <textarea
-            className="w-full rounded border border-gray-300 px-3 py-2"
-            value={sessionTokenDraft}
-            onChange={(event) => setSessionTokenDraft(event.target.value)}
-            rows={3}
-            placeholder="Paste bearer session token"
-          />
-        </label>
         <label className="space-y-1 text-sm">
           <span>Status filter</span>
           <input
@@ -133,9 +110,6 @@ export default function LeadDeskInboxPage() {
         </label>
 
         <div className="md:col-span-2 flex items-center gap-3">
-          <button type="button" onClick={applyContext} className="rounded border border-gray-300 px-4 py-2 text-sm" disabled={!canSetContext}>
-            Set context
-          </button>
           <button type="button" onClick={loadInbox} className="rounded bg-black px-4 py-2 text-sm font-medium text-white disabled:opacity-50" disabled={!canLoad || state === 'loading'}>
             {state === 'loading' ? 'Loading inbox' : 'Load inbox'}
           </button>

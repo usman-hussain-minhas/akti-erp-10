@@ -8,6 +8,11 @@ const detail = readFileSync(new URL('../app/lead-desk/leads/[leadId]/page.tsx', 
 const actions = readFileSync(new URL('../app/lead-desk/leads/[leadId]/actions/page.tsx', import.meta.url), 'utf8');
 const apiClient = readFileSync(new URL('../app/lead-desk/api-client.ts', import.meta.url), 'utf8');
 const contextHook = readFileSync(new URL('../app/lead-desk/operator-context.ts', import.meta.url), 'utf8');
+const sessionStatus = readFileSync(new URL('../components/session/session-status.tsx', import.meta.url), 'utf8');
+const advancedDiagnostics = readFileSync(
+  new URL('../components/session/advanced-diagnostics-session-panel.tsx', import.meta.url),
+  'utf8',
+);
 const leadDeskScreens = [inbox, create, detail, actions];
 
 test('operator context stores bearer session token and decoded metadata', () => {
@@ -22,6 +27,11 @@ test('operator context stores bearer session token and decoded metadata', () => 
   assert.match(contextHook, /organization_id/);
   assert.match(contextHook, /actor_user_id/);
   assert.match(contextHook, /akti\.leadDesk\.sessionContext\.v1/);
+  assert.match(contextHook, /resolveOperatorSessionState/);
+  assert.match(contextHook, /'active'/);
+  assert.match(contextHook, /'missing'/);
+  assert.match(contextHook, /'expired_invalid'/);
+  assert.match(contextHook, /'limited_diagnostics'/);
   assert.equal(contextHook.includes('akti.leadDesk.operatorContext.v1'), false);
 });
 
@@ -48,14 +58,12 @@ test('create screen submits required payload fields', () => {
   assert.match(create, /requested_at/);
   assert.match(create, /organization_id: context\.organizationId\.trim\(\)/);
   assert.match(create, /actor_user_id: context\.actorUserId\.trim\(\)/);
-  assert.match(create, /sessionTokenDraft/);
   assert.match(create, /response\.status === 401 \|\| response\.status === 403/);
 });
 
 test('detail screen fetches scoped lead path and handles context state', () => {
   assert.match(detail, /\/leads\/\$\{encodeURIComponent\(routeLeadId\)\}/);
-  assert.match(detail, /Session context/);
-  assert.match(detail, /sessionTokenDraft/);
+  assert.match(detail, /SessionStatusNotice/);
   assert.match(detail, /state === 'not_found'/);
 });
 
@@ -63,10 +71,29 @@ test('actions screen posts status and assignment to scoped endpoints', () => {
   assert.match(actions, /\/status/);
   assert.match(actions, /\/assignment/);
   assert.match(actions, /requested_at/);
-  assert.match(actions, /sessionTokenDraft/);
   assert.match(actions, /response\.status === 401 \|\| response\.status === 403/);
   assert.equal(actions.includes('actor_user_id:'), false);
   assert.equal(actions.includes('organization_id:'), false);
+});
+
+test('normal lead desk screens do not expose bearer token entry or raw session details', () => {
+  for (const source of leadDeskScreens) {
+    assert.equal(source.includes('Phase 3 session token'), false);
+    assert.equal(source.includes('Paste bearer session token'), false);
+    assert.equal(source.includes('sessionTokenDraft'), false);
+    assert.equal(source.includes('${context.organizationId} / ${context.actorUserId}'), false);
+  }
+
+  assert.match(advancedDiagnostics, /Bearer session token/);
+  assert.match(advancedDiagnostics, /Paste local\/demo bearer session token/);
+  assert.match(sessionStatus, /Set up session/);
+  assert.match(sessionStatus, /advanced-diagnostics/);
+});
+
+test('Phase 4B session UX does not invent login OAuth or password flow', () => {
+  for (const source of [sessionStatus, advancedDiagnostics, ...leadDeskScreens]) {
+    assert.equal(/OAuth|username|password|login redirect/.test(source), false);
+  }
 });
 
 test('frontend no longer sends caller-controlled actor header', () => {

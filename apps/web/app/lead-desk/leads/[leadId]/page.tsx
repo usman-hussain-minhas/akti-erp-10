@@ -6,6 +6,7 @@ import { useState } from 'react';
 
 import { hasOperatorContext, leadDeskApiFetch } from '../../api-client';
 import { useLeadDeskOperatorContext } from '../../operator-context';
+import { SessionStatusNotice } from '../../../../components/session/session-status';
 
 type LeadDetail = {
   lead_id: string;
@@ -22,24 +23,12 @@ type LoadState = 'idle' | 'loading' | 'ready' | 'error' | 'permission' | 'degrad
 export default function LeadDeskDetailPage() {
   const params = useParams<{ leadId: string }>();
   const routeLeadId = decodeURIComponent(params.leadId);
-  const { context, hasContext, updateContext } = useLeadDeskOperatorContext();
-  const [sessionTokenDraft, setSessionTokenDraft] = useState('');
+  const { context, sessionState } = useLeadDeskOperatorContext();
   const [state, setState] = useState<LoadState>('idle');
   const [message, setMessage] = useState('Open lead detail with session context.');
   const [lead, setLead] = useState<LeadDetail | null>(null);
 
-  const canSetContext = sessionTokenDraft.trim().length > 0;
   const canLoad = hasOperatorContext(context);
-
-  function applyContext() {
-    if (!canSetContext) {
-      setState('error');
-      setMessage('Session token is required.');
-      return;
-    }
-    const applied = updateContext({ sessionToken: sessionTokenDraft });
-    setMessage(applied ? 'Session context applied.' : 'Session token must include organization and actor context.');
-  }
 
   async function loadDetail() {
     if (!canLoad) {
@@ -93,31 +82,16 @@ export default function LeadDeskDetailPage() {
       <header className="space-y-2">
         <h1 className="text-2xl font-semibold">Lead Detail</h1>
         <p className="text-sm text-gray-700">Review one lead and open approved status or assignment actions.</p>
-        <p className="rounded border border-blue-200 bg-blue-50 px-3 py-2 text-xs text-blue-900">
-          Session context: {hasContext ? `${context.organizationId} / ${context.actorUserId}` : 'not set'}
-        </p>
+        <SessionStatusNotice state={sessionState} />
       </header>
 
-      <section className="grid gap-3 rounded-lg border border-gray-200 bg-white p-4 md:grid-cols-2">
+      <section className="grid gap-3 rounded-lg border border-gray-200 bg-white p-4">
         <label className="space-y-1 text-sm">
           <span>Lead ID</span>
           <input className="w-full rounded border border-gray-300 px-3 py-2" value={routeLeadId} disabled />
         </label>
-        <label className="space-y-1 text-sm">
-          <span>Phase 3 session token</span>
-          <textarea
-            className="w-full rounded border border-gray-300 px-3 py-2"
-            value={sessionTokenDraft}
-            onChange={(event) => setSessionTokenDraft(event.target.value)}
-            rows={3}
-            placeholder="Paste bearer session token"
-          />
-        </label>
 
-        <div className="md:col-span-2 flex items-center gap-3">
-          <button type="button" onClick={applyContext} className="rounded border border-gray-300 px-4 py-2 text-sm" disabled={!canSetContext}>
-            Set context
-          </button>
+        <div className="flex items-center gap-3">
           <button
             type="button"
             onClick={loadDetail}
