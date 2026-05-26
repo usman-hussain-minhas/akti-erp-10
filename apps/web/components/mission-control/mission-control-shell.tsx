@@ -25,7 +25,7 @@ import { EmptyState, StatusBadge } from '../ui/design-system';
 const NAV_ITEMS = [
   { label: 'Mission Control', href: '/app', icon: LayoutDashboard, description: 'Default ERP shell' },
   { label: 'Lead Desk', href: '/lead-desk/inbox', icon: Inbox, description: 'Open current lead work' },
-  { label: 'Settings', href: '/settings', icon: Settings, description: 'Control panel shell' },
+  { label: 'Settings', href: '/app/settings', icon: Settings, description: 'Control panel shell' },
 ];
 
 const MODULE_LAUNCHER_ITEMS = [
@@ -37,7 +37,7 @@ const MODULE_LAUNCHER_ITEMS = [
   },
   {
     label: 'Settings',
-    href: '/settings',
+    href: '/app/settings',
     state: 'Next ticket',
     description: 'General, modules, access placeholders, and Advanced Diagnostics.',
   },
@@ -125,7 +125,7 @@ export function MissionControlShell() {
               <Bell aria-hidden="true" size={18} />
             </Button>
             <Button asChild variant="ghost" size="icon" aria-label="Settings">
-              <Link href="/settings">
+              <Link href="/app/settings">
                 <Settings aria-hidden="true" size={18} />
               </Link>
             </Button>
@@ -204,7 +204,7 @@ export function MissionControlShell() {
       <nav className="fixed inset-x-0 bottom-0 z-30 grid grid-cols-4 border-t border-[var(--border)] bg-white p-2 md:hidden" aria-label="Bottom primary navigation">
         <MobileNavLink href="/app" label="Home" icon={LayoutDashboard} />
         <MobileNavLink href="/lead-desk/inbox" label="Leads" icon={Inbox} />
-        <MobileNavLink href="/settings" label="Settings" icon={Settings} />
+        <MobileNavLink href="/app/settings" label="Settings" icon={Settings} />
         <button type="button" className="grid justify-items-center gap-1 rounded-md px-2 py-1 text-xs" onClick={() => setMobileDrawerOpen(true)}>
           <Menu aria-hidden="true" size={18} />
           <span>Menu</span>

@@ -17,7 +17,7 @@ test('session model declares the four approved Phase 4B states', () => {
 test('six-step session setup path remains Advanced Diagnostics based', () => {
   assert.match(stateCopy, /Session missing/);
   assert.match(status, /Set up session/);
-  assert.equal(status.includes('href="/settings?section=advanced-diagnostics"'), true);
+  assert.equal(status.includes('href="/app/settings?section=advanced-diagnostics#advanced-diagnostics"'), true);
   assert.match(diagnostics, /Advanced Diagnostics Session/);
   assert.equal(diagnostics.includes('updateContext({ sessionToken: sessionTokenDraft })'), true);
   assert.match(diagnostics, /Session active/);

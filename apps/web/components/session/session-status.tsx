@@ -17,7 +17,7 @@ export function SessionStatusNotice({ state }: { state: OperatorSessionState }) 
       <p className="m-0 font-medium">{copy.label}</p>
       <p className="m-0">{copy.message}</p>
       {state === 'active' ? null : (
-        <Link className="mt-2 inline-flex font-medium underline underline-offset-4" href="/settings?section=advanced-diagnostics">
+        <Link className="mt-2 inline-flex font-medium underline underline-offset-4" href="/app/settings?section=advanced-diagnostics#advanced-diagnostics">
           Set up session
         </Link>
       )}
