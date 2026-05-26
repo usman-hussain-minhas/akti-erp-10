@@ -58,3 +58,9 @@ Added local-down and local-reset-db scripts. Validated local-up, local-down, loc
 Status: COMPLETE
 
 Added a one-command local/demo smoke script for API health, Web root, setup/bootstrap, allowed local CORS, and security header checks. Validated against a clean local/demo database using committed Prisma migrations through local-up, then stopped proof services and confirmed no listeners remained on proof ports. Redaction review and the full validation ladder passed.
+
+## P4A-009 - Browser inspection and screenshot capture support
+
+Status: COMPLETE
+
+Added a no-new-dependency browser inspection and screenshot capture path using the Phase 4A local runtime and existing Codex in-app Browser capability. Captured current route screenshots, recorded browser URL and route metadata, stopped proof services, confirmed no listeners remained, completed redaction review, and passed the full validation ladder.
