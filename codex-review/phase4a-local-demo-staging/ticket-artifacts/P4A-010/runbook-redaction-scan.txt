@@ -1,0 +1,29 @@
+docs/process/AKTI_ERP_Local_Demo_Runbook_v1.md:7:Phase 4A is local/demo only. It is not production launch, production deployment, cloud/VPS provisioning, production secret access, real WhatsApp production behavior, Foundry/module installer implementation, platform AI runtime, Phase 4B frontend redesign, Phase 5, or Phase 6 work.
+docs/process/AKTI_ERP_Local_Demo_Runbook_v1.md:80:Use non-secret templates only:
+docs/process/AKTI_ERP_Local_Demo_Runbook_v1.md:85:Real `.env` files, local secret-bearing env files, production credential files, production database URLs, private keys, and real session/token values must not be committed or included in evidence.
+docs/process/AKTI_ERP_Local_Demo_Runbook_v1.md:87:The local scripts use placeholder local/demo values only. They do not require production credentials.
+docs/process/AKTI_ERP_Local_Demo_Runbook_v1.md:173:Screenshot/log evidence must be redacted. Stop if screenshots or logs contain a real secret, token, credential, production database URL, private key, production credential, or real session value.
+docs/process/AKTI_ERP_Local_Demo_Runbook_v1.md:175:Visible labels such as `Phase 3 session token` are expected current frontend state. Real token values must not be entered for Phase 4A capture.
+docs/process/AKTI_ERP_Local_Demo_Runbook_v1.md:235:- no package/lockfile drift, production secrets, production launch, cloud/VPS deployment, Phase 4B redesign, Phase 5, Foundry, AI runtime, or business-module scope is introduced.
+docs/process/AKTI_ERP_Local_Demo_Runbook_v1.md:241:| `local-up failed: DATABASE_URL must target...` | The script is pointed at a non-local DB | Use only the default local/demo database target |
+docs/process/AKTI_ERP_Local_Demo_Runbook_v1.md:261:- real production secrets;
+docs/process/AKTI_ERP_Local_Demo_Runbook_v1.md:262:- production credentials;
+docs/process/AKTI_ERP_Local_Demo_Runbook_v1.md:264:- private keys;
+docs/process/AKTI_ERP_Local_Demo_Runbook_v1.md:265:- real session/token values;
+docs/process/AKTI_ERP_Local_Demo_Runbook_v1.md:275:- redaction/no-secret review;
+codex-review/phase4a-local-demo-staging/ticket-artifacts/P4A-010/runbook-boundary-review-log.txt:2:7:Phase 4A is local/demo only. It is not production launch, production deployment, cloud/VPS provisioning, production secret access, real WhatsApp production behavior, Foundry/module installer implementation, platform AI runtime, Phase 4B frontend redesign, Phase 5, or Phase 6 work.
+codex-review/phase4a-local-demo-staging/ticket-artifacts/P4A-010/runbook-boundary-review-log.txt:7:235:- no package/lockfile drift, production secrets, production launch, cloud/VPS deployment, Phase 4B redesign, Phase 5, Foundry, AI runtime, or business-module scope is introduced.
+codex-review/phase4a-local-demo-staging/ticket-artifacts/P4A-010/runbook-boundary-review-log.txt:8:261:- real production secrets;
+codex-review/phase4a-local-demo-staging/ticket-artifacts/P4A-010/runbook-rg-validation-log.txt:1:COMMAND: rg -n "local-up|local-down|local-reset|local-smoke|browser|screenshot|secret|production" docs/process/AKTI_ERP_Local_Demo_Runbook_v1.md
+codex-review/phase4a-local-demo-staging/ticket-artifacts/P4A-010/runbook-rg-validation-log.txt:2:7:Phase 4A is local/demo only. It is not production launch, production deployment, cloud/VPS provisioning, production secret access, real WhatsApp production behavior, Foundry/module installer implementation, platform AI runtime, Phase 4B frontend redesign, Phase 5, or Phase 6 work.
+codex-review/phase4a-local-demo-staging/ticket-artifacts/P4A-010/runbook-rg-validation-log.txt:9:80:Use non-secret templates only:
+codex-review/phase4a-local-demo-staging/ticket-artifacts/P4A-010/runbook-rg-validation-log.txt:10:85:Real `.env` files, local secret-bearing env files, production credential files, production database URLs, private keys, and real session/token values must not be committed or included in evidence.
+codex-review/phase4a-local-demo-staging/ticket-artifacts/P4A-010/runbook-rg-validation-log.txt:11:87:The local scripts use placeholder local/demo values only. They do not require production credentials.
+codex-review/phase4a-local-demo-staging/ticket-artifacts/P4A-010/runbook-rg-validation-log.txt:21:173:Screenshot/log evidence must be redacted. Stop if screenshots or logs contain a real secret, token, credential, production database URL, private key, production credential, or real session value.
+codex-review/phase4a-local-demo-staging/ticket-artifacts/P4A-010/runbook-rg-validation-log.txt:28:235:- no package/lockfile drift, production secrets, production launch, cloud/VPS deployment, Phase 4B redesign, Phase 5, Foundry, AI runtime, or business-module scope is introduced.
+codex-review/phase4a-local-demo-staging/ticket-artifacts/P4A-010/runbook-rg-validation-log.txt:29:241:| `local-up failed: DATABASE_URL must target...` | The script is pointed at a non-local DB | Use only the default local/demo database target |
+codex-review/phase4a-local-demo-staging/ticket-artifacts/P4A-010/runbook-rg-validation-log.txt:33:261:- real production secrets;
+codex-review/phase4a-local-demo-staging/ticket-artifacts/P4A-010/runbook-rg-validation-log.txt:34:262:- production credentials;
+codex-review/phase4a-local-demo-staging/ticket-artifacts/P4A-010/runbook-rg-validation-log.txt:38:275:- redaction/no-secret review;
+codex-review/phase4a-local-demo-staging/ticket-artifacts/P4A-010/exact-file-plan.md:13:This is a docs/validation ticket. The runbook documents the implemented Phase 4A local scripts, local URLs, smoke path, browser/screenshot path, no-secret rules, troubleshooting, and P4A-011 full Compose deferral.
+codex-review/phase4a-local-demo-staging/ticket-artifacts/P4A-010/exact-file-plan.md:15:No runtime app code, Prisma schema or migrations, contracts, generated registry, package/dependency files, deployment/cloud files, secrets, Phase 4B implementation, Phase 5, Foundry, AI runtime, or business-module work is changed.

@@ -70,3 +70,9 @@ Added a no-new-dependency browser inspection and screenshot capture path using t
 Status: COMPLETE
 
 Resolved full Docker Compose API/Web/Postgres posture as explicitly deferred with evidence. Docker CLI and Compose CLI are installed, current Compose config validates for Postgres-only local mode, but the Docker daemon is unavailable, so API/Web Compose Dockerfiles were not added without daemon-backed validation. P4A-010 must document this deferral in the local demo runbook.
+
+## P4A-010 - Local demo runbook
+
+Status: COMPLETE
+
+Created the Phase 4A local demo runbook from the implemented local-up, local-down, local-reset, local-smoke, browser capture, and full Compose deferral evidence. Validated command/path consistency, no-secret and no-production boundaries, troubleshooting coverage, and redaction review.
