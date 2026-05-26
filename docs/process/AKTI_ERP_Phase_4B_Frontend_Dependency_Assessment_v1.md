@@ -24,3 +24,15 @@
 - No Foundry/module installer controls.
 - No Phase 5A policy work inside Phase 4B.
 - No production integrations.
+
+## Paired Backend Tickets Required / Deferred
+
+The Phase 4B ticket pack must not create vague “backend work needed” tickets. Any paired backend ticket must name the exact endpoint or backend surface, the UI it unblocks, the validation expected, and the reason a placeholder is not sufficient. Dashboard must not use fake operational data.
+
+| Gap id | Phase 4B feature blocked | Endpoint or backend surface needed | Why it is needed | Recommended action | Dependency/risk notes |
+| --- | --- | --- | --- | --- | --- |
+| P4B-BE-001 Lead Desk summary endpoint | Dashboard Lead Desk summary cards | `GET /api/lead-desk/:organizationId/summary` or equivalent | Dashboard needs aggregate counts/statuses if the current list API cannot safely provide enough data without client-side guesswork. | Use existing Lead Desk list API if enough; otherwise use placeholder or create a paired Phase 4B backend ticket. | Must preserve organization scope, Access Core checks, and no fake operational data. |
+| P4B-BE-002 Current user/profile endpoint | User/org menu and safe session display | `GET /platform/access/me` or equivalent trusted context surface | Shell needs operator-readable display info without exposing raw actor ID, org ID, decoded token internals, or technical session fields. | Create paired backend ticket only if existing trusted context cannot safely provide display info. | Must not invent a login flow, OAuth replacement, or production auth provider in Phase 4B. |
+| P4B-BE-003 Recent activity / audit feed endpoint | Dashboard recent activity widget | `GET /platform/activity/recent` or audit-safe equivalent | Recent activity needs real audit-safe event data; fake rows would violate Phase 4B dashboard rules. | Defer unless an existing audit/read endpoint is available; do not invent fake data. | May require Phase 5A policy decisions around activity visibility and audit semantics. |
+| P4B-BE-004 Friendly user lookup / assignment display | Lead Desk assigned owner display | Existing Access Core users list or user lookup endpoint | Lead Desk should replace raw `assigned_user_id` with an operator-readable name where safely available. | Use existing Access Core list if safe; otherwise create paired backend ticket or show a placeholder label. | Must preserve same-organization checks and avoid exposing raw user IDs by default. |
+| P4B-BE-005 Notification data endpoint | Real notification drawer content | Future notification read endpoint, shape deferred | Real notification content needs delivery, retention, permission, and communication policy. | Defer to Phase 5A notification policy / later implementation; Phase 4B builds shell only. | Phase 4B may render static/demo/system notification shell states only, with no WhatsApp/SMS/email semantics. |

@@ -22,6 +22,44 @@
 - open settings
 - open help
 
+## Module Command Declaration
+
+Future modules should conceptually provide a small command declaration that the shell can understand. This is a contract sketch and future Foundry input, not a Phase 4B runtime implementation.
+
+Minimum declaration shape:
+
+| Field | Required? | Purpose |
+| --- | --- | --- |
+| `id` | yes | Stable command identity. |
+| `label` | yes | Human-readable command text. |
+| `description` | optional | Short plain-English help text. |
+| `route` | optional | Destination route when the command navigates. |
+| `action` | optional | Safe action key when the command performs an approved non-navigation action. |
+| `group` | yes | Result grouping such as Navigation, Lead Desk, Settings, or Help. |
+| `icon` | optional | Visual hint selected from the approved icon set. |
+| `required_capability` | optional | Capability required to see or use the command. |
+| `module_id` | optional | Owning module identity for future Foundry/module governance. |
+| `keywords` | optional | Search aliases and operator-friendly terms. |
+| `visibility condition` | optional | Rule for hidden, visible, admin-only, or context-specific display. |
+| `disabled reason` | optional | Plain-English explanation when an authorized admin context sees a disabled command. |
+
+Example declaration sketch:
+
+```json
+{
+  "id": "lead_desk.open_inbox",
+  "label": "Open Lead Desk",
+  "description": "Review incoming leads.",
+  "route": "/lead-desk/inbox",
+  "group": "Lead Desk",
+  "required_capability": "lead.inbox.view",
+  "module_id": "lead.desk",
+  "keywords": ["leads", "inbox", "follow up"]
+}
+```
+
+Phase 4B command palette may use static/core commands only. Module-driven command registration waits for Phase 5B Foundry. Admin-only commands must be hidden from normal users, or disabled with a plain-English reason for authorized admin contexts.
+
 ## Deferred Actions
 
 - macros
