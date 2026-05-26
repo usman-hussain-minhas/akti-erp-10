@@ -1,0 +1,38 @@
+COMMAND: rg -n "local-up|local-down|local-reset|local-smoke|browser|screenshot|secret|production" docs/process/AKTI_ERP_Local_Demo_Runbook_v1.md
+7:Phase 4A is local/demo only. It is not production launch, production deployment, cloud/VPS provisioning, production secret access, real WhatsApp production behavior, Foundry/module installer implementation, platform AI runtime, Phase 4B frontend redesign, Phase 5, or Phase 6 work.
+14:bash scripts/dev/local-up.sh
+23:Open the app in a browser:
+32:bash scripts/dev/local-smoke.sh
+38:bash scripts/dev/local-down.sh
+44:bash scripts/dev/local-reset-db.sh
+47:After reset, run `local-up.sh` again before browser inspection or smoke tests.
+80:Use non-secret templates only:
+85:Real `.env` files, local secret-bearing env files, production credential files, production database URLs, private keys, and real session/token values must not be committed or included in evidence.
+87:The local scripts use placeholder local/demo values only. They do not require production credentials.
+94:bash scripts/dev/local-up.sh
+118:bash scripts/dev/local-down.sh
+121:Then retry startup. Do not point local scripts at staging, production, or persistent non-demo databases.
+128:bash scripts/dev/local-smoke.sh
+141:bash scripts/dev/local-reset-db.sh
+142:bash scripts/dev/local-up.sh
+143:bash scripts/dev/local-smoke.sh
+148:Prepare browser capture support:
+171:Use the Codex in-app Browser or another already-approved local browser tool. Do not install Playwright, Puppeteer, Selenium, or any other browser dependency without explicit approval.
+173:Screenshot/log evidence must be redacted. Stop if screenshots or logs contain a real secret, token, credential, production database URL, private key, production credential, or real session value.
+182:bash scripts/dev/local-down.sh
+191:If shutdown reports a remaining listener, inspect and stop only the local proof process using that port. Do not kill unrelated production or system services.
+198:bash scripts/dev/local-reset-db.sh
+212:bash scripts/dev/local-up.sh
+224:- API/Web Dockerfiles and full Compose API/Web services were not added because they could not be built, started, smoke-tested, or browser-tested in this execution environment.
+234:- browser inspection and screenshot capture work.
+235:- no package/lockfile drift, production secrets, production launch, cloud/VPS deployment, Phase 4B redesign, Phase 5, Foundry, AI runtime, or business-module scope is introduced.
+241:| `local-up failed: DATABASE_URL must target...` | The script is pointed at a non-local DB | Use only the default local/demo database target |
+244:| Smoke setup returns unexpected status | Local demo DB contains unexpected proof data | Run `local-reset-db.sh`, then `local-up.sh`, then `local-smoke.sh` |
+245:| CORS smoke fails | Local Web origin is not configured for API | Confirm local-up uses `http://127.0.0.1:3003` and `http://localhost:3003` |
+253:- local/demo screenshots;
+261:- real production secrets;
+262:- production credentials;
+263:- production database URLs;
+266:- production WhatsApp behavior;
+274:- browser URL and screenshot evidence;
+275:- redaction/no-secret review;

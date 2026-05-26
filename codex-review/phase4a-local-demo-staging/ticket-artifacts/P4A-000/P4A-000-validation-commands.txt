@@ -1,0 +1,122 @@
+# P4A-000 Validation Command Output
+
+## git status --short --branch
+## phase4a/local-demo-staging...origin/main
+
+## git rev-parse HEAD
+6240aee8f46a12c9dc07cf3b4feeb53cf958dda9
+
+## runtime/search inventory command
+.env.example:4:DATABASE_URL=
+.env.example:6:AKTI_AUTH_SESSION_SECRET=
+.env.example:7:AKTI_AUTH_SESSION_MAX_AGE_SECONDS=3600
+.env.example:8:AKTI_CORS_ALLOWED_ORIGINS=http://localhost:3000,http://127.0.0.1:3000
+.env.example:9:AKTI_SECURITY_HEADERS_ENABLED=true
+.env.example:10:AKTI_RATE_LIMIT_WINDOW_MS=60000
+.env.example:11:AKTI_RATE_LIMIT_MAX_REQUESTS=120
+.env.example:12:AKTI_TRUST_PROXY_HEADERS=false
+apps/web/package.json:6:    "dev": "next dev",
+apps/web/package.json:7:    "build": "next build",
+apps/web/package.json:8:    "start": "next start",
+apps/web/package.json:18:  "devDependencies": {
+apps/api/src/configuration/configuration.service.test.ts:371:    value_json: { mode: 'builder' },
+apps/api/src/configuration/configuration.service.test.ts:376:  assert.equal(storedMode.mode, 'builder');
+apps/api/src/configuration/configuration.service.test.ts:391:    service.updatePortalMode('org-1', { mode: 'builder' }, undefined),
+apps/api/src/configuration/configuration.service.test.ts:404:    crossOrg.service.updatePortalMode('org-1', { mode: 'builder' }, 'actor-foreign'),
+apps/api/src/configuration/configuration.service.test.ts:418:  const updated = await service.updatePortalMode('org-1', { mode: 'builder' }, 'actor-1');
+apps/api/src/configuration/configuration.service.test.ts:420:  assert.equal(updated.mode, 'builder');
+apps/api/src/configuration/configuration.service.test.ts:440:    denied.service.updatePortalMode('org-1', { mode: 'builder' }, 'actor-1'),
+apps/api/src/configuration/configuration.service.test.ts:451:    approvalRequired.service.updatePortalMode('org-1', { mode: 'builder' }, 'actor-1'),
+apps/api/src/configuration/configuration.service.test.ts:463:    degraded.service.updatePortalMode('org-1', { mode: 'builder' }, 'actor-1'),
+apps/api/src/configuration/configuration.service.test.ts:473:  await assert.rejects(providerFailure.service.updatePortalMode('org-1', { mode: 'builder' }, 'actor-1'));
+apps/api/src/configuration/configuration.service.test.ts:480:  const first = await service.updatePortalMode('org-1', { mode: 'builder' }, 'actor-1');
+apps/api/src/configuration/configuration.service.test.ts:483:  assert.equal(first.mode, 'builder');
+apps/api/src/configuration/configuration.service.test.ts:497:  await assert.rejects(service.updatePortalMode('org-1', { mode: 'builder' }, 'actor-1'));
+apps/web/app/setup/organization/page.tsx:142:    const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:3001';
+apps/api/src/configuration/configuration.service.ts:63:  return value === 'simple' || value === 'builder';
+apps/api/src/security/rate-limit.middleware.ts:40:    windowMs: readPositiveIntegerEnv(env, 'AKTI_RATE_LIMIT_WINDOW_MS', DEFAULT_RATE_LIMIT_WINDOW_MS),
+apps/api/src/security/rate-limit.middleware.ts:41:    maxRequests: readPositiveIntegerEnv(env, 'AKTI_RATE_LIMIT_MAX_REQUESTS', DEFAULT_RATE_LIMIT_MAX_REQUESTS),
+apps/api/src/security/rate-limit.middleware.ts:42:    trustProxyHeaders: env.AKTI_TRUST_PROXY_HEADERS === 'true',
+apps/api/src/configuration/configuration.controller.test.ts:9:process.env.AKTI_AUTH_SESSION_SECRET = AUTH_SECRET;
+apps/api/src/configuration/configuration.controller.test.ts:37:      return { mode: 'builder' };
+apps/api/src/configuration/configuration.controller.test.ts:59:    args: ['org-1', { mode: 'builder' }, 'actor-1'],
+apps/api/src/security/request-context.ts:60:  const resolved = secret ?? process.env.AKTI_AUTH_SESSION_SECRET;
+apps/api/src/security/request-context.ts:79:  const raw = process.env.AKTI_AUTH_SESSION_MAX_AGE_SECONDS;
+apps/api/src/security/request-context.ts:135:  if (!authorization || !authorization.startsWith(BEARER_PREFIX)) {
+apps/api/src/configuration/dto/configuration.dto.ts:1:export type PortalMode = 'simple' | 'builder';
+apps/api/src/configuration/dto/configuration.dto.ts:7:const PORTAL_MODES = new Set<PortalMode>(['simple', 'builder']);
+apps/api/src/configuration/dto/configuration.dto.ts:36:    throw new ConfigurationValidationError('mode must be simple or builder');
+apps/api/src/configuration/dto/configuration.dto.ts:41:    throw new ConfigurationValidationError('mode must be simple or builder');
+apps/api/src/security/runtime-environment.ts:17:  const authSessionSecret = readRequiredSecretName(env, 'AKTI_AUTH_SESSION_SECRET');
+apps/api/src/security/runtime-environment.ts:24:      'AKTI_AUTH_SESSION_MAX_AGE_SECONDS',
+apps/api/src/security/runtime-environment.ts:28:    securityHeadersEnabled: readBooleanEnv(env, 'AKTI_SECURITY_HEADERS_ENABLED', true),
+apps/api/src/security/runtime-environment.ts:66:  const raw = env.AKTI_CORS_ALLOWED_ORIGINS;
+apps/api/src/security/runtime-environment.ts:76:    throw new Error('AKTI_CORS_ALLOWED_ORIGINS must not contain wildcard or empty origins');
+apps/api/src/security/runtime-environment.ts:83:    throw new Error('AKTI_CORS_ALLOWED_ORIGINS must contain valid origins');
+apps/api/src/security/runtime-environment.ts:87:    throw new Error('AKTI_CORS_ALLOWED_ORIGINS must contain origins without paths');
+apps/api/src/configuration/dto/configuration.dto.test.ts:16:  assert.deepEqual(validateUpdatePortalModeBody({ mode: ' BUILDER ' }), { mode: 'builder' });
+apps/api/src/security/request-context.test.ts:147:  const previous = process.env.AKTI_AUTH_SESSION_MAX_AGE_SECONDS;
+apps/api/src/security/request-context.test.ts:148:  process.env.AKTI_AUTH_SESSION_MAX_AGE_SECONDS = 'invalid';
+apps/api/src/security/request-context.test.ts:154:      delete process.env.AKTI_AUTH_SESSION_MAX_AGE_SECONDS;
+apps/api/src/security/request-context.test.ts:156:      process.env.AKTI_AUTH_SESSION_MAX_AGE_SECONDS = previous;
+apps/api/src/security/request-context.test.ts:429:    AKTI_RATE_LIMIT_WINDOW_MS: '10000',
+apps/api/src/security/request-context.test.ts:430:    AKTI_RATE_LIMIT_MAX_REQUESTS: '1',
+apps/api/src/security/request-context.test.ts:431:    AKTI_TRUST_PROXY_HEADERS: 'yes',
+apps/api/src/security/request-context.test.ts:517:      AKTI_RATE_LIMIT_WINDOW_MS: '5000',
+apps/api/src/security/request-context.test.ts:518:      AKTI_RATE_LIMIT_MAX_REQUESTS: '10',
+apps/api/src/security/request-context.test.ts:529:      AKTI_RATE_LIMIT_WINDOW_MS: '5000',
+apps/api/src/security/request-context.test.ts:530:      AKTI_RATE_LIMIT_MAX_REQUESTS: '10',
+apps/api/src/security/request-context.test.ts:531:      AKTI_TRUST_PROXY_HEADERS: 'true',
+apps/api/src/security/request-context.test.ts:542:      AKTI_RATE_LIMIT_WINDOW_MS: '5000',
+apps/api/src/security/request-context.test.ts:543:      AKTI_RATE_LIMIT_MAX_REQUESTS: '10',
+apps/api/src/security/request-context.test.ts:544:      AKTI_TRUST_PROXY_HEADERS: 'yes',
+apps/api/src/security/request-context.test.ts:556:        AKTI_RATE_LIMIT_WINDOW_MS: '0',
+apps/api/src/security/request-context.test.ts:557:        AKTI_RATE_LIMIT_MAX_REQUESTS: '10',
+apps/api/src/security/request-context.test.ts:559:    /AKTI_RATE_LIMIT_WINDOW_MS must be a positive integer/,
+apps/api/src/security/request-context.test.ts:564:        AKTI_RATE_LIMIT_WINDOW_MS: '5000',
+apps/api/src/security/request-context.test.ts:565:        AKTI_RATE_LIMIT_MAX_REQUESTS: '1.5',
+apps/api/src/security/request-context.test.ts:567:    /AKTI_RATE_LIMIT_MAX_REQUESTS must be a positive integer/,
+apps/api/src/security/request-context.test.ts:573:    AKTI_AUTH_SESSION_SECRET: 'phase3-runtime-secret-value',
+apps/api/src/security/request-context.test.ts:581:    /AKTI_AUTH_SESSION_SECRET must be configured outside source control/,
+apps/api/src/security/request-context.test.ts:587:      AKTI_AUTH_SESSION_MAX_AGE_SECONDS: '1800',
+apps/api/src/security/request-context.test.ts:588:      AKTI_CORS_ALLOWED_ORIGINS: 'http://localhost:3000,https://example.org',
+apps/api/src/security/request-context.test.ts:589:      AKTI_SECURITY_HEADERS_ENABLED: 'false',
+apps/api/src/security/request-context.test.ts:590:      AKTI_RATE_LIMIT_WINDOW_MS: '5000',
+apps/api/src/security/request-context.test.ts:591:      AKTI_RATE_LIMIT_MAX_REQUESTS: '10',
+apps/api/src/security/request-context.test.ts:592:      AKTI_TRUST_PROXY_HEADERS: 'true',
+apps/api/src/security/request-context.test.ts:610:    () => readApiRuntimeEnvironment(runtimeEnv({ AKTI_SECURITY_HEADERS_ENABLED: 'yes' })),
+apps/api/src/security/request-context.test.ts:611:    /AKTI_SECURITY_HEADERS_ENABLED must be true or false/,
+apps/api/src/security/request-context.test.ts:614:    () => readApiRuntimeEnvironment(runtimeEnv({ AKTI_CORS_ALLOWED_ORIGINS: '*' })),
+apps/api/src/security/request-context.test.ts:615:    /AKTI_CORS_ALLOWED_ORIGINS must not contain wildcard/,
+apps/api/src/security/request-context.test.ts:618:    () => readApiRuntimeEnvironment(runtimeEnv({ AKTI_AUTH_SESSION_MAX_AGE_SECONDS: '0' })),
+apps/api/src/security/request-context.test.ts:619:    /AKTI_AUTH_SESSION_MAX_AGE_SECONDS must be a positive integer/,
+apps/api/src/hierarchy/hierarchy.controller.test.ts:9:process.env.AKTI_AUTH_SESSION_SECRET = AUTH_SECRET;
+apps/web/app/lead-desk/api-client.ts:6:  const configured = process.env.NEXT_PUBLIC_API_BASE_URL?.trim();
+apps/api/package.json:6:    "start": "node dist/main.js",
+apps/api/package.json:7:    "start:dev": "pnpm exec tsx watch src/main.ts",
+apps/api/package.json:8:    "build": "pnpm --filter @akti/contracts build && pnpm exec tsc -p tsconfig.build.json",
+apps/api/package.json:11:    "test": "pnpm --filter @akti/contracts build && pnpm exec tsx src/prisma/prisma-import-boundary.test.ts && pnpm exec tsx src/phase1-hardening/phase1-release-blockers.test.ts && pnpm exec tsx src/organization-setup/dto/create-organization-setup.dto.test.ts && pnpm exec tsx src/organization-setup/organization-setup.service.test.ts && pnpm exec tsx src/hierarchy/dto/hierarchy.dto.test.ts && pnpm exec tsx src/hierarchy/hierarchy-closure.service.test.ts && pnpm exec tsx src/hierarchy/hierarchy.controller.test.ts && pnpm exec tsx src/hierarchy/hierarchy.service.test.ts && pnpm exec tsx src/configuration/dto/configuration.dto.test.ts && pnpm exec tsx src/configuration/configuration.controller.test.ts && pnpm exec tsx src/configuration/configuration.service.test.ts && pnpm exec tsx src/platform-observability/audit-log.service.test.ts && pnpm exec tsx src/platform-observability/event-outbox.service.test.ts && pnpm exec tsx src/module-registry/module-registry.service.test.ts && pnpm exec tsx src/access-core/dto/access-core.dto.test.ts && pnpm exec tsx src/security/request-context.test.ts && pnpm exec tsx src/gatekeeper/gatekeeper-preflight.service.test.ts && pnpm exec tsx src/access-core/access-core.service.test.ts && pnpm exec tsx src/engagement-gateway/engagement-gateway.service.test.ts && (cd ../.. && pnpm exec tsx apps/api/src/lead-desk/lead-desk-scope-model-foundation.test.ts) && pnpm exec tsx src/lead-desk/lead-desk.service.test.ts"
+apps/api/package.json:23:  "devDependencies": {
+apps/api/src/module-registry/module-registry.service.test.ts:194:  assert.equal(listed.items.some((item) => String(item.module_key).startsWith('whatsapp.')), false);
+package.json:4:  "packageManager": "pnpm@10.12.1",
+package.json:14:    "build": "pnpm --filter @akti/api build && pnpm --filter @akti/web build"
+package.json:16:  "devDependencies": {
+apps/api/src/phase1-hardening/phase1-release-blockers.test.ts:258:    limiterSource.includes('AKTI_RATE_LIMIT_WINDOW_MS') &&
+apps/api/src/phase1-hardening/phase1-release-blockers.test.ts:259:      limiterSource.includes('AKTI_RATE_LIMIT_MAX_REQUESTS'),
+apps/api/src/phase1-hardening/phase1-release-blockers.test.ts:272:    'DATABASE_URL',
+apps/api/src/phase1-hardening/phase1-release-blockers.test.ts:274:    'AKTI_AUTH_SESSION_SECRET',
+apps/api/src/phase1-hardening/phase1-release-blockers.test.ts:275:    'AKTI_AUTH_SESSION_MAX_AGE_SECONDS',
+apps/api/src/phase1-hardening/phase1-release-blockers.test.ts:276:    'AKTI_CORS_ALLOWED_ORIGINS',
+apps/api/src/phase1-hardening/phase1-release-blockers.test.ts:277:    'AKTI_SECURITY_HEADERS_ENABLED',
+apps/api/src/phase1-hardening/phase1-release-blockers.test.ts:278:    'AKTI_RATE_LIMIT_WINDOW_MS',
+apps/api/src/phase1-hardening/phase1-release-blockers.test.ts:279:    'AKTI_RATE_LIMIT_MAX_REQUESTS',
+apps/api/src/phase1-hardening/phase1-release-blockers.test.ts:285:    envExample.includes('AKTI_AUTH_SESSION_SECRET=') &&
+apps/api/src/phase1-hardening/phase1-release-blockers.test.ts:286:      !envExample.includes('AKTI_AUTH_SESSION_SECRET=phase3-runtime-secret-value'),
+apps/api/src/main.ts:12:  process.env.AKTI_AUTH_SESSION_SECRET = runtimeEnvironment.authSessionSecret;
+apps/api/src/prisma/prisma.service.ts:6:  const connectionString = process.env.DATABASE_URL?.trim();
+apps/api/src/prisma/prisma.service.ts:8:    throw new Error('DATABASE_URL is required to initialize PrismaService');
+apps/api/src/gatekeeper/gatekeeper-preflight.service.ts:271:      request = contracts.parseGatekeeperRequest(this.buildRequest(input));
+apps/api/src/gatekeeper/gatekeeper-preflight.service.ts:308:  private buildRequest(input: GatekeeperPreflightInput): unknown {
+apps/api/src/lead-desk/lead-desk.service.ts:170:    const scopeWhere = this.buildLeadScopeWhere(actor);
+apps/api/src/lead-desk/lead-desk.service.ts:594:  private buildLeadScopeWhere(actor: ActiveActor): Prisma.LeadRecordWhereInput | null {
+apps/api/src/lead-desk/lead-desk.service.ts:659:    const scopeWhere = this.buildLeadScopeWhere(actor);

@@ -1,0 +1,55 @@
+# P4A-006 local-up validation after detached screen repair
+2026-05-26T10:32:08Z
+
+Docker daemon is unavailable; falling back to disposable local PostgreSQL.
+Initializing disposable local PostgreSQL data directory at /tmp/akti-erp-phase4a-local/pgdata
+Starting disposable local PostgreSQL on 127.0.0.1:55432
+Running committed Prisma migrations
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "akti_phase4a_local", schema "public" at "127.0.0.1:55432"
+
+6 migrations found in prisma/migrations
+
+Applying migration `20260525180000_initial_schema_baseline`
+Applying migration `20260525193000_p2h005_durable_outbox_foundation`
+Applying migration `20260525200500_p2h007_lead_record_scope_foundation`
+Applying migration `20260525214000_p2h009_lead_history_user_relations`
+Applying migration `20260525220000_p2h010_gateway_request_persistence`
+Applying migration `20260526000000_p4_migration_chain_alignment`
+
+The following migration(s) have been applied:
+
+migrations/
+  └─ 20260525180000_initial_schema_baseline/
+    └─ migration.sql
+  └─ 20260525193000_p2h005_durable_outbox_foundation/
+    └─ migration.sql
+  └─ 20260525200500_p2h007_lead_record_scope_foundation/
+    └─ migration.sql
+  └─ 20260525214000_p2h009_lead_history_user_relations/
+    └─ migration.sql
+  └─ 20260525220000_p2h010_gateway_request_persistence/
+    └─ migration.sql
+  └─ 20260526000000_p4_migration_chain_alignment/
+    └─ migration.sql
+
+All migrations have been successfully applied.
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./apps/api/generated/prisma-client in 961ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+Starting API on http://127.0.0.1:3101
+API is ready at http://127.0.0.1:3101/health
+Starting Web on http://127.0.0.1:3003
+Web is ready at http://127.0.0.1:3003/
+AKTI ERP Phase 4A local runtime is up.
+API: http://127.0.0.1:3101
+Web: http://127.0.0.1:3003
+Runtime logs: /tmp/akti-erp-phase4a-local/logs

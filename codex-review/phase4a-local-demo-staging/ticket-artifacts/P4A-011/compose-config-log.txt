@@ -1,0 +1,35 @@
+COMMAND: docker compose -f docker-compose.local.yml config
+name: akti-erp-phase4a-local
+services:
+  postgres:
+    environment:
+      POSTGRES_DB: akti_phase4a_local
+      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_USER: akti_local
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - pg_isready -U akti_local -d akti_phase4a_local
+      timeout: 5s
+      interval: 5s
+      retries: 20
+    image: postgres:16-alpine
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 5432
+        published: "55432"
+        protocol: tcp
+    volumes:
+      - type: volume
+        source: phase4a-postgres-data
+        target: /var/lib/postgresql/data
+        volume: {}
+networks:
+  default:
+    name: akti-erp-phase4a-local_default
+volumes:
+  phase4a-postgres-data:
+    name: akti-erp-phase4a-local_phase4a-postgres-data
