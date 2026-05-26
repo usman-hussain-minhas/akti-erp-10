@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import {
-  Bell,
   HelpCircle,
   Inbox,
   LayoutDashboard,
@@ -19,6 +18,7 @@ import { useLeadDeskOperatorContext } from '../../app/lead-desk/operator-context
 import { CommandPalette } from './command-palette';
 import { DashboardOverview } from './dashboard-overview';
 import { ModuleLauncher } from './module-launcher';
+import { NotificationCenter } from './notification-center';
 import { SessionStatusNotice } from '../session/session-status';
 import { Button } from '../ui/button';
 import { EmptyState, StatusBadge } from '../ui/design-system';
@@ -33,7 +33,6 @@ export function MissionControlShell() {
   const { sessionState } = useLeadDeskOperatorContext();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
-  const [notificationOpen, setNotificationOpen] = useState(false);
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-[var(--background)] text-[var(--foreground)]">
@@ -88,15 +87,7 @@ export function MissionControlShell() {
                 <HelpCircle aria-hidden="true" size={18} />
               </Link>
             </Button>
-            <Button
-              type="button"
-              variant="ghost"
-              size="icon"
-              aria-label="Notifications"
-              onClick={() => setNotificationOpen((current) => !current)}
-            >
-              <Bell aria-hidden="true" size={18} />
-            </Button>
+            <NotificationCenter />
             <Button asChild variant="ghost" size="icon" aria-label="Settings">
               <Link href="/app/settings">
                 <Settings aria-hidden="true" size={18} />
@@ -130,14 +121,10 @@ export function MissionControlShell() {
             <h2 id="notification-title" className="m-0 text-lg font-semibold">
               Notification shell
             </h2>
-            {notificationOpen ? (
-              <EmptyState
-                title="No notifications"
-                message="Notification infrastructure is ready as a shell region. Delivery, retention, and module semantics wait for a later policy phase."
-              />
-            ) : (
-              <p className="m-0 text-sm text-[#55605a]">Use the bell to open the notification drawer region.</p>
-            )}
+            <EmptyState
+              title="Notification drawer region"
+              message="Use the bell to open the drawer. Phase 4B keeps notifications as static system messages and placeholders only."
+            />
           </section>
 
           <section id="help-region" aria-labelledby="help-title">

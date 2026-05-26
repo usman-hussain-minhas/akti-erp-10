@@ -14,7 +14,7 @@ test('Mission Control shell contains required desktop and mobile regions', () =>
   for (const text of [
     'Module navigation',
     'CommandPalette',
-    'Notifications',
+    'NotificationCenter',
     'Help',
     'Settings',
     'User and organization menu',
@@ -39,7 +39,8 @@ test('Mission Control shell uses P4B-004 session indicator and diagnostics bound
 });
 
 test('Mission Control shell keeps later features as explicit placeholders without fake data', () => {
-  assert.match(shell, /Notification infrastructure is ready as a shell region/);
+  assert.match(shell, /Notification drawer region/);
+  assert.match(shell, /NotificationCenter/);
   assert.equal(shell.includes('Foundry'), false);
   assert.equal(shell.includes('WhatsApp'), false);
 });
