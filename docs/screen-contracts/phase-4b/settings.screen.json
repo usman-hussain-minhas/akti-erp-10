@@ -1,0 +1,218 @@
+{
+  "screen_key": "phase4b.settings",
+  "module_key": "core.configuration",
+  "title": "Settings",
+  "route": "/app/settings",
+  "screen_type": "private_portal",
+  "status": "planned",
+  "version": "0.1.0",
+  "business_purpose": "Provide a noob-proof control panel for supported settings, safe read-only admin views, placeholders, and Advanced Diagnostics.",
+  "primary_user_context": "An admin or operator reviewing AKTI ERP settings in local/demo mode.",
+  "user_goal": "Understand what settings are available, what is coming later, and how to set up diagnostics without seeing raw technical details by default.",
+  "success_outcome": "Settings sections are clear, safe, and do not expose unsupported controls or fake data.",
+  "required_capabilities": [
+    "access.policy.manage"
+  ],
+  "optional_capabilities": [],
+  "visibility_rules": [
+    {
+      "key": "phase4b.settings.visible",
+      "description": "Visible to users with settings/admin capability coverage.",
+      "capability_key": "access.policy.manage"
+    }
+  ],
+  "record_scope_behavior": {
+    "default_scope": "organization",
+    "allowed_scope_types": [
+      "organization",
+      "own_unit"
+    ],
+    "description": "Settings must remain organization-scoped and must not expose cross-tenant data or raw IDs to normal users."
+  },
+  "primary_action": {
+    "action_key": "phase4b.settings.review",
+    "label": "Review settings",
+    "capability_key": "access.policy.manage",
+    "action_type": "view",
+    "risk_level": "low",
+    "requires_confirmation": false,
+    "requires_reauth": false,
+    "gatekeeper_required": false,
+    "audit_required": false
+  },
+  "secondary_actions": [
+    {
+      "action_key": "phase4b.settings.open-advanced-diagnostics",
+      "label": "Open Advanced Diagnostics",
+      "capability_key": "access.policy.manage",
+      "action_type": "open",
+      "risk_level": "medium",
+      "requires_confirmation": false,
+      "requires_reauth": false,
+      "gatekeeper_required": false,
+      "audit_required": false
+    }
+  ],
+  "row_actions": [],
+  "bulk_actions": [],
+  "destructive_actions": [],
+  "data_sources": [
+    {
+      "key": "phase4b.settings.portal-mode",
+      "label": "Portal mode",
+      "source_type": "api",
+      "route_key": "phase4b.settings.portal-mode-read",
+      "description": "Reads organization portal mode for the General section."
+    },
+    {
+      "key": "phase4b.settings.modules",
+      "label": "Modules",
+      "source_type": "api",
+      "route_key": "phase4b.settings.modules-read",
+      "description": "Reads available modules for read-only display."
+    },
+    {
+      "key": "phase4b.settings.advanced-diagnostics",
+      "label": "Advanced Diagnostics",
+      "source_type": "derived",
+      "description": "Contains admin-gated bearer token/session diagnostics only."
+    }
+  ],
+  "api_routes": [
+    {
+      "key": "phase4b.settings.portal-mode-read",
+      "method": "GET",
+      "path": "/platform/configuration/organizations/:organization_id/portal-mode",
+      "capability_key": "access.policy.manage",
+      "auth_required": true,
+      "public_route": false,
+      "rate_limited": true,
+      "input_schema": null,
+      "output_schema": null,
+      "description": "Read organization portal mode."
+    },
+    {
+      "key": "phase4b.settings.portal-mode-update",
+      "method": "PUT",
+      "path": "/platform/configuration/organizations/:organization_id/portal-mode",
+      "capability_key": "access.policy.manage",
+      "auth_required": true,
+      "public_route": false,
+      "rate_limited": true,
+      "input_schema": null,
+      "output_schema": null,
+      "description": "Update organization portal mode with safe Gatekeeper denial UX."
+    },
+    {
+      "key": "phase4b.settings.modules-read",
+      "method": "GET",
+      "path": "/platform/modules",
+      "capability_key": "access.policy.manage",
+      "auth_required": true,
+      "public_route": false,
+      "rate_limited": true,
+      "input_schema": null,
+      "output_schema": null,
+      "description": "Read available modules for settings display."
+    }
+  ],
+  "query_params": [],
+  "required_entities": [
+    {
+      "entity_key": "configuration.organization-setting",
+      "purpose": "Render organization portal mode where session context is safe."
+    }
+  ],
+  "empty_data_behavior": {
+    "title": "No settings available yet",
+    "message": "Some settings are coming in a future phase."
+  },
+  "table_columns": [],
+  "filters": [],
+  "search_fields": [],
+  "sorting": [],
+  "pagination": {
+    "mode": "none"
+  },
+  "saved_views": [],
+  "form_fields": [],
+  "validation_rules": [],
+  "submit_action": null,
+  "draft_behavior": {
+    "supported": false,
+    "autosave": false
+  },
+  "file_uploads": [],
+  "empty_state": {
+    "title": "Settings are ready to review",
+    "message": "Choose a section to see available settings and future-phase placeholders."
+  },
+  "loading_state": {
+    "title": "Loading settings",
+    "message": "Settings are loading."
+  },
+  "error_state": {
+    "title": "Settings are temporarily unavailable",
+    "message": "Try again later."
+  },
+  "permission_denied_state": {
+    "title": "Permission needed",
+    "message": "You don’t have permission to make this change. Contact your administrator."
+  },
+  "degraded_mode_state": {
+    "title": "Limited diagnostics mode",
+    "message": "Some settings are unavailable until your session is active."
+  },
+  "desktop_layout": {
+    "layout": "split_panel",
+    "primary_navigation": "Settings section navigation",
+    "critical_content": []
+  },
+  "tablet_layout": {
+    "layout": "single_column",
+    "primary_navigation": "Settings section navigation",
+    "critical_content": []
+  },
+  "mobile_layout": {
+    "layout": "stacked",
+    "primary_navigation": "Settings section navigation",
+    "critical_content": []
+  },
+  "no_technical_language": true,
+  "no_fake_data": true,
+  "no_placeholder_actions": true,
+  "no_hardcoded_roles": true,
+  "no_hardcoded_units": true,
+  "plain_language_labels": true,
+  "audit_hooks": [],
+  "events_expected": [],
+  "notifications_triggered": [],
+  "ai_allowed": false,
+  "ai_actions": [],
+  "ai_requires_human_approval": false,
+  "ai_forbidden_actions": [
+    "publish",
+    "send",
+    "approve",
+    "reject",
+    "delete",
+    "export"
+  ],
+  "forbidden_behaviors": [
+    "Do not claim implementation from this planned contract.",
+    "Use this exact 403 message: You don’t have permission to make this change. Contact your administrator.",
+    "Use this exact approval_required message: This action requires approval. Contact your administrator.",
+    "Use this exact API unreachable message: Settings are temporarily unavailable. Try again later.",
+    "Do not invent other Gatekeeper denial messages, approval UI, raw error codes, stack traces, or technical API messages for normal users.",
+    "General / portal mode is BUILT.",
+    "Users & Roles is BUILT for list/read where existing API and session context safely support it; invite/create/update flows are PLACEHOLDER unless already safely supported.",
+    "Groups / Access is BUILT for list/read where existing API and session context safely support it; mutations are gated and may remain PLACEHOLDER.",
+    "Hierarchy / Organization Structure is BUILT read-only or minimal safe view where existing APIs support it.",
+    "Modules is BUILT read-only using module registry/list API; no installer, enable/disable, Foundry, or module lifecycle operations.",
+    "Appearance is PLACEHOLDER.",
+    "Security is PLACEHOLDER for Phase 5A/auth/security policy.",
+    "Notifications is PLACEHOLDER for Phase 5A notification/communication policy.",
+    "Advanced Diagnostics is BUILT, admin-gated, and the only place where bearer token/session technical details may appear.",
+    "Do not implement login, OAuth, production auth replacement, Foundry, module installer, platform AI runtime, production launch, or real WhatsApp production behavior."
+  ]
+}
