@@ -52,3 +52,9 @@ Approved scoped continuation repaired web startup argument passing and detached 
 Status: COMPLETE
 
 Added local-down and local-reset-db scripts. Validated local-up, local-down, local-reset-db, listener cleanup, and the full validation ladder. No production, secret, cloud/VPS, Prisma/schema, package/dependency, Phase 4B, or Phase 5 scope was introduced.
+
+## P4A-008 - Local smoke script
+
+Status: COMPLETE
+
+Added a one-command local/demo smoke script for API health, Web root, setup/bootstrap, allowed local CORS, and security header checks. Validated against a clean local/demo database using committed Prisma migrations through local-up, then stopped proof services and confirmed no listeners remained on proof ports. Redaction review and the full validation ladder passed.
