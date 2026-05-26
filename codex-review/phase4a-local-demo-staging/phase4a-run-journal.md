@@ -22,3 +22,9 @@ Decision: use both modes with hybrid local first: Docker PostgreSQL plus local p
 Status: COMPLETE
 
 Decision: full Docker Compose API/Web/Postgres mode is required for P4A-011 resolution. Docker available: Docker version 28.5.1, build e180ab8; Compose available: Docker Compose version v2.40.2-desktop.1.
+
+## P4A-004 - Env template and no-secret policy
+
+Status: COMPLETE
+
+Created .env.local.example and .env.demo.example with local-only non-secret placeholders. Classified redaction scan hits as placeholder text only.
