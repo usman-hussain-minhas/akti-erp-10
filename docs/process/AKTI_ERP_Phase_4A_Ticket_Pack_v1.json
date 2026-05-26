@@ -1,0 +1,1297 @@
+{
+  "phase": "Phase 4A - Local Demo / Staging Environment Stabilization",
+  "status": "PROPOSED_EXECUTION_CONTRACT_NOT_EXECUTED",
+  "authority": "Ticket pack governs Phase 4A execution only after approval. Repo source of truth remains Prisma, contracts, manifests, generated registry, ADRs, tests, validation evidence, and closure packages.",
+  "ordered_ticket_queue": [
+    "P4A-000",
+    "P4A-001",
+    "P4A-002",
+    "P4A-003",
+    "P4A-004",
+    "P4A-005",
+    "P4A-006",
+    "P4A-007",
+    "P4A-008",
+    "P4A-009",
+    "P4A-011",
+    "P4A-010",
+    "P4A-012",
+    "P4A-GATE"
+  ],
+  "global_invariants": [
+    "Phase 4A is local/demo environment stabilization only, not production launch.",
+    "Use committed Prisma migrations and prisma migrate deploy for proof; db push is not valid final proof.",
+    "Real .env files, local secret files, production credential files, and production secrets are forbidden.",
+    ".env.local.example and .env.demo.example may be created only as non-secret templates.",
+    "Hybrid local mode may be first, but full Docker Compose API/Web/Postgres must be resolved as required, approval-gated, or explicitly deferred with evidence.",
+    "No Phase 4B frontend redesign, Phase 5 work, Foundry/module installer implementation, platform AI runtime, new modules, real WhatsApp production behavior, or production cloud/VPS deployment is authorized."
+  ],
+  "tickets": [
+    {
+      "ticket_id": "P4A-000",
+      "title": "Baseline local run inventory",
+      "type": "validation/control",
+      "priority": "P0",
+      "commit_message": "P4A-000 confirm local run baseline",
+      "rollback_notes": "Revert the ticket control report and ticket artifacts, then return to the prior approved Phase 4A control state without changing runtime source, schema, packages, deployment files, or secrets.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "dependencies": [],
+      "objective": "Record the current post-Phase-4 local run reality before any Phase 4A implementation.",
+      "scope": [
+        "Confirm current branch and HEAD.",
+        "Inventory package scripts, API/web commands, env vars, ports, routes, Docker absence/presence, Phase 4 proof inputs, and frontend evidence inputs.",
+        "Record that Phase 4A starts from post-Phase-4 source refresh state."
+      ],
+      "non_scope": [
+        "No runtime code changes.",
+        "No scripts or Docker files.",
+        "No ticket execution beyond baseline evidence."
+      ],
+      "source_files_to_inspect": [
+        "package.json",
+        "apps/api/package.json",
+        "apps/web/package.json",
+        ".env.example",
+        "prisma.config.ts",
+        "apps/api/src/main.ts",
+        "apps/api/src/security/runtime-environment.ts",
+        "codex-review/phase4-operational-proof/frontend-current-state/*"
+      ],
+      "files_expected_to_change": [
+        "codex-review/phase4a-local-demo/ticket-artifacts/P4A-000/*",
+        "codex-review/phase4a-local-demo/phase4a-run-journal.md"
+      ],
+      "files_forbidden_to_change": [
+        "apps/**",
+        "packages/**",
+        "prisma/**",
+        "generated/**",
+        "package.json",
+        "pnpm-lock.yaml",
+        "deployment files",
+        "real env files",
+        "secret-bearing files"
+      ],
+      "required_outputs": [
+        "baseline-local-run-inventory.md",
+        "current-command-inventory.md",
+        "current-env-inventory.md",
+        "frontend-evidence-inputs.md"
+      ],
+      "evidence_artifacts": [
+        "git-state.txt",
+        "script-inventory.txt",
+        "route-inventory.txt",
+        "P4A-000-summary.md",
+        "P4A-000-validation-summary.md"
+      ],
+      "tests_required": [
+        "JSON/control artifact sanity only"
+      ],
+      "validation_commands": [
+        "git status --short --branch",
+        "git rev-parse HEAD",
+        "rg -n \"packageManager|start|start:dev|dev|build|DATABASE_URL|AKTI_|NEXT_PUBLIC_API_BASE_URL\" package.json apps/api/package.json apps/web/package.json .env.example apps/api/src apps/web/app"
+      ],
+      "acceptance_criteria": [
+        "Current run commands, env vars, ports, and frontend evidence inputs are recorded.",
+        "No implementation files changed.",
+        "No Phase 4B or Phase 5 scope introduced."
+      ],
+      "stop_conditions": [
+        "Repo state is dirty or branch is unclear.",
+        "Required current-state files are missing.",
+        "Baseline evidence cannot be produced."
+      ],
+      "conditional_replan_required": false,
+      "stale_ticket_risk_notes": "If this inventory is skipped, later local scripts may encode stale ports, env names, or proof assumptions.",
+      "runtime_consistency_chain": "repo state -> script/env inventory -> Phase 4A decisions -> implementation tickets",
+      "minimum_concrete_requirement": "A baseline report with exact commands, env vars, ports, and evidence inputs.",
+      "split_if": "Split only if repository state differs from post-Phase-4 main or Phase 4 evidence is missing.",
+      "requires_human_approval_if": [
+        "Baseline shows required package/dependency changes.",
+        "Baseline shows missing Phase 4 proof documents."
+      ],
+      "failure_classification": "planning_blocker"
+    },
+    {
+      "ticket_id": "P4A-001",
+      "title": "Node/pnpm/Corepack runtime decision",
+      "type": "decision",
+      "priority": "P0",
+      "commit_message": "P4A-001 decide Node pnpm Corepack runtime",
+      "rollback_notes": "Revert the ticket decision record and ticket artifacts, then return to the prior approved Phase 4A control state without changing runtime source, schema, packages, deployment files, or secrets.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "dependencies": [
+        "P4A-000"
+      ],
+      "objective": "Define the supported local Node/pnpm runtime posture for Phase 4A.",
+      "scope": [
+        "Inspect packageManager, lockfile engine requirements, current local versions, and Corepack availability.",
+        "Document Node 22 LTS as default recommendation unless repo evidence proves otherwise.",
+        "Require Corepack-managed pnpm 10.12.1."
+      ],
+      "non_scope": [
+        "No package.json engines addition unless separately approved.",
+        "No pnpm-lock changes.",
+        "No dependency additions."
+      ],
+      "decision_options": [
+        "Node 22 LTS with Corepack and pnpm@10.12.1",
+        "repo-current Node/pnpm if already pinned",
+        "stop for approval if package metadata must change"
+      ],
+      "selection_criteria": [
+        "no package or lockfile drift",
+        "reproducible local setup",
+        "compatible with existing scripts"
+      ],
+      "decision_output_path": "codex-review/phase4a-local-demo/ticket-artifacts/P4A-001/node-pnpm-corepack-decision.md",
+      "source_files_to_inspect": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "apps/api/package.json",
+        "apps/web/package.json"
+      ],
+      "files_expected_to_change": [
+        "codex-review/phase4a-local-demo/ticket-artifacts/P4A-001/node-pnpm-corepack-decision.md"
+      ],
+      "files_forbidden_to_change": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "apps/**",
+        "packages/**"
+      ],
+      "required_outputs": [
+        "node-pnpm-corepack-decision.md"
+      ],
+      "evidence_artifacts": [
+        "node-version-log.txt",
+        "pnpm-version-log.txt",
+        "corepack-version-log.txt",
+        "P4A-001-summary.md",
+        "P4A-001-validation-summary.md"
+      ],
+      "tests_required": [
+        "Version command evidence"
+      ],
+      "validation_commands": [
+        "node -v",
+        "pnpm -v",
+        "corepack --version || true",
+        "git diff -- package.json pnpm-lock.yaml"
+      ],
+      "acceptance_criteria": [
+        "Recommended local runtime is documented.",
+        "Corepack and pnpm posture is documented.",
+        "No package or lockfile drift occurs."
+      ],
+      "stop_conditions": [
+        "Node version requirements conflict with repository dependencies.",
+        "A package or lockfile change appears required."
+      ],
+      "conditional_replan_required": false,
+      "stale_ticket_risk_notes": "Without a pinned local runtime posture, local demo scripts may fail across machines.",
+      "runtime_consistency_chain": "packageManager -> Corepack -> pnpm version -> install/build/smoke scripts",
+      "minimum_concrete_requirement": "Decision record naming recommended Node LTS and pnpm/Corepack usage.",
+      "split_if": "Split if package engine changes become necessary.",
+      "requires_human_approval_if": [
+        "Adding engines to package.json is proposed.",
+        "Lockfile or package changes are proposed."
+      ],
+      "failure_classification": "environment_blocker"
+    },
+    {
+      "ticket_id": "P4A-002",
+      "title": "Local environment architecture decision",
+      "type": "decision",
+      "priority": "P0",
+      "commit_message": "P4A-002 decide local environment architecture",
+      "rollback_notes": "Revert the ticket decision record and ticket artifacts, then return to the prior approved Phase 4A control state without changing runtime source, schema, packages, deployment files, or secrets.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "dependencies": [
+        "P4A-000",
+        "P4A-001"
+      ],
+      "objective": "Choose the initial Phase 4A local runtime architecture.",
+      "scope": [
+        "Compare hybrid local mode, full Docker Compose mode, and both-mode strategy.",
+        "Select hybrid local as first proof path unless evidence requires another path.",
+        "Define local ports and service responsibilities."
+      ],
+      "non_scope": [
+        "No Docker file creation.",
+        "No scripts yet.",
+        "No cloud/staging resource creation."
+      ],
+      "decision_options": [
+        "hybrid local first path",
+        "full Compose first path",
+        "both modes with hybrid first"
+      ],
+      "selection_criteria": [
+        "fastest safe proof",
+        "clear browser URL",
+        "no new dependencies without approval",
+        "preserves full Compose decision gate"
+      ],
+      "decision_output_path": "codex-review/phase4a-local-demo/ticket-artifacts/P4A-002/local-environment-architecture-decision.md",
+      "source_files_to_inspect": [
+        "docs/process/AKTI_ERP_Phase_4_Audit_Report_v1.md",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-010/*",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-011/*",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-012/*"
+      ],
+      "files_expected_to_change": [
+        "codex-review/phase4a-local-demo/ticket-artifacts/P4A-002/local-environment-architecture-decision.md"
+      ],
+      "files_forbidden_to_change": [
+        "docker-compose.local.yml",
+        "apps/**",
+        "packages/**",
+        "package.json",
+        "pnpm-lock.yaml"
+      ],
+      "required_outputs": [
+        "local-environment-architecture-decision.md",
+        "local-port-map.md"
+      ],
+      "evidence_artifacts": [
+        "phase4-proof-inputs.md",
+        "P4A-002-summary.md",
+        "P4A-002-validation-summary.md"
+      ],
+      "tests_required": [
+        "Decision matrix review"
+      ],
+      "validation_commands": [
+        "rg -n \"3101|3000|3003|55432|NEXT_PUBLIC_API_BASE_URL|DATABASE_URL\" codex-review/phase4-operational-proof/ticket-artifacts/P4-010 codex-review/phase4-operational-proof/ticket-artifacts/P4-011 codex-review/phase4-operational-proof/ticket-artifacts/P4-012"
+      ],
+      "acceptance_criteria": [
+        "Initial runtime architecture is selected.",
+        "Ports and service boundaries are documented.",
+        "Full Compose remains unresolved until P4A-003/P4A-011."
+      ],
+      "stop_conditions": [
+        "No safe local architecture can be selected without dependency changes.",
+        "Production/cloud resource assumptions appear."
+      ],
+      "conditional_replan_required": false,
+      "stale_ticket_risk_notes": "If architecture is vague, later scripts may mix dev/proof/prod assumptions.",
+      "runtime_consistency_chain": "Phase 4 proof evidence -> architecture decision -> env templates -> startup scripts -> smoke/browser proof",
+      "minimum_concrete_requirement": "A selected initial architecture and port map.",
+      "split_if": "Split if hybrid and full Compose both require immediate implementation planning.",
+      "requires_human_approval_if": [
+        "Cloud/VPS resources are proposed.",
+        "New dependencies are proposed."
+      ],
+      "failure_classification": "architecture_decision_blocker"
+    },
+    {
+      "ticket_id": "P4A-003",
+      "title": "Full Docker Compose API/Web/Postgres decision gate",
+      "type": "decision",
+      "priority": "P0",
+      "commit_message": "P4A-003 decide full Docker Compose posture",
+      "rollback_notes": "Revert the ticket decision record and ticket artifacts, then return to the prior approved Phase 4A control state without changing runtime source, schema, packages, deployment files, or secrets.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "dependencies": [
+        "P4A-002"
+      ],
+      "objective": "Prevent hybrid local mode from silently becoming the final ambition.",
+      "scope": [
+        "Decide whether full Docker Compose API/Web/Postgres mode is required, approval-gated, or explicitly deferred with evidence.",
+        "Define what evidence P4A-011 must produce based on the selected mode."
+      ],
+      "non_scope": [
+        "No Dockerfiles or Compose implementation in this ticket.",
+        "No package/dependency changes."
+      ],
+      "decision_options": [
+        "full Compose required",
+        "approval-gated",
+        "explicitly deferred with evidence"
+      ],
+      "selection_criteria": [
+        "Docker availability",
+        "dependency and package impact",
+        "operational value",
+        "whether hybrid proof is enough for Phase 4A closure"
+      ],
+      "decision_output_path": "codex-review/phase4a-local-demo/ticket-artifacts/P4A-003/full-compose-decision.md",
+      "source_files_to_inspect": [
+        "package.json",
+        "apps/api/package.json",
+        "apps/web/package.json",
+        "pnpm-lock.yaml"
+      ],
+      "files_expected_to_change": [
+        "codex-review/phase4a-local-demo/ticket-artifacts/P4A-003/full-compose-decision.md"
+      ],
+      "files_forbidden_to_change": [
+        "docker-compose.local.yml",
+        "apps/api/Dockerfile.local",
+        "apps/web/Dockerfile.local",
+        "package.json",
+        "pnpm-lock.yaml"
+      ],
+      "required_outputs": [
+        "full-compose-decision.md"
+      ],
+      "evidence_artifacts": [
+        "compose-option-matrix.md",
+        "P4A-003-summary.md",
+        "P4A-003-validation-summary.md"
+      ],
+      "tests_required": [
+        "Decision output review"
+      ],
+      "validation_commands": [
+        "test -f docker-compose.local.yml && echo existing-compose || true",
+        "find . -maxdepth 4 \\( -iname '*docker*' -o -iname '*compose*' -o -iname 'Dockerfile*' \\) -not -path './node_modules/*' -not -path './.git/*' -not -path './codex-review/*' | sort"
+      ],
+      "acceptance_criteria": [
+        "Full Compose is classified as required, approval-gated, or explicitly deferred with evidence.",
+        "P4A-011 obligations are clear.",
+        "No implementation files are created."
+      ],
+      "stop_conditions": [
+        "Decision would require dependency changes without approval.",
+        "Decision would imply production/cloud deployment."
+      ],
+      "conditional_replan_required": false,
+      "stale_ticket_risk_notes": "Without this gate, Phase 4A may stop at hybrid scripts and fail the noob-proof local demo ambition.",
+      "runtime_consistency_chain": "full Compose decision -> P4A-011 resolution -> runbook/closure evidence",
+      "minimum_concrete_requirement": "A decision record with selected full Compose posture.",
+      "split_if": "Split if full Compose is required immediately and needs its own implementation ticket pack.",
+      "requires_human_approval_if": [
+        "Full Compose implementation needs package or dependency changes.",
+        "Containerized API/web requires new build assumptions."
+      ],
+      "failure_classification": "decision_blocker"
+    },
+    {
+      "ticket_id": "P4A-004",
+      "title": "Env template and no-secret policy",
+      "type": "decision/implementation",
+      "priority": "P0",
+      "commit_message": "P4A-004 define env templates and no-secret policy",
+      "rollback_notes": "Revert only the files created or modified by this ticket, preserve prior ticket artifacts, and do not roll back migrations, Prisma schema, package files, or dependency state as a repair shortcut.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "dependencies": [
+        "P4A-001",
+        "P4A-002"
+      ],
+      "objective": "Create non-secret local/demo env templates and no-secret rules if approved by exact-file plan.",
+      "scope": [
+        "Define `.env.local.example` and/or `.env.demo.example` values.",
+        "Document no-secret validation and redaction expectations.",
+        "Ensure templates map to runtime env parsing."
+      ],
+      "non_scope": [
+        "No real .env files.",
+        "No production credentials.",
+        "No runtime env behavior changes unless separately approved."
+      ],
+      "decision_options": [
+        ".env.local.example",
+        ".env.demo.example",
+        "both templates",
+        "decision-only if template changes need approval"
+      ],
+      "selection_criteria": [
+        "no secrets",
+        "exact-file planning",
+        "clear local/demo variable mapping",
+        "no broad runtime env changes"
+      ],
+      "decision_output_path": "codex-review/phase4a-local-demo/ticket-artifacts/P4A-004/env-template-decision.md",
+      "source_files_to_inspect": [
+        ".env.example",
+        "apps/api/src/security/runtime-environment.ts",
+        "apps/web/app/lead-desk/api-client.ts"
+      ],
+      "files_expected_to_change": [
+        ".env.local.example",
+        ".env.demo.example",
+        "codex-review/phase4a-local-demo/ticket-artifacts/P4A-004/*"
+      ],
+      "files_forbidden_to_change": [
+        ".env",
+        ".env.* secret-bearing files",
+        "apps/**",
+        "package.json",
+        "pnpm-lock.yaml"
+      ],
+      "required_outputs": [
+        "env-template-matrix.md",
+        "no-secret-policy.md",
+        ".env.local.example and/or .env.demo.example if exact-file plan approves"
+      ],
+      "evidence_artifacts": [
+        "env-template-scan.txt",
+        "runtime-env-match.md",
+        "P4A-004-summary.md",
+        "P4A-004-validation-summary.md"
+      ],
+      "tests_required": [
+        "No-secret scan of templates",
+        "Runtime env mapping review"
+      ],
+      "validation_commands": [
+        "rg -n \"DATABASE_URL|AKTI_|NEXT_PUBLIC_API_BASE_URL|PORT\" .env.example apps/api/src/security/runtime-environment.ts apps/web/app/lead-desk/api-client.ts",
+        "rg -n \"password|secret|token|credential|postgresql://.*:.*@\" .env.local.example .env.demo.example || true"
+      ],
+      "acceptance_criteria": [
+        "Templates contain placeholders only.",
+        "Every template variable has a runtime use or documented purpose.",
+        "Real env files remain untracked."
+      ],
+      "stop_conditions": [
+        "A real secret is required.",
+        "A runtime env variable must change without approval.",
+        "Template would expose credentials."
+      ],
+      "conditional_replan_required": true,
+      "stale_ticket_risk_notes": "Env templates drift quickly if not tied to runtime parsing.",
+      "runtime_consistency_chain": "env template -> runtime parser -> API/web startup -> smoke/browser proof",
+      "minimum_concrete_requirement": "Non-secret template(s) and mapping matrix.",
+      "split_if": "Split if runtime code changes are required to support local env.",
+      "requires_human_approval_if": [
+        "Runtime env parser changes are needed.",
+        "Package scripts are needed to load env files."
+      ],
+      "failure_classification": "secret_or_env_blocker"
+    },
+    {
+      "ticket_id": "P4A-005",
+      "title": "Local DB reset and migration proof design",
+      "type": "decision",
+      "priority": "P0",
+      "commit_message": "P4A-005 define local DB reset migration proof",
+      "rollback_notes": "Revert the ticket decision record and ticket artifacts, then return to the prior approved Phase 4A control state without changing runtime source, schema, packages, deployment files, or secrets.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "dependencies": [
+        "P4A-002",
+        "P4A-004"
+      ],
+      "objective": "Define safe local/demo database reset and migration proof behavior.",
+      "scope": [
+        "Define local database names, volume/reset strategy, and safety checks.",
+        "Require committed migrations and prisma migrate deploy.",
+        "Forbid db push as final proof."
+      ],
+      "non_scope": [
+        "No script implementation.",
+        "No Prisma schema or migration changes.",
+        "No persistent/staging/production database operations."
+      ],
+      "decision_options": [
+        "disposable DB recreate",
+        "named demo DB reset with safety guard",
+        "container volume reset",
+        "stop if clean migration proof cannot use committed migrations"
+      ],
+      "selection_criteria": [
+        "prisma migrate deploy proof",
+        "no db push final proof",
+        "safe reset boundary",
+        "no persistent data risk"
+      ],
+      "decision_output_path": "codex-review/phase4a-local-demo/ticket-artifacts/P4A-005/local-db-reset-migration-contract.md",
+      "source_files_to_inspect": [
+        "prisma.config.ts",
+        "prisma/schema.prisma",
+        "prisma/migrations/*",
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-009/*"
+      ],
+      "files_expected_to_change": [
+        "codex-review/phase4a-local-demo/ticket-artifacts/P4A-005/local-db-reset-migration-contract.md"
+      ],
+      "files_forbidden_to_change": [
+        "prisma/schema.prisma",
+        "prisma/migrations/**",
+        "apps/**",
+        "packages/**"
+      ],
+      "required_outputs": [
+        "local-db-reset-migration-contract.md"
+      ],
+      "evidence_artifacts": [
+        "migration-chain-inputs.md",
+        "db-safety-rules.md",
+        "P4A-005-summary.md",
+        "P4A-005-validation-summary.md"
+      ],
+      "tests_required": [
+        "Decision review against P4-009 evidence"
+      ],
+      "validation_commands": [
+        "rg -n \"migrate deploy|db push|empty migration|P4-009\" docs/process codex-review/phase4-operational-proof/ticket-artifacts/P4-009"
+      ],
+      "acceptance_criteria": [
+        "Reset safety rules are explicit.",
+        "`prisma migrate deploy` is mandatory.",
+        "`db push` is explicitly rejected as final proof."
+      ],
+      "stop_conditions": [
+        "Clean DB proof requires Prisma schema/migration changes.",
+        "Reset strategy risks non-demo data.",
+        "Persistent/staging/production DB is required."
+      ],
+      "conditional_replan_required": false,
+      "stale_ticket_risk_notes": "Without a reset contract, local-reset scripts can become destructive or bypass migrations.",
+      "runtime_consistency_chain": "local DB -> reset safety -> migrate deploy -> setup org -> smoke proof",
+      "minimum_concrete_requirement": "A DB reset/migration contract with safety predicates.",
+      "split_if": "Split if migration repair is required.",
+      "requires_human_approval_if": [
+        "Prisma schema or migration changes are needed.",
+        "Any non-disposable DB would be touched."
+      ],
+      "failure_classification": "database_safety_blocker"
+    },
+    {
+      "ticket_id": "P4A-006",
+      "title": "Hybrid local runtime implementation proof",
+      "type": "implementation/validation",
+      "priority": "P0",
+      "commit_message": "P4A-006 prove hybrid local runtime",
+      "rollback_notes": "Revert only the files created or modified by this ticket, preserve prior ticket artifacts, and do not roll back migrations, Prisma schema, package files, or dependency state as a repair shortcut.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "dependencies": [
+        "P4A-002",
+        "P4A-004",
+        "P4A-005"
+      ],
+      "objective": "Prove the initial hybrid local runtime path with local/demo Postgres plus host API/web.",
+      "scope": [
+        "Create approved local/demo runtime files after exact-file plan.",
+        "Run local/demo Postgres, API, and web.",
+        "Apply migrations with prisma migrate deploy.",
+        "Prove health/setup/web availability."
+      ],
+      "non_scope": [
+        "No production/cloud deployment.",
+        "No full Compose API/web unless P4A-003 requires it.",
+        "No runtime feature changes."
+      ],
+      "source_files_to_inspect": [
+        "apps/api/package.json",
+        "apps/web/package.json",
+        "prisma.config.ts",
+        ".env.local.example",
+        ".env.demo.example"
+      ],
+      "files_expected_to_change": [
+        "docker-compose.local.yml if approved for Postgres",
+        "scripts/dev/local-up.sh",
+        "codex-review/phase4a-local-demo/ticket-artifacts/P4A-006/*"
+      ],
+      "files_forbidden_to_change": [
+        "apps/** runtime source",
+        "packages/**",
+        "prisma/schema.prisma",
+        "prisma/migrations/**",
+        "package.json",
+        "pnpm-lock.yaml"
+      ],
+      "required_outputs": [
+        "hybrid-runtime-proof.md",
+        "startup-log.txt",
+        "migration-log.txt",
+        "health-log.txt",
+        "web-log.txt"
+      ],
+      "evidence_artifacts": [
+        "db-start-log.txt",
+        "api-start-log.txt",
+        "web-start-log.txt",
+        "setup-organization-log.txt",
+        "P4A-006-summary.md",
+        "P4A-006-validation-summary.md"
+      ],
+      "tests_required": [
+        "Clean DB migration proof",
+        "API health smoke",
+        "Web root smoke",
+        "Setup organization smoke"
+      ],
+      "validation_commands": [
+        "pnpm exec prisma migrate deploy --schema prisma/schema.prisma --config prisma.config.ts",
+        "pnpm exec prisma migrate diff --from-config-datasource --to-schema prisma/schema.prisma --script --exit-code --config prisma.config.ts",
+        "curl -fsS http://127.0.0.1:3101/health",
+        "curl -fsS http://127.0.0.1:3000/"
+      ],
+      "acceptance_criteria": [
+        "Hybrid local runtime starts and stops cleanly.",
+        "Clean DB migrates through committed migrations.",
+        "API and web are reachable through documented URLs.",
+        "No runtime source, Prisma, package, or dependency drift."
+      ],
+      "stop_conditions": [
+        "migrate deploy fails.",
+        "db push appears as final proof.",
+        "Runtime code changes become necessary.",
+        "New dependency is required.",
+        "Production or persistent DB is implicated."
+      ],
+      "conditional_replan_required": true,
+      "stale_ticket_risk_notes": "Implementation must re-plan after environment and DB decisions or scripts will encode stale assumptions.",
+      "runtime_consistency_chain": "Docker/local DB -> env templates -> API/web processes -> health/setup/web proof",
+      "minimum_concrete_requirement": "A working hybrid local runtime proof with logs.",
+      "split_if": "Split if API, web, and DB startup need separate implementation commits.",
+      "requires_human_approval_if": [
+        "Runtime source changes are required.",
+        "Package/dependency changes are required.",
+        "Full Compose API/web must be implemented immediately."
+      ],
+      "failure_classification": "implementation_blocker"
+    },
+    {
+      "ticket_id": "P4A-007",
+      "title": "Local up/down/reset scripts",
+      "type": "implementation/validation",
+      "priority": "P0",
+      "commit_message": "P4A-007 add local lifecycle scripts",
+      "rollback_notes": "Revert only the files created or modified by this ticket, preserve prior ticket artifacts, and do not roll back migrations, Prisma schema, package files, or dependency state as a repair shortcut.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "dependencies": [
+        "P4A-006"
+      ],
+      "objective": "Create noob-proof local lifecycle commands for startup, shutdown, and reset.",
+      "scope": [
+        "Create local-up, local-down, and local-reset scripts.",
+        "Ensure reset targets only approved local/demo resources.",
+        "Print clear browser URL and failure messages."
+      ],
+      "non_scope": [
+        "No production resource management.",
+        "No destructive non-demo cleanup.",
+        "No package script wiring unless separately approved."
+      ],
+      "source_files_to_inspect": [
+        "scripts/**",
+        ".gitignore",
+        ".env.local.example",
+        ".env.demo.example"
+      ],
+      "files_expected_to_change": [
+        "scripts/dev/local-up.sh",
+        "scripts/dev/local-down.sh",
+        "scripts/dev/local-reset-db.sh",
+        "codex-review/phase4a-local-demo/ticket-artifacts/P4A-007/*"
+      ],
+      "files_forbidden_to_change": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "apps/**",
+        "prisma/**"
+      ],
+      "required_outputs": [
+        "local-up.sh",
+        "local-down.sh",
+        "local-reset-db.sh",
+        "script-usage.md"
+      ],
+      "evidence_artifacts": [
+        "local-up-log.txt",
+        "local-down-log.txt",
+        "local-reset-log.txt",
+        "port-cleanup-log.txt",
+        "P4A-007-summary.md",
+        "P4A-007-validation-summary.md"
+      ],
+      "tests_required": [
+        "Script dry/real local demo run",
+        "Reset safety check",
+        "Shutdown cleanup check"
+      ],
+      "validation_commands": [
+        "bash scripts/dev/local-up.sh",
+        "bash scripts/dev/local-down.sh",
+        "bash scripts/dev/local-reset-db.sh",
+        "git diff --check"
+      ],
+      "acceptance_criteria": [
+        "Startup, shutdown, and reset commands are documented and work.",
+        "Reset is scoped to local/demo resources only.",
+        "Failure messages identify likely missing Docker, port, env, or migration issue."
+      ],
+      "stop_conditions": [
+        "Reset can affect non-demo data.",
+        "Scripts need secrets.",
+        "Scripts require dependency changes without approval."
+      ],
+      "conditional_replan_required": true,
+      "stale_ticket_risk_notes": "Scripts become dangerous if reset names and ports are not tied to P4A-005/P4A-006.",
+      "runtime_consistency_chain": "local-up -> migrate/start -> local-smoke -> local-down/reset",
+      "minimum_concrete_requirement": "Working lifecycle scripts with clear operator output.",
+      "split_if": "Split if startup and reset safety require separate review.",
+      "requires_human_approval_if": [
+        "Package scripts must be changed.",
+        "Docker behavior requires privileged operations."
+      ],
+      "failure_classification": "local_runtime_blocker"
+    },
+    {
+      "ticket_id": "P4A-008",
+      "title": "Local smoke script",
+      "type": "implementation/validation",
+      "priority": "P0",
+      "commit_message": "P4A-008 add local smoke script",
+      "rollback_notes": "Revert only the files created or modified by this ticket, preserve prior ticket artifacts, and do not roll back migrations, Prisma schema, package files, or dependency state as a repair shortcut.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "dependencies": [
+        "P4A-007"
+      ],
+      "objective": "Create one-command local smoke validation for the demo runtime.",
+      "scope": [
+        "Check API health, web availability, setup organization, CORS/security basics, and key Phase 3/4 protections where feasible.",
+        "Produce clear pass/fail output."
+      ],
+      "non_scope": [
+        "No broad e2e framework dependency.",
+        "No UI redesign.",
+        "No production smoke."
+      ],
+      "source_files_to_inspect": [
+        "codex-review/phase4-operational-proof/ticket-artifacts/P4-011/smoke-test-matrix.md",
+        "apps/api/src/app.controller.ts",
+        "apps/web/app/**/page.tsx"
+      ],
+      "files_expected_to_change": [
+        "scripts/dev/local-smoke.sh",
+        "codex-review/phase4a-local-demo/ticket-artifacts/P4A-008/*"
+      ],
+      "files_forbidden_to_change": [
+        "apps/** runtime source",
+        "packages/**",
+        "package.json",
+        "pnpm-lock.yaml"
+      ],
+      "required_outputs": [
+        "local-smoke.sh",
+        "local-smoke-matrix.md"
+      ],
+      "evidence_artifacts": [
+        "local-smoke-log.txt",
+        "failure-classification.md",
+        "P4A-008-summary.md",
+        "P4A-008-validation-summary.md"
+      ],
+      "tests_required": [
+        "Run local smoke against active local demo runtime"
+      ],
+      "validation_commands": [
+        "bash scripts/dev/local-smoke.sh"
+      ],
+      "acceptance_criteria": [
+        "One-command smoke passes against local demo runtime.",
+        "Failures are classified with clear remediation hints.",
+        "No secrets appear in output."
+      ],
+      "stop_conditions": [
+        "Smoke requires production credentials.",
+        "Smoke requires new dependencies.",
+        "Smoke cannot run against local/demo only."
+      ],
+      "conditional_replan_required": true,
+      "stale_ticket_risk_notes": "Smoke coverage must follow actual local runtime URLs and env outputs.",
+      "runtime_consistency_chain": "local-up -> local-smoke -> evidence -> local-down",
+      "minimum_concrete_requirement": "A smoke script that verifies local API/web/setup health.",
+      "split_if": "Split if authenticated Lead Desk smoke needs separate fixture generation.",
+      "requires_human_approval_if": [
+        "Adding browser/e2e dependencies is proposed.",
+        "Runtime source must change to expose health."
+      ],
+      "failure_classification": "validation_blocker"
+    },
+    {
+      "ticket_id": "P4A-009",
+      "title": "Browser inspection and screenshot capture support",
+      "type": "implementation/validation",
+      "priority": "P1",
+      "commit_message": "P4A-009 add browser inspection screenshot support",
+      "rollback_notes": "Revert only the files created or modified by this ticket, preserve prior ticket artifacts, and do not roll back migrations, Prisma schema, package files, or dependency state as a repair shortcut.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "dependencies": [
+        "P4A-007",
+        "P4A-008"
+      ],
+      "objective": "Create repeatable browser inspection and screenshot evidence support without frontend redesign.",
+      "scope": [
+        "Document/open clear browser URL.",
+        "Capture screenshots for current route inventory.",
+        "Redact logs and screenshots.",
+        "Use current frontend evidence as input."
+      ],
+      "non_scope": [
+        "No UI redesign.",
+        "No Playwright/dependency addition unless approved.",
+        "No Phase 4B implementation."
+      ],
+      "source_files_to_inspect": [
+        "codex-review/phase4-operational-proof/frontend-current-state/*",
+        "apps/web/app/**/page.tsx"
+      ],
+      "files_expected_to_change": [
+        "scripts/dev/local-capture-frontend.sh",
+        "codex-review/phase4a-local-demo/ticket-artifacts/P4A-009/*"
+      ],
+      "files_forbidden_to_change": [
+        "apps/web/app/** runtime source",
+        "package.json",
+        "pnpm-lock.yaml"
+      ],
+      "required_outputs": [
+        "local-capture-frontend.sh or documented no-new-dependency capture procedure",
+        "screenshot-capture-matrix.md",
+        "redaction-review.md"
+      ],
+      "evidence_artifacts": [
+        "browser-url-log.txt",
+        "screenshot-file-list.txt",
+        "screenshot-redaction-scan.txt",
+        "P4A-009-summary.md",
+        "P4A-009-validation-summary.md"
+      ],
+      "tests_required": [
+        "Browser route inspection",
+        "Screenshot redaction scan"
+      ],
+      "validation_commands": [
+        "rg -n \"token|secret|credential|postgresql://|DATABASE_URL|AKTI_AUTH_SESSION_SECRET\" codex-review/phase4a-local-demo/ticket-artifacts/P4A-009 || true"
+      ],
+      "acceptance_criteria": [
+        "Current frontend can be opened at a documented local URL.",
+        "Screenshot capture path is repeatable.",
+        "No real token/session/secret values are captured.",
+        "Frontend redesign is not performed."
+      ],
+      "stop_conditions": [
+        "Browser automation requires a new dependency without approval.",
+        "Screenshots/logs expose real secrets or tokens.",
+        "UI redesign becomes necessary."
+      ],
+      "conditional_replan_required": true,
+      "stale_ticket_risk_notes": "Browser evidence becomes stale if routes and ports are not tied to local-up output.",
+      "runtime_consistency_chain": "local URL -> browser route inventory -> screenshots -> redaction review",
+      "minimum_concrete_requirement": "A repeatable screenshot capture path or documented no-new-dependency browser procedure.",
+      "split_if": "Split if automated screenshot capture and manual Codex browser capture require different controls.",
+      "requires_human_approval_if": [
+        "New browser tooling dependency is needed.",
+        "Frontend route changes are needed."
+      ],
+      "failure_classification": "browser_evidence_blocker"
+    },
+    {
+      "ticket_id": "P4A-011",
+      "title": "Full Docker Compose resolution",
+      "type": "decision/implementation/validation",
+      "priority": "P1",
+      "commit_message": "P4A-011 resolve full Docker Compose posture",
+      "rollback_notes": "Revert only the files created or modified by this ticket, preserve prior ticket artifacts, and do not roll back migrations, Prisma schema, package files, or dependency state as a repair shortcut.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "dependencies": [
+        "P4A-003",
+        "P4A-006",
+        "P4A-008",
+        "P4A-009"
+      ],
+      "objective": "Resolve full Docker Compose API/Web/Postgres mode as required, approval-gated, or deferred with evidence.",
+      "scope": [
+        "Use P4A-003 decision output.",
+        "If required and approved, prove full Compose mode.",
+        "If approval-gated, stop with explicit approval request.",
+        "If deferred, document evidence and deferral."
+      ],
+      "non_scope": [
+        "No silent deferral.",
+        "No production deployment.",
+        "No unapproved dependency/package changes."
+      ],
+      "decision_options": [
+        "validate full Compose",
+        "implement only with approval",
+        "explicitly defer with evidence"
+      ],
+      "selection_criteria": [
+        "P4A-003 decision",
+        "P4A-006 evidence",
+        "no silent hybrid-only closure",
+        "no unapproved package or dependency changes"
+      ],
+      "decision_output_path": "codex-review/phase4a-local-demo/ticket-artifacts/P4A-011/full-compose-resolution.md",
+      "source_files_to_inspect": [
+        "codex-review/phase4a-local-demo/ticket-artifacts/P4A-003/full-compose-decision.md",
+        "docker-compose.local.yml",
+        "apps/api/package.json",
+        "apps/web/package.json"
+      ],
+      "files_expected_to_change": [
+        "docker-compose.local.yml if approved",
+        "apps/api/Dockerfile.local if approved",
+        "apps/web/Dockerfile.local if approved",
+        "codex-review/phase4a-local-demo/ticket-artifacts/P4A-011/*"
+      ],
+      "files_forbidden_to_change": [
+        "package.json without approval",
+        "pnpm-lock.yaml without approval",
+        "runtime app source without approval",
+        "deployment/cloud files"
+      ],
+      "required_outputs": [
+        "full-compose-resolution.md",
+        "full-compose-proof-log.txt or explicit-deferral-evidence.md"
+      ],
+      "evidence_artifacts": [
+        "compose-build-log.txt",
+        "compose-up-log.txt",
+        "compose-smoke-log.txt",
+        "compose-deferral.md",
+        "P4A-011-summary.md",
+        "P4A-011-validation-summary.md"
+      ],
+      "tests_required": [
+        "Based on selected mode: full Compose smoke or deferral evidence review"
+      ],
+      "validation_commands": [
+        "docker compose -f docker-compose.local.yml config",
+        "docker compose -f docker-compose.local.yml up --build",
+        "bash scripts/dev/local-smoke.sh"
+      ],
+      "acceptance_criteria": [
+        "Full Compose posture is resolved.",
+        "No silent hybrid-only final state.",
+        "Approved implementation or explicit evidence-backed deferral exists."
+      ],
+      "stop_conditions": [
+        "Full Compose requires unapproved package/dependency/runtime changes.",
+        "Docker is unavailable and no approved deferral exists.",
+        "Production/cloud behavior is introduced."
+      ],
+      "conditional_replan_required": true,
+      "stale_ticket_risk_notes": "This ticket prevents full Compose ambition from being lost after hybrid success.",
+      "runtime_consistency_chain": "P4A-003 decision -> P4A-011 resolution -> runbook -> closure evidence",
+      "minimum_concrete_requirement": "A clear full Compose resolution with proof or explicit deferral.",
+      "split_if": "Split into separate implementation ticket if full Compose is approved and requires Dockerfiles.",
+      "requires_human_approval_if": [
+        "Full Compose API/web implementation requires package or lockfile changes.",
+        "Dockerfiles require runtime source assumptions not already proven."
+      ],
+      "failure_classification": "compose_resolution_blocker"
+    },
+    {
+      "ticket_id": "P4A-010",
+      "title": "Local demo runbook",
+      "type": "docs/validation",
+      "priority": "P1",
+      "commit_message": "P4A-010 complete local demo runbook",
+      "rollback_notes": "Revert only the files created or modified by this ticket, preserve prior ticket artifacts, and do not roll back migrations, Prisma schema, package files, or dependency state as a repair shortcut.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "dependencies": [
+        "P4A-007",
+        "P4A-008",
+        "P4A-009",
+        "P4A-011"
+      ],
+      "objective": "Create the human/Codex runbook for local demo use.",
+      "scope": [
+        "Document startup, shutdown, reset, smoke, browser inspection, screenshots, and troubleshooting.",
+        "Include no-secret and no-production warnings.",
+        "Reference full Compose decision state."
+      ],
+      "non_scope": [
+        "No new implementation beyond docs.",
+        "No Phase 4B UI guidance beyond run/inspect handoff."
+      ],
+      "source_files_to_inspect": [
+        "docs/process/AKTI_ERP_Phase_4_Operational_Runbook_v1.md",
+        "codex-review/phase4a-local-demo/ticket-artifacts/P4A-007/*",
+        "codex-review/phase4a-local-demo/ticket-artifacts/P4A-008/*",
+        "codex-review/phase4a-local-demo/ticket-artifacts/P4A-009/*"
+      ],
+      "files_expected_to_change": [
+        "docs/process/AKTI_ERP_Local_Demo_Runbook_v1.md",
+        "codex-review/phase4a-local-demo/ticket-artifacts/P4A-010/*"
+      ],
+      "files_forbidden_to_change": [
+        "apps/**",
+        "packages/**",
+        "prisma/**",
+        "package.json",
+        "pnpm-lock.yaml"
+      ],
+      "required_outputs": [
+        "AKTI_ERP_Local_Demo_Runbook_v1.md"
+      ],
+      "evidence_artifacts": [
+        "runbook-validation-map.md",
+        "runbook-redaction-review.md",
+        "P4A-010-summary.md",
+        "P4A-010-validation-summary.md"
+      ],
+      "tests_required": [
+        "Runbook command/path consistency review"
+      ],
+      "validation_commands": [
+        "rg -n \"local-up|local-down|local-reset|local-smoke|browser|screenshot|secret|production\" docs/process/AKTI_ERP_Local_Demo_Runbook_v1.md",
+        "git diff --check"
+      ],
+      "acceptance_criteria": [
+        "Runbook matches implemented local scripts and URLs.",
+        "Runbook warns against production secrets/resources.",
+        "Runbook includes failure messages/troubleshooting."
+      ],
+      "stop_conditions": [
+        "Runbook describes commands that do not exist.",
+        "Runbook authorizes production/deployment scope."
+      ],
+      "conditional_replan_required": true,
+      "stale_ticket_risk_notes": "Runbook must be generated after scripts/evidence exist, not before.",
+      "runtime_consistency_chain": "local scripts -> runbook commands -> smoke/browser evidence -> closure package",
+      "minimum_concrete_requirement": "A runbook a non-expert can follow for local demo startup/shutdown/reset/smoke.",
+      "split_if": "Split if runbook must separately cover hybrid and full Compose modes.",
+      "requires_human_approval_if": [
+        "Runbook would document production or cloud resource use."
+      ],
+      "failure_classification": "documentation_blocker"
+    },
+    {
+      "ticket_id": "P4A-012",
+      "title": "Validation alignment and no-secret evidence",
+      "type": "validation",
+      "priority": "P0",
+      "commit_message": "P4A-012 align validation and no-secret evidence",
+      "rollback_notes": "Revert only the files created or modified by this ticket, preserve prior ticket artifacts, and do not roll back migrations, Prisma schema, package files, or dependency state as a repair shortcut.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "dependencies": [
+        "P4A-008",
+        "P4A-009",
+        "P4A-010",
+        "P4A-011"
+      ],
+      "objective": "Align final Phase 4A validation and redaction evidence before closure.",
+      "scope": [
+        "Run full applicable validation ladder.",
+        "Confirm no Prisma/schema/registry/package drift unless explicitly approved.",
+        "Run no-secret scans over logs, templates, screenshots, and artifacts."
+      ],
+      "non_scope": [
+        "No repair beyond active Phase 4A scope.",
+        "No weakening validation.",
+        "No production resources."
+      ],
+      "source_files_to_inspect": [
+        "codex-review/phase4a-local-demo/ticket-artifacts/*",
+        ".env.local.example",
+        ".env.demo.example",
+        "docs/process/AKTI_ERP_Local_Demo_Runbook_v1.md"
+      ],
+      "files_expected_to_change": [
+        "codex-review/phase4a-local-demo/ticket-artifacts/P4A-012/*"
+      ],
+      "files_forbidden_to_change": [
+        "apps/**",
+        "packages/**",
+        "prisma/**",
+        "package.json",
+        "pnpm-lock.yaml"
+      ],
+      "required_outputs": [
+        "final-validation-alignment.md",
+        "no-secret-evidence-summary.md",
+        "drift-attestation.md"
+      ],
+      "evidence_artifacts": [
+        "contracts-validate.txt",
+        "prisma-validate.txt",
+        "prisma-generate.txt",
+        "registry-generate.txt",
+        "lint.txt",
+        "typecheck.txt",
+        "test.txt",
+        "build.txt",
+        "secret-scan.txt",
+        "P4A-012-summary.md",
+        "P4A-012-validation-summary.md"
+      ],
+      "tests_required": [
+        "Full validation ladder",
+        "No-secret scan",
+        "Drift checks"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm exec prisma generate --schema prisma/schema.prisma",
+        "pnpm registry:generate",
+        "git diff --exit-code -- generated/entity-registry.generated.json",
+        "pnpm registry:check",
+        "pnpm registry:verify:phase2",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff -- prisma/schema.prisma",
+        "git diff -- prisma/entity-registry.metadata.json",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "acceptance_criteria": [
+        "Full validation passes.",
+        "No unapproved drift exists.",
+        "No real secret/token/credential is present in artifacts."
+      ],
+      "stop_conditions": [
+        "Validation fails after bounded repair.",
+        "Secret scan finds real values.",
+        "Unapproved drift appears."
+      ],
+      "conditional_replan_required": false,
+      "stale_ticket_risk_notes": "Closure without final validation can hide local-demo drift.",
+      "runtime_consistency_chain": "implemented local demo -> validation ladder -> no-secret evidence -> P4A-GATE",
+      "minimum_concrete_requirement": "Passing final validation and no-secret summary.",
+      "split_if": "Split if validation failures require implementation repairs.",
+      "requires_human_approval_if": [
+        "Any repair touches runtime source, Prisma, contracts, packages, or dependencies."
+      ],
+      "failure_classification": "validation_blocker"
+    },
+    {
+      "ticket_id": "P4A-GATE",
+      "title": "Phase 4A closure audit and final external audit package",
+      "type": "audit/closure",
+      "priority": "P0",
+      "commit_message": "P4A-GATE complete Phase 4A closure audit package",
+      "rollback_notes": "Remove or regenerate the closure package from the last valid committed Phase 4A HEAD; do not alter source files to repair packaging.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "dependencies": [
+        "P4A-000",
+        "P4A-001",
+        "P4A-002",
+        "P4A-003",
+        "P4A-004",
+        "P4A-005",
+        "P4A-006",
+        "P4A-007",
+        "P4A-008",
+        "P4A-009",
+        "P4A-011",
+        "P4A-010",
+        "P4A-012"
+      ],
+      "objective": "Close Phase 4A with audit report, evidence package, and Phase 4B readiness handoff only.",
+      "scope": [
+        "Complete Phase 4A audit report with execution evidence.",
+        "Create final external audit package from committed HEAD.",
+        "Create Phase 4B readiness handoff.",
+        "Classify accepted deferrals."
+      ],
+      "non_scope": [
+        "No Phase 4B ticket pack.",
+        "No Phase 4B implementation.",
+        "No Phase 5 planning or implementation.",
+        "No production launch."
+      ],
+      "source_files_to_inspect": [
+        "docs/process/AKTI_ERP_Phase_4A_Audit_Report_v1.md",
+        "codex-review/phase4a-local-demo/ticket-artifacts/*",
+        "docs/process/AKTI_ERP_Local_Demo_Runbook_v1.md"
+      ],
+      "files_expected_to_change": [
+        "docs/process/AKTI_ERP_Phase_4A_Audit_Report_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Readiness_Handoff_After_Phase_4A_v1.md",
+        "codex-review/phase4a-local-demo/final-external-audit/*",
+        "codex-review/phase4a-local-demo/ticket-artifacts/P4A-GATE/*"
+      ],
+      "files_forbidden_to_change": [
+        "apps/** runtime source unless already approved in prior ticket",
+        "packages/**",
+        "prisma/schema.prisma",
+        "package.json",
+        "pnpm-lock.yaml",
+        "deployment/cloud files",
+        "real env files"
+      ],
+      "required_outputs": [
+        "Completed Phase 4A audit report",
+        "Phase 4B readiness handoff",
+        "phase4a-source.zip",
+        "phase4a-audit-manifest.md",
+        "phase4a-validation-summary.md",
+        "phase4a-closure-report.md",
+        "phase4a-known-deferrals.md",
+        "phase4a-exclusion-verification.md",
+        "phase4a-checksums.sha256"
+      ],
+      "evidence_artifacts": [
+        "P4A-GATE-summary.md",
+        "P4A-GATE-validation-summary.md",
+        "secret-scan-log.txt",
+        "screenshot-redaction-confirmation.md",
+        "final-branch-status.txt"
+      ],
+      "tests_required": [
+        "Final full validation ladder",
+        "External audit package checksum/exclusion verification"
+      ],
+      "validation_commands": [
+        "git status --short --branch",
+        "git rev-parse HEAD",
+        "pnpm contracts:validate",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm exec prisma generate --schema prisma/schema.prisma",
+        "pnpm registry:generate",
+        "git diff --exit-code -- generated/entity-registry.generated.json",
+        "pnpm registry:check",
+        "pnpm registry:verify:phase2",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff -- prisma/schema.prisma",
+        "git diff -- prisma/entity-registry.metadata.json",
+        "git diff --check",
+        "git status --short --branch",
+        "git archive --format=zip --output codex-review/phase4a-local-demo/final-external-audit/phase4a-source-<SHORT_SHA>.zip HEAD"
+      ],
+      "acceptance_criteria": [
+        "Audit report is completed with evidence only.",
+        "Final package is generated from committed HEAD.",
+        "Checksums and exclusions verify.",
+        "Phase 4B readiness handoff is created without starting Phase 4B."
+      ],
+      "stop_conditions": [
+        "Final validation fails.",
+        "Audit package cannot be generated from committed HEAD.",
+        "Secret/exclusion verification fails.",
+        "Phase 4B or Phase 5 scope is introduced."
+      ],
+      "conditional_replan_required": false,
+      "stale_ticket_risk_notes": "Closure evidence must reflect committed HEAD and not untracked runtime artifacts.",
+      "runtime_consistency_chain": "all ticket evidence -> final validation -> committed HEAD -> external audit package -> Phase 4B handoff",
+      "minimum_concrete_requirement": "Final audit package from committed HEAD with passing validation and checksums.",
+      "split_if": "Split if final validation discovers implementation defects requiring repair.",
+      "requires_human_approval_if": [
+        "Closure would require Phase 4B or Phase 5 planning.",
+        "Final package must include non-source artifacts with sensitive data."
+      ],
+      "failure_classification": "closure_blocker"
+    }
+  ]
+}
