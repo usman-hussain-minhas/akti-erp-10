@@ -1,0 +1,246 @@
+{
+  "screen_key": "phase4b.mission-control-shell",
+  "module_key": "core.platform",
+  "title": "Mission Control",
+  "route": "/app",
+  "screen_type": "private_portal",
+  "status": "planned",
+  "version": "0.1.0",
+  "business_purpose": "Provide the noob-proof ERP shell, default dashboard, module launcher, session status, command palette, and notification shell region.",
+  "primary_user_context": "An internal operator entering AKTI ERP through the local/demo shell.",
+  "user_goal": "Understand where they are, what work areas are available, whether session is active, and what to do next.",
+  "success_outcome": "User lands in a readable Mission Control shell with clear navigation, safe session state, and no raw technical leakage.",
+  "required_capabilities": [
+    "access.policy.manage"
+  ],
+  "optional_capabilities": [
+    "lead.inbox.view",
+    "lead.intake.create"
+  ],
+  "visibility_rules": [
+    {
+      "key": "phase4b.mission-control-shell.visible",
+      "description": "Visible under current controlled local/demo access while final auth and permission surfaces remain future decisions.",
+      "capability_key": "access.policy.manage"
+    }
+  ],
+  "record_scope_behavior": {
+    "default_scope": "organization",
+    "allowed_scope_types": [
+      "organization",
+      "own_unit",
+      "assigned_records"
+    ],
+    "description": "Mission Control content must remain scoped to the active organization and must not expose raw tenant identifiers to normal users."
+  },
+  "primary_action": {
+    "action_key": "phase4b.mission-control-shell.open-dashboard",
+    "label": "Open dashboard",
+    "capability_key": "access.policy.manage",
+    "action_type": "open",
+    "risk_level": "low",
+    "requires_confirmation": false,
+    "requires_reauth": false,
+    "gatekeeper_required": false,
+    "audit_required": false
+  },
+  "secondary_actions": [
+    {
+      "action_key": "phase4b.mission-control-shell.open-lead-desk",
+      "label": "Open Lead Desk",
+      "capability_key": "lead.inbox.view",
+      "action_type": "open",
+      "risk_level": "low",
+      "requires_confirmation": false,
+      "requires_reauth": false,
+      "gatekeeper_required": false,
+      "audit_required": false
+    },
+    {
+      "action_key": "phase4b.mission-control-shell.open-settings",
+      "label": "Open settings",
+      "capability_key": "access.policy.manage",
+      "action_type": "open",
+      "risk_level": "low",
+      "requires_confirmation": false,
+      "requires_reauth": false,
+      "gatekeeper_required": false,
+      "audit_required": false
+    },
+    {
+      "action_key": "phase4b.mission-control-shell.open-command-palette",
+      "label": "Open command palette",
+      "capability_key": null,
+      "action_type": "search",
+      "risk_level": "low",
+      "requires_confirmation": false,
+      "requires_reauth": false,
+      "gatekeeper_required": false,
+      "audit_required": false
+    }
+  ],
+  "row_actions": [],
+  "bulk_actions": [],
+  "destructive_actions": [],
+  "data_sources": [
+    {
+      "key": "phase4b.mission-control-shell.navigation",
+      "label": "Mission Control navigation",
+      "source_type": "static_config",
+      "description": "Defines sidebar, mobile drawer, bottom navigation, top utility bar, and approved destinations."
+    },
+    {
+      "key": "phase4b.mission-control-shell.module-list",
+      "label": "Module list",
+      "source_type": "api",
+      "route_key": "phase4b.mission-control-shell.modules-route",
+      "description": "Reads available modules for read-only launcher/status display."
+    },
+    {
+      "key": "phase4b.mission-control-shell.session-state",
+      "label": "Session state",
+      "source_type": "derived",
+      "description": "Derived from the existing operator-context.ts mechanism or approved successor without exposing raw token internals."
+    },
+    {
+      "key": "phase4b.mission-control-shell.notification-region",
+      "label": "Notification shell region",
+      "source_type": "static_config",
+      "description": "Provides bell, unread badge shell, drawer, toast renderer, empty state, and static/demo/system notification rendering only."
+    }
+  ],
+  "api_routes": [
+    {
+      "key": "phase4b.mission-control-shell.modules-route",
+      "method": "GET",
+      "path": "/platform/modules",
+      "capability_key": "access.policy.manage",
+      "auth_required": true,
+      "public_route": false,
+      "rate_limited": true,
+      "input_schema": null,
+      "output_schema": null,
+      "description": "List available modules for read-only Mission Control display."
+    }
+  ],
+  "query_params": [],
+  "required_entities": [],
+  "empty_data_behavior": {
+    "title": "No work ready yet",
+    "message": "Available work areas will appear here when your session and permissions allow them.",
+    "primary_action_key": "phase4b.mission-control-shell.open-settings"
+  },
+  "table_columns": [],
+  "filters": [],
+  "search_fields": [],
+  "sorting": [],
+  "pagination": {
+    "mode": "none"
+  },
+  "saved_views": [],
+  "form_fields": [],
+  "validation_rules": [],
+  "submit_action": null,
+  "draft_behavior": {
+    "supported": false,
+    "autosave": false
+  },
+  "file_uploads": [],
+  "empty_state": {
+    "title": "Welcome to Mission Control",
+    "message": "Start by confirming your session, then choose an available work area."
+  },
+  "loading_state": {
+    "title": "Loading Mission Control",
+    "message": "Your work areas are loading."
+  },
+  "error_state": {
+    "title": "Mission Control is temporarily unavailable",
+    "message": "Try again later."
+  },
+  "permission_denied_state": {
+    "title": "Access needed",
+    "message": "You do not have permission to open this work area."
+  },
+  "degraded_mode_state": {
+    "title": "Limited diagnostics mode",
+    "message": "Some work areas are unavailable until your session is active."
+  },
+  "desktop_layout": {
+    "layout": "single_column",
+    "primary_navigation": "Collapsible left sidebar with compact top utility bar",
+    "critical_content": [
+      "session.indicator",
+      "command_palette.entry",
+      "module.navigation",
+      "module.launcher",
+      "settings.entry",
+      "notification.bell",
+      "notification.drawer_region",
+      "help.entry",
+      "user.organization_menu",
+      "main.content_outlet",
+      "advanced_diagnostics.affordance"
+    ]
+  },
+  "tablet_layout": {
+    "layout": "single_column",
+    "primary_navigation": "Collapsed sidebar or drawer with top utility bar",
+    "critical_content": [
+      "session.indicator",
+      "command_palette.entry",
+      "module.navigation",
+      "module.launcher",
+      "settings.entry",
+      "notification.bell",
+      "help.entry",
+      "main.content_outlet",
+      "advanced_diagnostics.affordance"
+    ]
+  },
+  "mobile_layout": {
+    "layout": "stacked",
+    "primary_navigation": "Hybrid drawer plus bottom primary navigation",
+    "critical_content": [
+      "mobile.drawer",
+      "mobile.bottom_navigation",
+      "session.indicator",
+      "module.navigation",
+      "settings.entry",
+      "notification.bell",
+      "help.entry",
+      "main.content_outlet",
+      "advanced_diagnostics.affordance",
+      "normal_user.safe_session_summary"
+    ]
+  },
+  "no_technical_language": true,
+  "no_fake_data": true,
+  "no_placeholder_actions": true,
+  "no_hardcoded_roles": true,
+  "no_hardcoded_units": true,
+  "plain_language_labels": true,
+  "audit_hooks": [],
+  "events_expected": [],
+  "notifications_triggered": [],
+  "ai_allowed": false,
+  "ai_actions": [],
+  "ai_requires_human_approval": false,
+  "ai_forbidden_actions": [
+    "publish",
+    "send",
+    "approve",
+    "reject",
+    "delete",
+    "export"
+  ],
+  "forbidden_behaviors": [
+    "Do not claim implementation from this planned contract.",
+    "Do not create a separate dashboard route unless a later approved decision selects one.",
+    "Do not create notification delivery, retention, mentions, WhatsApp, SMS, or email behavior.",
+    "Do not expose bearer token textareas, decoded token internals, actor IDs, org IDs, lead IDs, or raw technical session fields to normal operators.",
+    "Session indicators must be limited to session active, session missing, session expired/invalid, and limited diagnostics mode.",
+    "Advanced Diagnostics is the only approved Phase 4B surface for bearer token/session technical details.",
+    "Do not implement Foundry, module installer, platform AI runtime, new business modules, production launch, or real WhatsApp production behavior."
+  ]
+}
