@@ -64,3 +64,9 @@ Added a one-command local/demo smoke script for API health, Web root, setup/boot
 Status: COMPLETE
 
 Added a no-new-dependency browser inspection and screenshot capture path using the Phase 4A local runtime and existing Codex in-app Browser capability. Captured current route screenshots, recorded browser URL and route metadata, stopped proof services, confirmed no listeners remained, completed redaction review, and passed the full validation ladder.
+
+## P4A-011 - Full Docker Compose resolution
+
+Status: COMPLETE
+
+Resolved full Docker Compose API/Web/Postgres posture as explicitly deferred with evidence. Docker CLI and Compose CLI are installed, current Compose config validates for Postgres-only local mode, but the Docker daemon is unavailable, so API/Web Compose Dockerfiles were not added without daemon-backed validation. P4A-010 must document this deferral in the local demo runbook.
