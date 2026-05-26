@@ -7,7 +7,7 @@ import { useLeadDeskOperatorContext } from '../../app/lead-desk/operator-context
 import { AdvancedDiagnosticsSessionPanel } from '../session/advanced-diagnostics-session-panel';
 import { SessionStatusNotice } from '../session/session-status';
 import { Button } from '../ui/button';
-import { EmptyState, SectionCard, StatusBadge } from '../ui/design-system';
+import { EmptyState, ErrorState, FormActions, LoadingState, PermissionState, SectionCard, StateMessage, StatusBadge, SuccessState } from '../ui/design-system';
 
 type GatekeeperDenialMessages = {
   forbidden: string;
@@ -183,12 +183,34 @@ function BuiltSection({
   return (
     <SectionCard id={id} className="grid gap-3">
       <SectionHeading title={title} disposition="Built where current APIs safely support read-only proof" />
-      <p className="m-0 text-sm text-[#55605a]">{snapshot.message}</p>
-      <Button type="button" variant="secondary" onClick={onLoad} disabled={snapshot.state === 'loading'}>
-        {snapshot.state === 'loading' ? 'Loading' : 'Load read-only view'}
-      </Button>
+      <SectionSnapshotMessage snapshot={snapshot} />
+      <FormActions>
+        <Button type="button" variant="secondary" onClick={onLoad} disabled={snapshot.state === 'loading'}>
+          {snapshot.state === 'loading' ? 'Loading' : 'Load read-only view'}
+        </Button>
+      </FormActions>
     </SectionCard>
   );
+}
+
+function SectionSnapshotMessage({ snapshot }: { snapshot: SectionSnapshot }) {
+  if (snapshot.state === 'loading') {
+    return <LoadingState message={snapshot.message} />;
+  }
+
+  if (snapshot.state === 'ready') {
+    return <SuccessState message={snapshot.message} />;
+  }
+
+  if (snapshot.state === 'error') {
+    return <ErrorState message={snapshot.message} />;
+  }
+
+  if (snapshot.state === 'permission') {
+    return <PermissionState message={snapshot.message} />;
+  }
+
+  return <StateMessage title="Ready when connected" message={snapshot.message} />;
 }
 
 function PlaceholderSection({ id, title, phase }: { id: string; title: string; phase: string }) {

@@ -124,6 +124,37 @@ export function ToastMessage({
   );
 }
 
+export function StateMessage({
+  tone = 'neutral',
+  title,
+  message,
+  action,
+}: {
+  tone?: 'neutral' | 'info' | 'success' | 'warning' | 'danger';
+  title: string;
+  message: string;
+  action?: React.ReactNode;
+}) {
+  const tones = {
+    neutral: 'border-[var(--border)] bg-[var(--surface)]',
+    info: 'border-[var(--info)] bg-[#e2edf8]',
+    success: 'border-[var(--success)] bg-[#e7f3ec]',
+    warning: 'border-[var(--warning)] bg-[#f7edd1]',
+    danger: 'border-[var(--danger)] bg-[#f5dddd]',
+  };
+
+  return (
+    <div
+      role={tone === 'danger' ? 'alert' : 'status'}
+      className={cn('grid gap-2 rounded-lg border p-3 text-sm', tones[tone])}
+    >
+      <p className="m-0 font-medium">{title}</p>
+      <p className="m-0 text-[#55605a]">{message}</p>
+      {action ? <div>{action}</div> : null}
+    </div>
+  );
+}
+
 export function TabsList({ className, ...props }: React.ComponentProps<'div'>) {
   return <div role="tablist" className={cn('flex gap-1 rounded-md bg-[var(--surface-muted)] p-1', className)} {...props} />;
 }
@@ -184,22 +215,31 @@ export function EmptyState({
 }
 
 export function LoadingState({ message = 'Loading...' }: { message?: string }) {
-  return (
-    <div role="status" className="rounded-lg border border-[var(--border)] bg-white p-4 text-sm text-[#55605a]">
-      {message}
-    </div>
-  );
+  return <StateMessage tone="info" title="Loading" message={message} />;
 }
 
 export function ErrorState({ message, retryLabel }: { message: string; retryLabel?: string }) {
-  return (
-    <SectionCard className="grid gap-3 border-[var(--danger)]">
-      <p className="m-0 text-sm text-[var(--danger)]">{message}</p>
-      {retryLabel ? <Button type="button" variant="secondary">{retryLabel}</Button> : null}
-    </SectionCard>
-  );
+  const action = retryLabel ? <Button type="button" variant="secondary">{retryLabel}</Button> : undefined;
+
+  return <StateMessage tone="danger" title="Something needs attention" message={message} action={action} />;
 }
 
 export function DisabledReason({ reason }: { reason: string }) {
   return <p className="m-0 text-sm text-[#66716a]">{reason}</p>;
+}
+
+export function PermissionState({ message }: { message: string }) {
+  return <StateMessage tone="warning" title="Access needed" message={message} />;
+}
+
+export function DegradedState({ message }: { message: string }) {
+  return <StateMessage tone="warning" title="Limited mode" message={message} />;
+}
+
+export function SuccessState({ message }: { message: string }) {
+  return <StateMessage tone="success" title="Ready" message={message} />;
+}
+
+export function FormActions({ children }: { children: React.ReactNode }) {
+  return <div className="flex flex-wrap items-center gap-3">{children}</div>;
 }

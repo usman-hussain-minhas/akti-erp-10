@@ -37,6 +37,9 @@ test('settings uses exact Gatekeeper denial messages and no fake controls', () =
   assert.match(settings, /denialMessages\.forbidden/);
   assert.match(settings, /denialMessages\.approvalRequired/);
   assert.match(settings, /denialMessages\.apiUnavailable/);
+  assert.match(settings, /SectionSnapshotMessage/);
+  assert.match(settings, /PermissionState/);
+  assert.match(settings, /ErrorState/);
   assert.equal(settings.includes('enable module'), false);
   assert.equal(settings.includes('disable module'), false);
   assert.equal(settings.includes('installer'), false);

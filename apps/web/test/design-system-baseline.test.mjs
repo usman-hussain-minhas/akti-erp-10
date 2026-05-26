@@ -18,6 +18,7 @@ test('design system exposes baseline must-use component families', () => {
     'ModalPanel',
     'DrawerPanel',
     'ToastMessage',
+    'StateMessage',
     'TabsList',
     'StatusBadge',
     'Breadcrumbs',
@@ -25,6 +26,10 @@ test('design system exposes baseline must-use component families', () => {
     'EmptyState',
     'LoadingState',
     'ErrorState',
+    'PermissionState',
+    'DegradedState',
+    'SuccessState',
+    'FormActions',
     'DisabledReason',
   ];
 
@@ -50,5 +55,7 @@ test('component behavior rules include readable disabled focus and state handlin
   assert.match(primitives, /aria-label="Primary navigation"/);
   assert.match(primitives, /LoadingState/);
   assert.match(primitives, /ErrorState/);
+  assert.match(primitives, /PermissionState/);
+  assert.match(primitives, /DegradedState/);
   assert.match(primitives, /EmptyState/);
 });

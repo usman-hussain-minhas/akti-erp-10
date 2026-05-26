@@ -8,7 +8,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { hasOperatorContext, leadDeskApiFetch } from '../../app/lead-desk/api-client';
 import { useLeadDeskOperatorContext } from '../../app/lead-desk/operator-context';
 import { Button } from '../ui/button';
-import { EmptyState, LoadingState, SectionCard, StatusBadge } from '../ui/design-system';
+import { EmptyState, ErrorState, LoadingState, PermissionState, SectionCard, StateMessage, StatusBadge, SuccessState } from '../ui/design-system';
 
 type HealthSnapshot =
   | { state: 'placeholder'; message: string }
@@ -216,5 +216,17 @@ function SnapshotMessage({ snapshot }: { snapshot: HealthSnapshot | LeadDeskSnap
     return <LoadingState message={snapshot.message} />;
   }
 
-  return <p className="m-0 text-sm text-[#55605a]">{snapshot.message}</p>;
+  if (snapshot.state === 'ready') {
+    return <SuccessState message={snapshot.message} />;
+  }
+
+  if (snapshot.state === 'error') {
+    return <ErrorState message={snapshot.message} />;
+  }
+
+  if (snapshot.state === 'permission') {
+    return <PermissionState message={snapshot.message} />;
+  }
+
+  return <StateMessage title="Not connected yet" message={snapshot.message} />;
 }

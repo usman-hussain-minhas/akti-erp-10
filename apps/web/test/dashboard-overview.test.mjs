@@ -40,6 +40,8 @@ test('dashboard v1 does not hardcode operational metrics or dummy rows', () => {
 test('dashboard v1 preserves session and no-fake-data boundaries', () => {
   assert.match(dashboard, /Set up session in Advanced Diagnostics/);
   assert.match(dashboard, /hardcoded operational data/);
+  assert.match(dashboard, /PermissionState/);
+  assert.match(dashboard, /ErrorState/);
   assert.equal(dashboard.includes('sessionToken'), false);
   assert.equal(dashboard.includes('organizationId'), false);
   assert.equal(dashboard.includes('actorUserId'), false);
