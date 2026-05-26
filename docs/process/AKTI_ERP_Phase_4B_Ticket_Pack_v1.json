@@ -1,0 +1,2947 @@
+{
+  "phase": "Phase 4B - Frontend Operational Experience & Mission Control Shell",
+  "version": "v1",
+  "status": "CONTROL_DOC_READY_FOR_REVIEW",
+  "source_main_head": "650af067ed2490a52f5ecf898d41ed982f30f31c",
+  "created_for_branch": "docs/phase4b-ticket-pack",
+  "purpose": "Execution-grade Phase 4B ticket queue for noob-proof Mission Control frontend implementation after product-definition merge.",
+  "core_lesson": "Autonomous execution was not the root problem in earlier phases; stale, shallow, under-specified, or non-predictive tickets were the root problem. This pack requires exact-file plans, explicit dependencies, concrete outcomes, split conditions, and stop conditions before implementation.",
+  "maximum_concrete_capability_rule": "Each implementation ticket must produce the strongest safe runtime, validation, artifact, UI, or evidence outcome inside Phase 4B scope. Documentation-only completion is not acceptable for implementation tickets.",
+  "hard_boundaries": [
+    "Phase 4A environment work",
+    "Foundry/module installer implementation",
+    "new business modules",
+    "platform AI runtime",
+    "production launch or production integrations",
+    "real WhatsApp production behavior",
+    "full module-driven notification semantics, delivery, retention, mentions, email/SMS/WhatsApp routing, or escalation",
+    "full dashboard marketplace, offline-first sync queue, real-time collaboration, macro/scripting sandbox",
+    "Prisma/schema/migration changes unless a later approved ticket explicitly says otherwise",
+    "generated registry edits unless regeneration proves no drift",
+    "package/dependency changes outside P4B-001 exact-file authority"
+  ],
+  "capability_model_limitation": {
+    "accepted_phase4b_limitation": "mission-control-shell.screen.json remains gated by access.policy.manage because the active private_portal screen-contract schema requires at least one required capability.",
+    "implementation_warning": "Phase 4B tickets must not treat access.policy.manage as the final user-facing shell model.",
+    "phase5a_remediation": "P4B-SCHEMA-001 remains Phase 5A remediation input before Phase 6 non-admin operator/module rollout."
+  },
+  "standard_validation_ladder": [
+    "pnpm contracts:validate",
+    "pnpm exec prisma validate --schema prisma/schema.prisma",
+    "pnpm exec prisma generate --schema prisma/schema.prisma",
+    "pnpm registry:generate",
+    "git diff --exit-code -- generated/entity-registry.generated.json",
+    "pnpm registry:check",
+    "pnpm registry:verify:phase2",
+    "pnpm lint",
+    "pnpm typecheck",
+    "pnpm test",
+    "pnpm build",
+    "git diff -- prisma/schema.prisma",
+    "git diff -- prisma/entity-registry.metadata.json",
+    "git diff --check",
+    "git status --short --branch"
+  ],
+  "ordered_ticket_queue": [
+    "P4B-000",
+    "P4B-001",
+    "P4B-002",
+    "P4B-004",
+    "P4B-003",
+    "P4B-005",
+    "P4B-006",
+    "P4B-007",
+    "P4B-008",
+    "P4B-009",
+    "P4B-011",
+    "P4B-010",
+    "P4B-012",
+    "P4B-013",
+    "P4B-014",
+    "P4B-015",
+    "P4B-GATE"
+  ],
+  "tickets": [
+    {
+      "ticket_id": "P4B-000",
+      "title": "Baseline Phase 4B controls and frontend evidence inventory",
+      "type": "control",
+      "priority": "P1",
+      "objective": "Confirm current Phase 4B source truth, route inventory, product docs, screen contracts, tests, and frontend evidence before implementation begins.",
+      "scope": [
+        "Inspect merged Phase 4B product-definition docs and ADRs.",
+        "Inventory implemented web routes, tests, operator-context.ts, API support, local demo scripts, and prior screenshot evidence.",
+        "Create run journal and P4B-000 artifacts.",
+        "Confirm no Phase 4B ticket implementation has started."
+      ],
+      "non_scope": [
+        "Phase 4A environment work",
+        "Foundry/module installer implementation",
+        "new business modules",
+        "platform AI runtime",
+        "production launch or production integrations",
+        "real WhatsApp production behavior",
+        "full module-driven notification semantics, delivery, retention, mentions, email/SMS/WhatsApp routing, or escalation",
+        "full dashboard marketplace, offline-first sync queue, real-time collaboration, macro/scripting sandbox",
+        "Prisma/schema/migration changes unless a later approved ticket explicitly says otherwise",
+        "generated registry edits unless regeneration proves no drift",
+        "package/dependency changes outside P4B-001 exact-file authority"
+      ],
+      "source_files_to_inspect": [
+        "PLANS.md",
+        "docs/process/AKTI_ERP_Master_Roadmap_Reference_v2.md",
+        "docs/process/AKTI_ERP_Phase_Roadmap_v2.md",
+        "docs/process/AKTI_ERP_Phase_4B_Product_Definition_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Shell_Layout_Decision_v1.md",
+        "docs/standards/AKTI_ERP_Design_System_Contract_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Dashboard_IA_Decision_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Settings_Control_Panel_IA_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Noob_Proof_Acceptance_Checklist_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Command_Palette_Interaction_Model_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Lead_Desk_UX_Problem_List_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Frontend_Dependency_Assessment_v1.md",
+        "docs/adr/ADR-0013-frontend-mission-control-architecture.md",
+        "docs/adr/ADR-0014-ui-component-library.md",
+        "docs/screen-contracts/phase-4b/mission-control-shell.screen.json",
+        "docs/screen-contracts/phase-4b/settings.screen.json",
+        "apps/web/app/**",
+        "apps/web/test/**",
+        "apps/web/package.json",
+        "apps/api/src/**",
+        "docs/screen-contracts/**",
+        "codex-review/phase4-operational-proof/frontend-current-state/**",
+        "codex-review/phase4a-local-demo-staging/**"
+      ],
+      "files_expected_to_change": [
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-000/**",
+        "codex-review/phase4b-frontend-operational-experience/phase4b-run-journal.md"
+      ],
+      "files_forbidden_to_change": [
+        "prisma/schema.prisma",
+        "prisma/migrations/**",
+        "generated/entity-registry.generated.json unless registry regeneration proves no drift",
+        ".env* real secret files",
+        "deployment/staging/production files",
+        "Foundry/module installer files",
+        "Phase 5/Phase 6 implementation docs or ticket packs"
+      ],
+      "required_outputs": [
+        "Baseline route and evidence inventory.",
+        "Starting-state validation summary.",
+        "Explicit note that Phase 4B product docs are merged and ticket queue is active.",
+        "Artifact ZIP for the ticket."
+      ],
+      "evidence_artifacts": [
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-000/P4B-000-summary.md",
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-000/P4B-000-validation-summary.md",
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-000/P4B-000-changed-files.zip",
+        "codex-review/phase4b-frontend-operational-experience/phase4b-run-journal.md"
+      ],
+      "tests_required": [
+        "JSON parse Phase 4B ticket pack and screen contracts.",
+        "Direct schema-validate Phase 4B screen contracts.",
+        "No runtime tests required beyond starting-state commands."
+      ],
+      "validation_commands": [
+        "git status --short --branch",
+        "git rev-parse HEAD",
+        "node -e \"JSON.parse(require('fs').readFileSync('docs/process/AKTI_ERP_Phase_4B_Ticket_Pack_v1.json','utf8'))\"",
+        "node -e \"JSON.parse(require('fs').readFileSync('docs/screen-contracts/phase-4b/mission-control-shell.screen.json','utf8')); JSON.parse(require('fs').readFileSync('docs/screen-contracts/phase-4b/settings.screen.json','utf8'))\"",
+        "pnpm exec tsx -e \"import { readFileSync } from 'node:fs'; import { safeParseScreenContract } from './packages/contracts/screen-contract.schema.ts'; for (const file of ['docs/screen-contracts/phase-4b/mission-control-shell.screen.json','docs/screen-contracts/phase-4b/settings.screen.json']) { const r=safeParseScreenContract(JSON.parse(readFileSync(file,'utf8'))); if(!r.success){ console.error(r.error.message); process.exit(1);} } console.log('phase4b screen contracts schema valid');\"",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Exact-file plan reveals broad blast radius requiring a split.",
+        "Required change exceeds Phase 4B frontend operational experience scope.",
+        "New dependency or lockfile drift appears outside P4B-001 or without explicit approval.",
+        "Prisma/schema/migration changes become necessary.",
+        "Runtime backend endpoint implementation becomes necessary outside an approved paired backend ticket.",
+        "Production secret, production credential, deployment, or cloud/VPS resource is required.",
+        "Real outbound WhatsApp or production WhatsApp behavior appears.",
+        "Foundry/module installer, Phase 5/6, platform AI runtime, or new business module scope appears.",
+        "Validation fails after 3 bounded repair cycles.",
+        "Artifacts or redaction review cannot be produced.",
+        "Repo state becomes unclear."
+      ],
+      "acceptance_criteria": [
+        "Inventory covers product docs, route files, web tests, API surfaces, frontend evidence, and known deferrals.",
+        "P4B-SCHEMA-001 limitation is recorded as Phase 5A remediation input.",
+        "No runtime code is changed.",
+        "Ticket artifacts are present and redaction-safe."
+      ],
+      "dependencies": [],
+      "commit_message": "P4B-000 confirm frontend baseline inventory",
+      "rollback_notes": "Revert P4B-000 artifacts and journal entry only; do not alter source docs or runtime code.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": [
+        "If product-definition docs are not present on branch HEAD.",
+        "If screen contracts are invalid before implementation begins.",
+        "If frontend evidence artifacts are missing and cannot be regenerated with Phase 4A scripts."
+      ],
+      "stale_ticket_risk_notes": [
+        "Route inventory and existing tests can drift quickly; re-run inventory from git before editing later tickets."
+      ],
+      "runtime_consistency_chain": [
+        "Preserve Phase 1/2/3/4/4A protections: Access Core, Gatekeeper, tenant scope, no real WhatsApp, clean migrations, local/demo-only proof, no production launch.",
+        "Honor Phase 4B product definition and screen contracts; do not implement frontend screens without matching contract authority.",
+        "Use maximum concrete capability inside current Phase 4B scope; use placeholders only for absent API/policy/backend surfaces.",
+        "Keep P4B-SCHEMA-001 as Phase 5A remediation input; do not treat access.policy.manage as final non-admin shell model."
+      ],
+      "minimum_concrete_requirement": "A committed artifact inventory maps current frontend routes, tests, screen contracts, product docs, API supports, known gaps, and prior evidence before implementation begins.",
+      "split_if": "Not expected; split if inventory reveals missing product-definition authority or more than one independent blocker requiring separate approval.",
+      "requires_human_approval_if": [
+        "New dependency beyond approved P4B-001 Tailwind/shadcn setup is required.",
+        "Runtime backend API changes are needed.",
+        "Schema, migration, contract-source, generated registry, deployment, or production credential access is needed.",
+        "Ticket would introduce Phase 5A policy, Phase 5B Foundry/module installer, or Phase 6 module work.",
+        "Visual QA or noob-proof checklist fails for reasons outside active ticket scope."
+      ],
+      "failure_classification": {
+        "deterministic_validation_failure": "Use up to 3 bounded repair cycles inside active ticket scope, journaling each repair.",
+        "scope_expansion": "Stop for approval; do not broaden the ticket.",
+        "missing_dependency": "Stop if the dependency is not already represented by an earlier Phase 4B ticket or accepted deferral.",
+        "redaction_or_secret_failure": "Stop and classify; do not commit exposed secrets or real credentials.",
+        "unclear_repo_state": "Stop and report before further edits."
+      }
+    },
+    {
+      "ticket_id": "P4B-001",
+      "title": "Tailwind/shadcn installation and build configuration",
+      "type": "implementation_gate",
+      "priority": "P1",
+      "objective": "Install and configure the selected Tailwind CSS + shadcn/ui direction enough for Phase 4B implementation to build safely.",
+      "scope": [
+        "Implement Tailwind CSS configuration for the Next web app.",
+        "Install/configure shadcn/ui dependencies and baseline utility support only as approved by this ticket.",
+        "Prove at least one shadcn/ui component can be imported by the web app or a compile-time test.",
+        "Keep dependency/config changes exact-file planned and limited to frontend UI setup."
+      ],
+      "non_scope": [
+        "Phase 4A environment work",
+        "Foundry/module installer implementation",
+        "new business modules",
+        "platform AI runtime",
+        "production launch or production integrations",
+        "real WhatsApp production behavior",
+        "full module-driven notification semantics, delivery, retention, mentions, email/SMS/WhatsApp routing, or escalation",
+        "full dashboard marketplace, offline-first sync queue, real-time collaboration, macro/scripting sandbox",
+        "Prisma/schema/migration changes unless a later approved ticket explicitly says otherwise",
+        "generated registry edits unless regeneration proves no drift",
+        "package/dependency changes outside P4B-001 exact-file authority",
+        "Changing application domain behavior",
+        "Adding broad UI component implementation beyond import/build proof",
+        "Choosing a different UI stack"
+      ],
+      "source_files_to_inspect": [
+        "PLANS.md",
+        "docs/process/AKTI_ERP_Master_Roadmap_Reference_v2.md",
+        "docs/process/AKTI_ERP_Phase_Roadmap_v2.md",
+        "docs/process/AKTI_ERP_Phase_4B_Product_Definition_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Shell_Layout_Decision_v1.md",
+        "docs/standards/AKTI_ERP_Design_System_Contract_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Dashboard_IA_Decision_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Settings_Control_Panel_IA_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Noob_Proof_Acceptance_Checklist_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Command_Palette_Interaction_Model_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Lead_Desk_UX_Problem_List_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Frontend_Dependency_Assessment_v1.md",
+        "docs/adr/ADR-0013-frontend-mission-control-architecture.md",
+        "docs/adr/ADR-0014-ui-component-library.md",
+        "docs/screen-contracts/phase-4b/mission-control-shell.screen.json",
+        "docs/screen-contracts/phase-4b/settings.screen.json",
+        "AGENTS.md",
+        "apps/web/package.json",
+        "package.json",
+        "pnpm-lock.yaml",
+        "apps/web/app/**",
+        "apps/web/tsconfig.json",
+        "apps/web/next.config.*",
+        "docs/adr/ADR-0014-ui-component-library.md"
+      ],
+      "files_expected_to_change": [
+        "apps/web/package.json",
+        "package.json only if workspace scripts/config require exact-file approved update",
+        "pnpm-lock.yaml",
+        "apps/web/postcss.config.*",
+        "apps/web/tailwind.config.*",
+        "apps/web/components.json",
+        "apps/web/app/globals.css or equivalent global stylesheet",
+        "apps/web/lib/utils.ts or equivalent shadcn utility",
+        "apps/web/test/** for setup/build assertions",
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-001/**",
+        "codex-review/phase4b-frontend-operational-experience/phase4b-run-journal.md"
+      ],
+      "files_forbidden_to_change": [
+        "prisma/schema.prisma",
+        "prisma/migrations/**",
+        "generated/entity-registry.generated.json unless registry regeneration proves no drift",
+        ".env* real secret files",
+        "deployment/staging/production files",
+        "Foundry/module installer files",
+        "Phase 5/Phase 6 implementation docs or ticket packs",
+        "apps/api/**",
+        "packages/contracts/** except no changes expected",
+        "prisma/**",
+        "generated/**"
+      ],
+      "required_outputs": [
+        "Tailwind configured for the Next web app.",
+        "shadcn/ui component import proof.",
+        "Dependency/config drift summary.",
+        "P4B-001 artifact and validation summaries."
+      ],
+      "evidence_artifacts": [
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-001/P4B-001-summary.md",
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-001/P4B-001-validation-summary.md",
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-001/P4B-001-changed-files.zip",
+        "codex-review/phase4b-frontend-operational-experience/phase4b-run-journal.md"
+      ],
+      "tests_required": [
+        "pnpm --filter @akti/web lint",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "Full validation ladder after setup."
+      ],
+      "validation_commands": [
+        "git status --short --branch",
+        "pnpm install --frozen-lockfile if dependencies changed",
+        "pnpm --filter @akti/web lint",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm contracts:validate",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm exec prisma generate --schema prisma/schema.prisma",
+        "pnpm registry:generate",
+        "git diff --exit-code -- generated/entity-registry.generated.json",
+        "pnpm registry:check",
+        "pnpm registry:verify:phase2",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff -- prisma/schema.prisma",
+        "git diff -- prisma/entity-registry.metadata.json",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "package/lockfile change requires approval beyond ticket scope",
+        "Tailwind/shadcn install/config cannot be completed safely",
+        "build/typecheck/lint fails after bounded repairs",
+        "dependency drift appears outside the approved ticket scope",
+        "Exact-file plan reveals broad blast radius requiring a split.",
+        "Required change exceeds Phase 4B frontend operational experience scope.",
+        "New dependency or lockfile drift appears outside P4B-001 or without explicit approval.",
+        "Prisma/schema/migration changes become necessary.",
+        "Runtime backend endpoint implementation becomes necessary outside an approved paired backend ticket.",
+        "Production secret, production credential, deployment, or cloud/VPS resource is required.",
+        "Real outbound WhatsApp or production WhatsApp behavior appears.",
+        "Foundry/module installer, Phase 5/6, platform AI runtime, or new business module scope appears.",
+        "Validation fails after 3 bounded repair cycles.",
+        "Artifacts or redaction review cannot be produced.",
+        "Repo state becomes unclear."
+      ],
+      "acceptance_criteria": [
+        "Tailwind is configured without breaking existing web pages.",
+        "At least one shadcn/ui component import is compile/build-verified.",
+        "No backend/schema/generated registry files change.",
+        "Full validation ladder passes."
+      ],
+      "dependencies": [
+        "P4B-000"
+      ],
+      "commit_message": "P4B-001 configure Tailwind shadcn foundation",
+      "rollback_notes": "Revert only P4B-001 package/config/component-import proof files and lockfile changes from this ticket; do not touch runtime domain logic, Prisma, contracts, or generated registry.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": [
+        "If shadcn installation path differs from ADR-0014 assumptions.",
+        "If package manager or Next version requires config files outside expected paths.",
+        "If installing shadcn requires additional unapproved dependencies."
+      ],
+      "stale_ticket_risk_notes": [
+        "Frontend package versions and shadcn setup commands can drift; inspect apps/web/package.json and lockfile immediately before edits."
+      ],
+      "runtime_consistency_chain": [
+        "Preserve Phase 1/2/3/4/4A protections: Access Core, Gatekeeper, tenant scope, no real WhatsApp, clean migrations, local/demo-only proof, no production launch.",
+        "Honor Phase 4B product definition and screen contracts; do not implement frontend screens without matching contract authority.",
+        "Use maximum concrete capability inside current Phase 4B scope; use placeholders only for absent API/policy/backend surfaces.",
+        "Keep P4B-SCHEMA-001 as Phase 5A remediation input; do not treat access.policy.manage as final non-admin shell model."
+      ],
+      "minimum_concrete_requirement": "pnpm build passes with Tailwind configured and at least one shadcn/ui component importable, or the ticket stops with explicit dependency/config findings before any component implementation proceeds.",
+      "split_if": "Split if dependency/config setup and component import proof require more than 6 config/package files or require unrelated web route rewrites.",
+      "requires_human_approval_if": [
+        "New dependency beyond approved P4B-001 Tailwind/shadcn setup is required.",
+        "Runtime backend API changes are needed.",
+        "Schema, migration, contract-source, generated registry, deployment, or production credential access is needed.",
+        "Ticket would introduce Phase 5A policy, Phase 5B Foundry/module installer, or Phase 6 module work.",
+        "Visual QA or noob-proof checklist fails for reasons outside active ticket scope."
+      ],
+      "failure_classification": {
+        "deterministic_validation_failure": "Use up to 3 bounded repair cycles inside active ticket scope, journaling each repair.",
+        "scope_expansion": "Stop for approval; do not broaden the ticket.",
+        "missing_dependency": "Stop if the dependency is not already represented by an earlier Phase 4B ticket or accepted deferral.",
+        "redaction_or_secret_failure": "Stop and classify; do not commit exposed secrets or real credentials.",
+        "unclear_repo_state": "Stop and report before further edits."
+      }
+    },
+    {
+      "ticket_id": "P4B-002",
+      "title": "Design system baseline and component contract implementation",
+      "type": "implementation",
+      "priority": "P1",
+      "objective": "Implement the baseline shared UI components and behavior rules needed by the Mission Control shell and Phase 4B screens.",
+      "scope": [
+        "Create shared component primitives for must-use areas in the design system contract.",
+        "Implement tokens/styles for typography, colors, spacing, radius, focus, hover, and disabled states.",
+        "Add focused tests/assertions for component availability and behavior constraints where practical.",
+        "Keep components generic and product-definition-aligned."
+      ],
+      "non_scope": [
+        "Phase 4A environment work",
+        "Foundry/module installer implementation",
+        "new business modules",
+        "platform AI runtime",
+        "production launch or production integrations",
+        "real WhatsApp production behavior",
+        "full module-driven notification semantics, delivery, retention, mentions, email/SMS/WhatsApp routing, or escalation",
+        "full dashboard marketplace, offline-first sync queue, real-time collaboration, macro/scripting sandbox",
+        "Prisma/schema/migration changes unless a later approved ticket explicitly says otherwise",
+        "generated registry edits unless regeneration proves no drift",
+        "package/dependency changes outside P4B-001 exact-file authority"
+      ],
+      "source_files_to_inspect": [
+        "PLANS.md",
+        "docs/process/AKTI_ERP_Master_Roadmap_Reference_v2.md",
+        "docs/process/AKTI_ERP_Phase_Roadmap_v2.md",
+        "docs/process/AKTI_ERP_Phase_4B_Product_Definition_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Shell_Layout_Decision_v1.md",
+        "docs/standards/AKTI_ERP_Design_System_Contract_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Dashboard_IA_Decision_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Settings_Control_Panel_IA_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Noob_Proof_Acceptance_Checklist_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Command_Palette_Interaction_Model_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Lead_Desk_UX_Problem_List_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Frontend_Dependency_Assessment_v1.md",
+        "docs/adr/ADR-0013-frontend-mission-control-architecture.md",
+        "docs/adr/ADR-0014-ui-component-library.md",
+        "docs/screen-contracts/phase-4b/mission-control-shell.screen.json",
+        "docs/screen-contracts/phase-4b/settings.screen.json",
+        "docs/standards/AKTI_ERP_Design_System_Contract_v1.md",
+        "apps/web/app/**",
+        "apps/web/test/**",
+        "apps/web/package.json"
+      ],
+      "files_expected_to_change": [
+        "apps/web/app/** shared UI component files",
+        "apps/web/components/** if created by shadcn setup",
+        "apps/web/lib/**",
+        "apps/web/app/globals.css or equivalent stylesheet",
+        "apps/web/test/**",
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-002/**",
+        "codex-review/phase4b-frontend-operational-experience/phase4b-run-journal.md"
+      ],
+      "files_forbidden_to_change": [
+        "prisma/schema.prisma",
+        "prisma/migrations/**",
+        "generated/entity-registry.generated.json unless registry regeneration proves no drift",
+        ".env* real secret files",
+        "deployment/staging/production files",
+        "Foundry/module installer files",
+        "Phase 5/Phase 6 implementation docs or ticket packs",
+        "apps/api/**",
+        "packages/contracts/** unless screen validation ticket later approves script alignment"
+      ],
+      "required_outputs": [
+        "Shared design-system baseline components.",
+        "Behavior rule coverage for must-use component families.",
+        "Component inventory artifact mapping product contract to implementation.",
+        "P4B-002 validation evidence."
+      ],
+      "evidence_artifacts": [
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-002/P4B-002-summary.md",
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-002/P4B-002-validation-summary.md",
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-002/P4B-002-changed-files.zip",
+        "codex-review/phase4b-frontend-operational-experience/phase4b-run-journal.md"
+      ],
+      "tests_required": [
+        "Web lint/typecheck/test/build.",
+        "Component import and static behavior assertions for buttons, links, forms, inputs, tables, cards, modals/drawers, toasts, tabs, badges, breadcrumbs, navigation, empty/loading/error states, focus/hover/disabled states.",
+        "Full validation ladder."
+      ],
+      "validation_commands": [
+        "git status --short --branch",
+        "pnpm --filter @akti/web lint",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm contracts:validate",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm exec prisma generate --schema prisma/schema.prisma",
+        "pnpm registry:generate",
+        "git diff --exit-code -- generated/entity-registry.generated.json",
+        "pnpm registry:check",
+        "pnpm registry:verify:phase2",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff -- prisma/schema.prisma",
+        "git diff -- prisma/entity-registry.metadata.json",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Exact-file plan reveals broad blast radius requiring a split.",
+        "Required change exceeds Phase 4B frontend operational experience scope.",
+        "New dependency or lockfile drift appears outside P4B-001 or without explicit approval.",
+        "Prisma/schema/migration changes become necessary.",
+        "Runtime backend endpoint implementation becomes necessary outside an approved paired backend ticket.",
+        "Production secret, production credential, deployment, or cloud/VPS resource is required.",
+        "Real outbound WhatsApp or production WhatsApp behavior appears.",
+        "Foundry/module installer, Phase 5/6, platform AI runtime, or new business module scope appears.",
+        "Validation fails after 3 bounded repair cycles.",
+        "Artifacts or redaction review cannot be produced.",
+        "Repo state becomes unclear."
+      ],
+      "acceptance_criteria": [
+        "Design system contract must-use areas have reusable frontend implementation or explicit safe deferral.",
+        "Components avoid prop-level over-engineering and do not introduce business-module assumptions.",
+        "No normal-user raw token/ID/debug leakage is introduced.",
+        "Full validation ladder passes."
+      ],
+      "dependencies": [
+        "P4B-001"
+      ],
+      "commit_message": "P4B-002 implement design system baseline",
+      "rollback_notes": "Revert P4B-002 shared component/style/test files only; preserve P4B-001 dependency/config setup unless directly broken by this ticket.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": [
+        "If component scope exceeds baseline shell/screen needs.",
+        "If shadcn component structure conflicts with existing Next app structure.",
+        "If accessibility behavior requires a new dependency."
+      ],
+      "stale_ticket_risk_notes": [
+        "Component needs depend on exact P4B-003/P4B-005/P4B-010 file plans; re-check design-system contract before implementation."
+      ],
+      "runtime_consistency_chain": [
+        "Preserve Phase 1/2/3/4/4A protections: Access Core, Gatekeeper, tenant scope, no real WhatsApp, clean migrations, local/demo-only proof, no production launch.",
+        "Honor Phase 4B product definition and screen contracts; do not implement frontend screens without matching contract authority.",
+        "Use maximum concrete capability inside current Phase 4B scope; use placeholders only for absent API/policy/backend surfaces.",
+        "Keep P4B-SCHEMA-001 as Phase 5A remediation input; do not treat access.policy.manage as final non-admin shell model."
+      ],
+      "minimum_concrete_requirement": "Reusable frontend components for the must-use design-system families are importable and web build/test validation proves they can support Phase 4B shell/screens.",
+      "split_if": "Split if exact-file planning shows more than 8 files expected to change in one commit unit, or if implementation must touch unrelated API/backend surfaces.",
+      "requires_human_approval_if": [
+        "New dependency beyond approved P4B-001 Tailwind/shadcn setup is required.",
+        "Runtime backend API changes are needed.",
+        "Schema, migration, contract-source, generated registry, deployment, or production credential access is needed.",
+        "Ticket would introduce Phase 5A policy, Phase 5B Foundry/module installer, or Phase 6 module work.",
+        "Visual QA or noob-proof checklist fails for reasons outside active ticket scope."
+      ],
+      "failure_classification": {
+        "deterministic_validation_failure": "Use up to 3 bounded repair cycles inside active ticket scope, journaling each repair.",
+        "scope_expansion": "Stop for approval; do not broaden the ticket.",
+        "missing_dependency": "Stop if the dependency is not already represented by an earlier Phase 4B ticket or accepted deferral.",
+        "redaction_or_secret_failure": "Stop and classify; do not commit exposed secrets or real credentials.",
+        "unclear_repo_state": "Stop and report before further edits."
+      }
+    },
+    {
+      "ticket_id": "P4B-004",
+      "title": "operator-context.ts / Advanced Diagnostics session UX migration",
+      "type": "implementation",
+      "priority": "P1",
+      "objective": "Preserve the active operator-context.ts session mechanism while moving bearer-token entry and technical session detail out of normal UI and into Advanced Diagnostics-ready surfaces.",
+      "scope": [
+        "Inspect active operator-context.ts behavior and current Lead Desk session usage.",
+        "Create or refactor shared session utilities/components for four approved session states.",
+        "Prepare Advanced Diagnostics token-entry component/surface for later Settings integration.",
+        "Preserve six-step session establishment path without login/OAuth inventions.",
+        "Add tests proving no new auth flow and no normal shell token textarea requirement."
+      ],
+      "non_scope": [
+        "Phase 4A environment work",
+        "Foundry/module installer implementation",
+        "new business modules",
+        "platform AI runtime",
+        "production launch or production integrations",
+        "real WhatsApp production behavior",
+        "full module-driven notification semantics, delivery, retention, mentions, email/SMS/WhatsApp routing, or escalation",
+        "full dashboard marketplace, offline-first sync queue, real-time collaboration, macro/scripting sandbox",
+        "Prisma/schema/migration changes unless a later approved ticket explicitly says otherwise",
+        "generated registry edits unless regeneration proves no drift",
+        "package/dependency changes outside P4B-001 exact-file authority"
+      ],
+      "source_files_to_inspect": [
+        "PLANS.md",
+        "docs/process/AKTI_ERP_Master_Roadmap_Reference_v2.md",
+        "docs/process/AKTI_ERP_Phase_Roadmap_v2.md",
+        "docs/process/AKTI_ERP_Phase_4B_Product_Definition_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Shell_Layout_Decision_v1.md",
+        "docs/standards/AKTI_ERP_Design_System_Contract_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Dashboard_IA_Decision_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Settings_Control_Panel_IA_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Noob_Proof_Acceptance_Checklist_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Command_Palette_Interaction_Model_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Lead_Desk_UX_Problem_List_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Frontend_Dependency_Assessment_v1.md",
+        "docs/adr/ADR-0013-frontend-mission-control-architecture.md",
+        "docs/adr/ADR-0014-ui-component-library.md",
+        "docs/screen-contracts/phase-4b/mission-control-shell.screen.json",
+        "docs/screen-contracts/phase-4b/settings.screen.json",
+        "apps/web/app/lead-desk/operator-context.ts",
+        "apps/web/app/lead-desk/**/*.tsx",
+        "apps/web/test/lead-desk-screens.test.mjs",
+        "docs/process/AKTI_ERP_Phase_4B_Lead_Desk_UX_Problem_List_v1.md"
+      ],
+      "files_expected_to_change": [
+        "apps/web/app/lead-desk/operator-context.ts",
+        "apps/web/app/** shared session or diagnostics components",
+        "apps/web/test/**",
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-004/**",
+        "codex-review/phase4b-frontend-operational-experience/phase4b-run-journal.md"
+      ],
+      "files_forbidden_to_change": [
+        "prisma/schema.prisma",
+        "prisma/migrations/**",
+        "generated/entity-registry.generated.json unless registry regeneration proves no drift",
+        ".env* real secret files",
+        "deployment/staging/production files",
+        "Foundry/module installer files",
+        "Phase 5/Phase 6 implementation docs or ticket packs",
+        "apps/api/**",
+        "packages/contracts/**",
+        "package.json",
+        "pnpm-lock.yaml"
+      ],
+      "required_outputs": [
+        "Shared session-state model with session active, session missing, session expired/invalid, and limited diagnostics mode.",
+        "Advanced Diagnostics token-entry component or route-section integration target.",
+        "Tests proving operator-context.ts remains active or approved successor is compatible.",
+        "Redaction review for any token/session logs."
+      ],
+      "evidence_artifacts": [
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-004/P4B-004-summary.md",
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-004/P4B-004-validation-summary.md",
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-004/P4B-004-changed-files.zip",
+        "codex-review/phase4b-frontend-operational-experience/phase4b-run-journal.md"
+      ],
+      "tests_required": [
+        "Web lint/typecheck/test/build.",
+        "Focused tests for operator-context storage key compatibility and no login/OAuth flow.",
+        "Static checks that token entry is not required in normal shell components.",
+        "Full validation ladder."
+      ],
+      "validation_commands": [
+        "git status --short --branch",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web lint",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web build",
+        "rg -n \"OAuth|username|password|login redirect|actor_user_id=|organization_id=|x-actor-user-id\" apps/web/app || true",
+        "pnpm contracts:validate",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm exec prisma generate --schema prisma/schema.prisma",
+        "pnpm registry:generate",
+        "git diff --exit-code -- generated/entity-registry.generated.json",
+        "pnpm registry:check",
+        "pnpm registry:verify:phase2",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff -- prisma/schema.prisma",
+        "git diff -- prisma/entity-registry.metadata.json",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Exact-file plan reveals broad blast radius requiring a split.",
+        "Required change exceeds Phase 4B frontend operational experience scope.",
+        "New dependency or lockfile drift appears outside P4B-001 or without explicit approval.",
+        "Prisma/schema/migration changes become necessary.",
+        "Runtime backend endpoint implementation becomes necessary outside an approved paired backend ticket.",
+        "Production secret, production credential, deployment, or cloud/VPS resource is required.",
+        "Real outbound WhatsApp or production WhatsApp behavior appears.",
+        "Foundry/module installer, Phase 5/6, platform AI runtime, or new business module scope appears.",
+        "Validation fails after 3 bounded repair cycles.",
+        "Artifacts or redaction review cannot be produced.",
+        "Repo state becomes unclear."
+      ],
+      "acceptance_criteria": [
+        "operator-context.ts is not blindly deleted.",
+        "Session state has the four approved normal-user states.",
+        "Bearer token entry is isolated for Advanced Diagnostics and not normal operator UI.",
+        "No login/OAuth/username-password flow is invented.",
+        "Full validation ladder passes."
+      ],
+      "dependencies": [
+        "P4B-002"
+      ],
+      "commit_message": "P4B-004 migrate session UX to diagnostics boundary",
+      "rollback_notes": "Revert P4B-004 session helper/component/test changes only; preserve earlier design-system and package setup.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": [
+        "If current operator-context.ts cannot support shell-level session state.",
+        "If session display requires a backend current-user endpoint.",
+        "If tests reveal token exposure in normal UI that requires broad Lead Desk rewrite beyond this ticket."
+      ],
+      "stale_ticket_risk_notes": [
+        "operator-context.ts is active and fragile; inspect exact current storage key and tests immediately before edits."
+      ],
+      "runtime_consistency_chain": [
+        "Preserve Phase 1/2/3/4/4A protections: Access Core, Gatekeeper, tenant scope, no real WhatsApp, clean migrations, local/demo-only proof, no production launch.",
+        "Honor Phase 4B product definition and screen contracts; do not implement frontend screens without matching contract authority.",
+        "Use maximum concrete capability inside current Phase 4B scope; use placeholders only for absent API/policy/backend surfaces.",
+        "Keep P4B-SCHEMA-001 as Phase 5A remediation input; do not treat access.policy.manage as final non-admin shell model."
+      ],
+      "minimum_concrete_requirement": "Web tests/build prove a shared session-state path supports the six-step Advanced Diagnostics token setup path without exposing token entry in normal shell UI.",
+      "split_if": "Split if exact-file planning shows session mechanism refactor and Lead Desk page cleanup cannot be safely completed in one commit, or if backend current-user support becomes necessary.",
+      "requires_human_approval_if": [
+        "New dependency beyond approved P4B-001 Tailwind/shadcn setup is required.",
+        "Runtime backend API changes are needed.",
+        "Schema, migration, contract-source, generated registry, deployment, or production credential access is needed.",
+        "Ticket would introduce Phase 5A policy, Phase 5B Foundry/module installer, or Phase 6 module work.",
+        "Visual QA or noob-proof checklist fails for reasons outside active ticket scope."
+      ],
+      "failure_classification": {
+        "deterministic_validation_failure": "Use up to 3 bounded repair cycles inside active ticket scope, journaling each repair.",
+        "scope_expansion": "Stop for approval; do not broaden the ticket.",
+        "missing_dependency": "Stop if the dependency is not already represented by an earlier Phase 4B ticket or accepted deferral.",
+        "redaction_or_secret_failure": "Stop and classify; do not commit exposed secrets or real credentials.",
+        "unclear_repo_state": "Stop and report before further edits."
+      }
+    },
+    {
+      "ticket_id": "P4B-003",
+      "title": "Mission Control shell implementation",
+      "type": "implementation",
+      "priority": "P1",
+      "objective": "Implement the noob-proof Mission Control ERP shell with collapsible sidebar, compact top bar, mobile navigation, content outlet, session indicator, and safe shell regions.",
+      "scope": [
+        "Implement `/app` shell and shared shell layout.",
+        "Include collapsible desktop sidebar, compact top utility bar, hybrid mobile drawer/bottom nav, settings/help/notification affordances, user/org menu placeholder, and main content outlet.",
+        "Use P4B-004 session-state model for session indicator.",
+        "Keep dashboard details, command palette internals, and notification drawer details to later scoped tickets unless structural placeholders are required.",
+        "Add route and shell tests."
+      ],
+      "non_scope": [
+        "Phase 4A environment work",
+        "Foundry/module installer implementation",
+        "new business modules",
+        "platform AI runtime",
+        "production launch or production integrations",
+        "real WhatsApp production behavior",
+        "full module-driven notification semantics, delivery, retention, mentions, email/SMS/WhatsApp routing, or escalation",
+        "full dashboard marketplace, offline-first sync queue, real-time collaboration, macro/scripting sandbox",
+        "Prisma/schema/migration changes unless a later approved ticket explicitly says otherwise",
+        "generated registry edits unless regeneration proves no drift",
+        "package/dependency changes outside P4B-001 exact-file authority"
+      ],
+      "source_files_to_inspect": [
+        "PLANS.md",
+        "docs/process/AKTI_ERP_Master_Roadmap_Reference_v2.md",
+        "docs/process/AKTI_ERP_Phase_Roadmap_v2.md",
+        "docs/process/AKTI_ERP_Phase_4B_Product_Definition_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Shell_Layout_Decision_v1.md",
+        "docs/standards/AKTI_ERP_Design_System_Contract_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Dashboard_IA_Decision_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Settings_Control_Panel_IA_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Noob_Proof_Acceptance_Checklist_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Command_Palette_Interaction_Model_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Lead_Desk_UX_Problem_List_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Frontend_Dependency_Assessment_v1.md",
+        "docs/adr/ADR-0013-frontend-mission-control-architecture.md",
+        "docs/adr/ADR-0014-ui-component-library.md",
+        "docs/screen-contracts/phase-4b/mission-control-shell.screen.json",
+        "docs/screen-contracts/phase-4b/settings.screen.json",
+        "apps/web/app/app/page.tsx",
+        "apps/web/app/layout.tsx",
+        "apps/web/app/page.tsx",
+        "apps/web/app/lead-desk/**",
+        "apps/web/test/**",
+        "docs/screen-contracts/phase-4b/mission-control-shell.screen.json"
+      ],
+      "files_expected_to_change": [
+        "apps/web/app/app/page.tsx",
+        "apps/web/app/layout.tsx or route-local layout files",
+        "apps/web/app/** shell/shared components",
+        "apps/web/test/**",
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-003/**",
+        "codex-review/phase4b-frontend-operational-experience/phase4b-run-journal.md"
+      ],
+      "files_forbidden_to_change": [
+        "prisma/schema.prisma",
+        "prisma/migrations/**",
+        "generated/entity-registry.generated.json unless registry regeneration proves no drift",
+        ".env* real secret files",
+        "deployment/staging/production files",
+        "Foundry/module installer files",
+        "Phase 5/Phase 6 implementation docs or ticket packs",
+        "apps/api/**",
+        "package.json",
+        "pnpm-lock.yaml"
+      ],
+      "required_outputs": [
+        "Rendered `/app` Mission Control shell.",
+        "Desktop and mobile navigation structure.",
+        "Session indicator using P4B-004 model.",
+        "Browser screenshot evidence for shell desktop/mobile.",
+        "Shell validation summary."
+      ],
+      "evidence_artifacts": [
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-003/P4B-003-summary.md",
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-003/P4B-003-validation-summary.md",
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-003/P4B-003-changed-files.zip",
+        "codex-review/phase4b-frontend-operational-experience/phase4b-run-journal.md"
+      ],
+      "tests_required": [
+        "Web route/static tests for shell regions.",
+        "Browser smoke for `/app` desktop and mobile if local runtime available.",
+        "Web lint/typecheck/test/build.",
+        "Full validation ladder."
+      ],
+      "validation_commands": [
+        "git status --short --branch",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web lint",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web build",
+        "scripts/dev/local-up.sh if needed for browser proof",
+        "scripts/dev/local-capture-frontend.sh or browser screenshot equivalent for /app",
+        "scripts/dev/local-down.sh",
+        "pnpm contracts:validate",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm exec prisma generate --schema prisma/schema.prisma",
+        "pnpm registry:generate",
+        "git diff --exit-code -- generated/entity-registry.generated.json",
+        "pnpm registry:check",
+        "pnpm registry:verify:phase2",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff -- prisma/schema.prisma",
+        "git diff -- prisma/entity-registry.metadata.json",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Exact-file plan reveals broad blast radius requiring a split.",
+        "Required change exceeds Phase 4B frontend operational experience scope.",
+        "New dependency or lockfile drift appears outside P4B-001 or without explicit approval.",
+        "Prisma/schema/migration changes become necessary.",
+        "Runtime backend endpoint implementation becomes necessary outside an approved paired backend ticket.",
+        "Production secret, production credential, deployment, or cloud/VPS resource is required.",
+        "Real outbound WhatsApp or production WhatsApp behavior appears.",
+        "Foundry/module installer, Phase 5/6, platform AI runtime, or new business module scope appears.",
+        "Validation fails after 3 bounded repair cycles.",
+        "Artifacts or redaction review cannot be produced.",
+        "Repo state becomes unclear."
+      ],
+      "acceptance_criteria": [
+        "`/app` renders noob-proof shell with required regions from screen contract.",
+        "Normal shell does not show bearer token textarea, decoded token internals, actor/org/lead IDs, or raw technical session fields.",
+        "Mobile and desktop shell evidence exists.",
+        "Full validation ladder passes."
+      ],
+      "dependencies": [
+        "P4B-004"
+      ],
+      "commit_message": "P4B-003 implement Mission Control shell",
+      "rollback_notes": "Revert P4B-003 shell/layout/tests/artifacts only; preserve P4B-001/P4B-002/P4B-004 foundations.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": [
+        "If `/app` route ownership conflicts with existing root/app route behavior.",
+        "If shell implementation requires backend endpoints for user/org display.",
+        "If mobile navigation requires broad redesign beyond shell scope."
+      ],
+      "stale_ticket_risk_notes": [
+        "Route ownership and shell contract can drift; re-read mission-control-shell.screen.json before exact-file planning."
+      ],
+      "runtime_consistency_chain": [
+        "Preserve Phase 1/2/3/4/4A protections: Access Core, Gatekeeper, tenant scope, no real WhatsApp, clean migrations, local/demo-only proof, no production launch.",
+        "Honor Phase 4B product definition and screen contracts; do not implement frontend screens without matching contract authority.",
+        "Use maximum concrete capability inside current Phase 4B scope; use placeholders only for absent API/policy/backend surfaces.",
+        "Keep P4B-SCHEMA-001 as Phase 5A remediation input; do not treat access.policy.manage as final non-admin shell model."
+      ],
+      "minimum_concrete_requirement": "Rendered `/app` shell route passes browser smoke on desktop and mobile with session indicator, navigation, module launcher placeholder, settings/help/notification regions, and no normal-user token/ID leakage.",
+      "split_if": "Split if exact-file planning shows more than 8 files expected to change in one commit unit, if shell and dashboard implementation become inseparable, or if implementation must touch unrelated API/backend surfaces.",
+      "requires_human_approval_if": [
+        "New dependency beyond approved P4B-001 Tailwind/shadcn setup is required.",
+        "Runtime backend API changes are needed.",
+        "Schema, migration, contract-source, generated registry, deployment, or production credential access is needed.",
+        "Ticket would introduce Phase 5A policy, Phase 5B Foundry/module installer, or Phase 6 module work.",
+        "Visual QA or noob-proof checklist fails for reasons outside active ticket scope."
+      ],
+      "failure_classification": {
+        "deterministic_validation_failure": "Use up to 3 bounded repair cycles inside active ticket scope, journaling each repair.",
+        "scope_expansion": "Stop for approval; do not broaden the ticket.",
+        "missing_dependency": "Stop if the dependency is not already represented by an earlier Phase 4B ticket or accepted deferral.",
+        "redaction_or_secret_failure": "Stop and classify; do not commit exposed secrets or real credentials.",
+        "unclear_repo_state": "Stop and report before further edits."
+      }
+    },
+    {
+      "ticket_id": "P4B-005",
+      "title": "Settings / Control Panel shell",
+      "type": "implementation",
+      "priority": "P1",
+      "objective": "Implement `/app/settings` as a noob-proof control panel with the approved built-vs-placeholder sections and exact Gatekeeper denial messages.",
+      "scope": [
+        "Implement Settings route/surface under Mission Control shell.",
+        "Build General/portal mode where existing API and safe session context allow.",
+        "Build read-only Users/Roles, Groups/Access, Hierarchy, and Modules views only where existing APIs safely support them.",
+        "Render Appearance, Security, and Notifications placeholders with no fake controls/data.",
+        "Integrate Advanced Diagnostics token/session technical surface from P4B-004.",
+        "Use exact Gatekeeper denial messages."
+      ],
+      "non_scope": [
+        "Phase 4A environment work",
+        "Foundry/module installer implementation",
+        "new business modules",
+        "platform AI runtime",
+        "production launch or production integrations",
+        "real WhatsApp production behavior",
+        "full module-driven notification semantics, delivery, retention, mentions, email/SMS/WhatsApp routing, or escalation",
+        "full dashboard marketplace, offline-first sync queue, real-time collaboration, macro/scripting sandbox",
+        "Prisma/schema/migration changes unless a later approved ticket explicitly says otherwise",
+        "generated registry edits unless regeneration proves no drift",
+        "package/dependency changes outside P4B-001 exact-file authority"
+      ],
+      "source_files_to_inspect": [
+        "PLANS.md",
+        "docs/process/AKTI_ERP_Master_Roadmap_Reference_v2.md",
+        "docs/process/AKTI_ERP_Phase_Roadmap_v2.md",
+        "docs/process/AKTI_ERP_Phase_4B_Product_Definition_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Shell_Layout_Decision_v1.md",
+        "docs/standards/AKTI_ERP_Design_System_Contract_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Dashboard_IA_Decision_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Settings_Control_Panel_IA_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Noob_Proof_Acceptance_Checklist_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Command_Palette_Interaction_Model_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Lead_Desk_UX_Problem_List_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Frontend_Dependency_Assessment_v1.md",
+        "docs/adr/ADR-0013-frontend-mission-control-architecture.md",
+        "docs/adr/ADR-0014-ui-component-library.md",
+        "docs/screen-contracts/phase-4b/mission-control-shell.screen.json",
+        "docs/screen-contracts/phase-4b/settings.screen.json",
+        "docs/process/AKTI_ERP_Phase_4B_Settings_Control_Panel_IA_v1.md",
+        "docs/screen-contracts/phase-4b/settings.screen.json",
+        "apps/web/app/**",
+        "apps/api/src/configuration/**",
+        "apps/api/src/access-core/**",
+        "apps/api/src/hierarchy/**",
+        "apps/api/src/module-registry/**"
+      ],
+      "files_expected_to_change": [
+        "apps/web/app/app/settings/** or equivalent Next route",
+        "apps/web/app/** settings/control-panel components",
+        "apps/web/test/**",
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-005/**",
+        "codex-review/phase4b-frontend-operational-experience/phase4b-run-journal.md"
+      ],
+      "files_forbidden_to_change": [
+        "prisma/schema.prisma",
+        "prisma/migrations/**",
+        "generated/entity-registry.generated.json unless registry regeneration proves no drift",
+        ".env* real secret files",
+        "deployment/staging/production files",
+        "Foundry/module installer files",
+        "Phase 5/Phase 6 implementation docs or ticket packs",
+        "apps/api/**",
+        "package.json",
+        "pnpm-lock.yaml"
+      ],
+      "required_outputs": [
+        "Settings route rendering approved sections.",
+        "Built-vs-placeholder evidence.",
+        "Advanced Diagnostics surface integrated.",
+        "Exact Gatekeeper message validation.",
+        "Desktop/mobile screenshots."
+      ],
+      "evidence_artifacts": [
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-005/P4B-005-summary.md",
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-005/P4B-005-validation-summary.md",
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-005/P4B-005-changed-files.zip",
+        "codex-review/phase4b-frontend-operational-experience/phase4b-run-journal.md"
+      ],
+      "tests_required": [
+        "Web tests for built/placeholder sections and exact denial messages.",
+        "Browser smoke for `/app/settings` desktop/mobile.",
+        "Web lint/typecheck/test/build.",
+        "Full validation ladder."
+      ],
+      "validation_commands": [
+        "git status --short --branch",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web lint",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web build",
+        "rg -n \"You don’t have permission to make this change. Contact your administrator.|This action requires approval. Contact your administrator.|Settings are temporarily unavailable. Try again later.\" apps/web/app",
+        "scripts/dev/local-capture-frontend.sh or browser screenshot equivalent for /app/settings",
+        "pnpm contracts:validate",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm exec prisma generate --schema prisma/schema.prisma",
+        "pnpm registry:generate",
+        "git diff --exit-code -- generated/entity-registry.generated.json",
+        "pnpm registry:check",
+        "pnpm registry:verify:phase2",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff -- prisma/schema.prisma",
+        "git diff -- prisma/entity-registry.metadata.json",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Exact-file plan reveals broad blast radius requiring a split.",
+        "Required change exceeds Phase 4B frontend operational experience scope.",
+        "New dependency or lockfile drift appears outside P4B-001 or without explicit approval.",
+        "Prisma/schema/migration changes become necessary.",
+        "Runtime backend endpoint implementation becomes necessary outside an approved paired backend ticket.",
+        "Production secret, production credential, deployment, or cloud/VPS resource is required.",
+        "Real outbound WhatsApp or production WhatsApp behavior appears.",
+        "Foundry/module installer, Phase 5/6, platform AI runtime, or new business module scope appears.",
+        "Validation fails after 3 bounded repair cycles.",
+        "Artifacts or redaction review cannot be produced.",
+        "Repo state becomes unclear."
+      ],
+      "acceptance_criteria": [
+        "Settings sections match product-definition built-vs-placeholder table.",
+        "No installer, enable/disable, Foundry, fake controls, or fake data appear.",
+        "Advanced Diagnostics is admin-gated and the only token technical surface.",
+        "Exact denial messages are used.",
+        "Full validation ladder passes."
+      ],
+      "dependencies": [
+        "P4B-003"
+      ],
+      "commit_message": "P4B-005 implement settings control panel shell",
+      "rollback_notes": "Revert P4B-005 settings route/components/tests/artifacts only; preserve shell/session/design foundations.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": [
+        "If safe read APIs require backend changes.",
+        "If settings route structure conflicts with existing `/app` route ownership.",
+        "If Advanced Diagnostics integration requires broader auth/session changes."
+      ],
+      "stale_ticket_risk_notes": [
+        "Settings API support must be re-inspected before edits; do not assume write mutations are safe."
+      ],
+      "runtime_consistency_chain": [
+        "Preserve Phase 1/2/3/4/4A protections: Access Core, Gatekeeper, tenant scope, no real WhatsApp, clean migrations, local/demo-only proof, no production launch.",
+        "Honor Phase 4B product definition and screen contracts; do not implement frontend screens without matching contract authority.",
+        "Use maximum concrete capability inside current Phase 4B scope; use placeholders only for absent API/policy/backend surfaces.",
+        "Keep P4B-SCHEMA-001 as Phase 5A remediation input; do not treat access.policy.manage as final non-admin shell model."
+      ],
+      "minimum_concrete_requirement": "Rendered `/app/settings` passes browser smoke with all required built/placeholder sections, exact Gatekeeper messages, Advanced Diagnostics, and no fake data or unsupported controls.",
+      "split_if": "Split if exact-file planning shows more than 8 files expected to change in one commit unit, if read-only admin views require separate API client work, or if implementation must touch backend/API surfaces.",
+      "requires_human_approval_if": [
+        "New dependency beyond approved P4B-001 Tailwind/shadcn setup is required.",
+        "Runtime backend API changes are needed.",
+        "Schema, migration, contract-source, generated registry, deployment, or production credential access is needed.",
+        "Ticket would introduce Phase 5A policy, Phase 5B Foundry/module installer, or Phase 6 module work.",
+        "Visual QA or noob-proof checklist fails for reasons outside active ticket scope."
+      ],
+      "failure_classification": {
+        "deterministic_validation_failure": "Use up to 3 bounded repair cycles inside active ticket scope, journaling each repair.",
+        "scope_expansion": "Stop for approval; do not broaden the ticket.",
+        "missing_dependency": "Stop if the dependency is not already represented by an earlier Phase 4B ticket or accepted deferral.",
+        "redaction_or_secret_failure": "Stop and classify; do not commit exposed secrets or real credentials.",
+        "unclear_repo_state": "Stop and report before further edits."
+      }
+    },
+    {
+      "ticket_id": "P4B-006",
+      "title": "Module launcher and module list surface",
+      "type": "implementation",
+      "priority": "P1",
+      "objective": "Implement a read-only module launcher/list surface that uses existing module registry APIs and stays ready for future Foundry without implementing it.",
+      "scope": [
+        "Implement module launcher grid/list within Mission Control shell.",
+        "Use existing `/platform/modules` support where available.",
+        "Show enabled/disabled/unavailable placeholders without module lifecycle actions.",
+        "Add tests proving no Foundry/install/enable/disable controls."
+      ],
+      "non_scope": [
+        "Phase 4A environment work",
+        "Foundry/module installer implementation",
+        "new business modules",
+        "platform AI runtime",
+        "production launch or production integrations",
+        "real WhatsApp production behavior",
+        "full module-driven notification semantics, delivery, retention, mentions, email/SMS/WhatsApp routing, or escalation",
+        "full dashboard marketplace, offline-first sync queue, real-time collaboration, macro/scripting sandbox",
+        "Prisma/schema/migration changes unless a later approved ticket explicitly says otherwise",
+        "generated registry edits unless regeneration proves no drift",
+        "package/dependency changes outside P4B-001 exact-file authority"
+      ],
+      "source_files_to_inspect": [
+        "PLANS.md",
+        "docs/process/AKTI_ERP_Master_Roadmap_Reference_v2.md",
+        "docs/process/AKTI_ERP_Phase_Roadmap_v2.md",
+        "docs/process/AKTI_ERP_Phase_4B_Product_Definition_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Shell_Layout_Decision_v1.md",
+        "docs/standards/AKTI_ERP_Design_System_Contract_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Dashboard_IA_Decision_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Settings_Control_Panel_IA_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Noob_Proof_Acceptance_Checklist_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Command_Palette_Interaction_Model_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Lead_Desk_UX_Problem_List_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Frontend_Dependency_Assessment_v1.md",
+        "docs/adr/ADR-0013-frontend-mission-control-architecture.md",
+        "docs/adr/ADR-0014-ui-component-library.md",
+        "docs/screen-contracts/phase-4b/mission-control-shell.screen.json",
+        "docs/screen-contracts/phase-4b/settings.screen.json",
+        "apps/web/app/**",
+        "apps/api/src/module-registry/**",
+        "packages/contracts/**",
+        "docs/adr/ADR-0013-frontend-mission-control-architecture.md"
+      ],
+      "files_expected_to_change": [
+        "apps/web/app/** module launcher/list components",
+        "apps/web/test/**",
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-006/**",
+        "codex-review/phase4b-frontend-operational-experience/phase4b-run-journal.md"
+      ],
+      "files_forbidden_to_change": [
+        "prisma/schema.prisma",
+        "prisma/migrations/**",
+        "generated/entity-registry.generated.json unless registry regeneration proves no drift",
+        ".env* real secret files",
+        "deployment/staging/production files",
+        "Foundry/module installer files",
+        "Phase 5/Phase 6 implementation docs or ticket packs",
+        "apps/api/**",
+        "package.json",
+        "pnpm-lock.yaml"
+      ],
+      "required_outputs": [
+        "Read-only module launcher/list in shell.",
+        "Module registry API usage or explicit placeholder evidence.",
+        "No installer/lifecycle control evidence.",
+        "Validation artifacts."
+      ],
+      "evidence_artifacts": [
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-006/P4B-006-summary.md",
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-006/P4B-006-validation-summary.md",
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-006/P4B-006-changed-files.zip",
+        "codex-review/phase4b-frontend-operational-experience/phase4b-run-journal.md"
+      ],
+      "tests_required": [
+        "Web tests for module launcher/list and absence of installer controls.",
+        "Web lint/typecheck/test/build.",
+        "Browser smoke for module launcher region.",
+        "Full validation ladder."
+      ],
+      "validation_commands": [
+        "git status --short --branch",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web lint",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web build",
+        "rg -n \"install module|enable module|disable module|Foundry|marketplace\" apps/web/app || true",
+        "pnpm contracts:validate",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm exec prisma generate --schema prisma/schema.prisma",
+        "pnpm registry:generate",
+        "git diff --exit-code -- generated/entity-registry.generated.json",
+        "pnpm registry:check",
+        "pnpm registry:verify:phase2",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff -- prisma/schema.prisma",
+        "git diff -- prisma/entity-registry.metadata.json",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Exact-file plan reveals broad blast radius requiring a split.",
+        "Required change exceeds Phase 4B frontend operational experience scope.",
+        "New dependency or lockfile drift appears outside P4B-001 or without explicit approval.",
+        "Prisma/schema/migration changes become necessary.",
+        "Runtime backend endpoint implementation becomes necessary outside an approved paired backend ticket.",
+        "Production secret, production credential, deployment, or cloud/VPS resource is required.",
+        "Real outbound WhatsApp or production WhatsApp behavior appears.",
+        "Foundry/module installer, Phase 5/6, platform AI runtime, or new business module scope appears.",
+        "Validation fails after 3 bounded repair cycles.",
+        "Artifacts or redaction review cannot be produced.",
+        "Repo state becomes unclear."
+      ],
+      "acceptance_criteria": [
+        "Module launcher/list renders from existing API or safe placeholder.",
+        "No installer, enable/disable, Foundry, marketplace, or lifecycle controls are introduced.",
+        "Shell navigation remains coherent.",
+        "Full validation ladder passes."
+      ],
+      "dependencies": [
+        "P4B-003"
+      ],
+      "commit_message": "P4B-006 implement module launcher list surface",
+      "rollback_notes": "Revert P4B-006 module launcher/list/test/artifact files only.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": [
+        "If module API response shape is unavailable or unsafe.",
+        "If launcher is inseparable from shell route implementation and must be merged with P4B-003.",
+        "If Foundry semantics are required to make the surface meaningful."
+      ],
+      "stale_ticket_risk_notes": [
+        "Module registry route shape must be inspected from current API code before implementation."
+      ],
+      "runtime_consistency_chain": [
+        "Preserve Phase 1/2/3/4/4A protections: Access Core, Gatekeeper, tenant scope, no real WhatsApp, clean migrations, local/demo-only proof, no production launch.",
+        "Honor Phase 4B product definition and screen contracts; do not implement frontend screens without matching contract authority.",
+        "Use maximum concrete capability inside current Phase 4B scope; use placeholders only for absent API/policy/backend surfaces.",
+        "Keep P4B-SCHEMA-001 as Phase 5A remediation input; do not treat access.policy.manage as final non-admin shell model."
+      ],
+      "minimum_concrete_requirement": "Mission Control renders a read-only module launcher/list using existing module registry support or a visible safe placeholder, with tests proving no module installer/lifecycle controls.",
+      "split_if": "Split if exact-file planning shows module launcher work must also create broad API client infrastructure or touch backend/module registry source.",
+      "requires_human_approval_if": [
+        "New dependency beyond approved P4B-001 Tailwind/shadcn setup is required.",
+        "Runtime backend API changes are needed.",
+        "Schema, migration, contract-source, generated registry, deployment, or production credential access is needed.",
+        "Ticket would introduce Phase 5A policy, Phase 5B Foundry/module installer, or Phase 6 module work.",
+        "Visual QA or noob-proof checklist fails for reasons outside active ticket scope."
+      ],
+      "failure_classification": {
+        "deterministic_validation_failure": "Use up to 3 bounded repair cycles inside active ticket scope, journaling each repair.",
+        "scope_expansion": "Stop for approval; do not broaden the ticket.",
+        "missing_dependency": "Stop if the dependency is not already represented by an earlier Phase 4B ticket or accepted deferral.",
+        "redaction_or_secret_failure": "Stop and classify; do not commit exposed secrets or real credentials.",
+        "unclear_repo_state": "Stop and report before further edits."
+      }
+    },
+    {
+      "ticket_id": "P4B-007",
+      "title": "Dashboard v1 existing-API-only implementation",
+      "type": "implementation",
+      "priority": "P1",
+      "objective": "Implement default `/app` dashboard content using existing APIs only, with placeholders/deferrals for unsupported widgets and no fake operational data.",
+      "scope": [
+        "Implement welcome/next-step region and approved dashboard card grid.",
+        "Use existing module list and safe Lead Desk/settings data where available.",
+        "Render placeholders for recent activity, notifications summary, and unsupported aggregates.",
+        "Document any backend gaps for P4B-015 rather than implementing endpoints."
+      ],
+      "non_scope": [
+        "Phase 4A environment work",
+        "Foundry/module installer implementation",
+        "new business modules",
+        "platform AI runtime",
+        "production launch or production integrations",
+        "real WhatsApp production behavior",
+        "full module-driven notification semantics, delivery, retention, mentions, email/SMS/WhatsApp routing, or escalation",
+        "full dashboard marketplace, offline-first sync queue, real-time collaboration, macro/scripting sandbox",
+        "Prisma/schema/migration changes unless a later approved ticket explicitly says otherwise",
+        "generated registry edits unless regeneration proves no drift",
+        "package/dependency changes outside P4B-001 exact-file authority"
+      ],
+      "source_files_to_inspect": [
+        "PLANS.md",
+        "docs/process/AKTI_ERP_Master_Roadmap_Reference_v2.md",
+        "docs/process/AKTI_ERP_Phase_Roadmap_v2.md",
+        "docs/process/AKTI_ERP_Phase_4B_Product_Definition_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Shell_Layout_Decision_v1.md",
+        "docs/standards/AKTI_ERP_Design_System_Contract_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Dashboard_IA_Decision_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Settings_Control_Panel_IA_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Noob_Proof_Acceptance_Checklist_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Command_Palette_Interaction_Model_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Lead_Desk_UX_Problem_List_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Frontend_Dependency_Assessment_v1.md",
+        "docs/adr/ADR-0013-frontend-mission-control-architecture.md",
+        "docs/adr/ADR-0014-ui-component-library.md",
+        "docs/screen-contracts/phase-4b/mission-control-shell.screen.json",
+        "docs/screen-contracts/phase-4b/settings.screen.json",
+        "docs/process/AKTI_ERP_Phase_4B_Dashboard_IA_Decision_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Frontend_Dependency_Assessment_v1.md",
+        "apps/web/app/app/page.tsx",
+        "apps/web/app/lead-desk/api-client.ts",
+        "apps/api/src/lead-desk/**",
+        "apps/api/src/module-registry/**",
+        "apps/api/src/configuration/**"
+      ],
+      "files_expected_to_change": [
+        "apps/web/app/app/page.tsx",
+        "apps/web/app/** dashboard components",
+        "apps/web/test/**",
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-007/**",
+        "codex-review/phase4b-frontend-operational-experience/phase4b-run-journal.md"
+      ],
+      "files_forbidden_to_change": [
+        "prisma/schema.prisma",
+        "prisma/migrations/**",
+        "generated/entity-registry.generated.json unless registry regeneration proves no drift",
+        ".env* real secret files",
+        "deployment/staging/production files",
+        "Foundry/module installer files",
+        "Phase 5/Phase 6 implementation docs or ticket packs",
+        "apps/api/**",
+        "package.json",
+        "pnpm-lock.yaml"
+      ],
+      "required_outputs": [
+        "Dashboard v1 rendered at `/app`.",
+        "Widget evidence table showing build/placeholder/defer decisions.",
+        "Tests proving no fake operational data.",
+        "Browser screenshots."
+      ],
+      "evidence_artifacts": [
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-007/P4B-007-summary.md",
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-007/P4B-007-validation-summary.md",
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-007/P4B-007-changed-files.zip",
+        "codex-review/phase4b-frontend-operational-experience/phase4b-run-journal.md"
+      ],
+      "tests_required": [
+        "Web tests for dashboard placeholders and absence of fake metrics.",
+        "Browser smoke for `/app` dashboard state.",
+        "Web lint/typecheck/test/build.",
+        "Full validation ladder."
+      ],
+      "validation_commands": [
+        "git status --short --branch",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web lint",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web build",
+        "rg -n \"dummy|mock metric|fake|Lorem|123 leads|sample data\" apps/web/app || true",
+        "pnpm contracts:validate",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm exec prisma generate --schema prisma/schema.prisma",
+        "pnpm registry:generate",
+        "git diff --exit-code -- generated/entity-registry.generated.json",
+        "pnpm registry:check",
+        "pnpm registry:verify:phase2",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff -- prisma/schema.prisma",
+        "git diff -- prisma/entity-registry.metadata.json",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Exact-file plan reveals broad blast radius requiring a split.",
+        "Required change exceeds Phase 4B frontend operational experience scope.",
+        "New dependency or lockfile drift appears outside P4B-001 or without explicit approval.",
+        "Prisma/schema/migration changes become necessary.",
+        "Runtime backend endpoint implementation becomes necessary outside an approved paired backend ticket.",
+        "Production secret, production credential, deployment, or cloud/VPS resource is required.",
+        "Real outbound WhatsApp or production WhatsApp behavior appears.",
+        "Foundry/module installer, Phase 5/6, platform AI runtime, or new business module scope appears.",
+        "Validation fails after 3 bounded repair cycles.",
+        "Artifacts or redaction review cannot be produced.",
+        "Repo state becomes unclear."
+      ],
+      "acceptance_criteria": [
+        "Dashboard uses existing APIs only.",
+        "Unsupported widgets are visible placeholders or deferrals, not fake data.",
+        "Session-specific widgets depend on P4B-004 session model or remain placeholders.",
+        "Full validation ladder passes."
+      ],
+      "dependencies": [
+        "P4B-004",
+        "P4B-006"
+      ],
+      "commit_message": "P4B-007 implement existing API dashboard v1",
+      "rollback_notes": "Revert P4B-007 dashboard components/tests/artifacts only; preserve shell/module/session foundations.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": [
+        "If a dashboard card requires a new backend endpoint.",
+        "If safe session context cannot be established for Lead Desk card.",
+        "If dashboard work overlaps with module launcher beyond approved boundaries."
+      ],
+      "stale_ticket_risk_notes": [
+        "Existing API support may be weaker than product docs imply; inspect endpoints before implementing each widget."
+      ],
+      "runtime_consistency_chain": [
+        "Preserve Phase 1/2/3/4/4A protections: Access Core, Gatekeeper, tenant scope, no real WhatsApp, clean migrations, local/demo-only proof, no production launch.",
+        "Honor Phase 4B product definition and screen contracts; do not implement frontend screens without matching contract authority.",
+        "Use maximum concrete capability inside current Phase 4B scope; use placeholders only for absent API/policy/backend surfaces.",
+        "Keep P4B-SCHEMA-001 as Phase 5A remediation input; do not treat access.policy.manage as final non-admin shell model."
+      ],
+      "minimum_concrete_requirement": "Rendered `/app` dashboard passes browser smoke with real existing-API widgets where safe and visible placeholders/deferrals for every unsupported widget, with no fake operational data.",
+      "split_if": "Split if exact-file planning shows dashboard data clients, widgets, and placeholder framework exceed one commit unit or require backend endpoint implementation.",
+      "requires_human_approval_if": [
+        "New dependency beyond approved P4B-001 Tailwind/shadcn setup is required.",
+        "Runtime backend API changes are needed.",
+        "Schema, migration, contract-source, generated registry, deployment, or production credential access is needed.",
+        "Ticket would introduce Phase 5A policy, Phase 5B Foundry/module installer, or Phase 6 module work.",
+        "Visual QA or noob-proof checklist fails for reasons outside active ticket scope."
+      ],
+      "failure_classification": {
+        "deterministic_validation_failure": "Use up to 3 bounded repair cycles inside active ticket scope, journaling each repair.",
+        "scope_expansion": "Stop for approval; do not broaden the ticket.",
+        "missing_dependency": "Stop if the dependency is not already represented by an earlier Phase 4B ticket or accepted deferral.",
+        "redaction_or_secret_failure": "Stop and classify; do not commit exposed secrets or real credentials.",
+        "unclear_repo_state": "Stop and report before further edits."
+      }
+    },
+    {
+      "ticket_id": "P4B-008",
+      "title": "Command Palette v1",
+      "type": "implementation",
+      "priority": "P1",
+      "objective": "Implement the Phase 4B command palette with static/core navigation commands, keyboard support, recent commands where safe, and no macro/search/module-installer scope.",
+      "scope": [
+        "Add visible command entry and Ctrl+K/Cmd+K trigger.",
+        "Implement centered overlay, grouped results, keyboard navigation, empty state, close behavior, and recent safe commands.",
+        "Include basic actions: open dashboard, open Lead Desk, create lead if route exists, open settings, open help.",
+        "Hide admin commands from normal users or disable with plain-English reason only for authorized admin contexts."
+      ],
+      "non_scope": [
+        "Phase 4A environment work",
+        "Foundry/module installer implementation",
+        "new business modules",
+        "platform AI runtime",
+        "production launch or production integrations",
+        "real WhatsApp production behavior",
+        "full module-driven notification semantics, delivery, retention, mentions, email/SMS/WhatsApp routing, or escalation",
+        "full dashboard marketplace, offline-first sync queue, real-time collaboration, macro/scripting sandbox",
+        "Prisma/schema/migration changes unless a later approved ticket explicitly says otherwise",
+        "generated registry edits unless regeneration proves no drift",
+        "package/dependency changes outside P4B-001 exact-file authority"
+      ],
+      "source_files_to_inspect": [
+        "PLANS.md",
+        "docs/process/AKTI_ERP_Master_Roadmap_Reference_v2.md",
+        "docs/process/AKTI_ERP_Phase_Roadmap_v2.md",
+        "docs/process/AKTI_ERP_Phase_4B_Product_Definition_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Shell_Layout_Decision_v1.md",
+        "docs/standards/AKTI_ERP_Design_System_Contract_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Dashboard_IA_Decision_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Settings_Control_Panel_IA_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Noob_Proof_Acceptance_Checklist_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Command_Palette_Interaction_Model_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Lead_Desk_UX_Problem_List_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Frontend_Dependency_Assessment_v1.md",
+        "docs/adr/ADR-0013-frontend-mission-control-architecture.md",
+        "docs/adr/ADR-0014-ui-component-library.md",
+        "docs/screen-contracts/phase-4b/mission-control-shell.screen.json",
+        "docs/screen-contracts/phase-4b/settings.screen.json",
+        "docs/process/AKTI_ERP_Phase_4B_Command_Palette_Interaction_Model_v1.md",
+        "apps/web/app/**",
+        "apps/web/test/**"
+      ],
+      "files_expected_to_change": [
+        "apps/web/app/** command palette components/hooks",
+        "apps/web/test/**",
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-008/**",
+        "codex-review/phase4b-frontend-operational-experience/phase4b-run-journal.md"
+      ],
+      "files_forbidden_to_change": [
+        "prisma/schema.prisma",
+        "prisma/migrations/**",
+        "generated/entity-registry.generated.json unless registry regeneration proves no drift",
+        ".env* real secret files",
+        "deployment/staging/production files",
+        "Foundry/module installer files",
+        "Phase 5/Phase 6 implementation docs or ticket packs",
+        "apps/api/**",
+        "package.json",
+        "pnpm-lock.yaml"
+      ],
+      "required_outputs": [
+        "Command palette UI integrated with shell.",
+        "Keyboard interaction evidence.",
+        "Static/core command declaration evidence.",
+        "Tests for no macro/search/installer behavior."
+      ],
+      "evidence_artifacts": [
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-008/P4B-008-summary.md",
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-008/P4B-008-validation-summary.md",
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-008/P4B-008-changed-files.zip",
+        "codex-review/phase4b-frontend-operational-experience/phase4b-run-journal.md"
+      ],
+      "tests_required": [
+        "Web tests for command list, keyboard trigger, close behavior, and deferred advanced actions.",
+        "Browser interaction proof for Ctrl+K/Cmd+K if feasible.",
+        "Web lint/typecheck/test/build.",
+        "Full validation ladder."
+      ],
+      "validation_commands": [
+        "git status --short --branch",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web lint",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web build",
+        "scripts/dev/local-capture-frontend.sh or browser interaction evidence for command palette",
+        "rg -n \"macro|script|AI command|installer|cross-module search\" apps/web/app || true",
+        "pnpm contracts:validate",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm exec prisma generate --schema prisma/schema.prisma",
+        "pnpm registry:generate",
+        "git diff --exit-code -- generated/entity-registry.generated.json",
+        "pnpm registry:check",
+        "pnpm registry:verify:phase2",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff -- prisma/schema.prisma",
+        "git diff -- prisma/entity-registry.metadata.json",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Exact-file plan reveals broad blast radius requiring a split.",
+        "Required change exceeds Phase 4B frontend operational experience scope.",
+        "New dependency or lockfile drift appears outside P4B-001 or without explicit approval.",
+        "Prisma/schema/migration changes become necessary.",
+        "Runtime backend endpoint implementation becomes necessary outside an approved paired backend ticket.",
+        "Production secret, production credential, deployment, or cloud/VPS resource is required.",
+        "Real outbound WhatsApp or production WhatsApp behavior appears.",
+        "Foundry/module installer, Phase 5/6, platform AI runtime, or new business module scope appears.",
+        "Validation fails after 3 bounded repair cycles.",
+        "Artifacts or redaction review cannot be produced.",
+        "Repo state becomes unclear."
+      ],
+      "acceptance_criteria": [
+        "Command palette opens via visible entry and keyboard shortcut.",
+        "Keyboard navigation and close behavior work.",
+        "Only static/core Phase 4B commands are present.",
+        "No macros, inline parameters, backend search, AI, or installer commands are implemented.",
+        "Full validation ladder passes."
+      ],
+      "dependencies": [
+        "P4B-003",
+        "P4B-006"
+      ],
+      "commit_message": "P4B-008 implement command palette v1",
+      "rollback_notes": "Revert P4B-008 command palette components/hooks/tests/artifacts only.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": [
+        "If keyboard handling requires a new dependency.",
+        "If route command set needs dynamic module registration.",
+        "If admin command visibility requires backend policy not available in Phase 4B."
+      ],
+      "stale_ticket_risk_notes": [
+        "Command list depends on route ownership from P4B-003/P4B-006; re-check before implementing."
+      ],
+      "runtime_consistency_chain": [
+        "Preserve Phase 1/2/3/4/4A protections: Access Core, Gatekeeper, tenant scope, no real WhatsApp, clean migrations, local/demo-only proof, no production launch.",
+        "Honor Phase 4B product definition and screen contracts; do not implement frontend screens without matching contract authority.",
+        "Use maximum concrete capability inside current Phase 4B scope; use placeholders only for absent API/policy/backend surfaces.",
+        "Keep P4B-SCHEMA-001 as Phase 5A remediation input; do not treat access.policy.manage as final non-admin shell model."
+      ],
+      "minimum_concrete_requirement": "Command palette opens with Ctrl+K/Cmd+K and visible entry, supports keyboard navigation/close behavior, and navigates core Phase 4B destinations in browser or focused interaction proof.",
+      "split_if": "Split if exact-file planning shows keyboard infrastructure and shell integration require separate commits or a new dependency.",
+      "requires_human_approval_if": [
+        "New dependency beyond approved P4B-001 Tailwind/shadcn setup is required.",
+        "Runtime backend API changes are needed.",
+        "Schema, migration, contract-source, generated registry, deployment, or production credential access is needed.",
+        "Ticket would introduce Phase 5A policy, Phase 5B Foundry/module installer, or Phase 6 module work.",
+        "Visual QA or noob-proof checklist fails for reasons outside active ticket scope."
+      ],
+      "failure_classification": {
+        "deterministic_validation_failure": "Use up to 3 bounded repair cycles inside active ticket scope, journaling each repair.",
+        "scope_expansion": "Stop for approval; do not broaden the ticket.",
+        "missing_dependency": "Stop if the dependency is not already represented by an earlier Phase 4B ticket or accepted deferral.",
+        "redaction_or_secret_failure": "Stop and classify; do not commit exposed secrets or real credentials.",
+        "unclear_repo_state": "Stop and report before further edits."
+      }
+    },
+    {
+      "ticket_id": "P4B-009",
+      "title": "Notification shell infrastructure only",
+      "type": "implementation",
+      "priority": "P1",
+      "objective": "Implement notification shell infrastructure without module-driven notification semantics or communication policy.",
+      "scope": [
+        "Implement bell icon, unread badge shell, notification drawer, toast renderer, empty state, static/demo/system notification rendering, and permission-aware placeholder.",
+        "Keep notification route/deep-link absent unless separately approved.",
+        "Add tests proving no delivery/retention/mentions/WhatsApp/SMS/email semantics."
+      ],
+      "non_scope": [
+        "Phase 4A environment work",
+        "Foundry/module installer implementation",
+        "new business modules",
+        "platform AI runtime",
+        "production launch or production integrations",
+        "real WhatsApp production behavior",
+        "full module-driven notification semantics, delivery, retention, mentions, email/SMS/WhatsApp routing, or escalation",
+        "full dashboard marketplace, offline-first sync queue, real-time collaboration, macro/scripting sandbox",
+        "Prisma/schema/migration changes unless a later approved ticket explicitly says otherwise",
+        "generated registry edits unless regeneration proves no drift",
+        "package/dependency changes outside P4B-001 exact-file authority"
+      ],
+      "source_files_to_inspect": [
+        "PLANS.md",
+        "docs/process/AKTI_ERP_Master_Roadmap_Reference_v2.md",
+        "docs/process/AKTI_ERP_Phase_Roadmap_v2.md",
+        "docs/process/AKTI_ERP_Phase_4B_Product_Definition_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Shell_Layout_Decision_v1.md",
+        "docs/standards/AKTI_ERP_Design_System_Contract_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Dashboard_IA_Decision_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Settings_Control_Panel_IA_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Noob_Proof_Acceptance_Checklist_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Command_Palette_Interaction_Model_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Lead_Desk_UX_Problem_List_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Frontend_Dependency_Assessment_v1.md",
+        "docs/adr/ADR-0013-frontend-mission-control-architecture.md",
+        "docs/adr/ADR-0014-ui-component-library.md",
+        "docs/screen-contracts/phase-4b/mission-control-shell.screen.json",
+        "docs/screen-contracts/phase-4b/settings.screen.json",
+        "apps/web/app/**",
+        "docs/adr/ADR-0013-frontend-mission-control-architecture.md",
+        "docs/process/AKTI_ERP_Phase_4B_Product_Definition_v1.md"
+      ],
+      "files_expected_to_change": [
+        "apps/web/app/** notification shell/toast components",
+        "apps/web/test/**",
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-009/**",
+        "codex-review/phase4b-frontend-operational-experience/phase4b-run-journal.md"
+      ],
+      "files_forbidden_to_change": [
+        "prisma/schema.prisma",
+        "prisma/migrations/**",
+        "generated/entity-registry.generated.json unless registry regeneration proves no drift",
+        ".env* real secret files",
+        "deployment/staging/production files",
+        "Foundry/module installer files",
+        "Phase 5/Phase 6 implementation docs or ticket packs",
+        "apps/api/**",
+        "package.json",
+        "pnpm-lock.yaml"
+      ],
+      "required_outputs": [
+        "Notification bell/badge shell.",
+        "Drawer and empty state.",
+        "Toast renderer for system/demo messages.",
+        "Static/demo/system notification evidence.",
+        "Boundary validation evidence."
+      ],
+      "evidence_artifacts": [
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-009/P4B-009-summary.md",
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-009/P4B-009-validation-summary.md",
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-009/P4B-009-changed-files.zip",
+        "codex-review/phase4b-frontend-operational-experience/phase4b-run-journal.md"
+      ],
+      "tests_required": [
+        "Web tests for notification shell and forbidden semantics.",
+        "Browser smoke for notification drawer/toast if feasible.",
+        "Web lint/typecheck/test/build.",
+        "Full validation ladder."
+      ],
+      "validation_commands": [
+        "git status --short --branch",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web lint",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web build",
+        "rg -n \"WhatsApp|SMS|email|retention|mention|delivery|escalation\" apps/web/app || true",
+        "pnpm contracts:validate",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm exec prisma generate --schema prisma/schema.prisma",
+        "pnpm registry:generate",
+        "git diff --exit-code -- generated/entity-registry.generated.json",
+        "pnpm registry:check",
+        "pnpm registry:verify:phase2",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff -- prisma/schema.prisma",
+        "git diff -- prisma/entity-registry.metadata.json",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Exact-file plan reveals broad blast radius requiring a split.",
+        "Required change exceeds Phase 4B frontend operational experience scope.",
+        "New dependency or lockfile drift appears outside P4B-001 or without explicit approval.",
+        "Prisma/schema/migration changes become necessary.",
+        "Runtime backend endpoint implementation becomes necessary outside an approved paired backend ticket.",
+        "Production secret, production credential, deployment, or cloud/VPS resource is required.",
+        "Real outbound WhatsApp or production WhatsApp behavior appears.",
+        "Foundry/module installer, Phase 5/6, platform AI runtime, or new business module scope appears.",
+        "Validation fails after 3 bounded repair cycles.",
+        "Artifacts or redaction review cannot be produced.",
+        "Repo state becomes unclear."
+      ],
+      "acceptance_criteria": [
+        "Notification infrastructure renders in shell.",
+        "No module-driven semantics, delivery, retention, mentions, email/SMS/WhatsApp, or escalation behavior is implemented.",
+        "Empty state and permission-aware placeholder are plain English.",
+        "Full validation ladder passes."
+      ],
+      "dependencies": [
+        "P4B-003"
+      ],
+      "commit_message": "P4B-009 implement notification shell infrastructure",
+      "rollback_notes": "Revert P4B-009 notification/toast components/tests/artifacts only.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": [
+        "If real notification data endpoint is needed.",
+        "If notification drawer requires a distinct route or screen contract.",
+        "If communication policy decisions are needed."
+      ],
+      "stale_ticket_risk_notes": [
+        "Notification policy is explicitly deferred; re-read product definition before implementing any real semantics."
+      ],
+      "runtime_consistency_chain": [
+        "Preserve Phase 1/2/3/4/4A protections: Access Core, Gatekeeper, tenant scope, no real WhatsApp, clean migrations, local/demo-only proof, no production launch.",
+        "Honor Phase 4B product definition and screen contracts; do not implement frontend screens without matching contract authority.",
+        "Use maximum concrete capability inside current Phase 4B scope; use placeholders only for absent API/policy/backend surfaces.",
+        "Keep P4B-SCHEMA-001 as Phase 5A remediation input; do not treat access.policy.manage as final non-admin shell model."
+      ],
+      "minimum_concrete_requirement": "Browser or focused UI proof shows bell, badge shell, drawer, toast renderer, and empty/static notification states without any real notification delivery semantics.",
+      "split_if": "Split if toast renderer and drawer infrastructure each require independent broad component work or if a route/screen contract decision appears.",
+      "requires_human_approval_if": [
+        "New dependency beyond approved P4B-001 Tailwind/shadcn setup is required.",
+        "Runtime backend API changes are needed.",
+        "Schema, migration, contract-source, generated registry, deployment, or production credential access is needed.",
+        "Ticket would introduce Phase 5A policy, Phase 5B Foundry/module installer, or Phase 6 module work.",
+        "Visual QA or noob-proof checklist fails for reasons outside active ticket scope."
+      ],
+      "failure_classification": {
+        "deterministic_validation_failure": "Use up to 3 bounded repair cycles inside active ticket scope, journaling each repair.",
+        "scope_expansion": "Stop for approval; do not broaden the ticket.",
+        "missing_dependency": "Stop if the dependency is not already represented by an earlier Phase 4B ticket or accepted deferral.",
+        "redaction_or_secret_failure": "Stop and classify; do not commit exposed secrets or real credentials.",
+        "unclear_repo_state": "Stop and report before further edits."
+      }
+    },
+    {
+      "ticket_id": "P4B-011",
+      "title": "Table/form/empty/loading/error UX baseline",
+      "type": "implementation",
+      "priority": "P1",
+      "objective": "Apply shared table, form, empty, loading, and error UX patterns across Phase 4B shell/settings/dashboard surfaces before Lead Desk polish.",
+      "scope": [
+        "Implement reusable state components/patterns for tables, forms, empty states, loading states, error states, permission states, and degraded states.",
+        "Apply to Mission Control, Settings, Dashboard, and reusable components where already introduced.",
+        "Keep Lead Desk domain-specific rewrite for P4B-010."
+      ],
+      "non_scope": [
+        "Phase 4A environment work",
+        "Foundry/module installer implementation",
+        "new business modules",
+        "platform AI runtime",
+        "production launch or production integrations",
+        "real WhatsApp production behavior",
+        "full module-driven notification semantics, delivery, retention, mentions, email/SMS/WhatsApp routing, or escalation",
+        "full dashboard marketplace, offline-first sync queue, real-time collaboration, macro/scripting sandbox",
+        "Prisma/schema/migration changes unless a later approved ticket explicitly says otherwise",
+        "generated registry edits unless regeneration proves no drift",
+        "package/dependency changes outside P4B-001 exact-file authority"
+      ],
+      "source_files_to_inspect": [
+        "PLANS.md",
+        "docs/process/AKTI_ERP_Master_Roadmap_Reference_v2.md",
+        "docs/process/AKTI_ERP_Phase_Roadmap_v2.md",
+        "docs/process/AKTI_ERP_Phase_4B_Product_Definition_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Shell_Layout_Decision_v1.md",
+        "docs/standards/AKTI_ERP_Design_System_Contract_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Dashboard_IA_Decision_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Settings_Control_Panel_IA_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Noob_Proof_Acceptance_Checklist_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Command_Palette_Interaction_Model_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Lead_Desk_UX_Problem_List_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Frontend_Dependency_Assessment_v1.md",
+        "docs/adr/ADR-0013-frontend-mission-control-architecture.md",
+        "docs/adr/ADR-0014-ui-component-library.md",
+        "docs/screen-contracts/phase-4b/mission-control-shell.screen.json",
+        "docs/screen-contracts/phase-4b/settings.screen.json",
+        "docs/standards/AKTI_ERP_Design_System_Contract_v1.md",
+        "apps/web/app/**",
+        "apps/web/test/**"
+      ],
+      "files_expected_to_change": [
+        "apps/web/app/** shared state/table/form components",
+        "apps/web/app/app/**",
+        "apps/web/test/**",
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-011/**",
+        "codex-review/phase4b-frontend-operational-experience/phase4b-run-journal.md"
+      ],
+      "files_forbidden_to_change": [
+        "prisma/schema.prisma",
+        "prisma/migrations/**",
+        "generated/entity-registry.generated.json unless registry regeneration proves no drift",
+        ".env* real secret files",
+        "deployment/staging/production files",
+        "Foundry/module installer files",
+        "Phase 5/Phase 6 implementation docs or ticket packs",
+        "apps/api/**",
+        "package.json",
+        "pnpm-lock.yaml"
+      ],
+      "required_outputs": [
+        "Reusable table/form/state baseline components.",
+        "Applied baseline on shell/settings/dashboard where applicable.",
+        "Tests/static checks for plain-English states and no raw API errors.",
+        "Artifacts."
+      ],
+      "evidence_artifacts": [
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-011/P4B-011-summary.md",
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-011/P4B-011-validation-summary.md",
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-011/P4B-011-changed-files.zip",
+        "codex-review/phase4b-frontend-operational-experience/phase4b-run-journal.md"
+      ],
+      "tests_required": [
+        "Web tests for empty/loading/error/permission/degraded state components.",
+        "Web lint/typecheck/test/build.",
+        "Full validation ladder."
+      ],
+      "validation_commands": [
+        "git status --short --branch",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web lint",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web build",
+        "rg -n \"stack trace|API_BASE_UNAVAILABLE|Error:\" apps/web/app || true",
+        "pnpm contracts:validate",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm exec prisma generate --schema prisma/schema.prisma",
+        "pnpm registry:generate",
+        "git diff --exit-code -- generated/entity-registry.generated.json",
+        "pnpm registry:check",
+        "pnpm registry:verify:phase2",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff -- prisma/schema.prisma",
+        "git diff -- prisma/entity-registry.metadata.json",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Exact-file plan reveals broad blast radius requiring a split.",
+        "Required change exceeds Phase 4B frontend operational experience scope.",
+        "New dependency or lockfile drift appears outside P4B-001 or without explicit approval.",
+        "Prisma/schema/migration changes become necessary.",
+        "Runtime backend endpoint implementation becomes necessary outside an approved paired backend ticket.",
+        "Production secret, production credential, deployment, or cloud/VPS resource is required.",
+        "Real outbound WhatsApp or production WhatsApp behavior appears.",
+        "Foundry/module installer, Phase 5/6, platform AI runtime, or new business module scope appears.",
+        "Validation fails after 3 bounded repair cycles.",
+        "Artifacts or redaction review cannot be produced.",
+        "Repo state becomes unclear."
+      ],
+      "acceptance_criteria": [
+        "Shared states are plain English and reusable.",
+        "No raw API errors/stack traces appear in normal UI states.",
+        "Baseline supports later Lead Desk polish without duplicating component work.",
+        "Full validation ladder passes."
+      ],
+      "dependencies": [
+        "P4B-005",
+        "P4B-007",
+        "P4B-009"
+      ],
+      "commit_message": "P4B-011 implement frontend state UX baseline",
+      "rollback_notes": "Revert P4B-011 shared state/table/form component applications and tests only.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": [
+        "If table/form baseline overlaps too much with Lead Desk domain rewrite.",
+        "If shared state components require additional UI dependency.",
+        "If error-state cleanup requires backend/API changes."
+      ],
+      "stale_ticket_risk_notes": [
+        "State copy and component locations depend on prior UI tickets; inspect current files before edits."
+      ],
+      "runtime_consistency_chain": [
+        "Preserve Phase 1/2/3/4/4A protections: Access Core, Gatekeeper, tenant scope, no real WhatsApp, clean migrations, local/demo-only proof, no production launch.",
+        "Honor Phase 4B product definition and screen contracts; do not implement frontend screens without matching contract authority.",
+        "Use maximum concrete capability inside current Phase 4B scope; use placeholders only for absent API/policy/backend surfaces.",
+        "Keep P4B-SCHEMA-001 as Phase 5A remediation input; do not treat access.policy.manage as final non-admin shell model."
+      ],
+      "minimum_concrete_requirement": "Web tests/build prove reusable empty/loading/error/permission/degraded patterns are present and applied to existing Phase 4B surfaces with plain-English copy.",
+      "split_if": "Split if exact-file planning shows table/form components and state-copy cleanup exceed one commit unit or touch more than 8 files.",
+      "requires_human_approval_if": [
+        "New dependency beyond approved P4B-001 Tailwind/shadcn setup is required.",
+        "Runtime backend API changes are needed.",
+        "Schema, migration, contract-source, generated registry, deployment, or production credential access is needed.",
+        "Ticket would introduce Phase 5A policy, Phase 5B Foundry/module installer, or Phase 6 module work.",
+        "Visual QA or noob-proof checklist fails for reasons outside active ticket scope."
+      ],
+      "failure_classification": {
+        "deterministic_validation_failure": "Use up to 3 bounded repair cycles inside active ticket scope, journaling each repair.",
+        "scope_expansion": "Stop for approval; do not broaden the ticket.",
+        "missing_dependency": "Stop if the dependency is not already represented by an earlier Phase 4B ticket or accepted deferral.",
+        "redaction_or_secret_failure": "Stop and classify; do not commit exposed secrets or real credentials.",
+        "unclear_repo_state": "Stop and report before further edits."
+      }
+    },
+    {
+      "ticket_id": "P4B-010",
+      "title": "Lead Desk operator UX polish",
+      "type": "implementation",
+      "priority": "P1",
+      "objective": "Bring existing Lead Desk pages into the Mission Control shell and remove normal-user technical leakage while preserving existing Lead Desk API behavior and terminology constraints.",
+      "scope": [
+        "Place Lead Desk routes within shell/navigation context.",
+        "Remove token textareas and raw session technical fields from normal Lead Desk UI.",
+        "Hide raw org/actor/user/lead IDs by default and show friendly labels/placeholders where safe.",
+        "Improve Lead Desk empty/loading/error/success states using P4B-011 baseline.",
+        "Preserve current contract terms where human terminology is unresolved.",
+        "Do not invent business stages/statuses/owner model."
+      ],
+      "non_scope": [
+        "Phase 4A environment work",
+        "Foundry/module installer implementation",
+        "new business modules",
+        "platform AI runtime",
+        "production launch or production integrations",
+        "real WhatsApp production behavior",
+        "full module-driven notification semantics, delivery, retention, mentions, email/SMS/WhatsApp routing, or escalation",
+        "full dashboard marketplace, offline-first sync queue, real-time collaboration, macro/scripting sandbox",
+        "Prisma/schema/migration changes unless a later approved ticket explicitly says otherwise",
+        "generated registry edits unless regeneration proves no drift",
+        "package/dependency changes outside P4B-001 exact-file authority"
+      ],
+      "source_files_to_inspect": [
+        "PLANS.md",
+        "docs/process/AKTI_ERP_Master_Roadmap_Reference_v2.md",
+        "docs/process/AKTI_ERP_Phase_Roadmap_v2.md",
+        "docs/process/AKTI_ERP_Phase_4B_Product_Definition_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Shell_Layout_Decision_v1.md",
+        "docs/standards/AKTI_ERP_Design_System_Contract_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Dashboard_IA_Decision_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Settings_Control_Panel_IA_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Noob_Proof_Acceptance_Checklist_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Command_Palette_Interaction_Model_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Lead_Desk_UX_Problem_List_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Frontend_Dependency_Assessment_v1.md",
+        "docs/adr/ADR-0013-frontend-mission-control-architecture.md",
+        "docs/adr/ADR-0014-ui-component-library.md",
+        "docs/screen-contracts/phase-4b/mission-control-shell.screen.json",
+        "docs/screen-contracts/phase-4b/settings.screen.json",
+        "docs/process/AKTI_ERP_Phase_4B_Lead_Desk_UX_Problem_List_v1.md",
+        "apps/web/app/lead-desk/**",
+        "apps/web/test/lead-desk-screens.test.mjs",
+        "apps/api/src/lead-desk/**",
+        "packages/contracts/lead-desk-core.contract.ts"
+      ],
+      "files_expected_to_change": [
+        "apps/web/app/lead-desk/**/*.tsx",
+        "apps/web/app/lead-desk/operator-context.ts only if P4B-004-compatible cleanup is needed",
+        "apps/web/test/lead-desk-screens.test.mjs",
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-010/**",
+        "codex-review/phase4b-frontend-operational-experience/phase4b-run-journal.md"
+      ],
+      "files_forbidden_to_change": [
+        "prisma/schema.prisma",
+        "prisma/migrations/**",
+        "generated/entity-registry.generated.json unless registry regeneration proves no drift",
+        ".env* real secret files",
+        "deployment/staging/production files",
+        "Foundry/module installer files",
+        "Phase 5/Phase 6 implementation docs or ticket packs",
+        "apps/api/**",
+        "packages/contracts/**",
+        "package.json",
+        "pnpm-lock.yaml"
+      ],
+      "required_outputs": [
+        "Lead Desk pages rendered inside shell/navigation.",
+        "No normal-user token textarea or raw ID exposure evidence.",
+        "Friendly create/detail/actions success/error states.",
+        "Browser screenshots for inbox/create/detail/actions.",
+        "Lead Desk UX validation summary."
+      ],
+      "evidence_artifacts": [
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-010/P4B-010-summary.md",
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-010/P4B-010-validation-summary.md",
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-010/P4B-010-changed-files.zip",
+        "codex-review/phase4b-frontend-operational-experience/phase4b-run-journal.md"
+      ],
+      "tests_required": [
+        "Updated Lead Desk web tests proving no token textarea/raw IDs in normal UI.",
+        "Browser smoke for Lead Desk inbox/create/detail/actions.",
+        "Web lint/typecheck/test/build.",
+        "Full validation ladder."
+      ],
+      "validation_commands": [
+        "git status --short --branch",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web lint",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web build",
+        "rg -n \"sessionTokenDraft|Bearer token|actorUserId|organizationId|assigned_user_id|Lead ID\" apps/web/app/lead-desk || true",
+        "scripts/dev/local-capture-frontend.sh or browser screenshots for Lead Desk routes",
+        "pnpm contracts:validate",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm exec prisma generate --schema prisma/schema.prisma",
+        "pnpm registry:generate",
+        "git diff --exit-code -- generated/entity-registry.generated.json",
+        "pnpm registry:check",
+        "pnpm registry:verify:phase2",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff -- prisma/schema.prisma",
+        "git diff -- prisma/entity-registry.metadata.json",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Exact-file plan reveals broad blast radius requiring a split.",
+        "Required change exceeds Phase 4B frontend operational experience scope.",
+        "New dependency or lockfile drift appears outside P4B-001 or without explicit approval.",
+        "Prisma/schema/migration changes become necessary.",
+        "Runtime backend endpoint implementation becomes necessary outside an approved paired backend ticket.",
+        "Production secret, production credential, deployment, or cloud/VPS resource is required.",
+        "Real outbound WhatsApp or production WhatsApp behavior appears.",
+        "Foundry/module installer, Phase 5/6, platform AI runtime, or new business module scope appears.",
+        "Validation fails after 3 bounded repair cycles.",
+        "Artifacts or redaction review cannot be produced.",
+        "Repo state becomes unclear."
+      ],
+      "acceptance_criteria": [
+        "Lead Desk normal screens no longer expose bearer token entry, decoded token internals, raw actor/org/user/lead IDs, or API/debug wording by default.",
+        "Session setup path routes through Advanced Diagnostics.",
+        "Existing Lead Desk API behavior remains intact.",
+        "Unresolved human terminology remains placeholder/contract term, not invented.",
+        "Full validation ladder passes."
+      ],
+      "dependencies": [
+        "P4B-004",
+        "P4B-003",
+        "P4B-011"
+      ],
+      "commit_message": "P4B-010 polish Lead Desk operator UX",
+      "rollback_notes": "Revert P4B-010 Lead Desk page/test/artifact changes only; preserve shared shell, session, and design-system foundations.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": [
+        "If friendly user/assignment display requires backend lookup.",
+        "If raw ID removal requires contract/API response changes.",
+        "If Lead Desk page count/file spread exceeds split condition."
+      ],
+      "stale_ticket_risk_notes": [
+        "Lead Desk tests currently assert token/session implementation details; inspect and update tests carefully rather than deleting coverage."
+      ],
+      "runtime_consistency_chain": [
+        "Preserve Phase 1/2/3/4/4A protections: Access Core, Gatekeeper, tenant scope, no real WhatsApp, clean migrations, local/demo-only proof, no production launch.",
+        "Honor Phase 4B product definition and screen contracts; do not implement frontend screens without matching contract authority.",
+        "Use maximum concrete capability inside current Phase 4B scope; use placeholders only for absent API/policy/backend surfaces.",
+        "Keep P4B-SCHEMA-001 as Phase 5A remediation input; do not treat access.policy.manage as final non-admin shell model."
+      ],
+      "minimum_concrete_requirement": "Browser evidence and tests prove Lead Desk inbox/create/detail/actions render inside the shell, no normal UI token textarea is visible, and raw org/actor/user/lead IDs are hidden by default.",
+      "split_if": "Split if exact-file planning shows more than 8 files expected to change in one commit unit, if each Lead Desk route needs independent rewrites, or if implementation must touch unrelated API/backend surfaces.",
+      "requires_human_approval_if": [
+        "New dependency beyond approved P4B-001 Tailwind/shadcn setup is required.",
+        "Runtime backend API changes are needed.",
+        "Schema, migration, contract-source, generated registry, deployment, or production credential access is needed.",
+        "Ticket would introduce Phase 5A policy, Phase 5B Foundry/module installer, or Phase 6 module work.",
+        "Visual QA or noob-proof checklist fails for reasons outside active ticket scope."
+      ],
+      "failure_classification": {
+        "deterministic_validation_failure": "Use up to 3 bounded repair cycles inside active ticket scope, journaling each repair.",
+        "scope_expansion": "Stop for approval; do not broaden the ticket.",
+        "missing_dependency": "Stop if the dependency is not already represented by an earlier Phase 4B ticket or accepted deferral.",
+        "redaction_or_secret_failure": "Stop and classify; do not commit exposed secrets or real credentials.",
+        "unclear_repo_state": "Stop and report before further edits."
+      }
+    },
+    {
+      "ticket_id": "P4B-012",
+      "title": "Accessibility/readability/responsive baseline",
+      "type": "implementation_proof",
+      "priority": "P1",
+      "objective": "Prove the Phase 4B UI meets the readability, keyboard, focus, and responsive baseline before visual QA closure.",
+      "scope": [
+        "Audit and adjust desktop/mobile readability across Mission Control, Settings, Dashboard, Command Palette, Notifications, and Lead Desk.",
+        "Verify visible focus, keyboard reachability, responsive text fit, and no incoherent overlap.",
+        "Keep changes to frontend accessibility/readability polish only."
+      ],
+      "non_scope": [
+        "Phase 4A environment work",
+        "Foundry/module installer implementation",
+        "new business modules",
+        "platform AI runtime",
+        "production launch or production integrations",
+        "real WhatsApp production behavior",
+        "full module-driven notification semantics, delivery, retention, mentions, email/SMS/WhatsApp routing, or escalation",
+        "full dashboard marketplace, offline-first sync queue, real-time collaboration, macro/scripting sandbox",
+        "Prisma/schema/migration changes unless a later approved ticket explicitly says otherwise",
+        "generated registry edits unless regeneration proves no drift",
+        "package/dependency changes outside P4B-001 exact-file authority"
+      ],
+      "source_files_to_inspect": [
+        "PLANS.md",
+        "docs/process/AKTI_ERP_Master_Roadmap_Reference_v2.md",
+        "docs/process/AKTI_ERP_Phase_Roadmap_v2.md",
+        "docs/process/AKTI_ERP_Phase_4B_Product_Definition_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Shell_Layout_Decision_v1.md",
+        "docs/standards/AKTI_ERP_Design_System_Contract_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Dashboard_IA_Decision_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Settings_Control_Panel_IA_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Noob_Proof_Acceptance_Checklist_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Command_Palette_Interaction_Model_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Lead_Desk_UX_Problem_List_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Frontend_Dependency_Assessment_v1.md",
+        "docs/adr/ADR-0013-frontend-mission-control-architecture.md",
+        "docs/adr/ADR-0014-ui-component-library.md",
+        "docs/screen-contracts/phase-4b/mission-control-shell.screen.json",
+        "docs/screen-contracts/phase-4b/settings.screen.json",
+        "docs/process/AKTI_ERP_Phase_4B_Noob_Proof_Acceptance_Checklist_v1.md",
+        "apps/web/app/**",
+        "apps/web/test/**"
+      ],
+      "files_expected_to_change": [
+        "apps/web/app/** style/accessibility adjustments",
+        "apps/web/test/** accessibility/readability assertions if feasible",
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-012/**",
+        "codex-review/phase4b-frontend-operational-experience/phase4b-run-journal.md"
+      ],
+      "files_forbidden_to_change": [
+        "prisma/schema.prisma",
+        "prisma/migrations/**",
+        "generated/entity-registry.generated.json unless registry regeneration proves no drift",
+        ".env* real secret files",
+        "deployment/staging/production files",
+        "Foundry/module installer files",
+        "Phase 5/Phase 6 implementation docs or ticket packs",
+        "apps/api/**",
+        "package.json",
+        "pnpm-lock.yaml"
+      ],
+      "required_outputs": [
+        "Accessibility/readability findings and fixes.",
+        "Desktop/mobile screenshot evidence.",
+        "Keyboard/focus evidence.",
+        "Responsive baseline validation summary."
+      ],
+      "evidence_artifacts": [
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-012/P4B-012-summary.md",
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-012/P4B-012-validation-summary.md",
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-012/P4B-012-changed-files.zip",
+        "codex-review/phase4b-frontend-operational-experience/phase4b-run-journal.md"
+      ],
+      "tests_required": [
+        "Web lint/typecheck/test/build.",
+        "Browser keyboard/focus checks for shell, settings, command palette, notification drawer, and Lead Desk.",
+        "Full validation ladder."
+      ],
+      "validation_commands": [
+        "git status --short --branch",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web lint",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web build",
+        "scripts/dev/local-capture-frontend.sh or browser screenshot/keyboard evidence for desktop and mobile",
+        "pnpm contracts:validate",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm exec prisma generate --schema prisma/schema.prisma",
+        "pnpm registry:generate",
+        "git diff --exit-code -- generated/entity-registry.generated.json",
+        "pnpm registry:check",
+        "pnpm registry:verify:phase2",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff -- prisma/schema.prisma",
+        "git diff -- prisma/entity-registry.metadata.json",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Exact-file plan reveals broad blast radius requiring a split.",
+        "Required change exceeds Phase 4B frontend operational experience scope.",
+        "New dependency or lockfile drift appears outside P4B-001 or without explicit approval.",
+        "Prisma/schema/migration changes become necessary.",
+        "Runtime backend endpoint implementation becomes necessary outside an approved paired backend ticket.",
+        "Production secret, production credential, deployment, or cloud/VPS resource is required.",
+        "Real outbound WhatsApp or production WhatsApp behavior appears.",
+        "Foundry/module installer, Phase 5/6, platform AI runtime, or new business module scope appears.",
+        "Validation fails after 3 bounded repair cycles.",
+        "Artifacts or redaction review cannot be produced.",
+        "Repo state becomes unclear."
+      ],
+      "acceptance_criteria": [
+        "Common desktop/mobile sizes are readable.",
+        "Keyboard/focus basics work for required surfaces.",
+        "No text overlap, clipped primary action, unreadable layouts, or raw technical leakage appears in screenshots.",
+        "Full validation ladder passes."
+      ],
+      "dependencies": [
+        "P4B-008",
+        "P4B-010"
+      ],
+      "commit_message": "P4B-012 harden frontend accessibility readability",
+      "rollback_notes": "Revert P4B-012 accessibility/readability adjustments and tests only.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": [
+        "If issues require redesign outside Phase 4B scope.",
+        "If browser tooling cannot capture required evidence.",
+        "If accessibility fixes require a new dependency."
+      ],
+      "stale_ticket_risk_notes": [
+        "Responsive defects appear only after real rendering; do not rely solely on static tests."
+      ],
+      "runtime_consistency_chain": [
+        "Preserve Phase 1/2/3/4/4A protections: Access Core, Gatekeeper, tenant scope, no real WhatsApp, clean migrations, local/demo-only proof, no production launch.",
+        "Honor Phase 4B product definition and screen contracts; do not implement frontend screens without matching contract authority.",
+        "Use maximum concrete capability inside current Phase 4B scope; use placeholders only for absent API/policy/backend surfaces.",
+        "Keep P4B-SCHEMA-001 as Phase 5A remediation input; do not treat access.policy.manage as final non-admin shell model."
+      ],
+      "minimum_concrete_requirement": "Browser-rendered desktop and mobile evidence proves required Phase 4B surfaces are readable, keyboard/focus reachable, and free of incoherent overlap or normal-user technical leakage.",
+      "split_if": "Split if exact-file planning reveals separate accessibility fixes for shell/settings/Lead Desk that cannot be validated together safely.",
+      "requires_human_approval_if": [
+        "New dependency beyond approved P4B-001 Tailwind/shadcn setup is required.",
+        "Runtime backend API changes are needed.",
+        "Schema, migration, contract-source, generated registry, deployment, or production credential access is needed.",
+        "Ticket would introduce Phase 5A policy, Phase 5B Foundry/module installer, or Phase 6 module work.",
+        "Visual QA or noob-proof checklist fails for reasons outside active ticket scope."
+      ],
+      "failure_classification": {
+        "deterministic_validation_failure": "Use up to 3 bounded repair cycles inside active ticket scope, journaling each repair.",
+        "scope_expansion": "Stop for approval; do not broaden the ticket.",
+        "missing_dependency": "Stop if the dependency is not already represented by an earlier Phase 4B ticket or accepted deferral.",
+        "redaction_or_secret_failure": "Stop and classify; do not commit exposed secrets or real credentials.",
+        "unclear_repo_state": "Stop and report before further edits."
+      }
+    },
+    {
+      "ticket_id": "P4B-013",
+      "title": "Browser-rendered tests and visual QA gate",
+      "type": "proof_gate",
+      "priority": "P1",
+      "objective": "Create and run the pass/fail browser-rendered visual QA gate for Phase 4B noob-proof acceptance.",
+      "scope": [
+        "Use Phase 4A local demo/browser capture support to capture required desktop/mobile screenshots.",
+        "Evaluate the binary noob-proof checklist as pass/fail.",
+        "Create redaction and technical leakage review for screenshots/logs.",
+        "Stop Phase 4B closure if checklist fails."
+      ],
+      "non_scope": [
+        "Phase 4A environment work",
+        "Foundry/module installer implementation",
+        "new business modules",
+        "platform AI runtime",
+        "production launch or production integrations",
+        "real WhatsApp production behavior",
+        "full module-driven notification semantics, delivery, retention, mentions, email/SMS/WhatsApp routing, or escalation",
+        "full dashboard marketplace, offline-first sync queue, real-time collaboration, macro/scripting sandbox",
+        "Prisma/schema/migration changes unless a later approved ticket explicitly says otherwise",
+        "generated registry edits unless regeneration proves no drift",
+        "package/dependency changes outside P4B-001 exact-file authority"
+      ],
+      "source_files_to_inspect": [
+        "PLANS.md",
+        "docs/process/AKTI_ERP_Master_Roadmap_Reference_v2.md",
+        "docs/process/AKTI_ERP_Phase_Roadmap_v2.md",
+        "docs/process/AKTI_ERP_Phase_4B_Product_Definition_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Shell_Layout_Decision_v1.md",
+        "docs/standards/AKTI_ERP_Design_System_Contract_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Dashboard_IA_Decision_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Settings_Control_Panel_IA_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Noob_Proof_Acceptance_Checklist_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Command_Palette_Interaction_Model_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Lead_Desk_UX_Problem_List_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Frontend_Dependency_Assessment_v1.md",
+        "docs/adr/ADR-0013-frontend-mission-control-architecture.md",
+        "docs/adr/ADR-0014-ui-component-library.md",
+        "docs/screen-contracts/phase-4b/mission-control-shell.screen.json",
+        "docs/screen-contracts/phase-4b/settings.screen.json",
+        "docs/process/AKTI_ERP_Phase_4B_Noob_Proof_Acceptance_Checklist_v1.md",
+        "scripts/dev/local-capture-frontend.sh",
+        "scripts/dev/local-smoke.sh",
+        "apps/web/app/**",
+        "apps/web/test/**"
+      ],
+      "files_expected_to_change": [
+        "apps/web/test/** browser/visual QA tests if feasible without new dependency",
+        "scripts/dev/local-capture-frontend.sh only if exact-file plan proves Phase 4B route list update is needed and remains local/demo support",
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-013/**",
+        "codex-review/phase4b-frontend-operational-experience/phase4b-run-journal.md"
+      ],
+      "files_forbidden_to_change": [
+        "prisma/schema.prisma",
+        "prisma/migrations/**",
+        "generated/entity-registry.generated.json unless registry regeneration proves no drift",
+        ".env* real secret files",
+        "deployment/staging/production files",
+        "Foundry/module installer files",
+        "Phase 5/Phase 6 implementation docs or ticket packs",
+        "apps/api/**",
+        "package.json",
+        "pnpm-lock.yaml unless a pre-approved browser test dependency is explicitly required and approved separately"
+      ],
+      "required_outputs": [
+        "Visual QA screenshot package.",
+        "Noob-proof checklist pass/fail matrix.",
+        "Redaction/technical leakage review.",
+        "Browser test/inspection log.",
+        "Stop/deferral list if any checklist item fails."
+      ],
+      "evidence_artifacts": [
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-013/P4B-013-summary.md",
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-013/P4B-013-validation-summary.md",
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-013/P4B-013-changed-files.zip",
+        "codex-review/phase4b-frontend-operational-experience/phase4b-run-journal.md"
+      ],
+      "tests_required": [
+        "Local demo startup/smoke if needed.",
+        "Browser-rendered route checks for root/app/settings/Lead Desk and relevant states.",
+        "Web lint/typecheck/test/build.",
+        "Full validation ladder."
+      ],
+      "validation_commands": [
+        "git status --short --branch",
+        "scripts/dev/local-up.sh",
+        "scripts/dev/local-smoke.sh",
+        "scripts/dev/local-capture-frontend.sh",
+        "scripts/dev/local-down.sh",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "rg -n \"bearer|token|actor|organization_id|lead id|stack trace|API_BASE\" codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-013 || true",
+        "pnpm contracts:validate",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm exec prisma generate --schema prisma/schema.prisma",
+        "pnpm registry:generate",
+        "git diff --exit-code -- generated/entity-registry.generated.json",
+        "pnpm registry:check",
+        "pnpm registry:verify:phase2",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff -- prisma/schema.prisma",
+        "git diff -- prisma/entity-registry.metadata.json",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Exact-file plan reveals broad blast radius requiring a split.",
+        "Required change exceeds Phase 4B frontend operational experience scope.",
+        "New dependency or lockfile drift appears outside P4B-001 or without explicit approval.",
+        "Prisma/schema/migration changes become necessary.",
+        "Runtime backend endpoint implementation becomes necessary outside an approved paired backend ticket.",
+        "Production secret, production credential, deployment, or cloud/VPS resource is required.",
+        "Real outbound WhatsApp or production WhatsApp behavior appears.",
+        "Foundry/module installer, Phase 5/6, platform AI runtime, or new business module scope appears.",
+        "Validation fails after 3 bounded repair cycles.",
+        "Artifacts or redaction review cannot be produced.",
+        "Repo state becomes unclear."
+      ],
+      "acceptance_criteria": [
+        "Every applicable noob-proof checklist item is PASS.",
+        "Screenshots show no raw token/ID exposure, unreadable layouts, missing empty states, keyboard traps, or API/debug wording.",
+        "Redaction review finds no real secrets/tokens/credentials.",
+        "Full validation ladder passes."
+      ],
+      "dependencies": [
+        "P4B-012"
+      ],
+      "commit_message": "P4B-013 add visual QA gate evidence",
+      "rollback_notes": "Revert P4B-013 test/script route-list/artifact changes only; do not alter implemented UI to hide visual QA failures outside a scoped repair.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": [
+        "If browser tooling requires a new dependency.",
+        "If visual QA fails outside active ticket scope.",
+        "If local demo startup or screenshot capture path is broken."
+      ],
+      "stale_ticket_risk_notes": [
+        "Visual QA route list must be generated from current routes; stale screenshots are invalid."
+      ],
+      "runtime_consistency_chain": [
+        "Preserve Phase 1/2/3/4/4A protections: Access Core, Gatekeeper, tenant scope, no real WhatsApp, clean migrations, local/demo-only proof, no production launch.",
+        "Honor Phase 4B product definition and screen contracts; do not implement frontend screens without matching contract authority.",
+        "Use maximum concrete capability inside current Phase 4B scope; use placeholders only for absent API/policy/backend surfaces.",
+        "Keep P4B-SCHEMA-001 as Phase 5A remediation input; do not treat access.policy.manage as final non-admin shell model."
+      ],
+      "minimum_concrete_requirement": "Pass/fail visual QA artifact contains fresh desktop/mobile screenshots and a binary noob-proof checklist result; Phase 4B cannot proceed to closure if any applicable item fails.",
+      "split_if": "Split if visual QA exposes independent UI failures across multiple surfaces that each need scoped repair tickets.",
+      "requires_human_approval_if": [
+        "New dependency beyond approved P4B-001 Tailwind/shadcn setup is required.",
+        "Runtime backend API changes are needed.",
+        "Schema, migration, contract-source, generated registry, deployment, or production credential access is needed.",
+        "Ticket would introduce Phase 5A policy, Phase 5B Foundry/module installer, or Phase 6 module work.",
+        "Visual QA or noob-proof checklist fails for reasons outside active ticket scope."
+      ],
+      "failure_classification": {
+        "deterministic_validation_failure": "Use up to 3 bounded repair cycles inside active ticket scope, journaling each repair.",
+        "scope_expansion": "Stop for approval; do not broaden the ticket.",
+        "missing_dependency": "Stop if the dependency is not already represented by an earlier Phase 4B ticket or accepted deferral.",
+        "redaction_or_secret_failure": "Stop and classify; do not commit exposed secrets or real credentials.",
+        "unclear_repo_state": "Stop and report before further edits."
+      }
+    },
+    {
+      "ticket_id": "P4B-014",
+      "title": "Screen-contract validation alignment",
+      "type": "implementation",
+      "priority": "P1",
+      "objective": "Align screen-contract validation so Phase 4B planned screen contracts are validated directly and documented in the validation ladder.",
+      "scope": [
+        "Directly validate Phase 4B screen contracts with existing schema.",
+        "Optionally extend central screen-contract validation tooling to include phase-4b if exact-file plan proves it is safe.",
+        "Do not change screen contract schema semantics unless separately approved.",
+        "Add validation evidence and tests for Phase 4B contract coverage."
+      ],
+      "non_scope": [
+        "Phase 4A environment work",
+        "Foundry/module installer implementation",
+        "new business modules",
+        "platform AI runtime",
+        "production launch or production integrations",
+        "real WhatsApp production behavior",
+        "full module-driven notification semantics, delivery, retention, mentions, email/SMS/WhatsApp routing, or escalation",
+        "full dashboard marketplace, offline-first sync queue, real-time collaboration, macro/scripting sandbox",
+        "Prisma/schema/migration changes unless a later approved ticket explicitly says otherwise",
+        "generated registry edits unless regeneration proves no drift",
+        "package/dependency changes outside P4B-001 exact-file authority"
+      ],
+      "source_files_to_inspect": [
+        "PLANS.md",
+        "docs/process/AKTI_ERP_Master_Roadmap_Reference_v2.md",
+        "docs/process/AKTI_ERP_Phase_Roadmap_v2.md",
+        "docs/process/AKTI_ERP_Phase_4B_Product_Definition_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Shell_Layout_Decision_v1.md",
+        "docs/standards/AKTI_ERP_Design_System_Contract_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Dashboard_IA_Decision_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Settings_Control_Panel_IA_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Noob_Proof_Acceptance_Checklist_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Command_Palette_Interaction_Model_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Lead_Desk_UX_Problem_List_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Frontend_Dependency_Assessment_v1.md",
+        "docs/adr/ADR-0013-frontend-mission-control-architecture.md",
+        "docs/adr/ADR-0014-ui-component-library.md",
+        "docs/screen-contracts/phase-4b/mission-control-shell.screen.json",
+        "docs/screen-contracts/phase-4b/settings.screen.json",
+        "packages/contracts/screen-contract.schema.ts",
+        "packages/contracts/scripts/validate-screen-contracts.mjs",
+        "docs/screen-contracts/phase-4b/*.json",
+        "package.json"
+      ],
+      "files_expected_to_change": [
+        "packages/contracts/scripts/validate-screen-contracts.mjs only if exact-file plan proves safe",
+        "packages/contracts/** tests/scripts only if needed for validation alignment",
+        "docs/screen-contracts/phase-4b/*.json only for metadata corrections consistent with product docs",
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-014/**",
+        "codex-review/phase4b-frontend-operational-experience/phase4b-run-journal.md"
+      ],
+      "files_forbidden_to_change": [
+        "prisma/schema.prisma",
+        "prisma/migrations/**",
+        "generated/entity-registry.generated.json unless registry regeneration proves no drift",
+        ".env* real secret files",
+        "deployment/staging/production files",
+        "Foundry/module installer files",
+        "Phase 5/Phase 6 implementation docs or ticket packs",
+        "packages/contracts/screen-contract.schema.ts unless stopped and approved",
+        "apps/web/** unless validation evidence artifact only",
+        "apps/api/**",
+        "package.json",
+        "pnpm-lock.yaml"
+      ],
+      "required_outputs": [
+        "Phase 4B screen-contract validation command/evidence.",
+        "Central validation alignment or explicit direct-validation deferral.",
+        "No schema semantic change evidence.",
+        "Artifacts."
+      ],
+      "evidence_artifacts": [
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-014/P4B-014-summary.md",
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-014/P4B-014-validation-summary.md",
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-014/P4B-014-changed-files.zip",
+        "codex-review/phase4b-frontend-operational-experience/phase4b-run-journal.md"
+      ],
+      "tests_required": [
+        "Direct schema validation for Phase 4B screen contracts.",
+        "pnpm contracts:validate.",
+        "Full validation ladder."
+      ],
+      "validation_commands": [
+        "git status --short --branch",
+        "node -e \"JSON.parse(require('fs').readFileSync('docs/screen-contracts/phase-4b/mission-control-shell.screen.json','utf8')); JSON.parse(require('fs').readFileSync('docs/screen-contracts/phase-4b/settings.screen.json','utf8'))\"",
+        "pnpm exec tsx -e \"import { readFileSync } from 'node:fs'; import { safeParseScreenContract } from './packages/contracts/screen-contract.schema.ts'; for (const file of ['docs/screen-contracts/phase-4b/mission-control-shell.screen.json','docs/screen-contracts/phase-4b/settings.screen.json']) { const r=safeParseScreenContract(JSON.parse(readFileSync(file,'utf8'))); if(!r.success){ console.error(r.error.message); process.exit(1);} } console.log('phase4b screen contracts schema valid');\"",
+        "pnpm contracts:validate",
+        "pnpm contracts:validate",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm exec prisma generate --schema prisma/schema.prisma",
+        "pnpm registry:generate",
+        "git diff --exit-code -- generated/entity-registry.generated.json",
+        "pnpm registry:check",
+        "pnpm registry:verify:phase2",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff -- prisma/schema.prisma",
+        "git diff -- prisma/entity-registry.metadata.json",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Exact-file plan reveals broad blast radius requiring a split.",
+        "Required change exceeds Phase 4B frontend operational experience scope.",
+        "New dependency or lockfile drift appears outside P4B-001 or without explicit approval.",
+        "Prisma/schema/migration changes become necessary.",
+        "Runtime backend endpoint implementation becomes necessary outside an approved paired backend ticket.",
+        "Production secret, production credential, deployment, or cloud/VPS resource is required.",
+        "Real outbound WhatsApp or production WhatsApp behavior appears.",
+        "Foundry/module installer, Phase 5/6, platform AI runtime, or new business module scope appears.",
+        "Validation fails after 3 bounded repair cycles.",
+        "Artifacts or redaction review cannot be produced.",
+        "Repo state becomes unclear."
+      ],
+      "acceptance_criteria": [
+        "Both Phase 4B screen contracts validate directly.",
+        "Central validation is updated or explicitly deferred with evidence.",
+        "No schema semantic change is made without approval.",
+        "Full validation ladder passes."
+      ],
+      "dependencies": [
+        "P4B-013"
+      ],
+      "commit_message": "P4B-014 align Phase 4B screen contract validation",
+      "rollback_notes": "Revert P4B-014 validation script/test/artifact changes only; preserve Phase 4B screen contracts unless the ticket changed metadata directly.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": [
+        "If central validation cannot include phase-4b without broader contract policy change.",
+        "If screen contract schema blocks required Phase 4B semantics beyond accepted P4B-SCHEMA-001 limitation.",
+        "If validation alignment would affect Phase 1/2 contract rules."
+      ],
+      "stale_ticket_risk_notes": [
+        "Central validator currently focuses Phase 1/2; inspect before assuming phase-4b coverage."
+      ],
+      "runtime_consistency_chain": [
+        "Preserve Phase 1/2/3/4/4A protections: Access Core, Gatekeeper, tenant scope, no real WhatsApp, clean migrations, local/demo-only proof, no production launch.",
+        "Honor Phase 4B product definition and screen contracts; do not implement frontend screens without matching contract authority.",
+        "Use maximum concrete capability inside current Phase 4B scope; use placeholders only for absent API/policy/backend surfaces.",
+        "Keep P4B-SCHEMA-001 as Phase 5A remediation input; do not treat access.policy.manage as final non-admin shell model."
+      ],
+      "minimum_concrete_requirement": "A repeatable validation command proves both Phase 4B screen contracts parse and schema-validate, and the validation approach is recorded for P4B-GATE.",
+      "split_if": "Split if direct validation and central validator changes require separate policy decisions or affect Phase 1/2 validation behavior.",
+      "requires_human_approval_if": [
+        "New dependency beyond approved P4B-001 Tailwind/shadcn setup is required.",
+        "Runtime backend API changes are needed.",
+        "Schema, migration, contract-source, generated registry, deployment, or production credential access is needed.",
+        "Ticket would introduce Phase 5A policy, Phase 5B Foundry/module installer, or Phase 6 module work.",
+        "Visual QA or noob-proof checklist fails for reasons outside active ticket scope."
+      ],
+      "failure_classification": {
+        "deterministic_validation_failure": "Use up to 3 bounded repair cycles inside active ticket scope, journaling each repair.",
+        "scope_expansion": "Stop for approval; do not broaden the ticket.",
+        "missing_dependency": "Stop if the dependency is not already represented by an earlier Phase 4B ticket or accepted deferral.",
+        "redaction_or_secret_failure": "Stop and classify; do not commit exposed secrets or real credentials.",
+        "unclear_repo_state": "Stop and report before further edits."
+      }
+    },
+    {
+      "ticket_id": "P4B-015",
+      "title": "Frontend dependency / paired backend gap closure",
+      "type": "documentation_evidence",
+      "priority": "P1",
+      "objective": "Confirm every known backend/API gap is either represented by an implemented placeholder, an accepted deferral, or completed earlier scoped work; do not implement endpoints.",
+      "scope": [
+        "Review P4B-BE-001 through P4B-BE-005 and P4B-SCHEMA-001.",
+        "Confirm visible placeholders/deferrals for absent backend/API surfaces.",
+        "Update gap closure evidence artifacts and dependency assessment evidence.",
+        "Verify dashboard and notification shell do not use fake data.",
+        "Confirm no backend endpoints were added in Phase 4B unless an earlier approved ticket explicitly did so.",
+        "Confirm Current user/profile endpoint gap is covered by placeholder, accepted deferral, or completed earlier scoped work without adding backend endpoints.",
+        "Confirm Lead Desk summary endpoint is covered by placeholder, accepted deferral, or completed earlier scoped work without adding backend endpoints.",
+        "Confirm Recent activity / audit feed endpoint is covered by placeholder, accepted deferral, or completed earlier scoped work without adding backend endpoints.",
+        "Confirm Friendly user lookup / assignment display is covered by placeholder, accepted deferral, or completed earlier scoped work without adding backend endpoints.",
+        "Confirm Notification data endpoint is covered by placeholder, accepted deferral, or completed earlier scoped work without adding backend endpoints.",
+        "Confirm P4B-SCHEMA-001 Shell capability model limitation is covered by placeholder, accepted deferral, or completed earlier scoped work without adding backend endpoints."
+      ],
+      "non_scope": [
+        "Phase 4A environment work",
+        "Foundry/module installer implementation",
+        "new business modules",
+        "platform AI runtime",
+        "production launch or production integrations",
+        "real WhatsApp production behavior",
+        "full module-driven notification semantics, delivery, retention, mentions, email/SMS/WhatsApp routing, or escalation",
+        "full dashboard marketplace, offline-first sync queue, real-time collaboration, macro/scripting sandbox",
+        "Prisma/schema/migration changes unless a later approved ticket explicitly says otherwise",
+        "generated registry edits unless regeneration proves no drift",
+        "package/dependency changes outside P4B-001 exact-file authority",
+        "Implementing new backend endpoints",
+        "Adding API controllers/services",
+        "Changing Access Core, Gatekeeper, Lead Desk backend, or notification policy"
+      ],
+      "source_files_to_inspect": [
+        "PLANS.md",
+        "docs/process/AKTI_ERP_Master_Roadmap_Reference_v2.md",
+        "docs/process/AKTI_ERP_Phase_Roadmap_v2.md",
+        "docs/process/AKTI_ERP_Phase_4B_Product_Definition_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Shell_Layout_Decision_v1.md",
+        "docs/standards/AKTI_ERP_Design_System_Contract_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Dashboard_IA_Decision_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Settings_Control_Panel_IA_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Noob_Proof_Acceptance_Checklist_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Command_Palette_Interaction_Model_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Lead_Desk_UX_Problem_List_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Frontend_Dependency_Assessment_v1.md",
+        "docs/adr/ADR-0013-frontend-mission-control-architecture.md",
+        "docs/adr/ADR-0014-ui-component-library.md",
+        "docs/screen-contracts/phase-4b/mission-control-shell.screen.json",
+        "docs/screen-contracts/phase-4b/settings.screen.json",
+        "docs/process/AKTI_ERP_Phase_4B_Frontend_Dependency_Assessment_v1.md",
+        "apps/web/app/**",
+        "apps/api/src/**",
+        "packages/contracts/**",
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/**"
+      ],
+      "files_expected_to_change": [
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-015/**",
+        "codex-review/phase4b-frontend-operational-experience/phase4b-run-journal.md"
+      ],
+      "files_forbidden_to_change": [
+        "prisma/schema.prisma",
+        "prisma/migrations/**",
+        "generated/entity-registry.generated.json unless registry regeneration proves no drift",
+        ".env* real secret files",
+        "deployment/staging/production files",
+        "Foundry/module installer files",
+        "Phase 5/Phase 6 implementation docs or ticket packs",
+        "apps/api/**",
+        "apps/web/app/** runtime changes",
+        "packages/contracts/**",
+        "package.json",
+        "pnpm-lock.yaml"
+      ],
+      "required_outputs": [
+        "Gap closure evidence artifact covering Lead Desk summary, current user/profile, recent activity/audit feed, friendly user lookup/assignment display, notification data endpoint, and P4B-SCHEMA-001.",
+        "Updated frontend dependency assessment evidence artifact.",
+        "No-backend-code attestation.",
+        "Placeholder/deferral screenshot or file evidence references.",
+        "Confirm Current user/profile endpoint gap is covered by placeholder, accepted deferral, or completed earlier scoped work without adding backend endpoints.",
+        "Confirm Lead Desk summary endpoint is covered by placeholder, accepted deferral, or completed earlier scoped work without adding backend endpoints.",
+        "Confirm Recent activity / audit feed endpoint is covered by placeholder, accepted deferral, or completed earlier scoped work without adding backend endpoints.",
+        "Confirm Friendly user lookup / assignment display is covered by placeholder, accepted deferral, or completed earlier scoped work without adding backend endpoints.",
+        "Confirm Notification data endpoint is covered by placeholder, accepted deferral, or completed earlier scoped work without adding backend endpoints.",
+        "Confirm P4B-SCHEMA-001 Shell capability model limitation is covered by placeholder, accepted deferral, or completed earlier scoped work without adding backend endpoints."
+      ],
+      "evidence_artifacts": [
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-015/P4B-015-summary.md",
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-015/P4B-015-validation-summary.md",
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-015/P4B-015-changed-files.zip",
+        "codex-review/phase4b-frontend-operational-experience/phase4b-run-journal.md"
+      ],
+      "tests_required": [
+        "Static verification that no backend endpoint files changed in this ticket.",
+        "Dashboard no-fake-data evidence.",
+        "Notification shell infrastructure-only evidence.",
+        "Full validation ladder if any tracked docs/artifacts are committed."
+      ],
+      "validation_commands": [
+        "git status --short --branch",
+        "git diff --name-only HEAD~1..HEAD || true",
+        "rg -n \"P4B-BE-001|P4B-BE-002|P4B-BE-003|P4B-BE-004|P4B-BE-005|P4B-SCHEMA-001\" codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-015",
+        "rg -n \"dummy|mock metric|fake data|WhatsApp|SMS|email|retention|delivery\" apps/web/app || true",
+        "pnpm contracts:validate",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm exec prisma generate --schema prisma/schema.prisma",
+        "pnpm registry:generate",
+        "git diff --exit-code -- generated/entity-registry.generated.json",
+        "pnpm registry:check",
+        "pnpm registry:verify:phase2",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff -- prisma/schema.prisma",
+        "git diff -- prisma/entity-registry.metadata.json",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Exact-file plan reveals broad blast radius requiring a split.",
+        "Required change exceeds Phase 4B frontend operational experience scope.",
+        "New dependency or lockfile drift appears outside P4B-001 or without explicit approval.",
+        "Prisma/schema/migration changes become necessary.",
+        "Runtime backend endpoint implementation becomes necessary outside an approved paired backend ticket.",
+        "Production secret, production credential, deployment, or cloud/VPS resource is required.",
+        "Real outbound WhatsApp or production WhatsApp behavior appears.",
+        "Foundry/module installer, Phase 5/6, platform AI runtime, or new business module scope appears.",
+        "Validation fails after 3 bounded repair cycles.",
+        "Artifacts or redaction review cannot be produced.",
+        "Repo state becomes unclear."
+      ],
+      "acceptance_criteria": [
+        "Every known backend/API gap is explicitly closed as placeholder, deferral, or earlier completed work.",
+        "No backend code or endpoint implementation is introduced by P4B-015.",
+        "Dashboard has no fake operational data.",
+        "Notification data endpoint remains deferred to Phase 5A/later policy.",
+        "P4B-SCHEMA-001 remains Phase 5A remediation input.",
+        "Confirm Current user/profile endpoint gap is covered by placeholder, accepted deferral, or completed earlier scoped work without adding backend endpoints.",
+        "Confirm Lead Desk summary endpoint is covered by placeholder, accepted deferral, or completed earlier scoped work without adding backend endpoints.",
+        "Confirm Recent activity / audit feed endpoint is covered by placeholder, accepted deferral, or completed earlier scoped work without adding backend endpoints.",
+        "Confirm Friendly user lookup / assignment display is covered by placeholder, accepted deferral, or completed earlier scoped work without adding backend endpoints.",
+        "Confirm P4B-SCHEMA-001 Shell capability model limitation is covered by placeholder, accepted deferral, or completed earlier scoped work without adding backend endpoints."
+      ],
+      "dependencies": [
+        "P4B-014"
+      ],
+      "commit_message": "P4B-015 document frontend dependency gap closure",
+      "rollback_notes": "Revert P4B-015 evidence artifacts and journal entry only; do not change UI/backend code.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": [
+        "If a known gap is not covered by placeholder, deferral, or earlier ticket.",
+        "If UI cannot pass visual QA without backend data.",
+        "If any backend endpoint appears necessary for Phase 4B closure."
+      ],
+      "stale_ticket_risk_notes": [
+        "Backend/API gaps can be accidentally hidden by placeholders; inspect rendered UI evidence, not just docs."
+      ],
+      "runtime_consistency_chain": [
+        "Preserve Phase 1/2/3/4/4A protections: Access Core, Gatekeeper, tenant scope, no real WhatsApp, clean migrations, local/demo-only proof, no production launch.",
+        "Honor Phase 4B product definition and screen contracts; do not implement frontend screens without matching contract authority.",
+        "Use maximum concrete capability inside current Phase 4B scope; use placeholders only for absent API/policy/backend surfaces.",
+        "Keep P4B-SCHEMA-001 as Phase 5A remediation input; do not treat access.policy.manage as final non-admin shell model."
+      ],
+      "minimum_concrete_requirement": "Gap closure evidence proves each known backend/API gap is visible as a placeholder, accepted deferral, or completed prior ticket, with no backend endpoint implementation in P4B-015.",
+      "split_if": "Not expected; split if one or more backend/API gaps require new approved implementation tickets instead of evidence/deferral.",
+      "requires_human_approval_if": [
+        "New dependency beyond approved P4B-001 Tailwind/shadcn setup is required.",
+        "Runtime backend API changes are needed.",
+        "Schema, migration, contract-source, generated registry, deployment, or production credential access is needed.",
+        "Ticket would introduce Phase 5A policy, Phase 5B Foundry/module installer, or Phase 6 module work.",
+        "Visual QA or noob-proof checklist fails for reasons outside active ticket scope."
+      ],
+      "failure_classification": {
+        "deterministic_validation_failure": "Use up to 3 bounded repair cycles inside active ticket scope, journaling each repair.",
+        "scope_expansion": "Stop for approval; do not broaden the ticket.",
+        "missing_dependency": "Stop if the dependency is not already represented by an earlier Phase 4B ticket or accepted deferral.",
+        "redaction_or_secret_failure": "Stop and classify; do not commit exposed secrets or real credentials.",
+        "unclear_repo_state": "Stop and report before further edits."
+      }
+    },
+    {
+      "ticket_id": "P4B-GATE",
+      "title": "Phase 4B audit, final package, and Phase 5A readiness handoff",
+      "type": "closure_gate",
+      "priority": "P1",
+      "objective": "Close Phase 4B only after validation, browser evidence, noob-proof checklist, redaction review, audit report, final source ZIP, and Phase 5A readiness handoff are complete.",
+      "scope": [
+        "Complete Phase 4B audit report with execution evidence only.",
+        "Run final full validation ladder.",
+        "Verify noob-proof checklist is all PASS.",
+        "Create final external audit package and source ZIP from committed branch HEAD.",
+        "Record accepted deferrals and remaining risks including P4B-SCHEMA-001 Phase 5A remediation.",
+        "Create Phase 5A readiness handoff without starting Phase 5 implementation."
+      ],
+      "non_scope": [
+        "Phase 4A environment work",
+        "Foundry/module installer implementation",
+        "new business modules",
+        "platform AI runtime",
+        "production launch or production integrations",
+        "real WhatsApp production behavior",
+        "full module-driven notification semantics, delivery, retention, mentions, email/SMS/WhatsApp routing, or escalation",
+        "full dashboard marketplace, offline-first sync queue, real-time collaboration, macro/scripting sandbox",
+        "Prisma/schema/migration changes unless a later approved ticket explicitly says otherwise",
+        "generated registry edits unless regeneration proves no drift",
+        "package/dependency changes outside P4B-001 exact-file authority"
+      ],
+      "source_files_to_inspect": [
+        "PLANS.md",
+        "docs/process/AKTI_ERP_Master_Roadmap_Reference_v2.md",
+        "docs/process/AKTI_ERP_Phase_Roadmap_v2.md",
+        "docs/process/AKTI_ERP_Phase_4B_Product_Definition_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Shell_Layout_Decision_v1.md",
+        "docs/standards/AKTI_ERP_Design_System_Contract_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Dashboard_IA_Decision_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Settings_Control_Panel_IA_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Noob_Proof_Acceptance_Checklist_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Command_Palette_Interaction_Model_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Lead_Desk_UX_Problem_List_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Frontend_Dependency_Assessment_v1.md",
+        "docs/adr/ADR-0013-frontend-mission-control-architecture.md",
+        "docs/adr/ADR-0014-ui-component-library.md",
+        "docs/screen-contracts/phase-4b/mission-control-shell.screen.json",
+        "docs/screen-contracts/phase-4b/settings.screen.json",
+        "docs/process/AKTI_ERP_Phase_4B_Audit_Report_v1.md",
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/**",
+        "git log --oneline",
+        "apps/web/app/**",
+        "apps/web/test/**"
+      ],
+      "files_expected_to_change": [
+        "docs/process/AKTI_ERP_Phase_4B_Audit_Report_v1.md",
+        "docs/process/AKTI_ERP_Phase_5A_Readiness_Handoff_After_Phase_4B_v1.md if approved by exact-file plan",
+        "codex-review/phase4b-frontend-operational-experience/final-external-audit/**",
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-GATE/**",
+        "codex-review/phase4b-frontend-operational-experience/phase4b-run-journal.md"
+      ],
+      "files_forbidden_to_change": [
+        "prisma/schema.prisma",
+        "prisma/migrations/**",
+        "generated/entity-registry.generated.json unless registry regeneration proves no drift",
+        ".env* real secret files",
+        "deployment/staging/production files",
+        "Foundry/module installer files",
+        "Phase 5/Phase 6 implementation docs or ticket packs",
+        "apps/web/** runtime changes unless final validation finds a scoped hard blocker requiring approved repair",
+        "apps/api/**",
+        "package.json",
+        "pnpm-lock.yaml"
+      ],
+      "required_outputs": [
+        "Completed Phase 4B audit report with evidence only.",
+        "Final external audit package.",
+        "Source ZIP from committed HEAD.",
+        "Commit log, file list, checksums, validation summary, closure report, known deferrals, exclusion verification, final branch status, redaction/secret scan summary.",
+        "Phase 5A readiness handoff if approved in exact-file plan."
+      ],
+      "evidence_artifacts": [
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-GATE/P4B-GATE-summary.md",
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-GATE/P4B-GATE-validation-summary.md",
+        "codex-review/phase4b-frontend-operational-experience/ticket-artifacts/P4B-GATE/P4B-GATE-changed-files.zip",
+        "codex-review/phase4b-frontend-operational-experience/final-external-audit/phase4b-audit-manifest.md",
+        "codex-review/phase4b-frontend-operational-experience/final-external-audit/phase4b-validation-summary.md",
+        "codex-review/phase4b-frontend-operational-experience/final-external-audit/phase4b-closure-report.md",
+        "codex-review/phase4b-frontend-operational-experience/final-external-audit/phase4b-known-deferrals.md",
+        "codex-review/phase4b-frontend-operational-experience/final-external-audit/phase4b-exclusion-verification.md",
+        "codex-review/phase4b-frontend-operational-experience/final-external-audit/phase4b-redaction-and-secret-scan-summary.md",
+        "codex-review/phase4b-frontend-operational-experience/phase4b-run-journal.md"
+      ],
+      "tests_required": [
+        "Final full validation ladder.",
+        "Direct schema validation for Phase 4B screen contracts.",
+        "Browser/visual QA evidence verification.",
+        "Noob-proof checklist all PASS.",
+        "Final source ZIP exclusion/checksum verification."
+      ],
+      "validation_commands": [
+        "git status --short --branch",
+        "git rev-parse HEAD",
+        "pnpm contracts:validate",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm exec prisma generate --schema prisma/schema.prisma",
+        "pnpm registry:generate",
+        "git diff --exit-code -- generated/entity-registry.generated.json",
+        "pnpm registry:check",
+        "pnpm registry:verify:phase2",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff -- prisma/schema.prisma",
+        "git diff -- prisma/entity-registry.metadata.json",
+        "git diff --check",
+        "git status --short --branch",
+        "node -e \"JSON.parse(require('fs').readFileSync('docs/screen-contracts/phase-4b/mission-control-shell.screen.json','utf8')); JSON.parse(require('fs').readFileSync('docs/screen-contracts/phase-4b/settings.screen.json','utf8'))\"",
+        "pnpm exec tsx -e \"import { readFileSync } from 'node:fs'; import { safeParseScreenContract } from './packages/contracts/screen-contract.schema.ts'; for (const file of ['docs/screen-contracts/phase-4b/mission-control-shell.screen.json','docs/screen-contracts/phase-4b/settings.screen.json']) { const r=safeParseScreenContract(JSON.parse(readFileSync(file,'utf8'))); if(!r.success){ console.error(r.error.message); process.exit(1);} } console.log('phase4b screen contracts schema valid');\"",
+        "git archive --format=zip --output codex-review/phase4b-frontend-operational-experience/final-external-audit/akti-erp-phase4b-source-<SHORT_SHA>.zip HEAD",
+        "unzip -t codex-review/phase4b-frontend-operational-experience/final-external-audit/akti-erp-phase4b-source-<SHORT_SHA>.zip",
+        "sha256sum or shasum -a 256 for final package artifacts",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Noob-proof checklist has any FAIL item.",
+        "Visual QA screenshots show raw token/ID exposure, unreadable layout, missing states, keyboard trap, or API/debug wording.",
+        "Final source ZIP cannot be generated from committed HEAD.",
+        "Final audit package cannot verify exclusions/checksums.",
+        "Exact-file plan reveals broad blast radius requiring a split.",
+        "Required change exceeds Phase 4B frontend operational experience scope.",
+        "New dependency or lockfile drift appears outside P4B-001 or without explicit approval.",
+        "Prisma/schema/migration changes become necessary.",
+        "Runtime backend endpoint implementation becomes necessary outside an approved paired backend ticket.",
+        "Production secret, production credential, deployment, or cloud/VPS resource is required.",
+        "Real outbound WhatsApp or production WhatsApp behavior appears.",
+        "Foundry/module installer, Phase 5/6, platform AI runtime, or new business module scope appears.",
+        "Validation fails after 3 bounded repair cycles.",
+        "Artifacts or redaction review cannot be produced.",
+        "Repo state becomes unclear.",
+        "Exact-file plan reveals broad blast radius requiring a split.",
+        "Required change exceeds Phase 4B frontend operational experience scope.",
+        "New dependency or lockfile drift appears outside P4B-001 or without explicit approval.",
+        "Prisma/schema/migration changes become necessary.",
+        "Runtime backend endpoint implementation becomes necessary outside an approved paired backend ticket.",
+        "Production secret, production credential, deployment, or cloud/VPS resource is required.",
+        "Real outbound WhatsApp or production WhatsApp behavior appears.",
+        "Foundry/module installer, Phase 5/6, platform AI runtime, or new business module scope appears.",
+        "Validation fails after 3 bounded repair cycles.",
+        "Artifacts or redaction review cannot be produced.",
+        "Repo state becomes unclear."
+      ],
+      "acceptance_criteria": [
+        "Phase 4B audit report contains execution evidence only.",
+        "Final full validation ladder passes.",
+        "Noob-proof checklist all applicable PASS.",
+        "Final source ZIP is from committed HEAD and excludes forbidden paths.",
+        "Accepted deferrals and remaining risks are explicit.",
+        "No Phase 5 implementation is started."
+      ],
+      "dependencies": [
+        "P4B-000",
+        "P4B-001",
+        "P4B-002",
+        "P4B-004",
+        "P4B-003",
+        "P4B-005",
+        "P4B-006",
+        "P4B-007",
+        "P4B-008",
+        "P4B-009",
+        "P4B-011",
+        "P4B-010",
+        "P4B-012",
+        "P4B-013",
+        "P4B-014",
+        "P4B-015"
+      ],
+      "commit_message": "P4B-GATE complete Phase 4B closure package",
+      "rollback_notes": "Remove or regenerate closure package from last valid committed Phase 4B HEAD; do not alter source files to repair packaging unless a scoped blocker is approved.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": [
+        "If closure evidence reveals failed noob-proof checklist item.",
+        "If final validation fails outside closure packaging scope.",
+        "If Phase 5A handoff content would become Phase 5 planning/implementation."
+      ],
+      "stale_ticket_risk_notes": [
+        "Closure must use git HEAD, not stale working tree evidence or earlier screenshots."
+      ],
+      "runtime_consistency_chain": [
+        "Preserve Phase 1/2/3/4/4A protections: Access Core, Gatekeeper, tenant scope, no real WhatsApp, clean migrations, local/demo-only proof, no production launch.",
+        "Honor Phase 4B product definition and screen contracts; do not implement frontend screens without matching contract authority.",
+        "Use maximum concrete capability inside current Phase 4B scope; use placeholders only for absent API/policy/backend surfaces.",
+        "Keep P4B-SCHEMA-001 as Phase 5A remediation input; do not treat access.policy.manage as final non-admin shell model."
+      ],
+      "minimum_concrete_requirement": "Committed Phase 4B branch HEAD has a completed audit report, final external audit package, source ZIP from HEAD, all-PASS noob-proof checklist, visual QA evidence, and final full validation ladder evidence.",
+      "split_if": "Split only if final validation reveals a scoped defect that requires an approved repair ticket before closure; do not bury repairs inside P4B-GATE.",
+      "requires_human_approval_if": [
+        "New dependency beyond approved P4B-001 Tailwind/shadcn setup is required.",
+        "Runtime backend API changes are needed.",
+        "Schema, migration, contract-source, generated registry, deployment, or production credential access is needed.",
+        "Ticket would introduce Phase 5A policy, Phase 5B Foundry/module installer, or Phase 6 module work.",
+        "Visual QA or noob-proof checklist fails for reasons outside active ticket scope."
+      ],
+      "failure_classification": {
+        "deterministic_validation_failure": "Use up to 3 bounded repair cycles inside active ticket scope, journaling each repair.",
+        "scope_expansion": "Stop for approval; do not broaden the ticket.",
+        "missing_dependency": "Stop if the dependency is not already represented by an earlier Phase 4B ticket or accepted deferral.",
+        "redaction_or_secret_failure": "Stop and classify; do not commit exposed secrets or real credentials.",
+        "unclear_repo_state": "Stop and report before further edits."
+      }
+    }
+  ],
+  "dashboard_rule": "Dashboard v1 is existing APIs only. No fake operational data. Unsupported widgets become placeholders or deferrals; backend needs become exact paired backend tickets or explicit deferrals.",
+  "notification_rule": "Notification work is infrastructure shell only: bell, unread badge shell, drawer, toast renderer, empty state, static/demo/system notifications, and permission-aware placeholder. No module-driven notification semantics."
+}
