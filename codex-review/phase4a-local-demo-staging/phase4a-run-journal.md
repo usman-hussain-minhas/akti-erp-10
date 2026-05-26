@@ -76,3 +76,9 @@ Resolved full Docker Compose API/Web/Postgres posture as explicitly deferred wit
 Status: COMPLETE
 
 Created the Phase 4A local demo runbook from the implemented local-up, local-down, local-reset, local-smoke, browser capture, and full Compose deferral evidence. Validated command/path consistency, no-secret and no-production boundaries, troubleshooting coverage, and redaction review.
+
+## P4A-012 - Validation alignment and no-secret evidence
+
+Status: COMPLETE
+
+Completed final Phase 4A validation alignment and no-secret evidence review before P4A-GATE. Full validation ladder passed, no unapproved Prisma/schema/registry/package drift was found, and scan matches were classified as placeholders, local/demo values, UI labels, test fixtures, command names, or boundary language.
