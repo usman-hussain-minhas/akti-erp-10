@@ -10,6 +10,11 @@
   --border: #d8ded7;
   --primary: #245e4f;
   --primary-foreground: #ffffff;
+  --accent: #465d7b;
+  --accent-foreground: #ffffff;
+  --success: #2f6f4f;
+  --warning: #8a641b;
+  --info: #2f5f8f;
   --danger: #a43f3f;
   --ring: #2f7d68;
 }
@@ -40,4 +45,14 @@ input,
 select,
 textarea {
   font: inherit;
+}
+
+::selection {
+  background: #cfe4dc;
+  color: var(--foreground);
+}
+
+:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
 }
