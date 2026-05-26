@@ -1336,6 +1336,7 @@
         "git status --short --branch"
       ],
       "stop_conditions": [
+        "Any widget that cannot use a real existing API must show an explicit placeholder, not hardcoded/fake operational data. Fake data is a stop condition.",
         "Exact-file plan reveals broad blast radius requiring a split.",
         "Required change exceeds Phase 4B frontend operational experience scope.",
         "New dependency or lockfile drift appears outside P4B-001 or without explicit approval.",
@@ -1566,7 +1567,7 @@
       "objective": "Implement notification shell infrastructure without module-driven notification semantics or communication policy.",
       "scope": [
         "Implement bell icon, unread badge shell, notification drawer, toast renderer, empty state, static/demo/system notification rendering, and permission-aware placeholder.",
-        "Keep notification route/deep-link absent unless separately approved.",
+        "Notification center has no separate route per ADR-0013; it is a shell drawer/region only. This must not be changed in Phase 4B.",
         "Add tests proving no delivery/retention/mentions/WhatsApp/SMS/email semantics."
       ],
       "non_scope": [
