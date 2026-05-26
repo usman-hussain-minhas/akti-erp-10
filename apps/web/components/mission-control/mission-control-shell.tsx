@@ -9,7 +9,6 @@ import {
   Menu,
   PanelLeftClose,
   PanelLeftOpen,
-  Search,
   Settings,
   UserRound,
   X,
@@ -17,6 +16,7 @@ import {
 import { useState } from 'react';
 
 import { useLeadDeskOperatorContext } from '../../app/lead-desk/operator-context';
+import { CommandPalette } from './command-palette';
 import { DashboardOverview } from './dashboard-overview';
 import { ModuleLauncher } from './module-launcher';
 import { SessionStatusNotice } from '../session/session-status';
@@ -82,18 +82,11 @@ export function MissionControlShell() {
               <p className="m-0 text-sm font-semibold">Mission Control</p>
               <p className="m-0 hidden text-xs text-[#55605a] sm:block">Frontend Operational Experience shell</p>
             </div>
-            <button
-              type="button"
-              className="hidden min-w-48 items-center gap-2 rounded-md border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-left text-sm text-[#55605a] md:inline-flex"
-              aria-label="Command palette entry"
-              disabled
-            >
-              <Search aria-hidden="true" size={16} />
-              <span>Command palette</span>
-              <kbd className="ml-auto rounded border border-[var(--border)] px-1.5 text-xs">Ctrl K</kbd>
-            </button>
-            <Button type="button" variant="ghost" size="icon" aria-label="Help">
-              <HelpCircle aria-hidden="true" size={18} />
+            <CommandPalette />
+            <Button asChild variant="ghost" size="icon" aria-label="Help">
+              <Link href="#help-region">
+                <HelpCircle aria-hidden="true" size={18} />
+              </Link>
             </Button>
             <Button
               type="button"
@@ -145,6 +138,13 @@ export function MissionControlShell() {
             ) : (
               <p className="m-0 text-sm text-[#55605a]">Use the bell to open the notification drawer region.</p>
             )}
+          </section>
+
+          <section id="help-region" aria-labelledby="help-title">
+            <EmptyState
+              title="Help"
+              message="Use Mission Control, the sidebar, or the command palette to open available work areas. Advanced Diagnostics owns session setup."
+            />
           </section>
         </main>
       </div>

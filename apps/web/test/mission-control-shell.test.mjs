@@ -13,7 +13,7 @@ test('/app route renders the Mission Control shell component', () => {
 test('Mission Control shell contains required desktop and mobile regions', () => {
   for (const text of [
     'Module navigation',
-    'Command palette',
+    'CommandPalette',
     'Notifications',
     'Help',
     'Settings',
