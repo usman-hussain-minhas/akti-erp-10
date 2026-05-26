@@ -16,3 +16,9 @@ Decision: recommend Node 22 LTS with Corepack-managed pnpm@10.12.1. Current sess
 Status: COMPLETE
 
 Decision: use both modes with hybrid local first: Docker PostgreSQL plus local pnpm API/Web. Full Compose remains required for P4A-003/P4A-011 resolution.
+
+## P4A-003 - Full Docker Compose API/Web/Postgres decision gate
+
+Status: COMPLETE
+
+Decision: full Docker Compose API/Web/Postgres mode is required for P4A-011 resolution. Docker available: Docker version 28.5.1, build e180ab8; Compose available: Docker Compose version v2.40.2-desktop.1.
