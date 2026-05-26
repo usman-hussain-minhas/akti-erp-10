@@ -13,7 +13,7 @@ export function SessionStatusNotice({ state }: { state: OperatorSessionState }) 
         : 'border-[var(--danger)] bg-[#f5dddd] text-[var(--danger)]';
 
   return (
-    <div className={`rounded-md border px-3 py-2 text-sm ${tone}`}>
+    <div className={`min-w-0 break-words rounded-md border px-3 py-2 text-sm ${tone}`}>
       <p className="m-0 font-medium">{copy.label}</p>
       <p className="m-0">{copy.message}</p>
       {state === 'active' ? null : (
