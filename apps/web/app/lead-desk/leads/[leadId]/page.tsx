@@ -5,7 +5,20 @@ import { useParams } from 'next/navigation';
 import { useState } from 'react';
 
 import { hasOperatorContext, leadDeskApiFetch } from '../../api-client';
+import { LeadDeskWorkspace } from '../../lead-desk-workspace';
 import { useLeadDeskOperatorContext } from '../../operator-context';
+import { Button } from '../../../../components/ui/button';
+import {
+  DegradedState,
+  EmptyState,
+  ErrorState,
+  FormActions,
+  LoadingState,
+  PermissionState,
+  SectionCard,
+  StateMessage,
+  StatusBadge,
+} from '../../../../components/ui/design-system';
 
 type LeadDetail = {
   lead_id: string;
@@ -22,29 +35,17 @@ type LoadState = 'idle' | 'loading' | 'ready' | 'error' | 'permission' | 'degrad
 export default function LeadDeskDetailPage() {
   const params = useParams<{ leadId: string }>();
   const routeLeadId = decodeURIComponent(params.leadId);
-  const { context, hasContext, updateContext } = useLeadDeskOperatorContext();
-  const [sessionTokenDraft, setSessionTokenDraft] = useState('');
+  const { context, sessionState } = useLeadDeskOperatorContext();
   const [state, setState] = useState<LoadState>('idle');
-  const [message, setMessage] = useState('Open lead detail with session context.');
+  const [message, setMessage] = useState('Load lead detail with session context.');
   const [lead, setLead] = useState<LeadDetail | null>(null);
 
-  const canSetContext = sessionTokenDraft.trim().length > 0;
   const canLoad = hasOperatorContext(context);
-
-  function applyContext() {
-    if (!canSetContext) {
-      setState('error');
-      setMessage('Session token is required.');
-      return;
-    }
-    const applied = updateContext({ sessionToken: sessionTokenDraft });
-    setMessage(applied ? 'Session context applied.' : 'Session token must include organization and actor context.');
-  }
 
   async function loadDetail() {
     if (!canLoad) {
       setState('permission');
-      setMessage('Set session context before loading lead detail.');
+      setMessage('Set up session in Advanced Diagnostics before loading lead detail.');
       return;
     }
 
@@ -73,7 +74,7 @@ export default function LeadDeskDetailPage() {
       if (!response.ok) {
         setLead(null);
         setState('error');
-        setMessage('Could not load lead. Try again or contact support if the issue continues.');
+        setMessage('Lead detail is temporarily unavailable. Try again later.');
         return;
       }
 
@@ -84,108 +85,85 @@ export default function LeadDeskDetailPage() {
     } catch {
       setLead(null);
       setState('degraded');
-      setMessage('Lead detail is limited because API base URL is not configured.');
+      setMessage('Lead detail is limited because the local/demo API is not connected.');
     }
   }
 
   return (
-    <main className="mx-auto max-w-4xl space-y-6 px-4 py-8">
-      <header className="space-y-2">
-        <h1 className="text-2xl font-semibold">Lead Detail</h1>
-        <p className="text-sm text-gray-700">Review one lead and open approved status or assignment actions.</p>
-        <p className="rounded border border-blue-200 bg-blue-50 px-3 py-2 text-xs text-blue-900">
-          Session context: {hasContext ? `${context.organizationId} / ${context.actorUserId}` : 'not set'}
-        </p>
-      </header>
-
-      <section className="grid gap-3 rounded-lg border border-gray-200 bg-white p-4 md:grid-cols-2">
-        <label className="space-y-1 text-sm">
-          <span>Lead ID</span>
-          <input className="w-full rounded border border-gray-300 px-3 py-2" value={routeLeadId} disabled />
-        </label>
-        <label className="space-y-1 text-sm">
-          <span>Phase 3 session token</span>
-          <textarea
-            className="w-full rounded border border-gray-300 px-3 py-2"
-            value={sessionTokenDraft}
-            onChange={(event) => setSessionTokenDraft(event.target.value)}
-            rows={3}
-            placeholder="Paste bearer session token"
-          />
-        </label>
-
-        <div className="md:col-span-2 flex items-center gap-3">
-          <button type="button" onClick={applyContext} className="rounded border border-gray-300 px-4 py-2 text-sm" disabled={!canSetContext}>
-            Set context
-          </button>
-          <button
-            type="button"
-            onClick={loadDetail}
-            className="rounded bg-black px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
-            disabled={!canLoad || state === 'loading'}
-          >
+    <LeadDeskWorkspace
+      title="Lead Detail"
+      description="Review one lead without exposing raw route, tenant, actor, or session identifiers in the normal workspace."
+      sessionState={sessionState}
+    >
+      <SectionCard className="grid gap-4">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div className="grid gap-2">
+            <StatusBadge tone="info">Selected lead</StatusBadge>
+            <p className="m-0 text-sm text-[#55605a]">Load the selected lead to view operator-safe details.</p>
+          </div>
+          <Button type="button" onClick={loadDetail} disabled={!canLoad || state === 'loading'}>
             {state === 'loading' ? 'Loading lead' : 'View lead record'}
-          </button>
-          <span className="text-sm text-gray-600">{message}</span>
+          </Button>
         </div>
-      </section>
+        <StateMessage title="Detail status" message={message} />
+      </SectionCard>
 
-      {state === 'loading' ? <p className="rounded border border-blue-200 bg-blue-50 p-3 text-sm">Loading lead.</p> : null}
-      {state === 'permission' ? (
-        <p className="rounded border border-amber-200 bg-amber-50 p-3 text-sm">Access needed: you do not have permission to view this lead detail.</p>
-      ) : null}
-      {state === 'degraded' ? (
-        <p className="rounded border border-orange-200 bg-orange-50 p-3 text-sm">Limited detail mode: API base URL is not configured.</p>
-      ) : null}
-      {state === 'error' ? (
-        <p className="rounded border border-red-200 bg-red-50 p-3 text-sm">Could not load lead. Try again or contact support if the issue continues.</p>
-      ) : null}
-      {state === 'not_found' ? (
-        <p className="rounded border border-gray-200 bg-gray-50 p-3 text-sm">Lead not found in selected organization.</p>
-      ) : null}
+      <LeadDetailState state={state} />
 
       {lead ? (
-        <section className="space-y-4 rounded-lg border border-gray-200 bg-white p-4">
+        <SectionCard className="grid gap-4">
           <dl className="grid gap-3 md:grid-cols-2">
-            <div>
-              <dt className="text-xs uppercase tracking-wide text-gray-500">Lead name</dt>
-              <dd className="text-sm">{lead.full_name}</dd>
-            </div>
-            <div>
-              <dt className="text-xs uppercase tracking-wide text-gray-500">Phone number</dt>
-              <dd className="text-sm">{lead.phone_e164}</dd>
-            </div>
-            <div>
-              <dt className="text-xs uppercase tracking-wide text-gray-500">Source reference</dt>
-              <dd className="text-sm">{lead.source_ref}</dd>
-            </div>
-            <div>
-              <dt className="text-xs uppercase tracking-wide text-gray-500">Status</dt>
-              <dd className="text-sm">{lead.status}</dd>
-            </div>
-            <div>
-              <dt className="text-xs uppercase tracking-wide text-gray-500">Assigned owner</dt>
-              <dd className="text-sm">{lead.assigned_user_id ?? 'Unassigned'}</dd>
-            </div>
-            <div>
-              <dt className="text-xs uppercase tracking-wide text-gray-500">Updated at</dt>
-              <dd className="text-sm">{new Date(lead.updated_at).toLocaleString()}</dd>
-            </div>
+            <OperatorDetail label="Lead name" value={lead.full_name} />
+            <OperatorDetail label="Phone number" value={lead.phone_e164} />
+            <OperatorDetail label="Source reference" value={lead.source_ref} />
+            <OperatorDetail label="Status" value={lead.status} />
+            <OperatorDetail label="Assigned owner" value={lead.assigned_user_id ? 'Assigned' : 'Unassigned'} />
+            <OperatorDetail label="Updated" value={new Date(lead.updated_at).toLocaleString()} />
           </dl>
 
-          <div className="flex flex-wrap gap-2">
-            <Link
-              className="rounded border border-gray-300 px-3 py-2 text-sm"
-              href={`/lead-desk/leads/${encodeURIComponent(routeLeadId)}/actions`}
-            >
-              Open status or assignment
-            </Link>
-            <Link className="rounded border border-gray-300 px-3 py-2 text-sm" href="/lead-desk/inbox">
-              Back to inbox
-            </Link>
-          </div>
-        </section>
+          <FormActions>
+            <Button asChild variant="secondary">
+              <Link href={`/lead-desk/leads/${encodeURIComponent(routeLeadId)}/actions`}>Open status or assignment</Link>
+            </Button>
+            <Button asChild variant="secondary">
+              <Link href="/lead-desk/inbox">Back to inbox</Link>
+            </Button>
+          </FormActions>
+        </SectionCard>
       ) : null}
-    </main>
+    </LeadDeskWorkspace>
+  );
+}
+
+function LeadDetailState({ state }: { state: LoadState }) {
+  if (state === 'loading') {
+    return <LoadingState message="Loading lead detail." />;
+  }
+
+  if (state === 'permission') {
+    return <PermissionState message="You do not have permission to view this lead detail." />;
+  }
+
+  if (state === 'degraded') {
+    return <DegradedState message="Lead detail is limited because the local/demo API is not connected." />;
+  }
+
+  if (state === 'error') {
+    return <ErrorState message="Lead detail is temporarily unavailable. Try again later." />;
+  }
+
+  if (state === 'not_found') {
+    return <EmptyState title="Lead not found" message="The selected lead is not available in the current organization." />;
+  }
+
+  return null;
+}
+
+function OperatorDetail({ label, value }: { label: string; value: string }) {
+  return (
+    <div>
+      <dt className="text-xs uppercase text-[#66716a]">{label}</dt>
+      <dd className="m-0 text-sm">{value}</dd>
+    </div>
   );
 }
