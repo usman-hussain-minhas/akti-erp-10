@@ -28,3 +28,9 @@ Decision: full Docker Compose API/Web/Postgres mode is required for P4A-011 reso
 Status: COMPLETE
 
 Created .env.local.example and .env.demo.example with local-only non-secret placeholders. Classified redaction scan hits as placeholder text only.
+
+## P4A-005 - Local DB reset and migration proof design
+
+Status: COMPLETE
+
+Decision: use local/demo container volume reset as primary DB reset strategy and prove clean database state with prisma migrate deploy, never db push as final proof.

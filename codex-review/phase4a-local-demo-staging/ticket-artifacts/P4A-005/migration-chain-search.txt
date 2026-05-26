@@ -1,0 +1,114 @@
+codex-review/phase4-operational-proof/ticket-artifacts/P4-009/seed-or-bootstrap-log.txt:1:P4-009 seed/bootstrap evidence
+codex-review/phase4-operational-proof/ticket-artifacts/P4-009/seed-or-bootstrap-log.txt:3:Bootstrap was executed through the existing setup organization path after applying committed Prisma migrations with migrate deploy.
+codex-review/phase4-operational-proof/ticket-artifacts/P4-009/seed-or-bootstrap-log.txt:11:No prisma db push fallback was used as final proof.
+docs/process/AKTI_ERP_Phase_4_Fresh_DB_Bootstrap_Decision_v1.md:18:## Exact Commands For P4-009
+docs/process/AKTI_ERP_Phase_4_Fresh_DB_Bootstrap_Decision_v1.md:28:pnpm exec prisma migrate deploy --schema prisma/schema.prisma
+docs/process/AKTI_ERP_Phase_4_Operational_Runbook_v1.md:46:3. Apply committed migrations through `prisma migrate deploy`.
+docs/process/AKTI_ERP_Phase_4_Operational_Runbook_v1.md:65:Evidence source: `codex-review/phase4-operational-proof/ticket-artifacts/P4-009/`
+docs/process/AKTI_ERP_Phase_4_Operational_Runbook_v1.md:67:Phase 4 clean database proof requires committed Prisma migrations, not `prisma db push`, as final evidence. P4-009 proved:
+docs/process/AKTI_ERP_Phase_4_Operational_Runbook_v1.md:70:- Committed migration chain via `prisma migrate deploy`.
+docs/process/AKTI_ERP_Phase_4_Operational_Runbook_v1.md:79:If clean migration bootstrap fails in a future run, stop before deployment/staging proof and classify the blocker. Do not claim `db push` fallback as final operational proof.
+docs/process/AKTI_ERP_Phase_4_Audit_Report_v1.md:33:| P4-009 | `4bd1967`, `6eae0d5` | PASS_AFTER_REPAIR | Initial blocker recorded, then clean DB/bootstrap proof completed |
+docs/process/AKTI_ERP_Phase_4_Audit_Report_v1.md:34:| P4-009R | `ec830ce` | PASS | Clean database migration baseline repair |
+docs/process/AKTI_ERP_Phase_4_Audit_Report_v1.md:46:P4-009 initially exposed a real blocker: committed Prisma migrations were additive and could not bootstrap a clean database. P4-009R added a non-destructive baseline migration and narrow migration-chain alignment without editing existing migration folders or changing `prisma/schema.prisma`. P4-009 then passed with:
+docs/process/AKTI_ERP_Phase_4_Audit_Report_v1.md:49:- `prisma migrate deploy` through committed migrations.
+docs/process/AKTI_ERP_Phase_4_Audit_Report_v1.md:54:- No `prisma db push` final proof.
+docs/process/AKTI_ERP_Phase_4A_Local_Demo_Staging_Environment_Plan_v1.md:33:- Use `prisma migrate deploy` for proof.
+docs/process/AKTI_ERP_Phase_4A_Local_Demo_Staging_Environment_Plan_v1.md:34:- Do not use `prisma db push` as final proof.
+docs/process/AKTI_ERP_Phase_4A_Local_Demo_Staging_Environment_Plan_v1.md:122:- `prisma db push` as final proof.
+docs/process/AKTI_ERP_Phase_4A_Local_Demo_Staging_Environment_Plan_v1.md:140:- `pnpm exec prisma migrate deploy --schema prisma/schema.prisma --config prisma.config.ts`.
+docs/process/AKTI_ERP_Phase_4A_Local_Demo_Staging_Environment_Plan_v1.md:163:- `prisma db push` is needed as final proof.
+docs/process/AKTI_ERP_Phase_4_Backup_Restore_Rollback_Decision_v1.md:20:Only data generated during P4-009/P4-010 local demo proof. No production or customer data.
+docs/process/AKTI_ERP_Phase_4_Ticket_Pack_v1.json:24:    "P4-009",
+docs/process/AKTI_ERP_Phase_4_Ticket_Pack_v1.json:690:        "P4-009 can run exact commands from this contract or stop with classified blocker.",
+docs/process/AKTI_ERP_Phase_4_Ticket_Pack_v1.json:741:        "Produces repeatable commands for P4-009."
+docs/process/AKTI_ERP_Phase_4_Ticket_Pack_v1.json:1256:        "Create sections/placeholders that P4-009 through P4-015 must update later as proof evidence becomes available.",
+docs/process/AKTI_ERP_Phase_4_Ticket_Pack_v1.json:1302:        "placeholder sections for P4-009 through P4-015 evidence updates",
+docs/process/AKTI_ERP_Phase_4_Ticket_Pack_v1.json:1309:        "update log proving skeleton creation before P4-009",
+docs/process/AKTI_ERP_Phase_4_Ticket_Pack_v1.json:1315:        "Trace runbook skeleton sections to P4-001 through P4-008 decisions and P4-009 through P4-015 future proof placeholders.",
+docs/process/AKTI_ERP_Phase_4_Ticket_Pack_v1.json:1331:        "Runbook skeleton exists after P4-001 through P4-008 and before P4-009.",
+docs/process/AKTI_ERP_Phase_4_Ticket_Pack_v1.json:1333:        "Every P4-009 through P4-015 proof ticket has a named section or placeholder to update later.",
+docs/process/AKTI_ERP_Phase_4_Ticket_Pack_v1.json:1358:      "minimum_concrete_requirement": "A runbook skeleton, ownership model, incident/support outline, and proof-ticket update placeholders must exist before P4-009 starts.",
+docs/process/AKTI_ERP_Phase_4_Ticket_Pack_v1.json:1386:        "PASS when runbook skeleton, ownership model, incident/support outline, placeholders, update log, and redaction review exist before P4-009.",
+docs/process/AKTI_ERP_Phase_4_Ticket_Pack_v1.json:1412:        "Identify validation gaps after P4-001 through P4-008 and before P4-009.",
+docs/process/AKTI_ERP_Phase_4_Ticket_Pack_v1.json:1413:        "Define proof-ticket validation requirements for P4-009 through P4-015.",
+docs/process/AKTI_ERP_Phase_4_Ticket_Pack_v1.json:1467:        "Confirm P4-009 through P4-015 each have concrete validation requirements.",
+docs/process/AKTI_ERP_Phase_4_Ticket_Pack_v1.json:1476:        "validation-gap-inventory.md identifies gaps before P4-009",
+docs/process/AKTI_ERP_Phase_4_Ticket_Pack_v1.json:1477:        "proof-ticket-validation-requirements.md covers P4-009 through P4-015",
+docs/process/AKTI_ERP_Phase_4_Ticket_Pack_v1.json:1483:        "Validation gaps are documented before P4-009 implementation proof.",
+docs/process/AKTI_ERP_Phase_4_Ticket_Pack_v1.json:1484:        "Every proof ticket P4-009 through P4-015 has concrete validation requirements.",
+docs/process/AKTI_ERP_Phase_4_Ticket_Pack_v1.json:1505:      "minimum_concrete_requirement": "Validation gap inventory and per-proof-ticket validation requirements must exist before P4-009 starts.",
+docs/process/AKTI_ERP_Phase_4_Ticket_Pack_v1.json:1534:        "PASS when validation gaps and proof-ticket validation requirements are documented before P4-009 and previous validation is preserved.",
+docs/process/AKTI_ERP_Phase_4_Ticket_Pack_v1.json:1541:      "ticket_id": "P4-009",
+docs/process/AKTI_ERP_Phase_4_Ticket_Pack_v1.json:1569:        "codex-review/phase4-operational-proof/ticket-artifacts/P4-009/fresh-db-run-log.txt",
+docs/process/AKTI_ERP_Phase_4_Ticket_Pack_v1.json:1570:        "codex-review/phase4-operational-proof/ticket-artifacts/P4-009/migration-log.txt",
+docs/process/AKTI_ERP_Phase_4_Ticket_Pack_v1.json:1571:        "codex-review/phase4-operational-proof/ticket-artifacts/P4-009/seed-or-bootstrap-log.txt",
+docs/process/AKTI_ERP_Phase_4_Ticket_Pack_v1.json:1572:        "codex-review/phase4-operational-proof/ticket-artifacts/P4-009/setup-organization-smoke-log.txt",
+docs/process/AKTI_ERP_Phase_4_Ticket_Pack_v1.json:1573:        "codex-review/phase4-operational-proof/ticket-artifacts/P4-009/capability-registry-check-log.txt",
+docs/process/AKTI_ERP_Phase_4_Ticket_Pack_v1.json:1574:        "codex-review/phase4-operational-proof/ticket-artifacts/P4-009/manual-hack-attestation.md"
+docs/process/AKTI_ERP_Phase_4_Ticket_Pack_v1.json:1673:      "commit_message": "P4-009 prove fresh DB bootstrap",
+docs/process/AKTI_ERP_Phase_4_Ticket_Pack_v1.json:1674:      "rollback_notes": "Remove P4-009 artifacts and revert any approved proof-support changes from this ticket only.",
+docs/process/AKTI_ERP_Phase_4_Ticket_Pack_v1.json:1735:        "P4-009"
+docs/process/AKTI_ERP_Phase_4_Ticket_Pack_v1.json:1848:        "P4-002, P4-003, and P4-009 are closed before work starts.",
+docs/process/AKTI_ERP_Phase_4_Ticket_Pack_v1.json:1932:        "P4-009",
+docs/process/AKTI_ERP_Phase_4_Ticket_Pack_v1.json:2554:        "P4-009",
+docs/process/AKTI_ERP_Phase_4_Ticket_Pack_v1.json:2563:        "Finalize the runbook after P4-009 through P4-013 and P4-015 close.",
+docs/process/AKTI_ERP_Phase_4_Ticket_Pack_v1.json:2577:        "codex-review/phase4-operational-proof/ticket-artifacts/P4-009/*",
+docs/process/AKTI_ERP_Phase_4_Ticket_Pack_v1.json:2619:        "Trace final runbook sections to P4-009 through P4-015 evidence.",
+docs/process/AKTI_ERP_Phase_4_Ticket_Pack_v1.json:2635:        "P4-014A, P4-009, P4-010, P4-011, P4-012, P4-013, and P4-015 are closed.",
+docs/process/AKTI_ERP_Phase_4_Ticket_Pack_v1.json:2684:        "Update final runbook from P4-009 through P4-015 evidence.",
+docs/process/AKTI_ERP_Phase_4_Ticket_Pack_v1.json:2704:        "P4-009",
+docs/process/AKTI_ERP_Phase_4_Ticket_Pack_v1.json:2715:        "Finalize validation alignment after P4-009 through P4-015 and P4-014B.",
+docs/process/AKTI_ERP_Phase_4_Ticket_Pack_v1.json:2727:        "codex-review/phase4-operational-proof/ticket-artifacts/P4-009/*",
+docs/process/AKTI_ERP_Phase_4_Ticket_Pack_v1.json:2886:        "P4-009",
+codex-review/phase4-operational-proof/ticket-artifacts/P4-009/P4-009-summary.md:1:# P4-009 Summary
+codex-review/phase4-operational-proof/ticket-artifacts/P4-009/P4-009-summary.md:3:Ticket: P4-009 - Fresh DB/bootstrap implementation proof
+codex-review/phase4-operational-proof/ticket-artifacts/P4-009/P4-009-summary.md:9:Updated only P4-009 evidence artifacts under:
+codex-review/phase4-operational-proof/ticket-artifacts/P4-009/P4-009-summary.md:11:`codex-review/phase4-operational-proof/ticket-artifacts/P4-009/`
+codex-review/phase4-operational-proof/ticket-artifacts/P4-009/P4-009-summary.md:22:- The repaired committed migration chain from P4-009R applied successfully using `prisma migrate deploy`.
+codex-review/phase4-operational-proof/ticket-artifacts/P4-009/P4-009-summary.md:23:- DB-to-schema diff returned an empty migration with exit code 0.
+codex-review/phase4-operational-proof/ticket-artifacts/P4-009/P4-009-summary.md:31:- `prisma db push` was not used as final proof.
+codex-review/phase4-operational-proof/ticket-artifacts/P4-009/P4-009-summary.md:46:P4-009 now satisfies the fresh DB/bootstrap implementation proof requirement. P4-010 may start after this evidence update is committed and pushed.
+docs/process/AKTI_ERP_Phase_4A_Ticket_Pack_v1.json:23:    "Use committed Prisma migrations and prisma migrate deploy for proof; db push is not valid final proof.",
+docs/process/AKTI_ERP_Phase_4A_Ticket_Pack_v1.json:487:        "Require committed migrations and prisma migrate deploy.",
+docs/process/AKTI_ERP_Phase_4A_Ticket_Pack_v1.json:488:        "Forbid db push as final proof."
+docs/process/AKTI_ERP_Phase_4A_Ticket_Pack_v1.json:502:        "prisma migrate deploy proof",
+docs/process/AKTI_ERP_Phase_4A_Ticket_Pack_v1.json:503:        "no db push final proof",
+docs/process/AKTI_ERP_Phase_4A_Ticket_Pack_v1.json:512:        "codex-review/phase4-operational-proof/ticket-artifacts/P4-009/*"
+docs/process/AKTI_ERP_Phase_4A_Ticket_Pack_v1.json:533:        "Decision review against P4-009 evidence"
+docs/process/AKTI_ERP_Phase_4A_Ticket_Pack_v1.json:536:        "rg -n \"migrate deploy|db push|empty migration|P4-009\" docs/process codex-review/phase4-operational-proof/ticket-artifacts/P4-009"
+docs/process/AKTI_ERP_Phase_4A_Ticket_Pack_v1.json:540:        "`prisma migrate deploy` is mandatory.",
+docs/process/AKTI_ERP_Phase_4A_Ticket_Pack_v1.json:541:        "`db push` is explicitly rejected as final proof."
+docs/process/AKTI_ERP_Phase_4A_Ticket_Pack_v1.json:550:      "runtime_consistency_chain": "local DB -> reset safety -> migrate deploy -> setup org -> smoke proof",
+docs/process/AKTI_ERP_Phase_4A_Ticket_Pack_v1.json:577:        "Apply migrations with prisma migrate deploy.",
+docs/process/AKTI_ERP_Phase_4A_Ticket_Pack_v1.json:627:        "pnpm exec prisma migrate deploy --schema prisma/schema.prisma --config prisma.config.ts",
+docs/process/AKTI_ERP_Phase_4A_Ticket_Pack_v1.json:639:        "migrate deploy fails.",
+docs/process/AKTI_ERP_Phase_4A_Ticket_Pack_v1.json:640:        "db push appears as final proof.",
+codex-review/phase4-operational-proof/ticket-artifacts/P4-009/blocker-classification.md:1:# P4-009 Blocker Classification
+codex-review/phase4-operational-proof/ticket-artifacts/P4-009/blocker-classification.md:5:The earlier P4-009 blocker was that the checked-in migration chain lacked a baseline migration and failed on a clean disposable database. P4-009R added a committed baseline migration and narrow alignment migration without editing existing migrations or changing `prisma/schema.prisma`.
+codex-review/phase4-operational-proof/ticket-artifacts/P4-009/blocker-classification.md:7:Current P4-009 resumed proof applies committed migrations successfully with `prisma migrate deploy`. There is no active bootstrap blocker in the resumed evidence.
+codex-review/phase4-operational-proof/ticket-artifacts/P4-009/manual-hack-attestation.md:1:# P4-009 Manual Hack Attestation
+codex-review/phase4-operational-proof/ticket-artifacts/P4-009/manual-hack-attestation.md:5:The proof used a newly initialized disposable local PostgreSQL database, applied committed Prisma migrations through `pnpm exec prisma migrate deploy --schema prisma/schema.prisma --config prisma.config.ts`, confirmed an empty DB-to-schema diff, generated the Prisma client, started the existing API, used the existing setup organization endpoint, and ran registry validation.
+codex-review/phase4-operational-proof/ticket-artifacts/P4-009/manual-hack-attestation.md:7:`prisma db push` was not used as final proof.
+codex-review/phase4-operational-proof/ticket-artifacts/P4-009/P4-009-validation-summary.md:1:# P4-009 Validation Summary
+codex-review/phase4-operational-proof/ticket-artifacts/P4-009/P4-009-validation-summary.md:3:Ticket: P4-009 - Fresh DB/bootstrap implementation proof
+codex-review/phase4-operational-proof/ticket-artifacts/P4-009/P4-009-validation-summary.md:14:| Prisma migrate deploy against clean DB | PASS | `migration-log.txt` |
+codex-review/phase4-operational-proof/ticket-artifacts/P4-009/P4-009-validation-summary.md:41:-- This is an empty migration.
+codex-review/phase4-operational-proof/ticket-artifacts/P4-009/P4-009-validation-summary.md:54:P4-009 clean disposable DB bootstrap now passes through committed migrations. `prisma db push` was not used as final proof.
+codex-review/phase4-operational-proof/ticket-artifacts/P4-009/db-to-schema-diff-log.txt:4:-- This is an empty migration.
+codex-review/phase4-operational-proof/ticket-artifacts/P4-009/final-status-log.txt:3: M codex-review/phase4-operational-proof/ticket-artifacts/P4-009/api-health-after-bootstrap-log.txt
+codex-review/phase4-operational-proof/ticket-artifacts/P4-009/final-status-log.txt:4: M codex-review/phase4-operational-proof/ticket-artifacts/P4-009/api-start-for-bootstrap-log.txt
+codex-review/phase4-operational-proof/ticket-artifacts/P4-009/final-status-log.txt:5: M codex-review/phase4-operational-proof/ticket-artifacts/P4-009/blocker-classification.md
+codex-review/phase4-operational-proof/ticket-artifacts/P4-009/final-status-log.txt:6: M codex-review/phase4-operational-proof/ticket-artifacts/P4-009/capability-registry-check-log.txt
+codex-review/phase4-operational-proof/ticket-artifacts/P4-009/final-status-log.txt:7: M codex-review/phase4-operational-proof/ticket-artifacts/P4-009/fresh-db-run-log.txt
+codex-review/phase4-operational-proof/ticket-artifacts/P4-009/final-status-log.txt:8: M codex-review/phase4-operational-proof/ticket-artifacts/P4-009/manual-hack-attestation.md
+codex-review/phase4-operational-proof/ticket-artifacts/P4-009/final-status-log.txt:9: M codex-review/phase4-operational-proof/ticket-artifacts/P4-009/migration-log.txt
+codex-review/phase4-operational-proof/ticket-artifacts/P4-009/final-status-log.txt:10: M codex-review/phase4-operational-proof/ticket-artifacts/P4-009/prisma-generate-log.txt
+codex-review/phase4-operational-proof/ticket-artifacts/P4-009/final-status-log.txt:11: M codex-review/phase4-operational-proof/ticket-artifacts/P4-009/seed-or-bootstrap-log.txt
+codex-review/phase4-operational-proof/ticket-artifacts/P4-009/final-status-log.txt:12: M codex-review/phase4-operational-proof/ticket-artifacts/P4-009/setup-organization-smoke-log.txt
+codex-review/phase4-operational-proof/ticket-artifacts/P4-009/migration-log.txt:1:COMMAND: pnpm exec prisma migrate deploy --schema prisma/schema.prisma --config prisma.config.ts
+codex-review/phase4-operational-proof/ticket-artifacts/P4-009/redaction-review.md:1:# P4-009 Redaction Review
+codex-review/phase4-operational-proof/ticket-artifacts/P4-009/redaction-review.md:7:- P4-009 command logs
+codex-review/phase4-operational-proof/ticket-artifacts/P4-009/redaction-review.md:16:rg -n "secret|token|credential|postgresql://|DATABASE_URL|private key|session|password|AKTI_AUTH_SESSION_SECRET" codex-review/phase4-operational-proof/ticket-artifacts/P4-009 || true
+codex-review/phase4-operational-proof/ticket-artifacts/P4-009/redaction-review.md:24:- Some summary files mention secrets, tokens, credentials, sessions, or `prisma db push` as policy text, not values.
+codex-review/phase4-operational-proof/ticket-artifacts/P4-009/redaction-review.md:35:Redaction review passes for P4-009. Any future scan output that appears to contain a real secret, token, credential, database URL, private key, production credential, or session value remains a stop condition unless proven to be a placeholder.
