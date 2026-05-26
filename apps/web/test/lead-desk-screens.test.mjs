@@ -6,6 +6,7 @@ const inbox = readFileSync(new URL('../app/lead-desk/inbox/page.tsx', import.met
 const create = readFileSync(new URL('../app/lead-desk/create/page.tsx', import.meta.url), 'utf8');
 const detail = readFileSync(new URL('../app/lead-desk/leads/[leadId]/page.tsx', import.meta.url), 'utf8');
 const actions = readFileSync(new URL('../app/lead-desk/leads/[leadId]/actions/page.tsx', import.meta.url), 'utf8');
+const workspace = readFileSync(new URL('../app/lead-desk/lead-desk-workspace.tsx', import.meta.url), 'utf8');
 const apiClient = readFileSync(new URL('../app/lead-desk/api-client.ts', import.meta.url), 'utf8');
 const contextHook = readFileSync(new URL('../app/lead-desk/operator-context.ts', import.meta.url), 'utf8');
 const sessionStatus = readFileSync(new URL('../components/session/session-status.tsx', import.meta.url), 'utf8');
@@ -51,6 +52,17 @@ test('inbox screen has explicit loading error permission and degraded states', (
   assert.match(inbox, /state === 'degraded'/);
 });
 
+test('Lead Desk routes render inside the workspace shell navigation', () => {
+  assert.match(workspace, /LeadDeskWorkspace/);
+  assert.match(workspace, /Mission Control/);
+  assert.match(workspace, /Lead Desk navigation/);
+  assert.match(workspace, /Advanced Diagnostics/);
+
+  for (const source of leadDeskScreens) {
+    assert.match(source, /LeadDeskWorkspace/);
+  }
+});
+
 test('create screen submits required payload fields', () => {
   assert.match(create, /full_name/);
   assert.match(create, /phone_e164/);
@@ -63,7 +75,7 @@ test('create screen submits required payload fields', () => {
 
 test('detail screen fetches scoped lead path and handles context state', () => {
   assert.match(detail, /\/leads\/\$\{encodeURIComponent\(routeLeadId\)\}/);
-  assert.match(detail, /SessionStatusNotice/);
+  assert.match(workspace, /SessionStatusNotice/);
   assert.match(detail, /state === 'not_found'/);
 });
 
@@ -71,6 +83,7 @@ test('actions screen posts status and assignment to scoped endpoints', () => {
   assert.match(actions, /\/status/);
   assert.match(actions, /\/assignment/);
   assert.match(actions, /requested_at/);
+  assert.match(actions, /assigneeReference/);
   assert.match(actions, /response\.status === 401 \|\| response\.status === 403/);
   assert.equal(actions.includes('actor_user_id:'), false);
   assert.equal(actions.includes('organization_id:'), false);
@@ -82,6 +95,10 @@ test('normal lead desk screens do not expose bearer token entry or raw session d
     assert.equal(source.includes('Paste bearer session token'), false);
     assert.equal(source.includes('sessionTokenDraft'), false);
     assert.equal(source.includes('${context.organizationId} / ${context.actorUserId}'), false);
+    assert.equal(source.includes('Lead ID'), false);
+    assert.equal(source.includes('Assigned User ID'), false);
+    assert.equal(source.includes('actor ID'), false);
+    assert.equal(source.includes('organization ID'), false);
   }
 
   assert.match(advancedDiagnostics, /Bearer session token/);

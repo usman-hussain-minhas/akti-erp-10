@@ -4,8 +4,22 @@ import Link from 'next/link';
 import { useState } from 'react';
 
 import { hasOperatorContext, leadDeskApiFetch } from '../api-client';
+import { LeadDeskWorkspace } from '../lead-desk-workspace';
 import { useLeadDeskOperatorContext } from '../operator-context';
-import { SessionStatusNotice } from '../../../components/session/session-status';
+import { Button } from '../../../components/ui/button';
+import {
+  DataTable,
+  DegradedState,
+  EmptyState,
+  ErrorState,
+  Field,
+  FormActions,
+  Input,
+  LoadingState,
+  PermissionState,
+  SectionCard,
+  StateMessage,
+} from '../../../components/ui/design-system';
 
 type LeadRow = {
   lead_id: string;
@@ -23,14 +37,14 @@ export default function LeadDeskInboxPage() {
   const [assignedFilter, setAssignedFilter] = useState('');
   const [rows, setRows] = useState<LeadRow[]>([]);
   const [state, setState] = useState<LoadState>('idle');
-  const [message, setMessage] = useState('Set session context to load the lead inbox.');
+  const [message, setMessage] = useState('Set up session in Advanced Diagnostics to load the lead inbox.');
 
   const canLoad = hasOperatorContext(context);
 
   async function loadInbox() {
     if (!canLoad) {
       setState('permission');
-      setMessage('Set session context before loading inbox.');
+      setMessage('Set up session in Advanced Diagnostics before loading the inbox.');
       return;
     }
 
@@ -60,7 +74,7 @@ export default function LeadDeskInboxPage() {
       if (!response.ok) {
         setRows([]);
         setState('error');
-        setMessage('Could not load inbox. Try again or contact support if the issue continues.');
+        setMessage('Lead inbox is temporarily unavailable. Try again later.');
         return;
       }
 
@@ -68,103 +82,104 @@ export default function LeadDeskInboxPage() {
       const items = Array.isArray(payload.items) ? payload.items : [];
       setRows(items);
       setState('ready');
-
-      if (items.length === 0) {
-        setMessage('There are no leads matching the current filters.');
-      } else {
-        setMessage('Lead inbox loaded.');
-      }
+      setMessage(items.length === 0 ? 'There are no leads matching the current filters.' : 'Lead inbox loaded.');
     } catch {
       setRows([]);
       setState('degraded');
-      setMessage('Lead inbox is limited because API base URL is not configured.');
+      setMessage('Lead inbox is limited because the local/demo API is not connected.');
     }
   }
 
   return (
-    <main className="mx-auto max-w-5xl space-y-6 px-4 py-8">
-      <header className="space-y-2">
-        <h1 className="text-2xl font-semibold">Lead Inbox</h1>
-        <p className="text-sm text-gray-700">Review and open leads without leaving organization scope.</p>
-        <SessionStatusNotice state={sessionState} />
-      </header>
-
-      <section className="grid gap-3 rounded-lg border border-gray-200 bg-white p-4 md:grid-cols-2">
-        <label className="space-y-1 text-sm">
-          <span>Status filter</span>
-          <input
-            className="w-full rounded border border-gray-300 px-3 py-2"
-            value={statusFilter}
-            onChange={(event) => setStatusFilter(event.target.value)}
-            placeholder="new, contacted, qualified, closed"
-          />
-        </label>
-        <label className="space-y-1 text-sm">
-          <span>Assigned owner filter</span>
-          <input
-            className="w-full rounded border border-gray-300 px-3 py-2"
-            value={assignedFilter}
-            onChange={(event) => setAssignedFilter(event.target.value)}
-            placeholder="User ID"
-          />
-        </label>
-
-        <div className="md:col-span-2 flex items-center gap-3">
-          <button type="button" onClick={loadInbox} className="rounded bg-black px-4 py-2 text-sm font-medium text-white disabled:opacity-50" disabled={!canLoad || state === 'loading'}>
-            {state === 'loading' ? 'Loading inbox' : 'Load inbox'}
-          </button>
-          <span className="text-sm text-gray-600">{message}</span>
+    <LeadDeskWorkspace
+      title="Lead Inbox"
+      description="Review current leads with safe session status, clear filters, and no raw technical session details."
+      sessionState={sessionState}
+    >
+      <SectionCard className="grid gap-4">
+        <div className="grid gap-3 md:grid-cols-2">
+          <Field label="Status filter" helperText="Use the current contract status terms until product terminology is finalized.">
+            <Input
+              value={statusFilter}
+              onChange={(event) => setStatusFilter(event.target.value)}
+              placeholder="new, contacted, qualified, closed"
+            />
+          </Field>
+          <Field label="Assigned owner reference" helperText="Optional filter. Friendly owner lookup is deferred until a backend surface exists.">
+            <Input
+              value={assignedFilter}
+              onChange={(event) => setAssignedFilter(event.target.value)}
+              placeholder="Optional owner reference"
+            />
+          </Field>
         </div>
-      </section>
 
-      {state === 'loading' ? <p className="rounded border border-blue-200 bg-blue-50 p-3 text-sm">Loading inbox.</p> : null}
-      {state === 'permission' ? (
-        <p className="rounded border border-amber-200 bg-amber-50 p-3 text-sm">Access needed: you do not have permission to view the lead inbox.</p>
-      ) : null}
-      {state === 'degraded' ? (
-        <p className="rounded border border-orange-200 bg-orange-50 p-3 text-sm">Limited inbox: API base URL is not configured.</p>
-      ) : null}
-      {state === 'error' ? (
-        <p className="rounded border border-red-200 bg-red-50 p-3 text-sm">Could not load inbox. Try again or contact support if the issue continues.</p>
-      ) : null}
+        <FormActions>
+          <Button type="button" onClick={loadInbox} disabled={!canLoad || state === 'loading'}>
+            {state === 'loading' ? 'Loading inbox' : 'Load inbox'}
+          </Button>
+          <StateMessage title="Inbox status" message={message} />
+        </FormActions>
+      </SectionCard>
 
-      {state === 'ready' && rows.length === 0 ? (
-        <p className="rounded border border-gray-200 bg-gray-50 p-3 text-sm">No leads waiting.</p>
-      ) : null}
+      <LeadDeskState state={state} message={message} empty={rows.length === 0} />
 
       {rows.length > 0 ? (
-        <section className="overflow-x-auto rounded-lg border border-gray-200 bg-white">
-          <table className="min-w-full text-sm">
-            <thead className="bg-gray-50 text-left">
-              <tr>
-                <th className="px-3 py-2 font-medium">Lead name</th>
-                <th className="px-3 py-2 font-medium">Status</th>
-                <th className="px-3 py-2 font-medium">Assigned owner</th>
-                <th className="px-3 py-2 font-medium">Source</th>
-                <th className="px-3 py-2 font-medium">Action</th>
+        <DataTable>
+          <thead className="bg-[var(--surface-muted)] text-left">
+            <tr>
+              <th className="px-3 py-2 font-medium">Lead name</th>
+              <th className="px-3 py-2 font-medium">Status</th>
+              <th className="px-3 py-2 font-medium">Assigned owner</th>
+              <th className="px-3 py-2 font-medium">Source</th>
+              <th className="px-3 py-2 font-medium">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((row) => (
+              <tr key={row.lead_id} className="border-t border-[var(--border)] hover:bg-[var(--surface-muted)] focus-within:bg-[var(--surface-muted)]">
+                <td className="px-3 py-2">{row.full_name}</td>
+                <td className="px-3 py-2">{row.status}</td>
+                <td className="px-3 py-2">{row.assigned_user_id ? 'Assigned' : 'Unassigned'}</td>
+                <td className="px-3 py-2">{row.source_ref}</td>
+                <td className="px-3 py-2">
+                  <Button asChild variant="secondary">
+                    <Link href={`/lead-desk/leads/${encodeURIComponent(row.lead_id)}`}>Open</Link>
+                  </Button>
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              {rows.map((row) => (
-                <tr key={row.lead_id} className="border-t border-gray-100">
-                  <td className="px-3 py-2">{row.full_name}</td>
-                  <td className="px-3 py-2">{row.status}</td>
-                  <td className="px-3 py-2">{row.assigned_user_id ?? 'Unassigned'}</td>
-                  <td className="px-3 py-2">{row.source_ref}</td>
-                  <td className="px-3 py-2">
-                    <Link
-                      className="rounded border border-gray-300 px-2 py-1 text-xs"
-                      href={`/lead-desk/leads/${encodeURIComponent(row.lead_id)}`}
-                    >
-                      Open
-                    </Link>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </section>
+            ))}
+          </tbody>
+        </DataTable>
       ) : null}
-    </main>
+    </LeadDeskWorkspace>
   );
+}
+
+function LeadDeskState({ state, message, empty }: { state: LoadState; message: string; empty: boolean }) {
+  if (state === 'loading') {
+    return <LoadingState message="Loading lead inbox." />;
+  }
+
+  if (state === 'permission') {
+    return <PermissionState message="You do not have permission to view the lead inbox." />;
+  }
+
+  if (state === 'degraded') {
+    return <DegradedState message="Lead inbox is limited because the local/demo API is not connected." />;
+  }
+
+  if (state === 'error') {
+    return <ErrorState message="Lead inbox is temporarily unavailable. Try again later." />;
+  }
+
+  if (state === 'ready' && empty) {
+    return <EmptyState title="No leads waiting" message="There are no leads matching the current filters." />;
+  }
+
+  if (state === 'idle') {
+    return <StateMessage title="Ready when session is active" message={message} />;
+  }
+
+  return null;
 }

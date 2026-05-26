@@ -5,8 +5,23 @@ import { useParams } from 'next/navigation';
 import { useState } from 'react';
 
 import { hasOperatorContext, leadDeskApiFetch } from '../../../api-client';
+import { LeadDeskWorkspace } from '../../../lead-desk-workspace';
 import { useLeadDeskOperatorContext } from '../../../operator-context';
-import { SessionStatusNotice } from '../../../../../components/session/session-status';
+import { Button } from '../../../../../components/ui/button';
+import {
+  DegradedState,
+  EmptyState,
+  ErrorState,
+  Field,
+  FormActions,
+  Input,
+  LoadingState,
+  PermissionState,
+  SectionCard,
+  StateMessage,
+  SuccessState,
+  Textarea,
+} from '../../../../../components/ui/design-system';
 
 type LeadDetail = {
   lead_id: string;
@@ -30,7 +45,7 @@ export default function LeadDeskActionsPage() {
 
   const [statusValue, setStatusValue] = useState('');
   const [statusReason, setStatusReason] = useState('');
-  const [assigneeUserId, setAssigneeUserId] = useState('');
+  const [assigneeReference, setAssigneeReference] = useState('');
 
   const [statusActionState, setStatusActionState] = useState<ActionState>('idle');
   const [statusActionMessage, setStatusActionMessage] = useState('');
@@ -42,7 +57,7 @@ export default function LeadDeskActionsPage() {
   async function loadLeadContext() {
     if (!canLoad) {
       setDetailState('permission');
-      setDetailMessage('Set session context before loading actions.');
+      setDetailMessage('Set up session in Advanced Diagnostics before loading actions.');
       return;
     }
 
@@ -71,20 +86,20 @@ export default function LeadDeskActionsPage() {
       if (!response.ok) {
         setLead(null);
         setDetailState('error');
-        setDetailMessage('Could not load lead context. Check values and try again.');
+        setDetailMessage('Lead action context is temporarily unavailable. Try again later.');
         return;
       }
 
       const payload = (await response.json()) as LeadDetail;
       setLead(payload);
       setStatusValue(payload.status);
-      setAssigneeUserId(payload.assigned_user_id ?? '');
+      setAssigneeReference('');
       setDetailState('ready');
       setDetailMessage('Lead action context loaded.');
     } catch {
       setLead(null);
-      setDetailState('error');
-      setDetailMessage('Could not load lead context. Check values and try again.');
+      setDetailState('degraded');
+      setDetailMessage('Lead actions are limited because the local/demo API is not connected.');
     }
   }
 
@@ -103,7 +118,7 @@ export default function LeadDeskActionsPage() {
 
     if (!canLoad) {
       setStatusActionState('permission');
-      setStatusActionMessage('Set session context before updating status.');
+      setStatusActionMessage('Set up session in Advanced Diagnostics before updating status.');
       return;
     }
 
@@ -152,15 +167,15 @@ export default function LeadDeskActionsPage() {
       return;
     }
 
-    if (!assigneeUserId.trim()) {
+    if (!assigneeReference.trim()) {
       setAssignActionState('error');
-      setAssignActionMessage('Assigned user ID is required.');
+      setAssignActionMessage('Assigned owner reference is required.');
       return;
     }
 
     if (!canLoad) {
       setAssignActionState('permission');
-      setAssignActionMessage('Set session context before assignment update.');
+      setAssignActionMessage('Set up session in Advanced Diagnostics before assignment update.');
       return;
     }
 
@@ -174,7 +189,7 @@ export default function LeadDeskActionsPage() {
           'content-type': 'application/json',
         },
         body: JSON.stringify({
-          assigned_user_id: assigneeUserId.trim(),
+          assigned_user_id: assigneeReference.trim(),
           requested_at: new Date().toISOString(),
         }),
       });
@@ -193,6 +208,7 @@ export default function LeadDeskActionsPage() {
 
       const payload = (await response.json()) as { assigned_user_id: string };
       setLead((current) => (current ? { ...current, assigned_user_id: payload.assigned_user_id } : current));
+      setAssigneeReference('');
       setAssignActionState('success');
       setAssignActionMessage('Lead assignment updated.');
     } catch {
@@ -202,123 +218,129 @@ export default function LeadDeskActionsPage() {
   }
 
   return (
-    <main className="mx-auto max-w-4xl space-y-6 px-4 py-8">
-      <header className="space-y-2">
-        <h1 className="text-2xl font-semibold">Lead Status and Assignment</h1>
-        <p className="text-sm text-gray-700">Update status and assignment with organization-scoped checks.</p>
-        <SessionStatusNotice state={sessionState} />
-      </header>
-
-      <section className="grid gap-3 rounded-lg border border-gray-200 bg-white p-4">
-        <label className="space-y-1 text-sm">
-          <span>Lead ID</span>
-          <input className="w-full rounded border border-gray-300 px-3 py-2" value={routeLeadId} disabled />
-        </label>
-
-        <div className="flex items-center gap-3">
-          <button
-            type="button"
-            onClick={loadLeadContext}
-            className="rounded bg-black px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
-            disabled={!canLoad || detailState === 'loading'}
-          >
+    <LeadDeskWorkspace
+      title="Lead Status and Assignment"
+      description="Update status and assignment with safe session handling and without exposing route or tenant identifiers."
+      sessionState={sessionState}
+    >
+      <SectionCard className="grid gap-4">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <p className="m-0 text-sm text-[#55605a]">Load the selected lead before applying status or assignment changes.</p>
+          <Button type="button" onClick={loadLeadContext} disabled={!canLoad || detailState === 'loading'}>
             {detailState === 'loading' ? 'Loading lead' : 'Load lead context'}
-          </button>
-          <span className="text-sm text-gray-600">{detailMessage}</span>
+          </Button>
         </div>
-      </section>
+        <StateMessage title="Action context" message={detailMessage} />
+      </SectionCard>
 
-      {detailState === 'permission' ? (
-        <p className="rounded border border-amber-200 bg-amber-50 p-3 text-sm">Access needed: you do not have permission to update lead status or assignment.</p>
-      ) : null}
-      {detailState === 'degraded' ? (
-        <p className="rounded border border-orange-200 bg-orange-50 p-3 text-sm">Status and assignment actions are temporarily limited.</p>
-      ) : null}
-      {detailState === 'error' ? (
-        <p className="rounded border border-red-200 bg-red-50 p-3 text-sm">Could not apply update. Check selected values and try again.</p>
-      ) : null}
-      {detailState === 'not_found' ? (
-        <p className="rounded border border-gray-200 bg-gray-50 p-3 text-sm">A lead must be selected before status or assignment can be changed.</p>
-      ) : null}
+      <ActionContextState state={detailState} />
 
       {lead ? (
-        <section className="space-y-6 rounded-lg border border-gray-200 bg-white p-4">
-          <div className="space-y-1">
-            <p className="text-sm font-medium">Current lead</p>
-            <p className="text-sm text-gray-700">{lead.full_name}</p>
-            <p className="text-sm text-gray-700">Current status: {lead.status}</p>
-            <p className="text-sm text-gray-700">Assigned owner: {lead.assigned_user_id ?? 'Unassigned'}</p>
-          </div>
+        <SectionCard className="grid gap-6">
+          <section className="grid gap-2">
+            <p className="m-0 text-sm font-medium">Current lead</p>
+            <p className="m-0 text-sm text-[#55605a]">{lead.full_name}</p>
+            <p className="m-0 text-sm text-[#55605a]">Current status: {lead.status}</p>
+            <p className="m-0 text-sm text-[#55605a]">Assigned owner: {lead.assigned_user_id ? 'Assigned' : 'Unassigned'}</p>
+          </section>
 
           <div className="grid gap-4 md:grid-cols-2">
-            <section className="space-y-3 rounded border border-gray-200 p-3">
-              <h2 className="text-sm font-medium">Update status</h2>
-              <label className="space-y-1 text-sm">
-                <span>New status</span>
-                <input
-                  className="w-full rounded border border-gray-300 px-3 py-2"
+            <section className="grid gap-3 rounded-lg border border-[var(--border)] p-3">
+              <h2 className="m-0 text-sm font-medium">Update status</h2>
+              <Field label="New status">
+                <Input
                   value={statusValue}
                   onChange={(event) => setStatusValue(event.target.value)}
                   placeholder="new, contacted, qualified, closed"
                 />
-              </label>
-              <label className="space-y-1 text-sm">
-                <span>Status note (optional)</span>
-                <textarea
-                  className="w-full rounded border border-gray-300 px-3 py-2"
+              </Field>
+              <Field label="Status note" helperText="Optional context for this status change.">
+                <Textarea
                   value={statusReason}
                   onChange={(event) => setStatusReason(event.target.value)}
                   rows={3}
                   placeholder="Context for this status change"
                 />
-              </label>
-              <button
-                type="button"
-                onClick={submitStatusUpdate}
-                className="rounded bg-black px-3 py-2 text-sm text-white disabled:opacity-50"
-                disabled={statusActionState === 'submitting'}
-              >
+              </Field>
+              <Button type="button" onClick={submitStatusUpdate} disabled={statusActionState === 'submitting'}>
                 {statusActionState === 'submitting' ? 'Updating status' : 'Update status'}
-              </button>
-              {statusActionMessage ? <p className="text-sm text-gray-600">{statusActionMessage}</p> : null}
+              </Button>
+              <ActionStateMessage state={statusActionState} message={statusActionMessage} />
             </section>
 
-            <section className="space-y-3 rounded border border-gray-200 p-3">
-              <h2 className="text-sm font-medium">Assign owner</h2>
-              <label className="space-y-1 text-sm">
-                <span>Assigned User ID</span>
-                <input
-                  className="w-full rounded border border-gray-300 px-3 py-2"
-                  value={assigneeUserId}
-                  onChange={(event) => setAssigneeUserId(event.target.value)}
-                  placeholder="Enter assignee user ID"
-                />
-              </label>
-              <button
-                type="button"
-                onClick={submitAssignmentUpdate}
-                className="rounded bg-black px-3 py-2 text-sm text-white disabled:opacity-50"
-                disabled={assignActionState === 'submitting'}
+            <section className="grid gap-3 rounded-lg border border-[var(--border)] p-3">
+              <h2 className="m-0 text-sm font-medium">Assign owner</h2>
+              <Field
+                label="Assigned owner reference"
+                helperText="Friendly owner lookup is a known backend gap; use only an approved local/demo reference."
               >
+                <Input
+                  value={assigneeReference}
+                  onChange={(event) => setAssigneeReference(event.target.value)}
+                  placeholder="Owner reference"
+                />
+              </Field>
+              <Button type="button" onClick={submitAssignmentUpdate} disabled={assignActionState === 'submitting'}>
                 {assignActionState === 'submitting' ? 'Updating assignment' : 'Assign owner'}
-              </button>
-              {assignActionMessage ? <p className="text-sm text-gray-600">{assignActionMessage}</p> : null}
+              </Button>
+              <ActionStateMessage state={assignActionState} message={assignActionMessage} />
             </section>
           </div>
 
-          <div className="flex flex-wrap gap-2">
-            <Link
-              className="rounded border border-gray-300 px-3 py-2 text-sm"
-              href={`/lead-desk/leads/${encodeURIComponent(routeLeadId)}`}
-            >
-              Back to detail
-            </Link>
-            <Link className="rounded border border-gray-300 px-3 py-2 text-sm" href="/lead-desk/inbox">
-              Back to inbox
-            </Link>
-          </div>
-        </section>
+          <FormActions>
+            <Button asChild variant="secondary">
+              <Link href={`/lead-desk/leads/${encodeURIComponent(routeLeadId)}`}>Back to detail</Link>
+            </Button>
+            <Button asChild variant="secondary">
+              <Link href="/lead-desk/inbox">Back to inbox</Link>
+            </Button>
+          </FormActions>
+        </SectionCard>
       ) : null}
-    </main>
+    </LeadDeskWorkspace>
   );
+}
+
+function ActionContextState({ state }: { state: LoadState }) {
+  if (state === 'loading') {
+    return <LoadingState message="Loading lead action context." />;
+  }
+
+  if (state === 'permission') {
+    return <PermissionState message="You do not have permission to update lead status or assignment." />;
+  }
+
+  if (state === 'degraded') {
+    return <DegradedState message="Lead actions are limited because the local/demo API is not connected." />;
+  }
+
+  if (state === 'error') {
+    return <ErrorState message="Lead action context is temporarily unavailable. Try again later." />;
+  }
+
+  if (state === 'not_found') {
+    return <EmptyState title="Lead not found" message="A lead must be selected before status or assignment can be changed." />;
+  }
+
+  return null;
+}
+
+function ActionStateMessage({ state, message }: { state: ActionState; message: string }) {
+  if (!message) {
+    return null;
+  }
+
+  if (state === 'success') {
+    return <SuccessState message={message} />;
+  }
+
+  if (state === 'permission') {
+    return <PermissionState message={message} />;
+  }
+
+  if (state === 'error') {
+    return <ErrorState message={message} />;
+  }
+
+  return <StateMessage title="Action status" message={message} />;
 }
