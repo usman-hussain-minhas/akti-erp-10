@@ -28,6 +28,19 @@
   - limited diagnostics mode
 - “Set up session” links to Advanced Diagnostics when session is missing.
 
+## Layered Visibility Model
+
+Phase 4B accepts a temporary local/demo screen-contract limitation: `mission-control-shell.screen.json` remains schema-valid by requiring `access.policy.manage` because the current `private_portal` contract schema requires at least one required capability. Current Phase 4B local/demo sessions are admin/elevated, so this is acceptable for product-definition review and local/demo proof.
+
+This is not the intended long-term shell model. The target layered visibility model is:
+
+- Shell base visibility is any authenticated/session-valid operator.
+- Lead Desk navigation is shown when the operator has `lead.inbox.view` or `lead.intake.create`.
+- Settings, Access management, settings mutations, admin regions, and Advanced Diagnostics are gated by `access.policy.manage` or a future equivalent.
+- Module regions are capability-gated individually and must not inherit admin access as a blanket shell requirement.
+
+Phase 5A must resolve the base authenticated shell capability or session-gated screen-contract model before Phase 6 non-admin operators/modules. Phase 4B implementation tickets must not treat `access.policy.manage` as the final user-facing shell gate.
+
 ## Mobile Layout
 
 - Mobile uses a hybrid drawer plus bottom primary navigation.

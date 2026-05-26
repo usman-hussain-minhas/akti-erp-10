@@ -65,6 +65,19 @@ Normal operators must not see decoded token internals, actor IDs, org IDs, lead 
 
 Codex must not invent any other session setup mechanism, login redirect, modal flow, OAuth flow, username/password flow, or production-auth replacement in Phase 4B.
 
+### Accepted Phase 4B Capability Limitation
+
+`docs/screen-contracts/phase-4b/mission-control-shell.screen.json` currently requires `access.policy.manage` because the active `private_portal` screen-contract schema requires at least one `required_capabilities` entry. This is accepted for Phase 4B local/demo purposes because current demo sessions are admin/elevated.
+
+This is not the intended long-term operator model. The long-term model is layered:
+
+- shell base visibility = authenticated/session-valid operator;
+- Lead Desk navigation = `lead.inbox.view` or `lead.intake.create`;
+- Settings/admin/Access/Advanced Diagnostics = `access.policy.manage` or future equivalent;
+- module regions are capability-gated individually.
+
+Phase 5A must resolve either a base authenticated shell capability such as `platform.shell.access` / `platform.authenticated`, or an authenticated/session-gated screen-contract model before Phase 6 non-admin modules/users. The Phase 4B ticket pack must not treat `access.policy.manage` as the final user-facing shell model.
+
 ### Dashboard V1
 
 - Use existing APIs only.

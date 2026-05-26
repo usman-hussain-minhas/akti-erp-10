@@ -49,6 +49,19 @@ AKTI ERP will use a Mission Control shell architecture for Phase 4B:
 
 The shell must show normal users only safe session states: session active, session missing, session expired/invalid, and limited diagnostics mode. Raw bearer tokens, decoded token internals, actor IDs, organization IDs, lead IDs, and technical session fields move out of normal operator screens and into Advanced Diagnostics only.
 
+## Accepted Phase 4B Capability Limitation
+
+The current Phase 4B Mission Control screen contract keeps `access.policy.manage` as the required capability because the active `private_portal` screen-contract schema rejects empty `required_capabilities`. This is a schema constraint, not the intended long-term operator model.
+
+This limitation is accepted for Phase 4B local/demo because current demo sessions are admin/elevated. The long-term model remains layered:
+
+- shell base visibility = authenticated/session-valid operator;
+- Lead Desk navigation = `lead.inbox.view` or `lead.intake.create`;
+- Settings/admin/Access/Advanced Diagnostics = `access.policy.manage` or future equivalent;
+- module regions are capability-gated individually.
+
+Phase 5A must resolve either a base platform shell capability such as `platform.shell.access` / `platform.authenticated`, or an authenticated/session-gated shell screen type before Phase 6 non-admin operators and modules. Phase 4B ticketing must not treat `access.policy.manage` as the final user-facing shell gate.
+
 ## Route And Surface Ownership
 
 | Surface | Route / ownership | Phase 4B responsibility |
