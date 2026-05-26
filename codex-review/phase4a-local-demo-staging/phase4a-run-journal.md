@@ -46,3 +46,9 @@ Attempted hybrid runtime proof. Docker daemon was unavailable, so a local dispos
 Status: COMPLETE
 
 Approved scoped continuation repaired web startup argument passing and detached process lifetime for local proof services. P4A-006 completed successfully with local/demo PostgreSQL fallback, committed migrations, API/Web startup, setup smoke, cleanup proof, redaction review, and full validation ladder passing.
+
+## P4A-007 - Local up/down/reset scripts
+
+Status: COMPLETE
+
+Added local-down and local-reset-db scripts. Validated local-up, local-down, local-reset-db, listener cleanup, and the full validation ladder. No production, secret, cloud/VPS, Prisma/schema, package/dependency, Phase 4B, or Phase 5 scope was introduced.
