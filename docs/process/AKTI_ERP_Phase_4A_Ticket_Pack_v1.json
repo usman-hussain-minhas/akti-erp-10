@@ -13,8 +13,8 @@
     "P4A-007",
     "P4A-008",
     "P4A-009",
-    "P4A-010",
     "P4A-011",
+    "P4A-010",
     "P4A-012",
     "P4A-GATE"
   ],
@@ -895,82 +895,6 @@
       "failure_classification": "browser_evidence_blocker"
     },
     {
-      "ticket_id": "P4A-010",
-      "title": "Local demo runbook",
-      "type": "docs/validation",
-      "priority": "P1",
-      "commit_message": "P4A-010 complete local demo runbook",
-      "rollback_notes": "Revert only the files created or modified by this ticket, preserve prior ticket artifacts, and do not roll back migrations, Prisma schema, package files, or dependency state as a repair shortcut.",
-      "exact_file_plan_required": true,
-      "broad_globs_are_inspection_hints_only": true,
-      "dependencies": [
-        "P4A-007",
-        "P4A-008",
-        "P4A-009"
-      ],
-      "objective": "Create the human/Codex runbook for local demo use.",
-      "scope": [
-        "Document startup, shutdown, reset, smoke, browser inspection, screenshots, and troubleshooting.",
-        "Include no-secret and no-production warnings.",
-        "Reference full Compose decision state."
-      ],
-      "non_scope": [
-        "No new implementation beyond docs.",
-        "No Phase 4B UI guidance beyond run/inspect handoff."
-      ],
-      "source_files_to_inspect": [
-        "docs/process/AKTI_ERP_Phase_4_Operational_Runbook_v1.md",
-        "codex-review/phase4a-local-demo/ticket-artifacts/P4A-007/*",
-        "codex-review/phase4a-local-demo/ticket-artifacts/P4A-008/*",
-        "codex-review/phase4a-local-demo/ticket-artifacts/P4A-009/*"
-      ],
-      "files_expected_to_change": [
-        "docs/process/AKTI_ERP_Local_Demo_Runbook_v1.md",
-        "codex-review/phase4a-local-demo/ticket-artifacts/P4A-010/*"
-      ],
-      "files_forbidden_to_change": [
-        "apps/**",
-        "packages/**",
-        "prisma/**",
-        "package.json",
-        "pnpm-lock.yaml"
-      ],
-      "required_outputs": [
-        "AKTI_ERP_Local_Demo_Runbook_v1.md"
-      ],
-      "evidence_artifacts": [
-        "runbook-validation-map.md",
-        "runbook-redaction-review.md",
-        "P4A-010-summary.md",
-        "P4A-010-validation-summary.md"
-      ],
-      "tests_required": [
-        "Runbook command/path consistency review"
-      ],
-      "validation_commands": [
-        "rg -n \"local-up|local-down|local-reset|local-smoke|browser|screenshot|secret|production\" docs/process/AKTI_ERP_Local_Demo_Runbook_v1.md",
-        "git diff --check"
-      ],
-      "acceptance_criteria": [
-        "Runbook matches implemented local scripts and URLs.",
-        "Runbook warns against production secrets/resources.",
-        "Runbook includes failure messages/troubleshooting."
-      ],
-      "stop_conditions": [
-        "Runbook describes commands that do not exist.",
-        "Runbook authorizes production/deployment scope."
-      ],
-      "conditional_replan_required": true,
-      "stale_ticket_risk_notes": "Runbook must be generated after scripts/evidence exist, not before.",
-      "runtime_consistency_chain": "local scripts -> runbook commands -> smoke/browser evidence -> closure package",
-      "minimum_concrete_requirement": "A runbook a non-expert can follow for local demo startup/shutdown/reset/smoke.",
-      "split_if": "Split if runbook must separately cover hybrid and full Compose modes.",
-      "requires_human_approval_if": [
-        "Runbook would document production or cloud resource use."
-      ],
-      "failure_classification": "documentation_blocker"
-    },
-    {
       "ticket_id": "P4A-011",
       "title": "Full Docker Compose resolution",
       "type": "decision/implementation/validation",
@@ -982,7 +906,8 @@
       "dependencies": [
         "P4A-003",
         "P4A-006",
-        "P4A-010"
+        "P4A-008",
+        "P4A-009"
       ],
       "objective": "Resolve full Docker Compose API/Web/Postgres mode as required, approval-gated, or deferred with evidence.",
       "scope": [
@@ -1066,6 +991,83 @@
         "Dockerfiles require runtime source assumptions not already proven."
       ],
       "failure_classification": "compose_resolution_blocker"
+    },
+    {
+      "ticket_id": "P4A-010",
+      "title": "Local demo runbook",
+      "type": "docs/validation",
+      "priority": "P1",
+      "commit_message": "P4A-010 complete local demo runbook",
+      "rollback_notes": "Revert only the files created or modified by this ticket, preserve prior ticket artifacts, and do not roll back migrations, Prisma schema, package files, or dependency state as a repair shortcut.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "dependencies": [
+        "P4A-007",
+        "P4A-008",
+        "P4A-009",
+        "P4A-011"
+      ],
+      "objective": "Create the human/Codex runbook for local demo use.",
+      "scope": [
+        "Document startup, shutdown, reset, smoke, browser inspection, screenshots, and troubleshooting.",
+        "Include no-secret and no-production warnings.",
+        "Reference full Compose decision state."
+      ],
+      "non_scope": [
+        "No new implementation beyond docs.",
+        "No Phase 4B UI guidance beyond run/inspect handoff."
+      ],
+      "source_files_to_inspect": [
+        "docs/process/AKTI_ERP_Phase_4_Operational_Runbook_v1.md",
+        "codex-review/phase4a-local-demo/ticket-artifacts/P4A-007/*",
+        "codex-review/phase4a-local-demo/ticket-artifacts/P4A-008/*",
+        "codex-review/phase4a-local-demo/ticket-artifacts/P4A-009/*"
+      ],
+      "files_expected_to_change": [
+        "docs/process/AKTI_ERP_Local_Demo_Runbook_v1.md",
+        "codex-review/phase4a-local-demo/ticket-artifacts/P4A-010/*"
+      ],
+      "files_forbidden_to_change": [
+        "apps/**",
+        "packages/**",
+        "prisma/**",
+        "package.json",
+        "pnpm-lock.yaml"
+      ],
+      "required_outputs": [
+        "AKTI_ERP_Local_Demo_Runbook_v1.md"
+      ],
+      "evidence_artifacts": [
+        "runbook-validation-map.md",
+        "runbook-redaction-review.md",
+        "P4A-010-summary.md",
+        "P4A-010-validation-summary.md"
+      ],
+      "tests_required": [
+        "Runbook command/path consistency review"
+      ],
+      "validation_commands": [
+        "rg -n \"local-up|local-down|local-reset|local-smoke|browser|screenshot|secret|production\" docs/process/AKTI_ERP_Local_Demo_Runbook_v1.md",
+        "git diff --check"
+      ],
+      "acceptance_criteria": [
+        "Runbook matches implemented local scripts and URLs.",
+        "Runbook warns against production secrets/resources.",
+        "Runbook includes failure messages/troubleshooting."
+      ],
+      "stop_conditions": [
+        "Runbook describes commands that do not exist.",
+        "Runbook authorizes production/deployment scope."
+      ],
+      "conditional_replan_required": true,
+      "stale_ticket_risk_notes": "Runbook must be generated after scripts/evidence exist, not before.",
+      "runtime_consistency_chain": "local scripts -> runbook commands -> smoke/browser evidence -> closure package",
+      "minimum_concrete_requirement": "A runbook a non-expert can follow for local demo startup/shutdown/reset/smoke.",
+      "split_if": "Split if runbook must separately cover hybrid and full Compose modes.",
+      "requires_human_approval_if": [
+        "Runbook would document production or cloud resource use."
+      ],
+      "failure_classification": "documentation_blocker"
     },
     {
       "ticket_id": "P4A-012",
@@ -1189,8 +1191,8 @@
         "P4A-007",
         "P4A-008",
         "P4A-009",
-        "P4A-010",
         "P4A-011",
+        "P4A-010",
         "P4A-012"
       ],
       "objective": "Close Phase 4A with audit report, evidence package, and Phase 4B readiness handoff only.",
