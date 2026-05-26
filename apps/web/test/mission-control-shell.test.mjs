@@ -18,7 +18,7 @@ test('Mission Control shell contains required desktop and mobile regions', () =>
     'Settings',
     'User and organization menu',
     'Main content outlet',
-    'Module launcher',
+    'ModuleLauncher',
     'Mobile navigation drawer',
     'Bottom primary navigation',
   ]) {
@@ -42,4 +42,11 @@ test('Mission Control shell keeps later features as explicit placeholders withou
   assert.match(shell, /Notification infrastructure is ready as a shell region/);
   assert.equal(shell.includes('Foundry'), false);
   assert.equal(shell.includes('WhatsApp'), false);
+});
+
+test('Mission Control shell delegates module list rendering to the read-only launcher', () => {
+  assert.match(shell, /ModuleLauncher/);
+  assert.equal(shell.includes('install module'), false);
+  assert.equal(shell.includes('enable module'), false);
+  assert.equal(shell.includes('disable module'), false);
 });

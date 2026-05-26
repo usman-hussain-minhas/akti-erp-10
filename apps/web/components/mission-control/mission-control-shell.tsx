@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import {
   Bell,
-  Grid3X3,
   HelpCircle,
   Inbox,
   LayoutDashboard,
@@ -18,6 +17,7 @@ import {
 import { useState } from 'react';
 
 import { useLeadDeskOperatorContext } from '../../app/lead-desk/operator-context';
+import { ModuleLauncher } from './module-launcher';
 import { SessionStatusNotice } from '../session/session-status';
 import { Button } from '../ui/button';
 import { EmptyState, StatusBadge } from '../ui/design-system';
@@ -26,27 +26,6 @@ const NAV_ITEMS = [
   { label: 'Mission Control', href: '/app', icon: LayoutDashboard, description: 'Default ERP shell' },
   { label: 'Lead Desk', href: '/lead-desk/inbox', icon: Inbox, description: 'Open current lead work' },
   { label: 'Settings', href: '/app/settings', icon: Settings, description: 'Control panel shell' },
-];
-
-const MODULE_LAUNCHER_ITEMS = [
-  {
-    label: 'Lead Desk',
-    href: '/lead-desk/inbox',
-    state: 'Available',
-    description: 'Review and create lead intake records with approved session context.',
-  },
-  {
-    label: 'Settings',
-    href: '/app/settings',
-    state: 'Next ticket',
-    description: 'General, modules, access placeholders, and Advanced Diagnostics.',
-  },
-  {
-    label: 'Notifications',
-    href: '#notification-region',
-    state: 'Shell only',
-    description: 'Infrastructure drawer and empty state only; no delivery semantics.',
-  },
 ];
 
 export function MissionControlShell() {
@@ -149,25 +128,7 @@ export function MissionControlShell() {
             </p>
           </section>
 
-          <section className="grid gap-3" aria-labelledby="module-launcher-title">
-            <div className="flex items-center gap-2">
-              <Grid3X3 aria-hidden="true" size={18} />
-              <h2 id="module-launcher-title" className="m-0 text-lg font-semibold">
-                Module launcher
-              </h2>
-            </div>
-            <div className="grid gap-3 md:grid-cols-3">
-              {MODULE_LAUNCHER_ITEMS.map((item) => (
-                <Link key={item.label} href={item.href} className="grid min-w-0 gap-3 rounded-lg border border-[var(--border)] bg-white p-4 shadow-sm hover:bg-[var(--surface-muted)]">
-                  <div className="flex flex-wrap items-center justify-between gap-3">
-                    <span className="font-medium">{item.label}</span>
-                    <StatusBadge tone={item.state === 'Available' ? 'success' : 'neutral'}>{item.state}</StatusBadge>
-                  </div>
-                  <p className="m-0 break-words text-sm text-[#55605a]">{item.description}</p>
-                </Link>
-              ))}
-            </div>
-          </section>
+          <ModuleLauncher />
 
           <section className="grid gap-3" aria-labelledby="next-steps-title">
             <h2 id="next-steps-title" className="m-0 text-lg font-semibold">
