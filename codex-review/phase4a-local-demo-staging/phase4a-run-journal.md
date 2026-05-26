@@ -34,3 +34,15 @@ Created .env.local.example and .env.demo.example with local-only non-secret plac
 Status: COMPLETE
 
 Decision: use local/demo container volume reset as primary DB reset strategy and prove clean database state with prisma migrate deploy, never db push as final proof.
+
+## P4A-006 - Hybrid local runtime implementation proof
+
+Status: STOPPED_WITH_FINDINGS
+
+Attempted hybrid runtime proof. Docker daemon was unavailable, so a local disposable PostgreSQL fallback was added. Role/database setup was repaired. API startup was repaired to use compiled build/start instead of tsx watch. After those three bounded repairs, web startup failed because the `next dev` argument separator caused Next to treat `--hostname` as a project directory. Run stopped without committing P4A-006.
+
+## P4A-006 - Repair continuation completed
+
+Status: COMPLETE
+
+Approved scoped continuation repaired web startup argument passing and detached process lifetime for local proof services. P4A-006 completed successfully with local/demo PostgreSQL fallback, committed migrations, API/Web startup, setup smoke, cleanup proof, redaction review, and full validation ladder passing.
