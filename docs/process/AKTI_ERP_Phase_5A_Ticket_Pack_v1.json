@@ -1,0 +1,1619 @@
+{
+  "phase": "Phase 5A",
+  "name": "Platform Policy Pack and Change Governance",
+  "status": "CONTROL_DOC_READY_FOR_REVIEW",
+  "canonical_planning_basis": "docs/process/AKTI_ERP_Phase_5A_Platform_Policy_Pack_Plan_v1.md",
+  "source_main_head": "f7f637d9546e3e77983811488f8c643e0b0e02d6",
+  "phase_boundary": {
+    "scope": "Decision and policy source-of-truth work only.",
+    "non_scope": [
+      "Foundry runtime implementation",
+      "module installer implementation",
+      "business module implementation",
+      "runtime policy engine implementation",
+      "production auth implementation",
+      "scheduler runtime implementation",
+      "notification runtime implementation",
+      "reporting engine implementation",
+      "AI runtime implementation",
+      "marketplace implementation",
+      "external adapter implementation",
+      "deployment",
+      "secrets access"
+    ]
+  },
+  "ticket_quality_rule": "Autonomous execution is not the problem. Stale, shallow, under-specified, or non-predictive tickets are the problem. Implementation is not stale by itself; stale tickets are the risk. Phase 5A tickets must be fresh against current merged main, predictive, dependency-aware, validation-backed, exact-file-plan-driven, and must express maximum concrete policy capability within the approved Phase 5A scope.",
+  "ordered_ticket_queue": [
+    "P5A-000",
+    "P5A-001",
+    "P5A-002",
+    "P5A-003",
+    "P5A-004",
+    "P5A-005",
+    "P5A-006",
+    "P5A-007",
+    "P5A-008",
+    "P5A-009",
+    "P5A-010",
+    "P5A-011",
+    "P5A-012",
+    "P5A-GATE"
+  ],
+  "tickets": [
+    {
+      "ticket_id": "P5A-000",
+      "title": "Baseline Phase 5A controls, current-state inventory, and roadmap housekeeping",
+      "type": "control_policy",
+      "priority": "critical",
+      "objective": "Confirm Phase 5A starts from current merged main, finalize the current-state inventory, and update stale roadmap/current-state summaries without starting Phase 5A execution outputs beyond approved housekeeping.",
+      "scope": [
+        "Inspect current merged main and Phase 5A planning basis.",
+        "Inventory existing ADRs, standards, contracts, manifests, screen contracts, Prisma source of truth, generated registry, Phase 4B audit, and Phase 5A readiness handoff.",
+        "Update stale roadmap/current-state summaries only where explicitly approved by this ticket.",
+        "Record the Phase 5A authority map and policy output inventory."
+      ],
+      "non_scope": [
+        "Do not create policy pack sections beyond inventory and housekeeping.",
+        "Do not create ADR-0015 through ADR-0018.",
+        "Do not implement Foundry, runtime policy engine, module installer, business modules, production auth, deployment, secrets, or runtime services."
+      ],
+      "source_files_to_inspect": [
+        "docs/process/AKTI_ERP_Phase_5A_Platform_Policy_Pack_Plan_v1.md",
+        "AGENTS.md",
+        "PLANS.md",
+        "docs/process/AKTI_ERP_Master_Roadmap_Reference_v2.md",
+        "docs/process/AKTI_ERP_Phase_Roadmap_v2.md",
+        "docs/process/AKTI_ERP_Phase_5A_Readiness_Handoff_After_Phase_4B_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Audit_Report_v1.md",
+        "docs/adr",
+        "docs/standards",
+        "packages/contracts",
+        "prisma/schema.prisma",
+        "generated/entity-registry.generated.json"
+      ],
+      "files_expected_to_change": [
+        "PLANS.md",
+        "docs/process/AKTI_ERP_Master_Roadmap_Reference_v2.md",
+        "docs/process/AKTI_ERP_Phase_Roadmap_v2.md",
+        "AGENTS.md",
+        "codex-review/phase5a-policy-pack/ticket-artifacts/P5A-000"
+      ],
+      "files_forbidden_to_change": [
+        "apps/**",
+        "prisma/**",
+        "generated/**",
+        "package.json",
+        "pnpm-lock.yaml",
+        "packages/contracts/**",
+        "docs/adr/ADR-0015-*",
+        "docs/adr/ADR-0016-*",
+        "docs/adr/ADR-0017-*",
+        "docs/adr/ADR-0018-*"
+      ],
+      "required_outputs": [
+        "Current-state inventory evidence artifact.",
+        "Authority map showing source-of-truth hierarchy and Phase 5A policy output targets.",
+        "Stale roadmap/current-state housekeeping changes, if exact-file planning approves them."
+      ],
+      "evidence_artifacts": [
+        "codex-review/phase5a-policy-pack/ticket-artifacts/P5A-000/P5A-000-summary.md",
+        "codex-review/phase5a-policy-pack/ticket-artifacts/P5A-000/P5A-000-validation-summary.md",
+        "codex-review/phase5a-policy-pack/ticket-artifacts/P5A-000/P5A-000-changed-files.zip"
+      ],
+      "tests_required": [
+        "Documentation/content validation for stale roadmap references.",
+        "Scope scan confirming no runtime, Prisma, package, generated registry, ADR-0015 through ADR-0018, policy pack, or Foundry files were created."
+      ],
+      "validation_commands": [
+        "git status --short --branch",
+        "git rev-parse HEAD",
+        "rg \"Phase 5A|f7f637d9546e3e77983811488f8c643e0b0e02d6|Phase 4B\" PLANS.md docs/process/AKTI_ERP_Master_Roadmap_Reference_v2.md docs/process/AKTI_ERP_Phase_Roadmap_v2.md AGENTS.md",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Housekeeping requires runtime, Prisma, package, generated registry, or contract changes.",
+        "AGENTS.md update would become a roadmap rewrite instead of narrow current-state cleanup.",
+        "Phase 5B, Foundry, runtime, module, production auth, deployment, secrets, or business-module scope appears.",
+        "Exact-file plan exceeds stale current-state housekeeping."
+      ],
+      "acceptance_criteria": [
+        "Current-state summaries identify Phase 4B as merged and Phase 5A as next.",
+        "Authority map references the canonical Phase 5A planning basis.",
+        "No Phase 5A execution outputs such as ADRs, policy pack docs, or standards are created in this ticket."
+      ],
+      "dependencies": [],
+      "commit_message": "P5A-000 baseline Phase 5A controls",
+      "rollback_notes": "Revert only P5A-000 housekeeping and evidence artifacts; preserve the approved Phase 5A planning basis and ticket pack.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Re-plan if stale roadmap cleanup requires broader roadmap restructuring, source-of-truth hierarchy changes, or non-documentation changes.",
+      "stale_ticket_risk_notes": "Reconfirm main HEAD and Phase 4B merge state before edits. Tickets become stale when they assume old roadmap status.",
+      "runtime_consistency_chain": [
+        "Phase 4B merged main",
+        "Phase 5A planning basis",
+        "Current-state inventory",
+        "Roadmap housekeeping"
+      ],
+      "minimum_concrete_requirement": "A repo-grounded inventory artifact and, if needed, narrow current-state housekeeping changes showing Phase 5A starts from Phase 4B-merged main.",
+      "split_if": "Split if exact-file planning shows more than four roadmap/current-state files need substantive restructuring or if AGENTS.md changes exceed stale Current Project State lines.",
+      "requires_human_approval_if": [
+        "Any source-of-truth hierarchy change is needed.",
+        "Any runtime, schema, contract, registry, package, or dependency change is proposed."
+      ],
+      "failure_classification": "planning_baseline_scope_or_staleness_failure",
+      "decision_options": [
+        "Narrow roadmap/current-state housekeeping only.",
+        "Stop and request approval for broader roadmap rewrite."
+      ],
+      "selection_criteria": [
+        "Preserve source-of-truth hierarchy.",
+        "Avoid broad roadmap rewrites.",
+        "Keep Phase 5A policy/decision-only."
+      ],
+      "decision_output_path": "codex-review/phase5a-policy-pack/ticket-artifacts/P5A-000/current-state-authority-map.md"
+    },
+    {
+      "ticket_id": "P5A-001",
+      "title": "Core update, module definition, and ownership policy",
+      "type": "policy_decision",
+      "priority": "critical",
+      "objective": "Define platform change governance, valid module definition, module ownership, review authority, and breaking-change classification for the consolidated Platform Policy Pack.",
+      "scope": [
+        "Produce Policy 1: Core Update and Platform Change Policy.",
+        "Produce Policy 2: Module Definition and Ownership Policy.",
+        "Define enforcement points and Phase 5B implementation inputs for both policies.",
+        "Align prose with module manifest schema and existing ADRs."
+      ],
+      "non_scope": [
+        "Do not modify module-manifest.schema.ts.",
+        "Do not create runtime module loading or Foundry behavior.",
+        "Do not implement business modules or platform change tooling."
+      ],
+      "source_files_to_inspect": [
+        "docs/process/AKTI_ERP_Phase_5A_Platform_Policy_Pack_Plan_v1.md",
+        "AGENTS.md",
+        "docs/adr/ADR-0001-architecture-governance.md",
+        "docs/adr/ADR-0002-codex-operating-doctrine.md",
+        "packages/contracts/module-manifest.schema.ts",
+        "packages/contracts/access-core.module-manifest.contract.ts",
+        "packages/contracts/lead-desk-core.module-manifest.contract.ts",
+        "packages/contracts/engagement-gateway-lite.module-manifest.contract.ts"
+      ],
+      "files_expected_to_change": [
+        "docs/policies/AKTI_ERP_Platform_Policy_Pack_v1.md",
+        "codex-review/phase5a-policy-pack/ticket-artifacts/P5A-001"
+      ],
+      "files_forbidden_to_change": [
+        "apps/**",
+        "prisma/**",
+        "generated/**",
+        "packages/contracts/**",
+        "package.json",
+        "pnpm-lock.yaml"
+      ],
+      "required_outputs": [
+        "Policy 1 with change categories, breaking-change definition, approvals, evidence requirements, and enforcement points.",
+        "Policy 2 with module identity, ownership, source-of-truth, ownership transfer, and review authority rules.",
+        "Phase 5B input notes for Foundry validation and policy enforcement."
+      ],
+      "evidence_artifacts": [
+        "codex-review/phase5a-policy-pack/ticket-artifacts/P5A-001/P5A-001-summary.md",
+        "codex-review/phase5a-policy-pack/ticket-artifacts/P5A-001/P5A-001-validation-summary.md",
+        "codex-review/phase5a-policy-pack/ticket-artifacts/P5A-001/P5A-001-changed-files.zip"
+      ],
+      "tests_required": [
+        "Policy coverage check for Policies 1 and 2.",
+        "Enforcement-point check for each policy.",
+        "Manifest-consistency review against module-manifest.schema.ts."
+      ],
+      "validation_commands": [
+        "rg \"Core Update|Platform Change|Module Definition|Ownership|enforcement point|Phase 5B\" docs/policies/AKTI_ERP_Platform_Policy_Pack_v1.md",
+        "rg \"Foundry runtime|module installer implementation|business module implementation\" docs/policies/AKTI_ERP_Platform_Policy_Pack_v1.md || true",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Policy requires changing module-manifest.schema.ts without an explicit approved ticket.",
+        "Policy attempts to implement Foundry or module installer behavior.",
+        "Policy cannot name an enforcement point.",
+        "Policy contradicts existing module manifest fields without a superseding ADR requirement."
+      ],
+      "acceptance_criteria": [
+        "Policies 1 and 2 are complete enough for Phase 5B to implement validation and review gates.",
+        "Each policy names enforcement point, evidence, owner, and Phase 5B input.",
+        "No runtime implementation is introduced."
+      ],
+      "dependencies": [
+        "P5A-000"
+      ],
+      "commit_message": "P5A-001 define core and module ownership policies",
+      "rollback_notes": "Revert only Policy 1/2 sections and ticket artifacts; preserve prior Phase 5A baseline artifacts.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Re-plan if module ownership cannot be defined without changing contracts or adding runtime authority tables.",
+      "stale_ticket_risk_notes": "Re-read module-manifest.schema.ts before writing; schema fields are the structural baseline.",
+      "runtime_consistency_chain": [
+        "Planning basis",
+        "Policy pack",
+        "Module manifest schema",
+        "Phase 5B Foundry validation input"
+      ],
+      "minimum_concrete_requirement": "Policy pack contains usable Policies 1 and 2 with enforcement points and Phase 5B implementation inputs.",
+      "split_if": "Split if core change governance and module ownership each require more than one substantial policy section or separate ADR-level decisions.",
+      "requires_human_approval_if": [
+        "New source-of-truth hierarchy is proposed.",
+        "Contract/schema changes are required.",
+        "Ownership model cannot be expressed without runtime implementation."
+      ],
+      "failure_classification": "policy_definition_or_manifest_alignment_failure",
+      "decision_options": [
+        "Central Platform Core ownership for module definition approvals.",
+        "Module owner plus Platform Core dual approval.",
+        "Stop for approval if ownership authority cannot be derived from existing governance."
+      ],
+      "selection_criteria": [
+        "Compatible with ADR-0001 and AGENTS.md.",
+        "Names enforcement points.",
+        "Avoids runtime implementation."
+      ],
+      "decision_output_path": "docs/policies/AKTI_ERP_Platform_Policy_Pack_v1.md#policy-1-and-policy-2"
+    },
+    {
+      "ticket_id": "P5A-002",
+      "title": "Module lifecycle, install/update, disable/uninstall, rollback, and evidence policies",
+      "type": "policy_decision",
+      "priority": "critical",
+      "objective": "Define the non-runtime policy contract for module lifecycle, installation/update, disable/uninstall, rollback, and evidence packages.",
+      "scope": [
+        "Produce Policy 3: Module Lifecycle Policy.",
+        "Produce Policy 4: Module Installation and Update Policy.",
+        "Produce Policy 13: Disable, Uninstall and Rollback Policy.",
+        "Produce Policy 14: Evidence and Audit Package Policy.",
+        "Define lifecycle states and evidence requirements that Phase 5B Foundry must implement later."
+      ],
+      "non_scope": [
+        "Do not implement install, update, disable, uninstall, rollback, or Foundry lifecycle runtime.",
+        "Do not add tables, migrations, jobs, package dependencies, or module installer code.",
+        "Do not create business modules."
+      ],
+      "source_files_to_inspect": [
+        "docs/process/AKTI_ERP_Phase_5A_Platform_Policy_Pack_Plan_v1.md",
+        "packages/contracts/module-manifest.schema.ts",
+        "packages/contracts/lead-desk-core.module-manifest.contract.ts",
+        "docs/process/AKTI_ERP_Phase_4B_Audit_Report_v1.md",
+        "docs/process/AKTI_ERP_Phase_4A_Audit_Report_v1.md",
+        "docs/process/AKTI_ERP_Phase_4_Audit_Report_v1.md"
+      ],
+      "files_expected_to_change": [
+        "docs/policies/AKTI_ERP_Platform_Policy_Pack_v1.md",
+        "codex-review/phase5a-policy-pack/ticket-artifacts/P5A-002"
+      ],
+      "files_forbidden_to_change": [
+        "apps/**",
+        "prisma/**",
+        "generated/**",
+        "packages/contracts/**",
+        "package.json",
+        "pnpm-lock.yaml"
+      ],
+      "required_outputs": [
+        "Lifecycle state machine policy.",
+        "Install/update policy with evidence, compatibility, approval, and rollback triggers.",
+        "Disable/uninstall/rollback policy with data-retention and user-impact rules.",
+        "Standard module evidence/audit package policy."
+      ],
+      "evidence_artifacts": [
+        "codex-review/phase5a-policy-pack/ticket-artifacts/P5A-002/P5A-002-summary.md",
+        "codex-review/phase5a-policy-pack/ticket-artifacts/P5A-002/P5A-002-validation-summary.md",
+        "codex-review/phase5a-policy-pack/ticket-artifacts/P5A-002/P5A-002-changed-files.zip"
+      ],
+      "tests_required": [
+        "Lifecycle state coverage review.",
+        "Evidence package completeness review.",
+        "Disable/rollback non-runtime boundary review."
+      ],
+      "validation_commands": [
+        "rg \"Lifecycle|Installation|Update|Disable|Uninstall|Rollback|Evidence|Audit Package|Phase 5B\" docs/policies/AKTI_ERP_Platform_Policy_Pack_v1.md",
+        "rg \"implement install|runtime installer|Foundry runtime\" docs/policies/AKTI_ERP_Platform_Policy_Pack_v1.md || true",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Lifecycle policy requires runtime installer behavior.",
+        "Policy cannot define data-retention or evidence rules without product approval.",
+        "Rollback policy implies destructive migrations.",
+        "Foundry implementation details replace policy requirements."
+      ],
+      "acceptance_criteria": [
+        "Policies 3, 4, 13, and 14 are concrete and enforcement-ready for Phase 5B.",
+        "Every lifecycle state has entry, exit, evidence, and enforcement expectations.",
+        "No runtime implementation or destructive migration is authorized."
+      ],
+      "dependencies": [
+        "P5A-001"
+      ],
+      "commit_message": "P5A-002 define module lifecycle and evidence policies",
+      "rollback_notes": "Revert Policy 3/4/13/14 sections and artifacts only; keep prior policies intact.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Re-plan if lifecycle states conflict with existing manifest disable_behavior or degraded_mode_behavior.",
+      "stale_ticket_risk_notes": "Re-read current module manifest before defining lifecycle states; later schema changes may make old lifecycle assumptions stale.",
+      "runtime_consistency_chain": [
+        "Module definition policy",
+        "Lifecycle policy",
+        "Install/update policy",
+        "Disable/rollback policy",
+        "Evidence policy"
+      ],
+      "minimum_concrete_requirement": "Policy pack contains lifecycle, install/update, disable/uninstall/rollback, and evidence policies with Phase 5B enforcement inputs.",
+      "split_if": "Split if install/update and disable/rollback each require separate ADR-level decisions or if evidence policy cannot be finalized in the same commit unit.",
+      "requires_human_approval_if": [
+        "Destructive rollback behavior is proposed.",
+        "Data deletion or retention policy cannot be decided from existing governance.",
+        "Runtime installer work appears necessary."
+      ],
+      "failure_classification": "lifecycle_policy_scope_or_evidence_failure",
+      "decision_options": [
+        "Lifecycle states: draft/proposed/certified/installed/degraded/deprecated/disabled/retired.",
+        "Minimal lifecycle states only: proposed/certified/installed/disabled.",
+        "Stop for approval if lifecycle semantics affect production data retention."
+      ],
+      "selection_criteria": [
+        "Supports Phase 5B enforcement.",
+        "Keeps runtime implementation out of Phase 5A.",
+        "Protects tenant data and audit evidence."
+      ],
+      "decision_output_path": "docs/policies/AKTI_ERP_Platform_Policy_Pack_v1.md#module-lifecycle-install-update-disable-rollback-and-evidence"
+    },
+    {
+      "ticket_id": "P5A-003",
+      "title": "Capability, permission, menu, screen, settings, and Gatekeeper policy",
+      "type": "policy_decision",
+      "priority": "critical",
+      "objective": "Define capability, permission, menu/navigation, screen registration, settings registration, and Gatekeeper preflight/approval policies for future Foundry enforcement.",
+      "scope": [
+        "Produce Policy 5: Capability, Permission and Access Policy.",
+        "Produce Policy 6: Menu, Navigation and Screen Registration Policy.",
+        "Produce Policy 7: Settings and Configuration Registration Policy.",
+        "Produce Policy 8: Gatekeeper Preflight and Approval Policy.",
+        "Define enforcement points across Access Core, Gatekeeper, module manifests, screen contracts, and Phase 5B Foundry."
+      ],
+      "non_scope": [
+        "Do not seed capabilities.",
+        "Do not modify Access Core or Gatekeeper runtime behavior.",
+        "Do not change screen-contract schema.",
+        "Do not implement dynamic menu/settings registration."
+      ],
+      "source_files_to_inspect": [
+        "packages/contracts/module-manifest.schema.ts",
+        "packages/contracts/gatekeeper-contract.ts",
+        "packages/contracts/screen-contract.schema.ts",
+        "packages/contracts/access-core-capability-seed.contract.ts",
+        "docs/process/AKTI_ERP_Phase_2_Screen_Lifecycle_Policy.md",
+        "docs/adr/ADR-0013-frontend-mission-control-architecture.md",
+        "docs/process/AKTI_ERP_Phase_4B_Command_Palette_Interaction_Model_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Settings_Control_Panel_IA_v1.md"
+      ],
+      "files_expected_to_change": [
+        "docs/policies/AKTI_ERP_Platform_Policy_Pack_v1.md",
+        "codex-review/phase5a-policy-pack/ticket-artifacts/P5A-003"
+      ],
+      "files_forbidden_to_change": [
+        "apps/**",
+        "prisma/**",
+        "generated/**",
+        "packages/contracts/**",
+        "docs/screen-contracts/**",
+        "package.json",
+        "pnpm-lock.yaml"
+      ],
+      "required_outputs": [
+        "Capability naming, ownership, inheritance, and consumption policy.",
+        "Menu/navigation/screen registration policy aligned with ADR-0013.",
+        "Settings/configuration namespace and default-value policy.",
+        "Gatekeeper preflight/approval trigger and evidence policy."
+      ],
+      "evidence_artifacts": [
+        "codex-review/phase5a-policy-pack/ticket-artifacts/P5A-003/P5A-003-summary.md",
+        "codex-review/phase5a-policy-pack/ticket-artifacts/P5A-003/P5A-003-validation-summary.md",
+        "codex-review/phase5a-policy-pack/ticket-artifacts/P5A-003/P5A-003-changed-files.zip"
+      ],
+      "tests_required": [
+        "Policy coverage review for Policies 5, 6, 7, and 8.",
+        "Gatekeeper trigger and evidence review.",
+        "Screen/menu/settings registration non-runtime boundary review."
+      ],
+      "validation_commands": [
+        "rg \"Capability|Permission|Menu|Navigation|Screen Registration|Settings|Configuration|Gatekeeper|approval_required|enforcement point\" docs/policies/AKTI_ERP_Platform_Policy_Pack_v1.md",
+        "rg \"dynamic menu runtime|seed capability|modify screen-contract|Gatekeeper runtime\" docs/policies/AKTI_ERP_Platform_Policy_Pack_v1.md || true",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Policy requires new runtime capability seeding before ADR-0016.",
+        "Policy requires screen-contract schema changes.",
+        "Policy cannot define Gatekeeper enforcement points.",
+        "Menu/settings policy drifts into Foundry registration implementation."
+      ],
+      "acceptance_criteria": [
+        "Policies 5 through 8 are complete enough for Phase 5B Foundry and Gatekeeper implementation planning.",
+        "Policy 6 defines menu, route, capability, module_id, visibility, and enabled/disabled state concepts.",
+        "Policy 8 names Gatekeeper checks, evidence, denial/approval outcomes, and high-risk action handling."
+      ],
+      "dependencies": [
+        "P5A-001"
+      ],
+      "commit_message": "P5A-003 define capability registration and Gatekeeper policies",
+      "rollback_notes": "Revert Policies 5/6/7/8 sections and ticket artifacts only; preserve lifecycle and ownership policies.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Re-plan if capability policy requires runtime seeding, screen-contract schema edits, or Gatekeeper code changes.",
+      "stale_ticket_risk_notes": "P5A-008 depends on this policy. If this ticket changes capability concepts, revalidate P5A-008 before execution.",
+      "runtime_consistency_chain": [
+        "Module ownership policy",
+        "Capability policy",
+        "Screen/menu/settings policy",
+        "Gatekeeper policy",
+        "P4B-SCHEMA-001 ADR input"
+      ],
+      "minimum_concrete_requirement": "Policy pack contains Policies 5, 6, 7, and 8 with enforcement points, manifest/screen-contract alignment, and Phase 5B inputs.",
+      "split_if": "Split if capability/access policy and Gatekeeper policy each require independent ADR-level decisions or if screen registration needs schema design beyond policy prose.",
+      "requires_human_approval_if": [
+        "New capability naming convention conflicts with existing capabilities.",
+        "Policy requires screen-contract schema changes.",
+        "Policy requires runtime Access Core or Gatekeeper changes."
+      ],
+      "failure_classification": "capability_gatekeeper_policy_alignment_failure",
+      "decision_options": [
+        "Capability-driven registration through module manifests and screen contracts.",
+        "Session-gated shell exception with capability-gated module regions.",
+        "Stop for approval if capability and session models cannot be reconciled in policy."
+      ],
+      "selection_criteria": [
+        "Aligns with existing Access Core and Gatekeeper contracts.",
+        "Allows P4B-SCHEMA-001 remediation in P5A-008.",
+        "Avoids runtime implementation."
+      ],
+      "decision_output_path": "docs/policies/AKTI_ERP_Platform_Policy_Pack_v1.md#capability-menu-screen-settings-and-gatekeeper"
+    },
+    {
+      "ticket_id": "P5A-004",
+      "title": "Tenant/RLS, migration/schema contribution, and cross-module data policy",
+      "type": "adr_policy_decision",
+      "priority": "critical",
+      "objective": "Resolve tenant/RLS strategy and define migration/schema contribution plus data ownership and cross-module access policy without changing Prisma or migrations.",
+      "scope": [
+        "Create ADR-0015 for tenant/RLS enforcement strategy.",
+        "Produce Policy 9: Migration and Schema Contribution Policy.",
+        "Produce Policy 10: Data Ownership, Tenant Boundary and Cross-Module Access Policy.",
+        "Define Phase 5B and Phase 6 requirements for module migrations and tenant isolation."
+      ],
+      "non_scope": [
+        "Do not modify Prisma schema.",
+        "Do not create migrations or RLS SQL.",
+        "Do not implement cross-module data access runtime.",
+        "Do not change generated registry."
+      ],
+      "source_files_to_inspect": [
+        "docs/adr/ADR-0006-phase-2-migration-policy.md",
+        "docs/adr/ADR-0009-tenant-isolation-rls-service-enforcement.md",
+        "prisma/schema.prisma",
+        "generated/entity-registry.generated.json",
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/prisma/prisma.service.ts",
+        "apps/api/src/security/request-context.ts"
+      ],
+      "files_expected_to_change": [
+        "docs/adr/ADR-0015-tenant-rls-enforcement-strategy.md",
+        "docs/policies/AKTI_ERP_Platform_Policy_Pack_v1.md",
+        "codex-review/phase5a-policy-pack/ticket-artifacts/P5A-004"
+      ],
+      "files_forbidden_to_change": [
+        "prisma/**",
+        "generated/**",
+        "apps/**",
+        "packages/contracts/**",
+        "package.json",
+        "pnpm-lock.yaml"
+      ],
+      "required_outputs": [
+        "ADR-0015 with options, decision, consequences, non-scope, and Phase 5B/Phase 6 implications.",
+        "Migration/schema contribution policy.",
+        "Tenant boundary and cross-module data access policy."
+      ],
+      "evidence_artifacts": [
+        "codex-review/phase5a-policy-pack/ticket-artifacts/P5A-004/P5A-004-summary.md",
+        "codex-review/phase5a-policy-pack/ticket-artifacts/P5A-004/P5A-004-validation-summary.md",
+        "codex-review/phase5a-policy-pack/ticket-artifacts/P5A-004/P5A-004-changed-files.zip"
+      ],
+      "tests_required": [
+        "ADR decision completeness review.",
+        "Policy coverage review for Policies 9 and 10.",
+        "Prisma/generated-registry no-change verification."
+      ],
+      "validation_commands": [
+        "rg \"ADR-0015|RLS|tenant|migration|schema contribution|cross-module data|Phase 5B|Phase 6\" docs/adr/ADR-0015-tenant-rls-enforcement-strategy.md docs/policies/AKTI_ERP_Platform_Policy_Pack_v1.md",
+        "git diff -- prisma/schema.prisma",
+        "git diff -- generated/entity-registry.generated.json",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "ADR cannot choose service-level, DB-level, hybrid, or explicit bounded deferral.",
+        "Any Prisma schema, migration, or generated registry change is needed.",
+        "Policy would authorize destructive migrations.",
+        "Cross-module data policy cannot name enforcement points."
+      ],
+      "acceptance_criteria": [
+        "ADR-0015 closes or explicitly bounds the ADR-0009 RLS deferral.",
+        "Policies 9 and 10 define module migration requirements and tenant/cross-module access rules.",
+        "No Prisma, migration, generated registry, or runtime code changes occur."
+      ],
+      "dependencies": [
+        "P5A-001",
+        "P5A-002"
+      ],
+      "commit_message": "P5A-004 decide tenant RLS and data policies",
+      "rollback_notes": "Revert ADR-0015, Policy 9/10 sections, and ticket artifacts only; preserve earlier policy sections.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Re-plan if tenant strategy requires runtime proof, schema changes, or migration examples beyond standards prose.",
+      "stale_ticket_risk_notes": "RLS policy is high impact; re-read ADR-0009 and Prisma before deciding.",
+      "runtime_consistency_chain": [
+        "ADR-0009 deferral",
+        "ADR-0015 tenant/RLS decision",
+        "Policy 9 migration rules",
+        "Policy 10 data ownership rules",
+        "Phase 6 migration requirements"
+      ],
+      "minimum_concrete_requirement": "ADR-0015 and Policies 9/10 define tenant/RLS, migration, and cross-module data rules with no Prisma or migration changes.",
+      "split_if": "Split if ADR-0015 cannot be completed with Policies 9/10 in one commit unit or if RLS strategy needs separate human decision.",
+      "requires_human_approval_if": [
+        "DB-level RLS requires immediate schema/migration proof.",
+        "Tenant isolation strategy cannot be selected.",
+        "Any destructive migration or runtime enforcement code is proposed."
+      ],
+      "failure_classification": "tenant_rls_or_migration_policy_failure",
+      "decision_options": [
+        "Service-level tenant enforcement only.",
+        "DB-level RLS for tenant-scoped module tables.",
+        "Hybrid service-level plus DB-level RLS for selected high-risk tables.",
+        "Explicit bounded deferral with Phase 6 blocker."
+      ],
+      "selection_criteria": [
+        "Protects tenant isolation.",
+        "Compatible with existing Prisma and ADR-0009.",
+        "Does not require immediate runtime implementation.",
+        "Provides clear Phase 6 module migration rules."
+      ],
+      "decision_output_path": "docs/adr/ADR-0015-tenant-rls-enforcement-strategy.md"
+    },
+    {
+      "ticket_id": "P5A-005",
+      "title": "Adapter, secrets, configuration, and external dependency policy",
+      "type": "policy_decision",
+      "priority": "high",
+      "objective": "Define adapter, external dependency, secrets, and configuration safety policy for future modules and integrations without creating adapters or accessing secrets.",
+      "scope": [
+        "Produce Policy 11: Adapter and External Dependency Policy.",
+        "Produce Policy 16: Security, Secrets and Configuration Safety Policy.",
+        "Define credential, retry, failure isolation, audit, and configuration registration rules.",
+        "Preserve WhatsApp protected timeline and no-production-secret boundaries."
+      ],
+      "non_scope": [
+        "Do not implement real adapters.",
+        "Do not access or create secrets.",
+        "Do not configure external services.",
+        "Do not add dependencies."
+      ],
+      "source_files_to_inspect": [
+        "docs/adr/ADR-0003-whatsapp-protected-timeline.md",
+        "docs/adr/ADR-0010-secrets-environment-headers-cors.md",
+        "apps/api/src/engagement-gateway/whatsapp-stub.provider.ts",
+        "packages/contracts/module-manifest.schema.ts",
+        ".env.example",
+        ".env.local.example",
+        ".env.demo.example"
+      ],
+      "files_expected_to_change": [
+        "docs/policies/AKTI_ERP_Platform_Policy_Pack_v1.md",
+        "codex-review/phase5a-policy-pack/ticket-artifacts/P5A-005"
+      ],
+      "files_forbidden_to_change": [
+        ".env",
+        ".env.*",
+        "apps/**",
+        "packages/**",
+        "prisma/**",
+        "generated/**",
+        "package.json",
+        "pnpm-lock.yaml"
+      ],
+      "required_outputs": [
+        "Adapter/external dependency policy.",
+        "Secrets/configuration safety policy.",
+        "Phase 5B implementation notes for adapter declaration and secret validation."
+      ],
+      "evidence_artifacts": [
+        "codex-review/phase5a-policy-pack/ticket-artifacts/P5A-005/P5A-005-summary.md",
+        "codex-review/phase5a-policy-pack/ticket-artifacts/P5A-005/P5A-005-validation-summary.md",
+        "codex-review/phase5a-policy-pack/ticket-artifacts/P5A-005/P5A-005-changed-files.zip"
+      ],
+      "tests_required": [
+        "No-secret access review.",
+        "Adapter non-runtime boundary review.",
+        "Policy coverage review for Policies 11 and 16."
+      ],
+      "validation_commands": [
+        "rg \"Adapter|External Dependency|Secrets|Configuration Safety|WhatsApp|credential|Phase 5B\" docs/policies/AKTI_ERP_Platform_Policy_Pack_v1.md",
+        "git diff --name-only | rg '(^|/)\\.env($|\\.)' && exit 1 || true",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Policy requires accessing real secrets or credentials.",
+        "Policy requires adding external dependencies.",
+        "Policy starts real adapter implementation.",
+        "WhatsApp production behavior appears."
+      ],
+      "acceptance_criteria": [
+        "Policies 11 and 16 define adapter and secret/configuration governance.",
+        "No secrets are accessed, created, exposed, or committed.",
+        "No adapter runtime is implemented."
+      ],
+      "dependencies": [
+        "P5A-001",
+        "P5A-003"
+      ],
+      "commit_message": "P5A-005 define adapter and secrets policies",
+      "rollback_notes": "Revert Policies 11/16 sections and ticket artifacts only; preserve prior policy sections.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Re-plan if policy requires specific external provider semantics not present in current docs.",
+      "stale_ticket_risk_notes": "Reconfirm no real adapter approvals were introduced after Phase 4B.",
+      "runtime_consistency_chain": [
+        "WhatsApp protected timeline",
+        "Secrets ADR",
+        "Adapter policy",
+        "Phase 5B adapter declaration requirements"
+      ],
+      "minimum_concrete_requirement": "Policy pack contains adapter/external dependency and secrets/configuration policies with no secret access and no runtime adapter implementation.",
+      "split_if": "Split if adapter governance and secret/configuration safety require separate policy decisions or provider-specific approvals.",
+      "requires_human_approval_if": [
+        "Production credentials are needed.",
+        "A real external adapter is proposed.",
+        "Dependency installation is proposed."
+      ],
+      "failure_classification": "adapter_secret_policy_boundary_failure",
+      "decision_options": [
+        "Generic adapter policy only.",
+        "Generic policy plus WhatsApp-specific protected reference.",
+        "Stop for approval if provider-specific rules are required."
+      ],
+      "selection_criteria": [
+        "Avoids secrets and production integration.",
+        "Preserves WhatsApp protected timeline.",
+        "Provides Phase 5B adapter validation inputs."
+      ],
+      "decision_output_path": "docs/policies/AKTI_ERP_Platform_Policy_Pack_v1.md#adapter-secrets-and-configuration"
+    },
+    {
+      "ticket_id": "P5A-006",
+      "title": "Event schema, evidence package, observability, and SLO standards",
+      "type": "standard_policy_decision",
+      "priority": "high",
+      "objective": "Define event schema standard plus evidence, observability, health, and SLO governance needed before Phase 5B event registration and Phase 6 module evidence.",
+      "scope": [
+        "Create Event Schema Standard.",
+        "Produce Policy 17: Observability, Health and SLO Policy.",
+        "Strengthen Policy 14 evidence-package references if needed.",
+        "Define platform-wide event envelope fields as standards prose/examples only."
+      ],
+      "non_scope": [
+        "Do not implement Zod event schemas.",
+        "Do not modify module-manifest.schema.ts.",
+        "Do not implement observability runtime, health aggregation, queues, or event delivery."
+      ],
+      "source_files_to_inspect": [
+        "packages/contracts/module-manifest.schema.ts",
+        "packages/contracts/lead-desk-core.module-manifest.contract.ts",
+        "packages/contracts/engagement-gateway-lite.module-manifest.contract.ts",
+        "apps/api/src/platform-observability/audit-log.service.ts",
+        "apps/api/src/platform-observability/event-outbox.service.ts",
+        "docs/process/AKTI_ERP_Phase_4B_Audit_Report_v1.md"
+      ],
+      "files_expected_to_change": [
+        "docs/standards/AKTI_ERP_Event_Schema_Standard_v1.md",
+        "docs/policies/AKTI_ERP_Platform_Policy_Pack_v1.md",
+        "codex-review/phase5a-policy-pack/ticket-artifacts/P5A-006"
+      ],
+      "files_forbidden_to_change": [
+        "apps/**",
+        "packages/contracts/**",
+        "prisma/**",
+        "generated/**",
+        "package.json",
+        "pnpm-lock.yaml"
+      ],
+      "required_outputs": [
+        "Event Schema Standard with minimum envelope fields.",
+        "Observability, health, and SLO policy.",
+        "Phase 5B input notes for event validation, evidence capture, and health aggregation."
+      ],
+      "evidence_artifacts": [
+        "codex-review/phase5a-policy-pack/ticket-artifacts/P5A-006/P5A-006-summary.md",
+        "codex-review/phase5a-policy-pack/ticket-artifacts/P5A-006/P5A-006-validation-summary.md",
+        "codex-review/phase5a-policy-pack/ticket-artifacts/P5A-006/P5A-006-changed-files.zip"
+      ],
+      "tests_required": [
+        "Event envelope field coverage review.",
+        "Observability/SLO policy coverage review.",
+        "Runtime contract no-change verification."
+      ],
+      "validation_commands": [
+        "rg \"event_id|event_type|source_module|tenant_id|correlation_id|causation_id|data_classification|retention_policy|schema_version\" docs/standards/AKTI_ERP_Event_Schema_Standard_v1.md",
+        "rg \"Observability|Health|SLO|evidence|Phase 5B\" docs/policies/AKTI_ERP_Platform_Policy_Pack_v1.md",
+        "git diff -- packages/contracts/module-manifest.schema.ts",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Standard requires runtime Zod schema implementation.",
+        "Standard requires module-manifest schema changes.",
+        "Observability policy requires runtime metrics or scheduler implementation.",
+        "Event semantics conflict with existing module event declarations."
+      ],
+      "acceptance_criteria": [
+        "Event Schema Standard defines minimum envelope and compatibility requirements.",
+        "Policy 17 names health, observability, SLO, evidence, and Phase 5B enforcement points.",
+        "No runtime contract or observability implementation is introduced."
+      ],
+      "dependencies": [
+        "P5A-002",
+        "P5A-004"
+      ],
+      "commit_message": "P5A-006 define event and observability standards",
+      "rollback_notes": "Revert Event Schema Standard, Policy 17 sections, and ticket artifacts only.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Re-plan if event standard requires runtime contract changes or conflicts with current module event fields.",
+      "stale_ticket_risk_notes": "Re-read module event fields before writing; event policy becomes stale if manifest schema changes.",
+      "runtime_consistency_chain": [
+        "Module event declarations",
+        "Event schema standard",
+        "Evidence package policy",
+        "Observability/SLO policy",
+        "Phase 5B event validation"
+      ],
+      "minimum_concrete_requirement": "Event Schema Standard and observability/SLO policy define minimum fields, enforcement points, and Phase 5B inputs without runtime implementation.",
+      "split_if": "Split if event schema standard and observability/SLO policy each require separate standards-level decisions.",
+      "requires_human_approval_if": [
+        "Runtime event schema implementation is needed.",
+        "Module manifest schema changes are needed.",
+        "SLO targets require product/business commitments not present in repo."
+      ],
+      "failure_classification": "event_observability_standard_scope_failure",
+      "decision_options": [
+        "Platform-wide event envelope as standards prose only.",
+        "Minimal envelope only with bounded deferrals for classification/retention.",
+        "Stop for approval if executable schema changes are required."
+      ],
+      "selection_criteria": [
+        "Preserves existing event declarations.",
+        "Supports Phase 5B validation.",
+        "Avoids runtime schema implementation."
+      ],
+      "decision_output_path": "docs/standards/AKTI_ERP_Event_Schema_Standard_v1.md"
+    },
+    {
+      "ticket_id": "P5A-007",
+      "title": "Platform versioning baseline and repo-readable artifact decision",
+      "type": "adr_decision",
+      "priority": "high",
+      "objective": "Create ADR-0017 to decide the platform version baseline, repo-readable artifact shape, ownership, and compatibility semantics without changing package metadata.",
+      "scope": [
+        "Create ADR-0017 for platform versioning baseline.",
+        "Decide whether the artifact is platform.version.json, VERSION, or explicit deferral.",
+        "Define compatibility, deprecation, and breaking-change semantics for Policy 12.",
+        "Create the repo-readable governance artifact only if ADR-0017 decides to do so within ticket scope."
+      ],
+      "non_scope": [
+        "Do not modify package.json or pnpm-lock.yaml.",
+        "Do not implement Foundry compatibility checks.",
+        "Do not change module manifests.",
+        "Do not create runtime version APIs."
+      ],
+      "source_files_to_inspect": [
+        "package.json",
+        "pnpm-workspace.yaml",
+        "packages/contracts/module-manifest.schema.ts",
+        "packages/contracts/access-core.module-manifest.contract.ts",
+        "packages/contracts/lead-desk-core.module-manifest.contract.ts",
+        "packages/contracts/engagement-gateway-lite.module-manifest.contract.ts",
+        "docs/process/AKTI_ERP_Phase_5A_Platform_Policy_Pack_Plan_v1.md"
+      ],
+      "files_expected_to_change": [
+        "docs/adr/ADR-0017-platform-versioning-baseline.md",
+        "docs/policies/AKTI_ERP_Platform_Policy_Pack_v1.md",
+        "platform.version.json",
+        "codex-review/phase5a-policy-pack/ticket-artifacts/P5A-007"
+      ],
+      "files_forbidden_to_change": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "apps/**",
+        "packages/contracts/**",
+        "prisma/**",
+        "generated/**"
+      ],
+      "required_outputs": [
+        "ADR-0017 with options, decision, consequences, non-scope, and Phase 5B implications.",
+        "Policy 12: Version, Compatibility and Deprecation Policy.",
+        "Repo-readable version artifact if ADR-0017 approves it."
+      ],
+      "evidence_artifacts": [
+        "codex-review/phase5a-policy-pack/ticket-artifacts/P5A-007/P5A-007-summary.md",
+        "codex-review/phase5a-policy-pack/ticket-artifacts/P5A-007/P5A-007-validation-summary.md",
+        "codex-review/phase5a-policy-pack/ticket-artifacts/P5A-007/P5A-007-changed-files.zip"
+      ],
+      "tests_required": [
+        "ADR-0017 decision completeness review.",
+        "Platform version artifact JSON parse if created.",
+        "Package/lockfile no-change verification."
+      ],
+      "validation_commands": [
+        "rg \"ADR-0017|platform_core_version|platform.version.json|VERSION|compatibility|deprecation|Phase 5B\" docs/adr/ADR-0017-platform-versioning-baseline.md docs/policies/AKTI_ERP_Platform_Policy_Pack_v1.md",
+        "test ! -f platform.version.json || node -e \"JSON.parse(require('fs').readFileSync('platform.version.json','utf8')); console.log('platform version json valid')\"",
+        "git diff -- package.json pnpm-lock.yaml",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Versioning decision requires package.json or lockfile changes.",
+        "ADR cannot choose artifact path or explicit deferral.",
+        "Version artifact would become runtime Foundry implementation.",
+        "Compatibility semantics conflict with current manifest min_platform_version."
+      ],
+      "acceptance_criteria": [
+        "ADR-0017 decides or explicitly defers platform version artifact with bounded risk.",
+        "Policy 12 defines version, compatibility, and deprecation rules.",
+        "No package or lockfile changes occur."
+      ],
+      "dependencies": [
+        "P5A-001"
+      ],
+      "commit_message": "P5A-007 decide platform versioning baseline",
+      "rollback_notes": "Revert ADR-0017, Policy 12 section, platform version artifact if created, and ticket artifacts only.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Re-plan if version artifact cannot be created without package metadata changes or if version value needs product approval.",
+      "stale_ticket_risk_notes": "Reconfirm package.json has no root version and manifests still declare min_platform_version before deciding.",
+      "runtime_consistency_chain": [
+        "Manifest min_platform_version",
+        "ADR-0017 platform version artifact",
+        "Policy 12 compatibility rules",
+        "Phase 5B compatibility enforcement"
+      ],
+      "minimum_concrete_requirement": "ADR-0017 and Policy 12 decide the platform versioning baseline and artifact path or record a bounded deferral with Phase 5B impact.",
+      "split_if": "Split if ADR-0017 decision and artifact creation require separate review or if version ownership needs human approval.",
+      "requires_human_approval_if": [
+        "Changing package.json is proposed.",
+        "Exact platform version value cannot be determined.",
+        "Artifact path conflicts with existing repo conventions."
+      ],
+      "failure_classification": "platform_versioning_decision_failure",
+      "decision_options": [
+        "Create platform.version.json at repo root.",
+        "Create VERSION at repo root.",
+        "Explicitly defer artifact with Phase 5B blocker.",
+        "Stop for approval if package.json versioning is requested."
+      ],
+      "selection_criteria": [
+        "Machine-readable by Phase 5B.",
+        "Does not affect package dependency management.",
+        "Clear ownership and compatibility semantics."
+      ],
+      "decision_output_path": "docs/adr/ADR-0017-platform-versioning-baseline.md"
+    },
+    {
+      "ticket_id": "P5A-008",
+      "title": "P4B-SCHEMA-001 shell capability/session-gated screen contract ADR",
+      "type": "adr_decision",
+      "priority": "critical",
+      "objective": "Create ADR-0016 to formally resolve the Phase 4B shell access limitation before Phase 6 non-admin operator/module rollout.",
+      "scope": [
+        "Create ADR-0016 for shell base capability or session-gated screen contract decision.",
+        "Use P5A-003 capability/menu/screen policy as the policy foundation.",
+        "Define Phase 5B implementation requirements and Phase 6 rollout implications.",
+        "Record why access.policy.manage is only a Phase 4B local/demo limitation."
+      ],
+      "non_scope": [
+        "Do not modify screen-contract.schema.ts.",
+        "Do not seed platform.shell.access.",
+        "Do not change Mission Control screen contract.",
+        "Do not implement auth/session runtime."
+      ],
+      "source_files_to_inspect": [
+        "docs/process/AKTI_ERP_Phase_5A_Platform_Policy_Pack_Plan_v1.md",
+        "docs/process/AKTI_ERP_Phase_5A_Readiness_Handoff_After_Phase_4B_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Frontend_Dependency_Assessment_v1.md",
+        "docs/adr/ADR-0013-frontend-mission-control-architecture.md",
+        "packages/contracts/screen-contract.schema.ts",
+        "packages/contracts/access-core-capability-seed.contract.ts",
+        "docs/screen-contracts/phase-4b/mission-control-shell.screen.json"
+      ],
+      "files_expected_to_change": [
+        "docs/adr/ADR-0016-shell-base-capability-or-session-gated-screen.md",
+        "docs/policies/AKTI_ERP_Platform_Policy_Pack_v1.md",
+        "codex-review/phase5a-policy-pack/ticket-artifacts/P5A-008"
+      ],
+      "files_forbidden_to_change": [
+        "docs/screen-contracts/**",
+        "packages/contracts/**",
+        "apps/**",
+        "prisma/**",
+        "generated/**",
+        "package.json",
+        "pnpm-lock.yaml"
+      ],
+      "required_outputs": [
+        "ADR-0016 with options, decision, consequences, non-scope, and Phase 5B/Phase 6 implications.",
+        "Policy pack references P4B-SCHEMA-001 remediation and selected path.",
+        "Bounded implementation requirements for Phase 5B."
+      ],
+      "evidence_artifacts": [
+        "codex-review/phase5a-policy-pack/ticket-artifacts/P5A-008/P5A-008-summary.md",
+        "codex-review/phase5a-policy-pack/ticket-artifacts/P5A-008/P5A-008-validation-summary.md",
+        "codex-review/phase5a-policy-pack/ticket-artifacts/P5A-008/P5A-008-changed-files.zip"
+      ],
+      "tests_required": [
+        "ADR-0016 decision completeness review.",
+        "P4B-SCHEMA-001 traceability review.",
+        "No screen-contract/schema/runtime changes review."
+      ],
+      "validation_commands": [
+        "rg \"ADR-0016|P4B-SCHEMA-001|access.policy.manage|platform.shell.access|platform.authenticated|session-gated|Phase 5B|Phase 6\" docs/adr/ADR-0016-shell-base-capability-or-session-gated-screen.md docs/policies/AKTI_ERP_Platform_Policy_Pack_v1.md",
+        "git diff -- packages/contracts/screen-contract.schema.ts docs/screen-contracts/phase-4b/mission-control-shell.screen.json",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "ADR tries to implement the capability or schema change.",
+        "ADR requires screen-contract schema modification in Phase 5A without explicit approval.",
+        "ADR cannot decide or bound the access model.",
+        "Policy contradicts P5A-003 capability policy."
+      ],
+      "acceptance_criteria": [
+        "ADR-0016 formally decides or explicitly bounds P4B-SCHEMA-001.",
+        "ADR depends on and aligns with P5A-003.",
+        "No screen-contract, schema, runtime, or auth implementation changes occur."
+      ],
+      "dependencies": [
+        "P5A-003"
+      ],
+      "commit_message": "P5A-008 decide shell capability remediation",
+      "rollback_notes": "Revert ADR-0016, related policy references, and ticket artifacts only.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Re-plan if ADR-0016 cannot align with P5A-003 or requires schema/runtime implementation.",
+      "stale_ticket_risk_notes": "This ticket becomes stale if screen-contract schema changes before execution; revalidate P4B-SCHEMA-001 first.",
+      "runtime_consistency_chain": [
+        "P5A-003 capability policy",
+        "P4B-SCHEMA-001 accepted limitation",
+        "ADR-0016 decision",
+        "Phase 5B implementation input",
+        "Phase 6 non-admin rollout blocker"
+      ],
+      "minimum_concrete_requirement": "ADR-0016 resolves P4B-SCHEMA-001 as a policy decision with Phase 5B requirements and no runtime/schema implementation.",
+      "split_if": "Split if base capability and session-gated screen type each require separate ADR analysis beyond one decision record.",
+      "requires_human_approval_if": [
+        "Screen-contract schema changes are needed in Phase 5A.",
+        "New capability seeding must be implemented immediately.",
+        "Production auth/session semantics are required."
+      ],
+      "failure_classification": "shell_capability_adr_scope_failure",
+      "decision_options": [
+        "Base platform shell capability such as platform.shell.access or platform.authenticated.",
+        "Session-gated/authenticated shell screen type.",
+        "Explicit bounded deferral with Phase 6 blocker.",
+        "Reject access.policy.manage as final operator shell model."
+      ],
+      "selection_criteria": [
+        "Enables non-admin shell access before Phase 6.",
+        "Minimizes schema/runtime blast radius.",
+        "Aligns with P5A-003 capability policy."
+      ],
+      "decision_output_path": "docs/adr/ADR-0016-shell-base-capability-or-session-gated-screen.md"
+    },
+    {
+      "ticket_id": "P5A-009",
+      "title": "Module Registry frontend API and Module Service/API contract standards",
+      "type": "adr_standard_decision",
+      "priority": "high",
+      "objective": "Define the frontend module registry API boundary and module service/API contract standard for Phase 5B Foundry implementation.",
+      "scope": [
+        "Create ADR-0018 for Module Registry frontend API boundary.",
+        "Create Module Service/API Contract Standard.",
+        "Define route naming, error shape, tenant/capability requirements, and module service boundary rules as standards prose.",
+        "Align Phase 4B shell read-only module list with future Phase 5B Foundry writes."
+      ],
+      "non_scope": [
+        "Do not implement or modify API endpoints.",
+        "Do not modify module-registry controller/service.",
+        "Do not modify contracts or module manifests.",
+        "Do not implement Foundry module registration."
+      ],
+      "source_files_to_inspect": [
+        "apps/api/src/module-registry/module-registry.controller.ts",
+        "apps/api/src/module-registry/module-registry.service.ts",
+        "apps/web/components/mission-control/module-launcher.tsx",
+        "docs/adr/ADR-0013-frontend-mission-control-architecture.md",
+        "packages/contracts/module-manifest.schema.ts",
+        "docs/process/AKTI_ERP_Phase_4B_Frontend_Dependency_Assessment_v1.md"
+      ],
+      "files_expected_to_change": [
+        "docs/adr/ADR-0018-module-registry-frontend-api-boundary.md",
+        "docs/standards/AKTI_ERP_Module_Service_API_Contract_Standard_v1.md",
+        "docs/policies/AKTI_ERP_Platform_Policy_Pack_v1.md",
+        "codex-review/phase5a-policy-pack/ticket-artifacts/P5A-009"
+      ],
+      "files_forbidden_to_change": [
+        "apps/**",
+        "packages/contracts/**",
+        "prisma/**",
+        "generated/**",
+        "package.json",
+        "pnpm-lock.yaml"
+      ],
+      "required_outputs": [
+        "ADR-0018 for module registry frontend API boundary.",
+        "Module Service/API Contract Standard.",
+        "Policy references for module API enforcement and Phase 5B implementation inputs."
+      ],
+      "evidence_artifacts": [
+        "codex-review/phase5a-policy-pack/ticket-artifacts/P5A-009/P5A-009-summary.md",
+        "codex-review/phase5a-policy-pack/ticket-artifacts/P5A-009/P5A-009-validation-summary.md",
+        "codex-review/phase5a-policy-pack/ticket-artifacts/P5A-009/P5A-009-changed-files.zip"
+      ],
+      "tests_required": [
+        "ADR-0018 decision completeness review.",
+        "Service/API standard field coverage review.",
+        "API/runtime no-change verification."
+      ],
+      "validation_commands": [
+        "rg \"ADR-0018|Module Registry|frontend API|GET /platform/modules|Phase 5B\" docs/adr/ADR-0018-module-registry-frontend-api-boundary.md",
+        "rg \"route naming|error shape|tenant|capability|module service|API contract\" docs/standards/AKTI_ERP_Module_Service_API_Contract_Standard_v1.md",
+        "git diff -- apps/api/src/module-registry apps/web/components/mission-control/module-launcher.tsx",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Standard requires modifying API endpoints.",
+        "ADR cannot reconcile Phase 4B shell reads with future Foundry writes.",
+        "API standard requires contract implementation.",
+        "Module registry runtime changes appear."
+      ],
+      "acceptance_criteria": [
+        "ADR-0018 defines read/write boundary and Phase 5B responsibilities.",
+        "Service/API standard is concrete enough for future module APIs.",
+        "No runtime API code changes occur."
+      ],
+      "dependencies": [
+        "P5A-003",
+        "P5A-007"
+      ],
+      "commit_message": "P5A-009 define module registry API standards",
+      "rollback_notes": "Revert ADR-0018, Module Service/API Contract Standard, policy references, and artifacts only.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Re-plan if API boundary cannot be documented without changing runtime endpoints.",
+      "stale_ticket_risk_notes": "Reconfirm current module registry endpoint and Phase 4B module launcher behavior before writing.",
+      "runtime_consistency_chain": [
+        "Phase 4B module launcher",
+        "ADR-0018 frontend API boundary",
+        "Module Service/API Contract Standard",
+        "Phase 5B Foundry registry implementation input"
+      ],
+      "minimum_concrete_requirement": "ADR-0018 and Module Service/API Contract Standard define exact policy-level API boundaries without endpoint implementation.",
+      "split_if": "Split if module registry frontend API ADR and service/API standard each require separate decision records.",
+      "requires_human_approval_if": [
+        "Existing API routes must change.",
+        "New backend endpoint implementation is required.",
+        "Contract/schema implementation is needed."
+      ],
+      "failure_classification": "module_registry_api_boundary_failure",
+      "decision_options": [
+        "Formalize current read-only module registry API as Phase 5B read surface.",
+        "Define a new future Foundry API boundary without runtime implementation.",
+        "Explicitly defer API boundary with Phase 5B blocker."
+      ],
+      "selection_criteria": [
+        "Supports Phase 4B shell.",
+        "Provides Phase 5B Foundry input.",
+        "Avoids runtime endpoint changes."
+      ],
+      "decision_output_path": "docs/adr/ADR-0018-module-registry-frontend-api-boundary.md"
+    },
+    {
+      "ticket_id": "P5A-010",
+      "title": "Notification, background job/scheduler, import/export/reporting/read-model policies",
+      "type": "policy_decision",
+      "priority": "high",
+      "objective": "Define deferred platform policies for notifications/communication, background jobs/scheduler, and data import/export/reporting/read-models without implementing runtimes.",
+      "scope": [
+        "Create Notification/Communication Policy.",
+        "Create Background Job/Scheduler Policy.",
+        "Create Data Import/Export/Reporting/Read-Model Policy.",
+        "Connect Phase 4B notification and recent activity deferrals to future policy enforcement."
+      ],
+      "non_scope": [
+        "Do not implement notification delivery.",
+        "Do not implement scheduler or background job runtime.",
+        "Do not implement reporting engine, imports, exports, or read models.",
+        "Do not add queues, workers, dependencies, or integrations."
+      ],
+      "source_files_to_inspect": [
+        "docs/process/AKTI_ERP_Phase_5A_Readiness_Handoff_After_Phase_4B_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Frontend_Dependency_Assessment_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Audit_Report_v1.md",
+        "apps/web/components/mission-control/notification-center.tsx",
+        "apps/api/src/platform-observability/audit-log.service.ts",
+        "apps/api/src/platform-observability/event-outbox.service.ts",
+        "packages/contracts/module-manifest.schema.ts"
+      ],
+      "files_expected_to_change": [
+        "docs/policies/AKTI_ERP_Notification_Communication_Policy_v1.md",
+        "docs/policies/AKTI_ERP_Background_Job_Scheduler_Policy_v1.md",
+        "docs/policies/AKTI_ERP_Data_Import_Export_Reporting_Read_Model_Policy_v1.md",
+        "docs/policies/AKTI_ERP_Platform_Policy_Pack_v1.md",
+        "codex-review/phase5a-policy-pack/ticket-artifacts/P5A-010"
+      ],
+      "files_forbidden_to_change": [
+        "apps/**",
+        "packages/**",
+        "prisma/**",
+        "generated/**",
+        "package.json",
+        "pnpm-lock.yaml"
+      ],
+      "required_outputs": [
+        "Notification/Communication Policy with delivery, retention, permission, escalation, and channel semantics.",
+        "Background Job/Scheduler Policy with ownership, retry, idempotency, dead-letter, tenant scope, and observability rules.",
+        "Data Import/Export/Reporting/Read-Model Policy with compliance, tenant, visibility, and evidence rules."
+      ],
+      "evidence_artifacts": [
+        "codex-review/phase5a-policy-pack/ticket-artifacts/P5A-010/P5A-010-summary.md",
+        "codex-review/phase5a-policy-pack/ticket-artifacts/P5A-010/P5A-010-validation-summary.md",
+        "codex-review/phase5a-policy-pack/ticket-artifacts/P5A-010/P5A-010-changed-files.zip"
+      ],
+      "tests_required": [
+        "Policy coverage review for all three supplementary policies.",
+        "Phase 4B deferral traceability review.",
+        "Runtime no-change verification."
+      ],
+      "validation_commands": [
+        "rg \"Notification|Communication|delivery|retention|escalation|channel\" docs/policies/AKTI_ERP_Notification_Communication_Policy_v1.md",
+        "rg \"Background Job|Scheduler|retry|idempotency|dead-letter|tenant\" docs/policies/AKTI_ERP_Background_Job_Scheduler_Policy_v1.md",
+        "rg \"Import|Export|Reporting|Read-Model|read model|audit\" docs/policies/AKTI_ERP_Data_Import_Export_Reporting_Read_Model_Policy_v1.md",
+        "git diff -- apps packages prisma generated package.json pnpm-lock.yaml",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Any runtime delivery, scheduler, reporting, queue, worker, or integration implementation is required.",
+        "Policy needs production credentials or external service configuration.",
+        "Policy cannot define tenant/capability enforcement points.",
+        "Notification policy expands into WhatsApp/SMS/email implementation."
+      ],
+      "acceptance_criteria": [
+        "All three supplementary policies are concrete enough for Phase 5B/Phase 6 planning.",
+        "Phase 4B notification and recent activity deferrals are carried forward.",
+        "No runtime implementation occurs."
+      ],
+      "dependencies": [
+        "P5A-004",
+        "P5A-006",
+        "P5A-009"
+      ],
+      "commit_message": "P5A-010 define notification scheduler and reporting policies",
+      "rollback_notes": "Revert supplementary policies, related policy pack references, and ticket artifacts only.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Re-plan if any policy requires runtime design beyond governance or if channel semantics need product approval.",
+      "stale_ticket_risk_notes": "Reconfirm Phase 4B deferrals before writing; notification shell remains infrastructure-only until policy is approved.",
+      "runtime_consistency_chain": [
+        "Phase 4B deferrals",
+        "Event schema standard",
+        "Notification policy",
+        "Scheduler policy",
+        "Reporting/read-model policy",
+        "Phase 5B and Phase 6 inputs"
+      ],
+      "minimum_concrete_requirement": "Notification, scheduler, and import/export/reporting/read-model policies define enforcement points and deferrals without runtime implementation.",
+      "split_if": "Split if notification, scheduler, and reporting policies each require separate approval or product decisions.",
+      "requires_human_approval_if": [
+        "Real delivery channels or credentials are needed.",
+        "Scheduler runtime choices are requested.",
+        "Reporting/export compliance decisions cannot be derived from repo governance."
+      ],
+      "failure_classification": "supplementary_policy_runtime_scope_failure",
+      "decision_options": [
+        "Define all three as policy docs with bounded runtime deferrals.",
+        "Split notification policy for separate product decision.",
+        "Stop for approval if channel or reporting compliance semantics are unclear."
+      ],
+      "selection_criteria": [
+        "Carries Phase 4B gaps forward.",
+        "Avoids runtime services.",
+        "Names Phase 5B/Phase 6 enforcement inputs."
+      ],
+      "decision_output_path": "docs/policies/AKTI_ERP_Notification_Communication_Policy_v1.md"
+    },
+    {
+      "ticket_id": "P5A-011",
+      "title": "Module UI/accessibility/noob-proof and AI-ready module governance policy",
+      "type": "policy_decision",
+      "priority": "high",
+      "objective": "Define module UI/accessibility/noob-proof UX policy and AI-ready module governance without implementing AI runtime or new modules.",
+      "scope": [
+        "Produce Policy 18: Testing, Certification and Promotion Policy.",
+        "Produce Policy 19: Module UI, Accessibility and Noob-Proof UX Policy.",
+        "Produce Policy 20: AI-Ready Module Governance Policy.",
+        "Reference the Design System Contract rather than duplicating it.",
+        "Define AI declaration, evidence, cost, prohibited behavior, evaluation, and Gatekeeper policy requirements as governance only."
+      ],
+      "non_scope": [
+        "Do not implement frontend UI changes.",
+        "Do not implement AI runtime, AI agents, recommendation engine, or model integrations.",
+        "Do not create business modules.",
+        "Do not change design system runtime components."
+      ],
+      "source_files_to_inspect": [
+        "docs/standards/AKTI_ERP_Design_System_Contract_v1.md",
+        "docs/adr/ADR-0014-ui-component-library.md",
+        "docs/process/AKTI_ERP_Phase_4B_Noob_Proof_Acceptance_Checklist_v1.md",
+        "docs/process/AKTI_ERP_Phase_4B_Audit_Report_v1.md",
+        "docs/process/AKTI_ERP_Master_Roadmap_Reference_v2.md",
+        "packages/contracts/module-manifest.schema.ts"
+      ],
+      "files_expected_to_change": [
+        "docs/policies/AKTI_ERP_Platform_Policy_Pack_v1.md",
+        "codex-review/phase5a-policy-pack/ticket-artifacts/P5A-011"
+      ],
+      "files_forbidden_to_change": [
+        "apps/**",
+        "packages/**",
+        "prisma/**",
+        "generated/**",
+        "package.json",
+        "pnpm-lock.yaml"
+      ],
+      "required_outputs": [
+        "Testing/certification/promotion policy.",
+        "Module UI/accessibility/noob-proof UX policy referencing Design System Contract.",
+        "AI-ready module governance policy with declarations, prohibited behavior, audit/evaluation, cost, and Gatekeeper rules."
+      ],
+      "evidence_artifacts": [
+        "codex-review/phase5a-policy-pack/ticket-artifacts/P5A-011/P5A-011-summary.md",
+        "codex-review/phase5a-policy-pack/ticket-artifacts/P5A-011/P5A-011-validation-summary.md",
+        "codex-review/phase5a-policy-pack/ticket-artifacts/P5A-011/P5A-011-changed-files.zip"
+      ],
+      "tests_required": [
+        "Policies 18, 19, and 20 coverage review.",
+        "Design System Contract reference review.",
+        "AI runtime non-scope review."
+      ],
+      "validation_commands": [
+        "rg \"Testing|Certification|Promotion|Accessibility|Noob-Proof|Design System Contract|AI-Ready|Gatekeeper|cost|evaluation|prohibited\" docs/policies/AKTI_ERP_Platform_Policy_Pack_v1.md",
+        "rg \"AI runtime|model integration|recommendation engine implementation|business module implementation\" docs/policies/AKTI_ERP_Platform_Policy_Pack_v1.md || true",
+        "git diff -- apps packages prisma generated package.json pnpm-lock.yaml",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Policy requires implementing UI changes.",
+        "Policy requires AI runtime/model integration.",
+        "Policy cannot define AI governance without product approval.",
+        "Policy duplicates rather than references Design System Contract."
+      ],
+      "acceptance_criteria": [
+        "Policies 18, 19, and 20 are usable Phase 5B/Phase 6 governance inputs.",
+        "Policy 19 references Design System Contract as implementation standard.",
+        "No AI runtime or UI implementation occurs."
+      ],
+      "dependencies": [
+        "P5A-002",
+        "P5A-003",
+        "P5A-006"
+      ],
+      "commit_message": "P5A-011 define module UX and AI governance policies",
+      "rollback_notes": "Revert Policies 18/19/20 sections and ticket artifacts only.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Re-plan if AI governance requires runtime AI architecture or product-specific module behavior.",
+      "stale_ticket_risk_notes": "Reconfirm Design System Contract and roadmap AI boundaries before writing.",
+      "runtime_consistency_chain": [
+        "Design System Contract",
+        "Noob-proof Phase 4B checklist",
+        "Testing/certification policy",
+        "Module UI policy",
+        "AI-ready governance policy",
+        "Phase 6 module inputs"
+      ],
+      "minimum_concrete_requirement": "Policy pack contains Policies 18, 19, and 20 with certification, UI/accessibility, and AI-ready governance requirements but no runtime implementation.",
+      "split_if": "Split if AI-ready governance needs separate product/legal review or if testing/certification requires an independent promotion policy.",
+      "requires_human_approval_if": [
+        "AI runtime is proposed.",
+        "Business-module-specific AI behavior is proposed.",
+        "Accessibility/noob-proof rules conflict with approved Design System Contract."
+      ],
+      "failure_classification": "ux_ai_governance_scope_failure",
+      "decision_options": [
+        "Policy-only AI-ready declaration model.",
+        "AI governance with explicit Phase 5B schema deferral.",
+        "Stop for approval if AI runtime semantics are requested."
+      ],
+      "selection_criteria": [
+        "Keeps AI runtime out of Phase 5A.",
+        "Supports future governed modules.",
+        "References existing design system."
+      ],
+      "decision_output_path": "docs/policies/AKTI_ERP_Platform_Policy_Pack_v1.md#testing-ui-accessibility-and-ai-ready-governance"
+    },
+    {
+      "ticket_id": "P5A-012",
+      "title": "Platform Policy Index and Gatekeeper checklist consolidation",
+      "type": "consolidation_policy",
+      "priority": "critical",
+      "objective": "Consolidate completed policies, ADRs, and standards into the Platform Policy Index and Gatekeeper Module Change Checklist.",
+      "scope": [
+        "Create Platform Policy Index.",
+        "Create Gatekeeper Module Change Checklist.",
+        "Ensure every policy names enforcement point, Phase 5B input, evidence, owner, and deferral if any.",
+        "Cross-reference ADR-0015 through ADR-0018 and supplementary standards/policies."
+      ],
+      "non_scope": [
+        "Do not implement Gatekeeper runtime.",
+        "Do not modify gatekeeper-contract.ts.",
+        "Do not create Foundry enforcement code.",
+        "Do not create business modules."
+      ],
+      "source_files_to_inspect": [
+        "docs/policies/AKTI_ERP_Platform_Policy_Pack_v1.md",
+        "docs/adr/ADR-0015-tenant-rls-enforcement-strategy.md",
+        "docs/adr/ADR-0016-shell-base-capability-or-session-gated-screen.md",
+        "docs/adr/ADR-0017-platform-versioning-baseline.md",
+        "docs/adr/ADR-0018-module-registry-frontend-api-boundary.md",
+        "docs/standards/AKTI_ERP_Event_Schema_Standard_v1.md",
+        "docs/standards/AKTI_ERP_Module_Service_API_Contract_Standard_v1.md",
+        "packages/contracts/gatekeeper-contract.ts"
+      ],
+      "files_expected_to_change": [
+        "docs/policies/AKTI_ERP_Platform_Policy_Index_v1.md",
+        "docs/policies/AKTI_ERP_Gatekeeper_Module_Change_Checklist_v1.md",
+        "docs/policies/AKTI_ERP_Platform_Policy_Pack_v1.md",
+        "codex-review/phase5a-policy-pack/ticket-artifacts/P5A-012"
+      ],
+      "files_forbidden_to_change": [
+        "apps/**",
+        "packages/contracts/**",
+        "prisma/**",
+        "generated/**",
+        "package.json",
+        "pnpm-lock.yaml"
+      ],
+      "required_outputs": [
+        "Policy Index covering all Phase 5A policy, ADR, standard, and supplementary outputs.",
+        "Gatekeeper Module Change Checklist with preflight questions and evidence requirements.",
+        "Policy completeness matrix with enforcement points and Phase 5B inputs."
+      ],
+      "evidence_artifacts": [
+        "codex-review/phase5a-policy-pack/ticket-artifacts/P5A-012/P5A-012-summary.md",
+        "codex-review/phase5a-policy-pack/ticket-artifacts/P5A-012/P5A-012-validation-summary.md",
+        "codex-review/phase5a-policy-pack/ticket-artifacts/P5A-012/P5A-012-changed-files.zip"
+      ],
+      "tests_required": [
+        "20-policy index coverage review.",
+        "Gatekeeper checklist completeness review.",
+        "No runtime Gatekeeper change verification."
+      ],
+      "validation_commands": [
+        "rg \"Policy 1|Policy 2|Policy 3|Policy 4|Policy 5|Policy 6|Policy 7|Policy 8|Policy 9|Policy 10|Policy 11|Policy 12|Policy 13|Policy 14|Policy 15|Policy 16|Policy 17|Policy 18|Policy 19|Policy 20\" docs/policies/AKTI_ERP_Platform_Policy_Index_v1.md",
+        "rg \"Gatekeeper|preflight|approval_required|evidence|risk|Phase 5B\" docs/policies/AKTI_ERP_Gatekeeper_Module_Change_Checklist_v1.md",
+        "git diff -- packages/contracts/gatekeeper-contract.ts",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Any policy lacks an enforcement point.",
+        "Any policy lacks a Phase 5B input or explicit bounded deferral.",
+        "Checklist requires Gatekeeper runtime changes.",
+        "Index reveals missing Phase 5A outputs that cannot be completed in current ticket."
+      ],
+      "acceptance_criteria": [
+        "Policy Index covers all 20 policies and supplementary outputs.",
+        "Gatekeeper checklist is concrete enough for Phase 5B implementation planning.",
+        "No runtime Gatekeeper, Foundry, or module work occurs."
+      ],
+      "dependencies": [
+        "P5A-001",
+        "P5A-002",
+        "P5A-003",
+        "P5A-004",
+        "P5A-005",
+        "P5A-006",
+        "P5A-007",
+        "P5A-008",
+        "P5A-009",
+        "P5A-010",
+        "P5A-011"
+      ],
+      "commit_message": "P5A-012 consolidate policy index and Gatekeeper checklist",
+      "rollback_notes": "Revert Policy Index, Gatekeeper checklist, final policy-pack consolidation edits, and artifacts only.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Re-plan if consolidation reveals incomplete upstream policies or missing ADR/standard outputs.",
+      "stale_ticket_risk_notes": "Run only after all policy/ADR/standard tickets are complete; otherwise index content will be stale.",
+      "runtime_consistency_chain": [
+        "Policies 1-20",
+        "ADR-0015 through ADR-0018",
+        "Standards and supplementary policies",
+        "Policy Index",
+        "Gatekeeper checklist"
+      ],
+      "minimum_concrete_requirement": "Policy Index and Gatekeeper checklist cover every Phase 5A output with enforcement points, evidence expectations, and Phase 5B inputs.",
+      "split_if": "Split if policy index gaps require returning to upstream policy tickets or if Gatekeeper checklist expands beyond policy-to-checklist mapping.",
+      "requires_human_approval_if": [
+        "Any policy lacks a decision and cannot be bounded.",
+        "Gatekeeper checklist requires runtime contract changes.",
+        "Foundry implementation requirements are unclear."
+      ],
+      "failure_classification": "policy_index_or_gatekeeper_checklist_gap",
+      "decision_options": [
+        "Consolidate all completed policies into one index and one checklist.",
+        "Stop and return to incomplete upstream tickets.",
+        "Record bounded deferral for missing low-risk supplementary policy only if owner/trigger/risk is explicit."
+      ],
+      "selection_criteria": [
+        "No missing policy coverage.",
+        "Every policy has enforcement point and Phase 5B input.",
+        "Checklist remains implementation-neutral."
+      ],
+      "decision_output_path": "docs/policies/AKTI_ERP_Platform_Policy_Index_v1.md"
+    },
+    {
+      "ticket_id": "P5A-GATE",
+      "title": "Phase 5A policy review, final package, and Phase 5B readiness handoff",
+      "type": "closure_gate",
+      "priority": "critical",
+      "objective": "Complete Phase 5A closure evidence, final audit report, final external audit package, and Phase 5B readiness handoff without starting Phase 5B.",
+      "scope": [
+        "Complete Phase 5A audit report with execution evidence only.",
+        "Create Foundry implementation requirement notes from Phase 5A outputs.",
+        "Create Phase 5B readiness handoff as a boundary artifact.",
+        "Create final external audit package and source archive from committed branch HEAD.",
+        "Run final validation."
+      ],
+      "non_scope": [
+        "Do not create Phase 5B ticket pack.",
+        "Do not implement Foundry, module installer, runtime policy engine, business modules, production auth, scheduler, notification runtime, reporting, AI runtime, deployment, or secrets.",
+        "Do not alter policy decisions to make audit pass."
+      ],
+      "source_files_to_inspect": [
+        "docs/process/AKTI_ERP_Phase_5A_Platform_Policy_Pack_Plan_v1.md",
+        "docs/process/AKTI_ERP_Phase_5A_Ticket_Pack_v1.json",
+        "docs/policies",
+        "docs/adr/ADR-0015-tenant-rls-enforcement-strategy.md",
+        "docs/adr/ADR-0016-shell-base-capability-or-session-gated-screen.md",
+        "docs/adr/ADR-0017-platform-versioning-baseline.md",
+        "docs/adr/ADR-0018-module-registry-frontend-api-boundary.md",
+        "docs/standards",
+        "codex-review/phase5a-policy-pack/ticket-artifacts"
+      ],
+      "files_expected_to_change": [
+        "docs/process/AKTI_ERP_Phase_5A_Audit_Report_v1.md",
+        "docs/process/AKTI_ERP_Foundry_Implementation_Requirements_From_Phase_5A_v1.md",
+        "docs/process/AKTI_ERP_Phase_5B_Readiness_Handoff_After_Phase_5A_v1.md",
+        "codex-review/phase5a-policy-pack/final-external-audit"
+      ],
+      "files_forbidden_to_change": [
+        "apps/**",
+        "prisma/**",
+        "generated/**",
+        "packages/contracts/**",
+        "package.json",
+        "pnpm-lock.yaml"
+      ],
+      "required_outputs": [
+        "Completed Phase 5A audit report with execution evidence only.",
+        "Foundry implementation requirement notes.",
+        "Phase 5B readiness handoff boundary artifact.",
+        "Final external audit package with manifest, commit log, file list, checksums, validation summary, known deferrals, and exclusion verification."
+      ],
+      "evidence_artifacts": [
+        "codex-review/phase5a-policy-pack/ticket-artifacts/P5A-GATE/P5A-GATE-summary.md",
+        "codex-review/phase5a-policy-pack/ticket-artifacts/P5A-GATE/P5A-GATE-validation-summary.md",
+        "codex-review/phase5a-policy-pack/ticket-artifacts/P5A-GATE/P5A-GATE-changed-files.zip",
+        "codex-review/phase5a-policy-pack/final-external-audit"
+      ],
+      "tests_required": [
+        "Final policy coverage validation.",
+        "Final audit package checksum and exclusion validation.",
+        "No runtime/schema/package/generated-registry change verification.",
+        "Final git status verification."
+      ],
+      "validation_commands": [
+        "git status --short --branch",
+        "git rev-parse HEAD",
+        "node -e \"JSON.parse(require('fs').readFileSync('docs/process/AKTI_ERP_Phase_5A_Ticket_Pack_v1.json','utf8')); console.log('phase5a ticket pack json valid')\"",
+        "rg \"To be completed at Phase 5A closure\" docs/process/AKTI_ERP_Phase_5A_Audit_Report_v1.md && exit 1 || true",
+        "rg \"PHASE_5A_CLOSURE|Phase 5B readiness|Foundry implementation requirements|Policy Index|Gatekeeper\" docs/process/AKTI_ERP_Phase_5A_Audit_Report_v1.md docs/process/AKTI_ERP_Phase_5B_Readiness_Handoff_After_Phase_5A_v1.md docs/process/AKTI_ERP_Foundry_Implementation_Requirements_From_Phase_5A_v1.md",
+        "git diff -- apps prisma generated packages/contracts package.json pnpm-lock.yaml",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Any required Phase 5A policy/ADR/standard output is missing.",
+        "Audit would require changing a policy decision rather than reporting evidence.",
+        "Final package cannot verify checksums or exclusions.",
+        "Phase 5B ticket pack or implementation scope appears.",
+        "Runtime, Prisma, generated registry, package, dependency, or contract changes are required outside explicitly approved Phase 5A governance-source artifacts."
+      ],
+      "acceptance_criteria": [
+        "Phase 5A audit report is completed with execution evidence only.",
+        "Final external audit package verifies.",
+        "Phase 5B readiness handoff exists and does not start Phase 5B.",
+        "All Phase 5A tickets are complete or have accepted bounded deferrals."
+      ],
+      "dependencies": [
+        "P5A-000",
+        "P5A-001",
+        "P5A-002",
+        "P5A-003",
+        "P5A-004",
+        "P5A-005",
+        "P5A-006",
+        "P5A-007",
+        "P5A-008",
+        "P5A-009",
+        "P5A-010",
+        "P5A-011",
+        "P5A-012"
+      ],
+      "commit_message": "P5A-GATE complete Phase 5A closure package",
+      "rollback_notes": "Remove or regenerate closure package from the last valid committed Phase 5A HEAD; do not alter policy source files to repair packaging.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Re-plan if any upstream ticket is incomplete, if final audit cannot be produced from committed HEAD, or if Phase 5B scope appears.",
+      "stale_ticket_risk_notes": "Closure is stale if any Phase 5A ticket completed after final validation; re-run final validation and regenerate packages.",
+      "runtime_consistency_chain": [
+        "Completed Phase 5A policy outputs",
+        "Policy Index",
+        "Gatekeeper checklist",
+        "Foundry requirements",
+        "Phase 5B readiness handoff",
+        "Final audit package"
+      ],
+      "minimum_concrete_requirement": "Final Phase 5A audit report, Foundry requirements note, Phase 5B readiness handoff, and external audit package are created from committed Phase 5A HEAD.",
+      "split_if": "Split if final audit packaging and Phase 5B handoff cannot be validated in one closure commit or if any upstream output is incomplete.",
+      "requires_human_approval_if": [
+        "Phase 5B ticket pack is requested.",
+        "Foundry implementation work is requested.",
+        "Final package reveals missing policy decisions that cannot be bounded."
+      ],
+      "failure_classification": "phase5a_closure_or_package_failure",
+      "decision_options": [
+        "Close Phase 5A with all policies complete.",
+        "Close with accepted bounded deferrals if owner, trigger, risk, and Phase 5B/Phase 6 impact are explicit.",
+        "Stop if any critical policy or ADR is missing."
+      ],
+      "selection_criteria": [
+        "No missing critical outputs.",
+        "No Phase 5B implementation.",
+        "Final package verifies from committed HEAD."
+      ],
+      "decision_output_path": "docs/process/AKTI_ERP_Phase_5B_Readiness_Handoff_After_Phase_5A_v1.md"
+    }
+  ]
+}
