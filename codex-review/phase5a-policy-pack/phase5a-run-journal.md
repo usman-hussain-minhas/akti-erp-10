@@ -235,3 +235,10 @@
 - Dependencies: P5A-003b, P5A-003d, P5A-003e.
 - Implemented Phase 5A governance output only.
 - Validation passed before commit.
+
+## P5A-011b - AI-Ready Module Governance Policy
+
+- Exact-file plan: docs/policies/AKTI_ERP_Platform_Policy_Pack_v1.md, codex-review/phase5a-policy-pack/ticket-artifacts/P5A-011b.
+- Dependencies: P5A-005b, P5A-005c, P5A-006a.
+- Implemented Phase 5A governance output only.
+- Validation passed before commit.
