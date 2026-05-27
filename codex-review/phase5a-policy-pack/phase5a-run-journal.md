@@ -305,3 +305,10 @@
 - Dependencies: P5A-003d.
 - Implemented Phase 5A governance output only.
 - Validation passed before commit.
+
+## P5A-014a - Tenant Configuration API Contract
+
+- Exact-file plan: docs/standards/AKTI_ERP_Platform_Service_Contracts_Standard_v1.md, codex-review/phase5a-policy-pack/ticket-artifacts/P5A-014a.
+- Dependencies: P5A-003d.
+- Implemented Phase 5A governance output only.
+- Validation passed before commit.
