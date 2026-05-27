@@ -22,8 +22,10 @@ This file is the operating guide for Codex in this repository. It summarizes `do
 - Phase 4 status: PASS.
 - Phase 4A status: PASS.
 - Phase 4B status: PASS.
-- Current execution target: Phase 5A Platform Policy Pack, Governance and Gatekeeper Rulebook.
-- Phase 5B is Gatekeeper-governed Foundry / Module Installer implementation after Phase 5A policies are approved.
+- Phase 5A status: PASS.
+- Current planning target: Phase 5B control docs and ticket pack only.
+- Phase 5B is Gatekeeper-governed Foundry / Module Installer implementation after approved Phase 5B control docs and ticket pack exist.
+- Do not start Phase 5B execution, Foundry runtime, or module installer runtime from this file.
 - Phase 5C is Frontend Excellence & UI Platform Maturity after Phase 5B is merged and approved.
 - Phase 6A is Golden Module Certification.
 - Phase 6B+ is business modules after Foundry/module installer exists and Golden Module certification is complete.

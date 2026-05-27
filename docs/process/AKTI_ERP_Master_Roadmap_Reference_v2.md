@@ -1,7 +1,7 @@
 # AKTI ERP Master Roadmap Reference v2
 
 **Status:** Strategic reference only
-**Purpose:** Big-picture roadmap for AKTI ERP after Phase 4 merge
+**Purpose:** Big-picture roadmap for AKTI ERP after Phase 5A merge
 **Authority:** This document is not the source of truth. It is a reference compass only.
 
 Truth for each phase or module must be created separately through its own approved source-of-truth documents: phase plan, ticket pack, ADRs, contracts, module manifests, Prisma/schema changes, screen contracts, tests, validation evidence, and audit/closure package.
@@ -192,9 +192,9 @@ Governed intelligence is not a shortcut around the platform. It is a set of cont
 | Phase 4 | Operational Proof | Complete, validated, and merged |
 | Phase 4A | Local Demo / Staging Environment Stabilization | Complete, validated, and merged |
 | Phase 4B | Frontend Operational Experience & Mission Control Shell | Complete, validated, and merged |
-| Phase 5A | Platform Policy Pack, Governance and Gatekeeper Rulebook | Active execution target |
-| Phase 5B | Gatekeeper-Governed Module Foundry & Core Platform Completion | After Phase 5A approval |
-| Phase 5C | Frontend Excellence & UI Platform Maturity | After Phase 5B approval |
+| Phase 5A | Platform Policy Pack, Governance and Gatekeeper Rulebook | Complete, validated, and merged |
+| Phase 5B | Gatekeeper-Governed Module Foundry & Core Platform Completion | Next control-doc planning target; execution not started |
+| Phase 5C | Frontend Excellence & UI Platform Maturity | After Phase 5B merge/approval |
 | Phase 6A | Golden Module Certification | After Phase 5B/5C foundation is ready |
 | Phase 6B+ | Business Modules | After Foundry/module rules and Golden Module certification exist |
 | Phase 6B or later | Evidence Foundation from Real Module Events | After real modules emit enough evidence |
@@ -346,6 +346,8 @@ Phase 4B must not authorize new business modules, Foundry/module installer imple
 Phase 5 comes after Phase 4A and Phase 4B unless a later approved decision explicitly changes that order.
 
 Phase 5 creates the framework for installing, enabling, disabling, validating, auditing, and integrating modules.
+
+Phase 5A has completed the policy, ADR, standard, checklist, and control layer. Phase 5B control-doc planning is next; Foundry runtime and module installer execution must not start until Phase 5B control docs and ticket pack are approved.
 
 Phase 5 should define:
 
