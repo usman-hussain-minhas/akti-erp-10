@@ -25,3 +25,10 @@
 - Dependencies: P5A-001b.
 - Implemented Phase 5A governance output only.
 - Validation passed before commit.
+
+## P5A-002b - Module Installation Policy
+
+- Exact-file plan: docs/policies/AKTI_ERP_Platform_Policy_Pack_v1.md, codex-review/phase5a-policy-pack/ticket-artifacts/P5A-002b.
+- Dependencies: P5A-002a.
+- Implemented Phase 5A governance output only.
+- Validation passed before commit.
