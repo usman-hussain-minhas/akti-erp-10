@@ -2,7 +2,7 @@
 
 Status: Accepted Phase 5A governance output.
 
-Ticket: P5A-010c
+Ticket: P5A-010d
 
 Source basis:
 - docs/process/AKTI_ERP_Phase5_Strategic_Reference_v2_locked_final.md
@@ -10,17 +10,17 @@ Source basis:
 
 ### Objective
 
-Create the execution-grade Phase 5A policy for Data Import & Export Policy without drifting into Phase 5B runtime implementation.
+Create the execution-grade Phase 5A policy for Reporting & Read-Model Policy without drifting into Phase 5B runtime implementation.
 
 ### Decision / Policy
 
-Data import/export policy requires declared format, validation, tenant scope, ownership, privacy class, audit evidence, rollback/compensation, and user-facing error behavior.
+Reporting uses event-driven read models, not direct ad-hoc cross-module table reads as the default.
 
 ### Required Rules
 
-- Imports cannot bypass module ownership or tenant isolation.
-- Exports require authorization, redaction, and evidence.
-- Phase 5A does not implement import/export runtime.
+- Read models declare source events, owner, rebuild path, freshness, tenant boundary, privacy class, and query contract.
+- Unsupported reporting needs are deferred or require approved read-model design.
+- No fake operational data is allowed as reporting evidence.
 
 ### Owner And Enforcement Point
 
@@ -37,9 +37,9 @@ Data import/export policy requires declared format, validation, tenant scope, ow
 
 ### Phase 5B Implementation Input
 
-- Build/import export service from approved architecture.
-- Gatekeeper checks data movement risk.
-- Module certification validates import/export boundaries.
+- Implement read-model service architecture.
+- Gatekeeper validates reporting data sources.
+- Modules publish events for reportable facts.
 
 ### Validation Expectations
 

@@ -221,3 +221,10 @@
 - Dependencies: P5A-004a, P5A-005c.
 - Implemented Phase 5A governance output only.
 - Validation passed before commit.
+
+## P5A-010d - Reporting & Read-Model Policy
+
+- Exact-file plan: docs/policies/AKTI_ERP_Data_Import_Export_Reporting_Read_Model_Policy_v1.md, codex-review/phase5a-policy-pack/ticket-artifacts/P5A-010d.
+- Dependencies: P5A-006a, P5A-006b.
+- Implemented Phase 5A governance output only.
+- Validation passed before commit.
