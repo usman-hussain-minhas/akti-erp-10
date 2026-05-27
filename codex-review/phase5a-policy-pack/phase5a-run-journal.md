@@ -137,3 +137,10 @@
 - Dependencies: P5A-005b.
 - Implemented Phase 5A governance output only.
 - Validation passed before commit.
+
+## P5A-006a - Event Schema Standard
+
+- Exact-file plan: docs/standards/AKTI_ERP_Event_Schema_Standard_v1.md, codex-review/phase5a-policy-pack/ticket-artifacts/P5A-006a.
+- Dependencies: P5A-001a.
+- Implemented Phase 5A governance output only.
+- Validation passed before commit.
