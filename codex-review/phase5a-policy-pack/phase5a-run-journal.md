@@ -193,3 +193,10 @@
 - Dependencies: P5A-003b, P5A-007.
 - Implemented Phase 5A governance output only.
 - Validation passed before commit.
+
+## P5A-009b - Module Service/API Contract Standard
+
+- Exact-file plan: docs/standards/AKTI_ERP_Module_Service_API_Contract_Standard_v1.md, codex-review/phase5a-policy-pack/ticket-artifacts/P5A-009b.
+- Dependencies: P5A-003a, P5A-003b, P5A-007.
+- Implemented Phase 5A governance output only.
+- Validation passed before commit.
