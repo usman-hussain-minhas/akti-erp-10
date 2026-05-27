@@ -186,3 +186,10 @@
 - Dependencies: P5A-003a, P5A-003b.
 - Implemented Phase 5A governance output only.
 - Validation passed before commit.
+
+## P5A-009a - Module Registry Frontend API Boundary
+
+- Exact-file plan: docs/adr/ADR-0018-module-registry-frontend-api-boundary.md, codex-review/phase5a-policy-pack/ticket-artifacts/P5A-009a.
+- Dependencies: P5A-003b, P5A-007.
+- Implemented Phase 5A governance output only.
+- Validation passed before commit.
