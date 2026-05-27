@@ -88,3 +88,10 @@
 - Dependencies: P5A-004a.
 - Implemented Phase 5A governance output only.
 - Validation passed before commit.
+
+## P5A-003e - Configurable Labels, Localization & Display Override Policy
+
+- Exact-file plan: docs/policies/AKTI_ERP_Platform_Policy_Pack_v1.md, codex-review/phase5a-policy-pack/ticket-artifacts/P5A-003e.
+- Dependencies: P5A-003c, P5A-003d.
+- Implemented Phase 5A governance output only.
+- Validation passed before commit.
