@@ -190,10 +190,13 @@ Governed intelligence is not a shortcut around the platform. It is a set of cont
 | Phase 2 | First Module-Layer Proof | Complete with accepted deferrals |
 | Phase 3 | Trust Foundation | Complete and merged |
 | Phase 4 | Operational Proof | Complete, validated, and merged |
-| Phase 4A | Local Demo / Staging Environment Stabilization | Next planning target |
-| Phase 4B | Frontend Operational Experience & Mission Control Shell | After Phase 4A |
-| Phase 5 | Foundry / Module Installer / AI-Ready Module Governance | After Phase 4A/4B unless later approved decision changes the order |
-| Phase 6 | Installable Business Modules with Governed In-Module AI | After Foundry/module rules exist |
+| Phase 4A | Local Demo / Staging Environment Stabilization | Complete, validated, and merged |
+| Phase 4B | Frontend Operational Experience & Mission Control Shell | Complete, validated, and merged |
+| Phase 5A | Platform Policy Pack, Governance and Gatekeeper Rulebook | Active execution target |
+| Phase 5B | Gatekeeper-Governed Module Foundry & Core Platform Completion | After Phase 5A approval |
+| Phase 5C | Frontend Excellence & UI Platform Maturity | After Phase 5B approval |
+| Phase 6A | Golden Module Certification | After Phase 5B/5C foundation is ready |
+| Phase 6B+ | Business Modules | After Foundry/module rules and Golden Module certification exist |
 | Phase 6B or later | Evidence Foundation from Real Module Events | After real modules emit enough evidence |
 | Phase 7 | Intelligence Core / Predictability / Platform AI Operations | After Foundry and real module evidence exist |
 | Phase 8 | Scale / Marketplace / Enterprise | After operational and module maturity |
