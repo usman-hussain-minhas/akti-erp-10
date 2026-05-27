@@ -249,3 +249,10 @@
 - Dependencies: P5A-001a, P5A-001b, P5A-002a, P5A-002b, P5A-002c, P5A-002d, P5A-002e, P5A-003a, P5A-003b, P5A-003c, P5A-003d, P5A-003e, P5A-003f, P5A-004a, P5A-004b, P5A-004c, P5A-004d, P5A-005a, P5A-005b, P5A-005c, P5A-006a, P5A-006b, P5A-006c, P5A-006d, P5A-007, P5A-008, P5A-009a, P5A-009b, P5A-010a, P5A-010b, P5A-010c, P5A-010d, P5A-011a, P5A-011b.
 - Implemented Phase 5A governance output only.
 - Validation passed before commit.
+
+## P5A-012b - Gatekeeper Checklist Consolidation
+
+- Exact-file plan: docs/policies/AKTI_ERP_Gatekeeper_Module_Change_Checklist_v1.md, codex-review/phase5a-policy-pack/ticket-artifacts/P5A-012b.
+- Dependencies: P5A-003a, P5A-003f, P5A-006a, P5A-006b, P5A-012a.
+- Implemented Phase 5A governance output only.
+- Validation passed before commit.
