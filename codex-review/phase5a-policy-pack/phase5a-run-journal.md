@@ -298,3 +298,10 @@
 - Dependencies: P5A-010c.
 - Implemented Phase 5A governance output only.
 - Validation passed before commit.
+
+## P5A-013g - Tenant Configuration & Branding Service Architecture
+
+- Exact-file plan: docs/process/AKTI_ERP_Phase_5A_Core_Platform_Service_Architecture_Decisions_v1.md, codex-review/phase5a-policy-pack/ticket-artifacts/P5A-013g.
+- Dependencies: P5A-003d.
+- Implemented Phase 5A governance output only.
+- Validation passed before commit.
