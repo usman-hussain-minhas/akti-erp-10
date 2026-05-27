@@ -102,3 +102,10 @@
 - Dependencies: P5A-003a.
 - Implemented Phase 5A governance output only.
 - Validation passed before commit.
+
+## P5A-004b - Tenant Isolation / RLS Enforcement Strategy
+
+- Exact-file plan: docs/adr/ADR-0015-tenant-rls-enforcement-strategy.md, docs/policies/AKTI_ERP_Platform_Policy_Pack_v1.md, codex-review/phase5a-policy-pack/ticket-artifacts/P5A-004b.
+- Dependencies: P5A-004a.
+- Implemented Phase 5A governance output only.
+- Validation passed before commit.
