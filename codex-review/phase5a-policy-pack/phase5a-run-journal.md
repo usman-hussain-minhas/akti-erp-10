@@ -172,3 +172,10 @@
 - Dependencies: P5A-006c.
 - Implemented Phase 5A governance output only.
 - Validation passed before commit.
+
+## P5A-007 - Platform Versioning Baseline and Repo-Readable Artifact Decision
+
+- Exact-file plan: docs/adr/ADR-0017-platform-versioning-baseline.md, platform.version.json, codex-review/phase5a-policy-pack/ticket-artifacts/P5A-007.
+- Dependencies: P5A-001a.
+- Implemented Phase 5A governance output only.
+- Validation passed before commit.
