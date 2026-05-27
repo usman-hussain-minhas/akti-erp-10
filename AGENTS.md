@@ -18,9 +18,15 @@ This file is the operating guide for Codex in this repository. It summarizes `do
 
 - Phase 1 status: PASS.
 - Phase 2 status: PASS_WITH_ACCEPTED_DEFERRALS.
-- Next planning target: Phase 3 Security/Auth/Tenant Hardening, then Phase 4 Deployment/Staging/Visual QA.
-- Phase 5 is Foundry/Module Installer Framework.
-- Phase 6+ is parallel installable modules after Foundry/module installer exists.
+- Phase 3 status: PASS_WITH_ACCEPTED_DEFERRALS.
+- Phase 4 status: PASS.
+- Phase 4A status: PASS.
+- Phase 4B status: PASS.
+- Current execution target: Phase 5A Platform Policy Pack, Governance and Gatekeeper Rulebook.
+- Phase 5B is Gatekeeper-governed Foundry / Module Installer implementation after Phase 5A policies are approved.
+- Phase 5C is Frontend Excellence & UI Platform Maturity after Phase 5B is merged and approved.
+- Phase 6A is Golden Module Certification.
+- Phase 6B+ is business modules after Foundry/module installer exists and Golden Module certification is complete.
 - Lead Desk is a business module, not core.
 - Engagement Gateway is a shared platform module.
 - WhatsApp stub is an integration adapter; no production WhatsApp credentials or real outbound WhatsApp are in scope until separately approved.

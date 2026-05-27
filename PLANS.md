@@ -1,6 +1,6 @@
 # AKTI ERP Roadmap
 
-Status: post_phase_4_merged
+Status: phase_5a_policy_pack_in_progress
 
 ## Current State
 
@@ -8,11 +8,16 @@ Status: post_phase_4_merged
 - Phase 2: PASS_WITH_ACCEPTED_DEFERRALS.
 - Phase 3: PASS_WITH_ACCEPTED_DEFERRALS.
 - Phase 4: PHASE_4_MERGED_TO_MAIN_VALIDATED.
-- Phase 1, Phase 2, Phase 3, and Phase 4 are merged into `main`.
+- Phase 4A: PHASE_4A_MERGED_TO_MAIN_VALIDATED.
+- Phase 4B: PHASE_4B_MERGED_TO_MAIN_VALIDATED.
+- Phase 5A control docs: PHASE_5A_CONTROL_DOCS_MERGED_AND_READINESS_CHECK_COMPLETE.
+- Phase 1, Phase 2, Phase 3, Phase 4, Phase 4A, Phase 4B, and Phase 5A control docs are merged into `main`.
 - Phase 3 merge commit: `5f388ca93bdc87bdbbff229a53300ef1554e8157`.
 - Phase 4 merge commit: `c052ff2bf654402d6ad0b375f80cb564c55e3d22`.
+- Phase 5A control-doc merge commit: `db6372e4b77170d286db63e2e52f9af0db177666`.
 - Phase 4 proved operational readiness, clean DB/bootstrap, validation, audit packaging, and controlled demo/staging proof.
-- Phase 4 frontend evidence showed the app is technically functional but not yet noob-proof or operator-ready.
+- Phase 4B completed the frontend operational experience and Mission Control shell readiness layer.
+- Phase 5A is now the active policy/ADR/standard/checklist/control layer before Foundry implementation.
 
 ## Authority Notice
 
@@ -33,10 +38,13 @@ docs/process/AKTI_ERP_Master_Roadmap_Reference_v2.md
 | Phase 2 | First Module-Layer Proof | Complete with accepted deferrals |
 | Phase 3 | Trust Foundation | Complete with accepted deferrals |
 | Phase 4 | Operational Proof | Complete and merged |
-| Phase 4A | Local Demo / Staging Environment Stabilization | Next planning target |
-| Phase 4B | Frontend Operational Experience & Mission Control Shell | After Phase 4A |
-| Phase 5 | Foundry / Module Installer / AI-Ready Module Governance | After Phase 4A/4B unless later approved decision changes the order |
-| Phase 6 | Installable Business Modules with Governed In-Module AI | After Foundry/module rules exist |
+| Phase 4A | Local Demo / Staging Environment Stabilization | Complete and merged |
+| Phase 4B | Frontend Operational Experience & Mission Control Shell | Complete and merged |
+| Phase 5A | Platform Policy Pack, Governance and Gatekeeper Rulebook | Active execution target |
+| Phase 5B | Gatekeeper-Governed Module Foundry & Core Platform Completion | After Phase 5A approval |
+| Phase 5C | Frontend Excellence & UI Platform Maturity | After Phase 5B approval |
+| Phase 6A | Golden Module Certification | After Phase 5B/5C foundation is ready |
+| Phase 6B+ | Business Modules | After Foundry/module rules and Golden Module certification exist |
 | Phase 6B or later | Evidence Foundation from Real Module Events | After real modules emit enough evidence |
 | Phase 7 | Intelligence Core / Predictability / Platform AI Operations | After Foundry and real module evidence exist |
 | Phase 8 | Scale / Marketplace / Enterprise | Future maturity target |
@@ -62,4 +70,4 @@ These are documented deferrals, not hidden Phase 4 blockers.
 
 ## Next Step
 
-Create Phase 4A planning/control documents for Local Demo / Staging Environment Stabilization when separately approved, followed by Phase 4B planning/control documents for Frontend Operational Experience & Mission Control Shell. Do not create Phase 4A/4B ticket packs, start Foundry/module installer work, AI runtime work, Phase 5 work, or module scale from this summary.
+Execute the approved Phase 5A policy/decision ticket queue on `phase5a/platform-policy-pack`. Do not start Phase 5B, Foundry/module installer runtime work, runtime AI work, production auth, production deployment, or business-module implementation from this summary.
