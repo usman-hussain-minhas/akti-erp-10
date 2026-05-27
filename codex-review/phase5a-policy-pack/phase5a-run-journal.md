@@ -179,3 +179,10 @@
 - Dependencies: P5A-001a.
 - Implemented Phase 5A governance output only.
 - Validation passed before commit.
+
+## P5A-008 - Shell Base Capability / Session-Gated Screen Contract ADR
+
+- Exact-file plan: docs/adr/ADR-0016-shell-base-capability-or-session-gated-screen.md, codex-review/phase5a-policy-pack/ticket-artifacts/P5A-008.
+- Dependencies: P5A-003a, P5A-003b.
+- Implemented Phase 5A governance output only.
+- Validation passed before commit.
