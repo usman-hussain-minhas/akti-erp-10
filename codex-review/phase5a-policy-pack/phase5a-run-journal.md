@@ -291,3 +291,10 @@
 - Dependencies: P5A-005b, P5A-011b.
 - Implemented Phase 5A governance output only.
 - Validation passed before commit.
+
+## P5A-013f - Data Import / Export Service Architecture
+
+- Exact-file plan: docs/process/AKTI_ERP_Phase_5A_Core_Platform_Service_Architecture_Decisions_v1.md, codex-review/phase5a-policy-pack/ticket-artifacts/P5A-013f.
+- Dependencies: P5A-010c.
+- Implemented Phase 5A governance output only.
+- Validation passed before commit.
