@@ -207,3 +207,10 @@
 - Dependencies: P5A-006a, P5A-006b.
 - Implemented Phase 5A governance output only.
 - Validation passed before commit.
+
+## P5A-010b - Background Job & Scheduler Policy
+
+- Exact-file plan: docs/policies/AKTI_ERP_Background_Job_Scheduler_Policy_v1.md, codex-review/phase5a-policy-pack/ticket-artifacts/P5A-010b.
+- Dependencies: P5A-005c, P5A-006c.
+- Implemented Phase 5A governance output only.
+- Validation passed before commit.
