@@ -200,3 +200,10 @@
 - Dependencies: P5A-003a, P5A-003b, P5A-007.
 - Implemented Phase 5A governance output only.
 - Validation passed before commit.
+
+## P5A-010a - Notification & Communication Policy
+
+- Exact-file plan: docs/policies/AKTI_ERP_Notification_Communication_Policy_v1.md, codex-review/phase5a-policy-pack/ticket-artifacts/P5A-010a.
+- Dependencies: P5A-006a, P5A-006b.
+- Implemented Phase 5A governance output only.
+- Validation passed before commit.
