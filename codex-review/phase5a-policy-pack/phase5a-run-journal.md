@@ -67,3 +67,10 @@
 - Dependencies: P5A-003a.
 - Implemented Phase 5A governance output only.
 - Validation passed before commit.
+
+## P5A-003c - Settings & Configuration Registration Policy
+
+- Exact-file plan: docs/policies/AKTI_ERP_Platform_Policy_Pack_v1.md, codex-review/phase5a-policy-pack/ticket-artifacts/P5A-003c.
+- Dependencies: P5A-003a.
+- Implemented Phase 5A governance output only.
+- Validation passed before commit.
