@@ -53,3 +53,10 @@
 - Dependencies: P5A-002a, P5A-002b, P5A-002c, P5A-002d.
 - Implemented Phase 5A governance output only.
 - Validation passed before commit.
+
+## P5A-003a - Capability, Permission & Access Model Policy
+
+- Exact-file plan: docs/policies/AKTI_ERP_Platform_Policy_Pack_v1.md, codex-review/phase5a-policy-pack/ticket-artifacts/P5A-003a.
+- Dependencies: P5A-001b.
+- Implemented Phase 5A governance output only.
+- Validation passed before commit.
