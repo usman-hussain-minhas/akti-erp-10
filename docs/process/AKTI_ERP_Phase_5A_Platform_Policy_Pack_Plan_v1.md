@@ -7,7 +7,7 @@
 
 ## Authority and Execution Boundary
 
-This document is the canonical Phase 5A planning basis only after review/approval and merge. It does not itself authorize Phase 5A execution, Phase 5B, Foundry, business modules, production auth, production deployment, secrets, or runtime implementation.
+This document remains a Phase 5A planning/control document and precursor context for the Phase 5A Platform Policy Pack. `docs/process/AKTI_ERP_Phase5_Strategic_Reference_v2_locked_final.md` is the authoritative Phase 5 strategic planning source for Phase 5A ticket-pack replacement and Phase 5A/5B/5C/6A/6B+ sequencing. Where this plan conflicts with that strategic reference, the strategic reference controls; this document does not supersede it. This document does not itself authorize Phase 5A execution, Phase 5B, Foundry, business modules, production auth, production deployment, secrets, or runtime implementation.
 
 GitHub `main` at `f7f637d9546e3e77983811488f8c643e0b0e02d6` is the primary source of truth for this planning basis. Phase 4B is merged, validated, and pushed to `origin/main`; this document does not imply that the Phase 4B PR is still open, and it does not treat Phase 4A or Phase 4B as future phases.
 
