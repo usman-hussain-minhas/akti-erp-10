@@ -256,3 +256,10 @@
 - Dependencies: P5A-003a, P5A-003f, P5A-006a, P5A-006b, P5A-012a.
 - Implemented Phase 5A governance output only.
 - Validation passed before commit.
+
+## P5A-013a - Workflow Engine Core Service Architecture
+
+- Exact-file plan: docs/process/AKTI_ERP_Phase_5A_Core_Platform_Service_Architecture_Decisions_v1.md, codex-review/phase5a-policy-pack/ticket-artifacts/P5A-013a.
+- Dependencies: P5A-003f, P5A-006a.
+- Implemented Phase 5A governance output only.
+- Validation passed before commit.
