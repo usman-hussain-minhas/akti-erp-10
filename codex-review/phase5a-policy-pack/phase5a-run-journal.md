@@ -319,3 +319,10 @@
 - Dependencies: P5A-003d, P5A-003e.
 - Implemented Phase 5A governance output only.
 - Validation passed before commit.
+
+## P5A-014c - Workflow Process Definition Contract
+
+- Exact-file plan: docs/standards/AKTI_ERP_Workflow_Process_Definition_Standard_v1.md, codex-review/phase5a-policy-pack/ticket-artifacts/P5A-014c.
+- Dependencies: P5A-013a.
+- Implemented Phase 5A governance output only.
+- Validation passed before commit.
