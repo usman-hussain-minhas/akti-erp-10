@@ -333,3 +333,10 @@
 - Dependencies: P5A-013b.
 - Implemented Phase 5A governance output only.
 - Validation passed before commit.
+
+## P5A-014e - File / Document Service Contract
+
+- Exact-file plan: docs/standards/AKTI_ERP_Platform_Service_Contracts_Standard_v1.md, codex-review/phase5a-policy-pack/ticket-artifacts/P5A-014e.
+- Dependencies: P5A-013d.
+- Implemented Phase 5A governance output only.
+- Validation passed before commit.
