@@ -263,3 +263,10 @@
 - Dependencies: P5A-003f, P5A-006a.
 - Implemented Phase 5A governance output only.
 - Validation passed before commit.
+
+## P5A-013b - Search Architecture Decision
+
+- Exact-file plan: docs/process/AKTI_ERP_Phase_5A_Core_Platform_Service_Architecture_Decisions_v1.md, codex-review/phase5a-policy-pack/ticket-artifacts/P5A-013b.
+- Dependencies: P5A-004a.
+- Implemented Phase 5A governance output only.
+- Validation passed before commit.
