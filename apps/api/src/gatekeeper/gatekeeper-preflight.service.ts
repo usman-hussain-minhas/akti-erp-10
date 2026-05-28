@@ -395,6 +395,33 @@ class Phase1GatekeeperDecisionProvider implements GatekeeperDecisionProvider {
     }
 
     if (
+      migrationRisk === 'invalid' ||
+      migrationRisk === 'validation_failed' ||
+      this.payloadBoolean(request.payload, 'migration_validation_passed') === false
+    ) {
+      return this.deny(
+        request,
+        'gatekeeper.migration.validation-failed',
+        'Gatekeeper denied migration input that failed safety validation.',
+        'gatekeeper.migration.validation',
+      );
+    }
+
+    if (
+      migrationRisk === 'approval_required' ||
+      this.payloadBoolean(request.payload, 'migration_approval_required') === true
+    ) {
+      return this.approvalRequired(
+        request,
+        'gatekeeper.migration.approval-required',
+        'Gatekeeper requires approved migration evidence before this change can continue.',
+        'gatekeeper.migration.evidence',
+        'Migration safety evidence',
+        'gatekeeper.migration.approval',
+      );
+    }
+
+    if (
       rollbackRisk === 'missing_evidence' ||
       this.payloadBoolean(request.payload, 'rollback_evidence_present') === false
     ) {
