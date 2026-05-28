@@ -17,13 +17,17 @@ const ACCESS_POLICY_MANAGE_CAPABILITY_KEY = 'access.policy.manage';
 const ACCESS_MODULE_KEY = 'core.access';
 const PORTAL_MODE_SETTING_KEY = 'portal.mode';
 const BRANDING_ASSETS_SETTING_KEY = 'white_label.branding_assets';
+const CONFIGURABLE_LABELS_SETTING_PREFIX = 'display.labels.';
 const DEFAULT_PORTAL_MODE: PortalMode = 'simple';
 const DEFAULT_WHITE_LABEL_MODE = 'none';
 const ORGANIZATION_CONFIGURATION_SCOPE_TYPES = new Set<PermissionScopeType>(['global', 'organization']);
 const BRANDING_ASSET_URL_MAX_LENGTH = 2048;
 const DOMAIN_IDENTITY_MAX_LENGTH = 253;
+const CONFIGURABLE_LABEL_MAX_LENGTH = 120;
 const HOSTNAME_DOMAIN_PATTERN =
   /^(?=.{1,253}$)(?!-)(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/;
+const DISPLAY_MODULE_KEY_PATTERN = /^[a-z][a-z0-9.-]{0,127}$/;
+const DISPLAY_LABEL_KEY_PATTERN = /^[a-z][a-z0-9_.-]{0,127}$/;
 const BRANDING_ASSET_KEYS = [
   'logo_url',
   'icon_url',
@@ -91,6 +95,24 @@ export type DomainSenderIdentityBoundaryResponse = {
   canonical_identity_preserved: true;
 };
 
+export type ConfigurableLabelDefinition = {
+  canonical_key: string;
+  label: string;
+  source: 'module_default' | 'tenant_override';
+};
+
+export type ConfigurableLabelsResponse = {
+  organization_id: string;
+  module_key: string;
+  setting_key: string;
+  source: 'default' | 'stored';
+  display_only: true;
+  canonical_keys_preserved: true;
+  labels: Record<string, ConfigurableLabelDefinition>;
+  ignored_override_keys: string[];
+  updated_at: string | null;
+};
+
 export type TenantConfigurationResponse = {
   organization_id: string;
   storage_model: TenantConfigSchemaModelBaseline;
@@ -129,6 +151,14 @@ type OrganizationDomainIdentityRow = {
   domain: string;
   is_primary: boolean;
   verified_at: Date | null;
+};
+
+type ConfigurableLabelsSettingRow = {
+  id: string;
+  organization_id: string;
+  key: string;
+  value_json: unknown;
+  updated_at: Date;
 };
 
 type ConfigurationGatekeeperInput = {
@@ -281,6 +311,40 @@ export class ConfigurationService {
     }
 
     return this.toDomainSenderIdentityBoundaryResponse(organizationId, senderIdentityRaw, normalizedDomain, domain);
+  }
+
+  async resolveConfigurableLabels(
+    organizationId: string,
+    moduleKeyRaw: string,
+    moduleDefaultLabelsRaw: Record<string, string>,
+    actorUserIdRaw?: string,
+  ): Promise<ConfigurableLabelsResponse> {
+    const moduleKey = this.normalizeDisplayModuleKey(moduleKeyRaw);
+    const moduleDefaultLabels = this.normalizeModuleDefaultLabels(moduleDefaultLabelsRaw);
+    await this.requireAccessPolicyManageActor(this.prisma, organizationId, actorUserIdRaw);
+
+    const settingKey = this.configurableLabelsSettingKey(moduleKey);
+    const setting = await this.prisma.organizationSetting.findUnique({
+      where: {
+        organization_id_key: {
+          organization_id: organizationId,
+          key: settingKey,
+        },
+      },
+      select: {
+        id: true,
+        organization_id: true,
+        key: true,
+        value_json: true,
+        updated_at: true,
+      },
+    });
+
+    if (!setting) {
+      return this.toConfigurableLabelsResponse(organizationId, moduleKey, settingKey, moduleDefaultLabels, null);
+    }
+
+    return this.toConfigurableLabelsResponse(organizationId, moduleKey, settingKey, moduleDefaultLabels, setting);
   }
 
   async updatePortalMode(
@@ -664,6 +728,127 @@ export class ConfigurationService {
     }
 
     return domain;
+  }
+
+  private toConfigurableLabelsResponse(
+    organizationId: string,
+    moduleKey: string,
+    settingKey: string,
+    moduleDefaultLabels: Record<string, string>,
+    setting: ConfigurableLabelsSettingRow | null,
+  ): ConfigurableLabelsResponse {
+    const { overrides, ignoredOverrideKeys } = setting
+      ? this.parseStoredConfigurableLabelOverrides(setting.value_json, moduleDefaultLabels)
+      : { overrides: {}, ignoredOverrideKeys: [] };
+
+    const labels: Record<string, ConfigurableLabelDefinition> = {};
+    for (const [canonicalKey, defaultLabel] of Object.entries(moduleDefaultLabels)) {
+      const override = overrides[canonicalKey];
+      labels[canonicalKey] = {
+        canonical_key: canonicalKey,
+        label: override ?? defaultLabel,
+        source: override === undefined ? 'module_default' : 'tenant_override',
+      };
+    }
+
+    return {
+      organization_id: organizationId,
+      module_key: moduleKey,
+      setting_key: settingKey,
+      source: setting ? 'stored' : 'default',
+      display_only: true,
+      canonical_keys_preserved: true,
+      labels,
+      ignored_override_keys: ignoredOverrideKeys,
+      updated_at: setting ? setting.updated_at.toISOString() : null,
+    };
+  }
+
+  private parseStoredConfigurableLabelOverrides(
+    value: unknown,
+    moduleDefaultLabels: Record<string, string>,
+  ): { overrides: Record<string, string>; ignoredOverrideKeys: string[] } {
+    if (typeof value !== 'object' || value === null || Array.isArray(value)) {
+      throw new ConflictException('configurable label setting is invalid');
+    }
+
+    const body = value as Record<string, unknown>;
+    const overrides: Record<string, string> = {};
+    const ignoredOverrideKeys: string[] = [];
+
+    for (const [key, rawLabel] of Object.entries(body)) {
+      if (!(key in moduleDefaultLabels)) {
+        ignoredOverrideKeys.push(key);
+        continue;
+      }
+
+      overrides[key] = this.normalizeStoredDisplayLabel(rawLabel, `label override ${key}`);
+    }
+
+    return { overrides, ignoredOverrideKeys: ignoredOverrideKeys.sort() };
+  }
+
+  private normalizeModuleDefaultLabels(value: Record<string, string>): Record<string, string> {
+    if (typeof value !== 'object' || value === null || Array.isArray(value)) {
+      throw new BadRequestException('module default labels must be an object');
+    }
+
+    const labels: Record<string, string> = {};
+    for (const [key, label] of Object.entries(value)) {
+      if (!DISPLAY_LABEL_KEY_PATTERN.test(key)) {
+        throw new BadRequestException('module default label keys must be canonical display keys');
+      }
+      labels[key] = this.normalizeDisplayLabel(label, `module default label ${key}`);
+    }
+
+    if (Object.keys(labels).length === 0) {
+      throw new BadRequestException('module default labels must not be empty');
+    }
+
+    return labels;
+  }
+
+  private normalizeDisplayModuleKey(value: unknown): string {
+    if (typeof value !== 'string') {
+      throw new BadRequestException('module key is required for configurable labels');
+    }
+
+    const moduleKey = value.trim().toLowerCase();
+    if (!DISPLAY_MODULE_KEY_PATTERN.test(moduleKey)) {
+      throw new BadRequestException('module key is invalid for configurable labels');
+    }
+
+    return moduleKey;
+  }
+
+  private configurableLabelsSettingKey(moduleKey: string): string {
+    return `${CONFIGURABLE_LABELS_SETTING_PREFIX}${moduleKey}`;
+  }
+
+  private normalizeDisplayLabel(value: unknown, field: string): string {
+    if (typeof value !== 'string') {
+      throw new BadRequestException(`${field} must be a string`);
+    }
+
+    const trimmed = value.trim();
+    if (trimmed.length === 0 || trimmed.length > CONFIGURABLE_LABEL_MAX_LENGTH) {
+      throw new BadRequestException(`${field} must be 1-${CONFIGURABLE_LABEL_MAX_LENGTH} characters`);
+    }
+
+    return trimmed;
+  }
+
+  private normalizeStoredDisplayLabel(value: unknown, field: string): string {
+    if (typeof value !== 'string') {
+      throw new ConflictException(`${field} must be a string`);
+    }
+
+    const trimmed = value.trim();
+    if (trimmed.length === 0 || trimmed.length > CONFIGURABLE_LABEL_MAX_LENGTH) {
+      throw new ConflictException(`${field} must be 1-${CONFIGURABLE_LABEL_MAX_LENGTH} characters`);
+    }
+
+    return trimmed;
   }
 
   private normalizeActorUserId(actorUserIdRaw?: string | null): string | null {
