@@ -22,11 +22,14 @@ import { OrganizationSetupService } from './organization-setup/organization-setu
 import { AuditLogService } from './platform-observability/audit-log.service';
 import { EventOutboxService } from './platform-observability/event-outbox.service';
 import { PrismaService } from './prisma/prisma.service';
+import { CurrentUserController } from './security/current-user.controller';
+import { CurrentUserService } from './security/current-user.service';
 
 @Module({
   imports: [],
   controllers: [
     AppController,
+    CurrentUserController,
     OrganizationSetupController,
     AccessCoreController,
     ModuleRegistryController,
@@ -50,6 +53,7 @@ import { PrismaService } from './prisma/prisma.service';
     GatekeeperPreflightService,
     AuditLogService,
     EventOutboxService,
+    CurrentUserService,
   ],
 })
 export class AppModule {}
