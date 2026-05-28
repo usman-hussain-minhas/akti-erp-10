@@ -473,6 +473,66 @@ export type FoundryUninstallExecutionReceipt = {
   };
 };
 
+export type FoundryUpdateExecutionInput = {
+  module_key: string;
+  current_version: string;
+  target_version: string;
+  current_manifest_hash: string;
+  target_manifest_hash: string;
+  gatekeeper_outcome: FoundryGatekeeperTransitionOutcome;
+  gatekeeper_decision_token: string;
+  evidence_ref: string;
+  migration_plan_ref: string;
+  rollback_plan_ref: string;
+  compatibility_result: FoundryCompatibilityCheckResult;
+  organization_id: string;
+  actor_user_id: string;
+  correlation_id: string;
+};
+
+export type FoundryUpdateExecutionReceipt = {
+  execution_id: string;
+  receipt_hash: string;
+  module_key: string;
+  current_version: string;
+  target_version: string;
+  action_key: 'module.update';
+  status_path: ['enabled', 'update_available', 'updating', 'enabled'];
+  gatekeeper_outcome: FoundryGatekeeperTransitionOutcome;
+  gatekeeper_decision_token: string;
+  foundry_execution_completed: true;
+  lifecycle_transitions: [FoundryLifecycleTransitionPlan, FoundryLifecycleTransitionPlan, FoundryLifecycleTransitionPlan];
+  migration: {
+    plan_ref: string;
+    transaction_required: true;
+    destructive_migration_allowed: false;
+  };
+  rollback: {
+    plan_ref: string;
+    required_before_execution: true;
+    recovery_flow_deferred_to: 'P5B-014b';
+  };
+  compatibility: {
+    checked: true;
+    compatible: true;
+  };
+  registry: {
+    next_status: 'enabled';
+    update_available_cleared: true;
+    persistence_required: true;
+  };
+  evidence: {
+    evidence_ref: string;
+    evidence_required_before_execution: true;
+  };
+  audit: {
+    event_type: 'foundry.module.updated';
+    organization_id: string;
+    actor_user_id: string;
+    correlation_id: string;
+  };
+};
+
 type FoundryCapabilitySpec = {
   key: string;
   module_key: string;
@@ -969,6 +1029,96 @@ export class FoundryService {
       },
       audit: {
         event_type: 'foundry.module.uninstalled',
+        organization_id: input.organization_id,
+        actor_user_id: input.actor_user_id,
+        correlation_id: input.correlation_id,
+      },
+    };
+  }
+
+  executeUpdate(input: FoundryUpdateExecutionInput): FoundryUpdateExecutionReceipt {
+    this.assertUpdateExecutionInput(input);
+
+    const markUpdateAvailable = this.assertLifecycleTransition({
+      module_key: input.module_key,
+      from_state: 'enabled',
+      to_state: 'update_available',
+      action_key: 'module.mark_update_available',
+      gatekeeper_outcome: input.gatekeeper_outcome,
+      evidence_ref: input.evidence_ref,
+    });
+    const startUpdate = this.assertLifecycleTransition({
+      module_key: input.module_key,
+      from_state: 'update_available',
+      to_state: 'updating',
+      action_key: 'module.start_update',
+      gatekeeper_outcome: input.gatekeeper_outcome,
+      evidence_ref: input.evidence_ref,
+    });
+    const completeUpdate = this.assertLifecycleTransition({
+      module_key: input.module_key,
+      from_state: 'updating',
+      to_state: 'enabled',
+      action_key: 'module.complete_update',
+      gatekeeper_outcome: input.gatekeeper_outcome,
+      evidence_ref: input.evidence_ref,
+    });
+    const receiptBasis = {
+      module_key: input.module_key,
+      current_version: input.current_version,
+      target_version: input.target_version,
+      current_manifest_hash: input.current_manifest_hash,
+      target_manifest_hash: input.target_manifest_hash,
+      action_key: 'module.update',
+      gatekeeper_outcome: input.gatekeeper_outcome,
+      gatekeeper_decision_token: input.gatekeeper_decision_token,
+      evidence_ref: input.evidence_ref,
+      migration_plan_ref: input.migration_plan_ref,
+      rollback_plan_ref: input.rollback_plan_ref,
+      compatibility_result_hash: sha256Hex(stableJsonStringify(input.compatibility_result)),
+      organization_id: input.organization_id,
+      actor_user_id: input.actor_user_id,
+      correlation_id: input.correlation_id,
+    };
+    const receiptHash = sha256Hex(stableJsonStringify(receiptBasis));
+
+    return {
+      execution_id: `foundry-update-${receiptHash.slice(0, 16)}`,
+      receipt_hash: receiptHash,
+      module_key: input.module_key,
+      current_version: input.current_version,
+      target_version: input.target_version,
+      action_key: 'module.update',
+      status_path: ['enabled', 'update_available', 'updating', 'enabled'],
+      gatekeeper_outcome: input.gatekeeper_outcome,
+      gatekeeper_decision_token: input.gatekeeper_decision_token,
+      foundry_execution_completed: true,
+      lifecycle_transitions: [markUpdateAvailable, startUpdate, completeUpdate],
+      migration: {
+        plan_ref: input.migration_plan_ref,
+        transaction_required: true,
+        destructive_migration_allowed: false,
+      },
+      rollback: {
+        plan_ref: input.rollback_plan_ref,
+        required_before_execution: true,
+        recovery_flow_deferred_to: 'P5B-014b',
+      },
+      compatibility: {
+        checked: true,
+        compatible: true,
+      },
+      registry: {
+        next_status: 'enabled',
+        update_available_cleared: true,
+        persistence_required: true,
+      },
+      evidence: {
+        evidence_ref: input.evidence_ref,
+        evidence_required_before_execution: true,
+      },
+      audit: {
+        event_type: 'foundry.module.updated',
         organization_id: input.organization_id,
         actor_user_id: input.actor_user_id,
         correlation_id: input.correlation_id,
@@ -1509,6 +1659,40 @@ export class FoundryService {
     ] as const) {
       if (input[field].trim().length === 0) {
         throw new BadRequestException(`Foundry uninstall execution ${field} is required`);
+      }
+    }
+  }
+
+  private assertUpdateExecutionInput(input: FoundryUpdateExecutionInput) {
+    if (!MODULE_KEY_PATTERN.test(input.module_key)) {
+      throw new BadRequestException('Foundry update execution module_key must use module key syntax');
+    }
+    if (!SEMVER_PATTERN.test(input.current_version) || !SEMVER_PATTERN.test(input.target_version)) {
+      throw new BadRequestException('Foundry update execution versions must be semver');
+    }
+    if (compareSemver(input.target_version, input.current_version) <= 0) {
+      throw new BadRequestException('Foundry update execution requires target_version above current_version');
+    }
+    if (!HEX_SHA256_PATTERN.test(input.current_manifest_hash) || !HEX_SHA256_PATTERN.test(input.target_manifest_hash)) {
+      throw new BadRequestException('Foundry update execution manifest hashes must be SHA-256 hex digests');
+    }
+    if (input.gatekeeper_outcome !== 'ALLOW') {
+      throw new BadRequestException('Foundry update execution requires Gatekeeper ALLOW');
+    }
+    if (input.compatibility_result.compatible !== true || input.compatibility_result.module_key !== input.module_key) {
+      throw new BadRequestException('Foundry update execution requires compatible target module result');
+    }
+    for (const field of [
+      'gatekeeper_decision_token',
+      'evidence_ref',
+      'migration_plan_ref',
+      'rollback_plan_ref',
+      'organization_id',
+      'actor_user_id',
+      'correlation_id',
+    ] as const) {
+      if (input[field].trim().length === 0) {
+        throw new BadRequestException(`Foundry update execution ${field} is required`);
       }
     }
   }
