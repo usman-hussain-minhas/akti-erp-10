@@ -23,6 +23,13 @@ enum PermissionScopeType {
   assigned_records
 }
 
+enum GatekeeperDecisionOutcome {
+  ALLOW
+  DENY
+  APPROVAL_REQUIRED
+  STOP_FOR_REVIEW
+}
+
 model Organization {
   id                        String                 @id @default(cuid())
   slug                      String                 @unique
@@ -39,6 +46,7 @@ model Organization {
   user_groups               UserGroup[]
   group_capabilities        GroupCapability[]
   audit_logs                AuditLog[]
+  gatekeeper_decision_records GatekeeperDecisionRecord[]
   event_outbox_entries      EventOutbox[]
   engagement_gateway_requests EngagementGatewayRequest[]
   organization_settings     OrganizationSetting[]
@@ -126,6 +134,7 @@ model User {
   primary_unit   OrganizationUnit? @relation("User_PrimaryUnit", fields: [organization_id, primary_unit_id], references: [organization_id, id])
   user_groups    UserGroup[]      @relation("UserGroup_User")
   audit_logs_as_actor AuditLog[]  @relation("AuditLog_ActorUser")
+  gatekeeper_decision_records_as_actor GatekeeperDecisionRecord[] @relation("GatekeeperDecisionRecord_ActorUser")
   lead_records_assigned LeadRecord[] @relation("LeadRecord_AssignedUser")
   lead_status_history_as_actor LeadStatusHistory[] @relation("LeadStatusHistory_ActorUser")
   lead_assignment_history_as_actor LeadAssignmentHistory[] @relation("LeadAssignmentHistory_ActorUser")
@@ -239,6 +248,40 @@ model AuditLog {
   @@index([organization_id, created_at])
   @@index([actor_user_id])
   @@index([entity_type, entity_id])
+}
+
+model GatekeeperDecisionRecord {
+  id                  String                    @id @default(cuid())
+  organization_id     String
+  actor_user_id       String
+  request_id          String
+  capability_key      String
+  module_key          String
+  entity_type         String
+  entity_id           String?
+  scope_unit_id       String?
+  action_key          String
+  outcome             GatekeeperDecisionOutcome
+  reason_summary      Json
+  check_results       Json
+  required_evidence   Json
+  missing_evidence    Json
+  approval_chain_key  String?
+  approval_request_id String?
+  decision_token      String?
+  correlation_id      String?
+  requested_at        DateTime
+  recorded_at         DateTime                  @default(now())
+  expires_at          DateTime?
+  payload             Json
+  organization        Organization              @relation(fields: [organization_id], references: [id])
+  actor_user          User                      @relation("GatekeeperDecisionRecord_ActorUser", fields: [organization_id, actor_user_id], references: [organization_id, id])
+
+  @@unique([organization_id, request_id])
+  @@index([organization_id, outcome, recorded_at])
+  @@index([organization_id, actor_user_id, recorded_at])
+  @@index([organization_id, capability_key, recorded_at])
+  @@index([correlation_id])
 }
 
 model EventOutbox {

@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto';
 
-import { ForbiddenException, Injectable, ServiceUnavailableException } from '@nestjs/common';
+import { ForbiddenException, Injectable, Optional, ServiceUnavailableException } from '@nestjs/common';
 import type {
   GatekeeperCheckResult,
   GatekeeperDecisionResult,
@@ -8,6 +8,9 @@ import type {
   GatekeeperRequest,
   GatekeeperReauthStatus,
 } from '@akti/contracts/gatekeeper-contract';
+
+import { type Prisma } from '../prisma/prisma-client';
+import { PrismaService } from '../prisma/prisma.service';
 
 const ACCESS_POLICY_MANAGE_CAPABILITY_KEY = 'access.policy.manage';
 const ACCESS_MODULE_KEY = 'core.access';
@@ -48,6 +51,7 @@ const CAPABILITY_POLICIES: Record<string, CapabilityPolicy> = {
 
 type HealthStatus = GatekeeperRequest['context']['module_health'][string];
 type GatekeeperCanonicalOutcome = 'ALLOW' | 'DENY' | 'APPROVAL_REQUIRED' | 'STOP_FOR_REVIEW';
+type GatekeeperDecisionPersistenceClient = Pick<PrismaService, 'gatekeeperDecisionRecord'>;
 
 type GatekeeperContractsModule = {
   parseGatekeeperRequest(input: unknown): GatekeeperRequest;
@@ -279,6 +283,8 @@ function normalizeGatekeeperDecisionOutcome(
 export class GatekeeperPreflightService {
   private readonly phase1DecisionProvider = new Phase1GatekeeperDecisionProvider();
 
+  constructor(@Optional() private readonly prisma?: PrismaService) {}
+
   async requireAllow(input: GatekeeperPreflightInput): Promise<GatekeeperDecisionResult> {
     let contracts: GatekeeperContractsModule;
     try {
@@ -311,6 +317,7 @@ export class GatekeeperPreflightService {
 
     this.assertDecisionMatchesRequest(request, decision);
     const normalizedOutcome = normalizeGatekeeperDecisionOutcome(decision.decision);
+    await this.recordDecisionIfConfigured(request, decision, normalizedOutcome);
 
     if (normalizedOutcome === 'STOP_FOR_REVIEW') {
       throw new ServiceUnavailableException('Gatekeeper stopped the mutation for platform review');
@@ -325,6 +332,51 @@ export class GatekeeperPreflightService {
 
   protected async provideDecision(request: GatekeeperRequest): Promise<unknown> {
     return this.phase1DecisionProvider.decide(request);
+  }
+
+  private async recordDecisionIfConfigured(
+    request: GatekeeperRequest,
+    decision: GatekeeperDecisionResult,
+    outcome: GatekeeperCanonicalOutcome,
+  ) {
+    if (!this.prisma) {
+      return;
+    }
+
+    await this.recordDecision(this.prisma, request, decision, outcome);
+  }
+
+  private async recordDecision(
+    db: GatekeeperDecisionPersistenceClient,
+    request: GatekeeperRequest,
+    decision: GatekeeperDecisionResult,
+    outcome: GatekeeperCanonicalOutcome,
+  ) {
+    await db.gatekeeperDecisionRecord.create({
+      data: {
+        organization_id: request.organization_id,
+        actor_user_id: request.actor_user_id,
+        request_id: request.request_id,
+        capability_key: request.capability_key,
+        module_key: request.module_key,
+        entity_type: request.entity_type,
+        entity_id: request.entity_id,
+        scope_unit_id: request.scope_unit_id,
+        action_key: this.requiredPayloadString(request.payload, 'action_key'),
+        outcome,
+        reason_summary: decision.reasons as unknown as Prisma.InputJsonValue,
+        check_results: decision.checks as unknown as Prisma.InputJsonValue,
+        required_evidence: decision.required_evidence as unknown as Prisma.InputJsonValue,
+        missing_evidence: decision.missing_evidence as unknown as Prisma.InputJsonValue,
+        approval_chain_key: decision.approval_chain_key ?? null,
+        approval_request_id: decision.approval_request_id ?? null,
+        decision_token: decision.decision_token ?? null,
+        correlation_id: this.optionalPayloadString(request.payload, 'correlation_id'),
+        requested_at: new Date(request.requested_at),
+        expires_at: decision.expires_at ? new Date(decision.expires_at) : null,
+        payload: request.payload as Prisma.InputJsonValue,
+      },
+    });
   }
 
   private buildRequest(input: GatekeeperPreflightInput): unknown {
@@ -368,5 +420,24 @@ export class GatekeeperPreflightService {
     ) {
       throw new ForbiddenException('Gatekeeper decision does not match the preflight request');
     }
+  }
+
+  private optionalPayloadString(payload: Record<string, unknown>, key: string): string | null {
+    const value = payload[key];
+    if (typeof value !== 'string') {
+      return null;
+    }
+
+    const trimmed = value.trim();
+    return trimmed.length > 0 ? trimmed : null;
+  }
+
+  private requiredPayloadString(payload: Record<string, unknown>, key: string): string {
+    const value = this.optionalPayloadString(payload, key);
+    if (!value) {
+      throw new ForbiddenException(`Gatekeeper request payload is missing ${key}`);
+    }
+
+    return value;
   }
 }

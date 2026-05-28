@@ -3,8 +3,8 @@
   "sources": {
     "prisma_schema": "prisma/schema.prisma",
     "metadata": "prisma/entity-registry.metadata.json",
-    "prisma_schema_hash": "sha256:5ce5e987ac535213ec0b349eb0d664eef778f8a216e4ae4e9e0d153444125133",
-    "metadata_hash": "sha256:507440115888d49467a8497c61ba2ceb4c4b42b69b7e639b24c437442de9bc32"
+    "prisma_schema_hash": "sha256:ded921ba5b4fef6a725e71032b0d8e2f47990447191123d5ef79de5526e1f405",
+    "metadata_hash": "sha256:97786e5d7b3d4dc010de1406d56e63c1eaaac80a49413fc2d01a37f4507e7fd7"
   },
   "entities": [
     {
@@ -796,6 +796,348 @@
       "retention_policy": "per_outbox_policy",
       "audit_required": true,
       "sensitive_data_classification": "internal"
+    },
+    {
+      "model_name": "GatekeeperDecisionRecord",
+      "table_name": "GatekeeperDecisionRecord",
+      "owner_module": "core.gatekeeper",
+      "phase": 2,
+      "tenant_scoped": true,
+      "organization_id_required": true,
+      "rls_required": true,
+      "organization_id_field": "organization_id",
+      "organization_id_column": "organization_id",
+      "fields": [
+        {
+          "field_name": "action_key",
+          "column_name": "action_key",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "actor_user",
+          "column_name": "actor_user",
+          "type": "User",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "User"
+        },
+        {
+          "field_name": "actor_user_id",
+          "column_name": "actor_user_id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "approval_chain_key",
+          "column_name": "approval_chain_key",
+          "type": "String",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "approval_request_id",
+          "column_name": "approval_request_id",
+          "type": "String",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "capability_key",
+          "column_name": "capability_key",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "check_results",
+          "column_name": "check_results",
+          "type": "Json",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "correlation_id",
+          "column_name": "correlation_id",
+          "type": "String",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "decision_token",
+          "column_name": "decision_token",
+          "type": "String",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "entity_id",
+          "column_name": "entity_id",
+          "type": "String",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "entity_type",
+          "column_name": "entity_type",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "expires_at",
+          "column_name": "expires_at",
+          "type": "DateTime",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "id",
+          "column_name": "id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": true,
+          "is_relation": false
+        },
+        {
+          "field_name": "missing_evidence",
+          "column_name": "missing_evidence",
+          "type": "Json",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "module_key",
+          "column_name": "module_key",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "organization",
+          "column_name": "organization",
+          "type": "Organization",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "Organization"
+        },
+        {
+          "field_name": "organization_id",
+          "column_name": "organization_id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "outcome",
+          "column_name": "outcome",
+          "type": "GatekeeperDecisionOutcome",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "payload",
+          "column_name": "payload",
+          "type": "Json",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "reason_summary",
+          "column_name": "reason_summary",
+          "type": "Json",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "recorded_at",
+          "column_name": "recorded_at",
+          "type": "DateTime",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "request_id",
+          "column_name": "request_id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "requested_at",
+          "column_name": "requested_at",
+          "type": "DateTime",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "required_evidence",
+          "column_name": "required_evidence",
+          "type": "Json",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "scope_unit_id",
+          "column_name": "scope_unit_id",
+          "type": "String",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        }
+      ],
+      "indexes": [
+        {
+          "name": "GatekeeperDecisionRecord_correlation_id_idx",
+          "fields": [
+            "correlation_id"
+          ],
+          "columns": [
+            "correlation_id"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "GatekeeperDecisionRecord_id_pk",
+          "fields": [
+            "id"
+          ],
+          "columns": [
+            "id"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "GatekeeperDecisionRecord_organization_id_actor_user_id_recorded_at_idx",
+          "fields": [
+            "organization_id",
+            "actor_user_id",
+            "recorded_at"
+          ],
+          "columns": [
+            "organization_id",
+            "actor_user_id",
+            "recorded_at"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "GatekeeperDecisionRecord_organization_id_capability_key_recorded_at_idx",
+          "fields": [
+            "organization_id",
+            "capability_key",
+            "recorded_at"
+          ],
+          "columns": [
+            "organization_id",
+            "capability_key",
+            "recorded_at"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "GatekeeperDecisionRecord_organization_id_outcome_recorded_at_idx",
+          "fields": [
+            "organization_id",
+            "outcome",
+            "recorded_at"
+          ],
+          "columns": [
+            "organization_id",
+            "outcome",
+            "recorded_at"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "GatekeeperDecisionRecord_organization_id_request_id_key",
+          "fields": [
+            "organization_id",
+            "request_id"
+          ],
+          "columns": [
+            "organization_id",
+            "request_id"
+          ],
+          "is_unique": true
+        }
+      ],
+      "unique_constraints": [
+        {
+          "name": "GatekeeperDecisionRecord_id_pk",
+          "fields": [
+            "id"
+          ],
+          "columns": [
+            "id"
+          ]
+        },
+        {
+          "name": "GatekeeperDecisionRecord_organization_id_request_id_key",
+          "fields": [
+            "organization_id",
+            "request_id"
+          ],
+          "columns": [
+            "organization_id",
+            "request_id"
+          ]
+        }
+      ],
+      "events_emitted": [],
+      "retention_policy": "per_gatekeeper_decision_policy",
+      "audit_required": true,
+      "sensitive_data_classification": "restricted"
     },
     {
       "model_name": "Group",
@@ -1989,6 +2331,16 @@
           "relation_model": "EventOutbox"
         },
         {
+          "field_name": "gatekeeper_decision_records",
+          "column_name": "gatekeeper_decision_records",
+          "type": "GatekeeperDecisionRecord[]",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "GatekeeperDecisionRecord"
+        },
+        {
           "field_name": "group_capabilities",
           "column_name": "group_capabilities",
           "type": "GroupCapability[]",
@@ -3103,6 +3455,16 @@
           "is_id": false,
           "is_relation": true,
           "relation_model": "EngagementGatewayRequest"
+        },
+        {
+          "field_name": "gatekeeper_decision_records_as_actor",
+          "column_name": "gatekeeper_decision_records_as_actor",
+          "type": "GatekeeperDecisionRecord[]",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "GatekeeperDecisionRecord"
         },
         {
           "field_name": "id",
