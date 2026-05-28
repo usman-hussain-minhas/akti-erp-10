@@ -4,8 +4,7 @@ import { AccessCoreController } from './access-core/access-core.controller';
 import { AccessCoreService } from './access-core/access-core.service';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ConfigurationController } from './configuration/configuration.controller';
-import { ConfigurationService } from './configuration/configuration.service';
+import { ConfigurationModule } from './configuration/configuration.module';
 import { EngagementGatewayController } from './engagement-gateway/engagement-gateway.controller';
 import { EngagementGatewayService } from './engagement-gateway/engagement-gateway.service';
 import { WhatsappStubProvider } from './engagement-gateway/whatsapp-stub.provider';
@@ -26,7 +25,7 @@ import { CurrentUserController } from './security/current-user.controller';
 import { CurrentUserService } from './security/current-user.service';
 
 @Module({
-  imports: [],
+  imports: [ConfigurationModule],
   controllers: [
     AppController,
     CurrentUserController,
@@ -34,7 +33,6 @@ import { CurrentUserService } from './security/current-user.service';
     AccessCoreController,
     ModuleRegistryController,
     HierarchyController,
-    ConfigurationController,
     EngagementGatewayController,
     LeadDeskController,
   ],
@@ -45,7 +43,6 @@ import { CurrentUserService } from './security/current-user.service';
     OrganizationSetupService,
     HierarchyClosureService,
     HierarchyService,
-    ConfigurationService,
     AccessCoreService,
     EngagementGatewayService,
     WhatsappStubProvider,
