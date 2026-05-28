@@ -81,6 +81,99 @@ export type FoundryLifecycleTransitionPlan = {
   errors: string[];
 };
 
+export type FoundryEvidenceArtifactKind =
+  | 'module_manifest'
+  | 'migration'
+  | 'capability_snapshot'
+  | 'health_check'
+  | 'smoke_test'
+  | 'gatekeeper_decision'
+  | 'rollback_plan'
+  | 'validation_result'
+  | 'compatibility_check';
+
+export type FoundryEvidenceArtifactInput = {
+  kind: FoundryEvidenceArtifactKind;
+  path: string;
+  sha256: string;
+};
+
+export type FoundryEvidenceValidationResult = {
+  name: string;
+  status: 'passed' | 'failed';
+  command?: string;
+  summary: string;
+};
+
+export type FoundryEvidenceGatekeeperDecision = {
+  decision_id: string;
+  outcome: FoundryGatekeeperTransitionOutcome;
+  decided_by_actor_id: string;
+  reason_summary: string;
+  risk_level: 'low' | 'medium' | 'high' | 'critical';
+};
+
+export type FoundryEvidenceStepTimestamp = {
+  step: string;
+  at: string;
+};
+
+export type FoundryEvidencePackageInput = {
+  module_key: string;
+  module_version: string;
+  lifecycle_action: string;
+  manifest: FoundryModuleManifestCandidate;
+  manifest_hash: string;
+  migration_files: FoundryEvidenceArtifactInput[];
+  capability_snapshot_before: string[];
+  capability_snapshot_after: string[];
+  health_check_results: FoundryEvidenceValidationResult[];
+  smoke_test_results: FoundryEvidenceValidationResult[];
+  validation_results: FoundryEvidenceValidationResult[];
+  gatekeeper_decision: FoundryEvidenceGatekeeperDecision;
+  rollback_plan_ref: string;
+  installer_actor_id: string;
+  organization_id: string;
+  correlation_id: string;
+  compatibility_result: FoundryCompatibilityCheckResult;
+  step_timestamps: FoundryEvidenceStepTimestamp[];
+};
+
+export type FoundryEvidencePackage = {
+  package_id: string;
+  package_hash: string;
+  module_key: string;
+  module_version: string;
+  lifecycle_action: string;
+  manifest_hash: string;
+  artifact_count: number;
+  validation_result_count: number;
+  gatekeeper_decision: FoundryEvidenceGatekeeperDecision;
+  rollback_plan_ref: string;
+  installer_actor_id: string;
+  organization_id: string;
+  correlation_id: string;
+  compatibility_result_hash: string;
+  gatekeeper_required: true;
+  audit_outbox_storage_required: true;
+  foundry_execution_allowed: boolean;
+  complete: boolean;
+  required_sections_complete: {
+    module_manifest: boolean;
+    migration_files_with_checksums: boolean;
+    capability_declarations_before_after: boolean;
+    health_check_results: boolean;
+    smoke_test_results: boolean;
+    gatekeeper_decision_log: boolean;
+    rollback_plan: boolean;
+    installer_actor_identity: boolean;
+    step_timestamps: boolean;
+    validation_results: boolean;
+    compatibility_check: boolean;
+  };
+  errors: string[];
+};
+
 type FoundryCapabilitySpec = {
   key: string;
   module_key: string;
@@ -177,6 +270,7 @@ const MODULE_KEY_PATTERN = /^[a-z][a-z0-9]*(?:-[a-z0-9]+)*(?:\.[a-z][a-z0-9]*(?:
 const MANIFEST_KEY_PATTERN = /^[a-z][a-z0-9]*(?:-[a-z0-9]+)*(?:\.[a-z][a-z0-9]*(?:-[a-z0-9]+)*)*$/;
 const SEMVER_PATTERN = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$/;
 const API_PATH_PATTERN = /^\/[A-Za-z0-9/_:.-]*$/;
+const HEX_SHA256_PATTERN = /^[a-f0-9]{64}$/;
 const PERMISSION_SCOPE_TYPES = new Set([
   'global',
   'organization',
@@ -448,6 +542,104 @@ export class FoundryService {
     return plan;
   }
 
+  buildEvidencePackage(input: FoundryEvidencePackageInput): FoundryEvidencePackage {
+    const errors: string[] = [];
+
+    this.validateEvidencePackageIdentity(input, errors);
+    this.validateEvidenceArtifacts(input.migration_files, errors);
+
+    const requiredSectionsComplete = {
+      module_manifest:
+        input.manifest.module_key === input.module_key &&
+        input.manifest.version === input.module_version &&
+        HEX_SHA256_PATTERN.test(input.manifest_hash),
+      migration_files_with_checksums: input.migration_files.every((artifact) => HEX_SHA256_PATTERN.test(artifact.sha256)),
+      capability_declarations_before_after:
+        input.capability_snapshot_after.length > 0 &&
+        input.capability_snapshot_after.every((capability) => MANIFEST_KEY_PATTERN.test(capability)) &&
+        input.capability_snapshot_before.every((capability) => MANIFEST_KEY_PATTERN.test(capability)),
+      health_check_results: this.validationResultsPassed(input.health_check_results),
+      smoke_test_results: this.validationResultsPassed(input.smoke_test_results),
+      gatekeeper_decision_log: this.hasGatekeeperDecisionLog(input.gatekeeper_decision),
+      rollback_plan: input.rollback_plan_ref.trim().length > 0,
+      installer_actor_identity: input.installer_actor_id.trim().length > 0,
+      step_timestamps:
+        input.step_timestamps.length > 0 &&
+        input.step_timestamps.every((timestamp) => timestamp.step.trim().length > 0 && isValidIsoTimestamp(timestamp.at)),
+      validation_results: this.validationResultsPassed(input.validation_results),
+      compatibility_check: input.compatibility_result.compatible === true,
+    };
+
+    for (const [section, complete] of Object.entries(requiredSectionsComplete)) {
+      if (!complete) {
+        errors.push(`evidence package section is incomplete: ${section}`);
+      }
+    }
+
+    if (input.gatekeeper_decision.outcome !== 'ALLOW') {
+      errors.push('Foundry evidence package requires Gatekeeper ALLOW before lifecycle execution');
+    }
+
+    const compatibilityResultHash = sha256Hex(stableJsonStringify(input.compatibility_result));
+    const hashBasis = {
+      module_key: input.module_key,
+      module_version: input.module_version,
+      lifecycle_action: input.lifecycle_action,
+      manifest_hash: input.manifest_hash,
+      migration_files: input.migration_files,
+      capability_snapshot_before: [...input.capability_snapshot_before].sort(),
+      capability_snapshot_after: [...input.capability_snapshot_after].sort(),
+      health_check_results: input.health_check_results,
+      smoke_test_results: input.smoke_test_results,
+      validation_results: input.validation_results,
+      gatekeeper_decision: input.gatekeeper_decision,
+      rollback_plan_ref: input.rollback_plan_ref,
+      installer_actor_id: input.installer_actor_id,
+      organization_id: input.organization_id,
+      correlation_id: input.correlation_id,
+      compatibility_result_hash: compatibilityResultHash,
+      step_timestamps: input.step_timestamps,
+    };
+    const packageHash = sha256Hex(stableJsonStringify(hashBasis));
+    const complete = errors.length === 0;
+
+    return {
+      package_id: `foundry-evidence-${packageHash.slice(0, 16)}`,
+      package_hash: packageHash,
+      module_key: input.module_key,
+      module_version: input.module_version,
+      lifecycle_action: input.lifecycle_action,
+      manifest_hash: input.manifest_hash,
+      artifact_count: input.migration_files.length,
+      validation_result_count:
+        input.health_check_results.length + input.smoke_test_results.length + input.validation_results.length,
+      gatekeeper_decision: input.gatekeeper_decision,
+      rollback_plan_ref: input.rollback_plan_ref,
+      installer_actor_id: input.installer_actor_id,
+      organization_id: input.organization_id,
+      correlation_id: input.correlation_id,
+      compatibility_result_hash: compatibilityResultHash,
+      gatekeeper_required: true,
+      audit_outbox_storage_required: true,
+      foundry_execution_allowed: complete,
+      complete,
+      required_sections_complete: requiredSectionsComplete,
+      errors,
+    };
+  }
+
+  assertEvidencePackageComplete(input: FoundryEvidencePackageInput): FoundryEvidencePackage {
+    const evidencePackage = this.buildEvidencePackage(input);
+    if (!evidencePackage.complete) {
+      throw new BadRequestException({
+        message: 'Foundry evidence package is incomplete',
+        errors: evidencePackage.errors,
+      });
+    }
+
+    return evidencePackage;
+  }
+
   private assertScaffoldInput(input: FoundryModuleScaffoldInput) {
     if (!MODULE_KEY_PATTERN.test(input.module_key)) {
       throw new BadRequestException('Foundry module scaffold requires a valid module_key');
@@ -621,6 +813,72 @@ export class FoundryService {
         transition.action_key === actionKey,
     );
   }
+
+  private validateEvidencePackageIdentity(input: FoundryEvidencePackageInput, errors: string[]) {
+    if (!MODULE_KEY_PATTERN.test(input.module_key)) {
+      errors.push('module_key must use module key syntax');
+    }
+    if (!SEMVER_PATTERN.test(input.module_version)) {
+      errors.push('module_version must be semver');
+    }
+    if (input.lifecycle_action.trim().length === 0) {
+      errors.push('lifecycle_action is required');
+    }
+    if (input.manifest.module_key !== input.module_key) {
+      errors.push('manifest module_key must match evidence package module_key');
+    }
+    if (input.manifest.version !== input.module_version) {
+      errors.push('manifest version must match evidence package module_version');
+    }
+    if (!HEX_SHA256_PATTERN.test(input.manifest_hash)) {
+      errors.push('manifest_hash must be a SHA-256 hex digest');
+    }
+    if (!this.hasGatekeeperDecisionLog(input.gatekeeper_decision)) {
+      errors.push('gatekeeper_decision must include decision id, actor, outcome, risk, and reason');
+    }
+    if (input.organization_id.trim().length === 0) {
+      errors.push('organization_id is required for tenant-scoped evidence');
+    }
+    if (input.correlation_id.trim().length === 0) {
+      errors.push('correlation_id is required for evidence traceability');
+    }
+  }
+
+  private validateEvidenceArtifacts(artifacts: FoundryEvidenceArtifactInput[], errors: string[]) {
+    for (const artifact of artifacts) {
+      if (artifact.path.trim().length === 0) {
+        errors.push('evidence artifact path is required');
+      }
+      if (!HEX_SHA256_PATTERN.test(artifact.sha256)) {
+        errors.push(`evidence artifact ${artifact.path} must include a SHA-256 checksum`);
+      }
+      if (artifact.kind !== 'migration') {
+        errors.push(`migration_files can only include migration artifacts: ${artifact.path}`);
+      }
+    }
+  }
+
+  private validationResultsPassed(results: FoundryEvidenceValidationResult[]) {
+    return (
+      results.length > 0 &&
+      results.every(
+        (result) =>
+          result.name.trim().length > 0 &&
+          result.summary.trim().length > 0 &&
+          result.status === 'passed',
+      )
+    );
+  }
+
+  private hasGatekeeperDecisionLog(decision: FoundryEvidenceGatekeeperDecision) {
+    return (
+      decision.decision_id.trim().length > 0 &&
+      ['ALLOW', 'DENY', 'APPROVAL_REQUIRED', 'STOP_FOR_REVIEW'].includes(decision.outcome) &&
+      decision.decided_by_actor_id.trim().length > 0 &&
+      decision.reason_summary.trim().length > 0 &&
+      ['low', 'medium', 'high', 'critical'].includes(decision.risk_level)
+    );
+  }
 }
 
 function stableJsonStringify(input: unknown): string {
@@ -665,4 +923,8 @@ function parseSemverCore(version: string): [number, number, number] {
   const [major = '0', minor = '0', patch = '0'] = version.split(/[+-]/)[0].split('.');
 
   return [Number(major), Number(minor), Number(patch)];
+}
+
+function isValidIsoTimestamp(input: string) {
+  return input.trim().length > 0 && !Number.isNaN(Date.parse(input));
 }
