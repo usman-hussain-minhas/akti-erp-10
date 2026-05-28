@@ -7,11 +7,23 @@ const TimestampSchema = z.string().datetime({ offset: true });
 const PayloadSchema = z.record(z.string(), z.unknown());
 const HealthStatusSchema = z.enum(["healthy", "degraded", "disabled", "unknown"]);
 
-export const GatekeeperDecisionSchema = z.enum([
+export const GatekeeperCanonicalOutcomeSchema = z.enum([
+  "ALLOW",
+  "DENY",
+  "APPROVAL_REQUIRED",
+  "STOP_FOR_REVIEW",
+]);
+
+export const GatekeeperLegacyDecisionSchema = z.enum([
   "allow",
   "deny",
   "approval_required",
   "degraded_block",
+]);
+
+export const GatekeeperDecisionSchema = z.union([
+  GatekeeperCanonicalOutcomeSchema,
+  GatekeeperLegacyDecisionSchema,
 ]);
 
 export const GatekeeperCheckStatusSchema = z.enum(["passed", "failed", "skipped", "warning"]);
@@ -100,6 +112,26 @@ export const GatekeeperHookContractSchema = z
   })
   .strict();
 
+export function normalizeGatekeeperDecisionOutcome(
+  decision: z.infer<typeof GatekeeperDecisionSchema>,
+): z.infer<typeof GatekeeperCanonicalOutcomeSchema> {
+  switch (decision) {
+    case "ALLOW":
+    case "DENY":
+    case "APPROVAL_REQUIRED":
+    case "STOP_FOR_REVIEW":
+      return decision;
+    case "allow":
+      return "ALLOW";
+    case "deny":
+      return "DENY";
+    case "approval_required":
+      return "APPROVAL_REQUIRED";
+    case "degraded_block":
+      return "STOP_FOR_REVIEW";
+  }
+}
+
 export const GatekeeperDecisionResultSchema = z
   .object({
     decision: GatekeeperDecisionSchema,
@@ -119,7 +151,9 @@ export const GatekeeperDecisionResultSchema = z
   })
   .strict()
   .superRefine((result, ctx) => {
-    if (result.decision === "approval_required" && result.approval_chain_key === undefined) {
+    const normalizedOutcome = normalizeGatekeeperDecisionOutcome(result.decision);
+
+    if (normalizedOutcome === "APPROVAL_REQUIRED" && result.approval_chain_key === undefined) {
       ctx.addIssue({
         code: "custom",
         path: ["approval_chain_key"],
@@ -127,7 +161,7 @@ export const GatekeeperDecisionResultSchema = z
       });
     }
 
-    if (result.decision === "allow") {
+    if (normalizedOutcome === "ALLOW") {
       if (result.decision_token === undefined) {
         ctx.addIssue({
           code: "custom",
@@ -145,7 +179,7 @@ export const GatekeeperDecisionResultSchema = z
       }
     }
 
-    if (result.decision === "deny" && result.reasons.length === 0) {
+    if (normalizedOutcome === "DENY" && result.reasons.length === 0) {
       ctx.addIssue({
         code: "custom",
         path: ["reasons"],
@@ -153,12 +187,12 @@ export const GatekeeperDecisionResultSchema = z
       });
     }
 
-    if (result.decision === "degraded_block") {
+    if (normalizedOutcome === "STOP_FOR_REVIEW") {
       if (result.reasons.length === 0) {
         ctx.addIssue({
           code: "custom",
           path: ["reasons"],
-          message: "degraded_block decisions require at least one reason",
+          message: "STOP_FOR_REVIEW decisions require at least one reason",
         });
       }
 
@@ -166,12 +200,13 @@ export const GatekeeperDecisionResultSchema = z
         ctx.addIssue({
           code: "custom",
           path: ["checks"],
-          message: "degraded_block decisions require at least one failed or warning check",
+          message: "STOP_FOR_REVIEW decisions require at least one failed or warning check",
         });
       }
     }
   });
 
+export type GatekeeperCanonicalOutcome = z.infer<typeof GatekeeperCanonicalOutcomeSchema>;
 export type GatekeeperDecision = z.infer<typeof GatekeeperDecisionSchema>;
 export type GatekeeperCheckStatus = z.infer<typeof GatekeeperCheckStatusSchema>;
 export type GatekeeperHookMode = z.infer<typeof GatekeeperHookModeSchema>;

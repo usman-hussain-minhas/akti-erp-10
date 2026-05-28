@@ -47,6 +47,7 @@ const CAPABILITY_POLICIES: Record<string, CapabilityPolicy> = {
 };
 
 type HealthStatus = GatekeeperRequest['context']['module_health'][string];
+type GatekeeperCanonicalOutcome = 'ALLOW' | 'DENY' | 'APPROVAL_REQUIRED' | 'STOP_FOR_REVIEW';
 
 type GatekeeperContractsModule = {
   parseGatekeeperRequest(input: unknown): GatekeeperRequest;
@@ -254,6 +255,26 @@ class Phase1GatekeeperDecisionProvider implements GatekeeperDecisionProvider {
   }
 }
 
+function normalizeGatekeeperDecisionOutcome(
+  decision: GatekeeperDecisionResult['decision'],
+): GatekeeperCanonicalOutcome {
+  switch (decision) {
+    case 'ALLOW':
+    case 'DENY':
+    case 'APPROVAL_REQUIRED':
+    case 'STOP_FOR_REVIEW':
+      return decision;
+    case 'allow':
+      return 'ALLOW';
+    case 'deny':
+      return 'DENY';
+    case 'approval_required':
+      return 'APPROVAL_REQUIRED';
+    case 'degraded_block':
+      return 'STOP_FOR_REVIEW';
+  }
+}
+
 @Injectable()
 export class GatekeeperPreflightService {
   private readonly phase1DecisionProvider = new Phase1GatekeeperDecisionProvider();
@@ -289,12 +310,13 @@ export class GatekeeperPreflightService {
     }
 
     this.assertDecisionMatchesRequest(request, decision);
+    const normalizedOutcome = normalizeGatekeeperDecisionOutcome(decision.decision);
 
-    if (decision.decision === 'degraded_block') {
-      throw new ServiceUnavailableException('Gatekeeper blocked the mutation because Access Core is degraded');
+    if (normalizedOutcome === 'STOP_FOR_REVIEW') {
+      throw new ServiceUnavailableException('Gatekeeper stopped the mutation for platform review');
     }
 
-    if (decision.decision !== 'allow') {
+    if (normalizedOutcome !== 'ALLOW') {
       throw new ForbiddenException('Gatekeeper did not allow the mutation');
     }
 
