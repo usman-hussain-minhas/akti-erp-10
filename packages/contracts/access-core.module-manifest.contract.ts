@@ -11,6 +11,20 @@ export const accessCoreModuleManifest: ModuleManifest = ModuleManifestSchema.par
   optional_dependencies: [],
   capabilities: [
     {
+      key: "platform.shell.access",
+      description:
+        "Open the authenticated platform shell without access policy management privileges.",
+      module_key: "core.access",
+      risk_level: "low",
+      requires_permission: true,
+      requires_reauth: false,
+      requires_audit: false,
+      gatekeeper_required: false,
+      approval_chain_required: false,
+      input_schema: null,
+      output_schema: null,
+    },
+    {
       key: "access.policy.manage",
       description: "Manage access policy definitions.",
       module_key: "core.access",
@@ -26,6 +40,14 @@ export const accessCoreModuleManifest: ModuleManifest = ModuleManifestSchema.par
   ],
   capabilities_consumed: [],
   permissions: [
+    {
+      key: "platform.shell.access",
+      label: "Access platform shell",
+      module_key: "core.access",
+      description:
+        "Allow authenticated platform operators to open the platform shell without access policy management privileges.",
+      allowed_scope_types: ["organization"],
+    },
     {
       key: "access.policy.manage",
       label: "Manage access policies",

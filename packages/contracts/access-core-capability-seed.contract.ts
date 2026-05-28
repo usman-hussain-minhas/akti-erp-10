@@ -23,6 +23,18 @@ export type AccessCoreCapabilitySeed = z.infer<typeof AccessCoreCapabilitySeedSc
 export const accessCoreCapabilitySeedDefinitions: AccessCoreCapabilitySeed[] =
   AccessCoreCapabilitySeedListSchema.parse([
     {
+      capability_key: "platform.shell.access",
+      permission_key: "platform.shell.access",
+      module_key: "core.access",
+      description:
+        "Base authenticated platform shell access for non-admin platform operators.",
+      risk_level: "low",
+      gatekeeper_required: false,
+      approval_chain_required: false,
+      requires_permission: true,
+      allowed_scope_types: ["organization"],
+    },
+    {
       capability_key: "access.policy.manage",
       permission_key: "access.policy.manage",
       module_key: "core.access",

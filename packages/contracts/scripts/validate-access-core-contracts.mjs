@@ -45,6 +45,8 @@ const FORBIDDEN_RUNTIME_TOKENS = [
   "db.",
 ];
 
+const ACCESS_CORE_APPROVED_NON_ACCESS_KEYS = new Set(["platform.shell.access"]);
+
 const P1_007_ALLOWED_API_ROUTES = new Set([
   "GET /platform/access/capabilities",
   "POST /platform/access/organizations/:organization_id/users",
@@ -71,6 +73,10 @@ function hasDuplicates(values) {
 
 function normalizeSortedSet(values) {
   return [...new Set(values)].sort();
+}
+
+function usesApprovedAccessCoreNamespace(key) {
+  return key.startsWith("access.") || ACCESS_CORE_APPROVED_NON_ACCESS_KEYS.has(key);
 }
 
 function main() {
@@ -158,6 +164,58 @@ function main() {
     const manifestPermissionKeys = new Set(manifest.permissions.map((permission) => permission.key));
     const manifestCapabilityByKey = new Map(manifest.capabilities.map((capability) => [capability.key, capability]));
     const manifestPermissionByKey = new Map(manifest.permissions.map((permission) => [permission.key, permission]));
+    const shellCapability = manifestCapabilityByKey.get("platform.shell.access");
+    const shellPermission = manifestPermissionByKey.get("platform.shell.access");
+    const policyCapability = manifestCapabilityByKey.get("access.policy.manage");
+
+    if (!shellCapability) {
+      failures.push("platform.shell.access capability must exist in Access Core manifest");
+    } else {
+      if (shellCapability.key === "access.policy.manage") {
+        failures.push("platform.shell.access must remain distinct from access.policy.manage");
+      }
+
+      if (shellCapability.risk_level !== "low") {
+        failures.push("platform.shell.access must be a low-risk shell capability");
+      }
+
+      if (shellCapability.gatekeeper_required !== false) {
+        failures.push("platform.shell.access must not require Gatekeeper preflight");
+      }
+
+      if (shellCapability.approval_chain_required !== false) {
+        failures.push("platform.shell.access must not require approval chain");
+      }
+
+      if (shellCapability.requires_permission !== true) {
+        failures.push("platform.shell.access must require an explicit permission grant");
+      }
+
+      if (shellCapability.requires_audit !== false || shellCapability.requires_reauth !== false) {
+        failures.push("platform.shell.access must not behave like an admin or policy-management capability");
+      }
+    }
+
+    if (!shellPermission) {
+      failures.push("platform.shell.access permission must exist in Access Core manifest");
+    } else {
+      const shellScopes = normalizeSortedSet(shellPermission.allowed_scope_types);
+      if (shellScopes.length !== 1 || shellScopes[0] !== "organization") {
+        failures.push("platform.shell.access permission must be organization-scoped only");
+      }
+    }
+
+    if (!policyCapability) {
+      failures.push("access.policy.manage capability must remain present");
+    } else {
+      if (policyCapability.risk_level !== "high") {
+        failures.push("access.policy.manage must remain high risk");
+      }
+
+      if (policyCapability.gatekeeper_required !== true || policyCapability.requires_audit !== true) {
+        failures.push("access.policy.manage must remain Gatekeeper/audit protected");
+      }
+    }
 
     for (const seed of seedDefinitions) {
       if (!manifestCapabilityKeys.has(seed.capability_key)) {
@@ -219,12 +277,16 @@ function main() {
       }
     }
 
-    if (!seed.capability_key.startsWith("access.")) {
-      failures.push(`Seed capability_key ${seed.capability_key} must use access.* namespace`);
+    if (!usesApprovedAccessCoreNamespace(seed.capability_key)) {
+      failures.push(
+        `Seed capability_key ${seed.capability_key} must use access.* namespace or an approved Access Core shell key`,
+      );
     }
 
-    if (!seed.permission_key.startsWith("access.")) {
-      failures.push(`Seed permission_key ${seed.permission_key} must use access.* namespace`);
+    if (!usesApprovedAccessCoreNamespace(seed.permission_key)) {
+      failures.push(
+        `Seed permission_key ${seed.permission_key} must use access.* namespace or an approved Access Core shell key`,
+      );
     }
 
     if (seed.module_key !== "core.access") {
@@ -256,6 +318,42 @@ function main() {
   for (const token of FORBIDDEN_RUNTIME_TOKENS) {
     if (seedSource.includes(token)) {
       failures.push(`Forbidden runtime seed execution token detected in seed contract: ${token}`);
+    }
+  }
+
+  const shellSeed = seedDefinitions.find((seed) => seed.capability_key === "platform.shell.access");
+  const policySeed = seedDefinitions.find((seed) => seed.capability_key === "access.policy.manage");
+
+  if (!shellSeed) {
+    failures.push("platform.shell.access seed definition must exist");
+  } else {
+    if (shellSeed.permission_key !== "platform.shell.access") {
+      failures.push("platform.shell.access seed must map to the matching shell permission");
+    }
+
+    if (shellSeed.risk_level !== "low") {
+      failures.push("platform.shell.access seed must be low risk");
+    }
+
+    if (
+      shellSeed.gatekeeper_required !== false ||
+      shellSeed.approval_chain_required !== false ||
+      shellSeed.requires_permission !== true
+    ) {
+      failures.push("platform.shell.access seed must require permission without Gatekeeper or approval-chain behavior");
+    }
+
+    const shellScopes = normalizeSortedSet(shellSeed.allowed_scope_types);
+    if (shellScopes.length !== 1 || shellScopes[0] !== "organization") {
+      failures.push("platform.shell.access seed must be organization-scoped only");
+    }
+  }
+
+  if (!policySeed) {
+    failures.push("access.policy.manage seed definition must remain present");
+  } else {
+    if (policySeed.risk_level !== "high" || policySeed.gatekeeper_required !== true) {
+      failures.push("access.policy.manage seed must remain high-risk and Gatekeeper protected");
     }
   }
 
