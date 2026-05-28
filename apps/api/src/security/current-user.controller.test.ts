@@ -10,16 +10,27 @@ const AUTH_SECRET = 'phase5b-current-user-controller-secret';
 process.env.AKTI_AUTH_SESSION_SECRET = AUTH_SECRET;
 
 function trustedHeaders(organizationId = 'org-1', actorUserId = 'user-1'): HeaderRecord {
-  const issuedAt = new Date(Date.now() - 60_000).toISOString();
-  const expiresAt = new Date(Date.now() + 60_000).toISOString();
+  return signedHeaders({
+    organizationId,
+    actorUserId,
+    issuedAt: new Date(Date.now() - 60_000).toISOString(),
+    expiresAt: new Date(Date.now() + 60_000).toISOString(),
+  });
+}
 
+function signedHeaders(input: {
+  organizationId: string;
+  actorUserId: string;
+  issuedAt: string;
+  expiresAt: string;
+}): HeaderRecord {
   return {
     authorization: `Bearer ${createPhase3SessionToken(
       {
-        organization_id: organizationId,
-        actor_user_id: actorUserId,
-        issued_at: issuedAt,
-        expires_at: expiresAt,
+        organization_id: input.organizationId,
+        actor_user_id: input.actorUserId,
+        issued_at: input.issuedAt,
+        expires_at: input.expiresAt,
       },
       AUTH_SECRET,
     )}`,
@@ -37,8 +48,8 @@ function profile(): CurrentUserProfile {
       primary_unit_id: 'unit-1',
       primary_unit: {
         id: 'unit-1',
-        key: 'main-campus',
-        name: 'Main Campus',
+        key: 'primary-unit',
+        name: 'Primary Unit',
         status: 'active',
       },
     },
@@ -100,9 +111,28 @@ function testGetCurrentUserRejectsMissingBearerAndLegacyActorHeader() {
   assert.throws(() => controller.getCurrentUser({ 'x-actor-user-id': 'user-1' }), UnauthorizedException);
 }
 
+function testGetCurrentUserRejectsMalformedAndExpiredBearer() {
+  const { controller } = createController();
+
+  assert.throws(() => controller.getCurrentUser({ authorization: 'Bearer not-a-valid-token' }), UnauthorizedException);
+  assert.throws(
+    () =>
+      controller.getCurrentUser(
+        signedHeaders({
+          organizationId: 'org-1',
+          actorUserId: 'user-1',
+          issuedAt: '2026-05-25T11:00:00.000Z',
+          expiresAt: '2026-05-25T11:30:00.000Z',
+        }),
+      ),
+    UnauthorizedException,
+  );
+}
+
 async function run() {
   await testGetCurrentUserUsesTrustedBearerContext();
   testGetCurrentUserRejectsMissingBearerAndLegacyActorHeader();
+  testGetCurrentUserRejectsMalformedAndExpiredBearer();
 
   console.log('current-user controller tests passed');
 }

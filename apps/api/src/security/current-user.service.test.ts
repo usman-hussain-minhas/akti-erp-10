@@ -75,8 +75,8 @@ function createFixture(overrides?: Partial<FixtureState>) {
         primary_unit_id: 'unit-1',
         primary_unit: {
           id: 'unit-1',
-          key: 'main-campus',
-          name: 'Main Campus',
+          key: 'primary-unit',
+          name: 'Primary Unit',
           status: 'active',
         },
       },
@@ -272,6 +272,20 @@ async function testMissingCurrentUserFailsWithoutCrossTenantFallback() {
   await assert.rejects(service.getCurrentUserProfile(trustedContext()), NotFoundException);
 }
 
+async function testTrustedContextValuesAreTrimmedBeforeLookup() {
+  const { service } = createFixture();
+
+  const profile = await service.getCurrentUserProfile(
+    trustedContext({
+      organization_id: ' org-1 ',
+      actor_user_id: ' user-1 ',
+    }),
+  );
+
+  assert.equal(profile.organization_id, 'org-1');
+  assert.equal(profile.user.id, 'user-1');
+}
+
 async function testContextMustContainTrustedOrganizationAndActor() {
   const { service } = createFixture();
 
@@ -282,6 +296,7 @@ async function testContextMustContainTrustedOrganizationAndActor() {
 async function run() {
   await testReturnsCurrentUserProfileWithTenantScopedGroupsAndCapabilities();
   await testMissingCurrentUserFailsWithoutCrossTenantFallback();
+  await testTrustedContextValuesAreTrimmedBeforeLookup();
   await testContextMustContainTrustedOrganizationAndActor();
 
   console.log('current-user service tests passed');
