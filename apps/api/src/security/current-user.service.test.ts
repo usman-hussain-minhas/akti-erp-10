@@ -103,7 +103,7 @@ function createFixture(overrides?: Partial<FixtureState>) {
             scope_type: 'organization',
             scope_unit_id: null,
             capability: {
-              module_key: 'core.platform',
+              module_key: 'core.access',
               risk_level: 'low',
               gatekeeper_required: false,
               approval_chain_required: false,
@@ -134,7 +134,7 @@ function createFixture(overrides?: Partial<FixtureState>) {
             scope_type: 'organization',
             scope_unit_id: null,
             capability: {
-              module_key: 'core.platform',
+              module_key: 'core.access',
               risk_level: 'low',
               gatekeeper_required: false,
               approval_chain_required: false,

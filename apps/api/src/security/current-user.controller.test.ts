@@ -65,7 +65,7 @@ function profile(): CurrentUserProfile {
     capabilities: [
       {
         capability_key: 'platform.shell.access',
-        module_key: 'core.platform',
+        module_key: 'core.access',
         scope_type: 'organization',
         scope_unit_id: null,
         risk_level: 'low',
