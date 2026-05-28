@@ -9,6 +9,7 @@ import type {
   GatekeeperReauthStatus,
 } from '@akti/contracts/gatekeeper-contract';
 
+import { AuditLogService } from '../platform-observability/audit-log.service';
 import { type Prisma } from '../prisma/prisma-client';
 import { PrismaService } from '../prisma/prisma.service';
 
@@ -437,7 +438,10 @@ function normalizeGatekeeperDecisionOutcome(
 export class GatekeeperPreflightService {
   private readonly phase1DecisionProvider = new Phase1GatekeeperDecisionProvider();
 
-  constructor(@Optional() private readonly prisma?: PrismaService) {}
+  constructor(
+    @Optional() private readonly prisma?: PrismaService,
+    @Optional() private readonly auditLogService?: AuditLogService,
+  ) {}
 
   async requireAllow(input: GatekeeperPreflightInput): Promise<GatekeeperDecisionResult> {
     let contracts: GatekeeperContractsModule;
@@ -473,6 +477,7 @@ export class GatekeeperPreflightService {
     const normalizedOutcome = normalizeGatekeeperDecisionOutcome(decision.decision);
     const normalizedDecision = this.normalizeDecisionResult(decision, normalizedOutcome);
     await this.recordDecisionIfConfigured(request, normalizedDecision, normalizedOutcome);
+    await this.recordAuditIfConfigured(request, normalizedDecision, normalizedOutcome);
 
     if (normalizedOutcome === 'STOP_FOR_REVIEW') {
       throw new ServiceUnavailableException('Gatekeeper stopped the mutation for platform review');
@@ -499,6 +504,41 @@ export class GatekeeperPreflightService {
     }
 
     await this.recordDecision(this.prisma, request, decision, outcome);
+  }
+
+  private async recordAuditIfConfigured(
+    request: GatekeeperRequest,
+    decision: GatekeeperDecisionResult,
+    outcome: GatekeeperCanonicalOutcome,
+  ) {
+    if (!this.prisma || !this.auditLogService) {
+      return;
+    }
+
+    await this.auditLogService.writeAuditLog(this.prisma, {
+      organization_id: request.organization_id,
+      actor_user_id: request.actor_user_id,
+      action_key: 'gatekeeper.preflight.decision.recorded',
+      entity_type: 'gatekeeper.decision',
+      entity_id: request.request_id,
+      metadata: {
+        request_id: request.request_id,
+        capability_key: request.capability_key,
+        module_key: request.module_key,
+        entity_type: request.entity_type,
+        entity_id: request.entity_id,
+        scope_unit_id: request.scope_unit_id,
+        action_key: this.requiredPayloadString(request.payload, 'action_key'),
+        outcome,
+        reason_codes: decision.reasons.map((reason) => reason.code),
+        check_keys: decision.checks.map((check) => check.check_key),
+        required_evidence: decision.required_evidence,
+        missing_evidence: decision.missing_evidence,
+        approval_chain_key: decision.approval_chain_key ?? null,
+        approval_request_id: decision.approval_request_id ?? null,
+        correlation_id: this.optionalPayloadString(request.payload, 'correlation_id'),
+      },
+    });
   }
 
   private async recordDecision(
