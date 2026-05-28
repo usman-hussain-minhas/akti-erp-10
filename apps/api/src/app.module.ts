@@ -8,6 +8,7 @@ import { ConfigurationModule } from './configuration/configuration.module';
 import { EngagementGatewayController } from './engagement-gateway/engagement-gateway.controller';
 import { EngagementGatewayService } from './engagement-gateway/engagement-gateway.service';
 import { WhatsappStubProvider } from './engagement-gateway/whatsapp-stub.provider';
+import { GatekeeperController } from './gatekeeper/gatekeeper.controller';
 import { GatekeeperPreflightService } from './gatekeeper/gatekeeper-preflight.service';
 import { HierarchyController } from './hierarchy/hierarchy.controller';
 import { HierarchyClosureService } from './hierarchy/hierarchy-closure.service';
@@ -35,6 +36,7 @@ import { CurrentUserService } from './security/current-user.service';
     HierarchyController,
     EngagementGatewayController,
     LeadDeskController,
+    GatekeeperController,
   ],
   providers: [
     AppService,
