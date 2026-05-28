@@ -87,12 +87,17 @@ type ModuleListResponse = {
 
 const ACCESS_CORE_MODULE_KEY = 'core.access';
 const ACCESS_POLICY_MANAGE_CAPABILITY_KEY = 'access.policy.manage';
+const PLATFORM_SHELL_ACCESS_CAPABILITY_KEY = 'platform.shell.access';
 const ACCESS_CORE_MODULE_STATUS = 'available';
 const PHASE_2_MODULE_REGISTRY_ALLOWLIST = [
   ACCESS_CORE_MODULE_KEY,
   'engagement.gateway',
   'lead.desk',
 ] as const;
+const ACCESS_CORE_APPROVED_SEED_CAPABILITY_KEYS = new Set([
+  ACCESS_POLICY_MANAGE_CAPABILITY_KEY,
+  PLATFORM_SHELL_ACCESS_CAPABILITY_KEY,
+]);
 
 const nativeImport = new Function('specifier', 'return import(specifier)') as (
   specifier: string,
@@ -254,17 +259,48 @@ function sha256Hex(input: string) {
   return createHash('sha256').update(input).digest('hex');
 }
 
-function assertSeedBoundary(manifest: AccessCoreModuleManifest, seeds: AccessCoreCapabilitySeed[]) {
+export function assertAccessCoreSeedBoundary(
+  manifest: AccessCoreModuleManifest,
+  seeds: AccessCoreCapabilitySeed[],
+) {
   if (manifest.module_key !== ACCESS_CORE_MODULE_KEY) {
     throw new ConflictException('Access Core module manifest boundary mismatch');
   }
 
-  if (seeds.length !== 1 || seeds[0]?.capability_key !== ACCESS_POLICY_MANAGE_CAPABILITY_KEY) {
+  if (seeds.length !== ACCESS_CORE_APPROVED_SEED_CAPABILITY_KEYS.size) {
     throw new ConflictException('Access Core capability seed boundary mismatch');
   }
 
-  if (seeds[0].module_key !== ACCESS_CORE_MODULE_KEY) {
-    throw new ConflictException('Access Core capability seed module mismatch');
+  const seenSeedKeys = new Set<string>();
+  for (const seed of seeds) {
+    if (
+      typeof seed.capability_key !== 'string' ||
+      typeof seed.module_key !== 'string' ||
+      seed.capability_key.length === 0 ||
+      seed.module_key.length === 0
+    ) {
+      throw new ConflictException('Access Core capability seed boundary mismatch');
+    }
+
+    if (seenSeedKeys.has(seed.capability_key)) {
+      throw new ConflictException('Access Core capability seed boundary mismatch');
+    }
+
+    if (!ACCESS_CORE_APPROVED_SEED_CAPABILITY_KEYS.has(seed.capability_key)) {
+      throw new ConflictException('Access Core capability seed boundary mismatch');
+    }
+
+    if (seed.module_key !== ACCESS_CORE_MODULE_KEY) {
+      throw new ConflictException('Access Core capability seed module mismatch');
+    }
+
+    seenSeedKeys.add(seed.capability_key);
+  }
+
+  for (const capabilityKey of ACCESS_CORE_APPROVED_SEED_CAPABILITY_KEYS) {
+    if (!seenSeedKeys.has(capabilityKey)) {
+      throw new ConflictException('Access Core capability seed boundary mismatch');
+    }
   }
 }
 
@@ -290,7 +326,7 @@ export class ModuleRegistryService {
       loadAccessCoreCapabilitySeedDefinitions(),
       loadPhase2RuntimeManifests(),
     ]);
-    assertSeedBoundary(manifest, seeds);
+    assertAccessCoreSeedBoundary(manifest, seeds);
 
     const modules: SeedCoreFoundationResult['modules'] = [];
     for (const runtimeManifest of manifests) {

@@ -99,7 +99,9 @@ async function testSeedCreatesCoreAccessModuleAndCapability() {
 
   const result = await service.seedCoreFoundation(prisma as never);
   const manifest = await loadAccessCoreModuleManifest();
-  const [capabilitySeed] = await loadAccessCoreCapabilitySeedDefinitions();
+  const capabilitySeeds = await loadAccessCoreCapabilitySeedDefinitions();
+  const accessPolicySeed = capabilitySeeds.find((seed) => seed.capability_key === 'access.policy.manage');
+  const shellSeed = capabilitySeeds.find((seed) => seed.capability_key === 'platform.shell.access');
 
   assert.equal(result.modules.some((item) => item.module_key === 'core.access'), true);
   const coreModule = result.modules.find((item) => item.module_key === 'core.access');
@@ -110,11 +112,16 @@ async function testSeedCreatesCoreAccessModuleAndCapability() {
   assert.equal(state.moduleRows.length, 3);
 
   const accessCapability = result.capabilities.find((item) => item.key === 'access.policy.manage');
-  assert.equal(accessCapability?.module_key, capabilitySeed.module_key);
+  assert.equal(accessCapability?.module_key, accessPolicySeed?.module_key);
   assert.equal(accessCapability?.description, 'Manage access policy definitions.');
-  assert.equal(accessCapability?.risk_level, capabilitySeed.risk_level);
-  assert.equal(accessCapability?.gatekeeper_required, capabilitySeed.gatekeeper_required);
-  assert.equal(accessCapability?.approval_chain_required, capabilitySeed.approval_chain_required);
+  assert.equal(accessCapability?.risk_level, accessPolicySeed?.risk_level);
+  assert.equal(accessCapability?.gatekeeper_required, accessPolicySeed?.gatekeeper_required);
+  assert.equal(accessCapability?.approval_chain_required, accessPolicySeed?.approval_chain_required);
+  const shellCapability = result.capabilities.find((item) => item.key === 'platform.shell.access');
+  assert.equal(shellCapability?.module_key, shellSeed?.module_key);
+  assert.equal(shellCapability?.risk_level, shellSeed?.risk_level);
+  assert.equal(shellCapability?.gatekeeper_required, false);
+  assert.equal(shellCapability?.approval_chain_required, false);
   assert.equal(state.capabilityRows.length >= 5, true);
 }
 
