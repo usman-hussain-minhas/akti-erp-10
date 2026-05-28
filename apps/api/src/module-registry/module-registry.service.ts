@@ -99,11 +99,6 @@ const ACCESS_CORE_MODULE_KEY = 'core.access';
 const ACCESS_POLICY_MANAGE_CAPABILITY_KEY = 'access.policy.manage';
 const PLATFORM_SHELL_ACCESS_CAPABILITY_KEY = 'platform.shell.access';
 const ACCESS_CORE_MODULE_STATUS = 'available';
-const PHASE_2_MODULE_REGISTRY_ALLOWLIST = [
-  ACCESS_CORE_MODULE_KEY,
-  'engagement.gateway',
-  'lead.desk',
-] as const;
 const ACCESS_CORE_APPROVED_SEED_CAPABILITY_KEYS = new Set([
   ACCESS_POLICY_MANAGE_CAPABILITY_KEY,
   PLATFORM_SHELL_ACCESS_CAPABILITY_KEY,
@@ -116,7 +111,8 @@ const nativeImport = new Function('specifier', 'return import(specifier)') as (
 let accessCoreManifestPromise: Promise<AccessCoreModuleManifest> | null = null;
 let accessCoreCapabilitySeedsPromise: Promise<AccessCoreCapabilitySeed[]> | null = null;
 let phase2ManifestScopeMapPromise: Promise<Map<string, ReadonlyArray<CapabilitySeedScopeType>>> | null = null;
-let phase2RuntimeManifestsPromise: Promise<RuntimeModuleManifest[]> | null = null;
+let runtimeModuleManifestsPromise: Promise<RuntimeModuleManifest[]> | null = null;
+let registeredRuntimeModuleKeysPromise: Promise<ReadonlyArray<string>> | null = null;
 
 function isAccessCoreModuleManifestContract(input: unknown): input is AccessCoreModuleManifestContract {
   if (typeof input !== 'object' || input === null) {
@@ -190,8 +186,8 @@ export async function loadAccessCoreCapabilitySeedDefinitions(): Promise<AccessC
   return accessCoreCapabilitySeedsPromise;
 }
 
-async function loadPhase2RuntimeManifests(): Promise<RuntimeModuleManifest[]> {
-  phase2RuntimeManifestsPromise ??= Promise.all([
+async function loadRuntimeModuleManifests(): Promise<RuntimeModuleManifest[]> {
+  runtimeModuleManifestsPromise ??= Promise.all([
     nativeImport('@akti/contracts/access-core-module-manifest'),
     nativeImport('@akti/contracts/engagement-gateway-lite-module-manifest'),
     nativeImport('@akti/contracts/lead-desk-core-module-manifest'),
@@ -218,11 +214,19 @@ async function loadPhase2RuntimeManifests(): Promise<RuntimeModuleManifest[]> {
     return manifests;
   });
 
-  return phase2RuntimeManifestsPromise;
+  return runtimeModuleManifestsPromise;
+}
+
+export async function loadRegisteredRuntimeModuleKeys(): Promise<ReadonlyArray<string>> {
+  registeredRuntimeModuleKeysPromise ??= loadRuntimeModuleManifests().then((manifests) =>
+    manifests.map((manifest) => manifest.module_key).sort(),
+  );
+
+  return registeredRuntimeModuleKeysPromise;
 }
 
 export async function loadPhase2CapabilityScopeMap(): Promise<Map<string, ReadonlyArray<CapabilitySeedScopeType>>> {
-  phase2ManifestScopeMapPromise ??= loadPhase2RuntimeManifests().then((manifests) => {
+  phase2ManifestScopeMapPromise ??= loadRuntimeModuleManifests().then((manifests) => {
     const scopeMap = new Map<string, ReadonlyArray<CapabilitySeedScopeType>>();
 
     for (const manifest of manifests) {
@@ -351,7 +355,7 @@ export class ModuleRegistryService {
     const [manifest, seeds, manifests] = await Promise.all([
       loadAccessCoreModuleManifest(),
       loadAccessCoreCapabilitySeedDefinitions(),
-      loadPhase2RuntimeManifests(),
+      loadRuntimeModuleManifests(),
     ]);
     assertAccessCoreSeedBoundary(manifest, seeds);
 
@@ -426,10 +430,11 @@ export class ModuleRegistryService {
   }
 
   async listModules(): Promise<ModuleListResponse> {
+    const registeredModuleKeys = await loadRegisteredRuntimeModuleKeys();
     const items = await this.prisma.moduleRegistryEntry.findMany({
       where: {
         module_key: {
-          in: [...PHASE_2_MODULE_REGISTRY_ALLOWLIST],
+          in: [...registeredModuleKeys],
         },
       },
       orderBy: [{ module_key: 'asc' }],
