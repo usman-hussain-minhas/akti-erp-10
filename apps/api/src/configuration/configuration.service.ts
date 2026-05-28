@@ -21,6 +21,9 @@ const DEFAULT_PORTAL_MODE: PortalMode = 'simple';
 const DEFAULT_WHITE_LABEL_MODE = 'none';
 const ORGANIZATION_CONFIGURATION_SCOPE_TYPES = new Set<PermissionScopeType>(['global', 'organization']);
 const BRANDING_ASSET_URL_MAX_LENGTH = 2048;
+const DOMAIN_IDENTITY_MAX_LENGTH = 253;
+const HOSTNAME_DOMAIN_PATTERN =
+  /^(?=.{1,253}$)(?!-)(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/;
 const BRANDING_ASSET_KEYS = [
   'logo_url',
   'icon_url',
@@ -73,6 +76,21 @@ export type BrandingAssetsResponse = {
   updated_at: string | null;
 };
 
+export type DomainSenderIdentityStatus = 'verified' | 'unverified' | 'not_registered';
+
+export type DomainSenderIdentityBoundaryResponse = {
+  organization_id: string;
+  input: string;
+  normalized_domain: string;
+  status: DomainSenderIdentityStatus;
+  allowed_for_sender: boolean;
+  registered: boolean;
+  verified_at: string | null;
+  is_primary: boolean;
+  branding_domain_changes_require_gatekeeper: true;
+  canonical_identity_preserved: true;
+};
+
 export type TenantConfigurationResponse = {
   organization_id: string;
   storage_model: TenantConfigSchemaModelBaseline;
@@ -104,6 +122,13 @@ type BrandingAssetsSettingRow = {
   key: string;
   value_json: unknown;
   updated_at: Date;
+};
+
+type OrganizationDomainIdentityRow = {
+  organization_id: string;
+  domain: string;
+  is_primary: boolean;
+  verified_at: Date | null;
 };
 
 type ConfigurationGatekeeperInput = {
@@ -228,6 +253,34 @@ export class ConfigurationService {
     }
 
     return this.toBrandingAssetsResponse(setting);
+  }
+
+  async resolveDomainSenderIdentityBoundary(
+    organizationId: string,
+    senderIdentityRaw: string,
+    actorUserIdRaw?: string,
+  ): Promise<DomainSenderIdentityBoundaryResponse> {
+    const normalizedDomain = this.normalizeSenderIdentityDomain(senderIdentityRaw);
+    await this.requireAccessPolicyManageActor(this.prisma, organizationId, actorUserIdRaw);
+
+    const domain = await this.prisma.organizationDomain.findFirst({
+      where: {
+        organization_id: organizationId,
+        domain: normalizedDomain,
+      },
+      select: {
+        organization_id: true,
+        domain: true,
+        is_primary: true,
+        verified_at: true,
+      },
+    });
+
+    if (!domain) {
+      return this.toDomainSenderIdentityBoundaryResponse(organizationId, senderIdentityRaw, normalizedDomain, null);
+    }
+
+    return this.toDomainSenderIdentityBoundaryResponse(organizationId, senderIdentityRaw, normalizedDomain, domain);
   }
 
   async updatePortalMode(
@@ -565,6 +618,52 @@ export class ConfigurationService {
     }
 
     throw new ConflictException(`${key} branding asset must be a path or HTTPS URL`);
+  }
+
+  private toDomainSenderIdentityBoundaryResponse(
+    organizationId: string,
+    senderIdentityRaw: string,
+    normalizedDomain: string,
+    domain: OrganizationDomainIdentityRow | null,
+  ): DomainSenderIdentityBoundaryResponse {
+    const verifiedAt = domain?.verified_at ?? null;
+    const status: DomainSenderIdentityStatus = !domain
+      ? 'not_registered'
+      : verifiedAt
+        ? 'verified'
+        : 'unverified';
+
+    return {
+      organization_id: organizationId,
+      input: senderIdentityRaw.trim(),
+      normalized_domain: normalizedDomain,
+      status,
+      allowed_for_sender: status === 'verified',
+      registered: domain !== null,
+      verified_at: verifiedAt ? verifiedAt.toISOString() : null,
+      is_primary: domain?.is_primary ?? false,
+      branding_domain_changes_require_gatekeeper: true,
+      canonical_identity_preserved: true,
+    };
+  }
+
+  private normalizeSenderIdentityDomain(value: unknown): string {
+    if (typeof value !== 'string') {
+      throw new BadRequestException('sender identity must be a domain or email address');
+    }
+
+    const trimmed = value.trim().toLowerCase();
+    if (trimmed.length === 0 || trimmed.length > DOMAIN_IDENTITY_MAX_LENGTH) {
+      throw new BadRequestException('sender identity must be a valid domain or email address');
+    }
+
+    const atIndex = trimmed.lastIndexOf('@');
+    const domain = atIndex >= 0 ? trimmed.slice(atIndex + 1) : trimmed;
+    if (domain.length === 0 || !HOSTNAME_DOMAIN_PATTERN.test(domain)) {
+      throw new BadRequestException('sender identity must be a valid domain or email address');
+    }
+
+    return domain;
   }
 
   private normalizeActorUserId(actorUserIdRaw?: string | null): string | null {
