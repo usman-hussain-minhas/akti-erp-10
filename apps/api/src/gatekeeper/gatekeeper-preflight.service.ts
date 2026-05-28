@@ -135,11 +135,21 @@ class Phase1GatekeeperDecisionProvider implements GatekeeperDecisionProvider {
     }
 
     if (request.organization_id !== request.context.current_organization_id) {
-      return this.deny(request, 'gatekeeper.organization.mismatch', 'Gatekeeper context organization mismatch.');
+      return this.deny(
+        request,
+        'gatekeeper.organization.mismatch',
+        'Gatekeeper context organization mismatch.',
+        'gatekeeper.tenant.organization-match',
+      );
     }
 
     if (request.actor_user_id !== request.context.current_user_id) {
-      return this.deny(request, 'gatekeeper.actor.mismatch', 'Gatekeeper context actor mismatch.');
+      return this.deny(
+        request,
+        'gatekeeper.actor.mismatch',
+        'Gatekeeper context actor mismatch.',
+        'gatekeeper.tenant.actor-match',
+      );
     }
 
     if (!request.context.capabilities.includes(request.capability_key)) {
@@ -152,7 +162,12 @@ class Phase1GatekeeperDecisionProvider implements GatekeeperDecisionProvider {
     }
 
     if (request.context.active_group_ids.length === 0) {
-      return this.deny(request, 'gatekeeper.active-groups.missing', 'Gatekeeper context is missing active actor groups.');
+      return this.deny(
+        request,
+        'gatekeeper.active-groups.missing',
+        'Gatekeeper context is missing active actor groups.',
+        'gatekeeper.tenant.active-groups-present',
+      );
     }
 
     const migrationRollbackRiskDecision = this.evaluateMigrationRollbackRisk(request);
