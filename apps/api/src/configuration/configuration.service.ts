@@ -16,9 +16,17 @@ import type { PortalMode, UpdatePortalModeInput } from './dto/configuration.dto'
 const ACCESS_POLICY_MANAGE_CAPABILITY_KEY = 'access.policy.manage';
 const ACCESS_MODULE_KEY = 'core.access';
 const PORTAL_MODE_SETTING_KEY = 'portal.mode';
+const BRANDING_ASSETS_SETTING_KEY = 'white_label.branding_assets';
 const DEFAULT_PORTAL_MODE: PortalMode = 'simple';
 const DEFAULT_WHITE_LABEL_MODE = 'none';
 const ORGANIZATION_CONFIGURATION_SCOPE_TYPES = new Set<PermissionScopeType>(['global', 'organization']);
+const BRANDING_ASSET_URL_MAX_LENGTH = 2048;
+const BRANDING_ASSET_KEYS = [
+  'logo_url',
+  'icon_url',
+  'favicon_url',
+  'email_logo_url',
+] as const;
 
 export const TENANT_CONFIG_SCHEMA_MODEL_BASELINE = {
   decision: 'reuse_existing_models',
@@ -52,6 +60,19 @@ type PortalModeResponse = {
   updated_at: string | null;
 };
 
+type BrandingAssetKey = (typeof BRANDING_ASSET_KEYS)[number];
+
+type BrandingAssetMap = Record<BrandingAssetKey, string | null>;
+
+export type BrandingAssetsResponse = {
+  organization_id: string;
+  key: typeof BRANDING_ASSETS_SETTING_KEY;
+  source: 'default' | 'stored';
+  assets: BrandingAssetMap;
+  canonical_identity_preserved: true;
+  updated_at: string | null;
+};
+
 export type TenantConfigurationResponse = {
   organization_id: string;
   storage_model: TenantConfigSchemaModelBaseline;
@@ -70,6 +91,14 @@ export type TenantConfigurationResponse = {
 };
 
 type PortalModeSettingRow = {
+  id: string;
+  organization_id: string;
+  key: string;
+  value_json: unknown;
+  updated_at: Date;
+};
+
+type BrandingAssetsSettingRow = {
   id: string;
   organization_id: string;
   key: string;
@@ -170,6 +199,35 @@ export class ConfigurationService {
         audit_required: true,
       },
     };
+  }
+
+  async resolveBrandingAssets(
+    organizationId: string,
+    actorUserIdRaw?: string,
+  ): Promise<BrandingAssetsResponse> {
+    await this.requireAccessPolicyManageActor(this.prisma, organizationId, actorUserIdRaw);
+
+    const setting = await this.prisma.organizationSetting.findUnique({
+      where: {
+        organization_id_key: {
+          organization_id: organizationId,
+          key: BRANDING_ASSETS_SETTING_KEY,
+        },
+      },
+      select: {
+        id: true,
+        organization_id: true,
+        key: true,
+        value_json: true,
+        updated_at: true,
+      },
+    });
+
+    if (!setting) {
+      return this.defaultBrandingAssetsResponse(organizationId);
+    }
+
+    return this.toBrandingAssetsResponse(setting);
   }
 
   async updatePortalMode(
@@ -436,6 +494,77 @@ export class ConfigurationService {
     }
 
     return mode;
+  }
+
+  private defaultBrandingAssetsResponse(organizationId: string): BrandingAssetsResponse {
+    return {
+      organization_id: organizationId,
+      key: BRANDING_ASSETS_SETTING_KEY,
+      source: 'default',
+      assets: this.defaultBrandingAssetMap(),
+      canonical_identity_preserved: true,
+      updated_at: null,
+    };
+  }
+
+  private toBrandingAssetsResponse(setting: BrandingAssetsSettingRow): BrandingAssetsResponse {
+    return {
+      organization_id: setting.organization_id,
+      key: BRANDING_ASSETS_SETTING_KEY,
+      source: 'stored',
+      assets: this.parseStoredBrandingAssets(setting.value_json),
+      canonical_identity_preserved: true,
+      updated_at: setting.updated_at.toISOString(),
+    };
+  }
+
+  private defaultBrandingAssetMap(): BrandingAssetMap {
+    return {
+      logo_url: null,
+      icon_url: null,
+      favicon_url: null,
+      email_logo_url: null,
+    };
+  }
+
+  private parseStoredBrandingAssets(value: unknown): BrandingAssetMap {
+    if (typeof value !== 'object' || value === null || Array.isArray(value)) {
+      throw new ConflictException('white_label.branding_assets setting is invalid');
+    }
+
+    const body = value as Record<string, unknown>;
+    const assets = this.defaultBrandingAssetMap();
+
+    for (const key of BRANDING_ASSET_KEYS) {
+      assets[key] = this.parseBrandingAssetUrl(body[key], key);
+    }
+
+    return assets;
+  }
+
+  private parseBrandingAssetUrl(value: unknown, key: BrandingAssetKey): string | null {
+    if (value === undefined || value === null) {
+      return null;
+    }
+
+    if (typeof value !== 'string') {
+      throw new ConflictException(`${key} branding asset must be a path or HTTPS URL`);
+    }
+
+    const trimmed = value.trim();
+    if (trimmed.length === 0) {
+      return null;
+    }
+
+    if (trimmed.length > BRANDING_ASSET_URL_MAX_LENGTH) {
+      throw new ConflictException(`${key} branding asset URL is too long`);
+    }
+
+    if (trimmed.startsWith('/') || trimmed.startsWith('https://')) {
+      return trimmed;
+    }
+
+    throw new ConflictException(`${key} branding asset must be a path or HTTPS URL`);
   }
 
   private normalizeActorUserId(actorUserIdRaw?: string | null): string | null {
