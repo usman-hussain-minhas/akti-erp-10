@@ -563,8 +563,9 @@ export class GatekeeperPreflightService {
     this.assertDecisionMatchesRequest(request, decision);
     const normalizedOutcome = normalizeGatekeeperDecisionOutcome(decision.decision);
     const normalizedDecision = this.normalizeDecisionResult(decision, normalizedOutcome);
-    await this.recordDecisionIfConfigured(request, normalizedDecision, normalizedOutcome);
-    await this.recordAuditIfConfigured(request, normalizedDecision, normalizedOutcome);
+    const enforcedDecision = this.enforceStopForReviewImmutability(normalizedDecision, normalizedOutcome);
+    await this.recordDecisionIfConfigured(request, enforcedDecision, normalizedOutcome);
+    await this.recordAuditIfConfigured(request, enforcedDecision, normalizedOutcome);
 
     if (normalizedOutcome === 'STOP_FOR_REVIEW') {
       throw new ServiceUnavailableException('Gatekeeper stopped the mutation for platform review');
@@ -574,7 +575,7 @@ export class GatekeeperPreflightService {
       throw new ForbiddenException('Gatekeeper did not allow the mutation');
     }
 
-    return normalizedDecision;
+    return enforcedDecision;
   }
 
   protected async provideDecision(request: GatekeeperRequest): Promise<unknown> {
@@ -707,6 +708,44 @@ export class GatekeeperPreflightService {
     return {
       ...decision,
       decision: outcome,
+    };
+  }
+
+  private enforceStopForReviewImmutability(
+    decision: GatekeeperDecisionResult,
+    outcome: GatekeeperCanonicalOutcome,
+  ): GatekeeperDecisionResult {
+    if (outcome !== 'STOP_FOR_REVIEW') {
+      return decision;
+    }
+
+    const platformArchitectEvidence = {
+      evidence_key: 'gatekeeper.platform-architect.review',
+      label: 'Platform architect review',
+      required: true,
+    };
+    const requiredEvidence = decision.required_evidence.some(
+      (evidence) => evidence.evidence_key === platformArchitectEvidence.evidence_key,
+    )
+      ? decision.required_evidence
+      : [...decision.required_evidence, platformArchitectEvidence];
+    const missingEvidence = decision.missing_evidence.includes(platformArchitectEvidence.evidence_key)
+      ? decision.missing_evidence
+      : [...decision.missing_evidence, platformArchitectEvidence.evidence_key];
+    const {
+      approval_chain_key: _approvalChainKey,
+      approval_request_id: _approvalRequestId,
+      decision_token: _decisionToken,
+      ...immutableDecision
+    } = decision;
+
+    return {
+      ...immutableDecision,
+      decision: 'STOP_FOR_REVIEW',
+      required_evidence: requiredEvidence,
+      missing_evidence: missingEvidence,
+      reauth_required: false,
+      expires_at: null,
     };
   }
 
