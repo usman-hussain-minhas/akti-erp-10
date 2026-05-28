@@ -3,8 +3,8 @@
   "sources": {
     "prisma_schema": "prisma/schema.prisma",
     "metadata": "prisma/entity-registry.metadata.json",
-    "prisma_schema_hash": "sha256:ded921ba5b4fef6a725e71032b0d8e2f47990447191123d5ef79de5526e1f405",
-    "metadata_hash": "sha256:97786e5d7b3d4dc010de1406d56e63c1eaaac80a49413fc2d01a37f4507e7fd7"
+    "prisma_schema_hash": "sha256:071e829393eda3e3f4f2198b31b305d83575ecd34e5eff85f9ff7a294642d47a",
+    "metadata_hash": "sha256:d966926a80f84ccd33e27ecd19f5337182443230d452d8a18ee489522e11a561"
   },
   "entities": [
     {
@@ -2177,6 +2177,229 @@
       "sensitive_data_classification": "confidential"
     },
     {
+      "model_name": "ModuleLifecycleEvent",
+      "table_name": "ModuleLifecycleEvent",
+      "owner_module": "core.foundry",
+      "phase": 2,
+      "tenant_scoped": true,
+      "organization_id_required": true,
+      "rls_required": true,
+      "organization_id_field": "organization_id",
+      "organization_id_column": "organization_id",
+      "fields": [
+        {
+          "field_name": "action_key",
+          "column_name": "action_key",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "actor_user",
+          "column_name": "actor_user",
+          "type": "User",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "User"
+        },
+        {
+          "field_name": "actor_user_id",
+          "column_name": "actor_user_id",
+          "type": "String",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "created_at",
+          "column_name": "created_at",
+          "type": "DateTime",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "evidence_ref",
+          "column_name": "evidence_ref",
+          "type": "String",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "from_status",
+          "column_name": "from_status",
+          "type": "String",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "id",
+          "column_name": "id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": true,
+          "is_relation": false
+        },
+        {
+          "field_name": "metadata",
+          "column_name": "metadata",
+          "type": "Json",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "module",
+          "column_name": "module",
+          "type": "ModuleRegistryEntry",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "ModuleRegistryEntry"
+        },
+        {
+          "field_name": "module_key",
+          "column_name": "module_key",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "organization",
+          "column_name": "organization",
+          "type": "Organization",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "Organization"
+        },
+        {
+          "field_name": "organization_id",
+          "column_name": "organization_id",
+          "type": "String",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "reason",
+          "column_name": "reason",
+          "type": "String",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "to_status",
+          "column_name": "to_status",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        }
+      ],
+      "indexes": [
+        {
+          "name": "ModuleLifecycleEvent_action_key_created_at_idx",
+          "fields": [
+            "action_key",
+            "created_at"
+          ],
+          "columns": [
+            "action_key",
+            "created_at"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "ModuleLifecycleEvent_id_pk",
+          "fields": [
+            "id"
+          ],
+          "columns": [
+            "id"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "ModuleLifecycleEvent_module_key_to_status_created_at_idx",
+          "fields": [
+            "module_key",
+            "to_status",
+            "created_at"
+          ],
+          "columns": [
+            "module_key",
+            "to_status",
+            "created_at"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "ModuleLifecycleEvent_organization_id_actor_user_id_created_at_idx",
+          "fields": [
+            "organization_id",
+            "actor_user_id",
+            "created_at"
+          ],
+          "columns": [
+            "organization_id",
+            "actor_user_id",
+            "created_at"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "ModuleLifecycleEvent_organization_id_module_key_created_at_idx",
+          "fields": [
+            "organization_id",
+            "module_key",
+            "created_at"
+          ],
+          "columns": [
+            "organization_id",
+            "module_key",
+            "created_at"
+          ],
+          "is_unique": false
+        }
+      ],
+      "unique_constraints": [
+        {
+          "name": "ModuleLifecycleEvent_id_pk",
+          "fields": [
+            "id"
+          ],
+          "columns": [
+            "id"
+          ]
+        }
+      ],
+      "events_emitted": [],
+      "retention_policy": "per_module_lifecycle_policy",
+      "audit_required": true,
+      "sensitive_data_classification": "internal"
+    },
+    {
       "model_name": "ModuleRegistryEntry",
       "table_name": "ModuleRegistryEntry",
       "owner_module": "core.registry",
@@ -2195,6 +2418,16 @@
           "is_unique": false,
           "is_id": false,
           "is_relation": false
+        },
+        {
+          "field_name": "lifecycle_events",
+          "column_name": "lifecycle_events",
+          "type": "ModuleLifecycleEvent[]",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "ModuleLifecycleEvent"
         },
         {
           "field_name": "manifest_hash",
@@ -2251,6 +2484,28 @@
           ],
           "columns": [
             "status"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "ModuleRegistryEntry_status_version_idx",
+          "fields": [
+            "status",
+            "version"
+          ],
+          "columns": [
+            "status",
+            "version"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "ModuleRegistryEntry_version_idx",
+          "fields": [
+            "version"
+          ],
+          "columns": [
+            "version"
           ],
           "is_unique": false
         }
@@ -2398,6 +2653,16 @@
           "is_id": false,
           "is_relation": true,
           "relation_model": "LeadStatusHistory"
+        },
+        {
+          "field_name": "module_lifecycle_events",
+          "column_name": "module_lifecycle_events",
+          "type": "ModuleLifecycleEvent[]",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "ModuleLifecycleEvent"
         },
         {
           "field_name": "organization_domains",
@@ -3514,6 +3779,16 @@
           "is_id": false,
           "is_relation": true,
           "relation_model": "LeadStatusHistory"
+        },
+        {
+          "field_name": "module_lifecycle_events_as_actor",
+          "column_name": "module_lifecycle_events_as_actor",
+          "type": "ModuleLifecycleEvent[]",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "ModuleLifecycleEvent"
         },
         {
           "field_name": "organization",

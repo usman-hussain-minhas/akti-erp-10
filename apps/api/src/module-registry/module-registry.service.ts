@@ -85,6 +85,16 @@ type ModuleListResponse = {
   items: Array<Pick<ModuleRegistryEntry, 'module_key' | 'display_name' | 'version' | 'status' | 'manifest_hash'>>;
 };
 
+export type ModuleRegistrySchemaBaseline = {
+  registry_model: 'ModuleRegistryEntry';
+  lifecycle_event_model: 'ModuleLifecycleEvent';
+  registry_scope: 'global';
+  lifecycle_event_scope: 'global_or_tenant_scoped';
+  lifecycle_event_organization_id_required_when_tenant_scoped: true;
+  registry_indexes: string[];
+  lifecycle_event_indexes: string[];
+};
+
 const ACCESS_CORE_MODULE_KEY = 'core.access';
 const ACCESS_POLICY_MANAGE_CAPABILITY_KEY = 'access.policy.manage';
 const PLATFORM_SHELL_ACCESS_CAPABILITY_KEY = 'platform.shell.access';
@@ -319,6 +329,23 @@ function toCapabilitySeedFromManifest(capability: CapabilityManifestEntry): Acce
 @Injectable()
 export class ModuleRegistryService {
   constructor(private readonly prisma: PrismaService) {}
+
+  getSchemaBaseline(): ModuleRegistrySchemaBaseline {
+    return {
+      registry_model: 'ModuleRegistryEntry',
+      lifecycle_event_model: 'ModuleLifecycleEvent',
+      registry_scope: 'global',
+      lifecycle_event_scope: 'global_or_tenant_scoped',
+      lifecycle_event_organization_id_required_when_tenant_scoped: true,
+      registry_indexes: ['module_key', 'status', 'version', 'status+version'],
+      lifecycle_event_indexes: [
+        'module_key+to_status+created_at',
+        'organization_id+module_key+created_at',
+        'organization_id+actor_user_id+created_at',
+        'action_key+created_at',
+      ],
+    };
+  }
 
   async seedCoreFoundation(db: DbClient = this.prisma): Promise<SeedCoreFoundationResult> {
     const [manifest, seeds, manifests] = await Promise.all([
