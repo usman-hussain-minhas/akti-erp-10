@@ -117,11 +117,21 @@ class Phase1GatekeeperDecisionProvider implements GatekeeperDecisionProvider {
   decide(request: GatekeeperRequest): GatekeeperDecisionResult {
     const policy = CAPABILITY_POLICIES[request.capability_key];
     if (!policy) {
-      return this.deny(request, 'gatekeeper.capability.unsupported', 'Gatekeeper denied unsupported capability.');
+      return this.deny(
+        request,
+        'gatekeeper.capability.unsupported',
+        'Gatekeeper denied unsupported capability.',
+        'gatekeeper.capability.supported',
+      );
     }
 
     if (request.module_key !== policy.module_key) {
-      return this.deny(request, 'gatekeeper.module.unsupported', 'Gatekeeper denied unsupported module.');
+      return this.deny(
+        request,
+        'gatekeeper.module.unsupported',
+        'Gatekeeper denied unsupported module.',
+        'gatekeeper.capability.module-boundary',
+      );
     }
 
     if (request.organization_id !== request.context.current_organization_id) {
@@ -133,7 +143,12 @@ class Phase1GatekeeperDecisionProvider implements GatekeeperDecisionProvider {
     }
 
     if (!request.context.capabilities.includes(request.capability_key)) {
-      return this.deny(request, 'gatekeeper.capability.missing', 'Gatekeeper context is missing requested capability.');
+      return this.deny(
+        request,
+        'gatekeeper.capability.missing',
+        'Gatekeeper context is missing requested capability.',
+        'gatekeeper.capability.present',
+      );
     }
 
     if (request.context.active_group_ids.length === 0) {
@@ -206,7 +221,12 @@ class Phase1GatekeeperDecisionProvider implements GatekeeperDecisionProvider {
     };
   }
 
-  private deny(request: GatekeeperRequest, code: string, message: string): GatekeeperDecisionResult {
+  private deny(
+    request: GatekeeperRequest,
+    code: string,
+    message: string,
+    checkKey = 'gatekeeper.phase1.preflight',
+  ): GatekeeperDecisionResult {
     const reason = this.reason(code, message, 'error');
 
     return {
@@ -216,7 +236,7 @@ class Phase1GatekeeperDecisionProvider implements GatekeeperDecisionProvider {
       actor_user_id: request.actor_user_id,
       organization_id: request.organization_id,
       reasons: [reason],
-      checks: [this.check('gatekeeper.phase1.preflight', 'failed', reason)],
+      checks: [this.check(checkKey, 'failed', reason)],
       required_evidence: [],
       missing_evidence: [],
       reauth_required: false,
