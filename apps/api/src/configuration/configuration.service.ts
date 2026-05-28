@@ -19,6 +19,23 @@ const PORTAL_MODE_SETTING_KEY = 'portal.mode';
 const DEFAULT_PORTAL_MODE: PortalMode = 'simple';
 const ORGANIZATION_CONFIGURATION_SCOPE_TYPES = new Set<PermissionScopeType>(['global', 'organization']);
 
+export const TENANT_CONFIG_SCHEMA_MODEL_BASELINE = {
+  decision: 'reuse_existing_models',
+  setting_model: 'OrganizationSetting',
+  domain_model: 'OrganizationDomain',
+  rejected_new_model: 'PlatformTenantConfig',
+  setting_key_examples: [PORTAL_MODE_SETTING_KEY],
+  required_setting_fields: ['organization_id', 'key', 'value_json', 'updated_at'],
+  required_domain_fields: ['organization_id', 'domain', 'is_primary', 'verified_at'],
+  required_setting_uniques: ['@@unique([organization_id, key])'],
+  required_domain_uniques: ['domain @unique', '@@unique([organization_id, domain])'],
+  tenant_isolation_field: 'organization_id',
+  decision_reason:
+    'OrganizationSetting already provides tenant-scoped typed JSON configuration values, while OrganizationDomain already provides tenant-scoped domain identity. A new PlatformTenantConfig model is not required for the Phase 5B baseline.',
+} as const;
+
+export type TenantConfigSchemaModelBaseline = typeof TENANT_CONFIG_SCHEMA_MODEL_BASELINE;
+
 type DbClient = PrismaService | Prisma.TransactionClient;
 
 type AuthorizedConfigurationActor = {
@@ -185,6 +202,10 @@ export class ConfigurationService {
       this.rethrowKnownConflicts(error);
       throw error;
     }
+  }
+
+  getTenantConfigSchemaModelBaseline(): TenantConfigSchemaModelBaseline {
+    return TENANT_CONFIG_SCHEMA_MODEL_BASELINE;
   }
 
   private async requireAccessPolicyManageActor(
