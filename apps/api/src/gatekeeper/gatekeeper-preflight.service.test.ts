@@ -112,7 +112,7 @@ async function testDefaultProviderAllowsValidAccessCorePreflight() {
 
   const decision = await service.requireAllow(preflightInput());
 
-  assert.equal(decision.decision, 'allow');
+  assert.equal(decision.decision, 'ALLOW');
   assert.equal(decision.capability_key, 'access.policy.manage');
   assert.equal(decision.actor_user_id, 'actor-1');
   assert.ok(decision.decision_token);
@@ -181,7 +181,7 @@ async function testDefaultProviderAllowsValidPhase2Preflights() {
       }),
     );
 
-    assert.equal(decision.decision, 'allow');
+    assert.equal(decision.decision, 'ALLOW');
     assert.equal(decision.capability_key, capability.capability_key);
     assert.equal(decision.actor_user_id, 'actor-1');
     assert.ok(decision.decision_token);

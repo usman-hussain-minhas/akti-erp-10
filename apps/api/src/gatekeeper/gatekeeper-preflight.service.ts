@@ -317,7 +317,8 @@ export class GatekeeperPreflightService {
 
     this.assertDecisionMatchesRequest(request, decision);
     const normalizedOutcome = normalizeGatekeeperDecisionOutcome(decision.decision);
-    await this.recordDecisionIfConfigured(request, decision, normalizedOutcome);
+    const normalizedDecision = this.normalizeDecisionResult(decision, normalizedOutcome);
+    await this.recordDecisionIfConfigured(request, normalizedDecision, normalizedOutcome);
 
     if (normalizedOutcome === 'STOP_FOR_REVIEW') {
       throw new ServiceUnavailableException('Gatekeeper stopped the mutation for platform review');
@@ -327,7 +328,7 @@ export class GatekeeperPreflightService {
       throw new ForbiddenException('Gatekeeper did not allow the mutation');
     }
 
-    return decision;
+    return normalizedDecision;
   }
 
   protected async provideDecision(request: GatekeeperRequest): Promise<unknown> {
@@ -377,6 +378,20 @@ export class GatekeeperPreflightService {
         payload: request.payload as Prisma.InputJsonValue,
       },
     });
+  }
+
+  private normalizeDecisionResult(
+    decision: GatekeeperDecisionResult,
+    outcome: GatekeeperCanonicalOutcome,
+  ): GatekeeperDecisionResult {
+    if (decision.decision === outcome) {
+      return decision;
+    }
+
+    return {
+      ...decision,
+      decision: outcome,
+    };
   }
 
   private buildRequest(input: GatekeeperPreflightInput): unknown {
