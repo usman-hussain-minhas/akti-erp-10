@@ -320,6 +320,52 @@ export type FoundryInstallEvidenceReceipt = {
   };
 };
 
+export type FoundryEnableExecutionInput = {
+  module_key: string;
+  module_version: string;
+  current_status: 'installed' | 'disabled';
+  manifest_hash: string;
+  gatekeeper_outcome: FoundryGatekeeperTransitionOutcome;
+  gatekeeper_decision_token: string;
+  evidence_ref: string;
+  organization_id: string;
+  actor_user_id: string;
+  correlation_id: string;
+};
+
+export type FoundryEnableExecutionReceipt = {
+  execution_id: string;
+  receipt_hash: string;
+  module_key: string;
+  module_version: string;
+  manifest_hash: string;
+  action_key: 'module.enable';
+  status_from: 'installed' | 'disabled';
+  status_to: 'enabled';
+  gatekeeper_outcome: FoundryGatekeeperTransitionOutcome;
+  gatekeeper_decision_token: string;
+  foundry_execution_completed: true;
+  lifecycle_transition: FoundryLifecycleTransitionPlan;
+  registry: {
+    next_status: 'enabled';
+    persistence_required: true;
+  };
+  evidence: {
+    evidence_ref: string;
+    evidence_required_before_execution: true;
+  };
+  runtime_surface: {
+    module_runtime_enabled: true;
+    phase5c_frontend_polish_allowed: false;
+  };
+  audit: {
+    event_type: 'foundry.module.enabled';
+    organization_id: string;
+    actor_user_id: string;
+    correlation_id: string;
+  };
+};
+
 type FoundryCapabilitySpec = {
   key: string;
   module_key: string;
@@ -622,6 +668,67 @@ export class FoundryService {
       registry: {
         installed_status_evidence_required: true,
         next_status: 'installed',
+      },
+    };
+  }
+
+  executeEnable(input: FoundryEnableExecutionInput): FoundryEnableExecutionReceipt {
+    this.assertEnableExecutionInput(input);
+
+    const lifecycleTransition = this.assertLifecycleTransition({
+      module_key: input.module_key,
+      from_state: input.current_status,
+      to_state: 'enabled',
+      action_key: 'module.enable',
+      gatekeeper_outcome: input.gatekeeper_outcome,
+      evidence_ref: input.evidence_ref,
+    });
+    const receiptBasis = {
+      module_key: input.module_key,
+      module_version: input.module_version,
+      manifest_hash: input.manifest_hash,
+      status_from: input.current_status,
+      status_to: 'enabled',
+      action_key: 'module.enable',
+      gatekeeper_outcome: input.gatekeeper_outcome,
+      gatekeeper_decision_token: input.gatekeeper_decision_token,
+      evidence_ref: input.evidence_ref,
+      organization_id: input.organization_id,
+      actor_user_id: input.actor_user_id,
+      correlation_id: input.correlation_id,
+    };
+    const receiptHash = sha256Hex(stableJsonStringify(receiptBasis));
+
+    return {
+      execution_id: `foundry-enable-${receiptHash.slice(0, 16)}`,
+      receipt_hash: receiptHash,
+      module_key: input.module_key,
+      module_version: input.module_version,
+      manifest_hash: input.manifest_hash,
+      action_key: 'module.enable',
+      status_from: input.current_status,
+      status_to: 'enabled',
+      gatekeeper_outcome: input.gatekeeper_outcome,
+      gatekeeper_decision_token: input.gatekeeper_decision_token,
+      foundry_execution_completed: true,
+      lifecycle_transition: lifecycleTransition,
+      registry: {
+        next_status: 'enabled',
+        persistence_required: true,
+      },
+      evidence: {
+        evidence_ref: input.evidence_ref,
+        evidence_required_before_execution: true,
+      },
+      runtime_surface: {
+        module_runtime_enabled: true,
+        phase5c_frontend_polish_allowed: false,
+      },
+      audit: {
+        event_type: 'foundry.module.enabled',
+        organization_id: input.organization_id,
+        actor_user_id: input.actor_user_id,
+        correlation_id: input.correlation_id,
       },
     };
   }
@@ -1073,6 +1180,35 @@ export class FoundryService {
     }
     if (!isValidIsoTimestamp(input.received_at)) {
       throw new BadRequestException('Foundry install evidence receipt received_at must be an ISO timestamp');
+    }
+  }
+
+  private assertEnableExecutionInput(input: FoundryEnableExecutionInput) {
+    if (!MODULE_KEY_PATTERN.test(input.module_key)) {
+      throw new BadRequestException('Foundry enable execution module_key must use module key syntax');
+    }
+    if (!SEMVER_PATTERN.test(input.module_version)) {
+      throw new BadRequestException('Foundry enable execution module_version must be semver');
+    }
+    if (!HEX_SHA256_PATTERN.test(input.manifest_hash)) {
+      throw new BadRequestException('Foundry enable execution manifest_hash must be a SHA-256 hex digest');
+    }
+    if (!['installed', 'disabled'].includes(input.current_status)) {
+      throw new BadRequestException('Foundry enable execution requires installed or disabled current status');
+    }
+    if (input.gatekeeper_outcome !== 'ALLOW') {
+      throw new BadRequestException('Foundry enable execution requires Gatekeeper ALLOW');
+    }
+    for (const field of [
+      'gatekeeper_decision_token',
+      'evidence_ref',
+      'organization_id',
+      'actor_user_id',
+      'correlation_id',
+    ] as const) {
+      if (input[field].trim().length === 0) {
+        throw new BadRequestException(`Foundry enable execution ${field} is required`);
+      }
     }
   }
 
