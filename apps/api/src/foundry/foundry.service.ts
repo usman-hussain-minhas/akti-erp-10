@@ -40,6 +40,47 @@ export type FoundryModuleScaffold = {
   };
 };
 
+export const FOUNDRY_LIFECYCLE_STATES = [
+  'proposed',
+  'certified',
+  'installable',
+  'installed',
+  'enabled',
+  'disabled',
+  'update_available',
+  'updating',
+  'rollback_required',
+  'retiring',
+  'uninstalled',
+  'blocked',
+] as const;
+
+export type FoundryLifecycleState = (typeof FOUNDRY_LIFECYCLE_STATES)[number];
+export type FoundryGatekeeperTransitionOutcome = 'ALLOW' | 'DENY' | 'APPROVAL_REQUIRED' | 'STOP_FOR_REVIEW';
+
+export type FoundryLifecycleTransitionInput = {
+  module_key: string;
+  from_state: FoundryLifecycleState;
+  to_state: FoundryLifecycleState;
+  action_key: string;
+  gatekeeper_outcome: FoundryGatekeeperTransitionOutcome;
+  evidence_ref?: string | null;
+};
+
+export type FoundryLifecycleTransitionPlan = {
+  module_key: string;
+  from_state: FoundryLifecycleState;
+  to_state: FoundryLifecycleState;
+  action_key: string;
+  gatekeeper_outcome: FoundryGatekeeperTransitionOutcome;
+  allowed: boolean;
+  foundry_execution_allowed: boolean;
+  gatekeeper_required: true;
+  evidence_required: true;
+  registry_persistence_required: true;
+  errors: string[];
+};
+
 type FoundryCapabilitySpec = {
   key: string;
   module_key: string;
@@ -144,6 +185,40 @@ const PERMISSION_SCOPE_TYPES = new Set([
   'own_record',
   'assigned_records',
 ]);
+const FOUNDRY_LIFECYCLE_STATE_SET = new Set<string>(FOUNDRY_LIFECYCLE_STATES);
+const FOUNDRY_LIFECYCLE_TRANSITIONS = [
+  { from: 'proposed', to: 'certified', action_key: 'module.certify' },
+  { from: 'certified', to: 'installable', action_key: 'module.mark_installable' },
+  { from: 'installable', to: 'installed', action_key: 'module.install' },
+  { from: 'installed', to: 'enabled', action_key: 'module.enable' },
+  { from: 'enabled', to: 'disabled', action_key: 'module.disable' },
+  { from: 'disabled', to: 'enabled', action_key: 'module.enable' },
+  { from: 'enabled', to: 'update_available', action_key: 'module.mark_update_available' },
+  { from: 'update_available', to: 'updating', action_key: 'module.start_update' },
+  { from: 'updating', to: 'enabled', action_key: 'module.complete_update' },
+  { from: 'updating', to: 'rollback_required', action_key: 'module.require_rollback' },
+  { from: 'rollback_required', to: 'installed', action_key: 'module.resolve_rollback' },
+  { from: 'installed', to: 'retiring', action_key: 'module.retire' },
+  { from: 'enabled', to: 'retiring', action_key: 'module.retire' },
+  { from: 'disabled', to: 'retiring', action_key: 'module.retire' },
+  { from: 'retiring', to: 'uninstalled', action_key: 'module.uninstall' },
+  { from: 'installed', to: 'uninstalled', action_key: 'module.uninstall' },
+  { from: 'disabled', to: 'uninstalled', action_key: 'module.uninstall' },
+  { from: 'proposed', to: 'blocked', action_key: 'module.block' },
+  { from: 'certified', to: 'blocked', action_key: 'module.block' },
+  { from: 'installable', to: 'blocked', action_key: 'module.block' },
+  { from: 'installed', to: 'blocked', action_key: 'module.block' },
+  { from: 'enabled', to: 'blocked', action_key: 'module.block' },
+  { from: 'disabled', to: 'blocked', action_key: 'module.block' },
+  { from: 'update_available', to: 'blocked', action_key: 'module.block' },
+  { from: 'updating', to: 'blocked', action_key: 'module.block' },
+  { from: 'rollback_required', to: 'blocked', action_key: 'module.block' },
+  { from: 'retiring', to: 'blocked', action_key: 'module.block' },
+] as const satisfies ReadonlyArray<{
+  from: FoundryLifecycleState;
+  to: FoundryLifecycleState;
+  action_key: string;
+}>;
 
 @Injectable()
 export class FoundryService {
@@ -320,6 +395,59 @@ export class FoundryService {
     return result;
   }
 
+  planLifecycleTransition(input: FoundryLifecycleTransitionInput): FoundryLifecycleTransitionPlan {
+    const errors: string[] = [];
+
+    if (!MODULE_KEY_PATTERN.test(input.module_key)) {
+      errors.push('module_key must use module key syntax');
+    }
+    if (!FOUNDRY_LIFECYCLE_STATE_SET.has(input.from_state)) {
+      errors.push(`from_state is not an approved Foundry lifecycle state: ${input.from_state}`);
+    }
+    if (!FOUNDRY_LIFECYCLE_STATE_SET.has(input.to_state)) {
+      errors.push(`to_state is not an approved Foundry lifecycle state: ${input.to_state}`);
+    }
+    if (input.gatekeeper_outcome !== 'ALLOW') {
+      errors.push('Foundry lifecycle transition requires Gatekeeper ALLOW before execution');
+    }
+    if (!this.hasLifecycleTransition(input.from_state, input.to_state, input.action_key)) {
+      errors.push(
+        `Foundry lifecycle transition is not allowed: ${input.from_state} -> ${input.to_state} via ${input.action_key}`,
+      );
+    }
+    if (!input.evidence_ref || input.evidence_ref.trim().length === 0) {
+      errors.push('Foundry lifecycle transition requires evidence_ref');
+    }
+
+    const allowed = errors.length === 0;
+
+    return {
+      module_key: input.module_key,
+      from_state: input.from_state,
+      to_state: input.to_state,
+      action_key: input.action_key,
+      gatekeeper_outcome: input.gatekeeper_outcome,
+      allowed,
+      foundry_execution_allowed: allowed,
+      gatekeeper_required: true,
+      evidence_required: true,
+      registry_persistence_required: true,
+      errors,
+    };
+  }
+
+  assertLifecycleTransition(input: FoundryLifecycleTransitionInput): FoundryLifecycleTransitionPlan {
+    const plan = this.planLifecycleTransition(input);
+    if (!plan.allowed) {
+      throw new BadRequestException({
+        message: 'Foundry lifecycle transition is not allowed',
+        errors: plan.errors,
+      });
+    }
+
+    return plan;
+  }
+
   private assertScaffoldInput(input: FoundryModuleScaffoldInput) {
     if (!MODULE_KEY_PATTERN.test(input.module_key)) {
       throw new BadRequestException('Foundry module scaffold requires a valid module_key');
@@ -479,6 +607,19 @@ export class FoundryService {
       }
       seen.add(key);
     }
+  }
+
+  private hasLifecycleTransition(
+    fromState: FoundryLifecycleState,
+    toState: FoundryLifecycleState,
+    actionKey: string,
+  ) {
+    return FOUNDRY_LIFECYCLE_TRANSITIONS.some(
+      (transition) =>
+        transition.from === fromState &&
+        transition.to === toState &&
+        transition.action_key === actionKey,
+    );
   }
 }
 
