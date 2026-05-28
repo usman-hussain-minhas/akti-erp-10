@@ -395,6 +395,19 @@ class Phase1GatekeeperDecisionProvider implements GatekeeperDecisionProvider {
     }
 
     if (
+      rollbackRisk === 'unsafe' ||
+      rollbackRisk === 'critical' ||
+      this.payloadBoolean(request.payload, 'rollback_integrity_risk') === true ||
+      this.payloadBoolean(request.payload, 'rollback_boundary_unclear') === true
+    ) {
+      return this.stopForReview(
+        request,
+        'gatekeeper.rollback.stop-for-review',
+        'Gatekeeper requires platform architect review for unsafe or unclear rollback risk.',
+      );
+    }
+
+    if (
       migrationRisk === 'invalid' ||
       migrationRisk === 'validation_failed' ||
       this.payloadBoolean(request.payload, 'migration_validation_passed') === false
@@ -418,6 +431,18 @@ class Phase1GatekeeperDecisionProvider implements GatekeeperDecisionProvider {
         'gatekeeper.migration.evidence',
         'Migration safety evidence',
         'gatekeeper.migration.approval',
+      );
+    }
+
+    if (
+      rollbackRisk === 'invalid_evidence' ||
+      this.payloadBoolean(request.payload, 'rollback_validation_passed') === false
+    ) {
+      return this.deny(
+        request,
+        'gatekeeper.rollback.evidence-invalid',
+        'Gatekeeper denied rollback input with invalid rollback evidence.',
+        'gatekeeper.rollback.evidence-valid',
       );
     }
 
