@@ -15,8 +15,7 @@ import { HierarchyClosureService } from './hierarchy/hierarchy-closure.service';
 import { HierarchyService } from './hierarchy/hierarchy.service';
 import { LeadDeskController } from './lead-desk/lead-desk.controller';
 import { LeadDeskService } from './lead-desk/lead-desk.service';
-import { ModuleRegistryController } from './module-registry/module-registry.controller';
-import { ModuleRegistryService } from './module-registry/module-registry.service';
+import { ModuleRegistryModule } from './module-registry/module-registry.module';
 import { OrganizationSetupController } from './organization-setup/organization-setup.controller';
 import { OrganizationSetupService } from './organization-setup/organization-setup.service';
 import { AuditLogService } from './platform-observability/audit-log.service';
@@ -26,13 +25,12 @@ import { CurrentUserController } from './security/current-user.controller';
 import { CurrentUserService } from './security/current-user.service';
 
 @Module({
-  imports: [ConfigurationModule],
+  imports: [ConfigurationModule, ModuleRegistryModule],
   controllers: [
     AppController,
     CurrentUserController,
     OrganizationSetupController,
     AccessCoreController,
-    ModuleRegistryController,
     HierarchyController,
     EngagementGatewayController,
     LeadDeskController,
@@ -41,7 +39,6 @@ import { CurrentUserService } from './security/current-user.service';
   providers: [
     AppService,
     PrismaService,
-    ModuleRegistryService,
     OrganizationSetupService,
     HierarchyClosureService,
     HierarchyService,

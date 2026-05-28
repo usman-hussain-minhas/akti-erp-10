@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto';
 
-import { BadRequestException, ConflictException, Injectable } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { type Capability, type ModuleLifecycleEvent, type ModuleRegistryEntry, type Prisma } from '../prisma/prisma-client';
 
 import { PrismaService } from '../prisma/prisma.service';
@@ -85,6 +85,12 @@ type ModuleListResponse = {
   items: Array<Pick<ModuleRegistryEntry, 'module_key' | 'display_name' | 'version' | 'status' | 'manifest_hash'>>;
 };
 
+type ModuleLifecycleStatusRequest = {
+  module_key: string;
+  organization_id: string;
+  actor_user_id: string;
+};
+
 type ModuleRegistryEntrySnapshot = Pick<
   ModuleRegistryEntry,
   'module_key' | 'display_name' | 'version' | 'status' | 'manifest_hash'
@@ -113,6 +119,33 @@ export type ModuleRegistrySchemaBaseline = {
   lifecycle_event_organization_id_required_when_tenant_scoped: true;
   registry_indexes: string[];
   lifecycle_event_indexes: string[];
+};
+
+export type ModuleLifecycleStatusResponse = {
+  module_key: string;
+  display_name: string;
+  version: string;
+  status: string;
+  manifest_hash: string;
+  tenant_context: {
+    organization_id: string;
+    actor_user_id: string;
+  };
+  capability: {
+    required: 'platform.shell.access';
+  };
+  gatekeeper: {
+    read_requires_preflight: false;
+    lifecycle_mutation_requires_preflight: true;
+  };
+  audit: {
+    event_type: 'module.registry.lifecycle_status.read';
+    evidence_required_for_mutation: true;
+  };
+  latest_lifecycle_event: null | Pick<
+    ModuleLifecycleEventSnapshot,
+    'id' | 'organization_id' | 'from_status' | 'to_status' | 'action_key' | 'evidence_ref' | 'reason' | 'created_at'
+  >;
 };
 
 export type ModuleLifecycleStatus = (typeof MODULE_LIFECYCLE_STATUSES)[number];
@@ -515,6 +548,61 @@ export class ModuleRegistryService {
     return { items };
   }
 
+  async getModuleLifecycleStatus(
+    input: ModuleLifecycleStatusRequest,
+  ): Promise<ModuleLifecycleStatusResponse> {
+    assertModuleKey(input.module_key);
+    assertNonEmpty(input.organization_id, 'Module lifecycle status requires organization_id');
+    assertNonEmpty(input.actor_user_id, 'Module lifecycle status requires actor_user_id');
+
+    const module = await this.prisma.moduleRegistryEntry.findUnique({
+      where: {
+        module_key: input.module_key,
+      },
+      select: moduleRegistryEntrySnapshotSelect,
+    });
+    if (!module) {
+      throw new NotFoundException('Module lifecycle status requires a registered module');
+    }
+
+    const [latestLifecycleEvent] = await this.prisma.moduleLifecycleEvent.findMany({
+      where: {
+        module_key: input.module_key,
+        OR: [
+          {
+            organization_id: input.organization_id,
+          },
+          {
+            organization_id: null,
+          },
+        ],
+      },
+      orderBy: [{ created_at: 'desc' }],
+      take: 1,
+      select: moduleLifecycleEventStatusSelect,
+    });
+
+    return {
+      ...module,
+      tenant_context: {
+        organization_id: input.organization_id,
+        actor_user_id: input.actor_user_id,
+      },
+      capability: {
+        required: PLATFORM_SHELL_ACCESS_CAPABILITY_KEY,
+      },
+      gatekeeper: {
+        read_requires_preflight: false,
+        lifecycle_mutation_requires_preflight: true,
+      },
+      audit: {
+        event_type: 'module.registry.lifecycle_status.read',
+        evidence_required_for_mutation: true,
+      },
+      latest_lifecycle_event: latestLifecycleEvent ?? null,
+    };
+  }
+
   async persistModuleRegistryEntry(
     input: PersistModuleRegistryEntryInput,
     db: DbClient = this.prisma,
@@ -609,6 +697,17 @@ const moduleLifecycleEventSnapshotSelect = {
   evidence_ref: true,
   reason: true,
   metadata: true,
+  created_at: true,
+} satisfies Prisma.ModuleLifecycleEventSelect;
+
+const moduleLifecycleEventStatusSelect = {
+  id: true,
+  organization_id: true,
+  from_status: true,
+  to_status: true,
+  action_key: true,
+  evidence_ref: true,
+  reason: true,
   created_at: true,
 } satisfies Prisma.ModuleLifecycleEventSelect;
 
