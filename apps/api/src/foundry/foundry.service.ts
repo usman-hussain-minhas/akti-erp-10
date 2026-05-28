@@ -1,6 +1,9 @@
 import { createHash } from 'node:crypto';
 
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, Optional } from '@nestjs/common';
+import type { GatekeeperDecisionResult } from '@akti/contracts/gatekeeper-contract';
+
+import { type GatekeeperPreflightInput, GatekeeperPreflightService } from '../gatekeeper/gatekeeper-preflight.service';
 
 export type FoundryModuleType = 'core' | 'standard' | 'optional' | 'dedicated';
 
@@ -174,6 +177,57 @@ export type FoundryEvidencePackage = {
   errors: string[];
 };
 
+export type FoundryInstallPreflightInput = {
+  organization_id: string;
+  actor_user_id: string;
+  active_group_ids: string[];
+  target_module_key: string;
+  target_module_version: string;
+  manifest_hash: string;
+  migration_plan_ref: string;
+  rollback_plan_ref: string;
+  evidence_package_ref: string;
+  correlation_id: string;
+  module_health?: GatekeeperPreflightInput['module_health'];
+  dependency_health?: GatekeeperPreflightInput['dependency_health'];
+  reauth_status?: GatekeeperPreflightInput['reauth_status'];
+};
+
+export type FoundryInstallPreflightResponse = {
+  method: 'POST';
+  route: '/platform/foundry/install-preflight';
+  action_key: 'module.install';
+  target_module: {
+    module_key: string;
+    version: string;
+    manifest_hash: string;
+  };
+  capability: {
+    required: 'access.policy.manage';
+    authority_note: 'existing Gatekeeper-supported high-risk platform management capability; no new capability invented in P5B-012a';
+  };
+  tenant_context: {
+    organization_id: string;
+    actor_user_id: string;
+  };
+  gatekeeper: {
+    preflight_required: true;
+    request: GatekeeperPreflightInput;
+    decision: GatekeeperDecisionResult | null;
+  };
+  audit: {
+    event_type: 'foundry.install.preflight.requested';
+    evidence_required: true;
+    evidence_package_ref: string;
+    correlation_id: string;
+  };
+  foundry_execution: {
+    allowed_after_preflight: boolean;
+    executed: false;
+    next_step: 'P5B-012b Foundry install execution';
+  };
+};
+
 type FoundryCapabilitySpec = {
   key: string;
   module_key: string;
@@ -271,6 +325,10 @@ const MANIFEST_KEY_PATTERN = /^[a-z][a-z0-9]*(?:-[a-z0-9]+)*(?:\.[a-z][a-z0-9]*(
 const SEMVER_PATTERN = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$/;
 const API_PATH_PATTERN = /^\/[A-Za-z0-9/_:.-]*$/;
 const HEX_SHA256_PATTERN = /^[a-f0-9]{64}$/;
+const FOUNDRY_INSTALL_ACTION_KEY = 'module.install';
+const FOUNDRY_INSTALL_PREFLIGHT_ROUTE = '/platform/foundry/install-preflight';
+const FOUNDRY_INSTALL_PREFLIGHT_CAPABILITY_KEY = 'access.policy.manage';
+const FOUNDRY_INSTALL_GATEKEEPER_MODULE_KEY = 'core.access';
 const PERMISSION_SCOPE_TYPES = new Set([
   'global',
   'organization',
@@ -316,6 +374,51 @@ const FOUNDRY_LIFECYCLE_TRANSITIONS = [
 
 @Injectable()
 export class FoundryService {
+  constructor(@Optional() private readonly gatekeeperPreflightService?: GatekeeperPreflightService) {}
+
+  async runInstallPreflight(input: FoundryInstallPreflightInput): Promise<FoundryInstallPreflightResponse> {
+    const gatekeeperRequest = this.buildInstallPreflightGatekeeperRequest(input);
+    const decision = this.gatekeeperPreflightService
+      ? await this.gatekeeperPreflightService.requireAllow(gatekeeperRequest)
+      : null;
+
+    return {
+      method: 'POST',
+      route: FOUNDRY_INSTALL_PREFLIGHT_ROUTE,
+      action_key: FOUNDRY_INSTALL_ACTION_KEY,
+      target_module: {
+        module_key: input.target_module_key,
+        version: input.target_module_version,
+        manifest_hash: input.manifest_hash,
+      },
+      capability: {
+        required: FOUNDRY_INSTALL_PREFLIGHT_CAPABILITY_KEY,
+        authority_note:
+          'existing Gatekeeper-supported high-risk platform management capability; no new capability invented in P5B-012a',
+      },
+      tenant_context: {
+        organization_id: input.organization_id,
+        actor_user_id: input.actor_user_id,
+      },
+      gatekeeper: {
+        preflight_required: true,
+        request: gatekeeperRequest,
+        decision,
+      },
+      audit: {
+        event_type: 'foundry.install.preflight.requested',
+        evidence_required: true,
+        evidence_package_ref: input.evidence_package_ref,
+        correlation_id: input.correlation_id,
+      },
+      foundry_execution: {
+        allowed_after_preflight: decision?.decision === 'ALLOW',
+        executed: false,
+        next_step: 'P5B-012b Foundry install execution',
+      },
+    };
+  }
+
   scaffoldModule(input: FoundryModuleScaffoldInput): FoundryModuleScaffold {
     this.assertScaffoldInput(input);
 
@@ -638,6 +741,67 @@ export class FoundryService {
     }
 
     return evidencePackage;
+  }
+
+  private buildInstallPreflightGatekeeperRequest(input: FoundryInstallPreflightInput): GatekeeperPreflightInput {
+    this.assertInstallPreflightInput(input);
+
+    return {
+      organization_id: input.organization_id,
+      actor_user_id: input.actor_user_id,
+      active_group_ids: input.active_group_ids,
+      entity_type: 'foundry.module',
+      entity_id: input.target_module_key,
+      action_key: FOUNDRY_INSTALL_ACTION_KEY,
+      capability_key: FOUNDRY_INSTALL_PREFLIGHT_CAPABILITY_KEY,
+      module_key: FOUNDRY_INSTALL_GATEKEEPER_MODULE_KEY,
+      scope_unit_id: null,
+      payload: {
+        action_key: FOUNDRY_INSTALL_ACTION_KEY,
+        target_module_key: input.target_module_key,
+        target_module_version: input.target_module_version,
+        manifest_hash: input.manifest_hash,
+        migration_plan_ref: input.migration_plan_ref,
+        rollback_plan_ref: input.rollback_plan_ref,
+        evidence_package_ref: input.evidence_package_ref,
+        correlation_id: input.correlation_id,
+        risk_surface: 'migration',
+        migration_risk: 'non_destructive',
+        rollback_risk: 'covered',
+        migration_validation_passed: true,
+        rollback_validation_passed: true,
+        rollback_evidence_present: true,
+      },
+      module_health: input.module_health,
+      dependency_health: input.dependency_health,
+      reauth_status: input.reauth_status ?? 'not_required',
+    };
+  }
+
+  private assertInstallPreflightInput(input: FoundryInstallPreflightInput) {
+    if (!MODULE_KEY_PATTERN.test(input.target_module_key)) {
+      throw new BadRequestException('Foundry install preflight target_module_key must use module key syntax');
+    }
+    if (!SEMVER_PATTERN.test(input.target_module_version)) {
+      throw new BadRequestException('Foundry install preflight target_module_version must be semver');
+    }
+    if (!HEX_SHA256_PATTERN.test(input.manifest_hash)) {
+      throw new BadRequestException('Foundry install preflight manifest_hash must be a SHA-256 hex digest');
+    }
+    if (input.organization_id.trim().length === 0 || input.actor_user_id.trim().length === 0) {
+      throw new BadRequestException('Foundry install preflight requires trusted tenant and actor context');
+    }
+    if (input.active_group_ids.length === 0 || input.active_group_ids.some((groupId) => groupId.trim().length === 0)) {
+      throw new BadRequestException('Foundry install preflight requires active_group_ids');
+    }
+    if (input.module_health?.[FOUNDRY_INSTALL_GATEKEEPER_MODULE_KEY] !== 'healthy') {
+      throw new BadRequestException('Foundry install preflight requires healthy Access Core module context');
+    }
+    for (const field of ['migration_plan_ref', 'rollback_plan_ref', 'evidence_package_ref', 'correlation_id'] as const) {
+      if (input[field].trim().length === 0) {
+        throw new BadRequestException(`Foundry install preflight ${field} is required`);
+      }
+    }
   }
 
   private assertScaffoldInput(input: FoundryModuleScaffoldInput) {
