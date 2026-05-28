@@ -2886,7 +2886,9 @@
       "files_expected_to_change": [
         "apps/api/src/configuration/configuration.service.ts",
         "apps/api/src/configuration/configuration.controller.ts",
-        "apps/api/src/configuration/configuration.controller.p5b-005c.test.ts"
+        "apps/api/src/configuration/configuration.controller.p5b-005c.test.ts",
+        "apps/api/src/configuration/configuration.module.ts",
+        "apps/api/src/app.module.ts"
       ],
       "files_forbidden_to_change": [
         "docs/process/AKTI_ERP_Phase_5B_Plan_v10.md",
@@ -7463,7 +7465,9 @@
       "files_expected_to_change": [
         "apps/api/src/module-registry/module-registry.service.ts",
         "apps/api/src/module-registry/module-registry.controller.ts",
-        "apps/api/src/module-registry/module-registry.controller.p5b-011c.test.ts"
+        "apps/api/src/module-registry/module-registry.controller.p5b-011c.test.ts",
+        "apps/api/src/module-registry/module-registry.module.ts",
+        "apps/api/src/app.module.ts"
       ],
       "files_forbidden_to_change": [
         "docs/process/AKTI_ERP_Phase_5B_Plan_v10.md",
@@ -9786,7 +9790,9 @@
       "files_expected_to_change": [
         "apps/api/src/module-registry/module-registry.service.ts",
         "apps/api/src/module-registry/module-registry.controller.ts",
-        "apps/api/src/module-registry/module-registry.controller.p5b-016a.test.ts"
+        "apps/api/src/module-registry/module-registry.controller.p5b-016a.test.ts",
+        "apps/api/src/module-registry/module-registry.module.ts",
+        "apps/api/src/app.module.ts"
       ],
       "files_forbidden_to_change": [
         "docs/process/AKTI_ERP_Phase_5B_Plan_v10.md",
@@ -10184,7 +10190,7 @@
       "exact_file_plan_required": true,
       "broad_globs_are_inspection_hints_only": true,
       "conditional_replan_required": true,
-      "stale_ticket_risk_notes": "Implementation is not stale by itself; this ticket becomes stale if source authority, dependencies, exact files, or validation commands no longer match current main at execution time.",
+      "stale_ticket_risk_notes": "Implementation is not stale by itself; this ticket becomes stale if source authority, dependencies, exact files, or validation commands no longer match current main at execution time. Known open gap at T2-GATE closure: Gatekeeper and Foundry do not yet emit fully compliant Phase 5A event envelopes. Compliance-class event envelope retrofit is covered by P5B-017e (Gatekeeper retrofit) and P5B-017f (Foundry retrofit) in Tier 3. P5B-T2-GATE closes before this retrofit. The gap is intentional and documented. P5B-T3-GATE closure proves envelope compliance. Do not claim full event compliance at T2-GATE review. Audit label: event envelope gap.",
       "runtime_consistency_chain": [
         "Direct dependencies: P5B-T1-GATE, P5B-007a, P5B-007b, P5B-007c, P5B-007d, P5B-007e, P5B-007f, P5B-007g, P5B-007h, P5B-008a, P5B-008b, P5B-008c, P5B-008d, P5B-008e, P5B-008f, P5B-008g, P5B-009a, P5B-009b, P5B-009c, P5B-010a, P5B-010b, P5B-010c, P5B-010d, P5B-011a, P5B-011b, P5B-011c, P5B-011d, P5B-012a, P5B-012b, P5B-012c, P5B-013a, P5B-013b, P5B-013c, P5B-014a, P5B-014b, P5B-015a, P5B-015b, P5B-015c, P5B-015d, P5B-015e, P5B-015f, P5B-016a, P5B-016b",
         "Gate closes its tier plus the prior tier gate, preserving tiered roll-up dependency architecture.",
@@ -14368,18 +14374,7 @@
         "scope_failure": "stop_for_human_review",
         "stale_ticket_failure": "stop_or_split_before_execution",
         "forbidden_file_failure": "stop_for_human_review"
-      },
-      "decision_options": [
-        "Implement query API without additional persisted query state if existing read-model persistence is sufficient.",
-        "Extend read-model query state only if exact execution proves persistence is required."
-      ],
-      "selection_criteria": [
-        "Prefer existing committed repo structures when they fully satisfy Phase 5A and v10 requirements.",
-        "Prefer the least invasive non-destructive schema/runtime surface that satisfies the MCR.",
-        "Stop instead of inventing an unapproved architecture or broadening schema ownership.",
-        "Stop if query API can be implemented without new persistence"
-      ],
-      "decision_output_path": "codex-review/phase5b-gatekeeper-foundry/ticket-artifacts/P5B-023b/P5B-023b-decision-output.md"
+      }
     },
     {
       "ticket_id": "P5B-023c",
