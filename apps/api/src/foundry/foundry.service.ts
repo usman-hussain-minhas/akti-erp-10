@@ -366,6 +366,56 @@ export type FoundryEnableExecutionReceipt = {
   };
 };
 
+export type FoundryDisableExecutionInput = {
+  module_key: string;
+  module_version: string;
+  manifest_hash: string;
+  gatekeeper_outcome: FoundryGatekeeperTransitionOutcome;
+  gatekeeper_decision_token: string;
+  evidence_ref: string;
+  retention_plan_ref: string;
+  organization_id: string;
+  actor_user_id: string;
+  correlation_id: string;
+};
+
+export type FoundryDisableExecutionReceipt = {
+  execution_id: string;
+  receipt_hash: string;
+  module_key: string;
+  module_version: string;
+  manifest_hash: string;
+  action_key: 'module.disable';
+  status_from: 'enabled';
+  status_to: 'disabled';
+  gatekeeper_outcome: FoundryGatekeeperTransitionOutcome;
+  gatekeeper_decision_token: string;
+  foundry_execution_completed: true;
+  lifecycle_transition: FoundryLifecycleTransitionPlan;
+  registry: {
+    next_status: 'disabled';
+    persistence_required: true;
+  };
+  data_retention: {
+    retention_plan_ref: string;
+    tenant_data_retained: true;
+  };
+  runtime_surface: {
+    module_runtime_enabled: false;
+    data_deleted: false;
+  };
+  evidence: {
+    evidence_ref: string;
+    evidence_required_before_execution: true;
+  };
+  audit: {
+    event_type: 'foundry.module.disabled';
+    organization_id: string;
+    actor_user_id: string;
+    correlation_id: string;
+  };
+};
+
 type FoundryCapabilitySpec = {
   key: string;
   module_key: string;
@@ -726,6 +776,70 @@ export class FoundryService {
       },
       audit: {
         event_type: 'foundry.module.enabled',
+        organization_id: input.organization_id,
+        actor_user_id: input.actor_user_id,
+        correlation_id: input.correlation_id,
+      },
+    };
+  }
+
+  executeDisable(input: FoundryDisableExecutionInput): FoundryDisableExecutionReceipt {
+    this.assertDisableExecutionInput(input);
+
+    const lifecycleTransition = this.assertLifecycleTransition({
+      module_key: input.module_key,
+      from_state: 'enabled',
+      to_state: 'disabled',
+      action_key: 'module.disable',
+      gatekeeper_outcome: input.gatekeeper_outcome,
+      evidence_ref: input.evidence_ref,
+    });
+    const receiptBasis = {
+      module_key: input.module_key,
+      module_version: input.module_version,
+      manifest_hash: input.manifest_hash,
+      action_key: 'module.disable',
+      gatekeeper_outcome: input.gatekeeper_outcome,
+      gatekeeper_decision_token: input.gatekeeper_decision_token,
+      evidence_ref: input.evidence_ref,
+      retention_plan_ref: input.retention_plan_ref,
+      organization_id: input.organization_id,
+      actor_user_id: input.actor_user_id,
+      correlation_id: input.correlation_id,
+    };
+    const receiptHash = sha256Hex(stableJsonStringify(receiptBasis));
+
+    return {
+      execution_id: `foundry-disable-${receiptHash.slice(0, 16)}`,
+      receipt_hash: receiptHash,
+      module_key: input.module_key,
+      module_version: input.module_version,
+      manifest_hash: input.manifest_hash,
+      action_key: 'module.disable',
+      status_from: 'enabled',
+      status_to: 'disabled',
+      gatekeeper_outcome: input.gatekeeper_outcome,
+      gatekeeper_decision_token: input.gatekeeper_decision_token,
+      foundry_execution_completed: true,
+      lifecycle_transition: lifecycleTransition,
+      registry: {
+        next_status: 'disabled',
+        persistence_required: true,
+      },
+      data_retention: {
+        retention_plan_ref: input.retention_plan_ref,
+        tenant_data_retained: true,
+      },
+      runtime_surface: {
+        module_runtime_enabled: false,
+        data_deleted: false,
+      },
+      evidence: {
+        evidence_ref: input.evidence_ref,
+        evidence_required_before_execution: true,
+      },
+      audit: {
+        event_type: 'foundry.module.disabled',
         organization_id: input.organization_id,
         actor_user_id: input.actor_user_id,
         correlation_id: input.correlation_id,
@@ -1208,6 +1322,33 @@ export class FoundryService {
     ] as const) {
       if (input[field].trim().length === 0) {
         throw new BadRequestException(`Foundry enable execution ${field} is required`);
+      }
+    }
+  }
+
+  private assertDisableExecutionInput(input: FoundryDisableExecutionInput) {
+    if (!MODULE_KEY_PATTERN.test(input.module_key)) {
+      throw new BadRequestException('Foundry disable execution module_key must use module key syntax');
+    }
+    if (!SEMVER_PATTERN.test(input.module_version)) {
+      throw new BadRequestException('Foundry disable execution module_version must be semver');
+    }
+    if (!HEX_SHA256_PATTERN.test(input.manifest_hash)) {
+      throw new BadRequestException('Foundry disable execution manifest_hash must be a SHA-256 hex digest');
+    }
+    if (input.gatekeeper_outcome !== 'ALLOW') {
+      throw new BadRequestException('Foundry disable execution requires Gatekeeper ALLOW');
+    }
+    for (const field of [
+      'gatekeeper_decision_token',
+      'evidence_ref',
+      'retention_plan_ref',
+      'organization_id',
+      'actor_user_id',
+      'correlation_id',
+    ] as const) {
+      if (input[field].trim().length === 0) {
+        throw new BadRequestException(`Foundry disable execution ${field} is required`);
       }
     }
   }
