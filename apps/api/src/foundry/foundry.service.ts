@@ -228,6 +228,64 @@ export type FoundryInstallPreflightResponse = {
   };
 };
 
+export type FoundryInstallExecutionInput = {
+  module_key: string;
+  module_version: string;
+  manifest_hash: string;
+  gatekeeper_outcome: FoundryGatekeeperTransitionOutcome;
+  gatekeeper_decision_token: string;
+  evidence_ref: string;
+  migration_plan_ref: string;
+  rollback_plan_ref: string;
+  compatibility_result: FoundryCompatibilityCheckResult;
+  organization_id: string;
+  actor_user_id: string;
+  correlation_id: string;
+};
+
+export type FoundryInstallExecutionReceipt = {
+  execution_id: string;
+  receipt_hash: string;
+  module_key: string;
+  module_version: string;
+  manifest_hash: string;
+  action_key: 'module.install';
+  status_from: 'installable';
+  status_to: 'installed';
+  gatekeeper_outcome: FoundryGatekeeperTransitionOutcome;
+  gatekeeper_decision_token: string;
+  foundry_execution_completed: true;
+  lifecycle_transition: FoundryLifecycleTransitionPlan;
+  migration: {
+    plan_ref: string;
+    transaction_required: true;
+    destructive_migration_allowed: false;
+  };
+  rollback: {
+    plan_ref: string;
+    required_before_execution: true;
+  };
+  registry: {
+    next_status: 'installed';
+    persistence_required: true;
+  };
+  capability_seed: {
+    required_after_install: true;
+    business_capabilities_allowed: false;
+  };
+  evidence: {
+    evidence_ref: string;
+    receipt_required: true;
+    receipt_storage_deferred_to: 'P5B-012c';
+  };
+  audit: {
+    event_type: 'foundry.install.executed';
+    organization_id: string;
+    actor_user_id: string;
+    correlation_id: string;
+  };
+};
+
 type FoundryCapabilitySpec = {
   key: string;
   module_key: string;
@@ -415,6 +473,78 @@ export class FoundryService {
         allowed_after_preflight: decision?.decision === 'ALLOW',
         executed: false,
         next_step: 'P5B-012b Foundry install execution',
+      },
+    };
+  }
+
+  executeInstall(input: FoundryInstallExecutionInput): FoundryInstallExecutionReceipt {
+    this.assertInstallExecutionInput(input);
+
+    const lifecycleTransition = this.assertLifecycleTransition({
+      module_key: input.module_key,
+      from_state: 'installable',
+      to_state: 'installed',
+      action_key: FOUNDRY_INSTALL_ACTION_KEY,
+      gatekeeper_outcome: input.gatekeeper_outcome,
+      evidence_ref: input.evidence_ref,
+    });
+    const receiptBasis = {
+      module_key: input.module_key,
+      module_version: input.module_version,
+      manifest_hash: input.manifest_hash,
+      action_key: FOUNDRY_INSTALL_ACTION_KEY,
+      gatekeeper_outcome: input.gatekeeper_outcome,
+      gatekeeper_decision_token: input.gatekeeper_decision_token,
+      evidence_ref: input.evidence_ref,
+      migration_plan_ref: input.migration_plan_ref,
+      rollback_plan_ref: input.rollback_plan_ref,
+      compatibility_result_hash: sha256Hex(stableJsonStringify(input.compatibility_result)),
+      organization_id: input.organization_id,
+      actor_user_id: input.actor_user_id,
+      correlation_id: input.correlation_id,
+    };
+    const receiptHash = sha256Hex(stableJsonStringify(receiptBasis));
+
+    return {
+      execution_id: `foundry-install-${receiptHash.slice(0, 16)}`,
+      receipt_hash: receiptHash,
+      module_key: input.module_key,
+      module_version: input.module_version,
+      manifest_hash: input.manifest_hash,
+      action_key: FOUNDRY_INSTALL_ACTION_KEY,
+      status_from: 'installable',
+      status_to: 'installed',
+      gatekeeper_outcome: input.gatekeeper_outcome,
+      gatekeeper_decision_token: input.gatekeeper_decision_token,
+      foundry_execution_completed: true,
+      lifecycle_transition: lifecycleTransition,
+      migration: {
+        plan_ref: input.migration_plan_ref,
+        transaction_required: true,
+        destructive_migration_allowed: false,
+      },
+      rollback: {
+        plan_ref: input.rollback_plan_ref,
+        required_before_execution: true,
+      },
+      registry: {
+        next_status: 'installed',
+        persistence_required: true,
+      },
+      capability_seed: {
+        required_after_install: true,
+        business_capabilities_allowed: false,
+      },
+      evidence: {
+        evidence_ref: input.evidence_ref,
+        receipt_required: true,
+        receipt_storage_deferred_to: 'P5B-012c',
+      },
+      audit: {
+        event_type: 'foundry.install.executed',
+        organization_id: input.organization_id,
+        actor_user_id: input.actor_user_id,
+        correlation_id: input.correlation_id,
       },
     };
   }
@@ -800,6 +930,37 @@ export class FoundryService {
     for (const field of ['migration_plan_ref', 'rollback_plan_ref', 'evidence_package_ref', 'correlation_id'] as const) {
       if (input[field].trim().length === 0) {
         throw new BadRequestException(`Foundry install preflight ${field} is required`);
+      }
+    }
+  }
+
+  private assertInstallExecutionInput(input: FoundryInstallExecutionInput) {
+    if (!MODULE_KEY_PATTERN.test(input.module_key)) {
+      throw new BadRequestException('Foundry install execution module_key must use module key syntax');
+    }
+    if (!SEMVER_PATTERN.test(input.module_version)) {
+      throw new BadRequestException('Foundry install execution module_version must be semver');
+    }
+    if (!HEX_SHA256_PATTERN.test(input.manifest_hash)) {
+      throw new BadRequestException('Foundry install execution manifest_hash must be a SHA-256 hex digest');
+    }
+    if (input.gatekeeper_outcome !== 'ALLOW') {
+      throw new BadRequestException('Foundry install execution requires Gatekeeper ALLOW');
+    }
+    if (input.compatibility_result.compatible !== true || input.compatibility_result.module_key !== input.module_key) {
+      throw new BadRequestException('Foundry install execution requires compatible module result');
+    }
+    for (const field of [
+      'gatekeeper_decision_token',
+      'evidence_ref',
+      'migration_plan_ref',
+      'rollback_plan_ref',
+      'organization_id',
+      'actor_user_id',
+      'correlation_id',
+    ] as const) {
+      if (input[field].trim().length === 0) {
+        throw new BadRequestException(`Foundry install execution ${field} is required`);
       }
     }
   }
