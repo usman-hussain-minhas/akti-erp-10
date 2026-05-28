@@ -1,7 +1,7 @@
 import { createHash } from 'node:crypto';
 
-import { ConflictException, Injectable } from '@nestjs/common';
-import { type Capability, type ModuleRegistryEntry, type Prisma } from '../prisma/prisma-client';
+import { BadRequestException, ConflictException, Injectable } from '@nestjs/common';
+import { type Capability, type ModuleLifecycleEvent, type ModuleRegistryEntry, type Prisma } from '../prisma/prisma-client';
 
 import { PrismaService } from '../prisma/prisma.service';
 
@@ -85,6 +85,26 @@ type ModuleListResponse = {
   items: Array<Pick<ModuleRegistryEntry, 'module_key' | 'display_name' | 'version' | 'status' | 'manifest_hash'>>;
 };
 
+type ModuleRegistryEntrySnapshot = Pick<
+  ModuleRegistryEntry,
+  'module_key' | 'display_name' | 'version' | 'status' | 'manifest_hash'
+>;
+
+type ModuleLifecycleEventSnapshot = Pick<
+  ModuleLifecycleEvent,
+  | 'id'
+  | 'organization_id'
+  | 'module_key'
+  | 'from_status'
+  | 'to_status'
+  | 'action_key'
+  | 'actor_user_id'
+  | 'evidence_ref'
+  | 'reason'
+  | 'metadata'
+  | 'created_at'
+>;
+
 export type ModuleRegistrySchemaBaseline = {
   registry_model: 'ModuleRegistryEntry';
   lifecycle_event_model: 'ModuleLifecycleEvent';
@@ -95,6 +115,47 @@ export type ModuleRegistrySchemaBaseline = {
   lifecycle_event_indexes: string[];
 };
 
+export type ModuleLifecycleStatus = (typeof MODULE_LIFECYCLE_STATUSES)[number];
+
+export type PersistModuleRegistryEntryInput = {
+  module_key: string;
+  display_name: string;
+  version: string;
+  status: ModuleLifecycleStatus;
+  manifest_hash: string;
+};
+
+export type PersistModuleLifecycleTransitionInput = {
+  module_key: string;
+  to_status: ModuleLifecycleStatus;
+  action_key: string;
+  organization_id?: string | null;
+  actor_user_id?: string | null;
+  evidence_ref?: string | null;
+  reason?: string | null;
+  metadata?: Record<string, unknown>;
+};
+
+export type PersistModuleLifecycleTransitionResult = {
+  module: ModuleRegistryEntrySnapshot;
+  lifecycle_event: ModuleLifecycleEventSnapshot;
+};
+
+export const MODULE_LIFECYCLE_STATUSES = [
+  'proposed',
+  'certified',
+  'installable',
+  'installed',
+  'enabled',
+  'disabled',
+  'update_available',
+  'updating',
+  'rollback_required',
+  'retiring',
+  'uninstalled',
+  'blocked',
+] as const;
+
 const ACCESS_CORE_MODULE_KEY = 'core.access';
 const ACCESS_POLICY_MANAGE_CAPABILITY_KEY = 'access.policy.manage';
 const PLATFORM_SHELL_ACCESS_CAPABILITY_KEY = 'platform.shell.access';
@@ -103,6 +164,10 @@ const ACCESS_CORE_APPROVED_SEED_CAPABILITY_KEYS = new Set([
   ACCESS_POLICY_MANAGE_CAPABILITY_KEY,
   PLATFORM_SHELL_ACCESS_CAPABILITY_KEY,
 ]);
+const MODULE_LIFECYCLE_STATUS_SET = new Set<string>(MODULE_LIFECYCLE_STATUSES);
+const MODULE_KEY_PATTERN = /^[a-z][a-z0-9]*(?:-[a-z0-9]+)*(?:\.[a-z][a-z0-9]*(?:-[a-z0-9]+)*)+$/;
+const MODULE_ACTION_KEY_PATTERN = /^[a-z][a-z0-9]*(?:[_.-][a-z0-9]+)*$/;
+const SEMVER_PATTERN = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$/;
 
 const nativeImport = new Function('specifier', 'return import(specifier)') as (
   specifier: string,
@@ -449,4 +514,142 @@ export class ModuleRegistryService {
 
     return { items };
   }
+
+  async persistModuleRegistryEntry(
+    input: PersistModuleRegistryEntryInput,
+    db: DbClient = this.prisma,
+  ): Promise<ModuleRegistryEntrySnapshot> {
+    assertModuleRegistryEntryInput(input);
+
+    return db.moduleRegistryEntry.upsert({
+      where: {
+        module_key: input.module_key,
+      },
+      create: {
+        module_key: input.module_key,
+        display_name: input.display_name,
+        version: input.version,
+        status: input.status,
+        manifest_hash: input.manifest_hash,
+      },
+      update: {
+        display_name: input.display_name,
+        version: input.version,
+        status: input.status,
+        manifest_hash: input.manifest_hash,
+      },
+      select: moduleRegistryEntrySnapshotSelect,
+    });
+  }
+
+  async persistModuleLifecycleTransition(
+    input: PersistModuleLifecycleTransitionInput,
+    db: DbClient = this.prisma,
+  ): Promise<PersistModuleLifecycleTransitionResult> {
+    assertModuleLifecycleTransitionInput(input);
+
+    const existingModule = await db.moduleRegistryEntry.findUnique({
+      where: {
+        module_key: input.module_key,
+      },
+      select: moduleRegistryEntrySnapshotSelect,
+    });
+    if (!existingModule) {
+      throw new ConflictException('Module lifecycle transition requires an existing registry entry');
+    }
+
+    const module = await db.moduleRegistryEntry.update({
+      where: {
+        module_key: input.module_key,
+      },
+      data: {
+        status: input.to_status,
+      },
+      select: moduleRegistryEntrySnapshotSelect,
+    });
+
+    const lifecycleEvent = await db.moduleLifecycleEvent.create({
+      data: {
+        organization_id: input.organization_id ?? null,
+        module_key: input.module_key,
+        from_status: existingModule.status,
+        to_status: input.to_status,
+        action_key: input.action_key,
+        actor_user_id: input.actor_user_id ?? null,
+        evidence_ref: input.evidence_ref ?? null,
+        reason: input.reason ?? null,
+        metadata: normalizeLifecycleMetadata(input.metadata),
+      },
+      select: moduleLifecycleEventSnapshotSelect,
+    });
+
+    return {
+      module,
+      lifecycle_event: lifecycleEvent,
+    };
+  }
+}
+
+const moduleRegistryEntrySnapshotSelect = {
+  module_key: true,
+  display_name: true,
+  version: true,
+  status: true,
+  manifest_hash: true,
+} satisfies Prisma.ModuleRegistryEntrySelect;
+
+const moduleLifecycleEventSnapshotSelect = {
+  id: true,
+  organization_id: true,
+  module_key: true,
+  from_status: true,
+  to_status: true,
+  action_key: true,
+  actor_user_id: true,
+  evidence_ref: true,
+  reason: true,
+  metadata: true,
+  created_at: true,
+} satisfies Prisma.ModuleLifecycleEventSelect;
+
+function assertModuleRegistryEntryInput(input: PersistModuleRegistryEntryInput) {
+  assertModuleKey(input.module_key);
+  assertNonEmpty(input.display_name, 'Module registry entry requires display_name');
+  if (!SEMVER_PATTERN.test(input.version)) {
+    throw new BadRequestException('Module registry entry requires a semver version');
+  }
+  assertLifecycleStatus(input.status);
+  if (!/^[a-f0-9]{64}$/.test(input.manifest_hash)) {
+    throw new BadRequestException('Module registry entry requires a sha256 manifest_hash');
+  }
+}
+
+function assertModuleLifecycleTransitionInput(input: PersistModuleLifecycleTransitionInput) {
+  assertModuleKey(input.module_key);
+  assertLifecycleStatus(input.to_status);
+  if (!MODULE_ACTION_KEY_PATTERN.test(input.action_key)) {
+    throw new BadRequestException('Module lifecycle transition requires an action_key');
+  }
+}
+
+function assertModuleKey(moduleKey: string) {
+  if (!MODULE_KEY_PATTERN.test(moduleKey)) {
+    throw new BadRequestException('Module registry persistence requires a valid module_key');
+  }
+}
+
+function assertLifecycleStatus(status: string) {
+  if (!MODULE_LIFECYCLE_STATUS_SET.has(status)) {
+    throw new BadRequestException('Module registry persistence requires an approved lifecycle status');
+  }
+}
+
+function assertNonEmpty(value: string, message: string) {
+  if (value.trim().length === 0) {
+    throw new BadRequestException(message);
+  }
+}
+
+function normalizeLifecycleMetadata(input: Record<string, unknown> | undefined): Prisma.InputJsonValue {
+  return (input ?? {}) as Prisma.InputJsonValue;
 }
