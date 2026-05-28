@@ -72,6 +72,36 @@ type FoundryDependencySpec = {
   min_version?: string;
 };
 
+type FoundryInstalledModuleForCompatibility = {
+  module_key: string;
+  version: string;
+  status: string;
+};
+
+export type FoundryCompatibilityCheckInput = {
+  manifest: FoundryModuleManifestCandidate;
+  platform_core_version: string;
+  installed_modules?: FoundryInstalledModuleForCompatibility[];
+};
+
+export type FoundryCompatibilityDependencyResult = {
+  module_key: string;
+  required_min_version: string | null;
+  installed_version: string | null;
+  installed_status: string | null;
+  compatible: boolean;
+  reason: string | null;
+};
+
+export type FoundryCompatibilityCheckResult = {
+  compatible: boolean;
+  module_key: string;
+  platform_core_version: string;
+  min_platform_version: string;
+  errors: string[];
+  dependency_results: FoundryCompatibilityDependencyResult[];
+};
+
 export type FoundryModuleManifestCandidate = {
   module_key: string;
   display_name: string;
@@ -177,6 +207,113 @@ export class FoundryService {
       throw new BadRequestException({
         message: 'Foundry module manifest validation failed',
         errors: result.errors,
+      });
+    }
+
+    return result;
+  }
+
+  checkCompatibility(input: FoundryCompatibilityCheckInput): FoundryCompatibilityCheckResult {
+    const errors: string[] = [];
+    const installedModules = new Map(
+      (input.installed_modules ?? []).map((module) => [module.module_key, module]),
+    );
+
+    if (!SEMVER_PATTERN.test(input.platform_core_version)) {
+      errors.push('platform_core_version must be semver');
+    }
+    if (!SEMVER_PATTERN.test(input.manifest.min_platform_version)) {
+      errors.push('manifest min_platform_version must be semver');
+    }
+    if (
+      SEMVER_PATTERN.test(input.platform_core_version) &&
+      SEMVER_PATTERN.test(input.manifest.min_platform_version) &&
+      compareSemver(input.manifest.min_platform_version, input.platform_core_version) > 0
+    ) {
+      errors.push(
+        `module ${input.manifest.module_key} requires platform ${input.manifest.min_platform_version} but current platform is ${input.platform_core_version}`,
+      );
+    }
+
+    const dependencyResults = input.manifest.dependencies.map((dependency) => {
+      const installed = installedModules.get(dependency.module_key);
+      if (!installed) {
+        return {
+          module_key: dependency.module_key,
+          required_min_version: dependency.min_version ?? null,
+          installed_version: null,
+          installed_status: null,
+          compatible: false,
+          reason: 'required dependency is not installed',
+        };
+      }
+
+      if (!['installed', 'enabled'].includes(installed.status)) {
+        return {
+          module_key: dependency.module_key,
+          required_min_version: dependency.min_version ?? null,
+          installed_version: installed.version,
+          installed_status: installed.status,
+          compatible: false,
+          reason: 'required dependency is not in an installable runtime state',
+        };
+      }
+
+      if (!SEMVER_PATTERN.test(installed.version)) {
+        return {
+          module_key: dependency.module_key,
+          required_min_version: dependency.min_version ?? null,
+          installed_version: installed.version,
+          installed_status: installed.status,
+          compatible: false,
+          reason: 'installed dependency version is not semver',
+        };
+      }
+
+      if (dependency.min_version && compareSemver(installed.version, dependency.min_version) < 0) {
+        return {
+          module_key: dependency.module_key,
+          required_min_version: dependency.min_version,
+          installed_version: installed.version,
+          installed_status: installed.status,
+          compatible: false,
+          reason: 'installed dependency version is below required minimum',
+        };
+      }
+
+      return {
+        module_key: dependency.module_key,
+        required_min_version: dependency.min_version ?? null,
+        installed_version: installed.version,
+        installed_status: installed.status,
+        compatible: true,
+        reason: null,
+      };
+    });
+
+    for (const dependencyResult of dependencyResults) {
+      if (!dependencyResult.compatible && dependencyResult.reason) {
+        errors.push(`dependency ${dependencyResult.module_key}: ${dependencyResult.reason}`);
+      }
+    }
+
+    return {
+      compatible: errors.length === 0,
+      module_key: input.manifest.module_key,
+      platform_core_version: input.platform_core_version,
+      min_platform_version: input.manifest.min_platform_version,
+      errors,
+      dependency_results: dependencyResults,
+    };
+  }
+
+  assertCompatibility(input: FoundryCompatibilityCheckInput): FoundryCompatibilityCheckResult {
+    const result = this.checkCompatibility(input);
+    if (!result.compatible) {
+      throw new BadRequestException({
+        message: 'Foundry module compatibility check failed',
+        errors: result.errors,
+        dependency_results: result.dependency_results,
       });
     }
 
@@ -367,4 +504,24 @@ function canonicalize(input: unknown): unknown {
 
 function sha256Hex(input: string) {
   return createHash('sha256').update(input).digest('hex');
+}
+
+function compareSemver(left: string, right: string) {
+  const leftParts = parseSemverCore(left);
+  const rightParts = parseSemverCore(right);
+
+  for (let index = 0; index < 3; index += 1) {
+    const difference = leftParts[index] - rightParts[index];
+    if (difference !== 0) {
+      return difference;
+    }
+  }
+
+  return 0;
+}
+
+function parseSemverCore(version: string): [number, number, number] {
+  const [major = '0', minor = '0', patch = '0'] = version.split(/[+-]/)[0].split('.');
+
+  return [Number(major), Number(minor), Number(patch)];
 }
