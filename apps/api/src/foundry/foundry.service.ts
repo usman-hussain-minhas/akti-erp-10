@@ -286,6 +286,40 @@ export type FoundryInstallExecutionReceipt = {
   };
 };
 
+export type FoundryInstallEvidenceReceiptInput = {
+  install_execution_receipt: FoundryInstallExecutionReceipt;
+  evidence_package: FoundryEvidencePackage;
+  received_by_actor_id: string;
+  organization_id: string;
+  correlation_id: string;
+  received_at: string;
+};
+
+export type FoundryInstallEvidenceReceipt = {
+  receipt_id: string;
+  receipt_hash: string;
+  module_key: string;
+  module_version: string;
+  action_key: 'module.install';
+  install_execution_id: string;
+  install_execution_hash: string;
+  evidence_package_id: string;
+  evidence_package_hash: string;
+  accepted: true;
+  received_by_actor_id: string;
+  organization_id: string;
+  correlation_id: string;
+  received_at: string;
+  audit: {
+    event_type: 'foundry.install.evidence.received';
+    audit_outbox_storage_required: true;
+  };
+  registry: {
+    installed_status_evidence_required: true;
+    next_status: 'installed';
+  };
+};
+
 type FoundryCapabilitySpec = {
   key: string;
   module_key: string;
@@ -545,6 +579,49 @@ export class FoundryService {
         organization_id: input.organization_id,
         actor_user_id: input.actor_user_id,
         correlation_id: input.correlation_id,
+      },
+    };
+  }
+
+  receiveInstallEvidence(input: FoundryInstallEvidenceReceiptInput): FoundryInstallEvidenceReceipt {
+    this.assertInstallEvidenceReceiptInput(input);
+
+    const receiptBasis = {
+      install_execution_id: input.install_execution_receipt.execution_id,
+      install_execution_hash: input.install_execution_receipt.receipt_hash,
+      evidence_package_id: input.evidence_package.package_id,
+      evidence_package_hash: input.evidence_package.package_hash,
+      module_key: input.install_execution_receipt.module_key,
+      module_version: input.install_execution_receipt.module_version,
+      organization_id: input.organization_id,
+      correlation_id: input.correlation_id,
+      received_by_actor_id: input.received_by_actor_id,
+      received_at: input.received_at,
+    };
+    const receiptHash = sha256Hex(stableJsonStringify(receiptBasis));
+
+    return {
+      receipt_id: `foundry-install-evidence-${receiptHash.slice(0, 16)}`,
+      receipt_hash: receiptHash,
+      module_key: input.install_execution_receipt.module_key,
+      module_version: input.install_execution_receipt.module_version,
+      action_key: FOUNDRY_INSTALL_ACTION_KEY,
+      install_execution_id: input.install_execution_receipt.execution_id,
+      install_execution_hash: input.install_execution_receipt.receipt_hash,
+      evidence_package_id: input.evidence_package.package_id,
+      evidence_package_hash: input.evidence_package.package_hash,
+      accepted: true,
+      received_by_actor_id: input.received_by_actor_id,
+      organization_id: input.organization_id,
+      correlation_id: input.correlation_id,
+      received_at: input.received_at,
+      audit: {
+        event_type: 'foundry.install.evidence.received',
+        audit_outbox_storage_required: true,
+      },
+      registry: {
+        installed_status_evidence_required: true,
+        next_status: 'installed',
       },
     };
   }
@@ -962,6 +1039,40 @@ export class FoundryService {
       if (input[field].trim().length === 0) {
         throw new BadRequestException(`Foundry install execution ${field} is required`);
       }
+    }
+  }
+
+  private assertInstallEvidenceReceiptInput(input: FoundryInstallEvidenceReceiptInput) {
+    const execution = input.install_execution_receipt;
+    const evidence = input.evidence_package;
+
+    if (
+      execution.action_key !== FOUNDRY_INSTALL_ACTION_KEY ||
+      execution.status_to !== 'installed' ||
+      execution.foundry_execution_completed !== true
+    ) {
+      throw new BadRequestException('Foundry install evidence receipt requires a completed install execution receipt');
+    }
+    if (evidence.complete !== true || evidence.foundry_execution_allowed !== true) {
+      throw new BadRequestException('Foundry install evidence receipt requires a complete evidence package');
+    }
+    if (evidence.lifecycle_action !== FOUNDRY_INSTALL_ACTION_KEY) {
+      throw new BadRequestException('Foundry install evidence receipt requires module.install evidence');
+    }
+    if (evidence.module_key !== execution.module_key || evidence.module_version !== execution.module_version) {
+      throw new BadRequestException('Foundry install evidence receipt module identity mismatch');
+    }
+    if (evidence.organization_id !== input.organization_id || execution.audit.organization_id !== input.organization_id) {
+      throw new BadRequestException('Foundry install evidence receipt organization mismatch');
+    }
+    if (evidence.correlation_id !== input.correlation_id || execution.audit.correlation_id !== input.correlation_id) {
+      throw new BadRequestException('Foundry install evidence receipt correlation mismatch');
+    }
+    if (input.received_by_actor_id.trim().length === 0) {
+      throw new BadRequestException('Foundry install evidence receipt received_by_actor_id is required');
+    }
+    if (!isValidIsoTimestamp(input.received_at)) {
+      throw new BadRequestException('Foundry install evidence receipt received_at must be an ISO timestamp');
     }
   }
 
