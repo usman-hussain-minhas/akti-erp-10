@@ -139,6 +139,11 @@ class Phase1GatekeeperDecisionProvider implements GatekeeperDecisionProvider {
       return this.deny(request, 'gatekeeper.active-groups.missing', 'Gatekeeper context is missing active actor groups.');
     }
 
+    const migrationRollbackRiskDecision = this.evaluateMigrationRollbackRisk(request);
+    if (migrationRollbackRiskDecision) {
+      return migrationRollbackRiskDecision;
+    }
+
     const moduleHealth = request.context.module_health[policy.module_key];
     if (moduleHealth === undefined) {
       return this.degradedBlock(
@@ -234,6 +239,155 @@ class Phase1GatekeeperDecisionProvider implements GatekeeperDecisionProvider {
       reauth_required: false,
       expires_at: null,
     };
+  }
+
+  private approvalRequired(
+    request: GatekeeperRequest,
+    code: string,
+    message: string,
+    evidenceKey: string,
+    evidenceLabel: string,
+    approvalChainKey: string,
+  ): GatekeeperDecisionResult {
+    const reason = this.reason(code, message, 'warning');
+    const evidenceRequirement = {
+      evidence_key: evidenceKey,
+      label: evidenceLabel,
+      required: true,
+    };
+
+    return {
+      decision: 'APPROVAL_REQUIRED',
+      request_id: request.request_id,
+      capability_key: request.capability_key,
+      actor_user_id: request.actor_user_id,
+      organization_id: request.organization_id,
+      reasons: [reason],
+      checks: [
+        {
+          check_key: code,
+          status: 'warning',
+          reason,
+          evidence_required: [evidenceRequirement],
+          evidence_present: [],
+        },
+      ],
+      required_evidence: [evidenceRequirement],
+      missing_evidence: [evidenceKey],
+      approval_chain_key: approvalChainKey,
+      approval_request_id: `approval_${request.request_id}`,
+      reauth_required: false,
+      expires_at: null,
+    };
+  }
+
+  private stopForReview(request: GatekeeperRequest, code: string, message: string): GatekeeperDecisionResult {
+    const reason = this.reason(code, message, 'error');
+    const evidenceRequirement = {
+      evidence_key: 'gatekeeper.platform-architect.review',
+      label: 'Platform architect review',
+      required: true,
+    };
+
+    return {
+      decision: 'STOP_FOR_REVIEW',
+      request_id: request.request_id,
+      capability_key: request.capability_key,
+      actor_user_id: request.actor_user_id,
+      organization_id: request.organization_id,
+      reasons: [reason],
+      checks: [
+        {
+          check_key: code,
+          status: 'failed',
+          reason,
+          evidence_required: [evidenceRequirement],
+          evidence_present: [],
+        },
+      ],
+      required_evidence: [evidenceRequirement],
+      missing_evidence: ['gatekeeper.platform-architect.review'],
+      reauth_required: false,
+      expires_at: null,
+    };
+  }
+
+  private evaluateMigrationRollbackRisk(request: GatekeeperRequest): GatekeeperDecisionResult | null {
+    const riskSurface = this.payloadString(request.payload, 'risk_surface');
+    const migrationRisk = this.payloadString(request.payload, 'migration_risk');
+    const rollbackRisk = this.payloadString(request.payload, 'rollback_risk');
+    const actionKey = this.payloadString(request.payload, 'action_key');
+    const isMigrationRisk =
+      riskSurface === 'migration' ||
+      migrationRisk !== null ||
+      actionKey?.includes('migration') === true;
+    const isRollbackRisk =
+      riskSurface === 'rollback' ||
+      rollbackRisk !== null ||
+      actionKey?.includes('rollback') === true;
+
+    if (!isMigrationRisk && !isRollbackRisk) {
+      return null;
+    }
+
+    if (
+      this.payloadBoolean(request.payload, 'policy_violation') === true ||
+      migrationRisk === 'policy_violation' ||
+      rollbackRisk === 'policy_violation'
+    ) {
+      return this.deny(
+        request,
+        'gatekeeper.risk.policy-violation',
+        'Gatekeeper denied migration or rollback risk input that violates platform policy.',
+      );
+    }
+
+    if (
+      migrationRisk === 'destructive' ||
+      migrationRisk === 'unsafe' ||
+      migrationRisk === 'critical' ||
+      this.payloadBoolean(request.payload, 'destructive_migration') === true ||
+      this.payloadBoolean(request.payload, 'tenant_isolation_risk') === true ||
+      this.payloadBoolean(request.payload, 'secret_risk') === true ||
+      this.payloadBoolean(request.payload, 'boundary_unclear') === true
+    ) {
+      return this.stopForReview(
+        request,
+        'gatekeeper.migration.stop-for-review',
+        'Gatekeeper requires platform architect review for destructive, unsafe, or unclear migration risk.',
+      );
+    }
+
+    if (
+      rollbackRisk === 'missing_evidence' ||
+      this.payloadBoolean(request.payload, 'rollback_evidence_present') === false
+    ) {
+      return this.approvalRequired(
+        request,
+        'gatekeeper.rollback.approval-required',
+        'Gatekeeper requires rollback evidence approval before this change can continue.',
+        'gatekeeper.rollback.evidence',
+        'Rollback evidence',
+        'gatekeeper.rollback.approval',
+      );
+    }
+
+    return null;
+  }
+
+  private payloadString(payload: Record<string, unknown>, key: string): string | null {
+    const value = payload[key];
+    if (typeof value !== 'string') {
+      return null;
+    }
+
+    const trimmed = value.trim();
+    return trimmed.length > 0 ? trimmed : null;
+  }
+
+  private payloadBoolean(payload: Record<string, unknown>, key: string): boolean | null {
+    const value = payload[key];
+    return typeof value === 'boolean' ? value : null;
   }
 
   private check(
@@ -438,6 +592,10 @@ export class GatekeeperPreflightService {
   }
 
   private optionalPayloadString(payload: Record<string, unknown>, key: string): string | null {
+    return this.payloadString(payload, key);
+  }
+
+  private payloadString(payload: Record<string, unknown>, key: string): string | null {
     const value = payload[key];
     if (typeof value !== 'string') {
       return null;
