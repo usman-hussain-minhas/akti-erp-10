@@ -621,12 +621,25 @@ export class GatekeeperPreflightService {
         check_keys: decision.checks.map((check) => check.check_key),
         required_evidence: decision.required_evidence,
         missing_evidence: decision.missing_evidence,
+        evidence_record: this.buildEvidenceAuditRecord(decision),
         approval_chain_key: decision.approval_chain_key ?? null,
         approval_request_id: decision.approval_request_id ?? null,
         correlation_id: this.optionalPayloadString(request.payload, 'correlation_id'),
         evidence_intent: this.buildPreEnvelopeEvidenceIntent(request, decision, outcome),
       },
     });
+  }
+
+  private buildEvidenceAuditRecord(decision: GatekeeperDecisionResult) {
+    return {
+      record_key: 'gatekeeper.evidence.audit-record',
+      required_evidence_keys: decision.required_evidence.map((evidence) => evidence.evidence_key),
+      missing_evidence_keys: decision.missing_evidence,
+      evidence_present_keys: decision.checks.flatMap((check) => check.evidence_present),
+      check_keys: decision.checks.map((check) => check.check_key),
+      approval_chain_key: decision.approval_chain_key ?? null,
+      approval_request_id: decision.approval_request_id ?? null,
+    };
   }
 
   private buildPreEnvelopeEvidenceIntent(
