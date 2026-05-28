@@ -17,6 +17,7 @@ const ACCESS_POLICY_MANAGE_CAPABILITY_KEY = 'access.policy.manage';
 const ACCESS_MODULE_KEY = 'core.access';
 const PORTAL_MODE_SETTING_KEY = 'portal.mode';
 const DEFAULT_PORTAL_MODE: PortalMode = 'simple';
+const DEFAULT_WHITE_LABEL_MODE = 'none';
 const ORGANIZATION_CONFIGURATION_SCOPE_TYPES = new Set<PermissionScopeType>(['global', 'organization']);
 
 export const TENANT_CONFIG_SCHEMA_MODEL_BASELINE = {
@@ -49,6 +50,23 @@ type PortalModeResponse = {
   mode: PortalMode;
   source: 'default' | 'stored';
   updated_at: string | null;
+};
+
+export type TenantConfigurationResponse = {
+  organization_id: string;
+  storage_model: TenantConfigSchemaModelBaseline;
+  portal_mode: PortalModeResponse;
+  white_label: {
+    mode: typeof DEFAULT_WHITE_LABEL_MODE;
+    source: 'default';
+    updated_at: null;
+  };
+  mutation_policy: {
+    capability_key: typeof ACCESS_POLICY_MANAGE_CAPABILITY_KEY;
+    module_key: typeof ACCESS_MODULE_KEY;
+    gatekeeper_required: true;
+    audit_required: true;
+  };
 };
 
 type PortalModeSettingRow = {
@@ -128,6 +146,30 @@ export class ConfigurationService {
     }
 
     return this.toPortalModeResponse(setting, 'stored');
+  }
+
+  async getTenantConfiguration(
+    organizationId: string,
+    actorUserIdRaw?: string,
+  ): Promise<TenantConfigurationResponse> {
+    const portalMode = await this.getPortalMode(organizationId, actorUserIdRaw);
+
+    return {
+      organization_id: portalMode.organization_id,
+      storage_model: this.getTenantConfigSchemaModelBaseline(),
+      portal_mode: portalMode,
+      white_label: {
+        mode: DEFAULT_WHITE_LABEL_MODE,
+        source: 'default',
+        updated_at: null,
+      },
+      mutation_policy: {
+        capability_key: ACCESS_POLICY_MANAGE_CAPABILITY_KEY,
+        module_key: ACCESS_MODULE_KEY,
+        gatekeeper_required: true,
+        audit_required: true,
+      },
+    };
   }
 
   async updatePortalMode(
