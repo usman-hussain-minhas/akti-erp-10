@@ -18,6 +18,8 @@ export type TrustedRequestContext = {
   expires_at: string;
 };
 
+export type TrustedActorContext = Pick<TrustedRequestContext, 'organization_id' | 'actor_user_id'>;
+
 export type Phase3SessionPayload = {
   organization_id: string;
   actor_user_id: string;
