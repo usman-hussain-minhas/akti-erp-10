@@ -537,8 +537,30 @@ export class GatekeeperPreflightService {
         approval_chain_key: decision.approval_chain_key ?? null,
         approval_request_id: decision.approval_request_id ?? null,
         correlation_id: this.optionalPayloadString(request.payload, 'correlation_id'),
+        evidence_intent: this.buildPreEnvelopeEvidenceIntent(request, decision, outcome),
       },
     });
+  }
+
+  private buildPreEnvelopeEvidenceIntent(
+    request: GatekeeperRequest,
+    decision: GatekeeperDecisionResult,
+    outcome: GatekeeperCanonicalOutcome,
+  ) {
+    return {
+      intent_key: 'gatekeeper.pre-envelope.evidence-intent',
+      event_envelope_status: 'pre-envelope-intent-only',
+      producer: 'gatekeeper.preflight',
+      request_id: request.request_id,
+      organization_id: request.organization_id,
+      actor_user_id: request.actor_user_id,
+      outcome,
+      required_evidence_keys: decision.required_evidence.map((evidence) => evidence.evidence_key),
+      missing_evidence_keys: decision.missing_evidence,
+      check_keys: decision.checks.map((check) => check.check_key),
+      evidence_present_keys: decision.checks.flatMap((check) => check.evidence_present),
+      correlation_id: this.optionalPayloadString(request.payload, 'correlation_id'),
+    };
   }
 
   private async recordDecision(
