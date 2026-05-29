@@ -18,6 +18,11 @@ The visual reference images are visual targets for layout quality, theme feel, s
 - No Phase 6 business modules as active surfaces.
 - No white-label upload/write UI.
 - No production auth assumptions.
+- No production deployment or secrets.
+- No workflow builder.
+- No AI assistant.
+- No runtime AI.
+- No marketplace.
 - Dynamic `GET /platform/shell/actions` remains deferred.
 - Search scope remains limited to `WorkflowDefinition` and `WorkflowInstance`.
 

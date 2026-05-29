@@ -15,6 +15,14 @@ The reference images are visual targets only, not data authority. Components mus
 - No fake data.
 - No hardcoded module feature bullets.
 - No upload/write branding UI.
+- No workflow builder.
+- No AI assistant.
+- No runtime AI.
+- No marketplace.
+- No white-label upload/write UI.
+- No production auth.
+- No production deployment.
+- No secrets.
 - CRM is visible label only over existing Lead Desk technical surfaces.
 - Visibility does not equal authority. Contract phrase: visibility does not equal authority.
 

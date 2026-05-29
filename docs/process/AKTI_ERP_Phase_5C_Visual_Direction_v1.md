@@ -105,6 +105,8 @@ Visibility does not equal authority. Contract phrase: visibility does not equal 
 
 Cards in the visual references for Admissions, Finance, HR, and Analytics/Operations are visual examples only unless backed by real approved manifests, routes, screen contracts, and phase scope. Phase 5C implementation must not show unsupported future modules as active/openable cards.
 
+The Modules card is a legitimate active Phase 5B1 platform surface backed by `GET /platform/modules` and the Foundry/module registry substrate. It is not a future example card. Its `visibility_state` and data source are real. The Modules card Open action is conditional on an approved frontend route for `/modules`; if `/modules` is not approved or does not exist, the card may show module availability/status but must not present a working Open Modules action.
+
 ## 9. Module Card Bullet-Point Decision
 
 The visual references show feature bullet lists inside module cards. Current Phase 5B1 module manifest display metadata has display name, display description, icon key, category, route, visibility state, and required capabilities, but no approved source field for feature bullet lists.
