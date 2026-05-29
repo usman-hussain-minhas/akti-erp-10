@@ -94,6 +94,33 @@ export type SearchApiResponse = {
   };
 };
 
+export type SearchFixtureRecord = {
+  record_id: string;
+  organization_id: string;
+  target_key: SearchIndexTargetKey;
+  capability_key: string;
+  searchable_text: string;
+};
+
+export type SearchTenantIsolationFixtureInput = SearchQueryPlanInput & {
+  records: SearchFixtureRecord[];
+  latency_samples_ms: number[];
+  p95_threshold_ms?: number;
+};
+
+export type SearchTenantIsolationFixtureResult = {
+  plan: SearchQueryPlan;
+  result_ids: string[];
+  excluded_cross_tenant_ids: string[];
+  excluded_unauthorized_ids: string[];
+  p95_ms: number;
+  p95_threshold_ms: number;
+  p95_passed: boolean;
+  tenant_isolation_enforced: true;
+  capability_filter_enforced: true;
+  records_examined: number;
+};
+
 @Injectable()
 export class SearchService {
   searchSchemaIndexBaseline(): SearchSchemaIndexBaseline {
@@ -201,6 +228,50 @@ export class SearchService {
     };
   }
 
+  runTenantIsolationFixture(input: SearchTenantIsolationFixtureInput): SearchTenantIsolationFixtureResult {
+    const plan = this.buildTenantCapabilitySearchPlan(input);
+    const records = this.fixtureRecords(input.records);
+    const targetKeys = new Set(plan.targets.map((target) => target.target_key));
+    const capabilityKeys = new Set(plan.capability_keys);
+    const normalizedQuery = plan.query.toLowerCase();
+    const resultIds: string[] = [];
+    const excludedCrossTenantIds: string[] = [];
+    const excludedUnauthorizedIds: string[] = [];
+
+    for (const record of records) {
+      if (!targetKeys.has(record.target_key)) {
+        continue;
+      }
+      if (record.organization_id !== plan.organization_id) {
+        excludedCrossTenantIds.push(record.record_id);
+        continue;
+      }
+      if (!capabilityKeys.has(record.capability_key)) {
+        excludedUnauthorizedIds.push(record.record_id);
+        continue;
+      }
+      if (record.searchable_text.toLowerCase().includes(normalizedQuery)) {
+        resultIds.push(record.record_id);
+      }
+    }
+
+    const p95ThresholdMs = input.p95_threshold_ms ?? 200;
+    const p95Ms = this.p95(input.latency_samples_ms);
+
+    return {
+      plan,
+      result_ids: resultIds.sort(),
+      excluded_cross_tenant_ids: excludedCrossTenantIds.sort(),
+      excluded_unauthorized_ids: excludedUnauthorizedIds.sort(),
+      p95_ms: p95Ms,
+      p95_threshold_ms: p95ThresholdMs,
+      p95_passed: p95Ms < p95ThresholdMs,
+      tenant_isolation_enforced: true,
+      capability_filter_enforced: true,
+      records_examined: records.length,
+    };
+  }
+
   private targets(targetKeys?: SearchIndexTargetKey[]): SearchIndexTarget[] {
     const baselineTargets = this.searchSchemaIndexBaseline().targets;
     if (targetKeys === undefined) {
@@ -269,6 +340,47 @@ export class SearchService {
     }
 
     return input;
+  }
+
+  private fixtureRecords(input: SearchFixtureRecord[]): SearchFixtureRecord[] {
+    if (!Array.isArray(input) || input.length === 0) {
+      throw new BadRequestException('search fixture records must not be empty');
+    }
+
+    return input.map((record) => ({
+      record_id: this.nonEmpty(record.record_id, 'fixture record_id'),
+      organization_id: this.nonEmpty(record.organization_id, 'fixture organization_id'),
+      target_key: this.fixtureTarget(record.target_key),
+      capability_key: this.nonEmpty(record.capability_key, 'fixture capability_key'),
+      searchable_text: this.nonEmpty(record.searchable_text, 'fixture searchable_text'),
+    }));
+  }
+
+  private fixtureTarget(input: SearchIndexTargetKey): SearchIndexTargetKey {
+    const allowed = new Set(this.searchSchemaIndexBaseline().targets.map((target) => target.target_key));
+    if (!allowed.has(input)) {
+      throw new BadRequestException(`search fixture target ${input} is not approved`);
+    }
+
+    return input;
+  }
+
+  private p95(samples: number[]): number {
+    if (!Array.isArray(samples) || samples.length === 0) {
+      throw new BadRequestException('search latency_samples_ms must not be empty');
+    }
+
+    const sorted = samples
+      .map((sample) => {
+        if (!Number.isFinite(sample) || sample < 0) {
+          throw new BadRequestException('search latency sample must be a non-negative number');
+        }
+
+        return sample;
+      })
+      .sort((left, right) => left - right);
+
+    return sorted[Math.ceil(sorted.length * 0.95) - 1];
   }
 
   private optionalCursor(input: unknown): string | null {
