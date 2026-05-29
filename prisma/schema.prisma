@@ -34,6 +34,7 @@ model Organization {
   id                        String                 @id @default(cuid())
   slug                      String                 @unique
   display_name              String
+  short_name                String?
   status                    String
   created_at                DateTime               @default(now())
   updated_at                DateTime               @updatedAt
