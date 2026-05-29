@@ -144,6 +144,12 @@ export class EventOutboxService {
       event_type: PLATFORM_MUTATION_RECORDED_EVENT_TYPE,
       version: PLATFORM_MUTATION_RECORDED_EVENT_VERSION,
       idempotency_key: idempotencyKey,
+      source_module: 'platform.mutation',
+      subject: {
+        entity_type: input.entity_type,
+        entity_id: input.entity_id,
+      },
+      occurred_at: occurredAt,
       payload: {
         action_key: input.action_key,
         entity_type: input.entity_type,
