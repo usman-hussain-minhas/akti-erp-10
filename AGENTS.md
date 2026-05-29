@@ -126,7 +126,7 @@ When two sources conflict, the lower rank number wins. If conflict remains unres
 
 <skill>
 <name>spark-genesis</name>
-<version>0.2.0</version>
+<version>0.2.1</version>
 <description>Use when planning, auditing, generating, executing, resuming, or self-healing Codex phase work. Includes JSON ticket-pack audit, dependency graph checks, predictive stop patterns, scoped repair rules, and post-run learning filters.</description>
 <location>/Volumes/UsmanWork/Spark Genesis/skills/spark-genesis/SKILL.md</location>
 </skill>
