@@ -195,6 +195,28 @@ export type WorkflowQueryApiResponse = {
   };
 };
 
+export type WorkflowTenantIsolationFixtureRecord = {
+  workflow_id: string;
+  organization_id: string;
+  workflow_key: string;
+  current_state: string;
+};
+
+export type WorkflowTenantIsolationFixtureInput = {
+  organization_id: string;
+  actor_user_id: string;
+  records: WorkflowTenantIsolationFixtureRecord[];
+};
+
+export type WorkflowTenantIsolationFixtureResult = {
+  organization_id: string;
+  actor_user_id: string;
+  visible_workflow_ids: string[];
+  excluded_cross_tenant_ids: string[];
+  tenant_isolation_enforced: true;
+  records_examined: number;
+};
+
 @Injectable()
 export class WorkflowService {
   workflowPersistenceModelBaseline(): WorkflowPersistenceModelBaseline {
@@ -445,6 +467,43 @@ export class WorkflowService {
         event_type: 'workflow.instance.read',
         audit_required: true,
       },
+    };
+  }
+
+  runTenantIsolationFixture(input: WorkflowTenantIsolationFixtureInput): WorkflowTenantIsolationFixtureResult {
+    const organizationId = this.requireNonEmpty(input.organization_id, 'workflow fixture organization_id is required');
+    const actorUserId = this.requireNonEmpty(input.actor_user_id, 'workflow fixture actor_user_id is required');
+    if (!Array.isArray(input.records) || input.records.length === 0) {
+      throw new BadRequestException('workflow fixture records must not be empty');
+    }
+
+    const visibleWorkflowIds: string[] = [];
+    const excludedCrossTenantIds: string[] = [];
+
+    for (const record of input.records) {
+      const workflowId = this.requireNonEmpty(record.workflow_id, 'workflow fixture workflow_id is required');
+      const recordOrganizationId = this.requireNonEmpty(
+        record.organization_id,
+        'workflow fixture record organization_id is required',
+      );
+      this.requireNonEmpty(record.workflow_key, 'workflow fixture workflow_key is required');
+      this.requireNonEmpty(record.current_state, 'workflow fixture current_state is required');
+
+      if (recordOrganizationId !== organizationId) {
+        excludedCrossTenantIds.push(workflowId);
+        continue;
+      }
+
+      visibleWorkflowIds.push(workflowId);
+    }
+
+    return {
+      organization_id: organizationId,
+      actor_user_id: actorUserId,
+      visible_workflow_ids: visibleWorkflowIds.sort(),
+      excluded_cross_tenant_ids: excludedCrossTenantIds.sort(),
+      tenant_isolation_enforced: true,
+      records_examined: input.records.length,
     };
   }
 
@@ -700,6 +759,11 @@ export class WorkflowService {
     if (value.trim().length === 0) {
       throw new BadRequestException(message);
     }
+  }
+
+  private requireNonEmpty(value: string, message: string): string {
+    this.assertNonEmpty(value, message);
+    return value.trim();
   }
 
   private recordField(record: Record<string, unknown>, key: string, errors: string[]): Record<string, unknown> | null {
