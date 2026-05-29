@@ -61,6 +61,20 @@ type SettingManifestEntry = {
   default_value?: unknown;
 };
 
+type HealthCheckManifestEntry = {
+  key: string;
+  description: string;
+  endpoint?: string;
+  critical: boolean;
+  timeout_ms: number;
+};
+
+type DegradedModeManifestEntry = {
+  mode: 'readonly' | 'limited' | 'disabled';
+  description: string;
+  disabled_capabilities: string[];
+};
+
 type GatekeeperHookManifestEntry = {
   key: string;
   capability_key: string;
@@ -76,6 +90,8 @@ export type RuntimeModuleManifest = {
   permissions: PermissionManifestEntry[];
   menu_entries?: MenuManifestEntry[];
   settings?: SettingManifestEntry[];
+  health_checks?: HealthCheckManifestEntry[];
+  degraded_mode_behavior?: DegradedModeManifestEntry;
   gatekeeper_hooks: GatekeeperHookManifestEntry[];
 };
 
@@ -235,6 +251,22 @@ export type SettingContributionRegistrationResult = {
   module_key: string;
   registered_count: number;
   settings: RegisteredSettingContribution[];
+};
+
+export type HealthDegradedStateRegistrationResult = {
+  module_key: string;
+  health_checks: Array<{
+    key: string;
+    description: string;
+    endpoint: string | null;
+    critical: boolean;
+    timeout_ms: number;
+  }>;
+  degraded_mode_behavior: {
+    mode: DegradedModeManifestEntry['mode'];
+    description: string;
+    disabled_capabilities: string[];
+  };
 };
 
 type ModuleListResponse = {
@@ -413,6 +445,7 @@ function isRuntimeModuleManifest(input: unknown): input is RuntimeModuleManifest
     Array.isArray(maybe.permissions) &&
     (maybe.menu_entries === undefined || Array.isArray(maybe.menu_entries)) &&
     (maybe.settings === undefined || Array.isArray(maybe.settings)) &&
+    (maybe.health_checks === undefined || Array.isArray(maybe.health_checks)) &&
     Array.isArray(maybe.gatekeeper_hooks)
   );
 }
@@ -786,6 +819,47 @@ function assertSettingContribution(setting: SettingManifestEntry) {
   }
 }
 
+function assertHealthCheckContribution(healthCheck: HealthCheckManifestEntry) {
+  if (!MANIFEST_KEY_PATTERN.test(healthCheck.key)) {
+    throw new ConflictException(`Health check ${healthCheck.key} must use manifest key syntax`);
+  }
+
+  if (healthCheck.description.trim().length === 0) {
+    throw new ConflictException(`Health check ${healthCheck.key} requires a description`);
+  }
+
+  if (healthCheck.endpoint !== undefined && !/^\/[A-Za-z0-9/_:.-]*$/.test(healthCheck.endpoint)) {
+    throw new ConflictException(`Health check ${healthCheck.key} endpoint must be an absolute safe path`);
+  }
+
+  if (!Number.isInteger(healthCheck.timeout_ms) || healthCheck.timeout_ms <= 0) {
+    throw new ConflictException(`Health check ${healthCheck.key} requires a positive timeout_ms`);
+  }
+}
+
+function assertDegradedModeContribution(
+  degradedMode: DegradedModeManifestEntry | undefined,
+  localCapabilityKeys: Set<string>,
+): asserts degradedMode is DegradedModeManifestEntry {
+  if (!degradedMode) {
+    throw new ConflictException('Health/degraded registration requires degraded_mode_behavior');
+  }
+
+  if (!['readonly', 'limited', 'disabled'].includes(degradedMode.mode)) {
+    throw new ConflictException('degraded_mode_behavior.mode is invalid');
+  }
+
+  if (degradedMode.description.trim().length === 0) {
+    throw new ConflictException('degraded_mode_behavior requires a description');
+  }
+
+  for (const capabilityKey of degradedMode.disabled_capabilities) {
+    if (!localCapabilityKeys.has(capabilityKey)) {
+      throw new ConflictException(`degraded disabled capability ${capabilityKey} must reference local capability`);
+    }
+  }
+}
+
 @Injectable()
 export class ModuleRegistryService {
   constructor(private readonly prisma: PrismaService) {}
@@ -1083,6 +1157,44 @@ export class ModuleRegistryService {
       module_key: manifest.module_key,
       registered_count: settings.length,
       settings,
+    };
+  }
+
+  registerHealthDegradedStateContributions(
+    manifest: RuntimeModuleManifest,
+  ): HealthDegradedStateRegistrationResult {
+    assertPhase2ManifestShape(manifest);
+    const localCapabilityKeys = new Set(manifest.capabilities.map((capability) => capability.key));
+    const seenHealthCheckKeys = new Set<string>();
+
+    const healthChecks = (manifest.health_checks ?? [])
+      .map((healthCheck) => {
+        if (seenHealthCheckKeys.has(healthCheck.key)) {
+          throw new ConflictException(`Health check ${healthCheck.key} must be unique`);
+        }
+        seenHealthCheckKeys.add(healthCheck.key);
+        assertHealthCheckContribution(healthCheck);
+
+        return {
+          key: healthCheck.key,
+          description: healthCheck.description,
+          endpoint: healthCheck.endpoint ?? null,
+          critical: healthCheck.critical,
+          timeout_ms: healthCheck.timeout_ms,
+        };
+      })
+      .sort((left, right) => left.key.localeCompare(right.key));
+
+    assertDegradedModeContribution(manifest.degraded_mode_behavior, localCapabilityKeys);
+
+    return {
+      module_key: manifest.module_key,
+      health_checks: healthChecks,
+      degraded_mode_behavior: {
+        mode: manifest.degraded_mode_behavior.mode,
+        description: manifest.degraded_mode_behavior.description,
+        disabled_capabilities: [...manifest.degraded_mode_behavior.disabled_capabilities].sort(),
+      },
     };
   }
 
