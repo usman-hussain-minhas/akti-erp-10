@@ -3,8 +3,8 @@
   "sources": {
     "prisma_schema": "prisma/schema.prisma",
     "metadata": "prisma/entity-registry.metadata.json",
-    "prisma_schema_hash": "sha256:318016c1071145a0c4e3a39e1e9919e14a08a529e680e0d3fcf96da532c6c6c1",
-    "metadata_hash": "sha256:9fd99547b2e0be006f9609949dbc10c765629d1f487d724c15a757e3b3f35c50"
+    "prisma_schema_hash": "sha256:9d30dcaf9ad6ac40e39f3359b4028da1cad0b8c3d173cd321b4f4892e1d9e5a0",
+    "metadata_hash": "sha256:57c47f0edf2802453ca384798ff83c25c437f1adbced3349947fb0d99c69fbb2"
   },
   "entities": [
     {
@@ -3245,6 +3245,26 @@
           "relation_model": "OrganizationUnit"
         },
         {
+          "field_name": "read_model_cursors",
+          "column_name": "read_model_cursors",
+          "type": "ReadModelCursor[]",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "ReadModelCursor"
+        },
+        {
+          "field_name": "read_model_entries",
+          "column_name": "read_model_entries",
+          "type": "ReadModelEntry[]",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "ReadModelEntry"
+        },
+        {
           "field_name": "slug",
           "column_name": "slug",
           "type": "String",
@@ -4080,6 +4100,515 @@
       "retention_policy": "derived_from_unit_lifecycle",
       "audit_required": false,
       "sensitive_data_classification": "internal"
+    },
+    {
+      "model_name": "ReadModelCursor",
+      "table_name": "ReadModelCursor",
+      "owner_module": "core.reporting",
+      "phase": 2,
+      "tenant_scoped": true,
+      "organization_id_required": true,
+      "rls_required": true,
+      "organization_id_field": "organization_id",
+      "organization_id_column": "organization_id",
+      "fields": [
+        {
+          "field_name": "cursor_value",
+          "column_name": "cursor_value",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "event_type",
+          "column_name": "event_type",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "id",
+          "column_name": "id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": true,
+          "is_relation": false
+        },
+        {
+          "field_name": "last_event_id",
+          "column_name": "last_event_id",
+          "type": "String",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "last_event_occurred_at",
+          "column_name": "last_event_occurred_at",
+          "type": "DateTime",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "organization",
+          "column_name": "organization",
+          "type": "Organization",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "Organization"
+        },
+        {
+          "field_name": "organization_id",
+          "column_name": "organization_id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "processed_at",
+          "column_name": "processed_at",
+          "type": "DateTime",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "read_model_key",
+          "column_name": "read_model_key",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "source_module",
+          "column_name": "source_module",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "updated_at",
+          "column_name": "updated_at",
+          "type": "DateTime",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        }
+      ],
+      "indexes": [
+        {
+          "name": "ReadModelCursor_id_pk",
+          "fields": [
+            "id"
+          ],
+          "columns": [
+            "id"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "ReadModelCursor_organization_id_cursor_value_idx",
+          "fields": [
+            "organization_id",
+            "cursor_value"
+          ],
+          "columns": [
+            "organization_id",
+            "cursor_value"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "ReadModelCursor_organization_id_id_key",
+          "fields": [
+            "organization_id",
+            "id"
+          ],
+          "columns": [
+            "organization_id",
+            "id"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "ReadModelCursor_organization_id_read_model_key_source_module_event_type_key",
+          "fields": [
+            "organization_id",
+            "read_model_key",
+            "source_module",
+            "event_type"
+          ],
+          "columns": [
+            "organization_id",
+            "read_model_key",
+            "source_module",
+            "event_type"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "ReadModelCursor_organization_id_read_model_key_updated_at_idx",
+          "fields": [
+            "organization_id",
+            "read_model_key",
+            "updated_at"
+          ],
+          "columns": [
+            "organization_id",
+            "read_model_key",
+            "updated_at"
+          ],
+          "is_unique": false
+        }
+      ],
+      "unique_constraints": [
+        {
+          "name": "ReadModelCursor_id_pk",
+          "fields": [
+            "id"
+          ],
+          "columns": [
+            "id"
+          ]
+        },
+        {
+          "name": "ReadModelCursor_organization_id_id_key",
+          "fields": [
+            "organization_id",
+            "id"
+          ],
+          "columns": [
+            "organization_id",
+            "id"
+          ]
+        },
+        {
+          "name": "ReadModelCursor_organization_id_read_model_key_source_module_event_type_key",
+          "fields": [
+            "organization_id",
+            "read_model_key",
+            "source_module",
+            "event_type"
+          ],
+          "columns": [
+            "organization_id",
+            "read_model_key",
+            "source_module",
+            "event_type"
+          ]
+        }
+      ],
+      "events_emitted": [],
+      "retention_policy": "per_read_model_policy",
+      "audit_required": true,
+      "sensitive_data_classification": "internal"
+    },
+    {
+      "model_name": "ReadModelEntry",
+      "table_name": "ReadModelEntry",
+      "owner_module": "core.reporting",
+      "phase": 2,
+      "tenant_scoped": true,
+      "organization_id_required": true,
+      "rls_required": true,
+      "organization_id_field": "organization_id",
+      "organization_id_column": "organization_id",
+      "fields": [
+        {
+          "field_name": "created_at",
+          "column_name": "created_at",
+          "type": "DateTime",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "id",
+          "column_name": "id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": true,
+          "is_relation": false
+        },
+        {
+          "field_name": "organization",
+          "column_name": "organization",
+          "type": "Organization",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "Organization"
+        },
+        {
+          "field_name": "organization_id",
+          "column_name": "organization_id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "payload",
+          "column_name": "payload",
+          "type": "Json",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "privacy_class",
+          "column_name": "privacy_class",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "read_model_key",
+          "column_name": "read_model_key",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "retention_class",
+          "column_name": "retention_class",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "source_event_cursor",
+          "column_name": "source_event_cursor",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "source_event_id",
+          "column_name": "source_event_id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "source_event_occurred_at",
+          "column_name": "source_event_occurred_at",
+          "type": "DateTime",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "source_event_type",
+          "column_name": "source_event_type",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "source_event_version",
+          "column_name": "source_event_version",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "subject_id",
+          "column_name": "subject_id",
+          "type": "String",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "subject_type",
+          "column_name": "subject_type",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "updated_at",
+          "column_name": "updated_at",
+          "type": "DateTime",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        }
+      ],
+      "indexes": [
+        {
+          "name": "ReadModelEntry_id_pk",
+          "fields": [
+            "id"
+          ],
+          "columns": [
+            "id"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "ReadModelEntry_organization_id_id_key",
+          "fields": [
+            "organization_id",
+            "id"
+          ],
+          "columns": [
+            "organization_id",
+            "id"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "ReadModelEntry_organization_id_read_model_key_source_event_id_key",
+          "fields": [
+            "organization_id",
+            "read_model_key",
+            "source_event_id"
+          ],
+          "columns": [
+            "organization_id",
+            "read_model_key",
+            "source_event_id"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "ReadModelEntry_organization_id_read_model_key_updated_at_idx",
+          "fields": [
+            "organization_id",
+            "read_model_key",
+            "updated_at"
+          ],
+          "columns": [
+            "organization_id",
+            "read_model_key",
+            "updated_at"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "ReadModelEntry_organization_id_source_event_cursor_idx",
+          "fields": [
+            "organization_id",
+            "source_event_cursor"
+          ],
+          "columns": [
+            "organization_id",
+            "source_event_cursor"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "ReadModelEntry_organization_id_source_event_type_source_event_occurred_at_idx",
+          "fields": [
+            "organization_id",
+            "source_event_type",
+            "source_event_occurred_at"
+          ],
+          "columns": [
+            "organization_id",
+            "source_event_type",
+            "source_event_occurred_at"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "ReadModelEntry_organization_id_subject_type_subject_id_idx",
+          "fields": [
+            "organization_id",
+            "subject_type",
+            "subject_id"
+          ],
+          "columns": [
+            "organization_id",
+            "subject_type",
+            "subject_id"
+          ],
+          "is_unique": false
+        }
+      ],
+      "unique_constraints": [
+        {
+          "name": "ReadModelEntry_id_pk",
+          "fields": [
+            "id"
+          ],
+          "columns": [
+            "id"
+          ]
+        },
+        {
+          "name": "ReadModelEntry_organization_id_id_key",
+          "fields": [
+            "organization_id",
+            "id"
+          ],
+          "columns": [
+            "organization_id",
+            "id"
+          ]
+        },
+        {
+          "name": "ReadModelEntry_organization_id_read_model_key_source_event_id_key",
+          "fields": [
+            "organization_id",
+            "read_model_key",
+            "source_event_id"
+          ],
+          "columns": [
+            "organization_id",
+            "read_model_key",
+            "source_event_id"
+          ]
+        }
+      ],
+      "events_emitted": [],
+      "retention_policy": "per_read_model_policy",
+      "audit_required": true,
+      "sensitive_data_classification": "confidential"
     },
     {
       "model_name": "UnitType",
