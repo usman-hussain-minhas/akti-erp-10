@@ -73,6 +73,26 @@ export type CommunicationGatewayHandoff = {
   production_provider_calls: false;
 };
 
+export type CommunicationLocalStubDeliveryProof = {
+  delivery_mode: 'local_stub';
+  status: 'stub_recorded';
+  handoff_type: 'engagement_gateway_request_intent';
+  transport_recorded_by: 'engagement.gateway.local_stub';
+  transport_channel: CommunicationChannel;
+  organization_id: string;
+  actor_user_id: string;
+  source_module: string;
+  recipient_ref: string;
+  idempotency_key: string;
+  stub_delivery_id: string;
+  delivered_at: string;
+  provider_message_id: null;
+  stub_delivery_recorded: true;
+  delivery_executed: false;
+  live_dispatch: false;
+  production_provider_calls: false;
+};
+
 const ALLOWED_CHANNELS = new Set<CommunicationChannel>(['email_stub', 'sms_stub', 'push_stub', 'whatsapp_stub']);
 const ALLOWED_RISK = new Set<CommunicationRiskClassification>(['low', 'medium', 'high']);
 const ALLOWED_PRIORITY = new Set(['low', 'normal', 'high']);
@@ -148,6 +168,38 @@ export class CommunicationService {
       idempotency_key: intent.idempotency_key,
       capability_key: 'platform.communication.send',
       delivery_executed: false,
+      production_provider_calls: false,
+    };
+  }
+
+  recordLocalStubDelivery(handoff: CommunicationGatewayHandoff, deliveredAt: string): CommunicationLocalStubDeliveryProof {
+    if (handoff.handoff_type !== 'engagement_gateway_request_intent' || handoff.target_service !== 'engagement.gateway') {
+      throw new BadRequestException('communication local stub delivery requires an Engagement Gateway handoff');
+    }
+    if (handoff.delivery_executed !== false || handoff.production_provider_calls !== false) {
+      throw new BadRequestException('communication local stub delivery cannot execute a production provider');
+    }
+
+    const deliveredAtIso = this.isoTimestamp(deliveredAt, 'delivered_at');
+    const transportChannel = this.channel(handoff.transport_channel);
+
+    return {
+      delivery_mode: 'local_stub',
+      status: 'stub_recorded',
+      handoff_type: 'engagement_gateway_request_intent',
+      transport_recorded_by: 'engagement.gateway.local_stub',
+      transport_channel: transportChannel,
+      organization_id: this.required(handoff.organization_id, 'organization_id'),
+      actor_user_id: this.required(handoff.actor_user_id, 'actor_user_id'),
+      source_module: this.required(handoff.source_module, 'source_module'),
+      recipient_ref: this.required(handoff.recipient_ref, 'recipient_ref'),
+      idempotency_key: this.required(handoff.idempotency_key, 'idempotency_key'),
+      stub_delivery_id: `local-stub:${handoff.organization_id}:${handoff.idempotency_key}:${transportChannel}`,
+      delivered_at: deliveredAtIso,
+      provider_message_id: null,
+      stub_delivery_recorded: true,
+      delivery_executed: false,
+      live_dispatch: false,
       production_provider_calls: false,
     };
   }
