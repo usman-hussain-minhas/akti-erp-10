@@ -23,6 +23,8 @@ import { OrganizationSetupService } from './organization-setup/organization-setu
 import { AuditLogService } from './platform-observability/audit-log.service';
 import { EventOutboxService } from './platform-observability/event-outbox.service';
 import { PrismaService } from './prisma/prisma.service';
+import { SearchController } from './search/search.controller';
+import { SearchService } from './search/search.service';
 import { CurrentUserController } from './security/current-user.controller';
 import { CurrentUserService } from './security/current-user.service';
 import { WorkflowController } from './workflow/workflow.controller';
@@ -41,6 +43,7 @@ import { WorkflowService } from './workflow/workflow.service';
     GatekeeperController,
     FoundryController,
     WorkflowController,
+    SearchController,
   ],
   providers: [
     AppService,
@@ -58,6 +61,7 @@ import { WorkflowService } from './workflow/workflow.service';
     EventOutboxService,
     CurrentUserService,
     WorkflowService,
+    SearchService,
   ],
 })
 export class AppModule {}

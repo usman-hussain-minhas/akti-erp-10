@@ -49,6 +49,51 @@ export type SearchQueryPlan = {
   capability_filter_required: true;
 };
 
+export type SearchApiInput = SearchQueryPlanInput & {
+  limit?: number;
+  cursor?: string | null;
+};
+
+export type SearchApiResponse = {
+  method: 'GET';
+  route: '/platform/search';
+  request: {
+    query: string;
+    target_keys: SearchIndexTargetKey[];
+    limit: number;
+    cursor: string | null;
+  };
+  response_shape: {
+    items: 'SearchResultItem[]';
+    page: '{ limit, cursor, next_cursor }';
+  };
+  capability: {
+    required: 'platform.search.query';
+    target_capability_filter: string[];
+  };
+  tenant_context: {
+    organization_id: string;
+    actor_user_id: string;
+  };
+  gatekeeper: {
+    risk_check_required: true;
+    capability_key: 'platform.search.query';
+    exposure_surface: 'search_index_visibility';
+  };
+  audit: {
+    event_type: 'search.query.executed';
+    audit_required: true;
+    outbox_event_required: false;
+  };
+  query_plan: SearchQueryPlan;
+  items: [];
+  page: {
+    limit: number;
+    cursor: string | null;
+    next_cursor: null;
+  };
+};
+
 @Injectable()
 export class SearchService {
   searchSchemaIndexBaseline(): SearchSchemaIndexBaseline {
@@ -110,6 +155,52 @@ export class SearchService {
     };
   }
 
+  search(input: SearchApiInput): SearchApiResponse {
+    const limit = this.limit(input.limit);
+    const cursor = input.cursor === undefined ? null : this.optionalCursor(input.cursor);
+    const queryPlan = this.buildTenantCapabilitySearchPlan(input);
+
+    return {
+      method: 'GET',
+      route: '/platform/search',
+      request: {
+        query: queryPlan.query,
+        target_keys: queryPlan.targets.map((target) => target.target_key),
+        limit,
+        cursor,
+      },
+      response_shape: {
+        items: 'SearchResultItem[]',
+        page: '{ limit, cursor, next_cursor }',
+      },
+      capability: {
+        required: 'platform.search.query',
+        target_capability_filter: queryPlan.capability_keys,
+      },
+      tenant_context: {
+        organization_id: queryPlan.organization_id,
+        actor_user_id: queryPlan.actor_user_id,
+      },
+      gatekeeper: {
+        risk_check_required: true,
+        capability_key: 'platform.search.query',
+        exposure_surface: 'search_index_visibility',
+      },
+      audit: {
+        event_type: 'search.query.executed',
+        audit_required: true,
+        outbox_event_required: false,
+      },
+      query_plan: queryPlan,
+      items: [],
+      page: {
+        limit,
+        cursor,
+        next_cursor: null,
+      },
+    };
+  }
+
   private targets(targetKeys?: SearchIndexTargetKey[]): SearchIndexTarget[] {
     const baselineTargets = this.searchSchemaIndexBaseline().targets;
     if (targetKeys === undefined) {
@@ -167,6 +258,25 @@ export class SearchService {
     }
 
     return value;
+  }
+
+  private limit(input: number | undefined): number {
+    if (input === undefined) {
+      return 25;
+    }
+    if (!Number.isSafeInteger(input) || input < 1 || input > 100) {
+      throw new BadRequestException('search limit must be an integer from 1 to 100');
+    }
+
+    return input;
+  }
+
+  private optionalCursor(input: unknown): string | null {
+    if (input === null) {
+      return null;
+    }
+
+    return this.nonEmpty(input, 'cursor');
   }
 
   private nonEmpty(input: unknown, field: string): string {
