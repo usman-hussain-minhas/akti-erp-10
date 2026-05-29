@@ -345,6 +345,7 @@ model WorkflowDefinition {
   audit_hooks             Json
   evidence_requirements   Json
   deprecation_policy      Json
+  search_vector           Unsupported("tsvector")?
   created_at              DateTime           @default(now())
   updated_at              DateTime           @updatedAt
   organization            Organization       @relation(fields: [organization_id], references: [id])
@@ -370,6 +371,7 @@ model WorkflowInstance {
   actor_user_id          String
   correlation_id         String?
   context                Json
+  search_vector          Unsupported("tsvector")?
   started_at             DateTime               @default(now())
   completed_at           DateTime?
   updated_at             DateTime               @updatedAt
