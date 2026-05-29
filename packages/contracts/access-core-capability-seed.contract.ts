@@ -35,6 +35,42 @@ export const accessCoreCapabilitySeedDefinitions: AccessCoreCapabilitySeed[] =
       allowed_scope_types: ["organization"],
     },
     {
+      capability_key: "platform.crm.access",
+      permission_key: "platform.crm.access",
+      module_key: "core.access",
+      description:
+        "View the CRM-labeled surface that maps to the existing Lead Desk technical module.",
+      risk_level: "low",
+      gatekeeper_required: false,
+      approval_chain_required: false,
+      requires_permission: true,
+      allowed_scope_types: ["organization"],
+    },
+    {
+      capability_key: "platform.modules.view",
+      permission_key: "platform.modules.view",
+      module_key: "core.access",
+      description:
+        "View the platform module catalog and module cards without module administration authority.",
+      risk_level: "low",
+      gatekeeper_required: false,
+      approval_chain_required: false,
+      requires_permission: true,
+      allowed_scope_types: ["organization"],
+    },
+    {
+      capability_key: "platform.data.controls.view",
+      permission_key: "platform.data.controls.view",
+      module_key: "core.access",
+      description:
+        "View honest platform Data Controls status without import, export, or backup execution authority.",
+      risk_level: "low",
+      gatekeeper_required: false,
+      approval_chain_required: false,
+      requires_permission: true,
+      allowed_scope_types: ["organization"],
+    },
+    {
       capability_key: "access.policy.manage",
       permission_key: "access.policy.manage",
       module_key: "core.access",

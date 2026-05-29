@@ -4,11 +4,14 @@ import test from 'node:test';
 
 const palette = readFileSync(new URL('../components/mission-control/command-palette.tsx', import.meta.url), 'utf8');
 const shell = readFileSync(new URL('../components/mission-control/mission-control-shell.tsx', import.meta.url), 'utf8');
+const routes = readFileSync(new URL('../lib/routes.config.ts', import.meta.url), 'utf8');
 
-test('command palette declares only static core Phase 4B commands', () => {
+test('command palette consumes static core Phase 4B commands from route config', () => {
+  assert.match(palette, /SHELL_COMMANDS/);
+
   for (const text of [
     'Open dashboard',
-    'Open Lead Desk',
+    'CRM_VISIBLE_LABEL',
     'Create lead',
     'Open settings',
     'Open help',
@@ -18,7 +21,7 @@ test('command palette declares only static core Phase 4B commands', () => {
     '/app/settings',
     '#help-region',
   ]) {
-    assert.equal(palette.includes(text), true);
+    assert.equal(routes.includes(text), true);
   }
 });
 

@@ -3,6 +3,15 @@ import { ModuleManifestSchema, type ModuleManifest } from "./module-manifest.sch
 export const accessCoreModuleManifest: ModuleManifest = ModuleManifestSchema.parse({
   module_key: "core.access",
   display_name: "Access Core",
+  display_metadata: {
+    display_name: "Access Core",
+    display_description: "Access policy and capability foundation for the platform.",
+    icon_key: "shield",
+    category: "core",
+    visibility_state: "hidden",
+    route: null,
+  },
+  ai_data_classification: "prohibited",
   module_type: "core",
   version: "0.1.0",
   owner: "platform",
@@ -14,6 +23,48 @@ export const accessCoreModuleManifest: ModuleManifest = ModuleManifestSchema.par
       key: "platform.shell.access",
       description:
         "Open the authenticated platform shell without access policy management privileges.",
+      module_key: "core.access",
+      risk_level: "low",
+      requires_permission: true,
+      requires_reauth: false,
+      requires_audit: false,
+      gatekeeper_required: false,
+      approval_chain_required: false,
+      input_schema: null,
+      output_schema: null,
+    },
+    {
+      key: "platform.crm.access",
+      description:
+        "View the CRM-labeled surface that maps to the existing Lead Desk technical module.",
+      module_key: "core.access",
+      risk_level: "low",
+      requires_permission: true,
+      requires_reauth: false,
+      requires_audit: false,
+      gatekeeper_required: false,
+      approval_chain_required: false,
+      input_schema: null,
+      output_schema: null,
+    },
+    {
+      key: "platform.modules.view",
+      description:
+        "View the platform module catalog and module cards without module administration authority.",
+      module_key: "core.access",
+      risk_level: "low",
+      requires_permission: true,
+      requires_reauth: false,
+      requires_audit: false,
+      gatekeeper_required: false,
+      approval_chain_required: false,
+      input_schema: null,
+      output_schema: null,
+    },
+    {
+      key: "platform.data.controls.view",
+      description:
+        "View honest platform Data Controls status without import, export, or backup execution authority.",
       module_key: "core.access",
       risk_level: "low",
       requires_permission: true,
@@ -39,6 +90,7 @@ export const accessCoreModuleManifest: ModuleManifest = ModuleManifestSchema.par
     },
   ],
   capabilities_consumed: [],
+  required_capabilities: [],
   permissions: [
     {
       key: "platform.shell.access",
@@ -46,6 +98,30 @@ export const accessCoreModuleManifest: ModuleManifest = ModuleManifestSchema.par
       module_key: "core.access",
       description:
         "Allow authenticated platform operators to open the platform shell without access policy management privileges.",
+      allowed_scope_types: ["organization"],
+    },
+    {
+      key: "platform.crm.access",
+      label: "Access CRM",
+      module_key: "core.access",
+      description:
+        "Allow authenticated platform operators to view the CRM-labeled surface mapped to Lead Desk.",
+      allowed_scope_types: ["organization"],
+    },
+    {
+      key: "platform.modules.view",
+      label: "View modules",
+      module_key: "core.access",
+      description:
+        "Allow authenticated platform operators to view the module catalog without module administration authority.",
+      allowed_scope_types: ["organization"],
+    },
+    {
+      key: "platform.data.controls.view",
+      label: "View data controls",
+      module_key: "core.access",
+      description:
+        "Allow authenticated platform operators to view Data Controls status without import, export, or backup execution authority.",
       allowed_scope_types: ["organization"],
     },
     {

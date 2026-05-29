@@ -55,7 +55,7 @@ test('inbox screen has explicit loading error permission and degraded states', (
 test('Lead Desk routes render inside the workspace shell navigation', () => {
   assert.match(workspace, /LeadDeskWorkspace/);
   assert.match(workspace, /Mission Control/);
-  assert.match(workspace, /Lead Desk navigation/);
+  assert.match(workspace, /CRM_VISIBLE_LABEL/);
   assert.match(workspace, /Advanced Diagnostics/);
 
   for (const source of leadDeskScreens) {

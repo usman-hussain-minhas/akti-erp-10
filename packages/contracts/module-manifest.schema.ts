@@ -22,6 +22,9 @@ export const SemverSchema = z
   );
 
 const ModuleTypeSchema = z.enum(["core", "standard", "optional", "dedicated"]);
+const ModuleDisplayCategorySchema = z.enum(["core", "platform", "business", "integration", "internal"]);
+const VisibilityStateSchema = z.enum(["available", "requires_setup", "locked", "coming_soon", "hidden"]);
+const AiDataClassificationSchema = z.enum(["readable", "restricted", "prohibited"]);
 const RiskLevelSchema = z.enum(["low", "medium", "high", "critical"]);
 const HttpMethodSchema = z.enum(["GET", "POST", "PUT", "PATCH", "DELETE"]);
 const SchemaReferenceSchema = ManifestKeySchema.nullable();
@@ -29,6 +32,17 @@ const PathSchema = z.string().regex(/^\/[A-Za-z0-9/_:.-]*$/, "Use an absolute AP
 const FieldKeySchema = z
   .string()
   .regex(/^[a-z][a-z0-9_]*(?:\.[a-z][a-z0-9_]*)*$/, "Use lowercase field keys");
+
+export const ModuleDisplayMetadataSchema = z
+  .object({
+    display_name: z.string().min(1),
+    display_description: z.string().min(1),
+    icon_key: ManifestKeySchema,
+    category: ModuleDisplayCategorySchema,
+    visibility_state: VisibilityStateSchema,
+    route: PathSchema.nullable(),
+  })
+  .strict();
 
 export const PermissionScopeSchema = z.enum([
   "global",
@@ -284,6 +298,8 @@ export const ModuleManifestSchema = z
   .object({
     module_key: ModuleKeySchema,
     display_name: z.string().min(1),
+    display_metadata: ModuleDisplayMetadataSchema,
+    ai_data_classification: AiDataClassificationSchema,
     module_type: ModuleTypeSchema,
     version: SemverSchema,
     owner: z.string().min(1),
@@ -292,6 +308,7 @@ export const ModuleManifestSchema = z
     optional_dependencies: z.array(DependencySpecSchema),
     capabilities: z.array(CapabilitySpecSchema),
     capabilities_consumed: z.array(CapabilityConsumptionSpecSchema),
+    required_capabilities: z.array(ManifestKeySchema),
     permissions: z.array(PermissionSpecSchema),
     api_routes: z.array(ApiRouteSchema),
     events_emitted: z.array(ModuleEventSchema),
@@ -395,6 +412,13 @@ export const ModuleManifestSchema = z
       "provider module + consumed capability pair",
     );
     requireUnique(
+      manifest.required_capabilities,
+      "required_capabilities",
+      (item) => item,
+      [],
+      "required capability key",
+    );
+    requireUnique(
       manifest.dependencies,
       "dependencies",
       (item) => item.module_key,
@@ -463,6 +487,10 @@ export const ModuleManifestSchema = z
           "consumed capability provider_module_key must not equal manifest module_key",
         );
       }
+    });
+
+    manifest.required_capabilities.forEach((capabilityKey, index) => {
+      requireLocalOrConsumedCapability(capabilityKey, ["required_capabilities", index]);
     });
 
     manifest.api_routes.forEach((route, index) => {
@@ -556,6 +584,15 @@ export function safeParseModuleManifest(input: unknown) {
 export const sampleCoreModuleManifest = ModuleManifestSchema.parse({
   module_key: "core.access",
   display_name: "Access Core",
+  display_metadata: {
+    display_name: "Access Core",
+    display_description: "Access policy and capability foundation for the platform.",
+    icon_key: "shield",
+    category: "core",
+    visibility_state: "hidden",
+    route: null,
+  },
+  ai_data_classification: "prohibited",
   module_type: "core",
   version: "0.1.0",
   owner: "platform",
@@ -578,6 +615,7 @@ export const sampleCoreModuleManifest = ModuleManifestSchema.parse({
     },
   ],
   capabilities_consumed: [],
+  required_capabilities: [],
   permissions: [
     {
       key: "access.policy.manage",

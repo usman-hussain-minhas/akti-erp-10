@@ -5,6 +5,8 @@ import { AccessCoreService } from './access-core/access-core.service';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigurationModule } from './configuration/configuration.module';
+import { DataControlsController } from './data-controls/data-controls.controller';
+import { DataControlsService } from './data-controls/data-controls.service';
 import { EngagementGatewayController } from './engagement-gateway/engagement-gateway.controller';
 import { EngagementGatewayService } from './engagement-gateway/engagement-gateway.service';
 import { WhatsappStubProvider } from './engagement-gateway/whatsapp-stub.provider';
@@ -20,6 +22,8 @@ import { HierarchyService } from './hierarchy/hierarchy.service';
 import { LeadDeskController } from './lead-desk/lead-desk.controller';
 import { LeadDeskService } from './lead-desk/lead-desk.service';
 import { ModuleRegistryModule } from './module-registry/module-registry.module';
+import { NotificationsController } from './notifications/notifications.controller';
+import { NotificationsService } from './notifications/notifications.service';
 import { OrganizationSetupController } from './organization-setup/organization-setup.controller';
 import { OrganizationSetupService } from './organization-setup/organization-setup.service';
 import { PlatformHealthController } from './platform-health/platform-health.controller';
@@ -52,6 +56,8 @@ import { WorkflowService } from './workflow/workflow.service';
     FileServiceController,
     ReportingController,
     PlatformHealthController,
+    NotificationsController,
+    DataControlsController,
   ],
   providers: [
     AppService,
@@ -72,6 +78,8 @@ import { WorkflowService } from './workflow/workflow.service';
     SearchService,
     FileService,
     ReportingService,
+    NotificationsService,
+    DataControlsService,
   ],
 })
 export class AppModule {}

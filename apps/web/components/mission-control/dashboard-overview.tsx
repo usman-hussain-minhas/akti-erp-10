@@ -7,6 +7,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { hasOperatorContext, leadDeskApiFetch } from '../../app/lead-desk/api-client';
 import { useLeadDeskOperatorContext } from '../../app/lead-desk/operator-context';
+import { CRM_VISIBLE_LABEL } from '../../lib/crm-alias.config';
 import { Button } from '../ui/button';
 import { EmptyState, ErrorState, LoadingState, PermissionState, SectionCard, StateMessage, StatusBadge, SuccessState } from '../ui/design-system';
 
@@ -42,7 +43,7 @@ export function DashboardOverview() {
   });
   const [leadDesk, setLeadDesk] = useState<LeadDeskSnapshot>({
     state: 'placeholder',
-    message: 'Set up session in Advanced Diagnostics to load Lead Desk status.',
+    message: `Set up session in Advanced Diagnostics to load ${CRM_VISIBLE_LABEL} status.`,
   });
 
   const loadHealth = useCallback(async () => {
@@ -71,32 +72,32 @@ export function DashboardOverview() {
 
   const loadLeadDesk = useCallback(async () => {
     if (!apiBase) {
-      setLeadDesk({ state: 'placeholder', message: 'Connect the local/demo API to load Lead Desk status.' });
+      setLeadDesk({ state: 'placeholder', message: `Connect the local/demo API to load ${CRM_VISIBLE_LABEL} status.` });
       return;
     }
 
     if (!sessionReady) {
-      setLeadDesk({ state: 'placeholder', message: 'Set up session in Advanced Diagnostics to load Lead Desk status.' });
+      setLeadDesk({ state: 'placeholder', message: `Set up session in Advanced Diagnostics to load ${CRM_VISIBLE_LABEL} status.` });
       return;
     }
 
-    setLeadDesk({ state: 'loading', message: 'Loading Lead Desk status from the existing list API.' });
+    setLeadDesk({ state: 'loading', message: `Loading ${CRM_VISIBLE_LABEL} status from the existing list API.` });
     try {
       const response = await leadDeskApiFetch(context, '/leads', { method: 'GET' });
       if (response.status === 401 || response.status === 403) {
-        setLeadDesk({ state: 'permission', message: 'You do not have permission to view the Lead Desk summary.' });
+        setLeadDesk({ state: 'permission', message: `You do not have permission to view the ${CRM_VISIBLE_LABEL} summary.` });
         return;
       }
       if (!response.ok) {
-        setLeadDesk({ state: 'error', message: 'Lead Desk status is temporarily unavailable. Try again later.' });
+        setLeadDesk({ state: 'error', message: `${CRM_VISIBLE_LABEL} status is temporarily unavailable. Try again later.` });
         return;
       }
 
       const payload = (await response.json()) as LeadDeskListResponse;
       const count = Array.isArray(payload.items) ? payload.items.length : 0;
-      setLeadDesk({ state: 'ready', message: `${count} Lead Desk records returned by the existing list API.` });
+      setLeadDesk({ state: 'ready', message: `${count} ${CRM_VISIBLE_LABEL} records returned by the existing list API.` });
     } catch {
-      setLeadDesk({ state: 'error', message: 'Lead Desk status is temporarily unavailable. Try again later.' });
+      setLeadDesk({ state: 'error', message: `${CRM_VISIBLE_LABEL} status is temporarily unavailable. Try again later.` });
     }
   }, [apiBase, context, sessionReady]);
 
@@ -137,13 +138,13 @@ export function DashboardOverview() {
         </DashboardCard>
 
         <DashboardCard
-          title="Lead Desk quick card"
+          title={`${CRM_VISIBLE_LABEL} quick card`}
           icon={ClipboardList}
           badge={leadDesk.state === 'ready' ? 'Loaded' : sessionState === 'active' ? 'Session active' : 'Session needed'}
           badgeTone={leadDesk.state === 'ready' ? 'success' : sessionState === 'active' ? 'info' : 'warning'}
           action={
             <Button type="button" variant="secondary" onClick={loadLeadDesk} disabled={!sessionReady || leadDesk.state === 'loading'}>
-              Load Lead Desk status
+              Load {CRM_VISIBLE_LABEL} status
             </Button>
           }
         >

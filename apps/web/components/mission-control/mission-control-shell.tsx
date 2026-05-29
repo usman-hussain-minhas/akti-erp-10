@@ -15,6 +15,8 @@ import {
 import { useState } from 'react';
 
 import { useLeadDeskOperatorContext } from '../../app/lead-desk/operator-context';
+import { PLATFORM_PRODUCT_NAME } from '../../lib/platform-branding.config';
+import { SHELL_NAVIGATION_ROUTES } from '../../lib/routes.config';
 import { CommandPalette } from './command-palette';
 import { DashboardOverview } from './dashboard-overview';
 import { ModuleLauncher } from './module-launcher';
@@ -23,11 +25,11 @@ import { SessionStatusNotice } from '../session/session-status';
 import { Button } from '../ui/button';
 import { EmptyState, StatusBadge } from '../ui/design-system';
 
-const NAV_ITEMS = [
-  { label: 'Mission Control', href: '/app', icon: LayoutDashboard, description: 'Default ERP shell' },
-  { label: 'Lead Desk', href: '/lead-desk/inbox', icon: Inbox, description: 'Open current lead work' },
-  { label: 'Settings', href: '/app/settings', icon: Settings, description: 'Control panel shell' },
-];
+const NAV_ICONS = {
+  '/app': LayoutDashboard,
+  '/lead-desk/inbox': Inbox,
+  '/app/settings': Settings,
+} as const;
 
 export function MissionControlShell() {
   const { sessionState } = useLeadDeskOperatorContext();
@@ -40,7 +42,7 @@ export function MissionControlShell() {
         <div className="fixed inset-0 z-40 bg-black/30 md:hidden" role="presentation">
           <aside className="h-full w-80 max-w-[86vw] bg-white p-4 shadow-xl" aria-label="Mobile navigation drawer">
             <div className="mb-4 flex items-center justify-between">
-              <p className="m-0 text-sm font-semibold">AKTI ERP</p>
+              <p className="m-0 text-sm font-semibold">{PLATFORM_PRODUCT_NAME}</p>
               <Button type="button" variant="ghost" size="icon" onClick={() => setMobileDrawerOpen(false)} aria-label="Close menu">
                 <X aria-hidden="true" size={18} />
               </Button>
@@ -57,7 +59,7 @@ export function MissionControlShell() {
         aria-label="Module navigation"
       >
         <div className="flex items-center justify-between gap-2">
-          {sidebarCollapsed ? <span className="sr-only">AKTI ERP</span> : <p className="m-0 text-sm font-semibold">AKTI ERP</p>}
+          {sidebarCollapsed ? <span className="sr-only">{PLATFORM_PRODUCT_NAME}</span> : <p className="m-0 text-sm font-semibold">{PLATFORM_PRODUCT_NAME}</p>}
           <Button
             type="button"
             variant="ghost"
@@ -138,7 +140,7 @@ export function MissionControlShell() {
 
       <nav className="fixed inset-x-0 bottom-0 z-30 grid grid-cols-4 border-t border-[var(--border)] bg-white p-2 md:hidden" aria-label="Bottom primary navigation">
         <MobileNavLink href="/app" label="Home" icon={LayoutDashboard} />
-        <MobileNavLink href="/lead-desk/inbox" label="Leads" icon={Inbox} />
+        <MobileNavLink href="/lead-desk/inbox" label={SHELL_NAVIGATION_ROUTES[1].label} icon={Inbox} />
         <MobileNavLink href="/app/settings" label="Settings" icon={Settings} />
         <button type="button" className="grid justify-items-center gap-1 rounded-md px-2 py-1 text-xs" onClick={() => setMobileDrawerOpen(true)}>
           <Menu aria-hidden="true" size={18} />
@@ -152,13 +154,13 @@ export function MissionControlShell() {
 function ShellNavigation({ collapsed, onNavigate }: { collapsed: boolean; onNavigate?: () => void }) {
   return (
     <nav className="mt-6 grid gap-2" aria-label="Primary module navigation">
-      {NAV_ITEMS.map((item) => {
-        const Icon = item.icon;
+      {SHELL_NAVIGATION_ROUTES.map((item) => {
+        const Icon = NAV_ICONS[item.route];
 
         return (
           <Link
-            key={item.label}
-            href={item.href}
+            key={item.route}
+            href={item.route}
             onClick={onNavigate}
             className="flex items-center gap-3 rounded-md px-3 py-2 text-sm hover:bg-[var(--surface-muted)] focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
             aria-label={collapsed ? item.label : undefined}

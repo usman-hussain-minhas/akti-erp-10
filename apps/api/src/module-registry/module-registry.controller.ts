@@ -18,8 +18,16 @@ export class ModuleRegistryController {
   constructor(private readonly moduleRegistryService: ModuleRegistryService) {}
 
   @Get()
-  listModules() {
-    return this.moduleRegistryService.listModules();
+  listModules(@Headers() headers?: HeaderRecord) {
+    if (headers === undefined) {
+      return this.moduleRegistryService.listModules();
+    }
+
+    const context = resolveTrustedRequestContext(headers);
+    return this.moduleRegistryService.listModulesForActor({
+      organization_id: context.organization_id,
+      actor_user_id: context.actor_user_id,
+    });
   }
 
   @Get('frontend')

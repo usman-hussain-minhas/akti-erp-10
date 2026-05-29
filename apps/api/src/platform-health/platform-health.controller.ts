@@ -18,13 +18,13 @@ const PLATFORM_HEALTH_SLO_TARGETS = {
   max_blocked_modules: 0,
 } as const;
 
-@Controller('platform/health')
+@Controller('platform')
 export class PlatformHealthController {
   private readonly structuredLoggerService = new StructuredLoggerService();
 
   constructor(private readonly moduleRegistryService: ModuleRegistryService) {}
 
-  @Get()
+  @Get('health')
   async getPlatformHealth(@Headers() headers: HeaderRecord) {
     const context = resolveTrustedRequestContext(headers);
     const correlationId = this.resolveCorrelationId(headers, context.organization_id, context.actor_user_id);
@@ -90,6 +90,36 @@ export class PlatformHealthController {
       },
       audit: {
         event_type: 'platform.health.read',
+        outbox_event_required: false,
+      },
+    };
+  }
+
+  @Get('status/overview')
+  getPlatformStatusOverview(@Headers() headers: HeaderRecord) {
+    const context = resolveTrustedRequestContext(headers);
+
+    return {
+      route: '/platform/status/overview',
+      tenant_context: {
+        organization_id: context.organization_id,
+        actor_user_id: context.actor_user_id,
+      },
+      capability: {
+        required: 'platform.shell.access',
+      },
+      status: {
+        workspace_connection: 'not_connected',
+        crm_pipeline: 'unavailable',
+        platform_services: 'offline',
+        data_controls: 'unavailable',
+      },
+      sources: {
+        boundary: 'platform-health',
+        platform_observability_inspected: true,
+      },
+      audit: {
+        event_type: 'platform.status.overview.read',
         outbox_event_required: false,
       },
     };

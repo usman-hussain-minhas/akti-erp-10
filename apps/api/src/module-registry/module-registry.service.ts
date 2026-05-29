@@ -44,6 +44,15 @@ type CapabilityConsumptionManifestEntry = {
   min_version?: string;
 };
 
+type ModuleDisplayMetadataEntry = {
+  display_name: string;
+  display_description: string;
+  icon_key: string;
+  category: 'core' | 'platform' | 'business' | 'integration' | 'internal';
+  visibility_state: 'available' | 'requires_setup' | 'locked' | 'coming_soon' | 'hidden';
+  route: string | null;
+};
+
 type MenuManifestEntry = {
   key: string;
   label: string;
@@ -84,9 +93,12 @@ type GatekeeperHookManifestEntry = {
 export type RuntimeModuleManifest = {
   module_key: string;
   display_name: string;
+  display_metadata: ModuleDisplayMetadataEntry;
+  ai_data_classification: 'readable' | 'restricted' | 'prohibited';
   version: string;
   capabilities: CapabilityManifestEntry[];
   capabilities_consumed?: CapabilityConsumptionManifestEntry[];
+  required_capabilities: string[];
   permissions: PermissionManifestEntry[];
   menu_entries?: MenuManifestEntry[];
   settings?: SettingManifestEntry[];
@@ -273,6 +285,36 @@ type ModuleListResponse = {
   items: Array<Pick<ModuleRegistryEntry, 'module_key' | 'display_name' | 'version' | 'status' | 'manifest_hash'>>;
 };
 
+type RoleAwareModuleListRequest = {
+  organization_id: string;
+  actor_user_id: string;
+};
+
+export type RoleAwareModuleListResponse = {
+  items: Array<{
+    module_key: string;
+    display_name: string;
+    display_description: string;
+    icon_key: string;
+    category: ModuleDisplayMetadataEntry['category'];
+    route: string | null;
+    visibility_state: ModuleDisplayMetadataEntry['visibility_state'];
+    version: string;
+    status: ModuleRegistryEntry['status'];
+    required_capabilities: string[];
+  }>;
+  tenant_context: {
+    organization_id: string;
+    actor_user_id: string;
+  };
+  capability: {
+    required: 'platform.modules.view';
+  };
+  authority: {
+    visibility_grants_destructive_actions: false;
+  };
+};
+
 type ModuleRegistryFrontendRequest = {
   organization_id: string;
   actor_user_id: string;
@@ -404,9 +446,15 @@ export const MODULE_LIFECYCLE_STATUSES = [
 const ACCESS_CORE_MODULE_KEY = 'core.access';
 const ACCESS_POLICY_MANAGE_CAPABILITY_KEY = 'access.policy.manage';
 const PLATFORM_SHELL_ACCESS_CAPABILITY_KEY = 'platform.shell.access';
+const PLATFORM_CRM_ACCESS_CAPABILITY_KEY = 'platform.crm.access';
+const PLATFORM_MODULES_VIEW_CAPABILITY_KEY = 'platform.modules.view';
+const PLATFORM_DATA_CONTROLS_VIEW_CAPABILITY_KEY = 'platform.data.controls.view';
 const ACCESS_CORE_MODULE_STATUS = 'available';
 const ACCESS_CORE_APPROVED_SEED_CAPABILITY_KEYS = new Set([
   ACCESS_POLICY_MANAGE_CAPABILITY_KEY,
+  PLATFORM_CRM_ACCESS_CAPABILITY_KEY,
+  PLATFORM_DATA_CONTROLS_VIEW_CAPABILITY_KEY,
+  PLATFORM_MODULES_VIEW_CAPABILITY_KEY,
   PLATFORM_SHELL_ACCESS_CAPABILITY_KEY,
 ]);
 const MODULE_LIFECYCLE_STATUS_SET = new Set<string>(MODULE_LIFECYCLE_STATUSES);
@@ -414,6 +462,7 @@ const MANIFEST_KEY_PATTERN = /^[a-z][a-z0-9]*(?:[_.-][a-z0-9]+)*$/;
 const SCREEN_KEY_PATTERN = /^[a-z][a-z0-9_-]*(?:\.[a-z][a-z0-9_-]*)+$/;
 const MODULE_KEY_PATTERN = /^[a-z][a-z0-9]*(?:-[a-z0-9]+)*(?:\.[a-z][a-z0-9]*(?:-[a-z0-9]+)*)+$/;
 const MODULE_ACTION_KEY_PATTERN = /^[a-z][a-z0-9]*(?:[_.-][a-z0-9]+)*$/;
+const API_PATH_PATTERN = /^\/[A-Za-z0-9/_:.-]*$/;
 const SEMVER_PATTERN = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$/;
 const SECRET_SETTING_PATTERN = /(secret|password|credential|token|api[_-]?key)/i;
 
@@ -463,9 +512,12 @@ function isRuntimeModuleManifest(input: unknown): input is RuntimeModuleManifest
   return (
     typeof maybe.module_key === 'string' &&
     typeof maybe.display_name === 'string' &&
+    isModuleDisplayMetadataEntry(maybe.display_metadata) &&
+    typeof maybe.ai_data_classification === 'string' &&
     typeof maybe.version === 'string' &&
     Array.isArray(maybe.capabilities) &&
     (maybe.capabilities_consumed === undefined || Array.isArray(maybe.capabilities_consumed)) &&
+    Array.isArray(maybe.required_capabilities) &&
     Array.isArray(maybe.permissions) &&
     (maybe.menu_entries === undefined || Array.isArray(maybe.menu_entries)) &&
     (maybe.settings === undefined || Array.isArray(maybe.settings)) &&
@@ -474,9 +526,77 @@ function isRuntimeModuleManifest(input: unknown): input is RuntimeModuleManifest
   );
 }
 
+function isModuleDisplayMetadataEntry(input: unknown): input is ModuleDisplayMetadataEntry {
+  if (typeof input !== 'object' || input === null) {
+    return false;
+  }
+
+  const maybe = input as Partial<ModuleDisplayMetadataEntry>;
+  return (
+    typeof maybe.display_name === 'string' &&
+    typeof maybe.display_description === 'string' &&
+    typeof maybe.icon_key === 'string' &&
+    typeof maybe.category === 'string' &&
+    typeof maybe.visibility_state === 'string' &&
+    (maybe.route === null || typeof maybe.route === 'string')
+  );
+}
+
 function assertPhase2ManifestShape(manifest: RuntimeModuleManifest) {
   if (manifest.capabilities.length === 0) {
     throw new ConflictException(`manifest ${manifest.module_key} must declare capabilities`);
+  }
+
+  assertModuleDisplayMetadata(manifest);
+  assertRequiredCapabilities(manifest);
+  assertAiDataClassification(manifest);
+}
+
+function assertModuleDisplayMetadata(manifest: RuntimeModuleManifest) {
+  const metadata = manifest.display_metadata;
+  const visibilityStates = new Set(['available', 'requires_setup', 'locked', 'coming_soon', 'hidden']);
+  const categories = new Set(['core', 'platform', 'business', 'integration', 'internal']);
+
+  if (metadata.display_name.trim().length === 0) {
+    throw new ConflictException(`manifest ${manifest.module_key} display metadata requires display_name`);
+  }
+  if (metadata.display_description.trim().length === 0) {
+    throw new ConflictException(`manifest ${manifest.module_key} display metadata requires display_description`);
+  }
+  if (!MANIFEST_KEY_PATTERN.test(metadata.icon_key)) {
+    throw new ConflictException(`manifest ${manifest.module_key} display metadata icon_key is invalid`);
+  }
+  if (!categories.has(metadata.category)) {
+    throw new ConflictException(`manifest ${manifest.module_key} display metadata category is invalid`);
+  }
+  if (!visibilityStates.has(metadata.visibility_state)) {
+    throw new ConflictException(`manifest ${manifest.module_key} display metadata visibility_state is invalid`);
+  }
+  if (metadata.route !== null && !API_PATH_PATTERN.test(metadata.route)) {
+    throw new ConflictException(`manifest ${manifest.module_key} display metadata route must be absolute`);
+  }
+}
+
+function assertRequiredCapabilities(manifest: RuntimeModuleManifest) {
+  const localCapabilityKeys = new Set(manifest.capabilities.map((capability) => capability.key));
+  const consumedCapabilityKeys = new Set((manifest.capabilities_consumed ?? []).map((capability) => capability.capability_key));
+  const seen = new Set<string>();
+
+  for (const capabilityKey of manifest.required_capabilities) {
+    if (seen.has(capabilityKey)) {
+      throw new ConflictException(`manifest ${manifest.module_key} required_capabilities must be unique`);
+    }
+    seen.add(capabilityKey);
+
+    if (!localCapabilityKeys.has(capabilityKey) && !consumedCapabilityKeys.has(capabilityKey)) {
+      throw new ConflictException(`manifest ${manifest.module_key} required capability ${capabilityKey} is not declared`);
+    }
+  }
+}
+
+function assertAiDataClassification(manifest: RuntimeModuleManifest) {
+  if (!['readable', 'restricted', 'prohibited'].includes(manifest.ai_data_classification)) {
+    throw new ConflictException(`manifest ${manifest.module_key} ai_data_classification is invalid`);
   }
 }
 
@@ -1241,6 +1361,112 @@ export class ModuleRegistryService {
     });
 
     return { items };
+  }
+
+  async listModulesForActor(input: RoleAwareModuleListRequest): Promise<RoleAwareModuleListResponse> {
+    assertNonEmpty(input.organization_id, 'Role-aware module list requires organization_id');
+    assertNonEmpty(input.actor_user_id, 'Role-aware module list requires actor_user_id');
+
+    const [modules, manifests, actorCapabilities] = await Promise.all([
+      this.listModules(),
+      loadRuntimeModuleManifests(),
+      this.listActorCapabilityKeys(input),
+    ]);
+    const manifestsByKey = new Map(manifests.map((manifest) => [manifest.module_key, manifest]));
+
+    if (!actorCapabilities.has(PLATFORM_MODULES_VIEW_CAPABILITY_KEY)) {
+      return this.emptyRoleAwareModuleList(input);
+    }
+
+    const items = modules.items
+      .map((module): RoleAwareModuleListResponse['items'][number] | null => {
+        const manifest = manifestsByKey.get(module.module_key);
+        if (!manifest || manifest.display_metadata.visibility_state === 'hidden') {
+          return null;
+        }
+
+        const hasRequiredCapabilities = manifest.required_capabilities.every((capabilityKey) =>
+          actorCapabilities.has(capabilityKey),
+        );
+        if (!hasRequiredCapabilities) {
+          return null;
+        }
+
+        return {
+          module_key: module.module_key,
+          display_name: manifest.display_metadata.display_name,
+          display_description: manifest.display_metadata.display_description,
+          icon_key: manifest.display_metadata.icon_key,
+          category: manifest.display_metadata.category,
+          route: manifest.display_metadata.route,
+          visibility_state: manifest.display_metadata.visibility_state,
+          version: module.version,
+          status: module.status,
+          required_capabilities: [...manifest.required_capabilities].sort(),
+        };
+      })
+      .filter((item): item is RoleAwareModuleListResponse['items'][number] => item !== null)
+      .sort((left, right) => left.module_key.localeCompare(right.module_key));
+
+    return {
+      items,
+      tenant_context: {
+        organization_id: input.organization_id,
+        actor_user_id: input.actor_user_id,
+      },
+      capability: {
+        required: PLATFORM_MODULES_VIEW_CAPABILITY_KEY,
+      },
+      authority: {
+        visibility_grants_destructive_actions: false,
+      },
+    };
+  }
+
+  private emptyRoleAwareModuleList(input: RoleAwareModuleListRequest): RoleAwareModuleListResponse {
+    return {
+      items: [],
+      tenant_context: {
+        organization_id: input.organization_id,
+        actor_user_id: input.actor_user_id,
+      },
+      capability: {
+        required: PLATFORM_MODULES_VIEW_CAPABILITY_KEY,
+      },
+      authority: {
+        visibility_grants_destructive_actions: false,
+      },
+    };
+  }
+
+  private async listActorCapabilityKeys(input: RoleAwareModuleListRequest): Promise<Set<string>> {
+    const memberships = await this.prisma.userGroup.findMany({
+      where: {
+        organization_id: input.organization_id,
+        user_id: input.actor_user_id,
+      },
+      select: {
+        group_id: true,
+      },
+    });
+    const groupIds = memberships.map((membership) => membership.group_id);
+    if (groupIds.length === 0) {
+      return new Set();
+    }
+
+    const assignments = await this.prisma.groupCapability.findMany({
+      where: {
+        organization_id: input.organization_id,
+        group_id: {
+          in: groupIds,
+        },
+      },
+      select: {
+        capability_key: true,
+      },
+    });
+
+    return new Set(assignments.map((assignment) => assignment.capability_key));
   }
 
   async getFrontendRegistry(input: ModuleRegistryFrontendRequest): Promise<ModuleRegistryFrontendResponse> {

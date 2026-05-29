@@ -6,6 +6,7 @@ const page = readFileSync(new URL('../app/app/settings/page.tsx', import.meta.ur
 const settings = readFileSync(new URL('../components/settings/settings-control-panel.tsx', import.meta.url), 'utf8');
 const shell = readFileSync(new URL('../components/mission-control/mission-control-shell.tsx', import.meta.url), 'utf8');
 const sessionStatus = readFileSync(new URL('../components/session/session-status.tsx', import.meta.url), 'utf8');
+const routes = readFileSync(new URL('../lib/routes.config.ts', import.meta.url), 'utf8');
 
 test('/app/settings route renders the Settings Control Panel', () => {
   assert.match(page, /SettingsControlPanel/);
@@ -52,7 +53,8 @@ test('settings integrates Advanced Diagnostics as the token technical surface', 
 });
 
 test('Mission Control and session status link to the contract-owned settings route', () => {
-  assert.equal(shell.includes("href: '/app/settings'"), true);
+  assert.equal(shell.includes('SHELL_NAVIGATION_ROUTES'), true);
+  assert.equal(routes.includes("route: '/app/settings'"), true);
   assert.equal(shell.includes('href="/app/settings"'), true);
   assert.equal(sessionStatus.includes('/app/settings?section=advanced-diagnostics#advanced-diagnostics'), true);
 });

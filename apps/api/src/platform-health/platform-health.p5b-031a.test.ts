@@ -48,8 +48,8 @@ function testRouteMetadataIsExplicit() {
   const descriptor = Object.getOwnPropertyDescriptor(PlatformHealthController.prototype, 'getPlatformHealth');
 
   assert.ok(descriptor?.value);
-  assert.equal(Reflect.getMetadata(PATH_METADATA, PlatformHealthController), 'platform/health');
-  assert.equal(Reflect.getMetadata(PATH_METADATA, descriptor.value), '/');
+  assert.equal(Reflect.getMetadata(PATH_METADATA, PlatformHealthController), 'platform');
+  assert.equal(Reflect.getMetadata(PATH_METADATA, descriptor.value), 'health');
   assert.equal(Reflect.getMetadata(METHOD_METADATA, descriptor.value), RequestMethod.GET);
 }
 

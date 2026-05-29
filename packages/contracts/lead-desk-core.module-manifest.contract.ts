@@ -3,6 +3,15 @@ import { ModuleManifestSchema, type ModuleManifest } from "./module-manifest.sch
 export const leadDeskCoreModuleManifest: ModuleManifest = ModuleManifestSchema.parse({
   module_key: "lead.desk",
   display_name: "Lead Desk Core",
+  display_metadata: {
+    display_name: "CRM",
+    display_description: "Manage admissions lead intake and follow-up through the existing Lead Desk module.",
+    icon_key: "users",
+    category: "business",
+    visibility_state: "available",
+    route: "/lead-desk",
+  },
+  ai_data_classification: "restricted",
   module_type: "standard",
   version: "0.1.0",
   owner: "admissions",
@@ -87,12 +96,19 @@ export const leadDeskCoreModuleManifest: ModuleManifest = ModuleManifestSchema.p
   ],
   capabilities_consumed: [
     {
+      capability_key: "platform.crm.access",
+      provider_module_key: "core.access",
+      required: true,
+      min_version: "0.1.0",
+    },
+    {
       capability_key: "engagement.gateway.request.create",
       provider_module_key: "engagement.gateway",
       required: true,
       min_version: "0.1.0",
     },
   ],
+  required_capabilities: ["platform.crm.access"],
   permissions: [
     {
       key: "lead.intake.create",

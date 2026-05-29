@@ -45,7 +45,12 @@ const FORBIDDEN_RUNTIME_TOKENS = [
   "db.",
 ];
 
-const ACCESS_CORE_APPROVED_NON_ACCESS_KEYS = new Set(["platform.shell.access"]);
+const ACCESS_CORE_APPROVED_NON_ACCESS_KEYS = new Set([
+  "platform.data.controls.view",
+  "platform.crm.access",
+  "platform.modules.view",
+  "platform.shell.access",
+]);
 
 const P1_007_ALLOWED_API_ROUTES = new Set([
   "GET /platform/access/capabilities",

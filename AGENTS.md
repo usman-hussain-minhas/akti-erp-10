@@ -210,6 +210,13 @@ Test-runner wiring may be updated only when the active ticket adds or requires t
 
 ---
 
+## Phase 5B1 Platform Experience Guardrails
+
+* CRM is the visible user-facing label for the existing Lead Desk surface. Do not rename `lead-desk` files, routes, API paths, contracts, Prisma models, or data models without a separately approved future migration phase.
+* Visibility does not equal authority. Showing a module card or navigation item does not grant import, export, delete, approve, configure, administer, or other destructive authority.
+
+---
+
 ## Phase 5B Non-Scope
 
 No Phase 5B ticket may authorize:

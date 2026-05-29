@@ -732,6 +732,15 @@ export type FoundryCompatibilityCheckResult = {
 export type FoundryModuleManifestCandidate = {
   module_key: string;
   display_name: string;
+  display_metadata?: {
+    display_name: string;
+    display_description: string;
+    icon_key: string;
+    category: string;
+    visibility_state: string;
+    route: string | null;
+  };
+  ai_data_classification?: string;
   module_type: FoundryModuleType;
   version: string;
   owner: string;
@@ -739,6 +748,13 @@ export type FoundryModuleManifestCandidate = {
   dependencies: FoundryDependencySpec[];
   optional_dependencies: FoundryDependencySpec[];
   capabilities: FoundryCapabilitySpec[];
+  capabilities_consumed?: Array<{
+    capability_key: string;
+    provider_module_key: string;
+    required: boolean;
+    min_version?: string;
+  }>;
+  required_capabilities?: string[];
   permissions: FoundryPermissionSpec[];
   api_routes: FoundryApiRouteSpec[];
   gatekeeper_hooks: FoundryGatekeeperHookSpec[];
@@ -2484,6 +2500,13 @@ export class FoundryService {
     if (input.display_name.trim().length === 0) {
       errors.push('display_name is required');
     }
+    this.validateOptionalDisplayMetadata(input, errors);
+    if (
+      input.ai_data_classification !== undefined &&
+      !['readable', 'restricted', 'prohibited'].includes(input.ai_data_classification)
+    ) {
+      errors.push('ai_data_classification is invalid');
+    }
     if (!['core', 'standard', 'optional', 'dedicated'].includes(input.module_type)) {
       errors.push('module_type is invalid');
     }
@@ -2508,10 +2531,12 @@ export class FoundryService {
     this.requireUnique(input.gatekeeper_hooks, (item) => item.key, 'Gatekeeper hook key', errors);
     this.requireUnique(input.schemas, (item) => item.key, 'schema key', errors);
     this.requireUnique(input.migrations, (item) => item.key, 'migration key', errors);
+    this.requireUnique(input.required_capabilities ?? [], (item) => item, 'required capability key', errors);
   }
 
   private validateManifestReferences(input: FoundryModuleManifestCandidate, errors: string[]) {
     const capabilityKeys = new Set(input.capabilities.map((capability) => capability.key));
+    const consumedCapabilityKeys = new Set((input.capabilities_consumed ?? []).map((capability) => capability.capability_key));
     const gatekeeperCapabilityKeys = new Set(input.gatekeeper_hooks.map((hook) => hook.capability_key));
 
     for (const capability of input.capabilities) {
@@ -2572,6 +2597,12 @@ export class FoundryService {
       }
     }
 
+    for (const capabilityKey of input.required_capabilities ?? []) {
+      if (!capabilityKeys.has(capabilityKey) && !consumedCapabilityKeys.has(capabilityKey)) {
+        errors.push(`required capability ${capabilityKey} must reference local or consumed capability`);
+      }
+    }
+
     for (const dependency of [...input.dependencies, ...input.optional_dependencies]) {
       if (!MODULE_KEY_PATTERN.test(dependency.module_key)) {
         errors.push(`dependency ${dependency.module_key} must use module key syntax`);
@@ -2582,6 +2613,32 @@ export class FoundryService {
       if (dependency.min_version !== undefined && !SEMVER_PATTERN.test(dependency.min_version)) {
         errors.push(`dependency ${dependency.module_key} min_version must be semver`);
       }
+    }
+  }
+
+  private validateOptionalDisplayMetadata(input: FoundryModuleManifestCandidate, errors: string[]) {
+    const metadata = input.display_metadata;
+    if (metadata === undefined) {
+      return;
+    }
+
+    if (metadata.display_name.trim().length === 0) {
+      errors.push('display_metadata.display_name is required');
+    }
+    if (metadata.display_description.trim().length === 0) {
+      errors.push('display_metadata.display_description is required');
+    }
+    if (!MANIFEST_KEY_PATTERN.test(metadata.icon_key)) {
+      errors.push('display_metadata.icon_key is invalid');
+    }
+    if (!['core', 'platform', 'business', 'integration', 'internal'].includes(metadata.category)) {
+      errors.push('display_metadata.category is invalid');
+    }
+    if (!['available', 'requires_setup', 'locked', 'coming_soon', 'hidden'].includes(metadata.visibility_state)) {
+      errors.push('display_metadata.visibility_state is invalid');
+    }
+    if (metadata.route !== null && !API_PATH_PATTERN.test(metadata.route)) {
+      errors.push('display_metadata.route must be absolute');
     }
   }
 

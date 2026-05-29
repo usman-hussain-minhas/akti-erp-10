@@ -5,6 +5,7 @@ import { RefreshCw, Shapes } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { useLeadDeskOperatorContext } from '../../app/lead-desk/operator-context';
+import { CRM_VISIBLE_LABEL } from '../../lib/crm-alias.config';
 import { Button } from '../ui/button';
 import { EmptyState, ErrorState, LoadingState, SectionCard, StatusBadge } from '../ui/design-system';
 
@@ -31,7 +32,7 @@ const MODULE_SURFACES: Record<string, { href?: string; description: string }> = 
   },
   'lead.desk': {
     href: '/lead-desk/inbox',
-    description: 'Lead Desk inbox and intake work area using approved session context.',
+    description: `${CRM_VISIBLE_LABEL} inbox and intake work area using approved session context.`,
   },
 };
 
