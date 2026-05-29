@@ -101,6 +101,42 @@ export type WorkflowPersistenceModelBaseline = {
   gatekeeper_outcome_supported_on_steps: true;
 };
 
+export type WorkflowApprovalFlowExecutionInput = {
+  definition: WorkflowProcessDefinition;
+  organization_id: string;
+  actor_user_id: string;
+  subject_type: string;
+  subject_id: string | null;
+  current_state: string;
+  transition_key: string;
+  gatekeeper_outcome: 'ALLOW' | 'DENY' | 'APPROVAL_REQUIRED' | 'STOP_FOR_REVIEW';
+  approval_decision?: 'approved' | 'rejected' | null;
+  evidence_keys_present: string[];
+  correlation_id: string;
+};
+
+export type WorkflowApprovalFlowExecutionResult = {
+  workflow_key: string;
+  version: string;
+  organization_id: string;
+  actor_user_id: string;
+  subject_type: string;
+  subject_id: string | null;
+  transition_key: string;
+  from_state: string;
+  to_state: string;
+  status: 'approval_pending' | 'transitioned';
+  gatekeeper_outcome: 'ALLOW' | 'APPROVAL_REQUIRED';
+  approval_key: string;
+  approval_chain_key: string;
+  approval_decision: 'approved' | null;
+  required_evidence: string[];
+  evidence_keys_present: string[];
+  audit_required: true;
+  event_type: string;
+  correlation_id: string;
+};
+
 @Injectable()
 export class WorkflowService {
   workflowPersistenceModelBaseline(): WorkflowPersistenceModelBaseline {
@@ -208,6 +244,96 @@ export class WorkflowService {
     }
 
     return input as WorkflowProcessDefinition;
+  }
+
+  executeApprovalFlow(input: WorkflowApprovalFlowExecutionInput): WorkflowApprovalFlowExecutionResult {
+    const definition = this.assertProcessDefinitionValid(input.definition);
+    this.assertNonEmpty(input.organization_id, 'workflow execution organization_id is required');
+    this.assertNonEmpty(input.actor_user_id, 'workflow execution actor_user_id is required');
+    this.assertNonEmpty(input.subject_type, 'workflow execution subject_type is required');
+    this.assertNonEmpty(input.transition_key, 'workflow execution transition_key is required');
+    this.assertNonEmpty(input.current_state, 'workflow execution current_state is required');
+    this.assertNonEmpty(input.correlation_id, 'workflow execution correlation_id is required');
+
+    const transition = definition.transitions.find((item) => item.transition_key === input.transition_key);
+    if (!transition) {
+      throw new BadRequestException('Workflow transition is not declared by the process definition');
+    }
+    if (transition.from_state !== input.current_state) {
+      throw new BadRequestException('Workflow transition does not start from the current state');
+    }
+    if (!transition.approval_key) {
+      throw new BadRequestException('Workflow approval flow execution requires an approval transition');
+    }
+
+    const approval = definition.approvals.find((item) => item.approval_key === transition.approval_key);
+    if (!approval) {
+      throw new BadRequestException('Workflow approval transition references missing approval configuration');
+    }
+
+    if (input.gatekeeper_outcome === 'STOP_FOR_REVIEW') {
+      throw new BadRequestException('Workflow execution cannot bypass Gatekeeper STOP_FOR_REVIEW');
+    }
+    if (input.gatekeeper_outcome === 'DENY') {
+      throw new BadRequestException('Workflow execution cannot continue after Gatekeeper DENY');
+    }
+
+    const requiredEvidence = approval.evidence_required ? definition.evidence_requirements : [];
+    const missingEvidence = requiredEvidence.filter((evidenceKey) => !input.evidence_keys_present.includes(evidenceKey));
+    if (missingEvidence.length > 0) {
+      throw new BadRequestException(`Workflow approval flow is missing evidence: ${missingEvidence.join(', ')}`);
+    }
+
+    if (input.approval_decision === 'rejected') {
+      throw new BadRequestException('Workflow approval flow rejected the transition');
+    }
+
+    const approvalDecision = input.approval_decision ?? null;
+    if (input.gatekeeper_outcome === 'APPROVAL_REQUIRED' && approvalDecision !== 'approved') {
+      return {
+        workflow_key: definition.workflow_key,
+        version: definition.version,
+        organization_id: input.organization_id,
+        actor_user_id: input.actor_user_id,
+        subject_type: input.subject_type,
+        subject_id: input.subject_id,
+        transition_key: transition.transition_key,
+        from_state: transition.from_state,
+        to_state: transition.from_state,
+        status: 'approval_pending',
+        gatekeeper_outcome: 'APPROVAL_REQUIRED',
+        approval_key: approval.approval_key,
+        approval_chain_key: approval.approval_chain_key,
+        approval_decision: null,
+        required_evidence: requiredEvidence,
+        evidence_keys_present: input.evidence_keys_present,
+        audit_required: true,
+        event_type: transition.emitted_event_types[0],
+        correlation_id: input.correlation_id,
+      };
+    }
+
+    return {
+      workflow_key: definition.workflow_key,
+      version: definition.version,
+      organization_id: input.organization_id,
+      actor_user_id: input.actor_user_id,
+      subject_type: input.subject_type,
+      subject_id: input.subject_id,
+      transition_key: transition.transition_key,
+      from_state: transition.from_state,
+      to_state: transition.to_state,
+      status: 'transitioned',
+      gatekeeper_outcome: input.gatekeeper_outcome,
+      approval_key: approval.approval_key,
+      approval_chain_key: approval.approval_chain_key,
+      approval_decision: approvalDecision === 'approved' ? 'approved' : null,
+      required_evidence: requiredEvidence,
+      evidence_keys_present: input.evidence_keys_present,
+      audit_required: true,
+      event_type: transition.emitted_event_types[0],
+      correlation_id: input.correlation_id,
+    };
   }
 
   private result(
@@ -414,6 +540,12 @@ export class WorkflowService {
     }
 
     return value.trim();
+  }
+
+  private assertNonEmpty(value: string, message: string) {
+    if (value.trim().length === 0) {
+      throw new BadRequestException(message);
+    }
   }
 
   private recordField(record: Record<string, unknown>, key: string, errors: string[]): Record<string, unknown> | null {
