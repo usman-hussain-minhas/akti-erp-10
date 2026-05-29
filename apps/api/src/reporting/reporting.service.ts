@@ -212,6 +212,14 @@ export class ReportingService {
     if (!Array.isArray(input)) {
       throw new BadRequestException('reporting read-model entries must be an array');
     }
+    for (const entry of input) {
+      if (entry.direct_cross_module_table_read !== false || entry.fake_operational_data !== false) {
+        throw new BadRequestException('reporting read-model entries must come from event-driven projections');
+      }
+      this.required(entry.organization_id, 'entry.organization_id');
+      this.required(entry.read_model_key, 'entry.read_model_key');
+      this.required(entry.source_event_cursor, 'entry.source_event_cursor');
+    }
 
     return input
       .filter((entry) => entry.organization_id === organizationId && entry.read_model_key === readModelKey)
