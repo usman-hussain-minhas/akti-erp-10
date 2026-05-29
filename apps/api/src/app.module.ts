@@ -20,6 +20,8 @@ import { HierarchyService } from './hierarchy/hierarchy.service';
 import { LeadDeskController } from './lead-desk/lead-desk.controller';
 import { LeadDeskService } from './lead-desk/lead-desk.service';
 import { ModuleRegistryModule } from './module-registry/module-registry.module';
+import { NotificationsController } from './notifications/notifications.controller';
+import { NotificationsService } from './notifications/notifications.service';
 import { OrganizationSetupController } from './organization-setup/organization-setup.controller';
 import { OrganizationSetupService } from './organization-setup/organization-setup.service';
 import { PlatformHealthController } from './platform-health/platform-health.controller';
@@ -52,6 +54,7 @@ import { WorkflowService } from './workflow/workflow.service';
     FileServiceController,
     ReportingController,
     PlatformHealthController,
+    NotificationsController,
   ],
   providers: [
     AppService,
@@ -72,6 +75,7 @@ import { WorkflowService } from './workflow/workflow.service';
     SearchService,
     FileService,
     ReportingService,
+    NotificationsService,
   ],
 })
 export class AppModule {}
