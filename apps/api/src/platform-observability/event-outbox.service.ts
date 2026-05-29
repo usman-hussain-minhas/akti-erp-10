@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto';
 
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { type Prisma } from '../prisma/prisma-client';
 
 import { PrismaService } from '../prisma/prisma.service';
@@ -23,10 +23,106 @@ type RecordEventOutboxInput = {
   version: string;
   payload: Record<string, unknown>;
   idempotency_key: string;
+  producer?: string;
+  source_module?: string;
+  subject?: EventEnvelopeSubject;
+  occurred_at?: Date;
+  compliance?: Partial<EventEnvelopeComplianceContext>;
 };
 
 export const PLATFORM_MUTATION_RECORDED_EVENT_TYPE = 'platform.mutation.recorded';
 export const PLATFORM_MUTATION_RECORDED_EVENT_VERSION = '0.1.0';
+export const EVENT_ENVELOPE_SCHEMA_VERSION = '1.0.0';
+export const DEFAULT_EVENT_PRODUCER = 'akti-api';
+export const DEFAULT_EVENT_SOURCE_MODULE = 'platform';
+
+export type EventEnvelopeSubject = {
+  entity_type: string;
+  entity_id: string | null;
+};
+
+export type EventEnvelopeComplianceContext = {
+  privacy_class: 'internal' | 'confidential' | 'restricted';
+  retention_class: 'standard' | 'audit' | 'legal_hold';
+  redaction_policy: 'none' | 'standard' | 'strict';
+  audit_required: boolean;
+  replay_allowed: boolean;
+};
+
+export type EventEnvelope = {
+  event_id: string;
+  event_type: string;
+  producer: string;
+  occurred_at: string;
+  schema_version: string;
+  organization_id: string;
+  source_module: string;
+  subject: EventEnvelopeSubject;
+  payload: Record<string, unknown>;
+  idempotency_key: string;
+  compliance: EventEnvelopeComplianceContext;
+};
+
+type BuildEventEnvelopeInput = {
+  organization_id: string;
+  event_type: string;
+  idempotency_key: string;
+  payload: Record<string, unknown>;
+  producer?: string;
+  source_module?: string;
+  subject?: EventEnvelopeSubject;
+  occurred_at?: Date;
+  schema_version?: string;
+  compliance?: Partial<EventEnvelopeComplianceContext>;
+};
+
+const DEFAULT_EVENT_COMPLIANCE_CONTEXT: EventEnvelopeComplianceContext = {
+  privacy_class: 'internal',
+  retention_class: 'standard',
+  redaction_policy: 'standard',
+  audit_required: true,
+  replay_allowed: true,
+};
+
+export function buildEventEnvelope(input: BuildEventEnvelopeInput): EventEnvelope {
+  const occurredAt = input.occurred_at ?? new Date();
+  const idempotencyKey = requireNonEmptyString(input.idempotency_key, 'event envelope idempotency_key is required');
+  const envelope: EventEnvelope = {
+    event_id: deriveEventEnvelopeId(input.organization_id, idempotencyKey),
+    event_type: requireNonEmptyString(input.event_type, 'event envelope event_type is required'),
+    producer: normalizeOptionalString(input.producer) ?? DEFAULT_EVENT_PRODUCER,
+    occurred_at: occurredAt.toISOString(),
+    schema_version: normalizeOptionalString(input.schema_version) ?? EVENT_ENVELOPE_SCHEMA_VERSION,
+    organization_id: requireNonEmptyString(input.organization_id, 'event envelope organization_id is required'),
+    source_module: normalizeOptionalString(input.source_module) ?? inferSourceModuleFromEventType(input.event_type),
+    subject: normalizeEventSubject(input.subject, idempotencyKey),
+    payload: requirePayloadObject(input.payload),
+    idempotency_key: idempotencyKey,
+    compliance: {
+      ...DEFAULT_EVENT_COMPLIANCE_CONTEXT,
+      ...(input.compliance ?? {}),
+    },
+  };
+
+  assertEventEnvelope(envelope);
+  return envelope;
+}
+
+export function assertEventEnvelope(envelope: EventEnvelope): EventEnvelope {
+  requireNonEmptyString(envelope.event_id, 'event envelope event_id is required');
+  requireNonEmptyString(envelope.event_type, 'event envelope event_type is required');
+  requireNonEmptyString(envelope.producer, 'event envelope producer is required');
+  requireIsoTimestamp(envelope.occurred_at, 'event envelope occurred_at must be an ISO timestamp');
+  requireNonEmptyString(envelope.schema_version, 'event envelope schema_version is required');
+  requireNonEmptyString(envelope.organization_id, 'event envelope organization_id is required');
+  requireNonEmptyString(envelope.source_module, 'event envelope source_module is required');
+  normalizeEventSubject(envelope.subject, envelope.idempotency_key);
+  requirePayloadObject(envelope.payload);
+  requireNonEmptyString(envelope.idempotency_key, 'event envelope idempotency_key is required');
+  assertComplianceContext(envelope.compliance);
+
+  return envelope;
+}
 
 @Injectable()
 export class EventOutboxService {
@@ -59,6 +155,18 @@ export class EventOutboxService {
   }
 
   async recordEvent(db: DbClient, input: RecordEventOutboxInput): Promise<{ written: true }> {
+    buildEventEnvelope({
+      organization_id: input.organization_id,
+      event_type: input.event_type,
+      idempotency_key: input.idempotency_key,
+      payload: input.payload,
+      producer: input.producer,
+      source_module: input.source_module,
+      subject: input.subject,
+      occurred_at: input.occurred_at,
+      compliance: input.compliance,
+    });
+
     const createData = {
       organization_id: input.organization_id,
       idempotency_key: input.idempotency_key,
@@ -230,4 +338,108 @@ export class EventOutboxService {
 
     return `outbox_${hash.digest('hex')}`;
   }
+}
+
+function deriveEventEnvelopeId(organizationIdRaw: string, idempotencyKeyRaw: string): string {
+  const organizationId = requireNonEmptyString(organizationIdRaw, 'event envelope organization_id is required');
+  const idempotencyKey = requireNonEmptyString(idempotencyKeyRaw, 'event envelope idempotency_key is required');
+  const hash = createHash('sha256');
+  hash.update(organizationId);
+  hash.update('|');
+  hash.update(idempotencyKey);
+
+  return `evt_${hash.digest('hex')}`;
+}
+
+function inferSourceModuleFromEventType(eventTypeRaw: string): string {
+  const eventType = requireNonEmptyString(eventTypeRaw, 'event envelope event_type is required');
+  const [first, second] = eventType.split('.');
+
+  if (!first || !second) {
+    return DEFAULT_EVENT_SOURCE_MODULE;
+  }
+
+  return `${first}.${second}`;
+}
+
+function normalizeEventSubject(subjectRaw: EventEnvelopeSubject | undefined, idempotencyKey: string): EventEnvelopeSubject {
+  if (!subjectRaw) {
+    return {
+      entity_type: 'event',
+      entity_id: idempotencyKey,
+    };
+  }
+
+  return {
+    entity_type: requireNonEmptyString(subjectRaw.entity_type, 'event envelope subject.entity_type is required'),
+    entity_id: normalizeOptionalString(subjectRaw.entity_id),
+  };
+}
+
+function assertComplianceContext(compliance: EventEnvelopeComplianceContext): void {
+  const allowedPrivacy = new Set<EventEnvelopeComplianceContext['privacy_class']>([
+    'internal',
+    'confidential',
+    'restricted',
+  ]);
+  const allowedRetention = new Set<EventEnvelopeComplianceContext['retention_class']>([
+    'standard',
+    'audit',
+    'legal_hold',
+  ]);
+  const allowedRedaction = new Set<EventEnvelopeComplianceContext['redaction_policy']>(['none', 'standard', 'strict']);
+
+  if (!allowedPrivacy.has(compliance.privacy_class)) {
+    throw new BadRequestException('event envelope privacy_class is invalid');
+  }
+  if (!allowedRetention.has(compliance.retention_class)) {
+    throw new BadRequestException('event envelope retention_class is invalid');
+  }
+  if (!allowedRedaction.has(compliance.redaction_policy)) {
+    throw new BadRequestException('event envelope redaction_policy is invalid');
+  }
+  if (typeof compliance.audit_required !== 'boolean') {
+    throw new BadRequestException('event envelope audit_required must be boolean');
+  }
+  if (typeof compliance.replay_allowed !== 'boolean') {
+    throw new BadRequestException('event envelope replay_allowed must be boolean');
+  }
+}
+
+function requirePayloadObject(payloadRaw: Record<string, unknown>): Record<string, unknown> {
+  if (!payloadRaw || typeof payloadRaw !== 'object' || Array.isArray(payloadRaw)) {
+    throw new BadRequestException('event envelope payload must be an object');
+  }
+
+  return payloadRaw;
+}
+
+function requireIsoTimestamp(value: string, message: string): string {
+  const normalized = requireNonEmptyString(value, message);
+  const parsed = Date.parse(normalized);
+
+  if (Number.isNaN(parsed) || new Date(parsed).toISOString() !== normalized) {
+    throw new BadRequestException(message);
+  }
+
+  return normalized;
+}
+
+function requireNonEmptyString(value: string | null | undefined, message: string): string {
+  const normalized = normalizeOptionalString(value);
+
+  if (!normalized) {
+    throw new BadRequestException(message);
+  }
+
+  return normalized;
+}
+
+function normalizeOptionalString(value: string | null | undefined): string | null {
+  if (typeof value !== 'string') {
+    return null;
+  }
+
+  const trimmed = value.trim();
+  return trimmed.length > 0 ? trimmed : null;
 }
