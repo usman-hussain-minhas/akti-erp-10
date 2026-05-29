@@ -623,6 +623,50 @@ export type FoundryRollbackRecoveryReceipt = {
   };
 };
 
+export type FoundryInternalFixtureLifecycleHarnessInput = {
+  manifest: FoundryModuleManifestCandidate;
+  target_version: string;
+  organization_id: string;
+  actor_user_id: string;
+  correlation_id: string;
+  platform_core_version?: string;
+  installed_modules?: FoundryInstalledModuleForCompatibility[];
+};
+
+export type FoundryInternalFixtureLifecycleHarnessResult = {
+  module_key: 'platform.fixture';
+  current_version: string;
+  target_version: string;
+  manifest_hash: string;
+  target_manifest_hash: string;
+  evidence_package: FoundryEvidencePackage;
+  install_execution: FoundryInstallExecutionReceipt;
+  install_evidence_receipt: FoundryInstallEvidenceReceipt;
+  enable_receipt: FoundryEnableExecutionReceipt;
+  disable_receipt: FoundryDisableExecutionReceipt;
+  uninstall_receipt: FoundryUninstallExecutionReceipt;
+  update_receipt: FoundryUpdateExecutionReceipt;
+  rollback_recovery_receipt: FoundryRollbackRecoveryReceipt;
+  completed_actions: [
+    'module.install',
+    'module.install.evidence_received',
+    'module.enable',
+    'module.disable',
+    'module.uninstall',
+    'module.update',
+    'module.rollback_recovery',
+  ];
+  boundary: {
+    internal_fixture_only: true;
+    business_module: false;
+    golden_module: false;
+    marketplace_public: false;
+    production_adapter_enabled: false;
+    foundry_execution_after_gatekeeper_allow_only: true;
+    event_envelopes_compliant: boolean;
+  };
+};
+
 type FoundryCapabilitySpec = {
   key: string;
   module_key: string;
@@ -770,6 +814,230 @@ const FOUNDRY_LIFECYCLE_TRANSITIONS = [
 @Injectable()
 export class FoundryService {
   constructor(@Optional() private readonly gatekeeperPreflightService?: GatekeeperPreflightService) {}
+
+  runInternalFixtureLifecycleHarness(
+    input: FoundryInternalFixtureLifecycleHarnessInput,
+  ): FoundryInternalFixtureLifecycleHarnessResult {
+    this.assertInternalFixtureManifest(input.manifest);
+
+    const manifestValidation = this.assertManifestValid(input.manifest);
+    const targetManifestValidation = this.assertManifestValid({
+      ...input.manifest,
+      version: input.target_version,
+    });
+    const compatibilityResult = this.assertCompatibility({
+      manifest: input.manifest,
+      platform_core_version: input.platform_core_version ?? '1.0.0',
+      installed_modules:
+        input.installed_modules ??
+        [
+          {
+            module_key: 'core.access',
+            version: '0.1.0',
+            status: 'enabled',
+          },
+        ],
+    });
+    const evidencePackage = this.assertEvidencePackageComplete({
+      module_key: input.manifest.module_key,
+      module_version: input.manifest.version,
+      lifecycle_action: FOUNDRY_INSTALL_ACTION_KEY,
+      manifest: input.manifest,
+      manifest_hash: manifestValidation.manifest_hash ?? '',
+      migration_files: input.manifest.migrations.map((migration) => ({
+        kind: 'migration',
+        path: `codex-review/phase5b-gatekeeper-foundry/internal-fixture/${migration.key}.sql`,
+        sha256: 'c'.repeat(64),
+      })),
+      capability_snapshot_before: ['platform.shell.access'],
+      capability_snapshot_after: [
+        'platform.fixture.manage',
+        'platform.fixture.read',
+        'platform.shell.access',
+      ],
+      health_check_results: [
+        {
+          name: 'internal-fixture.health',
+          status: 'passed',
+          summary: 'Internal fixture health boundary is manifest-declared.',
+        },
+      ],
+      smoke_test_results: [
+        {
+          name: 'internal-fixture.smoke',
+          status: 'passed',
+          summary: 'Internal fixture manifest is valid for lifecycle exercise.',
+        },
+      ],
+      validation_results: [
+        {
+          name: 'internal-fixture.manifest',
+          status: 'passed',
+          command: 'pnpm --dir packages/contracts exec tsx internal-fixture.module-manifest.p5b-035a.test.ts',
+          summary: 'Internal fixture manifest proof passed.',
+        },
+      ],
+      gatekeeper_decision: {
+        decision_id: 'gkd-internal-fixture-allow',
+        outcome: 'ALLOW',
+        decided_by_actor_id: input.actor_user_id,
+        reason_summary: 'Gatekeeper allowed scoped internal fixture lifecycle harness execution.',
+        risk_level: 'high',
+      },
+      rollback_plan_ref:
+        'codex-review/phase5b-gatekeeper-foundry/ticket-artifacts/P5B-035b/internal-fixture-rollback-plan.md',
+      installer_actor_id: input.actor_user_id,
+      organization_id: input.organization_id,
+      correlation_id: input.correlation_id,
+      compatibility_result: compatibilityResult,
+      step_timestamps: [
+        { step: 'manifest_validated', at: '2026-05-29T00:00:00.000Z' },
+        { step: 'gatekeeper_decision_recorded', at: '2026-05-29T00:01:00.000Z' },
+      ],
+    });
+    const installExecution = this.executeInstall({
+      module_key: input.manifest.module_key,
+      module_version: input.manifest.version,
+      manifest_hash: manifestValidation.manifest_hash ?? '',
+      gatekeeper_outcome: 'ALLOW',
+      gatekeeper_decision_token: 'gk_decision_internal_fixture_allow',
+      evidence_ref: evidencePackage.package_id,
+      migration_plan_ref:
+        'codex-review/phase5b-gatekeeper-foundry/ticket-artifacts/P5B-035b/internal-fixture-migration-plan.md',
+      rollback_plan_ref:
+        'codex-review/phase5b-gatekeeper-foundry/ticket-artifacts/P5B-035b/internal-fixture-rollback-plan.md',
+      compatibility_result: compatibilityResult,
+      organization_id: input.organization_id,
+      actor_user_id: input.actor_user_id,
+      correlation_id: input.correlation_id,
+    });
+    const installEvidenceReceipt = this.receiveInstallEvidence({
+      install_execution_receipt: installExecution,
+      evidence_package: evidencePackage,
+      received_by_actor_id: input.actor_user_id,
+      organization_id: input.organization_id,
+      correlation_id: input.correlation_id,
+      received_at: '2026-05-29T00:02:00.000Z',
+    });
+    const enableReceipt = this.executeEnable({
+      module_key: input.manifest.module_key,
+      module_version: input.manifest.version,
+      current_status: 'installed',
+      manifest_hash: manifestValidation.manifest_hash ?? '',
+      gatekeeper_outcome: 'ALLOW',
+      gatekeeper_decision_token: 'gk_decision_internal_fixture_enable',
+      evidence_ref: evidencePackage.package_id,
+      organization_id: input.organization_id,
+      actor_user_id: input.actor_user_id,
+      correlation_id: input.correlation_id,
+    });
+    const disableReceipt = this.executeDisable({
+      module_key: input.manifest.module_key,
+      module_version: input.manifest.version,
+      manifest_hash: manifestValidation.manifest_hash ?? '',
+      gatekeeper_outcome: 'ALLOW',
+      gatekeeper_decision_token: 'gk_decision_internal_fixture_disable',
+      evidence_ref: evidencePackage.package_id,
+      retention_plan_ref:
+        'codex-review/phase5b-gatekeeper-foundry/ticket-artifacts/P5B-035b/internal-fixture-retention-plan.md',
+      organization_id: input.organization_id,
+      actor_user_id: input.actor_user_id,
+      correlation_id: input.correlation_id,
+    });
+    const uninstallReceipt = this.executeUninstall({
+      module_key: input.manifest.module_key,
+      module_version: input.manifest.version,
+      current_status: 'disabled',
+      manifest_hash: manifestValidation.manifest_hash ?? '',
+      gatekeeper_outcome: 'ALLOW',
+      gatekeeper_decision_token: 'gk_decision_internal_fixture_uninstall',
+      evidence_ref: evidencePackage.package_id,
+      retention_plan_ref:
+        'codex-review/phase5b-gatekeeper-foundry/ticket-artifacts/P5B-035b/internal-fixture-retention-plan.md',
+      rollback_plan_ref:
+        'codex-review/phase5b-gatekeeper-foundry/ticket-artifacts/P5B-035b/internal-fixture-rollback-plan.md',
+      organization_id: input.organization_id,
+      actor_user_id: input.actor_user_id,
+      correlation_id: input.correlation_id,
+    });
+    const updateReceipt = this.executeUpdate({
+      module_key: input.manifest.module_key,
+      current_version: input.manifest.version,
+      target_version: input.target_version,
+      current_manifest_hash: manifestValidation.manifest_hash ?? '',
+      target_manifest_hash: targetManifestValidation.manifest_hash ?? '',
+      gatekeeper_outcome: 'ALLOW',
+      gatekeeper_decision_token: 'gk_decision_internal_fixture_update',
+      evidence_ref: evidencePackage.package_id,
+      migration_plan_ref:
+        'codex-review/phase5b-gatekeeper-foundry/ticket-artifacts/P5B-035b/internal-fixture-update-plan.md',
+      rollback_plan_ref:
+        'codex-review/phase5b-gatekeeper-foundry/ticket-artifacts/P5B-035b/internal-fixture-rollback-plan.md',
+      compatibility_result: compatibilityResult,
+      organization_id: input.organization_id,
+      actor_user_id: input.actor_user_id,
+      correlation_id: input.correlation_id,
+    });
+    const rollbackRecoveryReceipt = this.executeRollbackRecovery({
+      module_key: input.manifest.module_key,
+      module_version: input.manifest.version,
+      current_status: 'updating',
+      manifest_hash: manifestValidation.manifest_hash ?? '',
+      gatekeeper_outcome: 'ALLOW',
+      gatekeeper_decision_token: 'gk_decision_internal_fixture_rollback',
+      evidence_ref: evidencePackage.package_id,
+      rollback_plan_ref:
+        'codex-review/phase5b-gatekeeper-foundry/ticket-artifacts/P5B-035b/internal-fixture-rollback-plan.md',
+      failure_evidence_ref:
+        'codex-review/phase5b-gatekeeper-foundry/ticket-artifacts/P5B-035b/internal-fixture-failure-evidence.md',
+      organization_id: input.organization_id,
+      actor_user_id: input.actor_user_id,
+      correlation_id: input.correlation_id,
+    });
+    const eventEnvelopesCompliant = [
+      installExecution,
+      installEvidenceReceipt,
+      enableReceipt,
+      disableReceipt,
+      uninstallReceipt,
+      updateReceipt,
+      rollbackRecoveryReceipt,
+    ].every((receipt) => receipt.audit.audit_completeness.event_envelope_compliant === true);
+
+    return {
+      module_key: 'platform.fixture',
+      current_version: input.manifest.version,
+      target_version: input.target_version,
+      manifest_hash: manifestValidation.manifest_hash ?? '',
+      target_manifest_hash: targetManifestValidation.manifest_hash ?? '',
+      evidence_package: evidencePackage,
+      install_execution: installExecution,
+      install_evidence_receipt: installEvidenceReceipt,
+      enable_receipt: enableReceipt,
+      disable_receipt: disableReceipt,
+      uninstall_receipt: uninstallReceipt,
+      update_receipt: updateReceipt,
+      rollback_recovery_receipt: rollbackRecoveryReceipt,
+      completed_actions: [
+        'module.install',
+        'module.install.evidence_received',
+        'module.enable',
+        'module.disable',
+        'module.uninstall',
+        'module.update',
+        'module.rollback_recovery',
+      ],
+      boundary: {
+        internal_fixture_only: true,
+        business_module: false,
+        golden_module: false,
+        marketplace_public: false,
+        production_adapter_enabled: false,
+        foundry_execution_after_gatekeeper_allow_only: true,
+        event_envelopes_compliant: eventEnvelopesCompliant,
+      },
+    };
+  }
 
   async runInstallPreflight(input: FoundryInstallPreflightInput): Promise<FoundryInstallPreflightResponse> {
     const gatekeeperRequest = this.buildInstallPreflightGatekeeperRequest(input);
@@ -2183,6 +2451,29 @@ export class FoundryService {
       input.production_adapter_enabled === true
     ) {
       throw new BadRequestException('Foundry module scaffold cannot authorize out-of-phase module scope');
+    }
+  }
+
+  private assertInternalFixtureManifest(input: FoundryModuleManifestCandidate) {
+    if (input.module_key !== 'platform.fixture') {
+      throw new BadRequestException('Internal fixture harness requires platform.fixture module_key');
+    }
+
+    const serialized = stableJsonStringify(input).toLowerCase();
+    for (const forbidden of [
+      'lead.desk',
+      'admissions',
+      'finance',
+      'hr',
+      'golden',
+      'marketplace',
+      'whatsapp',
+      'production provider',
+      'production secret',
+    ]) {
+      if (serialized.includes(forbidden)) {
+        throw new BadRequestException(`Internal fixture harness cannot include out-of-phase scope: ${forbidden}`);
+      }
     }
   }
 
