@@ -292,7 +292,18 @@ model EventOutbox {
   idempotency_key String
   event_type      String
   version         String
+  event_id        String?
+  producer        String       @default("akti-api")
+  occurred_at     DateTime     @default(now())
+  schema_version  String       @default("1.0.0")
+  source_module   String       @default("platform")
+  subject         Json?
   payload         Json
+  privacy_class   String       @default("internal")
+  retention_class String       @default("standard")
+  redaction_policy String      @default("standard")
+  audit_required  Boolean      @default(true)
+  replay_allowed  Boolean      @default(true)
   status          String
   attempt_count   Int          @default(0)
   next_attempt_at DateTime?
@@ -309,6 +320,10 @@ model EventOutbox {
   @@index([organization_id, status, next_attempt_at, created_at])
   @@index([organization_id, dead_lettered_at])
   @@index([event_type])
+  @@index([event_id])
+  @@index([organization_id, event_type, created_at])
+  @@index([organization_id, source_module, created_at])
+  @@index([organization_id, schema_version, created_at])
 }
 
 model ModuleRegistryEntry {

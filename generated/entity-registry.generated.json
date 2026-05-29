@@ -3,7 +3,7 @@
   "sources": {
     "prisma_schema": "prisma/schema.prisma",
     "metadata": "prisma/entity-registry.metadata.json",
-    "prisma_schema_hash": "sha256:071e829393eda3e3f4f2198b31b305d83575ecd34e5eff85f9ff7a294642d47a",
+    "prisma_schema_hash": "sha256:aafc10c72407694e7b080d9e0583d23dc9c41f70319e035f3c4f4958b4afc2ea",
     "metadata_hash": "sha256:d966926a80f84ccd33e27ecd19f5337182443230d452d8a18ee489522e11a561"
   },
   "entities": [
@@ -553,6 +553,15 @@
           "is_relation": false
         },
         {
+          "field_name": "audit_required",
+          "column_name": "audit_required",
+          "type": "Boolean",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
           "field_name": "created_at",
           "column_name": "created_at",
           "type": "DateTime",
@@ -565,6 +574,15 @@
           "field_name": "dead_lettered_at",
           "column_name": "dead_lettered_at",
           "type": "DateTime",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "event_id",
+          "column_name": "event_id",
+          "type": "String",
           "is_required": false,
           "is_unique": false,
           "is_id": false,
@@ -634,6 +652,15 @@
           "is_relation": false
         },
         {
+          "field_name": "occurred_at",
+          "column_name": "occurred_at",
+          "type": "DateTime",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
           "field_name": "organization",
           "column_name": "organization",
           "type": "Organization",
@@ -662,6 +689,15 @@
           "is_relation": false
         },
         {
+          "field_name": "privacy_class",
+          "column_name": "privacy_class",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
           "field_name": "processed_at",
           "column_name": "processed_at",
           "type": "DateTime",
@@ -671,10 +707,73 @@
           "is_relation": false
         },
         {
+          "field_name": "producer",
+          "column_name": "producer",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "redaction_policy",
+          "column_name": "redaction_policy",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "replay_allowed",
+          "column_name": "replay_allowed",
+          "type": "Boolean",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "retention_class",
+          "column_name": "retention_class",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "schema_version",
+          "column_name": "schema_version",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "source_module",
+          "column_name": "source_module",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
           "field_name": "status",
           "column_name": "status",
           "type": "String",
           "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "subject",
+          "column_name": "subject",
+          "type": "Json",
+          "is_required": false,
           "is_unique": false,
           "is_id": false,
           "is_relation": false
@@ -690,6 +789,16 @@
         }
       ],
       "indexes": [
+        {
+          "name": "EventOutbox_event_id_idx",
+          "fields": [
+            "event_id"
+          ],
+          "columns": [
+            "event_id"
+          ],
+          "is_unique": false
+        },
         {
           "name": "EventOutbox_event_type_idx",
           "fields": [
@@ -723,6 +832,20 @@
           "is_unique": false
         },
         {
+          "name": "EventOutbox_organization_id_event_type_created_at_idx",
+          "fields": [
+            "organization_id",
+            "event_type",
+            "created_at"
+          ],
+          "columns": [
+            "organization_id",
+            "event_type",
+            "created_at"
+          ],
+          "is_unique": false
+        },
+        {
           "name": "EventOutbox_organization_id_idempotency_key_key",
           "fields": [
             "organization_id",
@@ -733,6 +856,34 @@
             "idempotency_key"
           ],
           "is_unique": true
+        },
+        {
+          "name": "EventOutbox_organization_id_schema_version_created_at_idx",
+          "fields": [
+            "organization_id",
+            "schema_version",
+            "created_at"
+          ],
+          "columns": [
+            "organization_id",
+            "schema_version",
+            "created_at"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "EventOutbox_organization_id_source_module_created_at_idx",
+          "fields": [
+            "organization_id",
+            "source_module",
+            "created_at"
+          ],
+          "columns": [
+            "organization_id",
+            "source_module",
+            "created_at"
+          ],
+          "is_unique": false
         },
         {
           "name": "EventOutbox_organization_id_status_created_at_idx",

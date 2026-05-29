@@ -155,7 +155,7 @@ export class EventOutboxService {
   }
 
   async recordEvent(db: DbClient, input: RecordEventOutboxInput): Promise<{ written: true }> {
-    buildEventEnvelope({
+    const envelope = buildEventEnvelope({
       organization_id: input.organization_id,
       event_type: input.event_type,
       idempotency_key: input.idempotency_key,
@@ -172,6 +172,12 @@ export class EventOutboxService {
       idempotency_key: input.idempotency_key,
       event_type: input.event_type,
       version: input.version,
+      event_id: envelope.event_id,
+      producer: envelope.producer,
+      occurred_at: new Date(envelope.occurred_at),
+      schema_version: envelope.schema_version,
+      source_module: envelope.source_module,
+      subject: envelope.subject as Prisma.InputJsonValue,
       status: 'pending',
       attempt_count: 0,
       next_attempt_at: null,
@@ -181,6 +187,11 @@ export class EventOutboxService {
       locked_by: null,
       processed_at: null,
       payload: input.payload as Prisma.InputJsonValue,
+      privacy_class: envelope.compliance.privacy_class,
+      retention_class: envelope.compliance.retention_class,
+      redaction_policy: envelope.compliance.redaction_policy,
+      audit_required: envelope.compliance.audit_required,
+      replay_allowed: envelope.compliance.replay_allowed,
     };
 
     if (typeof (db.eventOutbox as { upsert?: unknown }).upsert === 'function') {
