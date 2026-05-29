@@ -1,12 +1,12 @@
 # AKTI ERP Phase 5C Readiness Handoff After Phase 5B1 v1
 
-Status: PENDING_P5B1_GATE
+Status: READY_FOR_PHASE_5C_PLANNING_REVIEW_AFTER_PHASE_5B1
 
-Phase 5C implementation is not started. This handoff does not start Phase 5C, does not authorize frontend code changes, and does not create Phase 5C tickets. It is a planning/control handoff prepared before final Phase 5B1 gate closure.
+Phase 5C implementation is not started. This handoff does not start Phase 5C, does not authorize frontend code changes, and does not create Phase 5C tickets. It is a planning/control handoff finalized after Phase 5B1 gate closure.
 
-## Phase 5B1 Substrate Prepared For Final Gate Review
+## Phase 5B1 Substrate Closed By Final Gate
 
-Phase 5B1 prepares platform-experience substrate required before Phase 5C frontend planning can proceed safely:
+Phase 5B1 closed platform-experience substrate required before Phase 5C frontend planning can proceed safely:
 
 - AKTI Spark product identity and CRM visible alias over existing Lead Desk technical surfaces.
 - Frontend-only shell route metadata authority.
@@ -34,15 +34,15 @@ Phase 5C must not:
 - Start Phase 6A Golden Module work or Phase 6B+ business modules.
 - Introduce Admissions, Finance, HR, marketplace, workflow builder, AI assistant/runtime, real providers, production WhatsApp, production auth, deployment, secrets, logo upload/storage, or a full white-label editor.
 
-## Final Gate Dependency
+## Final Gate Closure
 
-This handoff is not complete until `P5B1-GATE`:
+`P5B1-GATE` completed the closure prerequisites for this handoff:
 
-- runs the final validation ladder;
-- completes `docs/process/AKTI_ERP_Phase_5B1_Audit_Report_v1.md`;
-- finalizes the external audit package;
-- confirms Phase 5B1 closure status; and
-- records the final source/branch evidence for external audit.
+- final validation ladder was run and recorded;
+- `docs/process/AKTI_ERP_Phase_5B1_Audit_Report_v1.md` was completed;
+- the external audit package was finalized;
+- Phase 5B1 closure status was confirmed; and
+- final source/branch evidence is available for external audit, with final branch HEAD verified directly from git.
 
 ## Recommended Next Action After Gate
 
