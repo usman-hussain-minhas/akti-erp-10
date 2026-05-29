@@ -2126,6 +2126,9 @@ export class FoundryService {
       if (capability.module_key !== input.module_key) {
         errors.push(`capability ${capability.key} module_key must match manifest module_key`);
       }
+      if (!this.capabilityBelongsToManifestNamespace(capability.key, input.module_key, input.module_type)) {
+        errors.push(`capability ${capability.key} must be namespaced by manifest module_key ${input.module_key}`);
+      }
       if (['high', 'critical'].includes(capability.risk_level)) {
         if (!capability.requires_audit) {
           errors.push(`high and critical capability ${capability.key} requires audit`);
@@ -2185,6 +2188,18 @@ export class FoundryService {
         errors.push(`dependency ${dependency.module_key} min_version must be semver`);
       }
     }
+  }
+
+  private capabilityBelongsToManifestNamespace(
+    capabilityKey: string,
+    moduleKey: string,
+    moduleType: FoundryModuleType,
+  ): boolean {
+    if (capabilityKey.startsWith(`${moduleKey}.`)) {
+      return true;
+    }
+
+    return moduleType === 'core';
   }
 
   private requireUnique<T>(
