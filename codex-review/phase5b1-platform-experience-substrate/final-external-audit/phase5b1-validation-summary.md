@@ -1,28 +1,33 @@
-# Phase 5B1 Validation Summary
+# Phase 5B1 Final Validation Summary
 
-Status: PENDING_FINAL_GATE
+Status: PASS
 
-This validation summary is a preparation artifact created before final gate closure. Phase 5B1 is not complete until `P5B1-GATE` runs and records the final validation ladder.
+Final validation was run for `P5B1-GATE` on branch `phase5b1/platform-experience-substrate`.
 
-## Final Gate Commands Pending
+## Commands
 
-- `pnpm contracts:validate` - PENDING
-- `pnpm exec prisma validate --schema prisma/schema.prisma` - PENDING
-- `pnpm exec prisma generate --schema prisma/schema.prisma` - PENDING
-- `pnpm registry:generate` - PENDING
-- `pnpm registry:check` - PENDING
-- `pnpm lint` - PENDING
-- `pnpm typecheck` - PENDING
-- `pnpm test` - PENDING
-- `pnpm build` - PENDING
-- `git diff --exit-code -- prisma/schema.prisma` - PENDING
-- `git diff --exit-code -- generated/entity-registry.generated.json` - PENDING
-- `git diff --exit-code -- prisma/entity-registry.metadata.json` - PENDING
-- `git diff --check` - PENDING
-- `git status --short --branch` - PENDING
+- `pnpm contracts:validate` - PASS
+- `pnpm exec prisma validate --schema prisma/schema.prisma` - PASS
+- `pnpm exec prisma generate --schema prisma/schema.prisma` - PASS
+- `pnpm registry:generate` - PASS
+- `pnpm registry:check` - PASS
+- `pnpm lint` - PASS
+- `pnpm typecheck` - PASS
+- `pnpm test` - PASS after bounded final-gate repair
+- `pnpm build` - PASS
+- `git diff --exit-code -- prisma/schema.prisma` - PASS
+- `git diff --exit-code -- generated/entity-registry.generated.json` - PASS
+- `git diff --exit-code -- prisma/entity-registry.metadata.json` - PASS
+- `git diff --check` - PASS
+- `git status --short --branch` - PASS; final gate files and the bounded repair were pending commit at the time of status capture.
 
-## Notes
+## Bounded Repair
 
-- This file does not claim final validation has passed.
-- `P5B1-GATE` must replace pending entries with final results.
-- Phase 5C implementation is not started by this preparation artifact.
+The first `pnpm test` run failed because the Access Core seed-boundary allowlist in `apps/api/src/module-registry/module-registry.service.ts` did not include `platform.data.controls.view`, which had already been added by Phase 5B1 capability seeding. `P5B1-GATE` added the approved capability key to the runtime allowlist and reran the full validation ladder successfully.
+
+## Drift Checks
+
+- Prisma schema drift: PASS, no diff.
+- Generated entity registry drift: PASS, no diff.
+- Entity registry metadata drift: PASS, no diff.
+- Generated Prisma client output was produced locally by `prisma generate` and is not committed.
