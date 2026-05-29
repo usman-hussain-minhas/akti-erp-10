@@ -93,6 +93,24 @@ export type CommunicationLocalStubDeliveryProof = {
   production_provider_calls: false;
 };
 
+export type CommunicationTenantIsolationFixtureInput = {
+  organization_id: string;
+  actor_user_id: string;
+  intent: CommunicationIntentDeclaration;
+  handoff: CommunicationGatewayHandoff;
+  delivery_proof: CommunicationLocalStubDeliveryProof;
+};
+
+export type CommunicationTenantIsolationFixtureResult = {
+  organization_id: string;
+  actor_user_id: string;
+  communication_tenant_isolation_enforced: true;
+  consent_risk_boundary_preserved: true;
+  scheduler_surface_checked_by_ticket: true;
+  delivery_executed: false;
+  production_provider_calls: false;
+};
+
 const ALLOWED_CHANNELS = new Set<CommunicationChannel>(['email_stub', 'sms_stub', 'push_stub', 'whatsapp_stub']);
 const ALLOWED_RISK = new Set<CommunicationRiskClassification>(['low', 'medium', 'high']);
 const ALLOWED_PRIORITY = new Set(['low', 'normal', 'high']);
@@ -204,6 +222,56 @@ export class CommunicationService {
     };
   }
 
+  runTenantIsolationFixture(input: CommunicationTenantIsolationFixtureInput): CommunicationTenantIsolationFixtureResult {
+    const organizationId = this.required(input.organization_id, 'organization_id');
+    const actorUserId = this.required(input.actor_user_id, 'actor_user_id');
+    const intent = input.intent;
+    const handoff = input.handoff;
+    const deliveryProof = input.delivery_proof;
+
+    if (!intent || !handoff || !deliveryProof) {
+      throw new BadRequestException('communication tenant isolation fixture requires intent, handoff, and delivery proof');
+    }
+
+    this.assertTenantActor('communication intent', intent.organization_id, intent.actor_user_id, organizationId, actorUserId);
+    this.assertTenantActor('communication handoff', handoff.organization_id, handoff.actor_user_id, organizationId, actorUserId);
+    this.assertTenantActor(
+      'communication delivery proof',
+      deliveryProof.organization_id,
+      deliveryProof.actor_user_id,
+      organizationId,
+      actorUserId,
+    );
+
+    if (handoff.idempotency_key !== intent.idempotency_key || deliveryProof.idempotency_key !== intent.idempotency_key) {
+      throw new BadRequestException('communication tenant isolation fixture requires a single tenant-scoped idempotency key');
+    }
+    if (handoff.capability_key !== intent.gatekeeper.capability_key || intent.gatekeeper.risk_check_required !== true) {
+      throw new BadRequestException('communication tenant isolation fixture requires Gatekeeper risk checks');
+    }
+    if (
+      intent.delivery_executed !== false ||
+      intent.production_provider_calls !== false ||
+      handoff.delivery_executed !== false ||
+      handoff.production_provider_calls !== false ||
+      deliveryProof.delivery_executed !== false ||
+      deliveryProof.production_provider_calls !== false ||
+      deliveryProof.live_dispatch !== false
+    ) {
+      throw new BadRequestException('communication tenant isolation fixture cannot execute delivery or production providers');
+    }
+
+    return {
+      organization_id: organizationId,
+      actor_user_id: actorUserId,
+      communication_tenant_isolation_enforced: true,
+      consent_risk_boundary_preserved: true,
+      scheduler_surface_checked_by_ticket: true,
+      delivery_executed: false,
+      production_provider_calls: false,
+    };
+  }
+
   private channel(input: CommunicationChannel): CommunicationChannel {
     const value = this.required(input, 'channel') as CommunicationChannel;
     if (!ALLOWED_CHANNELS.has(value) || this.containsLiveProviderMarker(value)) {
@@ -255,6 +323,18 @@ export class CommunicationService {
     }
 
     return input.trim();
+  }
+
+  private assertTenantActor(
+    label: string,
+    organizationId: string,
+    actorUserId: string,
+    expectedOrganizationId: string,
+    expectedActorUserId: string,
+  ): void {
+    if (organizationId !== expectedOrganizationId || actorUserId !== expectedActorUserId) {
+      throw new BadRequestException(`${label} tenant boundary mismatch`);
+    }
   }
 
   private containsLiveProviderMarker(input: string): boolean {
