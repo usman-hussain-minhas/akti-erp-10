@@ -4,6 +4,8 @@ Phase: Phase 5B - Gatekeeper-Governed Module Foundry and Core Platform Completio
 
 Branch: `phase5b/gatekeeper-foundry`
 
+Final PR branch HEAD: `520bc2cb44a8f35b5092a648e8e3cef0fb4e1c73`
+
 Source package HEAD: `8181071700254f96287cf3a9f584de096e6d3678`
 
 Source package short SHA: `8181071`
@@ -38,6 +40,14 @@ Source ZIP size: 987176 bytes
 ## Checksum Policy
 
 `phase5b-checksums.sha256` records checksums for the final package artifacts and excludes itself.
+
+## HEAD Split Explanation
+
+The source ZIP was generated from source package HEAD `8181071700254f96287cf3a9f584de096e6d3678` (`8181071`) before the final audit package/closure commit.
+
+The final PR branch HEAD is `520bc2cb44a8f35b5092a648e8e3cef0fb4e1c73`.
+
+The final branch commit adds closure/audit package artifacts and Phase 5C handoff evidence. Runtime/source packaging remains anchored to `8181071`, while PR review should inspect the final branch head `520bc2c` for completed audit artifacts.
 
 ## Review Note
 
