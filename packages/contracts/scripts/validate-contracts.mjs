@@ -94,6 +94,17 @@ if (existsSync(leadDeskValidator)) {
   run("pnpm", ["exec", "tsx", leadDeskValidator]);
 }
 
+const moduleManifestValidator = join(packageRoot, "scripts", "validate-module-manifest-contracts.mjs");
+if (!existsSync(moduleManifestValidator)) {
+  console.error(
+    `Required validator is missing: ${relative(packageRoot, moduleManifestValidator)}`,
+  );
+  process.exit(1);
+}
+
+console.log(`Validating ${relative(packageRoot, moduleManifestValidator)}`);
+run("pnpm", ["exec", "tsx", moduleManifestValidator]);
+
 const screenValidator = join(packageRoot, "scripts", "validate-screen-contracts.mjs");
 if (!existsSync(screenValidator)) {
   console.error(
