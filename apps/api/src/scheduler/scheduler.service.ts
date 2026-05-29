@@ -83,6 +83,28 @@ export type SchedulerRuntimeBoundary = {
   blocked_reason: 'gatekeeper_preflight_required_before_runtime_enqueue';
 };
 
+export type SchedulerSafetyDeadLetterBaseline = {
+  job_key: string;
+  organization_id: string;
+  queue_key: string;
+  idempotency_key: string;
+  retry_max_attempts: number;
+  retry_backoff_ms: number;
+  dead_letter_enabled: boolean;
+  dead_letter_queue_key: string;
+  safety_state: 'declared_not_executed';
+  poison_message_policy: 'dead_letter_after_retry_exhaustion';
+  dead_letter_record_emitted: false;
+  retry_execution_started: false;
+  worker_started: false;
+  production_queue_connected: false;
+  tenant_context_required: true;
+  audit: {
+    event_type: 'scheduler.safety.dead_letter.baseline.declared';
+    audit_required: true;
+  };
+};
+
 const ALLOWED_CADENCES = new Set<SchedulerCadence>(['manual', 'once', 'recurring']);
 const ALLOWED_RISK = new Set<SchedulerRiskClassification>(['low', 'medium', 'high']);
 const ALLOWED_DEPENDENCY_TYPES = new Set<SchedulerRuntimeDependency['dependency_type']>([
@@ -157,6 +179,48 @@ export class SchedulerService {
       business_logic_executed: false,
       production_queue_connected: false,
       blocked_reason: 'gatekeeper_preflight_required_before_runtime_enqueue',
+    };
+  }
+
+  declareSafetyDeadLetterBaseline(
+    declaration: SchedulerJobDeclaration,
+    boundary: SchedulerRuntimeBoundary,
+  ): SchedulerSafetyDeadLetterBaseline {
+    if (boundary.job_key !== declaration.job_key || boundary.organization_id !== declaration.organization_id) {
+      throw new BadRequestException('scheduler safety baseline must match declaration boundary');
+    }
+    if (
+      boundary.queue_enqueued !== false ||
+      boundary.worker_started !== false ||
+      boundary.runtime_execution_started !== false ||
+      boundary.production_queue_connected !== false
+    ) {
+      throw new BadRequestException('scheduler safety baseline cannot be declared after runtime execution starts');
+    }
+    if (declaration.dead_letter.enabled && declaration.dead_letter.queue_key === declaration.queue_key) {
+      throw new BadRequestException('scheduler dead-letter queue must remain separate from runtime queue');
+    }
+
+    return {
+      job_key: declaration.job_key,
+      organization_id: declaration.organization_id,
+      queue_key: declaration.queue_key,
+      idempotency_key: declaration.idempotency_key,
+      retry_max_attempts: declaration.retry_policy.max_attempts,
+      retry_backoff_ms: declaration.retry_policy.backoff_ms,
+      dead_letter_enabled: declaration.dead_letter.enabled,
+      dead_letter_queue_key: declaration.dead_letter.queue_key,
+      safety_state: 'declared_not_executed',
+      poison_message_policy: 'dead_letter_after_retry_exhaustion',
+      dead_letter_record_emitted: false,
+      retry_execution_started: false,
+      worker_started: false,
+      production_queue_connected: false,
+      tenant_context_required: true,
+      audit: {
+        event_type: 'scheduler.safety.dead_letter.baseline.declared',
+        audit_required: true,
+      },
     };
   }
 
