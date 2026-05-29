@@ -200,6 +200,23 @@ export type FoundryInstallPreflightInput = {
 
 type FoundryLifecycleAuditEnvelope = EventEnvelope;
 
+export type FoundryLifecycleAuditCompleteness = {
+  record_key: 'foundry.audit-completeness';
+  lifecycle_audit_recorded: true;
+  event_envelope_recorded: true;
+  event_envelope_compliant: true;
+  organization_id_present: boolean;
+  actor_user_id_present: boolean;
+  correlation_id_present: boolean;
+  module_key_present: boolean;
+  action_key_present: boolean;
+  gatekeeper_outcome_present: boolean;
+  evidence_ref_present: boolean;
+  registry_persistence_declared: boolean;
+  lifecycle_transition_count: number;
+  receipt_hash_present: boolean;
+};
+
 export type FoundryInstallPreflightResponse = {
   method: 'POST';
   route: '/platform/foundry/install-preflight';
@@ -228,6 +245,7 @@ export type FoundryInstallPreflightResponse = {
     evidence_package_ref: string;
     correlation_id: string;
     event_envelope: FoundryLifecycleAuditEnvelope;
+    audit_completeness: FoundryLifecycleAuditCompleteness;
   };
   foundry_execution: {
     allowed_after_preflight: boolean;
@@ -292,6 +310,7 @@ export type FoundryInstallExecutionReceipt = {
     actor_user_id: string;
     correlation_id: string;
     event_envelope: FoundryLifecycleAuditEnvelope;
+    audit_completeness: FoundryLifecycleAuditCompleteness;
   };
 };
 
@@ -323,6 +342,7 @@ export type FoundryInstallEvidenceReceipt = {
     event_type: 'foundry.install.evidence.received';
     audit_outbox_storage_required: true;
     event_envelope: FoundryLifecycleAuditEnvelope;
+    audit_completeness: FoundryLifecycleAuditCompleteness;
   };
   registry: {
     installed_status_evidence_required: true;
@@ -374,6 +394,7 @@ export type FoundryEnableExecutionReceipt = {
     actor_user_id: string;
     correlation_id: string;
     event_envelope: FoundryLifecycleAuditEnvelope;
+    audit_completeness: FoundryLifecycleAuditCompleteness;
   };
 };
 
@@ -425,6 +446,7 @@ export type FoundryDisableExecutionReceipt = {
     actor_user_id: string;
     correlation_id: string;
     event_envelope: FoundryLifecycleAuditEnvelope;
+    audit_completeness: FoundryLifecycleAuditCompleteness;
   };
 };
 
@@ -483,6 +505,7 @@ export type FoundryUninstallExecutionReceipt = {
     actor_user_id: string;
     correlation_id: string;
     event_envelope: FoundryLifecycleAuditEnvelope;
+    audit_completeness: FoundryLifecycleAuditCompleteness;
   };
 };
 
@@ -544,6 +567,7 @@ export type FoundryUpdateExecutionReceipt = {
     actor_user_id: string;
     correlation_id: string;
     event_envelope: FoundryLifecycleAuditEnvelope;
+    audit_completeness: FoundryLifecycleAuditCompleteness;
   };
 };
 
@@ -595,6 +619,7 @@ export type FoundryRollbackRecoveryReceipt = {
     actor_user_id: string;
     correlation_id: string;
     event_envelope: FoundryLifecycleAuditEnvelope;
+    audit_completeness: FoundryLifecycleAuditCompleteness;
   };
 };
 
@@ -780,13 +805,17 @@ export class FoundryService {
         evidence_required: true,
         evidence_package_ref: input.evidence_package_ref,
         correlation_id: input.correlation_id,
-        event_envelope: this.buildLifecycleEventEnvelope({
+        ...this.buildLifecycleAuditFields({
           event_type: 'foundry.install.preflight.requested',
           organization_id: input.organization_id,
           actor_user_id: input.actor_user_id,
           correlation_id: input.correlation_id,
           module_key: input.target_module_key,
           action_key: FOUNDRY_INSTALL_ACTION_KEY,
+          gatekeeper_outcome: decision?.decision,
+          evidence_ref: input.evidence_package_ref,
+          lifecycle_transition_count: 0,
+          registry_persistence_required: false,
           payload: {
             target_module_version: input.target_module_version,
             manifest_hash: input.manifest_hash,
@@ -870,13 +899,18 @@ export class FoundryService {
         organization_id: input.organization_id,
         actor_user_id: input.actor_user_id,
         correlation_id: input.correlation_id,
-        event_envelope: this.buildLifecycleEventEnvelope({
+        ...this.buildLifecycleAuditFields({
           event_type: 'foundry.install.executed',
           organization_id: input.organization_id,
           actor_user_id: input.actor_user_id,
           correlation_id: input.correlation_id,
           module_key: input.module_key,
           action_key: FOUNDRY_INSTALL_ACTION_KEY,
+          gatekeeper_outcome: input.gatekeeper_outcome,
+          evidence_ref: input.evidence_ref,
+          lifecycle_transition_count: 1,
+          receipt_hash: receiptHash,
+          registry_persistence_required: true,
           payload: {
             module_version: input.module_version,
             manifest_hash: input.manifest_hash,
@@ -924,13 +958,18 @@ export class FoundryService {
       audit: {
         event_type: 'foundry.install.evidence.received',
         audit_outbox_storage_required: true,
-        event_envelope: this.buildLifecycleEventEnvelope({
+        ...this.buildLifecycleAuditFields({
           event_type: 'foundry.install.evidence.received',
           organization_id: input.organization_id,
           actor_user_id: input.received_by_actor_id,
           correlation_id: input.correlation_id,
           module_key: input.install_execution_receipt.module_key,
           action_key: FOUNDRY_INSTALL_ACTION_KEY,
+          gatekeeper_outcome: input.install_execution_receipt.gatekeeper_outcome,
+          evidence_ref: input.evidence_package.package_id,
+          lifecycle_transition_count: 1,
+          receipt_hash: receiptHash,
+          registry_persistence_required: true,
           payload: {
             install_execution_id: input.install_execution_receipt.execution_id,
             evidence_package_id: input.evidence_package.package_id,
@@ -1002,13 +1041,18 @@ export class FoundryService {
         organization_id: input.organization_id,
         actor_user_id: input.actor_user_id,
         correlation_id: input.correlation_id,
-        event_envelope: this.buildLifecycleEventEnvelope({
+        ...this.buildLifecycleAuditFields({
           event_type: 'foundry.module.enabled',
           organization_id: input.organization_id,
           actor_user_id: input.actor_user_id,
           correlation_id: input.correlation_id,
           module_key: input.module_key,
           action_key: 'module.enable',
+          gatekeeper_outcome: input.gatekeeper_outcome,
+          evidence_ref: input.evidence_ref,
+          lifecycle_transition_count: 1,
+          receipt_hash: receiptHash,
+          registry_persistence_required: true,
           payload: {
             module_version: input.module_version,
             manifest_hash: input.manifest_hash,
@@ -1081,13 +1125,18 @@ export class FoundryService {
         organization_id: input.organization_id,
         actor_user_id: input.actor_user_id,
         correlation_id: input.correlation_id,
-        event_envelope: this.buildLifecycleEventEnvelope({
+        ...this.buildLifecycleAuditFields({
           event_type: 'foundry.module.disabled',
           organization_id: input.organization_id,
           actor_user_id: input.actor_user_id,
           correlation_id: input.correlation_id,
           module_key: input.module_key,
           action_key: 'module.disable',
+          gatekeeper_outcome: input.gatekeeper_outcome,
+          evidence_ref: input.evidence_ref,
+          lifecycle_transition_count: 1,
+          receipt_hash: receiptHash,
+          registry_persistence_required: true,
           payload: {
             module_version: input.module_version,
             manifest_hash: input.manifest_hash,
@@ -1169,13 +1218,18 @@ export class FoundryService {
         organization_id: input.organization_id,
         actor_user_id: input.actor_user_id,
         correlation_id: input.correlation_id,
-        event_envelope: this.buildLifecycleEventEnvelope({
+        ...this.buildLifecycleAuditFields({
           event_type: 'foundry.module.uninstalled',
           organization_id: input.organization_id,
           actor_user_id: input.actor_user_id,
           correlation_id: input.correlation_id,
           module_key: input.module_key,
           action_key: 'module.uninstall',
+          gatekeeper_outcome: input.gatekeeper_outcome,
+          evidence_ref: input.evidence_ref,
+          lifecycle_transition_count: 1,
+          receipt_hash: receiptHash,
+          registry_persistence_required: true,
           payload: {
             module_version: input.module_version,
             manifest_hash: input.manifest_hash,
@@ -1276,13 +1330,18 @@ export class FoundryService {
         organization_id: input.organization_id,
         actor_user_id: input.actor_user_id,
         correlation_id: input.correlation_id,
-        event_envelope: this.buildLifecycleEventEnvelope({
+        ...this.buildLifecycleAuditFields({
           event_type: 'foundry.module.updated',
           organization_id: input.organization_id,
           actor_user_id: input.actor_user_id,
           correlation_id: input.correlation_id,
           module_key: input.module_key,
           action_key: 'module.update',
+          gatekeeper_outcome: input.gatekeeper_outcome,
+          evidence_ref: input.evidence_ref,
+          lifecycle_transition_count: 3,
+          receipt_hash: receiptHash,
+          registry_persistence_required: true,
           payload: {
             current_version: input.current_version,
             target_version: input.target_version,
@@ -1380,13 +1439,18 @@ export class FoundryService {
         organization_id: input.organization_id,
         actor_user_id: input.actor_user_id,
         correlation_id: input.correlation_id,
-        event_envelope: this.buildLifecycleEventEnvelope({
+        ...this.buildLifecycleAuditFields({
           event_type: 'foundry.module.rollback_recovered',
           organization_id: input.organization_id,
           actor_user_id: input.actor_user_id,
           correlation_id: input.correlation_id,
           module_key: input.module_key,
           action_key: 'module.rollback_recovery',
+          gatekeeper_outcome: input.gatekeeper_outcome,
+          evidence_ref: input.evidence_ref,
+          lifecycle_transition_count: lifecycleTransitions.length,
+          receipt_hash: receiptHash,
+          registry_persistence_required: true,
           payload: {
             module_version: input.module_version,
             manifest_hash: input.manifest_hash,
@@ -1723,6 +1787,46 @@ export class FoundryService {
     }
 
     return evidencePackage;
+  }
+
+  private buildLifecycleAuditFields(input: {
+    event_type: string;
+    organization_id: string;
+    actor_user_id: string;
+    correlation_id: string;
+    module_key: string;
+    action_key: string;
+    gatekeeper_outcome?: string | null;
+    evidence_ref?: string | null;
+    lifecycle_transition_count: number;
+    receipt_hash?: string | null;
+    registry_persistence_required: boolean;
+    payload: Record<string, unknown>;
+  }): {
+    event_envelope: FoundryLifecycleAuditEnvelope;
+    audit_completeness: FoundryLifecycleAuditCompleteness;
+  } {
+    const eventEnvelope = this.buildLifecycleEventEnvelope(input);
+
+    return {
+      event_envelope: eventEnvelope,
+      audit_completeness: {
+        record_key: 'foundry.audit-completeness',
+        lifecycle_audit_recorded: true,
+        event_envelope_recorded: true,
+        event_envelope_compliant: true,
+        organization_id_present: Boolean(input.organization_id),
+        actor_user_id_present: Boolean(input.actor_user_id),
+        correlation_id_present: Boolean(input.correlation_id),
+        module_key_present: Boolean(input.module_key),
+        action_key_present: Boolean(input.action_key),
+        gatekeeper_outcome_present: Boolean(input.gatekeeper_outcome),
+        evidence_ref_present: Boolean(input.evidence_ref),
+        registry_persistence_declared: input.registry_persistence_required,
+        lifecycle_transition_count: input.lifecycle_transition_count,
+        receipt_hash_present: Boolean(input.receipt_hash),
+      },
+    };
   }
 
   private buildLifecycleEventEnvelope(input: {
