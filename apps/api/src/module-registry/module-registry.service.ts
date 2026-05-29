@@ -134,6 +134,45 @@ export type MenuContributionRegistrationResult = {
   menu_entries: RegisteredMenuContribution[];
 };
 
+export type ScreenContributionContract = {
+  screen_key: string;
+  module_key: string;
+  title: string;
+  route: string;
+  screen_type: 'private_portal' | 'public_site' | 'admin_console' | 'embedded_widget';
+  status: 'planned' | 'active' | 'deprecated' | 'disabled';
+  required_capabilities: string[];
+  optional_capabilities: string[];
+  api_routes: Array<{
+    key: string;
+    path: string;
+    capability_key: string | null;
+  }>;
+};
+
+export type ScreenContributionRegistrationInput = {
+  manifest: RuntimeModuleManifest;
+  screens: ScreenContributionContract[];
+};
+
+export type RegisteredScreenContribution = {
+  screen_key: string;
+  module_key: string;
+  title: string;
+  route: string;
+  status: ScreenContributionContract['status'];
+  screen_type: ScreenContributionContract['screen_type'];
+  required_capabilities: string[];
+  optional_capabilities: string[];
+  api_route_keys: string[];
+};
+
+export type ScreenContributionRegistrationResult = {
+  module_key: string;
+  registered_count: number;
+  screens: RegisteredScreenContribution[];
+};
+
 type ModuleListResponse = {
   items: Array<Pick<ModuleRegistryEntry, 'module_key' | 'display_name' | 'version' | 'status' | 'manifest_hash'>>;
 };
@@ -252,6 +291,7 @@ const ACCESS_CORE_APPROVED_SEED_CAPABILITY_KEYS = new Set([
 ]);
 const MODULE_LIFECYCLE_STATUS_SET = new Set<string>(MODULE_LIFECYCLE_STATUSES);
 const MANIFEST_KEY_PATTERN = /^[a-z][a-z0-9]*(?:[_.-][a-z0-9]+)*$/;
+const SCREEN_KEY_PATTERN = /^[a-z][a-z0-9_-]*(?:\.[a-z][a-z0-9_-]*)+$/;
 const MODULE_KEY_PATTERN = /^[a-z][a-z0-9]*(?:-[a-z0-9]+)*(?:\.[a-z][a-z0-9]*(?:-[a-z0-9]+)*)+$/;
 const MODULE_ACTION_KEY_PATTERN = /^[a-z][a-z0-9]*(?:[_.-][a-z0-9]+)*$/;
 const SEMVER_PATTERN = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$/;
@@ -532,6 +572,64 @@ function assertMenuContribution(
   }
 }
 
+function assertScreenContribution(
+  manifest: RuntimeModuleManifest,
+  screen: ScreenContributionContract,
+  localCapabilityKeys: Set<string>,
+  consumedCapabilityKeys: Set<string>,
+) {
+  if (!SCREEN_KEY_PATTERN.test(screen.screen_key)) {
+    throw new ConflictException(`Screen ${screen.screen_key} must use screen key syntax`);
+  }
+
+  if (screen.module_key !== manifest.module_key) {
+    throw new ConflictException(`Screen ${screen.screen_key} module_key must match manifest module_key`);
+  }
+
+  if (screen.title.trim().length === 0) {
+    throw new ConflictException(`Screen ${screen.screen_key} requires a title`);
+  }
+
+  if (!/^\/[A-Za-z0-9/_:.-]*$/.test(screen.route)) {
+    throw new ConflictException(`Screen ${screen.screen_key} requires an absolute safe route`);
+  }
+
+  if (screen.screen_type === 'private_portal' && screen.required_capabilities.length === 0) {
+    throw new ConflictException(`Private portal screen ${screen.screen_key} requires a required capability`);
+  }
+
+  for (const capabilityKey of [...screen.required_capabilities, ...screen.optional_capabilities]) {
+    if (!localCapabilityKeys.has(capabilityKey) && !consumedCapabilityKeys.has(capabilityKey)) {
+      throw new ConflictException(`Screen ${screen.screen_key} capability ${capabilityKey} is not declared`);
+    }
+  }
+
+  const apiRouteKeys = new Set<string>();
+  for (const route of screen.api_routes) {
+    if (!MANIFEST_KEY_PATTERN.test(route.key)) {
+      throw new ConflictException(`Screen ${screen.screen_key} API route key ${route.key} is invalid`);
+    }
+    if (apiRouteKeys.has(route.key)) {
+      throw new ConflictException(`Screen ${screen.screen_key} API route key ${route.key} must be unique`);
+    }
+    apiRouteKeys.add(route.key);
+    if (!/^\/[A-Za-z0-9/_:.-]*$/.test(route.path)) {
+      throw new ConflictException(`Screen ${screen.screen_key} API route ${route.key} requires an absolute safe path`);
+    }
+    if (
+      route.capability_key !== null &&
+      !localCapabilityKeys.has(route.capability_key) &&
+      !consumedCapabilityKeys.has(route.capability_key)
+    ) {
+      throw new ConflictException(`Screen ${screen.screen_key} API route ${route.key} capability is not declared`);
+    }
+  }
+
+  if (screen.route.startsWith('/lead-desk') && manifest.module_key !== 'lead.desk') {
+    throw new ConflictException(`Screen ${screen.screen_key} cannot register business-module routes outside its owner`);
+  }
+}
+
 @Injectable()
 export class ModuleRegistryService {
   constructor(private readonly prisma: PrismaService) {}
@@ -714,6 +812,50 @@ export class ModuleRegistryService {
       module_key: manifest.module_key,
       registered_count: menuEntries.length,
       menu_entries: menuEntries,
+    };
+  }
+
+  registerScreenContributions(
+    input: ScreenContributionRegistrationInput,
+  ): ScreenContributionRegistrationResult {
+    assertPhase2ManifestShape(input.manifest);
+    const localCapabilityKeys = new Set(input.manifest.capabilities.map((capability) => capability.key));
+    const consumedCapabilityKeys = new Set(
+      (input.manifest.capabilities_consumed ?? []).map((capability) => capability.capability_key),
+    );
+    const seenScreenKeys = new Set<string>();
+    const seenRoutes = new Set<string>();
+
+    const screens = input.screens
+      .map((screen) => {
+        if (seenScreenKeys.has(screen.screen_key)) {
+          throw new ConflictException(`Screen ${screen.screen_key} must be unique`);
+        }
+        if (seenRoutes.has(screen.route)) {
+          throw new ConflictException(`Screen route ${screen.route} must be unique`);
+        }
+        seenScreenKeys.add(screen.screen_key);
+        seenRoutes.add(screen.route);
+        assertScreenContribution(input.manifest, screen, localCapabilityKeys, consumedCapabilityKeys);
+
+        return {
+          screen_key: screen.screen_key,
+          module_key: screen.module_key,
+          title: screen.title,
+          route: screen.route,
+          status: screen.status,
+          screen_type: screen.screen_type,
+          required_capabilities: [...screen.required_capabilities].sort(),
+          optional_capabilities: [...screen.optional_capabilities].sort(),
+          api_route_keys: screen.api_routes.map((route) => route.key).sort(),
+        };
+      })
+      .sort((left, right) => left.screen_key.localeCompare(right.screen_key));
+
+    return {
+      module_key: input.manifest.module_key,
+      registered_count: screens.length,
+      screens,
     };
   }
 
