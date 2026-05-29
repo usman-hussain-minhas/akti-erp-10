@@ -67,6 +67,7 @@ export const accessCoreModuleManifest: ModuleManifest = ModuleManifestSchema.par
     },
   ],
   capabilities_consumed: [],
+  required_capabilities: [],
   permissions: [
     {
       key: "platform.shell.access",

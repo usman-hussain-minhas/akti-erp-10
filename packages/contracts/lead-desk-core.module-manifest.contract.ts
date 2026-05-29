@@ -87,12 +87,19 @@ export const leadDeskCoreModuleManifest: ModuleManifest = ModuleManifestSchema.p
   ],
   capabilities_consumed: [
     {
+      capability_key: "platform.crm.access",
+      provider_module_key: "core.access",
+      required: true,
+      min_version: "0.1.0",
+    },
+    {
       capability_key: "engagement.gateway.request.create",
       provider_module_key: "engagement.gateway",
       required: true,
       min_version: "0.1.0",
     },
   ],
+  required_capabilities: ["platform.crm.access"],
   permissions: [
     {
       key: "lead.intake.create",

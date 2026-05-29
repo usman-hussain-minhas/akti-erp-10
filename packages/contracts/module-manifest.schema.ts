@@ -292,6 +292,7 @@ export const ModuleManifestSchema = z
     optional_dependencies: z.array(DependencySpecSchema),
     capabilities: z.array(CapabilitySpecSchema),
     capabilities_consumed: z.array(CapabilityConsumptionSpecSchema),
+    required_capabilities: z.array(ManifestKeySchema),
     permissions: z.array(PermissionSpecSchema),
     api_routes: z.array(ApiRouteSchema),
     events_emitted: z.array(ModuleEventSchema),
@@ -395,6 +396,13 @@ export const ModuleManifestSchema = z
       "provider module + consumed capability pair",
     );
     requireUnique(
+      manifest.required_capabilities,
+      "required_capabilities",
+      (item) => item,
+      [],
+      "required capability key",
+    );
+    requireUnique(
       manifest.dependencies,
       "dependencies",
       (item) => item.module_key,
@@ -463,6 +471,10 @@ export const ModuleManifestSchema = z
           "consumed capability provider_module_key must not equal manifest module_key",
         );
       }
+    });
+
+    manifest.required_capabilities.forEach((capabilityKey, index) => {
+      requireLocalOrConsumedCapability(capabilityKey, ["required_capabilities", index]);
     });
 
     manifest.api_routes.forEach((route, index) => {
@@ -578,6 +590,7 @@ export const sampleCoreModuleManifest = ModuleManifestSchema.parse({
     },
   ],
   capabilities_consumed: [],
+  required_capabilities: [],
   permissions: [
     {
       key: "access.policy.manage",

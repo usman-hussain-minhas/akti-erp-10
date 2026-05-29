@@ -43,6 +43,7 @@ export const engagementGatewayLiteModuleManifest: ModuleManifest = ModuleManifes
     },
   ],
   capabilities_consumed: [],
+  required_capabilities: ["engagement.gateway.health.read"],
   permissions: [
     {
       key: "engagement.gateway.request.create",

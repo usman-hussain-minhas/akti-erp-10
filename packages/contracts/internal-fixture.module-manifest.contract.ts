@@ -50,6 +50,7 @@ export const internalFixtureModuleManifest: ModuleManifest = ModuleManifestSchem
       min_version: "0.1.0",
     },
   ],
+  required_capabilities: ["platform.fixture.read"],
   permissions: [
     {
       key: "platform.fixture.read",
