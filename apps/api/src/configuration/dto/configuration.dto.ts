@@ -4,6 +4,24 @@ export type UpdatePortalModeInput = {
   mode: PortalMode;
 };
 
+export type OrganizationBrandingConfigFacts = {
+  logo_url: string | null;
+  primary_color: string | null;
+  accent_color: string | null;
+  product_name_override: string | null;
+  theme_mode: 'system' | 'light' | 'dark' | null;
+};
+
+export type OrganizationBrandingReadSubstrate = {
+  organization_id: string;
+  source_model: 'OrganizationSetting';
+  source_setting_key: 'white_label.branding_assets';
+  source: 'default' | 'stored';
+  logo_url: string | null;
+  branding_config: OrganizationBrandingConfigFacts;
+  updated_at: string | null;
+};
+
 const PORTAL_MODES = new Set<PortalMode>(['simple', 'builder']);
 const MAX_ID_LENGTH = 191;
 

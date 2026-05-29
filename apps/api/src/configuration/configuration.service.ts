@@ -11,7 +11,11 @@ import { loadAccessCoreCapabilitySeedDefinitions } from '../module-registry/modu
 import { AuditLogService } from '../platform-observability/audit-log.service';
 import { EventOutboxService } from '../platform-observability/event-outbox.service';
 import { PrismaService } from '../prisma/prisma.service';
-import type { PortalMode, UpdatePortalModeInput } from './dto/configuration.dto';
+import type {
+  OrganizationBrandingReadSubstrate,
+  PortalMode,
+  UpdatePortalModeInput,
+} from './dto/configuration.dto';
 
 const ACCESS_POLICY_MANAGE_CAPABILITY_KEY = 'access.policy.manage';
 const ACCESS_MODULE_KEY = 'core.access';
@@ -283,6 +287,29 @@ export class ConfigurationService {
     }
 
     return this.toBrandingAssetsResponse(setting);
+  }
+
+  async resolveBrandingReadSubstrate(
+    organizationId: string,
+    actorUserIdRaw?: string,
+  ): Promise<OrganizationBrandingReadSubstrate> {
+    const assets = await this.resolveBrandingAssets(organizationId, actorUserIdRaw);
+
+    return {
+      organization_id: assets.organization_id,
+      source_model: 'OrganizationSetting',
+      source_setting_key: BRANDING_ASSETS_SETTING_KEY,
+      source: assets.source,
+      logo_url: assets.assets.logo_url,
+      branding_config: {
+        logo_url: assets.assets.logo_url,
+        primary_color: null,
+        accent_color: null,
+        product_name_override: null,
+        theme_mode: null,
+      },
+      updated_at: assets.updated_at,
+    };
   }
 
   async resolveDomainSenderIdentityBoundary(
