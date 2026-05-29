@@ -3,8 +3,8 @@
   "sources": {
     "prisma_schema": "prisma/schema.prisma",
     "metadata": "prisma/entity-registry.metadata.json",
-    "prisma_schema_hash": "sha256:5ce5e987ac535213ec0b349eb0d664eef778f8a216e4ae4e9e0d153444125133",
-    "metadata_hash": "sha256:507440115888d49467a8497c61ba2ceb4c4b42b69b7e639b24c437442de9bc32"
+    "prisma_schema_hash": "sha256:9d30dcaf9ad6ac40e39f3359b4028da1cad0b8c3d173cd321b4f4892e1d9e5a0",
+    "metadata_hash": "sha256:57c47f0edf2802453ca384798ff83c25c437f1adbced3349947fb0d99c69fbb2"
   },
   "entities": [
     {
@@ -553,6 +553,15 @@
           "is_relation": false
         },
         {
+          "field_name": "audit_required",
+          "column_name": "audit_required",
+          "type": "Boolean",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
           "field_name": "created_at",
           "column_name": "created_at",
           "type": "DateTime",
@@ -565,6 +574,15 @@
           "field_name": "dead_lettered_at",
           "column_name": "dead_lettered_at",
           "type": "DateTime",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "event_id",
+          "column_name": "event_id",
+          "type": "String",
           "is_required": false,
           "is_unique": false,
           "is_id": false,
@@ -634,6 +652,15 @@
           "is_relation": false
         },
         {
+          "field_name": "occurred_at",
+          "column_name": "occurred_at",
+          "type": "DateTime",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
           "field_name": "organization",
           "column_name": "organization",
           "type": "Organization",
@@ -662,6 +689,15 @@
           "is_relation": false
         },
         {
+          "field_name": "privacy_class",
+          "column_name": "privacy_class",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
           "field_name": "processed_at",
           "column_name": "processed_at",
           "type": "DateTime",
@@ -671,10 +707,73 @@
           "is_relation": false
         },
         {
+          "field_name": "producer",
+          "column_name": "producer",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "redaction_policy",
+          "column_name": "redaction_policy",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "replay_allowed",
+          "column_name": "replay_allowed",
+          "type": "Boolean",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "retention_class",
+          "column_name": "retention_class",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "schema_version",
+          "column_name": "schema_version",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "source_module",
+          "column_name": "source_module",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
           "field_name": "status",
           "column_name": "status",
           "type": "String",
           "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "subject",
+          "column_name": "subject",
+          "type": "Json",
+          "is_required": false,
           "is_unique": false,
           "is_id": false,
           "is_relation": false
@@ -690,6 +789,16 @@
         }
       ],
       "indexes": [
+        {
+          "name": "EventOutbox_event_id_idx",
+          "fields": [
+            "event_id"
+          ],
+          "columns": [
+            "event_id"
+          ],
+          "is_unique": false
+        },
         {
           "name": "EventOutbox_event_type_idx",
           "fields": [
@@ -723,6 +832,20 @@
           "is_unique": false
         },
         {
+          "name": "EventOutbox_organization_id_event_type_created_at_idx",
+          "fields": [
+            "organization_id",
+            "event_type",
+            "created_at"
+          ],
+          "columns": [
+            "organization_id",
+            "event_type",
+            "created_at"
+          ],
+          "is_unique": false
+        },
+        {
           "name": "EventOutbox_organization_id_idempotency_key_key",
           "fields": [
             "organization_id",
@@ -733,6 +856,34 @@
             "idempotency_key"
           ],
           "is_unique": true
+        },
+        {
+          "name": "EventOutbox_organization_id_schema_version_created_at_idx",
+          "fields": [
+            "organization_id",
+            "schema_version",
+            "created_at"
+          ],
+          "columns": [
+            "organization_id",
+            "schema_version",
+            "created_at"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "EventOutbox_organization_id_source_module_created_at_idx",
+          "fields": [
+            "organization_id",
+            "source_module",
+            "created_at"
+          ],
+          "columns": [
+            "organization_id",
+            "source_module",
+            "created_at"
+          ],
+          "is_unique": false
         },
         {
           "name": "EventOutbox_organization_id_status_created_at_idx",
@@ -796,6 +947,727 @@
       "retention_policy": "per_outbox_policy",
       "audit_required": true,
       "sensitive_data_classification": "internal"
+    },
+    {
+      "model_name": "FileDocumentMetadata",
+      "table_name": "FileDocumentMetadata",
+      "owner_module": "core.file",
+      "phase": 2,
+      "tenant_scoped": true,
+      "organization_id_required": true,
+      "rls_required": true,
+      "organization_id_field": "organization_id",
+      "organization_id_column": "organization_id",
+      "fields": [
+        {
+          "field_name": "access_policy",
+          "column_name": "access_policy",
+          "type": "Json",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "byte_size",
+          "column_name": "byte_size",
+          "type": "Int",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "checksum_sha256",
+          "column_name": "checksum_sha256",
+          "type": "String",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "classification",
+          "column_name": "classification",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "created_at",
+          "column_name": "created_at",
+          "type": "DateTime",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "created_by_user",
+          "column_name": "created_by_user",
+          "type": "User",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "User"
+        },
+        {
+          "field_name": "created_by_user_id",
+          "column_name": "created_by_user_id",
+          "type": "String",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "deleted_at",
+          "column_name": "deleted_at",
+          "type": "DateTime",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "display_name",
+          "column_name": "display_name",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "file_key",
+          "column_name": "file_key",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "id",
+          "column_name": "id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": true,
+          "is_relation": false
+        },
+        {
+          "field_name": "mime_type",
+          "column_name": "mime_type",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "organization",
+          "column_name": "organization",
+          "type": "Organization",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "Organization"
+        },
+        {
+          "field_name": "organization_id",
+          "column_name": "organization_id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "owner_entity_id",
+          "column_name": "owner_entity_id",
+          "type": "String",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "owner_entity_type",
+          "column_name": "owner_entity_type",
+          "type": "String",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "owner_module",
+          "column_name": "owner_module",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "retention_policy",
+          "column_name": "retention_policy",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "status",
+          "column_name": "status",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "storage_key",
+          "column_name": "storage_key",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "storage_provider",
+          "column_name": "storage_provider",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "updated_at",
+          "column_name": "updated_at",
+          "type": "DateTime",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        }
+      ],
+      "indexes": [
+        {
+          "name": "FileDocumentMetadata_id_pk",
+          "fields": [
+            "id"
+          ],
+          "columns": [
+            "id"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "FileDocumentMetadata_organization_id_classification_created_at_idx",
+          "fields": [
+            "organization_id",
+            "classification",
+            "created_at"
+          ],
+          "columns": [
+            "organization_id",
+            "classification",
+            "created_at"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "FileDocumentMetadata_organization_id_created_by_user_id_created_at_idx",
+          "fields": [
+            "organization_id",
+            "created_by_user_id",
+            "created_at"
+          ],
+          "columns": [
+            "organization_id",
+            "created_by_user_id",
+            "created_at"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "FileDocumentMetadata_organization_id_file_key_key",
+          "fields": [
+            "organization_id",
+            "file_key"
+          ],
+          "columns": [
+            "organization_id",
+            "file_key"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "FileDocumentMetadata_organization_id_id_key",
+          "fields": [
+            "organization_id",
+            "id"
+          ],
+          "columns": [
+            "organization_id",
+            "id"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "FileDocumentMetadata_organization_id_owner_entity_type_owner_entity_id_idx",
+          "fields": [
+            "organization_id",
+            "owner_entity_type",
+            "owner_entity_id"
+          ],
+          "columns": [
+            "organization_id",
+            "owner_entity_type",
+            "owner_entity_id"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "FileDocumentMetadata_organization_id_owner_module_created_at_idx",
+          "fields": [
+            "organization_id",
+            "owner_module",
+            "created_at"
+          ],
+          "columns": [
+            "organization_id",
+            "owner_module",
+            "created_at"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "FileDocumentMetadata_organization_id_status_created_at_idx",
+          "fields": [
+            "organization_id",
+            "status",
+            "created_at"
+          ],
+          "columns": [
+            "organization_id",
+            "status",
+            "created_at"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "FileDocumentMetadata_organization_id_storage_key_key",
+          "fields": [
+            "organization_id",
+            "storage_key"
+          ],
+          "columns": [
+            "organization_id",
+            "storage_key"
+          ],
+          "is_unique": true
+        }
+      ],
+      "unique_constraints": [
+        {
+          "name": "FileDocumentMetadata_id_pk",
+          "fields": [
+            "id"
+          ],
+          "columns": [
+            "id"
+          ]
+        },
+        {
+          "name": "FileDocumentMetadata_organization_id_file_key_key",
+          "fields": [
+            "organization_id",
+            "file_key"
+          ],
+          "columns": [
+            "organization_id",
+            "file_key"
+          ]
+        },
+        {
+          "name": "FileDocumentMetadata_organization_id_id_key",
+          "fields": [
+            "organization_id",
+            "id"
+          ],
+          "columns": [
+            "organization_id",
+            "id"
+          ]
+        },
+        {
+          "name": "FileDocumentMetadata_organization_id_storage_key_key",
+          "fields": [
+            "organization_id",
+            "storage_key"
+          ],
+          "columns": [
+            "organization_id",
+            "storage_key"
+          ]
+        }
+      ],
+      "events_emitted": [],
+      "retention_policy": "per_file_document_policy",
+      "audit_required": true,
+      "sensitive_data_classification": "restricted"
+    },
+    {
+      "model_name": "GatekeeperDecisionRecord",
+      "table_name": "GatekeeperDecisionRecord",
+      "owner_module": "core.gatekeeper",
+      "phase": 2,
+      "tenant_scoped": true,
+      "organization_id_required": true,
+      "rls_required": true,
+      "organization_id_field": "organization_id",
+      "organization_id_column": "organization_id",
+      "fields": [
+        {
+          "field_name": "action_key",
+          "column_name": "action_key",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "actor_user",
+          "column_name": "actor_user",
+          "type": "User",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "User"
+        },
+        {
+          "field_name": "actor_user_id",
+          "column_name": "actor_user_id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "approval_chain_key",
+          "column_name": "approval_chain_key",
+          "type": "String",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "approval_request_id",
+          "column_name": "approval_request_id",
+          "type": "String",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "capability_key",
+          "column_name": "capability_key",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "check_results",
+          "column_name": "check_results",
+          "type": "Json",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "correlation_id",
+          "column_name": "correlation_id",
+          "type": "String",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "decision_token",
+          "column_name": "decision_token",
+          "type": "String",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "entity_id",
+          "column_name": "entity_id",
+          "type": "String",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "entity_type",
+          "column_name": "entity_type",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "expires_at",
+          "column_name": "expires_at",
+          "type": "DateTime",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "id",
+          "column_name": "id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": true,
+          "is_relation": false
+        },
+        {
+          "field_name": "missing_evidence",
+          "column_name": "missing_evidence",
+          "type": "Json",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "module_key",
+          "column_name": "module_key",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "organization",
+          "column_name": "organization",
+          "type": "Organization",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "Organization"
+        },
+        {
+          "field_name": "organization_id",
+          "column_name": "organization_id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "outcome",
+          "column_name": "outcome",
+          "type": "GatekeeperDecisionOutcome",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "payload",
+          "column_name": "payload",
+          "type": "Json",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "reason_summary",
+          "column_name": "reason_summary",
+          "type": "Json",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "recorded_at",
+          "column_name": "recorded_at",
+          "type": "DateTime",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "request_id",
+          "column_name": "request_id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "requested_at",
+          "column_name": "requested_at",
+          "type": "DateTime",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "required_evidence",
+          "column_name": "required_evidence",
+          "type": "Json",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "scope_unit_id",
+          "column_name": "scope_unit_id",
+          "type": "String",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        }
+      ],
+      "indexes": [
+        {
+          "name": "GatekeeperDecisionRecord_correlation_id_idx",
+          "fields": [
+            "correlation_id"
+          ],
+          "columns": [
+            "correlation_id"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "GatekeeperDecisionRecord_id_pk",
+          "fields": [
+            "id"
+          ],
+          "columns": [
+            "id"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "GatekeeperDecisionRecord_organization_id_actor_user_id_recorded_at_idx",
+          "fields": [
+            "organization_id",
+            "actor_user_id",
+            "recorded_at"
+          ],
+          "columns": [
+            "organization_id",
+            "actor_user_id",
+            "recorded_at"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "GatekeeperDecisionRecord_organization_id_capability_key_recorded_at_idx",
+          "fields": [
+            "organization_id",
+            "capability_key",
+            "recorded_at"
+          ],
+          "columns": [
+            "organization_id",
+            "capability_key",
+            "recorded_at"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "GatekeeperDecisionRecord_organization_id_outcome_recorded_at_idx",
+          "fields": [
+            "organization_id",
+            "outcome",
+            "recorded_at"
+          ],
+          "columns": [
+            "organization_id",
+            "outcome",
+            "recorded_at"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "GatekeeperDecisionRecord_organization_id_request_id_key",
+          "fields": [
+            "organization_id",
+            "request_id"
+          ],
+          "columns": [
+            "organization_id",
+            "request_id"
+          ],
+          "is_unique": true
+        }
+      ],
+      "unique_constraints": [
+        {
+          "name": "GatekeeperDecisionRecord_id_pk",
+          "fields": [
+            "id"
+          ],
+          "columns": [
+            "id"
+          ]
+        },
+        {
+          "name": "GatekeeperDecisionRecord_organization_id_request_id_key",
+          "fields": [
+            "organization_id",
+            "request_id"
+          ],
+          "columns": [
+            "organization_id",
+            "request_id"
+          ]
+        }
+      ],
+      "events_emitted": [],
+      "retention_policy": "per_gatekeeper_decision_policy",
+      "audit_required": true,
+      "sensitive_data_classification": "restricted"
     },
     {
       "model_name": "Group",
@@ -1835,6 +2707,229 @@
       "sensitive_data_classification": "confidential"
     },
     {
+      "model_name": "ModuleLifecycleEvent",
+      "table_name": "ModuleLifecycleEvent",
+      "owner_module": "core.foundry",
+      "phase": 2,
+      "tenant_scoped": true,
+      "organization_id_required": true,
+      "rls_required": true,
+      "organization_id_field": "organization_id",
+      "organization_id_column": "organization_id",
+      "fields": [
+        {
+          "field_name": "action_key",
+          "column_name": "action_key",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "actor_user",
+          "column_name": "actor_user",
+          "type": "User",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "User"
+        },
+        {
+          "field_name": "actor_user_id",
+          "column_name": "actor_user_id",
+          "type": "String",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "created_at",
+          "column_name": "created_at",
+          "type": "DateTime",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "evidence_ref",
+          "column_name": "evidence_ref",
+          "type": "String",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "from_status",
+          "column_name": "from_status",
+          "type": "String",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "id",
+          "column_name": "id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": true,
+          "is_relation": false
+        },
+        {
+          "field_name": "metadata",
+          "column_name": "metadata",
+          "type": "Json",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "module",
+          "column_name": "module",
+          "type": "ModuleRegistryEntry",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "ModuleRegistryEntry"
+        },
+        {
+          "field_name": "module_key",
+          "column_name": "module_key",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "organization",
+          "column_name": "organization",
+          "type": "Organization",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "Organization"
+        },
+        {
+          "field_name": "organization_id",
+          "column_name": "organization_id",
+          "type": "String",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "reason",
+          "column_name": "reason",
+          "type": "String",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "to_status",
+          "column_name": "to_status",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        }
+      ],
+      "indexes": [
+        {
+          "name": "ModuleLifecycleEvent_action_key_created_at_idx",
+          "fields": [
+            "action_key",
+            "created_at"
+          ],
+          "columns": [
+            "action_key",
+            "created_at"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "ModuleLifecycleEvent_id_pk",
+          "fields": [
+            "id"
+          ],
+          "columns": [
+            "id"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "ModuleLifecycleEvent_module_key_to_status_created_at_idx",
+          "fields": [
+            "module_key",
+            "to_status",
+            "created_at"
+          ],
+          "columns": [
+            "module_key",
+            "to_status",
+            "created_at"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "ModuleLifecycleEvent_organization_id_actor_user_id_created_at_idx",
+          "fields": [
+            "organization_id",
+            "actor_user_id",
+            "created_at"
+          ],
+          "columns": [
+            "organization_id",
+            "actor_user_id",
+            "created_at"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "ModuleLifecycleEvent_organization_id_module_key_created_at_idx",
+          "fields": [
+            "organization_id",
+            "module_key",
+            "created_at"
+          ],
+          "columns": [
+            "organization_id",
+            "module_key",
+            "created_at"
+          ],
+          "is_unique": false
+        }
+      ],
+      "unique_constraints": [
+        {
+          "name": "ModuleLifecycleEvent_id_pk",
+          "fields": [
+            "id"
+          ],
+          "columns": [
+            "id"
+          ]
+        }
+      ],
+      "events_emitted": [],
+      "retention_policy": "per_module_lifecycle_policy",
+      "audit_required": true,
+      "sensitive_data_classification": "internal"
+    },
+    {
       "model_name": "ModuleRegistryEntry",
       "table_name": "ModuleRegistryEntry",
       "owner_module": "core.registry",
@@ -1853,6 +2948,16 @@
           "is_unique": false,
           "is_id": false,
           "is_relation": false
+        },
+        {
+          "field_name": "lifecycle_events",
+          "column_name": "lifecycle_events",
+          "type": "ModuleLifecycleEvent[]",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "ModuleLifecycleEvent"
         },
         {
           "field_name": "manifest_hash",
@@ -1909,6 +3014,28 @@
           ],
           "columns": [
             "status"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "ModuleRegistryEntry_status_version_idx",
+          "fields": [
+            "status",
+            "version"
+          ],
+          "columns": [
+            "status",
+            "version"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "ModuleRegistryEntry_version_idx",
+          "fields": [
+            "version"
+          ],
+          "columns": [
+            "version"
           ],
           "is_unique": false
         }
@@ -1989,6 +3116,26 @@
           "relation_model": "EventOutbox"
         },
         {
+          "field_name": "file_document_metadata",
+          "column_name": "file_document_metadata",
+          "type": "FileDocumentMetadata[]",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "FileDocumentMetadata"
+        },
+        {
+          "field_name": "gatekeeper_decision_records",
+          "column_name": "gatekeeper_decision_records",
+          "type": "GatekeeperDecisionRecord[]",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "GatekeeperDecisionRecord"
+        },
+        {
           "field_name": "group_capabilities",
           "column_name": "group_capabilities",
           "type": "GroupCapability[]",
@@ -2048,6 +3195,16 @@
           "relation_model": "LeadStatusHistory"
         },
         {
+          "field_name": "module_lifecycle_events",
+          "column_name": "module_lifecycle_events",
+          "type": "ModuleLifecycleEvent[]",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "ModuleLifecycleEvent"
+        },
+        {
           "field_name": "organization_domains",
           "column_name": "organization_domains",
           "type": "OrganizationDomain[]",
@@ -2086,6 +3243,26 @@
           "is_id": false,
           "is_relation": true,
           "relation_model": "OrganizationUnit"
+        },
+        {
+          "field_name": "read_model_cursors",
+          "column_name": "read_model_cursors",
+          "type": "ReadModelCursor[]",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "ReadModelCursor"
+        },
+        {
+          "field_name": "read_model_entries",
+          "column_name": "read_model_entries",
+          "type": "ReadModelEntry[]",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "ReadModelEntry"
         },
         {
           "field_name": "slug",
@@ -2143,6 +3320,36 @@
           "is_id": false,
           "is_relation": true,
           "relation_model": "User"
+        },
+        {
+          "field_name": "workflow_definitions",
+          "column_name": "workflow_definitions",
+          "type": "WorkflowDefinition[]",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "WorkflowDefinition"
+        },
+        {
+          "field_name": "workflow_instances",
+          "column_name": "workflow_instances",
+          "type": "WorkflowInstance[]",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "WorkflowInstance"
+        },
+        {
+          "field_name": "workflow_step_instances",
+          "column_name": "workflow_step_instances",
+          "type": "WorkflowStepInstance[]",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "WorkflowStepInstance"
         }
       ],
       "indexes": [
@@ -2895,6 +4102,515 @@
       "sensitive_data_classification": "internal"
     },
     {
+      "model_name": "ReadModelCursor",
+      "table_name": "ReadModelCursor",
+      "owner_module": "core.reporting",
+      "phase": 2,
+      "tenant_scoped": true,
+      "organization_id_required": true,
+      "rls_required": true,
+      "organization_id_field": "organization_id",
+      "organization_id_column": "organization_id",
+      "fields": [
+        {
+          "field_name": "cursor_value",
+          "column_name": "cursor_value",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "event_type",
+          "column_name": "event_type",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "id",
+          "column_name": "id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": true,
+          "is_relation": false
+        },
+        {
+          "field_name": "last_event_id",
+          "column_name": "last_event_id",
+          "type": "String",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "last_event_occurred_at",
+          "column_name": "last_event_occurred_at",
+          "type": "DateTime",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "organization",
+          "column_name": "organization",
+          "type": "Organization",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "Organization"
+        },
+        {
+          "field_name": "organization_id",
+          "column_name": "organization_id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "processed_at",
+          "column_name": "processed_at",
+          "type": "DateTime",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "read_model_key",
+          "column_name": "read_model_key",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "source_module",
+          "column_name": "source_module",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "updated_at",
+          "column_name": "updated_at",
+          "type": "DateTime",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        }
+      ],
+      "indexes": [
+        {
+          "name": "ReadModelCursor_id_pk",
+          "fields": [
+            "id"
+          ],
+          "columns": [
+            "id"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "ReadModelCursor_organization_id_cursor_value_idx",
+          "fields": [
+            "organization_id",
+            "cursor_value"
+          ],
+          "columns": [
+            "organization_id",
+            "cursor_value"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "ReadModelCursor_organization_id_id_key",
+          "fields": [
+            "organization_id",
+            "id"
+          ],
+          "columns": [
+            "organization_id",
+            "id"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "ReadModelCursor_organization_id_read_model_key_source_module_event_type_key",
+          "fields": [
+            "organization_id",
+            "read_model_key",
+            "source_module",
+            "event_type"
+          ],
+          "columns": [
+            "organization_id",
+            "read_model_key",
+            "source_module",
+            "event_type"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "ReadModelCursor_organization_id_read_model_key_updated_at_idx",
+          "fields": [
+            "organization_id",
+            "read_model_key",
+            "updated_at"
+          ],
+          "columns": [
+            "organization_id",
+            "read_model_key",
+            "updated_at"
+          ],
+          "is_unique": false
+        }
+      ],
+      "unique_constraints": [
+        {
+          "name": "ReadModelCursor_id_pk",
+          "fields": [
+            "id"
+          ],
+          "columns": [
+            "id"
+          ]
+        },
+        {
+          "name": "ReadModelCursor_organization_id_id_key",
+          "fields": [
+            "organization_id",
+            "id"
+          ],
+          "columns": [
+            "organization_id",
+            "id"
+          ]
+        },
+        {
+          "name": "ReadModelCursor_organization_id_read_model_key_source_module_event_type_key",
+          "fields": [
+            "organization_id",
+            "read_model_key",
+            "source_module",
+            "event_type"
+          ],
+          "columns": [
+            "organization_id",
+            "read_model_key",
+            "source_module",
+            "event_type"
+          ]
+        }
+      ],
+      "events_emitted": [],
+      "retention_policy": "per_read_model_policy",
+      "audit_required": true,
+      "sensitive_data_classification": "internal"
+    },
+    {
+      "model_name": "ReadModelEntry",
+      "table_name": "ReadModelEntry",
+      "owner_module": "core.reporting",
+      "phase": 2,
+      "tenant_scoped": true,
+      "organization_id_required": true,
+      "rls_required": true,
+      "organization_id_field": "organization_id",
+      "organization_id_column": "organization_id",
+      "fields": [
+        {
+          "field_name": "created_at",
+          "column_name": "created_at",
+          "type": "DateTime",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "id",
+          "column_name": "id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": true,
+          "is_relation": false
+        },
+        {
+          "field_name": "organization",
+          "column_name": "organization",
+          "type": "Organization",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "Organization"
+        },
+        {
+          "field_name": "organization_id",
+          "column_name": "organization_id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "payload",
+          "column_name": "payload",
+          "type": "Json",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "privacy_class",
+          "column_name": "privacy_class",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "read_model_key",
+          "column_name": "read_model_key",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "retention_class",
+          "column_name": "retention_class",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "source_event_cursor",
+          "column_name": "source_event_cursor",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "source_event_id",
+          "column_name": "source_event_id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "source_event_occurred_at",
+          "column_name": "source_event_occurred_at",
+          "type": "DateTime",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "source_event_type",
+          "column_name": "source_event_type",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "source_event_version",
+          "column_name": "source_event_version",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "subject_id",
+          "column_name": "subject_id",
+          "type": "String",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "subject_type",
+          "column_name": "subject_type",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "updated_at",
+          "column_name": "updated_at",
+          "type": "DateTime",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        }
+      ],
+      "indexes": [
+        {
+          "name": "ReadModelEntry_id_pk",
+          "fields": [
+            "id"
+          ],
+          "columns": [
+            "id"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "ReadModelEntry_organization_id_id_key",
+          "fields": [
+            "organization_id",
+            "id"
+          ],
+          "columns": [
+            "organization_id",
+            "id"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "ReadModelEntry_organization_id_read_model_key_source_event_id_key",
+          "fields": [
+            "organization_id",
+            "read_model_key",
+            "source_event_id"
+          ],
+          "columns": [
+            "organization_id",
+            "read_model_key",
+            "source_event_id"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "ReadModelEntry_organization_id_read_model_key_updated_at_idx",
+          "fields": [
+            "organization_id",
+            "read_model_key",
+            "updated_at"
+          ],
+          "columns": [
+            "organization_id",
+            "read_model_key",
+            "updated_at"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "ReadModelEntry_organization_id_source_event_cursor_idx",
+          "fields": [
+            "organization_id",
+            "source_event_cursor"
+          ],
+          "columns": [
+            "organization_id",
+            "source_event_cursor"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "ReadModelEntry_organization_id_source_event_type_source_event_occurred_at_idx",
+          "fields": [
+            "organization_id",
+            "source_event_type",
+            "source_event_occurred_at"
+          ],
+          "columns": [
+            "organization_id",
+            "source_event_type",
+            "source_event_occurred_at"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "ReadModelEntry_organization_id_subject_type_subject_id_idx",
+          "fields": [
+            "organization_id",
+            "subject_type",
+            "subject_id"
+          ],
+          "columns": [
+            "organization_id",
+            "subject_type",
+            "subject_id"
+          ],
+          "is_unique": false
+        }
+      ],
+      "unique_constraints": [
+        {
+          "name": "ReadModelEntry_id_pk",
+          "fields": [
+            "id"
+          ],
+          "columns": [
+            "id"
+          ]
+        },
+        {
+          "name": "ReadModelEntry_organization_id_id_key",
+          "fields": [
+            "organization_id",
+            "id"
+          ],
+          "columns": [
+            "organization_id",
+            "id"
+          ]
+        },
+        {
+          "name": "ReadModelEntry_organization_id_read_model_key_source_event_id_key",
+          "fields": [
+            "organization_id",
+            "read_model_key",
+            "source_event_id"
+          ],
+          "columns": [
+            "organization_id",
+            "read_model_key",
+            "source_event_id"
+          ]
+        }
+      ],
+      "events_emitted": [],
+      "retention_policy": "per_read_model_policy",
+      "audit_required": true,
+      "sensitive_data_classification": "confidential"
+    },
+    {
       "model_name": "UnitType",
       "table_name": "UnitType",
       "owner_module": "core.organization",
@@ -3105,6 +4821,26 @@
           "relation_model": "EngagementGatewayRequest"
         },
         {
+          "field_name": "file_document_metadata_created",
+          "column_name": "file_document_metadata_created",
+          "type": "FileDocumentMetadata[]",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "FileDocumentMetadata"
+        },
+        {
+          "field_name": "gatekeeper_decision_records_as_actor",
+          "column_name": "gatekeeper_decision_records_as_actor",
+          "type": "GatekeeperDecisionRecord[]",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "GatekeeperDecisionRecord"
+        },
+        {
           "field_name": "id",
           "column_name": "id",
           "type": "String",
@@ -3152,6 +4888,16 @@
           "is_id": false,
           "is_relation": true,
           "relation_model": "LeadStatusHistory"
+        },
+        {
+          "field_name": "module_lifecycle_events_as_actor",
+          "column_name": "module_lifecycle_events_as_actor",
+          "type": "ModuleLifecycleEvent[]",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "ModuleLifecycleEvent"
         },
         {
           "field_name": "organization",
@@ -3209,6 +4955,26 @@
           "is_id": false,
           "is_relation": true,
           "relation_model": "UserGroup"
+        },
+        {
+          "field_name": "workflow_instances_as_actor",
+          "column_name": "workflow_instances_as_actor",
+          "type": "WorkflowInstance[]",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "WorkflowInstance"
+        },
+        {
+          "field_name": "workflow_step_instances_as_actor",
+          "column_name": "workflow_step_instances_as_actor",
+          "type": "WorkflowStepInstance[]",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "WorkflowStepInstance"
         }
       ],
       "indexes": [
@@ -3480,6 +5246,879 @@
       "retention_policy": "per_access_policy",
       "audit_required": true,
       "sensitive_data_classification": "confidential"
+    },
+    {
+      "model_name": "WorkflowDefinition",
+      "table_name": "WorkflowDefinition",
+      "owner_module": "core.workflow",
+      "phase": 2,
+      "tenant_scoped": true,
+      "organization_id_required": true,
+      "rls_required": true,
+      "organization_id_field": "organization_id",
+      "organization_id_column": "organization_id",
+      "fields": [
+        {
+          "field_name": "audit_hooks",
+          "column_name": "audit_hooks",
+          "type": "Json",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "capability_requirements",
+          "column_name": "capability_requirements",
+          "type": "Json",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "created_at",
+          "column_name": "created_at",
+          "type": "DateTime",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "definition_json",
+          "column_name": "definition_json",
+          "type": "Json",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "deprecation_policy",
+          "column_name": "deprecation_policy",
+          "type": "Json",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "emitted_events",
+          "column_name": "emitted_events",
+          "type": "Json",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "evidence_requirements",
+          "column_name": "evidence_requirements",
+          "type": "Json",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "id",
+          "column_name": "id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": true,
+          "is_relation": false
+        },
+        {
+          "field_name": "organization",
+          "column_name": "organization",
+          "type": "Organization",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "Organization"
+        },
+        {
+          "field_name": "organization_id",
+          "column_name": "organization_id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "owner",
+          "column_name": "owner",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "search_vector",
+          "column_name": "search_vector",
+          "type": "[object Object]",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "status",
+          "column_name": "status",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "tenant_scope",
+          "column_name": "tenant_scope",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "updated_at",
+          "column_name": "updated_at",
+          "type": "DateTime",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "version",
+          "column_name": "version",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "workflow_instances",
+          "column_name": "workflow_instances",
+          "type": "WorkflowInstance[]",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "WorkflowInstance"
+        },
+        {
+          "field_name": "workflow_key",
+          "column_name": "workflow_key",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        }
+      ],
+      "indexes": [
+        {
+          "name": "WorkflowDefinition_id_pk",
+          "fields": [
+            "id"
+          ],
+          "columns": [
+            "id"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "WorkflowDefinition_organization_id_id_key",
+          "fields": [
+            "organization_id",
+            "id"
+          ],
+          "columns": [
+            "organization_id",
+            "id"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "WorkflowDefinition_organization_id_status_idx",
+          "fields": [
+            "organization_id",
+            "status"
+          ],
+          "columns": [
+            "organization_id",
+            "status"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "WorkflowDefinition_organization_id_workflow_key_status_idx",
+          "fields": [
+            "organization_id",
+            "workflow_key",
+            "status"
+          ],
+          "columns": [
+            "organization_id",
+            "workflow_key",
+            "status"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "WorkflowDefinition_organization_id_workflow_key_version_key",
+          "fields": [
+            "organization_id",
+            "workflow_key",
+            "version"
+          ],
+          "columns": [
+            "organization_id",
+            "workflow_key",
+            "version"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "WorkflowDefinition_owner_idx",
+          "fields": [
+            "owner"
+          ],
+          "columns": [
+            "owner"
+          ],
+          "is_unique": false
+        }
+      ],
+      "unique_constraints": [
+        {
+          "name": "WorkflowDefinition_id_pk",
+          "fields": [
+            "id"
+          ],
+          "columns": [
+            "id"
+          ]
+        },
+        {
+          "name": "WorkflowDefinition_organization_id_id_key",
+          "fields": [
+            "organization_id",
+            "id"
+          ],
+          "columns": [
+            "organization_id",
+            "id"
+          ]
+        },
+        {
+          "name": "WorkflowDefinition_organization_id_workflow_key_version_key",
+          "fields": [
+            "organization_id",
+            "workflow_key",
+            "version"
+          ],
+          "columns": [
+            "organization_id",
+            "workflow_key",
+            "version"
+          ]
+        }
+      ],
+      "events_emitted": [],
+      "retention_policy": "per_workflow_definition_policy",
+      "audit_required": true,
+      "sensitive_data_classification": "internal"
+    },
+    {
+      "model_name": "WorkflowInstance",
+      "table_name": "WorkflowInstance",
+      "owner_module": "core.workflow",
+      "phase": 2,
+      "tenant_scoped": true,
+      "organization_id_required": true,
+      "rls_required": true,
+      "organization_id_field": "organization_id",
+      "organization_id_column": "organization_id",
+      "fields": [
+        {
+          "field_name": "actor_user",
+          "column_name": "actor_user",
+          "type": "User",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "User"
+        },
+        {
+          "field_name": "actor_user_id",
+          "column_name": "actor_user_id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "completed_at",
+          "column_name": "completed_at",
+          "type": "DateTime",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "context",
+          "column_name": "context",
+          "type": "Json",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "correlation_id",
+          "column_name": "correlation_id",
+          "type": "String",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "current_state",
+          "column_name": "current_state",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "id",
+          "column_name": "id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": true,
+          "is_relation": false
+        },
+        {
+          "field_name": "organization",
+          "column_name": "organization",
+          "type": "Organization",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "Organization"
+        },
+        {
+          "field_name": "organization_id",
+          "column_name": "organization_id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "search_vector",
+          "column_name": "search_vector",
+          "type": "[object Object]",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "started_at",
+          "column_name": "started_at",
+          "type": "DateTime",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "status",
+          "column_name": "status",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "subject_id",
+          "column_name": "subject_id",
+          "type": "String",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "subject_type",
+          "column_name": "subject_type",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "updated_at",
+          "column_name": "updated_at",
+          "type": "DateTime",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "version",
+          "column_name": "version",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "workflow_definition",
+          "column_name": "workflow_definition",
+          "type": "WorkflowDefinition",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "WorkflowDefinition"
+        },
+        {
+          "field_name": "workflow_definition_id",
+          "column_name": "workflow_definition_id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "workflow_key",
+          "column_name": "workflow_key",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "workflow_steps",
+          "column_name": "workflow_steps",
+          "type": "WorkflowStepInstance[]",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "WorkflowStepInstance"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "WorkflowInstance_correlation_id_idx",
+          "fields": [
+            "correlation_id"
+          ],
+          "columns": [
+            "correlation_id"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "WorkflowInstance_id_pk",
+          "fields": [
+            "id"
+          ],
+          "columns": [
+            "id"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "WorkflowInstance_organization_id_actor_user_id_started_at_idx",
+          "fields": [
+            "organization_id",
+            "actor_user_id",
+            "started_at"
+          ],
+          "columns": [
+            "organization_id",
+            "actor_user_id",
+            "started_at"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "WorkflowInstance_organization_id_id_key",
+          "fields": [
+            "organization_id",
+            "id"
+          ],
+          "columns": [
+            "organization_id",
+            "id"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "WorkflowInstance_organization_id_subject_type_subject_id_idx",
+          "fields": [
+            "organization_id",
+            "subject_type",
+            "subject_id"
+          ],
+          "columns": [
+            "organization_id",
+            "subject_type",
+            "subject_id"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "WorkflowInstance_organization_id_workflow_key_status_idx",
+          "fields": [
+            "organization_id",
+            "workflow_key",
+            "status"
+          ],
+          "columns": [
+            "organization_id",
+            "workflow_key",
+            "status"
+          ],
+          "is_unique": false
+        }
+      ],
+      "unique_constraints": [
+        {
+          "name": "WorkflowInstance_id_pk",
+          "fields": [
+            "id"
+          ],
+          "columns": [
+            "id"
+          ]
+        },
+        {
+          "name": "WorkflowInstance_organization_id_id_key",
+          "fields": [
+            "organization_id",
+            "id"
+          ],
+          "columns": [
+            "organization_id",
+            "id"
+          ]
+        }
+      ],
+      "events_emitted": [],
+      "retention_policy": "per_workflow_instance_policy",
+      "audit_required": true,
+      "sensitive_data_classification": "restricted"
+    },
+    {
+      "model_name": "WorkflowStepInstance",
+      "table_name": "WorkflowStepInstance",
+      "owner_module": "core.workflow",
+      "phase": 2,
+      "tenant_scoped": true,
+      "organization_id_required": true,
+      "rls_required": true,
+      "organization_id_field": "organization_id",
+      "organization_id_column": "organization_id",
+      "fields": [
+        {
+          "field_name": "action_key",
+          "column_name": "action_key",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "actor_user",
+          "column_name": "actor_user",
+          "type": "User",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "User"
+        },
+        {
+          "field_name": "actor_user_id",
+          "column_name": "actor_user_id",
+          "type": "String",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "completed_at",
+          "column_name": "completed_at",
+          "type": "DateTime",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "event_ref",
+          "column_name": "event_ref",
+          "type": "String",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "evidence_ref",
+          "column_name": "evidence_ref",
+          "type": "String",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "gatekeeper_outcome",
+          "column_name": "gatekeeper_outcome",
+          "type": "GatekeeperDecisionOutcome",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "gatekeeper_request_id",
+          "column_name": "gatekeeper_request_id",
+          "type": "String",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "id",
+          "column_name": "id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": true,
+          "is_relation": false
+        },
+        {
+          "field_name": "metadata",
+          "column_name": "metadata",
+          "type": "Json",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "organization",
+          "column_name": "organization",
+          "type": "Organization",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "Organization"
+        },
+        {
+          "field_name": "organization_id",
+          "column_name": "organization_id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "started_at",
+          "column_name": "started_at",
+          "type": "DateTime",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "state_key",
+          "column_name": "state_key",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "status",
+          "column_name": "status",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "step_key",
+          "column_name": "step_key",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "workflow_instance",
+          "column_name": "workflow_instance",
+          "type": "WorkflowInstance",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "WorkflowInstance"
+        },
+        {
+          "field_name": "workflow_instance_id",
+          "column_name": "workflow_instance_id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        }
+      ],
+      "indexes": [
+        {
+          "name": "WorkflowStepInstance_event_ref_idx",
+          "fields": [
+            "event_ref"
+          ],
+          "columns": [
+            "event_ref"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "WorkflowStepInstance_id_pk",
+          "fields": [
+            "id"
+          ],
+          "columns": [
+            "id"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "WorkflowStepInstance_organization_id_action_key_started_at_idx",
+          "fields": [
+            "organization_id",
+            "action_key",
+            "started_at"
+          ],
+          "columns": [
+            "organization_id",
+            "action_key",
+            "started_at"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "WorkflowStepInstance_organization_id_gatekeeper_outcome_started_at_idx",
+          "fields": [
+            "organization_id",
+            "gatekeeper_outcome",
+            "started_at"
+          ],
+          "columns": [
+            "organization_id",
+            "gatekeeper_outcome",
+            "started_at"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "WorkflowStepInstance_organization_id_workflow_instance_id_started_at_idx",
+          "fields": [
+            "organization_id",
+            "workflow_instance_id",
+            "started_at"
+          ],
+          "columns": [
+            "organization_id",
+            "workflow_instance_id",
+            "started_at"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "WorkflowStepInstance_organization_id_workflow_instance_id_step_key_key",
+          "fields": [
+            "organization_id",
+            "workflow_instance_id",
+            "step_key"
+          ],
+          "columns": [
+            "organization_id",
+            "workflow_instance_id",
+            "step_key"
+          ],
+          "is_unique": true
+        }
+      ],
+      "unique_constraints": [
+        {
+          "name": "WorkflowStepInstance_id_pk",
+          "fields": [
+            "id"
+          ],
+          "columns": [
+            "id"
+          ]
+        },
+        {
+          "name": "WorkflowStepInstance_organization_id_workflow_instance_id_step_key_key",
+          "fields": [
+            "organization_id",
+            "workflow_instance_id",
+            "step_key"
+          ],
+          "columns": [
+            "organization_id",
+            "workflow_instance_id",
+            "step_key"
+          ]
+        }
+      ],
+      "events_emitted": [],
+      "retention_policy": "per_workflow_step_policy",
+      "audit_required": true,
+      "sensitive_data_classification": "restricted"
     }
   ],
   "future_placeholders": []

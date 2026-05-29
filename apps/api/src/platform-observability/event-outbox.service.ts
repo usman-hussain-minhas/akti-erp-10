@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto';
 
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { type Prisma } from '../prisma/prisma-client';
 
 import { PrismaService } from '../prisma/prisma.service';
@@ -23,35 +23,181 @@ type RecordEventOutboxInput = {
   version: string;
   payload: Record<string, unknown>;
   idempotency_key: string;
+  producer?: string;
+  source_module?: string;
+  subject?: EventEnvelopeSubject;
+  occurred_at?: Date;
+  compliance?: Partial<EventEnvelopeComplianceContext>;
+  context?: Partial<EventEnvelopeRuntimeContext>;
+  requires_compliance_context?: boolean;
 };
 
 export const PLATFORM_MUTATION_RECORDED_EVENT_TYPE = 'platform.mutation.recorded';
 export const PLATFORM_MUTATION_RECORDED_EVENT_VERSION = '0.1.0';
+export const EVENT_ENVELOPE_SCHEMA_VERSION = '1.0.0';
+export const DEFAULT_EVENT_PRODUCER = 'akti-api';
+export const DEFAULT_EVENT_SOURCE_MODULE = 'platform';
+
+export type EventEnvelopeSubject = {
+  entity_type: string;
+  entity_id: string | null;
+};
+
+export type EventEnvelopeComplianceContext = {
+  privacy_class: 'internal' | 'confidential' | 'restricted';
+  retention_class: 'standard' | 'audit' | 'legal_hold';
+  redaction_policy: 'none' | 'standard' | 'strict';
+  audit_required: boolean;
+  replay_allowed: boolean;
+};
+
+export type EventEnvelopeRuntimeContext = {
+  actor_user_id: string | null;
+  correlation_id: string | null;
+  request_id: string | null;
+  workflow_key: string | null;
+  integration_ref: string | null;
+};
+
+export type EventEnvelope = {
+  event_id: string;
+  event_type: string;
+  producer: string;
+  occurred_at: string;
+  schema_version: string;
+  organization_id: string;
+  source_module: string;
+  subject: EventEnvelopeSubject;
+  payload: Record<string, unknown>;
+  idempotency_key: string;
+  compliance: EventEnvelopeComplianceContext;
+  context: EventEnvelopeRuntimeContext;
+};
+
+type BuildEventEnvelopeInput = {
+  organization_id: string;
+  event_type: string;
+  idempotency_key: string;
+  payload: Record<string, unknown>;
+  producer?: string;
+  source_module?: string;
+  subject?: EventEnvelopeSubject;
+  occurred_at?: Date;
+  schema_version?: string;
+  compliance?: Partial<EventEnvelopeComplianceContext>;
+  context?: Partial<EventEnvelopeRuntimeContext>;
+};
+
+const DEFAULT_EVENT_COMPLIANCE_CONTEXT: EventEnvelopeComplianceContext = {
+  privacy_class: 'internal',
+  retention_class: 'standard',
+  redaction_policy: 'standard',
+  audit_required: true,
+  replay_allowed: true,
+};
+
+const DEFAULT_EVENT_RUNTIME_CONTEXT: EventEnvelopeRuntimeContext = {
+  actor_user_id: null,
+  correlation_id: null,
+  request_id: null,
+  workflow_key: null,
+  integration_ref: null,
+};
+
+export function buildEventEnvelope(input: BuildEventEnvelopeInput): EventEnvelope {
+  const occurredAt = input.occurred_at ?? new Date();
+  const idempotencyKey = requireNonEmptyString(input.idempotency_key, 'event envelope idempotency_key is required');
+  const envelope: EventEnvelope = {
+    event_id: deriveEventEnvelopeId(input.organization_id, idempotencyKey),
+    event_type: requireNonEmptyString(input.event_type, 'event envelope event_type is required'),
+    producer: normalizeOptionalString(input.producer) ?? DEFAULT_EVENT_PRODUCER,
+    occurred_at: occurredAt.toISOString(),
+    schema_version: normalizeOptionalString(input.schema_version) ?? EVENT_ENVELOPE_SCHEMA_VERSION,
+    organization_id: requireNonEmptyString(input.organization_id, 'event envelope organization_id is required'),
+    source_module: normalizeOptionalString(input.source_module) ?? inferSourceModuleFromEventType(input.event_type),
+    subject: normalizeEventSubject(input.subject, idempotencyKey),
+    payload: requirePayloadObject(input.payload),
+    idempotency_key: idempotencyKey,
+    compliance: {
+      ...DEFAULT_EVENT_COMPLIANCE_CONTEXT,
+      ...(input.compliance ?? {}),
+    },
+    context: normalizeRuntimeContext(input.context),
+  };
+
+  assertEventEnvelope(envelope);
+  return envelope;
+}
+
+export function assertEventEnvelope(envelope: EventEnvelope): EventEnvelope {
+  requireNonEmptyString(envelope.event_id, 'event envelope event_id is required');
+  requireNonEmptyString(envelope.event_type, 'event envelope event_type is required');
+  requireNonEmptyString(envelope.producer, 'event envelope producer is required');
+  requireIsoTimestamp(envelope.occurred_at, 'event envelope occurred_at must be an ISO timestamp');
+  requireNonEmptyString(envelope.schema_version, 'event envelope schema_version is required');
+  requireNonEmptyString(envelope.organization_id, 'event envelope organization_id is required');
+  requireNonEmptyString(envelope.source_module, 'event envelope source_module is required');
+  normalizeEventSubject(envelope.subject, envelope.idempotency_key);
+  requirePayloadObject(envelope.payload);
+  requireNonEmptyString(envelope.idempotency_key, 'event envelope idempotency_key is required');
+  assertComplianceContext(envelope.compliance);
+  normalizeRuntimeContext(envelope.context);
+
+  return envelope;
+}
+
+export function assertComplianceEventContext(envelope: EventEnvelope): EventEnvelope {
+  assertEventEnvelope(envelope);
+  requireNonEmptyString(envelope.context.actor_user_id, 'compliance event envelope actor_user_id is required');
+  requireNonEmptyString(envelope.context.correlation_id, 'compliance event envelope correlation_id is required');
+
+  if (!envelope.compliance.audit_required) {
+    throw new BadRequestException('compliance event envelope audit_required must be true');
+  }
+  if (envelope.compliance.retention_class === 'standard') {
+    throw new BadRequestException('compliance event envelope retention_class must be audit or legal_hold');
+  }
+
+  return envelope;
+}
 
 @Injectable()
 export class EventOutboxService {
   async recordMutation(db: DbClient, input: RecordMutationOutboxInput): Promise<{ written: true }> {
+    const organizationId = this.requireOrganizationId(input.organization_id);
+    const actionKey = requireNonEmptyString(input.action_key, 'mutation outbox action_key is required');
+    const entityType = requireNonEmptyString(input.entity_type, 'mutation outbox entity_type is required');
+    const entityId = requireNonEmptyString(input.entity_id, 'mutation outbox entity_id is required');
     const occurredAt = input.occurred_at ?? new Date();
     const actorUserId = this.normalizeActorUserId(input.actor_user_id);
     const idempotencyKey =
       this.normalizeIdempotencyKey(input.idempotency_key) ??
       this.deriveMutationIdempotencyKey({
-        organization_id: input.organization_id,
-        action_key: input.action_key,
-        entity_type: input.entity_type,
-        entity_id: input.entity_id,
+        organization_id: organizationId,
+        action_key: actionKey,
+        entity_type: entityType,
+        entity_id: entityId,
         actor_user_id: actorUserId,
       });
 
     return this.recordEvent(db, {
-      organization_id: input.organization_id,
+      organization_id: organizationId,
       event_type: PLATFORM_MUTATION_RECORDED_EVENT_TYPE,
       version: PLATFORM_MUTATION_RECORDED_EVENT_VERSION,
       idempotency_key: idempotencyKey,
+      source_module: 'platform.mutation',
+      subject: {
+        entity_type: entityType,
+        entity_id: entityId,
+      },
+      occurred_at: occurredAt,
+      context: {
+        actor_user_id: actorUserId,
+      },
       payload: {
-        action_key: input.action_key,
-        entity_type: input.entity_type,
-        entity_id: input.entity_id,
+        action_key: actionKey,
+        entity_type: entityType,
+        entity_id: entityId,
         actor_user_id: actorUserId,
         occurred_at: occurredAt.toISOString(),
       },
@@ -59,11 +205,37 @@ export class EventOutboxService {
   }
 
   async recordEvent(db: DbClient, input: RecordEventOutboxInput): Promise<{ written: true }> {
+    const organizationId = this.requireOrganizationId(input.organization_id);
+    const idempotencyKey = this.requireOutboxIdempotencyKey(input.idempotency_key);
+    this.assertPayloadTenant(input.payload, organizationId);
+
+    const envelope = buildEventEnvelope({
+      organization_id: organizationId,
+      event_type: input.event_type,
+      idempotency_key: idempotencyKey,
+      payload: input.payload,
+      producer: input.producer,
+      source_module: input.source_module,
+      subject: input.subject,
+      occurred_at: input.occurred_at,
+      compliance: input.compliance,
+      context: input.context,
+    });
+    if (input.requires_compliance_context) {
+      assertComplianceEventContext(envelope);
+    }
+
     const createData = {
-      organization_id: input.organization_id,
-      idempotency_key: input.idempotency_key,
+      organization_id: organizationId,
+      idempotency_key: idempotencyKey,
       event_type: input.event_type,
       version: input.version,
+      event_id: envelope.event_id,
+      producer: envelope.producer,
+      occurred_at: new Date(envelope.occurred_at),
+      schema_version: envelope.schema_version,
+      source_module: envelope.source_module,
+      subject: envelope.subject as Prisma.InputJsonValue,
       status: 'pending',
       attempt_count: 0,
       next_attempt_at: null,
@@ -73,14 +245,19 @@ export class EventOutboxService {
       locked_by: null,
       processed_at: null,
       payload: input.payload as Prisma.InputJsonValue,
+      privacy_class: envelope.compliance.privacy_class,
+      retention_class: envelope.compliance.retention_class,
+      redaction_policy: envelope.compliance.redaction_policy,
+      audit_required: envelope.compliance.audit_required,
+      replay_allowed: envelope.compliance.replay_allowed,
     };
 
     if (typeof (db.eventOutbox as { upsert?: unknown }).upsert === 'function') {
       await db.eventOutbox.upsert({
         where: {
           organization_id_idempotency_key: {
-            organization_id: input.organization_id,
-            idempotency_key: input.idempotency_key,
+            organization_id: organizationId,
+            idempotency_key: idempotencyKey,
           },
         },
         create: createData,
@@ -106,14 +283,16 @@ export class EventOutboxService {
       locked_by?: string | null;
     },
   ): Promise<{ written: true }> {
+    const organizationId = this.requireOrganizationId(input.organization_id);
+    const idempotencyKey = this.requireOutboxIdempotencyKey(input.idempotency_key);
     const failedAt = input.failed_at ?? new Date();
     const retryDelay = input.retry_after_ms ?? 60_000;
 
     await db.eventOutbox.update({
       where: {
         organization_id_idempotency_key: {
-          organization_id: input.organization_id,
-          idempotency_key: input.idempotency_key,
+          organization_id: organizationId,
+          idempotency_key: idempotencyKey,
         },
       },
       data: {
@@ -139,13 +318,15 @@ export class EventOutboxService {
       delivered_at?: Date;
     },
   ): Promise<{ written: true }> {
+    const organizationId = this.requireOrganizationId(input.organization_id);
+    const idempotencyKey = this.requireOutboxIdempotencyKey(input.idempotency_key);
     const deliveredAt = input.delivered_at ?? new Date();
 
     await db.eventOutbox.update({
       where: {
         organization_id_idempotency_key: {
-          organization_id: input.organization_id,
-          idempotency_key: input.idempotency_key,
+          organization_id: organizationId,
+          idempotency_key: idempotencyKey,
         },
       },
       data: {
@@ -170,13 +351,15 @@ export class EventOutboxService {
       error_message: string;
     },
   ): Promise<{ written: true }> {
+    const organizationId = this.requireOrganizationId(input.organization_id);
+    const idempotencyKey = this.requireOutboxIdempotencyKey(input.idempotency_key);
     const deadLetteredAt = input.dead_lettered_at ?? new Date();
 
     await db.eventOutbox.update({
       where: {
         organization_id_idempotency_key: {
-          organization_id: input.organization_id,
-          idempotency_key: input.idempotency_key,
+          organization_id: organizationId,
+          idempotency_key: idempotencyKey,
         },
       },
       data: {
@@ -230,4 +413,138 @@ export class EventOutboxService {
 
     return `outbox_${hash.digest('hex')}`;
   }
+
+  private requireOrganizationId(organizationIdRaw: string): string {
+    return requireNonEmptyString(organizationIdRaw, 'tenant-scoped outbox organization_id is required');
+  }
+
+  private requireOutboxIdempotencyKey(idempotencyKeyRaw: string): string {
+    return requireNonEmptyString(idempotencyKeyRaw, 'tenant-scoped outbox idempotency_key is required');
+  }
+
+  private assertPayloadTenant(payload: Record<string, unknown>, organizationId: string): void {
+    const payloadOrganizationId = payload.organization_id;
+    if (payloadOrganizationId === undefined || payloadOrganizationId === null) {
+      return;
+    }
+
+    if (payloadOrganizationId !== organizationId) {
+      throw new BadRequestException('event payload organization_id must match event tenant');
+    }
+  }
+}
+
+function deriveEventEnvelopeId(organizationIdRaw: string, idempotencyKeyRaw: string): string {
+  const organizationId = requireNonEmptyString(organizationIdRaw, 'event envelope organization_id is required');
+  const idempotencyKey = requireNonEmptyString(idempotencyKeyRaw, 'event envelope idempotency_key is required');
+  const hash = createHash('sha256');
+  hash.update(organizationId);
+  hash.update('|');
+  hash.update(idempotencyKey);
+
+  return `evt_${hash.digest('hex')}`;
+}
+
+function inferSourceModuleFromEventType(eventTypeRaw: string): string {
+  const eventType = requireNonEmptyString(eventTypeRaw, 'event envelope event_type is required');
+  const [first, second] = eventType.split('.');
+
+  if (!first || !second) {
+    return DEFAULT_EVENT_SOURCE_MODULE;
+  }
+
+  return `${first}.${second}`;
+}
+
+function normalizeEventSubject(subjectRaw: EventEnvelopeSubject | undefined, idempotencyKey: string): EventEnvelopeSubject {
+  if (!subjectRaw) {
+    return {
+      entity_type: 'event',
+      entity_id: idempotencyKey,
+    };
+  }
+
+  return {
+    entity_type: requireNonEmptyString(subjectRaw.entity_type, 'event envelope subject.entity_type is required'),
+    entity_id: normalizeOptionalString(subjectRaw.entity_id),
+  };
+}
+
+function assertComplianceContext(compliance: EventEnvelopeComplianceContext): void {
+  const allowedPrivacy = new Set<EventEnvelopeComplianceContext['privacy_class']>([
+    'internal',
+    'confidential',
+    'restricted',
+  ]);
+  const allowedRetention = new Set<EventEnvelopeComplianceContext['retention_class']>([
+    'standard',
+    'audit',
+    'legal_hold',
+  ]);
+  const allowedRedaction = new Set<EventEnvelopeComplianceContext['redaction_policy']>(['none', 'standard', 'strict']);
+
+  if (!allowedPrivacy.has(compliance.privacy_class)) {
+    throw new BadRequestException('event envelope privacy_class is invalid');
+  }
+  if (!allowedRetention.has(compliance.retention_class)) {
+    throw new BadRequestException('event envelope retention_class is invalid');
+  }
+  if (!allowedRedaction.has(compliance.redaction_policy)) {
+    throw new BadRequestException('event envelope redaction_policy is invalid');
+  }
+  if (typeof compliance.audit_required !== 'boolean') {
+    throw new BadRequestException('event envelope audit_required must be boolean');
+  }
+  if (typeof compliance.replay_allowed !== 'boolean') {
+    throw new BadRequestException('event envelope replay_allowed must be boolean');
+  }
+}
+
+function normalizeRuntimeContext(contextRaw: Partial<EventEnvelopeRuntimeContext> | undefined): EventEnvelopeRuntimeContext {
+  return {
+    ...DEFAULT_EVENT_RUNTIME_CONTEXT,
+    actor_user_id: normalizeOptionalString(contextRaw?.actor_user_id),
+    correlation_id: normalizeOptionalString(contextRaw?.correlation_id),
+    request_id: normalizeOptionalString(contextRaw?.request_id),
+    workflow_key: normalizeOptionalString(contextRaw?.workflow_key),
+    integration_ref: normalizeOptionalString(contextRaw?.integration_ref),
+  };
+}
+
+function requirePayloadObject(payloadRaw: Record<string, unknown>): Record<string, unknown> {
+  if (!payloadRaw || typeof payloadRaw !== 'object' || Array.isArray(payloadRaw)) {
+    throw new BadRequestException('event envelope payload must be an object');
+  }
+
+  return payloadRaw;
+}
+
+function requireIsoTimestamp(value: string, message: string): string {
+  const normalized = requireNonEmptyString(value, message);
+  const parsed = Date.parse(normalized);
+
+  if (Number.isNaN(parsed) || new Date(parsed).toISOString() !== normalized) {
+    throw new BadRequestException(message);
+  }
+
+  return normalized;
+}
+
+function requireNonEmptyString(value: string | null | undefined, message: string): string {
+  const normalized = normalizeOptionalString(value);
+
+  if (!normalized) {
+    throw new BadRequestException(message);
+  }
+
+  return normalized;
+}
+
+function normalizeOptionalString(value: string | null | undefined): string | null {
+  if (typeof value !== 'string') {
+    return null;
+  }
+
+  const trimmed = value.trim();
+  return trimmed.length > 0 ? trimmed : null;
 }

@@ -122,6 +122,17 @@
       "sensitive_data_classification": "restricted",
       "events_emitted": []
     },
+    "GatekeeperDecisionRecord": {
+      "owner_module": "core.gatekeeper",
+      "phase": 2,
+      "tenant_scoped": true,
+      "organization_id_required": true,
+      "rls_required": true,
+      "retention_policy": "per_gatekeeper_decision_policy",
+      "audit_required": true,
+      "sensitive_data_classification": "restricted",
+      "events_emitted": []
+    },
     "EventOutbox": {
       "owner_module": "core.platform",
       "phase": 1,
@@ -138,6 +149,28 @@
         }
       ]
     },
+    "ReadModelEntry": {
+      "owner_module": "core.reporting",
+      "phase": 2,
+      "tenant_scoped": true,
+      "organization_id_required": true,
+      "rls_required": true,
+      "retention_policy": "per_read_model_policy",
+      "audit_required": true,
+      "sensitive_data_classification": "confidential",
+      "events_emitted": []
+    },
+    "ReadModelCursor": {
+      "owner_module": "core.reporting",
+      "phase": 2,
+      "tenant_scoped": true,
+      "organization_id_required": true,
+      "rls_required": true,
+      "retention_policy": "per_read_model_policy",
+      "audit_required": true,
+      "sensitive_data_classification": "internal",
+      "events_emitted": []
+    },
     "ModuleRegistryEntry": {
       "owner_module": "core.registry",
       "phase": 1,
@@ -147,6 +180,61 @@
       "retention_policy": "permanent",
       "audit_required": true,
       "sensitive_data_classification": "internal",
+      "events_emitted": []
+    },
+    "ModuleLifecycleEvent": {
+      "owner_module": "core.foundry",
+      "phase": 2,
+      "tenant_scoped": true,
+      "organization_id_required": true,
+      "rls_required": true,
+      "retention_policy": "per_module_lifecycle_policy",
+      "audit_required": true,
+      "sensitive_data_classification": "internal",
+      "events_emitted": []
+    },
+    "WorkflowDefinition": {
+      "owner_module": "core.workflow",
+      "phase": 2,
+      "tenant_scoped": true,
+      "organization_id_required": true,
+      "rls_required": true,
+      "retention_policy": "per_workflow_definition_policy",
+      "audit_required": true,
+      "sensitive_data_classification": "internal",
+      "events_emitted": []
+    },
+    "WorkflowInstance": {
+      "owner_module": "core.workflow",
+      "phase": 2,
+      "tenant_scoped": true,
+      "organization_id_required": true,
+      "rls_required": true,
+      "retention_policy": "per_workflow_instance_policy",
+      "audit_required": true,
+      "sensitive_data_classification": "restricted",
+      "events_emitted": []
+    },
+    "WorkflowStepInstance": {
+      "owner_module": "core.workflow",
+      "phase": 2,
+      "tenant_scoped": true,
+      "organization_id_required": true,
+      "rls_required": true,
+      "retention_policy": "per_workflow_step_policy",
+      "audit_required": true,
+      "sensitive_data_classification": "restricted",
+      "events_emitted": []
+    },
+    "FileDocumentMetadata": {
+      "owner_module": "core.file",
+      "phase": 2,
+      "tenant_scoped": true,
+      "organization_id_required": true,
+      "rls_required": true,
+      "retention_policy": "per_file_document_policy",
+      "audit_required": true,
+      "sensitive_data_classification": "restricted",
       "events_emitted": []
     },
     "OrganizationSetting": {

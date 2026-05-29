@@ -29,7 +29,7 @@ jobs:
       - name: pnpm install --frozen-lockfile
         run: pnpm install --frozen-lockfile
 
-      - name: pnpm contracts:validate
+      - name: pnpm contracts:validate (includes module manifest validation)
         run: pnpm contracts:validate
 
       - name: pnpm exec prisma validate --schema prisma/schema.prisma

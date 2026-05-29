@@ -16,8 +16,41 @@ import type { PortalMode, UpdatePortalModeInput } from './dto/configuration.dto'
 const ACCESS_POLICY_MANAGE_CAPABILITY_KEY = 'access.policy.manage';
 const ACCESS_MODULE_KEY = 'core.access';
 const PORTAL_MODE_SETTING_KEY = 'portal.mode';
+const BRANDING_ASSETS_SETTING_KEY = 'white_label.branding_assets';
+const CONFIGURABLE_LABELS_SETTING_PREFIX = 'display.labels.';
 const DEFAULT_PORTAL_MODE: PortalMode = 'simple';
+const DEFAULT_WHITE_LABEL_MODE = 'none';
 const ORGANIZATION_CONFIGURATION_SCOPE_TYPES = new Set<PermissionScopeType>(['global', 'organization']);
+const BRANDING_ASSET_URL_MAX_LENGTH = 2048;
+const DOMAIN_IDENTITY_MAX_LENGTH = 253;
+const CONFIGURABLE_LABEL_MAX_LENGTH = 120;
+const HOSTNAME_DOMAIN_PATTERN =
+  /^(?=.{1,253}$)(?!-)(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/;
+const DISPLAY_MODULE_KEY_PATTERN = /^[a-z][a-z0-9.-]{0,127}$/;
+const DISPLAY_LABEL_KEY_PATTERN = /^[a-z][a-z0-9_.-]{0,127}$/;
+const BRANDING_ASSET_KEYS = [
+  'logo_url',
+  'icon_url',
+  'favicon_url',
+  'email_logo_url',
+] as const;
+
+export const TENANT_CONFIG_SCHEMA_MODEL_BASELINE = {
+  decision: 'reuse_existing_models',
+  setting_model: 'OrganizationSetting',
+  domain_model: 'OrganizationDomain',
+  rejected_new_model: 'PlatformTenantConfig',
+  setting_key_examples: [PORTAL_MODE_SETTING_KEY],
+  required_setting_fields: ['organization_id', 'key', 'value_json', 'updated_at'],
+  required_domain_fields: ['organization_id', 'domain', 'is_primary', 'verified_at'],
+  required_setting_uniques: ['@@unique([organization_id, key])'],
+  required_domain_uniques: ['domain @unique', '@@unique([organization_id, domain])'],
+  tenant_isolation_field: 'organization_id',
+  decision_reason:
+    'OrganizationSetting already provides tenant-scoped typed JSON configuration values, while OrganizationDomain already provides tenant-scoped domain identity. A new PlatformTenantConfig model is not required for the Phase 5B baseline.',
+} as const;
+
+export type TenantConfigSchemaModelBaseline = typeof TENANT_CONFIG_SCHEMA_MODEL_BASELINE;
 
 type DbClient = PrismaService | Prisma.TransactionClient;
 
@@ -34,7 +67,93 @@ type PortalModeResponse = {
   updated_at: string | null;
 };
 
+type BrandingAssetKey = (typeof BRANDING_ASSET_KEYS)[number];
+
+type BrandingAssetMap = Record<BrandingAssetKey, string | null>;
+
+export type BrandingAssetsResponse = {
+  organization_id: string;
+  key: typeof BRANDING_ASSETS_SETTING_KEY;
+  source: 'default' | 'stored';
+  assets: BrandingAssetMap;
+  canonical_identity_preserved: true;
+  updated_at: string | null;
+};
+
+export type DomainSenderIdentityStatus = 'verified' | 'unverified' | 'not_registered';
+
+export type DomainSenderIdentityBoundaryResponse = {
+  organization_id: string;
+  input: string;
+  normalized_domain: string;
+  status: DomainSenderIdentityStatus;
+  allowed_for_sender: boolean;
+  registered: boolean;
+  verified_at: string | null;
+  is_primary: boolean;
+  branding_domain_changes_require_gatekeeper: true;
+  canonical_identity_preserved: true;
+};
+
+export type ConfigurableLabelDefinition = {
+  canonical_key: string;
+  label: string;
+  source: 'module_default' | 'tenant_override';
+};
+
+export type ConfigurableLabelsResponse = {
+  organization_id: string;
+  module_key: string;
+  setting_key: string;
+  source: 'default' | 'stored';
+  display_only: true;
+  canonical_keys_preserved: true;
+  labels: Record<string, ConfigurableLabelDefinition>;
+  ignored_override_keys: string[];
+  updated_at: string | null;
+};
+
+export type TenantConfigurationResponse = {
+  organization_id: string;
+  storage_model: TenantConfigSchemaModelBaseline;
+  portal_mode: PortalModeResponse;
+  white_label: {
+    mode: typeof DEFAULT_WHITE_LABEL_MODE;
+    source: 'default';
+    updated_at: null;
+  };
+  mutation_policy: {
+    capability_key: typeof ACCESS_POLICY_MANAGE_CAPABILITY_KEY;
+    module_key: typeof ACCESS_MODULE_KEY;
+    gatekeeper_required: true;
+    audit_required: true;
+  };
+};
+
 type PortalModeSettingRow = {
+  id: string;
+  organization_id: string;
+  key: string;
+  value_json: unknown;
+  updated_at: Date;
+};
+
+type BrandingAssetsSettingRow = {
+  id: string;
+  organization_id: string;
+  key: string;
+  value_json: unknown;
+  updated_at: Date;
+};
+
+type OrganizationDomainIdentityRow = {
+  organization_id: string;
+  domain: string;
+  is_primary: boolean;
+  verified_at: Date | null;
+};
+
+type ConfigurableLabelsSettingRow = {
   id: string;
   organization_id: string;
   key: string;
@@ -113,6 +232,121 @@ export class ConfigurationService {
     return this.toPortalModeResponse(setting, 'stored');
   }
 
+  async getTenantConfiguration(
+    organizationId: string,
+    actorUserIdRaw?: string,
+  ): Promise<TenantConfigurationResponse> {
+    const portalMode = await this.getPortalMode(organizationId, actorUserIdRaw);
+
+    return {
+      organization_id: portalMode.organization_id,
+      storage_model: this.getTenantConfigSchemaModelBaseline(),
+      portal_mode: portalMode,
+      white_label: {
+        mode: DEFAULT_WHITE_LABEL_MODE,
+        source: 'default',
+        updated_at: null,
+      },
+      mutation_policy: {
+        capability_key: ACCESS_POLICY_MANAGE_CAPABILITY_KEY,
+        module_key: ACCESS_MODULE_KEY,
+        gatekeeper_required: true,
+        audit_required: true,
+      },
+    };
+  }
+
+  async resolveBrandingAssets(
+    organizationId: string,
+    actorUserIdRaw?: string,
+  ): Promise<BrandingAssetsResponse> {
+    await this.requireAccessPolicyManageActor(this.prisma, organizationId, actorUserIdRaw);
+
+    const setting = await this.prisma.organizationSetting.findUnique({
+      where: {
+        organization_id_key: {
+          organization_id: organizationId,
+          key: BRANDING_ASSETS_SETTING_KEY,
+        },
+      },
+      select: {
+        id: true,
+        organization_id: true,
+        key: true,
+        value_json: true,
+        updated_at: true,
+      },
+    });
+
+    if (!setting) {
+      return this.defaultBrandingAssetsResponse(organizationId);
+    }
+
+    return this.toBrandingAssetsResponse(setting);
+  }
+
+  async resolveDomainSenderIdentityBoundary(
+    organizationId: string,
+    senderIdentityRaw: string,
+    actorUserIdRaw?: string,
+  ): Promise<DomainSenderIdentityBoundaryResponse> {
+    const normalizedDomain = this.normalizeSenderIdentityDomain(senderIdentityRaw);
+    await this.requireAccessPolicyManageActor(this.prisma, organizationId, actorUserIdRaw);
+
+    const domain = await this.prisma.organizationDomain.findFirst({
+      where: {
+        organization_id: organizationId,
+        domain: normalizedDomain,
+      },
+      select: {
+        organization_id: true,
+        domain: true,
+        is_primary: true,
+        verified_at: true,
+      },
+    });
+
+    if (!domain) {
+      return this.toDomainSenderIdentityBoundaryResponse(organizationId, senderIdentityRaw, normalizedDomain, null);
+    }
+
+    return this.toDomainSenderIdentityBoundaryResponse(organizationId, senderIdentityRaw, normalizedDomain, domain);
+  }
+
+  async resolveConfigurableLabels(
+    organizationId: string,
+    moduleKeyRaw: string,
+    moduleDefaultLabelsRaw: Record<string, string>,
+    actorUserIdRaw?: string,
+  ): Promise<ConfigurableLabelsResponse> {
+    const moduleKey = this.normalizeDisplayModuleKey(moduleKeyRaw);
+    const moduleDefaultLabels = this.normalizeModuleDefaultLabels(moduleDefaultLabelsRaw);
+    await this.requireAccessPolicyManageActor(this.prisma, organizationId, actorUserIdRaw);
+
+    const settingKey = this.configurableLabelsSettingKey(moduleKey);
+    const setting = await this.prisma.organizationSetting.findUnique({
+      where: {
+        organization_id_key: {
+          organization_id: organizationId,
+          key: settingKey,
+        },
+      },
+      select: {
+        id: true,
+        organization_id: true,
+        key: true,
+        value_json: true,
+        updated_at: true,
+      },
+    });
+
+    if (!setting) {
+      return this.toConfigurableLabelsResponse(organizationId, moduleKey, settingKey, moduleDefaultLabels, null);
+    }
+
+    return this.toConfigurableLabelsResponse(organizationId, moduleKey, settingKey, moduleDefaultLabels, setting);
+  }
+
   async updatePortalMode(
     organizationId: string,
     input: UpdatePortalModeInput,
@@ -185,6 +419,10 @@ export class ConfigurationService {
       this.rethrowKnownConflicts(error);
       throw error;
     }
+  }
+
+  getTenantConfigSchemaModelBaseline(): TenantConfigSchemaModelBaseline {
+    return TENANT_CONFIG_SCHEMA_MODEL_BASELINE;
   }
 
   private async requireAccessPolicyManageActor(
@@ -373,6 +611,244 @@ export class ConfigurationService {
     }
 
     return mode;
+  }
+
+  private defaultBrandingAssetsResponse(organizationId: string): BrandingAssetsResponse {
+    return {
+      organization_id: organizationId,
+      key: BRANDING_ASSETS_SETTING_KEY,
+      source: 'default',
+      assets: this.defaultBrandingAssetMap(),
+      canonical_identity_preserved: true,
+      updated_at: null,
+    };
+  }
+
+  private toBrandingAssetsResponse(setting: BrandingAssetsSettingRow): BrandingAssetsResponse {
+    return {
+      organization_id: setting.organization_id,
+      key: BRANDING_ASSETS_SETTING_KEY,
+      source: 'stored',
+      assets: this.parseStoredBrandingAssets(setting.value_json),
+      canonical_identity_preserved: true,
+      updated_at: setting.updated_at.toISOString(),
+    };
+  }
+
+  private defaultBrandingAssetMap(): BrandingAssetMap {
+    return {
+      logo_url: null,
+      icon_url: null,
+      favicon_url: null,
+      email_logo_url: null,
+    };
+  }
+
+  private parseStoredBrandingAssets(value: unknown): BrandingAssetMap {
+    if (typeof value !== 'object' || value === null || Array.isArray(value)) {
+      throw new ConflictException('white_label.branding_assets setting is invalid');
+    }
+
+    const body = value as Record<string, unknown>;
+    const assets = this.defaultBrandingAssetMap();
+
+    for (const key of BRANDING_ASSET_KEYS) {
+      assets[key] = this.parseBrandingAssetUrl(body[key], key);
+    }
+
+    return assets;
+  }
+
+  private parseBrandingAssetUrl(value: unknown, key: BrandingAssetKey): string | null {
+    if (value === undefined || value === null) {
+      return null;
+    }
+
+    if (typeof value !== 'string') {
+      throw new ConflictException(`${key} branding asset must be a path or HTTPS URL`);
+    }
+
+    const trimmed = value.trim();
+    if (trimmed.length === 0) {
+      return null;
+    }
+
+    if (trimmed.length > BRANDING_ASSET_URL_MAX_LENGTH) {
+      throw new ConflictException(`${key} branding asset URL is too long`);
+    }
+
+    if (trimmed.startsWith('/') || trimmed.startsWith('https://')) {
+      return trimmed;
+    }
+
+    throw new ConflictException(`${key} branding asset must be a path or HTTPS URL`);
+  }
+
+  private toDomainSenderIdentityBoundaryResponse(
+    organizationId: string,
+    senderIdentityRaw: string,
+    normalizedDomain: string,
+    domain: OrganizationDomainIdentityRow | null,
+  ): DomainSenderIdentityBoundaryResponse {
+    const verifiedAt = domain?.verified_at ?? null;
+    const status: DomainSenderIdentityStatus = !domain
+      ? 'not_registered'
+      : verifiedAt
+        ? 'verified'
+        : 'unverified';
+
+    return {
+      organization_id: organizationId,
+      input: senderIdentityRaw.trim(),
+      normalized_domain: normalizedDomain,
+      status,
+      allowed_for_sender: status === 'verified',
+      registered: domain !== null,
+      verified_at: verifiedAt ? verifiedAt.toISOString() : null,
+      is_primary: domain?.is_primary ?? false,
+      branding_domain_changes_require_gatekeeper: true,
+      canonical_identity_preserved: true,
+    };
+  }
+
+  private normalizeSenderIdentityDomain(value: unknown): string {
+    if (typeof value !== 'string') {
+      throw new BadRequestException('sender identity must be a domain or email address');
+    }
+
+    const trimmed = value.trim().toLowerCase();
+    if (trimmed.length === 0 || trimmed.length > DOMAIN_IDENTITY_MAX_LENGTH) {
+      throw new BadRequestException('sender identity must be a valid domain or email address');
+    }
+
+    const atIndex = trimmed.lastIndexOf('@');
+    const domain = atIndex >= 0 ? trimmed.slice(atIndex + 1) : trimmed;
+    if (domain.length === 0 || !HOSTNAME_DOMAIN_PATTERN.test(domain)) {
+      throw new BadRequestException('sender identity must be a valid domain or email address');
+    }
+
+    return domain;
+  }
+
+  private toConfigurableLabelsResponse(
+    organizationId: string,
+    moduleKey: string,
+    settingKey: string,
+    moduleDefaultLabels: Record<string, string>,
+    setting: ConfigurableLabelsSettingRow | null,
+  ): ConfigurableLabelsResponse {
+    const { overrides, ignoredOverrideKeys } = setting
+      ? this.parseStoredConfigurableLabelOverrides(setting.value_json, moduleDefaultLabels)
+      : { overrides: {}, ignoredOverrideKeys: [] };
+
+    const labels: Record<string, ConfigurableLabelDefinition> = {};
+    for (const [canonicalKey, defaultLabel] of Object.entries(moduleDefaultLabels)) {
+      const override = overrides[canonicalKey];
+      labels[canonicalKey] = {
+        canonical_key: canonicalKey,
+        label: override ?? defaultLabel,
+        source: override === undefined ? 'module_default' : 'tenant_override',
+      };
+    }
+
+    return {
+      organization_id: organizationId,
+      module_key: moduleKey,
+      setting_key: settingKey,
+      source: setting ? 'stored' : 'default',
+      display_only: true,
+      canonical_keys_preserved: true,
+      labels,
+      ignored_override_keys: ignoredOverrideKeys,
+      updated_at: setting ? setting.updated_at.toISOString() : null,
+    };
+  }
+
+  private parseStoredConfigurableLabelOverrides(
+    value: unknown,
+    moduleDefaultLabels: Record<string, string>,
+  ): { overrides: Record<string, string>; ignoredOverrideKeys: string[] } {
+    if (typeof value !== 'object' || value === null || Array.isArray(value)) {
+      throw new ConflictException('configurable label setting is invalid');
+    }
+
+    const body = value as Record<string, unknown>;
+    const overrides: Record<string, string> = {};
+    const ignoredOverrideKeys: string[] = [];
+
+    for (const [key, rawLabel] of Object.entries(body)) {
+      if (!(key in moduleDefaultLabels)) {
+        ignoredOverrideKeys.push(key);
+        continue;
+      }
+
+      overrides[key] = this.normalizeStoredDisplayLabel(rawLabel, `label override ${key}`);
+    }
+
+    return { overrides, ignoredOverrideKeys: ignoredOverrideKeys.sort() };
+  }
+
+  private normalizeModuleDefaultLabels(value: Record<string, string>): Record<string, string> {
+    if (typeof value !== 'object' || value === null || Array.isArray(value)) {
+      throw new BadRequestException('module default labels must be an object');
+    }
+
+    const labels: Record<string, string> = {};
+    for (const [key, label] of Object.entries(value)) {
+      if (!DISPLAY_LABEL_KEY_PATTERN.test(key)) {
+        throw new BadRequestException('module default label keys must be canonical display keys');
+      }
+      labels[key] = this.normalizeDisplayLabel(label, `module default label ${key}`);
+    }
+
+    if (Object.keys(labels).length === 0) {
+      throw new BadRequestException('module default labels must not be empty');
+    }
+
+    return labels;
+  }
+
+  private normalizeDisplayModuleKey(value: unknown): string {
+    if (typeof value !== 'string') {
+      throw new BadRequestException('module key is required for configurable labels');
+    }
+
+    const moduleKey = value.trim().toLowerCase();
+    if (!DISPLAY_MODULE_KEY_PATTERN.test(moduleKey)) {
+      throw new BadRequestException('module key is invalid for configurable labels');
+    }
+
+    return moduleKey;
+  }
+
+  private configurableLabelsSettingKey(moduleKey: string): string {
+    return `${CONFIGURABLE_LABELS_SETTING_PREFIX}${moduleKey}`;
+  }
+
+  private normalizeDisplayLabel(value: unknown, field: string): string {
+    if (typeof value !== 'string') {
+      throw new BadRequestException(`${field} must be a string`);
+    }
+
+    const trimmed = value.trim();
+    if (trimmed.length === 0 || trimmed.length > CONFIGURABLE_LABEL_MAX_LENGTH) {
+      throw new BadRequestException(`${field} must be 1-${CONFIGURABLE_LABEL_MAX_LENGTH} characters`);
+    }
+
+    return trimmed;
+  }
+
+  private normalizeStoredDisplayLabel(value: unknown, field: string): string {
+    if (typeof value !== 'string') {
+      throw new ConflictException(`${field} must be a string`);
+    }
+
+    const trimmed = value.trim();
+    if (trimmed.length === 0 || trimmed.length > CONFIGURABLE_LABEL_MAX_LENGTH) {
+      throw new ConflictException(`${field} must be 1-${CONFIGURABLE_LABEL_MAX_LENGTH} characters`);
+    }
+
+    return trimmed;
   }
 
   private normalizeActorUserId(actorUserIdRaw?: string | null): string | null {

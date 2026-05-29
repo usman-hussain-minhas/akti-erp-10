@@ -21,6 +21,15 @@ export class ConfigurationController {
     return this.configurationService.getPortalMode(organizationId, this.resolveActorUserId(headers, organizationId));
   }
 
+  @Get('organizations/:organization_id/tenant-config')
+  getTenantConfiguration(
+    @Param('organization_id') organizationIdRaw: string,
+    @Headers() headers: HeaderRecord,
+  ) {
+    const organizationId = this.validate(() => validateOrganizationIdParam(organizationIdRaw));
+    return this.configurationService.getTenantConfiguration(organizationId, this.resolveActorUserId(headers, organizationId));
+  }
+
   @Put('organizations/:organization_id/portal-mode')
   updatePortalMode(
     @Param('organization_id') organizationIdRaw: string,
