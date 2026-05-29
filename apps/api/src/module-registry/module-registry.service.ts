@@ -37,12 +37,19 @@ type PermissionManifestEntry = {
   allowed_scope_types: Array<CapabilitySeedScopeType>;
 };
 
-type RuntimeModuleManifest = {
+type GatekeeperHookManifestEntry = {
+  key: string;
+  capability_key: string;
+  required: boolean;
+};
+
+export type RuntimeModuleManifest = {
   module_key: string;
   display_name: string;
   version: string;
   capabilities: CapabilityManifestEntry[];
   permissions: PermissionManifestEntry[];
+  gatekeeper_hooks: GatekeeperHookManifestEntry[];
 };
 
 export type CapabilitySeedScopeType =
@@ -79,6 +86,20 @@ type SeedCoreFoundationResult = {
     Capability,
     'key' | 'module_key' | 'description' | 'risk_level' | 'gatekeeper_required' | 'approval_chain_required'
   >>;
+};
+
+type RegisteredCapabilityContribution = Pick<
+  Capability,
+  'key' | 'module_key' | 'description' | 'risk_level' | 'gatekeeper_required' | 'approval_chain_required'
+> & {
+  allowed_scope_types: CapabilitySeedScopeType[];
+};
+
+export type CapabilityContributionRegistrationResult = {
+  module_key: string;
+  manifest_hash: string;
+  registered_count: number;
+  capabilities: RegisteredCapabilityContribution[];
 };
 
 type ModuleListResponse = {
@@ -250,7 +271,8 @@ function isRuntimeModuleManifest(input: unknown): input is RuntimeModuleManifest
     typeof maybe.display_name === 'string' &&
     typeof maybe.version === 'string' &&
     Array.isArray(maybe.capabilities) &&
-    Array.isArray(maybe.permissions)
+    Array.isArray(maybe.permissions) &&
+    Array.isArray(maybe.gatekeeper_hooks)
   );
 }
 
@@ -416,16 +438,28 @@ export function assertAccessCoreSeedBoundary(
   }
 }
 
-function toCapabilitySeedFromManifest(capability: CapabilityManifestEntry): AccessCoreCapabilitySeed {
-  return {
-    capability_key: capability.key,
-    module_key: capability.module_key,
-    description: capability.description,
-    risk_level: capability.risk_level,
-    gatekeeper_required: capability.gatekeeper_required,
-    approval_chain_required: capability.approval_chain_required,
-    allowed_scope_types: ['organization'],
-  };
+function assertCapabilityContribution(
+  manifest: RuntimeModuleManifest,
+  capability: CapabilityManifestEntry,
+  permissionScopeMap: Map<string, ReadonlyArray<CapabilitySeedScopeType>>,
+  gatekeeperHookCapabilityKeys: Set<string>,
+) {
+  if (capability.module_key !== manifest.module_key) {
+    throw new ConflictException(`Capability ${capability.key} module_key must match manifest module_key`);
+  }
+
+  const allowedScopeTypes = permissionScopeMap.get(capability.key);
+  if (!allowedScopeTypes || allowedScopeTypes.length === 0) {
+    throw new ConflictException(`Capability ${capability.key} requires a permission scope mapping`);
+  }
+
+  if (['high', 'critical'].includes(capability.risk_level) && !capability.gatekeeper_required) {
+    throw new ConflictException(`High-risk capability ${capability.key} requires Gatekeeper`);
+  }
+
+  if (capability.gatekeeper_required && !gatekeeperHookCapabilityKeys.has(capability.key)) {
+    throw new ConflictException(`Gatekeeper capability ${capability.key} requires a Gatekeeper hook`);
+  }
 }
 
 @Injectable()
@@ -487,27 +521,74 @@ export class ModuleRegistryService {
       modules.push(module);
     }
 
-    const capabilitySeeds = manifests.flatMap((item) => item.capabilities.map(toCapabilitySeedFromManifest));
+    const capabilityRegistrations = [];
+    for (const runtimeManifest of manifests) {
+      capabilityRegistrations.push(await this.registerCapabilityContributions(runtimeManifest, db));
+    }
+
     const capabilities: SeedCoreFoundationResult['capabilities'] = [];
-    for (const capabilitySeed of capabilitySeeds) {
-      const capability = await db.capability.upsert({
+    for (const capabilityRegistration of capabilityRegistrations) {
+      capabilities.push(
+        ...capabilityRegistration.capabilities.map(
+          ({
+            key,
+            module_key,
+            description,
+            risk_level,
+            gatekeeper_required,
+            approval_chain_required,
+          }) => ({
+            key,
+            module_key,
+            description,
+            risk_level,
+            gatekeeper_required,
+            approval_chain_required,
+          }),
+        ),
+      );
+    }
+
+    return {
+      modules,
+      capabilities,
+    };
+  }
+
+  async registerCapabilityContributions(
+    manifest: RuntimeModuleManifest,
+    db: DbClient = this.prisma,
+  ): Promise<CapabilityContributionRegistrationResult> {
+    assertPhase2ManifestShape(manifest);
+    const permissionScopeMap = new Map(
+      manifest.permissions.map((permission) => [permission.key, [...permission.allowed_scope_types]]),
+    );
+    const gatekeeperHookCapabilityKeys = new Set(
+      manifest.gatekeeper_hooks.map((hook) => hook.capability_key),
+    );
+
+    const capabilities: RegisteredCapabilityContribution[] = [];
+    for (const capability of manifest.capabilities) {
+      assertCapabilityContribution(manifest, capability, permissionScopeMap, gatekeeperHookCapabilityKeys);
+      const allowedScopeTypes = permissionScopeMap.get(capability.key) ?? [];
+      const persistedCapability = await db.capability.upsert({
         where: {
-          key: capabilitySeed.capability_key,
+          key: capability.key,
         },
         create: {
-          key: capabilitySeed.capability_key,
-          module_key: capabilitySeed.module_key,
-          description: capabilitySeed.description,
-          risk_level: capabilitySeed.risk_level,
-          gatekeeper_required: capabilitySeed.gatekeeper_required,
-          approval_chain_required: capabilitySeed.approval_chain_required,
+          key: capability.key,
+          module_key: capability.module_key,
+          description: capability.description,
+          risk_level: capability.risk_level,
+          gatekeeper_required: capability.gatekeeper_required,
+          approval_chain_required: capability.approval_chain_required,
         },
         update: {
-          module_key: capabilitySeed.module_key,
-          description: capabilitySeed.description,
-          risk_level: capabilitySeed.risk_level,
-          gatekeeper_required: capabilitySeed.gatekeeper_required,
-          approval_chain_required: capabilitySeed.approval_chain_required,
+          module_key: capability.module_key,
+          description: capability.description,
+          risk_level: capability.risk_level,
+          gatekeeper_required: capability.gatekeeper_required,
+          approval_chain_required: capability.approval_chain_required,
         },
         select: {
           key: true,
@@ -518,11 +599,16 @@ export class ModuleRegistryService {
           approval_chain_required: true,
         },
       });
-      capabilities.push(capability);
+      capabilities.push({
+        ...persistedCapability,
+        allowed_scope_types: allowedScopeTypes,
+      });
     }
 
     return {
-      modules,
+      module_key: manifest.module_key,
+      manifest_hash: sha256Hex(stableJsonStringify(manifest)),
+      registered_count: capabilities.length,
       capabilities,
     };
   }
