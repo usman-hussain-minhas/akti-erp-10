@@ -56,6 +56,41 @@ export type AiProxyDeclaration = {
   };
 };
 
+export type AiProxyStubProofInput = {
+  declaration: AiProxyDeclaration;
+  prompt_token_estimate: number;
+  completion_token_cap: number;
+  requested_at: string;
+};
+
+export type AiProxyStubProof = {
+  mode: 'stub_only';
+  status: 'stub_recorded';
+  organization_id: string;
+  actor_user_id: string;
+  request_key: string;
+  idempotency_key: string;
+  requested_at: string;
+  cost: {
+    currency: 'USD';
+    estimated_cents: number;
+    hard_cap_cents: number;
+    within_budget: true;
+  };
+  output: {
+    kind: 'stub';
+    content: 'AI_PROXY_STUB_NO_MODEL_OUTPUT';
+  };
+  audit: {
+    event_type: 'ai_proxy.stub.recorded';
+    audit_required: true;
+  };
+  provider_configured: false;
+  provider_request_started: false;
+  runtime_ai_executed: false;
+  production_credentials_required: false;
+};
+
 const ALLOWED_DATA_CLASSES = new Set<AiProxyDataClass>(['internal', 'confidential', 'restricted']);
 const ALLOWED_RISK = new Set<AiProxyRiskClassification>(['low', 'medium', 'high']);
 const ALLOWED_REDACTION = new Set<AiProxyDeclarationInput['redaction_policy']>(['none', 'standard', 'strict']);
@@ -116,6 +151,76 @@ export class AiProxyService {
         audit_required: true,
       },
     };
+  }
+
+  recordStubProof(input: AiProxyStubProofInput): AiProxyStubProof {
+    const declaration = input.declaration;
+    if (declaration.status !== 'declared') {
+      throw new BadRequestException('ai proxy stub proof requires a declared request');
+    }
+    if (
+      declaration.provider_configured !== false ||
+      declaration.provider_request_started !== false ||
+      declaration.runtime_ai_executed !== false ||
+      declaration.production_credentials_required !== false
+    ) {
+      throw new BadRequestException('ai proxy stub proof cannot follow provider/runtime execution');
+    }
+
+    const requestedAt = this.isoTimestamp(input.requested_at, 'requested_at');
+    const estimatedCents = this.estimateCost(input.prompt_token_estimate, input.completion_token_cap);
+    if (estimatedCents > declaration.max_cost_cents) {
+      throw new BadRequestException('ai proxy stub cost estimate exceeds declared cap');
+    }
+
+    return {
+      mode: 'stub_only',
+      status: 'stub_recorded',
+      organization_id: declaration.organization_id,
+      actor_user_id: declaration.actor_user_id,
+      request_key: declaration.request_key,
+      idempotency_key: declaration.idempotency_key,
+      requested_at: requestedAt,
+      cost: {
+        currency: 'USD',
+        estimated_cents: estimatedCents,
+        hard_cap_cents: declaration.max_cost_cents,
+        within_budget: true,
+      },
+      output: {
+        kind: 'stub',
+        content: 'AI_PROXY_STUB_NO_MODEL_OUTPUT',
+      },
+      audit: {
+        event_type: 'ai_proxy.stub.recorded',
+        audit_required: true,
+      },
+      provider_configured: false,
+      provider_request_started: false,
+      runtime_ai_executed: false,
+      production_credentials_required: false,
+    };
+  }
+
+  private estimateCost(promptTokenEstimate: number, completionTokenCap: number): number {
+    if (!Number.isSafeInteger(promptTokenEstimate) || promptTokenEstimate < 0) {
+      throw new BadRequestException('ai proxy prompt_token_estimate must be a non-negative integer');
+    }
+    if (!Number.isSafeInteger(completionTokenCap) || completionTokenCap < 0) {
+      throw new BadRequestException('ai proxy completion_token_cap must be a non-negative integer');
+    }
+
+    return Math.ceil((promptTokenEstimate + completionTokenCap) / 100);
+  }
+
+  private isoTimestamp(input: unknown, field: string): string {
+    const value = this.required(input, field);
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) {
+      throw new BadRequestException(`ai proxy ${field} must be an ISO timestamp`);
+    }
+
+    return date.toISOString();
   }
 
   private dataClasses(input: AiProxyDataClass[]): AiProxyDataClass[] {
