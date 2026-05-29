@@ -122,6 +122,30 @@ When two sources conflict, the lower rank number wins. If conflict remains unres
 
 ---
 
+## Spark Genesis Planning Aid
+
+<skill>
+<name>spark-genesis</name>
+<version>0.2.0</version>
+<description>Use when planning, auditing, generating, executing, resuming, or self-healing Codex phase work. Includes JSON ticket-pack audit, dependency graph checks, predictive stop patterns, scoped repair rules, and post-run learning filters.</description>
+<location>/Volumes/UsmanWork/Spark Genesis/skills/spark-genesis/SKILL.md</location>
+</skill>
+
+Spark Genesis is an audit/planning aid, not source of truth. If Spark Genesis conflicts with AGENTS.md, Prisma, contracts, manifests, generated registry, ADRs, active process docs, tests, or validation evidence, the AKTI source-of-truth hierarchy wins.
+
+Use Spark Genesis before:
+
+- Phase 5C planning/control docs
+- Phase 5C ticket-pack creation
+- ticket-pack audit
+- predictive stop analysis
+- autonomous execution readiness
+- post-run learning classification
+
+Do not invoke Spark Genesis for tiny typo fixes, single-file harmless text edits, or low-risk changes with no phase/schema/auth/frontend/module-boundary impact.
+
+---
+
 ## Phase 5B Locked Decisions
 
 Final. Do not revisit:
