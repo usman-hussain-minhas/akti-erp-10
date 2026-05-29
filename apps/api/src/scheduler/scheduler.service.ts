@@ -61,8 +61,35 @@ export type SchedulerJobDeclaration = {
   };
 };
 
+export type SchedulerRuntimeDependency = {
+  dependency_key: string;
+  dependency_type: 'core_service' | 'module_capability' | 'platform_queue';
+};
+
+export type SchedulerRuntimeBoundary = {
+  job_key: string;
+  organization_id: string;
+  owner_module: string;
+  dependency_keys: string[];
+  dependency_count: number;
+  boundary_state: 'declared_not_enqueued';
+  gatekeeper_outcome_required: 'ALLOW';
+  gatekeeper_preflight_required: true;
+  queue_enqueued: false;
+  worker_started: false;
+  runtime_execution_started: false;
+  business_logic_executed: false;
+  production_queue_connected: false;
+  blocked_reason: 'gatekeeper_preflight_required_before_runtime_enqueue';
+};
+
 const ALLOWED_CADENCES = new Set<SchedulerCadence>(['manual', 'once', 'recurring']);
 const ALLOWED_RISK = new Set<SchedulerRiskClassification>(['low', 'medium', 'high']);
+const ALLOWED_DEPENDENCY_TYPES = new Set<SchedulerRuntimeDependency['dependency_type']>([
+  'core_service',
+  'module_capability',
+  'platform_queue',
+]);
 
 @Injectable()
 export class SchedulerService {
@@ -103,6 +130,57 @@ export class SchedulerService {
         audit_required: true,
       },
     };
+  }
+
+  defineRuntimeBoundary(
+    declaration: SchedulerJobDeclaration,
+    dependencies: SchedulerRuntimeDependency[],
+  ): SchedulerRuntimeBoundary {
+    if (declaration.status !== 'declared' || declaration.runtime_enqueued !== false || declaration.worker_started !== false) {
+      throw new BadRequestException('scheduler runtime boundary requires a declared non-enqueued job');
+    }
+
+    const dependencyKeys = this.runtimeDependencyKeys(dependencies);
+
+    return {
+      job_key: declaration.job_key,
+      organization_id: declaration.organization_id,
+      owner_module: declaration.owner_module,
+      dependency_keys: dependencyKeys,
+      dependency_count: dependencyKeys.length,
+      boundary_state: 'declared_not_enqueued',
+      gatekeeper_outcome_required: 'ALLOW',
+      gatekeeper_preflight_required: true,
+      queue_enqueued: false,
+      worker_started: false,
+      runtime_execution_started: false,
+      business_logic_executed: false,
+      production_queue_connected: false,
+      blocked_reason: 'gatekeeper_preflight_required_before_runtime_enqueue',
+    };
+  }
+
+  private runtimeDependencyKeys(dependencies: SchedulerRuntimeDependency[]): string[] {
+    if (!Array.isArray(dependencies) || dependencies.length === 0) {
+      throw new BadRequestException('scheduler runtime dependencies are required');
+    }
+
+    const keys = dependencies.map((dependency) => {
+      if (!dependency || typeof dependency !== 'object') {
+        throw new BadRequestException('scheduler runtime dependency is invalid');
+      }
+      if (!ALLOWED_DEPENDENCY_TYPES.has(dependency.dependency_type)) {
+        throw new BadRequestException('scheduler runtime dependency_type is invalid');
+      }
+
+      return this.required(dependency.dependency_key, 'dependency_key');
+    });
+
+    if (new Set(keys).size !== keys.length) {
+      throw new BadRequestException('scheduler runtime dependencies must be unique');
+    }
+
+    return keys;
   }
 
   private cadence(input: SchedulerCadence): SchedulerCadence {
