@@ -53,6 +53,54 @@ export type ReportingReadModelProjection = {
   };
 };
 
+export type ReportingReadModelQueryInput = {
+  organization_id: string;
+  actor_user_id: string;
+  read_model_key: string;
+  capability_keys: string[];
+  limit?: number;
+  cursor?: string | null;
+  entries?: ReportingReadModelEntryWrite[];
+};
+
+export type ReportingReadModelQueryResponse = {
+  method: 'GET';
+  route: '/platform/read-models/:key';
+  request_shape: 'ReadModelQueryRequest';
+  response_shape: 'ReadModelQueryResponse';
+  request: {
+    read_model_key: string;
+    capability_keys: string[];
+    limit: number;
+    cursor: string | null;
+  };
+  capability: {
+    required: 'platform.reporting.read';
+    target_capability_filter: string[];
+  };
+  tenant_context: {
+    organization_id: string;
+    actor_user_id: string;
+  };
+  gatekeeper: {
+    risk_check_required: true;
+    data_source_validation_required: true;
+    capability_key: 'platform.reporting.read';
+  };
+  audit: {
+    event_type: 'read_model.query.executed';
+    audit_required: true;
+  };
+  items: ReportingReadModelEntryWrite[];
+  page: {
+    limit: number;
+    cursor: string | null;
+    next_cursor: string | null;
+  };
+  direct_cross_module_table_read: false;
+  business_report_created: false;
+};
+
 @Injectable()
 export class ReportingService {
   consumeEventForReadModel(input: ReportingReadModelConsumeInput): ReportingReadModelProjection {
@@ -103,8 +151,98 @@ export class ReportingService {
     };
   }
 
+  queryReadModel(input: ReportingReadModelQueryInput): ReportingReadModelQueryResponse {
+    const organizationId = this.required(input.organization_id, 'organization_id');
+    const actorUserId = this.required(input.actor_user_id, 'actor_user_id');
+    const readModelKey = this.required(input.read_model_key, 'read_model_key');
+    const capabilityKeys = this.capabilityKeys(input.capability_keys);
+    const limit = this.limit(input.limit);
+    const cursor = this.optionalString(input.cursor, 'cursor');
+    const entries = this.entries(input.entries ?? [], organizationId, readModelKey, limit);
+
+    return {
+      method: 'GET',
+      route: '/platform/read-models/:key',
+      request_shape: 'ReadModelQueryRequest',
+      response_shape: 'ReadModelQueryResponse',
+      request: {
+        read_model_key: readModelKey,
+        capability_keys: capabilityKeys,
+        limit,
+        cursor,
+      },
+      capability: {
+        required: 'platform.reporting.read',
+        target_capability_filter: capabilityKeys,
+      },
+      tenant_context: {
+        organization_id: organizationId,
+        actor_user_id: actorUserId,
+      },
+      gatekeeper: {
+        risk_check_required: true,
+        data_source_validation_required: true,
+        capability_key: 'platform.reporting.read',
+      },
+      audit: {
+        event_type: 'read_model.query.executed',
+        audit_required: true,
+      },
+      items: entries,
+      page: {
+        limit,
+        cursor,
+        next_cursor: entries.length === limit ? entries[entries.length - 1]?.source_event_cursor ?? null : null,
+      },
+      direct_cross_module_table_read: false,
+      business_report_created: false,
+    };
+  }
+
   private cursorFor(event: EventEnvelope): string {
     return `${event.occurred_at}:${event.event_id}`;
+  }
+
+  private entries(
+    input: ReportingReadModelEntryWrite[],
+    organizationId: string,
+    readModelKey: string,
+    limit: number,
+  ): ReportingReadModelEntryWrite[] {
+    if (!Array.isArray(input)) {
+      throw new BadRequestException('reporting read-model entries must be an array');
+    }
+
+    return input
+      .filter((entry) => entry.organization_id === organizationId && entry.read_model_key === readModelKey)
+      .slice(0, limit);
+  }
+
+  private capabilityKeys(input: string[]): string[] {
+    if (!Array.isArray(input) || input.length === 0) {
+      throw new BadRequestException('reporting capability_keys are required');
+    }
+
+    const keys = input.map((value) => this.required(value, 'capability_keys'));
+    if (!keys.includes('platform.reporting.read')) {
+      throw new BadRequestException('reporting platform.reporting.read capability is required');
+    }
+    if (new Set(keys).size !== keys.length) {
+      throw new BadRequestException('reporting capability_keys must be unique');
+    }
+
+    return keys;
+  }
+
+  private limit(input: number | undefined): number {
+    if (input === undefined) {
+      return 25;
+    }
+    if (!Number.isSafeInteger(input) || input < 1 || input > 100) {
+      throw new BadRequestException('reporting limit must be an integer between 1 and 100');
+    }
+
+    return input;
   }
 
   private payload(input: Record<string, unknown>): Record<string, unknown> {
@@ -113,6 +251,14 @@ export class ReportingService {
     }
 
     return input;
+  }
+
+  private optionalString(input: unknown, field: string): string | null {
+    if (input === undefined || input === null) {
+      return null;
+    }
+
+    return this.required(input, field);
   }
 
   private required(input: unknown, field: string): string {
