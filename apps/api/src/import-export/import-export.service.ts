@@ -36,6 +36,7 @@ export type ImportValidationResult = {
   schema_model_created: false;
   runtime_ingestion_started: false;
   business_module_import: false;
+  dry_run_required: true;
   gatekeeper: {
     preflight_required: true;
     high_risk_review_required: boolean;
@@ -78,6 +79,7 @@ export type ExportValidationResult = {
   schema_model_created: false;
   runtime_export_started: false;
   business_report_export: false;
+  dry_run_required: true;
   gatekeeper: {
     preflight_required: true;
     high_risk_review_required: boolean;
@@ -102,6 +104,7 @@ export class ImportExportService {
     const riskClassification = this.importRiskClassification(input.risk_classification);
     const targetModel = this.targetModel(input.target_model);
     const sampleRows = this.sampleRows(input.sample_rows);
+    this.requireDryRun(input.dry_run, 'import');
 
     return {
       baseline: 'stateless_import_validation',
@@ -120,6 +123,7 @@ export class ImportExportService {
       schema_model_created: false,
       runtime_ingestion_started: false,
       business_module_import: false,
+      dry_run_required: true,
       gatekeeper: {
         preflight_required: true,
         high_risk_review_required: riskClassification === 'high',
@@ -137,6 +141,7 @@ export class ImportExportService {
     const riskClassification = this.exportRiskClassification(input.risk_classification);
     const sourceReadModelKey = this.sourceReadModelKey(input.source_read_model_key);
     const requestedFields = this.requestedFields(input.requested_fields);
+    this.requireDryRun(input.dry_run, 'export');
 
     return {
       baseline: 'stateless_export_validation',
@@ -155,6 +160,7 @@ export class ImportExportService {
       schema_model_created: false,
       runtime_export_started: false,
       business_report_export: false,
+      dry_run_required: true,
       gatekeeper: {
         preflight_required: true,
         high_risk_review_required: riskClassification === 'high',
@@ -248,6 +254,12 @@ export class ImportExportService {
     }
 
     return input;
+  }
+
+  private requireDryRun(input: boolean, prefix: 'import' | 'export'): void {
+    if (input !== true) {
+      throw new BadRequestException(`${prefix} baseline validation must run as dry_run`);
+    }
   }
 
   private required(input: unknown, field: string): string {
