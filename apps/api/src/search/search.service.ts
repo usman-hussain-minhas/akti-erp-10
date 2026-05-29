@@ -121,6 +121,44 @@ export type SearchTenantIsolationFixtureResult = {
   records_examined: number;
 };
 
+export type SearchQueryPerformanceFixtureInput = {
+  fixture_key: string;
+  organization_id: string;
+  actor_user_id: string;
+  capability_keys: string[];
+  records: SearchFixtureRecord[];
+  latency_samples_ms: number[];
+  p95_threshold_ms?: number;
+  queries: Array<{
+    query: string;
+    target_keys?: SearchIndexTargetKey[];
+    expected_result_ids?: string[];
+  }>;
+};
+
+export type SearchQueryPerformanceFixtureResult = {
+  fixture_key: string;
+  engine: 'postgresql_fts';
+  external_search_provider: 'deferred';
+  semantic_vector_population: 'deferred';
+  query_count: number;
+  records_examined: number;
+  p95_ms: number;
+  p95_threshold_ms: number;
+  p95_passed: boolean;
+  expected_results_matched: boolean;
+  performance_fixture_passed: boolean;
+  tenant_isolation_enforced: true;
+  capability_filter_enforced: true;
+  query_results: Array<{
+    query: string;
+    target_keys: SearchIndexTargetKey[];
+    result_ids: string[];
+    expected_result_ids: string[];
+    expected_results_matched: boolean;
+  }>;
+};
+
 @Injectable()
 export class SearchService {
   searchSchemaIndexBaseline(): SearchSchemaIndexBaseline {
@@ -272,6 +310,58 @@ export class SearchService {
     };
   }
 
+  runQueryPerformanceFixture(input: SearchQueryPerformanceFixtureInput): SearchQueryPerformanceFixtureResult {
+    const fixtureKey = this.nonEmpty(input.fixture_key, 'fixture_key');
+    const queries = this.fixtureQueries(input.queries);
+    const queryResults = queries.map((query) => {
+      const result = this.runTenantIsolationFixture({
+        organization_id: input.organization_id,
+        actor_user_id: input.actor_user_id,
+        capability_keys: input.capability_keys,
+        query: query.query,
+        target_keys: query.target_keys,
+        records: input.records,
+        latency_samples_ms: input.latency_samples_ms,
+        p95_threshold_ms: input.p95_threshold_ms,
+      });
+      const expectedResultIds = [...(query.expected_result_ids ?? [])].sort();
+
+      return {
+        query: result.plan.query,
+        target_keys: result.plan.targets.map((target) => target.target_key),
+        result_ids: result.result_ids,
+        expected_result_ids: expectedResultIds,
+        expected_results_matched: expectedResultIds.length === 0 || this.sameStringSet(result.result_ids, expectedResultIds),
+        p95_ms: result.p95_ms,
+        p95_threshold_ms: result.p95_threshold_ms,
+        p95_passed: result.p95_passed,
+        records_examined: result.records_examined,
+      };
+    });
+    const firstResult = queryResults[0];
+    const p95Ms = Math.max(...queryResults.map((result) => result.p95_ms));
+    const p95ThresholdMs = firstResult.p95_threshold_ms;
+    const p95Passed = queryResults.every((result) => result.p95_passed);
+    const expectedResultsMatched = queryResults.every((result) => result.expected_results_matched);
+
+    return {
+      fixture_key: fixtureKey,
+      engine: 'postgresql_fts',
+      external_search_provider: 'deferred',
+      semantic_vector_population: 'deferred',
+      query_count: queryResults.length,
+      records_examined: firstResult.records_examined,
+      p95_ms: p95Ms,
+      p95_threshold_ms: p95ThresholdMs,
+      p95_passed: p95Passed,
+      expected_results_matched: expectedResultsMatched,
+      performance_fixture_passed: p95Passed && expectedResultsMatched,
+      tenant_isolation_enforced: true,
+      capability_filter_enforced: true,
+      query_results: queryResults.map(({ p95_ms, p95_threshold_ms, p95_passed, records_examined, ...result }) => result),
+    };
+  }
+
   private targets(targetKeys?: SearchIndexTargetKey[]): SearchIndexTarget[] {
     const baselineTargets = this.searchSchemaIndexBaseline().targets;
     if (targetKeys === undefined) {
@@ -363,6 +453,22 @@ export class SearchService {
     }
 
     return input;
+  }
+
+  private fixtureQueries(input: SearchQueryPerformanceFixtureInput['queries']): SearchQueryPerformanceFixtureInput['queries'] {
+    if (!Array.isArray(input) || input.length === 0) {
+      throw new BadRequestException('search performance fixture queries must not be empty');
+    }
+
+    return input.map((query) => ({
+      query: this.searchQuery(query.query),
+      target_keys: query.target_keys === undefined ? undefined : query.target_keys.map((targetKey) => this.fixtureTarget(targetKey)),
+      expected_result_ids: query.expected_result_ids?.map((resultId) => this.nonEmpty(resultId, 'expected_result_id')),
+    }));
+  }
+
+  private sameStringSet(left: string[], right: string[]) {
+    return left.length === right.length && left.every((value, index) => value === right[index]);
   }
 
   private p95(samples: number[]): number {
