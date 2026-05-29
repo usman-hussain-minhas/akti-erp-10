@@ -10,6 +10,7 @@ import type {
 } from '@akti/contracts/gatekeeper-contract';
 
 import { AuditLogService } from '../platform-observability/audit-log.service';
+import { EventOutboxService } from '../platform-observability/event-outbox.service';
 import { type Prisma } from '../prisma/prisma-client';
 import { PrismaService } from '../prisma/prisma.service';
 
@@ -528,6 +529,7 @@ export class GatekeeperPreflightService {
   constructor(
     @Optional() private readonly prisma?: PrismaService,
     @Optional() private readonly auditLogService?: AuditLogService,
+    @Optional() private readonly eventOutboxService?: EventOutboxService,
   ) {}
 
   async requireAllow(input: GatekeeperPreflightInput): Promise<GatekeeperDecisionResult> {
@@ -566,6 +568,7 @@ export class GatekeeperPreflightService {
     const enforcedDecision = this.enforceStopForReviewImmutability(normalizedDecision, normalizedOutcome);
     await this.recordDecisionIfConfigured(request, enforcedDecision, normalizedOutcome);
     await this.recordAuditIfConfigured(request, enforcedDecision, normalizedOutcome);
+    await this.recordEventEnvelopeIfConfigured(request, enforcedDecision, normalizedOutcome);
 
     if (normalizedOutcome === 'STOP_FOR_REVIEW') {
       throw new ServiceUnavailableException('Gatekeeper stopped the mutation for platform review');
@@ -628,6 +631,59 @@ export class GatekeeperPreflightService {
         correlation_id: this.optionalPayloadString(request.payload, 'correlation_id'),
         evidence_intent: this.buildPreEnvelopeEvidenceIntent(request, decision, outcome),
       },
+    });
+  }
+
+  private async recordEventEnvelopeIfConfigured(
+    request: GatekeeperRequest,
+    decision: GatekeeperDecisionResult,
+    outcome: GatekeeperCanonicalOutcome,
+  ) {
+    if (!this.prisma || !this.eventOutboxService) {
+      return;
+    }
+
+    const correlationId = this.optionalPayloadString(request.payload, 'correlation_id') ?? request.request_id;
+
+    await this.eventOutboxService.recordEvent(this.prisma, {
+      organization_id: request.organization_id,
+      event_type: 'gatekeeper.preflight.decided',
+      version: '0.1.0',
+      idempotency_key: `gatekeeper.preflight.decided.${request.organization_id}.${request.request_id}`,
+      source_module: 'gatekeeper',
+      subject: {
+        entity_type: 'gatekeeper.decision',
+        entity_id: request.request_id,
+      },
+      occurred_at: new Date(request.requested_at),
+      payload: {
+        request_id: request.request_id,
+        capability_key: request.capability_key,
+        module_key: request.module_key,
+        entity_type: request.entity_type,
+        entity_id: request.entity_id,
+        scope_unit_id: request.scope_unit_id,
+        action_key: this.requiredPayloadString(request.payload, 'action_key'),
+        outcome,
+        reason_codes: decision.reasons.map((reason) => reason.code),
+        check_keys: decision.checks.map((check) => check.check_key),
+        required_evidence: decision.required_evidence,
+        missing_evidence: decision.missing_evidence,
+        correlation_id: correlationId,
+      },
+      compliance: {
+        privacy_class: 'restricted',
+        retention_class: 'audit',
+        redaction_policy: 'strict',
+        audit_required: true,
+        replay_allowed: false,
+      },
+      context: {
+        actor_user_id: request.actor_user_id,
+        correlation_id: correlationId,
+        request_id: request.request_id,
+      },
+      requires_compliance_context: true,
     });
   }
 
