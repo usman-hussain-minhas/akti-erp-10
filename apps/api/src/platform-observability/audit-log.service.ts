@@ -48,14 +48,19 @@ export function buildAuditEventEnvelopeContext(input: {
 @Injectable()
 export class AuditLogService {
   async writeAuditLog(db: DbClient, input: WriteAuditLogInput): Promise<AuditWriteResult> {
+    const organizationId = requireNonEmptyString(input.organization_id, 'audit log organization_id is required');
+    const actionKey = requireNonEmptyString(input.action_key, 'audit log action_key is required');
+    const entityType = requireNonEmptyString(input.entity_type, 'audit log entity_type is required');
+    const entityId = requireNonEmptyString(input.entity_id, 'audit log entity_id is required');
     const actorUserId = this.normalizeActorUserId(input.actor_user_id);
     if (!actorUserId) {
       throw new BadRequestException('x-actor-user-id is required for audit logging');
     }
+    this.assertMetadataTenant(input.metadata, organizationId);
 
     const actorUser = await db.user.findFirst({
       where: {
-        organization_id: input.organization_id,
+        organization_id: organizationId,
         id: actorUserId,
       },
       select: {
@@ -69,18 +74,18 @@ export class AuditLogService {
 
     buildAuditEventEnvelopeContext({
       actor_user_id: actorUserId,
-      action_key: input.action_key,
-      entity_type: input.entity_type,
-      entity_id: input.entity_id,
+      action_key: actionKey,
+      entity_type: entityType,
+      entity_id: entityId,
     });
 
     await db.auditLog.create({
       data: {
-        organization_id: input.organization_id,
+        organization_id: organizationId,
         actor_user_id: actorUserId,
-        action_key: input.action_key,
-        entity_type: input.entity_type,
-        entity_id: input.entity_id,
+        action_key: actionKey,
+        entity_type: entityType,
+        entity_id: entityId,
         metadata: input.metadata,
       },
     });
@@ -95,6 +100,22 @@ export class AuditLogService {
 
     const trimmed = actorUserIdRaw.trim();
     return trimmed.length > 0 ? trimmed : null;
+  }
+
+  private assertMetadataTenant(metadata: Prisma.InputJsonValue, organizationId: string): void {
+    if (!metadata || typeof metadata !== 'object' || Array.isArray(metadata)) {
+      return;
+    }
+
+    const metadataRecord = metadata as Record<string, unknown>;
+    const metadataOrganizationId = metadataRecord.organization_id;
+    if (metadataOrganizationId === undefined || metadataOrganizationId === null) {
+      return;
+    }
+
+    if (metadataOrganizationId !== organizationId) {
+      throw new BadRequestException('audit metadata organization_id must match audit tenant');
+    }
   }
 }
 

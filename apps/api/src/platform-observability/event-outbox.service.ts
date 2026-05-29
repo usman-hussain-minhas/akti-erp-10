@@ -164,36 +164,40 @@ export function assertComplianceEventContext(envelope: EventEnvelope): EventEnve
 @Injectable()
 export class EventOutboxService {
   async recordMutation(db: DbClient, input: RecordMutationOutboxInput): Promise<{ written: true }> {
+    const organizationId = this.requireOrganizationId(input.organization_id);
+    const actionKey = requireNonEmptyString(input.action_key, 'mutation outbox action_key is required');
+    const entityType = requireNonEmptyString(input.entity_type, 'mutation outbox entity_type is required');
+    const entityId = requireNonEmptyString(input.entity_id, 'mutation outbox entity_id is required');
     const occurredAt = input.occurred_at ?? new Date();
     const actorUserId = this.normalizeActorUserId(input.actor_user_id);
     const idempotencyKey =
       this.normalizeIdempotencyKey(input.idempotency_key) ??
       this.deriveMutationIdempotencyKey({
-        organization_id: input.organization_id,
-        action_key: input.action_key,
-        entity_type: input.entity_type,
-        entity_id: input.entity_id,
+        organization_id: organizationId,
+        action_key: actionKey,
+        entity_type: entityType,
+        entity_id: entityId,
         actor_user_id: actorUserId,
       });
 
     return this.recordEvent(db, {
-      organization_id: input.organization_id,
+      organization_id: organizationId,
       event_type: PLATFORM_MUTATION_RECORDED_EVENT_TYPE,
       version: PLATFORM_MUTATION_RECORDED_EVENT_VERSION,
       idempotency_key: idempotencyKey,
       source_module: 'platform.mutation',
       subject: {
-        entity_type: input.entity_type,
-        entity_id: input.entity_id,
+        entity_type: entityType,
+        entity_id: entityId,
       },
       occurred_at: occurredAt,
       context: {
         actor_user_id: actorUserId,
       },
       payload: {
-        action_key: input.action_key,
-        entity_type: input.entity_type,
-        entity_id: input.entity_id,
+        action_key: actionKey,
+        entity_type: entityType,
+        entity_id: entityId,
         actor_user_id: actorUserId,
         occurred_at: occurredAt.toISOString(),
       },
@@ -201,10 +205,14 @@ export class EventOutboxService {
   }
 
   async recordEvent(db: DbClient, input: RecordEventOutboxInput): Promise<{ written: true }> {
+    const organizationId = this.requireOrganizationId(input.organization_id);
+    const idempotencyKey = this.requireOutboxIdempotencyKey(input.idempotency_key);
+    this.assertPayloadTenant(input.payload, organizationId);
+
     const envelope = buildEventEnvelope({
-      organization_id: input.organization_id,
+      organization_id: organizationId,
       event_type: input.event_type,
-      idempotency_key: input.idempotency_key,
+      idempotency_key: idempotencyKey,
       payload: input.payload,
       producer: input.producer,
       source_module: input.source_module,
@@ -218,8 +226,8 @@ export class EventOutboxService {
     }
 
     const createData = {
-      organization_id: input.organization_id,
-      idempotency_key: input.idempotency_key,
+      organization_id: organizationId,
+      idempotency_key: idempotencyKey,
       event_type: input.event_type,
       version: input.version,
       event_id: envelope.event_id,
@@ -248,8 +256,8 @@ export class EventOutboxService {
       await db.eventOutbox.upsert({
         where: {
           organization_id_idempotency_key: {
-            organization_id: input.organization_id,
-            idempotency_key: input.idempotency_key,
+            organization_id: organizationId,
+            idempotency_key: idempotencyKey,
           },
         },
         create: createData,
@@ -275,14 +283,16 @@ export class EventOutboxService {
       locked_by?: string | null;
     },
   ): Promise<{ written: true }> {
+    const organizationId = this.requireOrganizationId(input.organization_id);
+    const idempotencyKey = this.requireOutboxIdempotencyKey(input.idempotency_key);
     const failedAt = input.failed_at ?? new Date();
     const retryDelay = input.retry_after_ms ?? 60_000;
 
     await db.eventOutbox.update({
       where: {
         organization_id_idempotency_key: {
-          organization_id: input.organization_id,
-          idempotency_key: input.idempotency_key,
+          organization_id: organizationId,
+          idempotency_key: idempotencyKey,
         },
       },
       data: {
@@ -308,13 +318,15 @@ export class EventOutboxService {
       delivered_at?: Date;
     },
   ): Promise<{ written: true }> {
+    const organizationId = this.requireOrganizationId(input.organization_id);
+    const idempotencyKey = this.requireOutboxIdempotencyKey(input.idempotency_key);
     const deliveredAt = input.delivered_at ?? new Date();
 
     await db.eventOutbox.update({
       where: {
         organization_id_idempotency_key: {
-          organization_id: input.organization_id,
-          idempotency_key: input.idempotency_key,
+          organization_id: organizationId,
+          idempotency_key: idempotencyKey,
         },
       },
       data: {
@@ -339,13 +351,15 @@ export class EventOutboxService {
       error_message: string;
     },
   ): Promise<{ written: true }> {
+    const organizationId = this.requireOrganizationId(input.organization_id);
+    const idempotencyKey = this.requireOutboxIdempotencyKey(input.idempotency_key);
     const deadLetteredAt = input.dead_lettered_at ?? new Date();
 
     await db.eventOutbox.update({
       where: {
         organization_id_idempotency_key: {
-          organization_id: input.organization_id,
-          idempotency_key: input.idempotency_key,
+          organization_id: organizationId,
+          idempotency_key: idempotencyKey,
         },
       },
       data: {
@@ -398,6 +412,25 @@ export class EventOutboxService {
     hash.update(input.actor_user_id ?? 'anonymous');
 
     return `outbox_${hash.digest('hex')}`;
+  }
+
+  private requireOrganizationId(organizationIdRaw: string): string {
+    return requireNonEmptyString(organizationIdRaw, 'tenant-scoped outbox organization_id is required');
+  }
+
+  private requireOutboxIdempotencyKey(idempotencyKeyRaw: string): string {
+    return requireNonEmptyString(idempotencyKeyRaw, 'tenant-scoped outbox idempotency_key is required');
+  }
+
+  private assertPayloadTenant(payload: Record<string, unknown>, organizationId: string): void {
+    const payloadOrganizationId = payload.organization_id;
+    if (payloadOrganizationId === undefined || payloadOrganizationId === null) {
+      return;
+    }
+
+    if (payloadOrganizationId !== organizationId) {
+      throw new BadRequestException('event payload organization_id must match event tenant');
+    }
   }
 }
 
