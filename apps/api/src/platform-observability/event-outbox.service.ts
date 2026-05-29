@@ -28,6 +28,8 @@ type RecordEventOutboxInput = {
   subject?: EventEnvelopeSubject;
   occurred_at?: Date;
   compliance?: Partial<EventEnvelopeComplianceContext>;
+  context?: Partial<EventEnvelopeRuntimeContext>;
+  requires_compliance_context?: boolean;
 };
 
 export const PLATFORM_MUTATION_RECORDED_EVENT_TYPE = 'platform.mutation.recorded';
@@ -49,6 +51,14 @@ export type EventEnvelopeComplianceContext = {
   replay_allowed: boolean;
 };
 
+export type EventEnvelopeRuntimeContext = {
+  actor_user_id: string | null;
+  correlation_id: string | null;
+  request_id: string | null;
+  workflow_key: string | null;
+  integration_ref: string | null;
+};
+
 export type EventEnvelope = {
   event_id: string;
   event_type: string;
@@ -61,6 +71,7 @@ export type EventEnvelope = {
   payload: Record<string, unknown>;
   idempotency_key: string;
   compliance: EventEnvelopeComplianceContext;
+  context: EventEnvelopeRuntimeContext;
 };
 
 type BuildEventEnvelopeInput = {
@@ -74,6 +85,7 @@ type BuildEventEnvelopeInput = {
   occurred_at?: Date;
   schema_version?: string;
   compliance?: Partial<EventEnvelopeComplianceContext>;
+  context?: Partial<EventEnvelopeRuntimeContext>;
 };
 
 const DEFAULT_EVENT_COMPLIANCE_CONTEXT: EventEnvelopeComplianceContext = {
@@ -82,6 +94,14 @@ const DEFAULT_EVENT_COMPLIANCE_CONTEXT: EventEnvelopeComplianceContext = {
   redaction_policy: 'standard',
   audit_required: true,
   replay_allowed: true,
+};
+
+const DEFAULT_EVENT_RUNTIME_CONTEXT: EventEnvelopeRuntimeContext = {
+  actor_user_id: null,
+  correlation_id: null,
+  request_id: null,
+  workflow_key: null,
+  integration_ref: null,
 };
 
 export function buildEventEnvelope(input: BuildEventEnvelopeInput): EventEnvelope {
@@ -102,6 +122,7 @@ export function buildEventEnvelope(input: BuildEventEnvelopeInput): EventEnvelop
       ...DEFAULT_EVENT_COMPLIANCE_CONTEXT,
       ...(input.compliance ?? {}),
     },
+    context: normalizeRuntimeContext(input.context),
   };
 
   assertEventEnvelope(envelope);
@@ -120,6 +141,22 @@ export function assertEventEnvelope(envelope: EventEnvelope): EventEnvelope {
   requirePayloadObject(envelope.payload);
   requireNonEmptyString(envelope.idempotency_key, 'event envelope idempotency_key is required');
   assertComplianceContext(envelope.compliance);
+  normalizeRuntimeContext(envelope.context);
+
+  return envelope;
+}
+
+export function assertComplianceEventContext(envelope: EventEnvelope): EventEnvelope {
+  assertEventEnvelope(envelope);
+  requireNonEmptyString(envelope.context.actor_user_id, 'compliance event envelope actor_user_id is required');
+  requireNonEmptyString(envelope.context.correlation_id, 'compliance event envelope correlation_id is required');
+
+  if (!envelope.compliance.audit_required) {
+    throw new BadRequestException('compliance event envelope audit_required must be true');
+  }
+  if (envelope.compliance.retention_class === 'standard') {
+    throw new BadRequestException('compliance event envelope retention_class must be audit or legal_hold');
+  }
 
   return envelope;
 }
@@ -150,6 +187,9 @@ export class EventOutboxService {
         entity_id: input.entity_id,
       },
       occurred_at: occurredAt,
+      context: {
+        actor_user_id: actorUserId,
+      },
       payload: {
         action_key: input.action_key,
         entity_type: input.entity_type,
@@ -171,7 +211,11 @@ export class EventOutboxService {
       subject: input.subject,
       occurred_at: input.occurred_at,
       compliance: input.compliance,
+      context: input.context,
     });
+    if (input.requires_compliance_context) {
+      assertComplianceEventContext(envelope);
+    }
 
     const createData = {
       organization_id: input.organization_id,
@@ -421,6 +465,17 @@ function assertComplianceContext(compliance: EventEnvelopeComplianceContext): vo
   if (typeof compliance.replay_allowed !== 'boolean') {
     throw new BadRequestException('event envelope replay_allowed must be boolean');
   }
+}
+
+function normalizeRuntimeContext(contextRaw: Partial<EventEnvelopeRuntimeContext> | undefined): EventEnvelopeRuntimeContext {
+  return {
+    ...DEFAULT_EVENT_RUNTIME_CONTEXT,
+    actor_user_id: normalizeOptionalString(contextRaw?.actor_user_id),
+    correlation_id: normalizeOptionalString(contextRaw?.correlation_id),
+    request_id: normalizeOptionalString(contextRaw?.request_id),
+    workflow_key: normalizeOptionalString(contextRaw?.workflow_key),
+    integration_ref: normalizeOptionalString(contextRaw?.integration_ref),
+  };
 }
 
 function requirePayloadObject(payloadRaw: Record<string, unknown>): Record<string, unknown> {

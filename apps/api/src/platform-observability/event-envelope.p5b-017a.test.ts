@@ -91,6 +91,13 @@ function testRejectsMissingEnvelopeFieldsAndInvalidCompliance() {
           audit_required: true,
           replay_allowed: true,
         },
+        context: {
+          actor_user_id: null,
+          correlation_id: null,
+          request_id: null,
+          workflow_key: null,
+          integration_ref: null,
+        },
       }),
     BadRequestException,
   );
