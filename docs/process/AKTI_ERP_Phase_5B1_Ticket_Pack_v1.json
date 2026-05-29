@@ -55,6 +55,7 @@
       "title": "Baseline/control and repo-state evidence",
       "type": "control",
       "priority": "P0",
+      "tier": "substrate",
       "objective": "Establish Phase 5B1 execution baseline, source authority, exact queue, branch state, and non-scope boundaries before implementation tickets run.",
       "scope": [
         "Record current branch/head, source_main_head, ticket-pack parse result, queue count, ticket count, and source authority map.",
@@ -153,6 +154,7 @@
       "title": "AGENTS rule update for CRM alias and visibility-does-not-equal-authority",
       "type": "documentation-control",
       "priority": "P0",
+      "tier": "substrate",
       "objective": "Add compact operator rules to AGENTS.md so future agents preserve the CRM visible-label rule and the distinction between visibility and authority.",
       "scope": [
         "Update AGENTS.md with CRM visible alias over Lead Desk technical surfaces.",
@@ -250,6 +252,7 @@
       "title": "AKTI Spark product identity substrate",
       "type": "frontend-substrate",
       "priority": "P1",
+      "tier": "substrate",
       "objective": "Create a small frontend product identity substrate for UI-facing AKTI Spark naming without renaming repo/package/company/database identities.",
       "scope": [
         "Add a frontend display constant for product shell name AKTI Spark.",
@@ -350,6 +353,7 @@
       "title": "CRM visible alias over Lead Desk without technical rename",
       "type": "frontend-substrate",
       "priority": "P1",
+      "tier": "substrate",
       "objective": "Apply CRM as user-facing label for existing Lead Desk surfaces while preserving lead-desk technical routes, files, APIs, contracts, Prisma models, and data models.",
       "scope": [
         "Update visible navigation/page/module-card/operator copy where appropriate.",
@@ -457,6 +461,7 @@
       "title": "Frontend-only shell route metadata config",
       "type": "frontend-substrate",
       "priority": "P1",
+      "tier": "substrate",
       "objective": "Move shell route metadata into typed frontend config without adding a backend route metadata API.",
       "scope": [
         "Create repo-real frontend route metadata config.",
@@ -560,6 +565,7 @@
       "title": "Organization short_name schema/registry completion",
       "type": "schema",
       "priority": "P0",
+      "tier": "substrate",
       "objective": "Add nullable Organization.short_name as non-destructive organization profile substrate with registry alignment.",
       "scope": [
         "Add nullable `short_name` to Organization.",
@@ -667,6 +673,7 @@
       "title": "Branding read substrate using OrganizationSetting / Configuration service",
       "type": "api-service-substrate",
       "priority": "P0",
+      "tier": "substrate",
       "objective": "Confirm and wire branding read substrate through existing OrganizationSetting branding assets path, including logo_url, without adding Organization.branding_config unless human-approved.",
       "scope": [
         "Use existing `white_label.branding_assets` / OrganizationSetting substrate where possible.",
@@ -772,6 +779,7 @@
       "title": "Platform branding defaults",
       "type": "frontend-substrate",
       "priority": "P1",
+      "tier": "substrate",
       "objective": "Add code-level platform branding defaults for AKTI Spark facts and token direction without database records or backend CSS token responses.",
       "scope": [
         "Add platform branding defaults config.",
@@ -869,6 +877,7 @@
       "title": "GET /platform/branding/effective read API",
       "type": "api",
       "priority": "P0",
+      "tier": "substrate",
       "objective": "Add read-only effective branding endpoint under Configuration boundary returning branding facts only.",
       "scope": [
         "Add GET /platform/branding/effective route to ConfigurationController/Service.",
@@ -972,6 +981,7 @@
       "title": "GET /platform/organization/profile under Configuration boundary",
       "type": "api",
       "priority": "P0",
+      "tier": "substrate",
       "objective": "Add read-only organization profile endpoint under Configuration boundary, composed from Organization, OrganizationSetting branding facts, modules, role context, and actor capabilities.",
       "scope": [
         "Return organization_id, display_name, short_name, logo_url, branding_config, my_modules, my_role, my_capabilities.",
@@ -1039,11 +1049,10 @@
         "Validation fails after bounded repair inside ticket scope."
       ],
       "acceptance_criteria": [
-        "Endpoint returns exact profile shape with my_capabilities; tenant-scoped reads do not leak another organization; no new profile service is created without documented reason."
+        "Endpoint returns exact profile shape with my_capabilities derived from current Access Core capability state; tenant-scoped reads do not leak another organization; no new profile service is created without documented reason; the endpoint does not require platform.crm.access or platform.modules.view to exist before P5B1-010."
       ],
       "dependencies": [
-        "P5B1-006",
-        "P5B1-010"
+        "P5B1-006"
       ],
       "commit_message": "P5B1-009 add organization profile read API",
       "rollback_notes": "Revert the ticket commit and any ticket-specific evidence artifacts; do not revert unrelated prior tickets.",
@@ -1058,7 +1067,7 @@
         "Preserve Access Core and tenant isolation rules.",
         "Preserve no-fake-dashboard, no-fake-module-card, and no-Phase-6-surface constraints."
       ],
-      "minimum_concrete_requirement": "Configuration boundary exposes tested GET /platform/organization/profile using my_capabilities and tenant-scoped organization/branding/module/capability facts.",
+      "minimum_concrete_requirement": "Configuration boundary exposes tested GET /platform/organization/profile using a my_capabilities array derived from current Access Core capability state, with tenant-scoped organization/branding/module facts. The endpoint does not require platform.crm.access or platform.modules.view to exist before P5B1-010; later tickets may observe those capabilities after they are seeded.",
       "split_if": [
         "Split only if exact-file planning proves multiple unrelated architectural surfaces or validation ladders must be owned separately."
       ],
@@ -1076,6 +1085,7 @@
       "title": "Seed platform.crm.access and platform.modules.view",
       "type": "capability-contract",
       "priority": "P0",
+      "tier": "substrate",
       "objective": "Seed platform.crm.access and platform.modules.view as low-risk platform capabilities in Access Core contracts and seed boundary validation.",
       "scope": [
         "Add both capabilities to Access Core capability seed and manifest/permissions.",
@@ -1180,6 +1190,7 @@
       "title": "Module manifest required_capabilities[]",
       "type": "contract",
       "priority": "P0",
+      "tier": "substrate",
       "objective": "Add top-level module manifest required_capabilities[] so modules declare capabilities required before install/display/use.",
       "scope": [
         "Update module manifest schema and sample/baseline manifests.",
@@ -1282,6 +1293,7 @@
       "title": "Module display metadata",
       "type": "contract",
       "priority": "P1",
+      "tier": "substrate",
       "objective": "Add module display metadata to manifest contracts for honest module cards without fake module surfaces.",
       "scope": [
         "Add display_description, icon_key, category, route metadata as manifest display substrate.",
@@ -1384,6 +1396,7 @@
       "title": "Manifest-level visibility_state enum",
       "type": "contract",
       "priority": "P0",
+      "tier": "substrate",
       "objective": "Add manifest-level visibility_state enum as module display metadata validated by module manifest/Foundry validation.",
       "scope": [
         "Add allowed values available, requires_setup, locked, coming_soon, hidden.",
@@ -1486,6 +1499,7 @@
       "title": "Manifest-level ai_data_classification",
       "type": "contract",
       "priority": "P1",
+      "tier": "substrate",
       "objective": "Add ai_data_classification declaration to module manifests without building AI runtime.",
       "scope": [
         "Add readable/restricted/prohibited enum to module manifest schema.",
@@ -1587,6 +1601,7 @@
       "title": "Backfill module manifests and Foundry/module validation for new manifest fields",
       "type": "contract-runtime-validation",
       "priority": "P0",
+      "tier": "substrate",
       "objective": "Ensure Foundry/module registry validation consumes the new manifest fields consistently across existing manifests.",
       "scope": [
         "Update module registry/Foundry validation paths to preserve new manifest fields.",
@@ -1690,6 +1705,7 @@
       "title": "Role-aware /platform/modules response",
       "type": "api",
       "priority": "P0",
+      "tier": "substrate",
       "objective": "Make /platform/modules role-aware and capability-aware while preserving visibility-does-not-equal-authority.",
       "scope": [
         "Filter module visibility by current actor capabilities including platform.crm.access and platform.modules.view.",
@@ -1791,6 +1807,7 @@
       "title": "Platform Capability Namespace Registry with grantable_to",
       "type": "documentation-control",
       "priority": "P0",
+      "tier": "substrate",
       "objective": "Create human-readable platform capability namespace registry with grantable_to guidance while preserving Access Core/Gatekeeper as runtime enforcement.",
       "scope": [
         "Create docs/process/AKTI_ERP_Platform_Capability_Namespace_Registry_v1.md.",
@@ -1887,6 +1904,7 @@
       "title": "Data-control capability namespace",
       "type": "capability-contract",
       "priority": "P1",
+      "tier": "substrate",
       "objective": "Seed/reserve platform data-control capabilities without building import/export/backup workflows.",
       "scope": [
         "Add data-control capability declarations to Access Core seed/manifest where grantable in Phase 5B1.",
@@ -1988,6 +2006,7 @@
       "title": "Search scope contract limited to WorkflowDefinition and WorkflowInstance",
       "type": "contract-validation",
       "priority": "P1",
+      "tier": "substrate",
       "objective": "Document and prove Phase 5B1 search scope remains limited to current Phase 5B workflow surfaces.",
       "scope": [
         "Create or update search scope contract evidence.",
@@ -2086,6 +2105,7 @@
       "title": "GET /platform/notifications/summary contract/API",
       "type": "api",
       "priority": "P1",
+      "tier": "substrate",
       "objective": "Add honest read-only notification summary endpoint for Phase 5C notification bell without live providers or notification center runtime.",
       "scope": [
         "Add minimal GET /platform/notifications/summary returning unread_count and status.",
@@ -2185,6 +2205,7 @@
       "title": "GET /platform/status/overview using platform-health/observability boundary",
       "type": "api",
       "priority": "P1",
+      "tier": "substrate",
       "objective": "Add Mission Control status overview on existing platform-health/observability boundary rather than inventing a new platform-status service.",
       "scope": [
         "Inspect platform-health and platform-observability first.",
@@ -2283,6 +2304,7 @@
       "title": "GET /platform/data-controls/status",
       "type": "api",
       "priority": "P1",
+      "tier": "substrate",
       "objective": "Add honest Data Controls status endpoint without building import/export, retention, or backup workflows.",
       "scope": [
         "Add GET /platform/data-controls/status returning import_export, retention_policy, audit_controls states.",
@@ -2383,6 +2405,7 @@
       "title": "Phase 5C Screen Contract Registry, including route screens and non-route component contract requirements",
       "type": "documentation-control",
       "priority": "P0",
+      "tier": "substrate",
       "objective": "Create Phase 5C screen contract registry document covering planned route screens and non-route component contract requirements.",
       "scope": [
         "Create docs/process/AKTI_ERP_Phase_5C_Screen_Contract_Registry_v1.md.",
@@ -2486,6 +2509,7 @@
       "title": "Cross-substrate tenant/security/no-fake-surface validation",
       "type": "validation",
       "priority": "P0",
+      "tier": "substrate",
       "objective": "Prove the Phase 5B1 substrate preserves tenant isolation, capability filtering, and no-fake-surface constraints across modules, profile, branding, status, data controls, and screen registry.",
       "scope": [
         "Add targeted negative/proof tests across role-aware modules and read APIs.",
@@ -2599,6 +2623,7 @@
       "title": "Phase 5B1 closure readiness, Phase 5C handoff, and audit package preparation",
       "type": "closure-prep",
       "priority": "P0",
+      "tier": "substrate",
       "objective": "Prepare closure readiness evidence, Phase 5C handoff, and final audit package structure before P5B1-GATE.",
       "scope": [
         "Create/update Phase 5C readiness handoff after Phase 5B1.",
@@ -2664,6 +2689,14 @@
         "P5B1-025 owns closure readiness, Phase 5C handoff, and audit package preparation; it does not claim final closure."
       ],
       "dependencies": [
+        "P5B1-007",
+        "P5B1-008",
+        "P5B1-011",
+        "P5B1-012",
+        "P5B1-013",
+        "P5B1-014",
+        "P5B1-015",
+        "P5B1-019",
         "P5B1-024"
       ],
       "commit_message": "P5B1-025 prepare Phase 5B1 closure and handoff evidence",
@@ -2697,6 +2730,7 @@
       "title": "Final audit, validation ladder, audit report completion, and handoff closure",
       "type": "final-gate",
       "priority": "P0",
+      "tier": "substrate",
       "objective": "Close Phase 5B1 only after full validation, audit report completion, final audit package, and Phase 5C handoff verification.",
       "scope": [
         "Run final validation ladder.",
