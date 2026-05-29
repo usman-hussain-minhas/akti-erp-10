@@ -11,6 +11,7 @@ export const engagementGatewayLiteModuleManifest: ModuleManifest = ModuleManifes
     visibility_state: "hidden",
     route: null,
   },
+  ai_data_classification: "restricted",
   module_type: "standard",
   version: "0.1.0",
   owner: "platform",

@@ -11,6 +11,7 @@ export const internalFixtureModuleManifest: ModuleManifest = ModuleManifestSchem
     visibility_state: "hidden",
     route: null,
   },
+  ai_data_classification: "readable",
   module_type: "standard",
   version: "0.1.0",
   owner: "platform",

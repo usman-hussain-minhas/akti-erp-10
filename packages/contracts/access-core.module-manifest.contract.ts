@@ -11,6 +11,7 @@ export const accessCoreModuleManifest: ModuleManifest = ModuleManifestSchema.par
     visibility_state: "hidden",
     route: null,
   },
+  ai_data_classification: "prohibited",
   module_type: "core",
   version: "0.1.0",
   owner: "platform",

@@ -24,6 +24,7 @@ export const SemverSchema = z
 const ModuleTypeSchema = z.enum(["core", "standard", "optional", "dedicated"]);
 const ModuleDisplayCategorySchema = z.enum(["core", "platform", "business", "integration", "internal"]);
 const VisibilityStateSchema = z.enum(["available", "requires_setup", "locked", "coming_soon", "hidden"]);
+const AiDataClassificationSchema = z.enum(["readable", "restricted", "prohibited"]);
 const RiskLevelSchema = z.enum(["low", "medium", "high", "critical"]);
 const HttpMethodSchema = z.enum(["GET", "POST", "PUT", "PATCH", "DELETE"]);
 const SchemaReferenceSchema = ManifestKeySchema.nullable();
@@ -298,6 +299,7 @@ export const ModuleManifestSchema = z
     module_key: ModuleKeySchema,
     display_name: z.string().min(1),
     display_metadata: ModuleDisplayMetadataSchema,
+    ai_data_classification: AiDataClassificationSchema,
     module_type: ModuleTypeSchema,
     version: SemverSchema,
     owner: z.string().min(1),
@@ -590,6 +592,7 @@ export const sampleCoreModuleManifest = ModuleManifestSchema.parse({
     visibility_state: "hidden",
     route: null,
   },
+  ai_data_classification: "prohibited",
   module_type: "core",
   version: "0.1.0",
   owner: "platform",

@@ -11,6 +11,7 @@ export const leadDeskCoreModuleManifest: ModuleManifest = ModuleManifestSchema.p
     visibility_state: "available",
     route: "/lead-desk",
   },
+  ai_data_classification: "restricted",
   module_type: "standard",
   version: "0.1.0",
   owner: "admissions",
