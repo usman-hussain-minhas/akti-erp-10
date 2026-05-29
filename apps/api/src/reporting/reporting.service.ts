@@ -101,6 +101,27 @@ export type ReportingReadModelQueryResponse = {
   business_report_created: false;
 };
 
+export type ReportingTenantIsolationFixtureInput = {
+  organization_id: string;
+  actor_user_id: string;
+  read_model_key: string;
+  capability_keys: string[];
+  entries: ReportingReadModelEntryWrite[];
+};
+
+export type ReportingTenantIsolationFixtureResult = {
+  organization_id: string;
+  actor_user_id: string;
+  visible_source_event_ids: string[];
+  excluded_cross_tenant_source_event_ids: string[];
+  excluded_other_read_model_source_event_ids: string[];
+  tenant_isolation_enforced: true;
+  read_model_filter_enforced: true;
+  direct_cross_module_table_read: false;
+  fake_operational_data: false;
+  entries_examined: number;
+};
+
 @Injectable()
 export class ReportingService {
   consumeEventForReadModel(input: ReportingReadModelConsumeInput): ReportingReadModelProjection {
@@ -196,6 +217,53 @@ export class ReportingService {
       },
       direct_cross_module_table_read: false,
       business_report_created: false,
+    };
+  }
+
+  runTenantIsolationFixture(input: ReportingTenantIsolationFixtureInput): ReportingTenantIsolationFixtureResult {
+    const organizationId = this.required(input.organization_id, 'organization_id');
+    const actorUserId = this.required(input.actor_user_id, 'actor_user_id');
+    const readModelKey = this.required(input.read_model_key, 'read_model_key');
+    this.capabilityKeys(input.capability_keys);
+    if (!Array.isArray(input.entries) || input.entries.length === 0) {
+      throw new BadRequestException('reporting tenant isolation fixture entries must not be empty');
+    }
+
+    const visibleSourceEventIds: string[] = [];
+    const excludedCrossTenantSourceEventIds: string[] = [];
+    const excludedOtherReadModelSourceEventIds: string[] = [];
+
+    for (const entry of input.entries) {
+      if (entry.direct_cross_module_table_read !== false || entry.fake_operational_data !== false) {
+        throw new BadRequestException('reporting fixture entries must be event-driven projections');
+      }
+      const sourceEventId = this.required(entry.source_event_id, 'entry.source_event_id');
+      const entryOrganizationId = this.required(entry.organization_id, 'entry.organization_id');
+      const entryReadModelKey = this.required(entry.read_model_key, 'entry.read_model_key');
+
+      if (entryOrganizationId !== organizationId) {
+        excludedCrossTenantSourceEventIds.push(sourceEventId);
+        continue;
+      }
+      if (entryReadModelKey !== readModelKey) {
+        excludedOtherReadModelSourceEventIds.push(sourceEventId);
+        continue;
+      }
+
+      visibleSourceEventIds.push(sourceEventId);
+    }
+
+    return {
+      organization_id: organizationId,
+      actor_user_id: actorUserId,
+      visible_source_event_ids: visibleSourceEventIds.sort(),
+      excluded_cross_tenant_source_event_ids: excludedCrossTenantSourceEventIds.sort(),
+      excluded_other_read_model_source_event_ids: excludedOtherReadModelSourceEventIds.sort(),
+      tenant_isolation_enforced: true,
+      read_model_filter_enforced: true,
+      direct_cross_module_table_read: false,
+      fake_operational_data: false,
+      entries_examined: input.entries.length,
     };
   }
 
