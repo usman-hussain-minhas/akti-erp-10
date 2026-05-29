@@ -62,6 +62,20 @@ export const accessCoreModuleManifest: ModuleManifest = ModuleManifestSchema.par
       output_schema: null,
     },
     {
+      key: "platform.data.controls.view",
+      description:
+        "View honest platform Data Controls status without import, export, or backup execution authority.",
+      module_key: "core.access",
+      risk_level: "low",
+      requires_permission: true,
+      requires_reauth: false,
+      requires_audit: false,
+      gatekeeper_required: false,
+      approval_chain_required: false,
+      input_schema: null,
+      output_schema: null,
+    },
+    {
       key: "access.policy.manage",
       description: "Manage access policy definitions.",
       module_key: "core.access",
@@ -100,6 +114,14 @@ export const accessCoreModuleManifest: ModuleManifest = ModuleManifestSchema.par
       module_key: "core.access",
       description:
         "Allow authenticated platform operators to view the module catalog without module administration authority.",
+      allowed_scope_types: ["organization"],
+    },
+    {
+      key: "platform.data.controls.view",
+      label: "View data controls",
+      module_key: "core.access",
+      description:
+        "Allow authenticated platform operators to view Data Controls status without import, export, or backup execution authority.",
       allowed_scope_types: ["organization"],
     },
     {

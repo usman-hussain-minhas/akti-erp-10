@@ -46,6 +46,7 @@ const FORBIDDEN_RUNTIME_TOKENS = [
 ];
 
 const ACCESS_CORE_APPROVED_NON_ACCESS_KEYS = new Set([
+  "platform.data.controls.view",
   "platform.crm.access",
   "platform.modules.view",
   "platform.shell.access",
