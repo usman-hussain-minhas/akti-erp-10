@@ -3,6 +3,13 @@ import { ModuleManifestSchema, type ModuleManifest } from "./module-manifest.sch
 export const accessCoreModuleManifest: ModuleManifest = ModuleManifestSchema.parse({
   module_key: "core.access",
   display_name: "Access Core",
+  display_metadata: {
+    display_name: "Access Core",
+    display_description: "Access policy and capability foundation for the platform.",
+    icon_key: "shield",
+    category: "core",
+    route: null,
+  },
   module_type: "core",
   version: "0.1.0",
   owner: "platform",

@@ -3,6 +3,13 @@ import { ModuleManifestSchema, type ModuleManifest } from "./module-manifest.sch
 export const leadDeskCoreModuleManifest: ModuleManifest = ModuleManifestSchema.parse({
   module_key: "lead.desk",
   display_name: "Lead Desk Core",
+  display_metadata: {
+    display_name: "CRM",
+    display_description: "Manage admissions lead intake and follow-up through the existing Lead Desk module.",
+    icon_key: "users",
+    category: "business",
+    route: "/lead-desk",
+  },
   module_type: "standard",
   version: "0.1.0",
   owner: "admissions",

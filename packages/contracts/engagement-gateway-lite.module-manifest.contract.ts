@@ -3,6 +3,13 @@ import { ModuleManifestSchema, type ModuleManifest } from "./module-manifest.sch
 export const engagementGatewayLiteModuleManifest: ModuleManifest = ModuleManifestSchema.parse({
   module_key: "engagement.gateway",
   display_name: "Engagement Gateway Lite",
+  display_metadata: {
+    display_name: "Engagement Gateway",
+    display_description: "Governed outbound engagement intent boundary; no live providers are activated.",
+    icon_key: "send",
+    category: "integration",
+    route: null,
+  },
   module_type: "standard",
   version: "0.1.0",
   owner: "platform",

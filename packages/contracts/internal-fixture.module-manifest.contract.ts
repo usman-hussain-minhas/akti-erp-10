@@ -3,6 +3,13 @@ import { ModuleManifestSchema, type ModuleManifest } from "./module-manifest.sch
 export const internalFixtureModuleManifest: ModuleManifest = ModuleManifestSchema.parse({
   module_key: "platform.fixture",
   display_name: "Internal Platform Fixture",
+  display_metadata: {
+    display_name: "Internal Platform Fixture",
+    display_description: "Internal validation fixture for platform lifecycle checks; not a user-facing module.",
+    icon_key: "test-tube",
+    category: "internal",
+    route: null,
+  },
   module_type: "standard",
   version: "0.1.0",
   owner: "platform",
