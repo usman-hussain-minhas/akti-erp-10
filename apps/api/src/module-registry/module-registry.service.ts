@@ -273,6 +273,30 @@ type ModuleListResponse = {
   items: Array<Pick<ModuleRegistryEntry, 'module_key' | 'display_name' | 'version' | 'status' | 'manifest_hash'>>;
 };
 
+type ModuleRegistryFrontendRequest = {
+  organization_id: string;
+  actor_user_id: string;
+};
+
+export type ModuleRegistryFrontendResponse = {
+  items: Array<Pick<ModuleRegistryEntry, 'module_key' | 'display_name' | 'version' | 'status'>>;
+  tenant_context: {
+    organization_id: string;
+    actor_user_id: string;
+  };
+  capability: {
+    required: 'platform.shell.access';
+  };
+  gatekeeper: {
+    read_requires_preflight: false;
+    lifecycle_mutation_requires_preflight: true;
+  };
+  audit: {
+    event_type: 'module.registry.frontend.read';
+    outbox_event_required: false;
+  };
+};
+
 type ModuleLifecycleStatusRequest = {
   module_key: string;
   organization_id: string;
@@ -1217,6 +1241,37 @@ export class ModuleRegistryService {
     });
 
     return { items };
+  }
+
+  async getFrontendRegistry(input: ModuleRegistryFrontendRequest): Promise<ModuleRegistryFrontendResponse> {
+    assertNonEmpty(input.organization_id, 'Module registry frontend response requires organization_id');
+    assertNonEmpty(input.actor_user_id, 'Module registry frontend response requires actor_user_id');
+
+    const modules = await this.listModules();
+
+    return {
+      items: modules.items.map(({ module_key, display_name, version, status }) => ({
+        module_key,
+        display_name,
+        version,
+        status,
+      })),
+      tenant_context: {
+        organization_id: input.organization_id,
+        actor_user_id: input.actor_user_id,
+      },
+      capability: {
+        required: PLATFORM_SHELL_ACCESS_CAPABILITY_KEY,
+      },
+      gatekeeper: {
+        read_requires_preflight: false,
+        lifecycle_mutation_requires_preflight: true,
+      },
+      audit: {
+        event_type: 'module.registry.frontend.read',
+        outbox_event_required: false,
+      },
+    };
   }
 
   async getModuleLifecycleStatus(

@@ -22,6 +22,15 @@ export class ModuleRegistryController {
     return this.moduleRegistryService.listModules();
   }
 
+  @Get('frontend')
+  getFrontendRegistry(@Headers() headers: HeaderRecord) {
+    const context = resolveTrustedRequestContext(headers);
+    return this.moduleRegistryService.getFrontendRegistry({
+      organization_id: context.organization_id,
+      actor_user_id: context.actor_user_id,
+    });
+  }
+
   @Get(':module_key/lifecycle-status')
   getLifecycleStatus(
     @Param('module_key') moduleKeyRaw: string,
