@@ -3,8 +3,8 @@
   "sources": {
     "prisma_schema": "prisma/schema.prisma",
     "metadata": "prisma/entity-registry.metadata.json",
-    "prisma_schema_hash": "sha256:aafc10c72407694e7b080d9e0583d23dc9c41f70319e035f3c4f4958b4afc2ea",
-    "metadata_hash": "sha256:d966926a80f84ccd33e27ecd19f5337182443230d452d8a18ee489522e11a561"
+    "prisma_schema_hash": "sha256:090e8e66d6a49793fa88b207e1545dbebcc5c51cbaabd0eb015c3a2ca1c85f4c",
+    "metadata_hash": "sha256:d504eacac7f2dbb6cb890e2e46991ae05e4a4270faed0c9df672bced0de64726"
   },
   "entities": [
     {
@@ -2911,6 +2911,36 @@
           "is_id": false,
           "is_relation": true,
           "relation_model": "User"
+        },
+        {
+          "field_name": "workflow_definitions",
+          "column_name": "workflow_definitions",
+          "type": "WorkflowDefinition[]",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "WorkflowDefinition"
+        },
+        {
+          "field_name": "workflow_instances",
+          "column_name": "workflow_instances",
+          "type": "WorkflowInstance[]",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "WorkflowInstance"
+        },
+        {
+          "field_name": "workflow_step_instances",
+          "column_name": "workflow_step_instances",
+          "type": "WorkflowStepInstance[]",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "WorkflowStepInstance"
         }
       ],
       "indexes": [
@@ -3997,6 +4027,26 @@
           "is_id": false,
           "is_relation": true,
           "relation_model": "UserGroup"
+        },
+        {
+          "field_name": "workflow_instances_as_actor",
+          "column_name": "workflow_instances_as_actor",
+          "type": "WorkflowInstance[]",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "WorkflowInstance"
+        },
+        {
+          "field_name": "workflow_step_instances_as_actor",
+          "column_name": "workflow_step_instances_as_actor",
+          "type": "WorkflowStepInstance[]",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "WorkflowStepInstance"
         }
       ],
       "indexes": [
@@ -4268,6 +4318,861 @@
       "retention_policy": "per_access_policy",
       "audit_required": true,
       "sensitive_data_classification": "confidential"
+    },
+    {
+      "model_name": "WorkflowDefinition",
+      "table_name": "WorkflowDefinition",
+      "owner_module": "core.workflow",
+      "phase": 2,
+      "tenant_scoped": true,
+      "organization_id_required": true,
+      "rls_required": true,
+      "organization_id_field": "organization_id",
+      "organization_id_column": "organization_id",
+      "fields": [
+        {
+          "field_name": "audit_hooks",
+          "column_name": "audit_hooks",
+          "type": "Json",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "capability_requirements",
+          "column_name": "capability_requirements",
+          "type": "Json",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "created_at",
+          "column_name": "created_at",
+          "type": "DateTime",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "definition_json",
+          "column_name": "definition_json",
+          "type": "Json",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "deprecation_policy",
+          "column_name": "deprecation_policy",
+          "type": "Json",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "emitted_events",
+          "column_name": "emitted_events",
+          "type": "Json",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "evidence_requirements",
+          "column_name": "evidence_requirements",
+          "type": "Json",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "id",
+          "column_name": "id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": true,
+          "is_relation": false
+        },
+        {
+          "field_name": "organization",
+          "column_name": "organization",
+          "type": "Organization",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "Organization"
+        },
+        {
+          "field_name": "organization_id",
+          "column_name": "organization_id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "owner",
+          "column_name": "owner",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "status",
+          "column_name": "status",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "tenant_scope",
+          "column_name": "tenant_scope",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "updated_at",
+          "column_name": "updated_at",
+          "type": "DateTime",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "version",
+          "column_name": "version",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "workflow_instances",
+          "column_name": "workflow_instances",
+          "type": "WorkflowInstance[]",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "WorkflowInstance"
+        },
+        {
+          "field_name": "workflow_key",
+          "column_name": "workflow_key",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        }
+      ],
+      "indexes": [
+        {
+          "name": "WorkflowDefinition_id_pk",
+          "fields": [
+            "id"
+          ],
+          "columns": [
+            "id"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "WorkflowDefinition_organization_id_id_key",
+          "fields": [
+            "organization_id",
+            "id"
+          ],
+          "columns": [
+            "organization_id",
+            "id"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "WorkflowDefinition_organization_id_status_idx",
+          "fields": [
+            "organization_id",
+            "status"
+          ],
+          "columns": [
+            "organization_id",
+            "status"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "WorkflowDefinition_organization_id_workflow_key_status_idx",
+          "fields": [
+            "organization_id",
+            "workflow_key",
+            "status"
+          ],
+          "columns": [
+            "organization_id",
+            "workflow_key",
+            "status"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "WorkflowDefinition_organization_id_workflow_key_version_key",
+          "fields": [
+            "organization_id",
+            "workflow_key",
+            "version"
+          ],
+          "columns": [
+            "organization_id",
+            "workflow_key",
+            "version"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "WorkflowDefinition_owner_idx",
+          "fields": [
+            "owner"
+          ],
+          "columns": [
+            "owner"
+          ],
+          "is_unique": false
+        }
+      ],
+      "unique_constraints": [
+        {
+          "name": "WorkflowDefinition_id_pk",
+          "fields": [
+            "id"
+          ],
+          "columns": [
+            "id"
+          ]
+        },
+        {
+          "name": "WorkflowDefinition_organization_id_id_key",
+          "fields": [
+            "organization_id",
+            "id"
+          ],
+          "columns": [
+            "organization_id",
+            "id"
+          ]
+        },
+        {
+          "name": "WorkflowDefinition_organization_id_workflow_key_version_key",
+          "fields": [
+            "organization_id",
+            "workflow_key",
+            "version"
+          ],
+          "columns": [
+            "organization_id",
+            "workflow_key",
+            "version"
+          ]
+        }
+      ],
+      "events_emitted": [],
+      "retention_policy": "per_workflow_definition_policy",
+      "audit_required": true,
+      "sensitive_data_classification": "internal"
+    },
+    {
+      "model_name": "WorkflowInstance",
+      "table_name": "WorkflowInstance",
+      "owner_module": "core.workflow",
+      "phase": 2,
+      "tenant_scoped": true,
+      "organization_id_required": true,
+      "rls_required": true,
+      "organization_id_field": "organization_id",
+      "organization_id_column": "organization_id",
+      "fields": [
+        {
+          "field_name": "actor_user",
+          "column_name": "actor_user",
+          "type": "User",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "User"
+        },
+        {
+          "field_name": "actor_user_id",
+          "column_name": "actor_user_id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "completed_at",
+          "column_name": "completed_at",
+          "type": "DateTime",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "context",
+          "column_name": "context",
+          "type": "Json",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "correlation_id",
+          "column_name": "correlation_id",
+          "type": "String",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "current_state",
+          "column_name": "current_state",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "id",
+          "column_name": "id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": true,
+          "is_relation": false
+        },
+        {
+          "field_name": "organization",
+          "column_name": "organization",
+          "type": "Organization",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "Organization"
+        },
+        {
+          "field_name": "organization_id",
+          "column_name": "organization_id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "started_at",
+          "column_name": "started_at",
+          "type": "DateTime",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "status",
+          "column_name": "status",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "subject_id",
+          "column_name": "subject_id",
+          "type": "String",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "subject_type",
+          "column_name": "subject_type",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "updated_at",
+          "column_name": "updated_at",
+          "type": "DateTime",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "version",
+          "column_name": "version",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "workflow_definition",
+          "column_name": "workflow_definition",
+          "type": "WorkflowDefinition",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "WorkflowDefinition"
+        },
+        {
+          "field_name": "workflow_definition_id",
+          "column_name": "workflow_definition_id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "workflow_key",
+          "column_name": "workflow_key",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "workflow_steps",
+          "column_name": "workflow_steps",
+          "type": "WorkflowStepInstance[]",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "WorkflowStepInstance"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "WorkflowInstance_correlation_id_idx",
+          "fields": [
+            "correlation_id"
+          ],
+          "columns": [
+            "correlation_id"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "WorkflowInstance_id_pk",
+          "fields": [
+            "id"
+          ],
+          "columns": [
+            "id"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "WorkflowInstance_organization_id_actor_user_id_started_at_idx",
+          "fields": [
+            "organization_id",
+            "actor_user_id",
+            "started_at"
+          ],
+          "columns": [
+            "organization_id",
+            "actor_user_id",
+            "started_at"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "WorkflowInstance_organization_id_id_key",
+          "fields": [
+            "organization_id",
+            "id"
+          ],
+          "columns": [
+            "organization_id",
+            "id"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "WorkflowInstance_organization_id_subject_type_subject_id_idx",
+          "fields": [
+            "organization_id",
+            "subject_type",
+            "subject_id"
+          ],
+          "columns": [
+            "organization_id",
+            "subject_type",
+            "subject_id"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "WorkflowInstance_organization_id_workflow_key_status_idx",
+          "fields": [
+            "organization_id",
+            "workflow_key",
+            "status"
+          ],
+          "columns": [
+            "organization_id",
+            "workflow_key",
+            "status"
+          ],
+          "is_unique": false
+        }
+      ],
+      "unique_constraints": [
+        {
+          "name": "WorkflowInstance_id_pk",
+          "fields": [
+            "id"
+          ],
+          "columns": [
+            "id"
+          ]
+        },
+        {
+          "name": "WorkflowInstance_organization_id_id_key",
+          "fields": [
+            "organization_id",
+            "id"
+          ],
+          "columns": [
+            "organization_id",
+            "id"
+          ]
+        }
+      ],
+      "events_emitted": [],
+      "retention_policy": "per_workflow_instance_policy",
+      "audit_required": true,
+      "sensitive_data_classification": "restricted"
+    },
+    {
+      "model_name": "WorkflowStepInstance",
+      "table_name": "WorkflowStepInstance",
+      "owner_module": "core.workflow",
+      "phase": 2,
+      "tenant_scoped": true,
+      "organization_id_required": true,
+      "rls_required": true,
+      "organization_id_field": "organization_id",
+      "organization_id_column": "organization_id",
+      "fields": [
+        {
+          "field_name": "action_key",
+          "column_name": "action_key",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "actor_user",
+          "column_name": "actor_user",
+          "type": "User",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "User"
+        },
+        {
+          "field_name": "actor_user_id",
+          "column_name": "actor_user_id",
+          "type": "String",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "completed_at",
+          "column_name": "completed_at",
+          "type": "DateTime",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "event_ref",
+          "column_name": "event_ref",
+          "type": "String",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "evidence_ref",
+          "column_name": "evidence_ref",
+          "type": "String",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "gatekeeper_outcome",
+          "column_name": "gatekeeper_outcome",
+          "type": "GatekeeperDecisionOutcome",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "gatekeeper_request_id",
+          "column_name": "gatekeeper_request_id",
+          "type": "String",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "id",
+          "column_name": "id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": true,
+          "is_relation": false
+        },
+        {
+          "field_name": "metadata",
+          "column_name": "metadata",
+          "type": "Json",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "organization",
+          "column_name": "organization",
+          "type": "Organization",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "Organization"
+        },
+        {
+          "field_name": "organization_id",
+          "column_name": "organization_id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "started_at",
+          "column_name": "started_at",
+          "type": "DateTime",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "state_key",
+          "column_name": "state_key",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "status",
+          "column_name": "status",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "step_key",
+          "column_name": "step_key",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "workflow_instance",
+          "column_name": "workflow_instance",
+          "type": "WorkflowInstance",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "WorkflowInstance"
+        },
+        {
+          "field_name": "workflow_instance_id",
+          "column_name": "workflow_instance_id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        }
+      ],
+      "indexes": [
+        {
+          "name": "WorkflowStepInstance_event_ref_idx",
+          "fields": [
+            "event_ref"
+          ],
+          "columns": [
+            "event_ref"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "WorkflowStepInstance_id_pk",
+          "fields": [
+            "id"
+          ],
+          "columns": [
+            "id"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "WorkflowStepInstance_organization_id_action_key_started_at_idx",
+          "fields": [
+            "organization_id",
+            "action_key",
+            "started_at"
+          ],
+          "columns": [
+            "organization_id",
+            "action_key",
+            "started_at"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "WorkflowStepInstance_organization_id_gatekeeper_outcome_started_at_idx",
+          "fields": [
+            "organization_id",
+            "gatekeeper_outcome",
+            "started_at"
+          ],
+          "columns": [
+            "organization_id",
+            "gatekeeper_outcome",
+            "started_at"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "WorkflowStepInstance_organization_id_workflow_instance_id_started_at_idx",
+          "fields": [
+            "organization_id",
+            "workflow_instance_id",
+            "started_at"
+          ],
+          "columns": [
+            "organization_id",
+            "workflow_instance_id",
+            "started_at"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "WorkflowStepInstance_organization_id_workflow_instance_id_step_key_key",
+          "fields": [
+            "organization_id",
+            "workflow_instance_id",
+            "step_key"
+          ],
+          "columns": [
+            "organization_id",
+            "workflow_instance_id",
+            "step_key"
+          ],
+          "is_unique": true
+        }
+      ],
+      "unique_constraints": [
+        {
+          "name": "WorkflowStepInstance_id_pk",
+          "fields": [
+            "id"
+          ],
+          "columns": [
+            "id"
+          ]
+        },
+        {
+          "name": "WorkflowStepInstance_organization_id_workflow_instance_id_step_key_key",
+          "fields": [
+            "organization_id",
+            "workflow_instance_id",
+            "step_key"
+          ],
+          "columns": [
+            "organization_id",
+            "workflow_instance_id",
+            "step_key"
+          ]
+        }
+      ],
+      "events_emitted": [],
+      "retention_policy": "per_workflow_step_policy",
+      "audit_required": true,
+      "sensitive_data_classification": "restricted"
     }
   ],
   "future_placeholders": []

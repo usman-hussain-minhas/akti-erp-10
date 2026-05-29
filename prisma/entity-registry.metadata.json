@@ -171,6 +171,39 @@
       "sensitive_data_classification": "internal",
       "events_emitted": []
     },
+    "WorkflowDefinition": {
+      "owner_module": "core.workflow",
+      "phase": 2,
+      "tenant_scoped": true,
+      "organization_id_required": true,
+      "rls_required": true,
+      "retention_policy": "per_workflow_definition_policy",
+      "audit_required": true,
+      "sensitive_data_classification": "internal",
+      "events_emitted": []
+    },
+    "WorkflowInstance": {
+      "owner_module": "core.workflow",
+      "phase": 2,
+      "tenant_scoped": true,
+      "organization_id_required": true,
+      "rls_required": true,
+      "retention_policy": "per_workflow_instance_policy",
+      "audit_required": true,
+      "sensitive_data_classification": "restricted",
+      "events_emitted": []
+    },
+    "WorkflowStepInstance": {
+      "owner_module": "core.workflow",
+      "phase": 2,
+      "tenant_scoped": true,
+      "organization_id_required": true,
+      "rls_required": true,
+      "retention_policy": "per_workflow_step_policy",
+      "audit_required": true,
+      "sensitive_data_classification": "restricted",
+      "events_emitted": []
+    },
     "OrganizationSetting": {
       "owner_module": "core.configuration",
       "phase": 1,

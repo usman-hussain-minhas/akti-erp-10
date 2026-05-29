@@ -90,8 +90,32 @@ export type WorkflowDefinitionValidationResult = {
   errors: string[];
 };
 
+export type WorkflowPersistenceModelBaseline = {
+  owner_module: 'core.workflow';
+  models: ['WorkflowDefinition', 'WorkflowInstance', 'WorkflowStepInstance'];
+  tenant_scoped: true;
+  organization_id_required: true;
+  definition_unique_by: ['organization_id', 'workflow_key', 'version'];
+  instance_links_definition: true;
+  step_links_instance: true;
+  gatekeeper_outcome_supported_on_steps: true;
+};
+
 @Injectable()
 export class WorkflowService {
+  workflowPersistenceModelBaseline(): WorkflowPersistenceModelBaseline {
+    return {
+      owner_module: 'core.workflow',
+      models: ['WorkflowDefinition', 'WorkflowInstance', 'WorkflowStepInstance'],
+      tenant_scoped: true,
+      organization_id_required: true,
+      definition_unique_by: ['organization_id', 'workflow_key', 'version'],
+      instance_links_definition: true,
+      step_links_instance: true,
+      gatekeeper_outcome_supported_on_steps: true,
+    };
+  }
+
   validateProcessDefinition(input: unknown): WorkflowDefinitionValidationResult {
     const errors: string[] = [];
     const definition = isRecord(input) ? input : null;

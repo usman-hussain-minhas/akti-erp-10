@@ -51,6 +51,9 @@ model Organization {
   engagement_gateway_requests EngagementGatewayRequest[]
   organization_settings     OrganizationSetting[]
   module_lifecycle_events   ModuleLifecycleEvent[]
+  workflow_definitions      WorkflowDefinition[]
+  workflow_instances        WorkflowInstance[]
+  workflow_step_instances   WorkflowStepInstance[]
   lead_records              LeadRecord[]
   lead_status_history       LeadStatusHistory[]
   lead_assignment_history   LeadAssignmentHistory[]
@@ -137,6 +140,8 @@ model User {
   audit_logs_as_actor AuditLog[]  @relation("AuditLog_ActorUser")
   gatekeeper_decision_records_as_actor GatekeeperDecisionRecord[] @relation("GatekeeperDecisionRecord_ActorUser")
   module_lifecycle_events_as_actor ModuleLifecycleEvent[] @relation("ModuleLifecycleEvent_ActorUser")
+  workflow_instances_as_actor WorkflowInstance[] @relation("WorkflowInstance_ActorUser")
+  workflow_step_instances_as_actor WorkflowStepInstance[] @relation("WorkflowStepInstance_ActorUser")
   lead_records_assigned LeadRecord[] @relation("LeadRecord_AssignedUser")
   lead_status_history_as_actor LeadStatusHistory[] @relation("LeadStatusHistory_ActorUser")
   lead_assignment_history_as_actor LeadAssignmentHistory[] @relation("LeadAssignmentHistory_ActorUser")
@@ -324,6 +329,87 @@ model EventOutbox {
   @@index([organization_id, event_type, created_at])
   @@index([organization_id, source_module, created_at])
   @@index([organization_id, schema_version, created_at])
+}
+
+model WorkflowDefinition {
+  id                      String             @id @default(cuid())
+  organization_id         String
+  workflow_key            String
+  version                 String
+  owner                   String
+  tenant_scope            String
+  status                  String
+  definition_json         Json
+  capability_requirements Json
+  emitted_events          Json
+  audit_hooks             Json
+  evidence_requirements   Json
+  deprecation_policy      Json
+  created_at              DateTime           @default(now())
+  updated_at              DateTime           @updatedAt
+  organization            Organization       @relation(fields: [organization_id], references: [id])
+  workflow_instances      WorkflowInstance[]
+
+  @@unique([organization_id, workflow_key, version])
+  @@unique([organization_id, id])
+  @@index([organization_id, workflow_key, status])
+  @@index([organization_id, status])
+  @@index([owner])
+}
+
+model WorkflowInstance {
+  id                     String                 @id @default(cuid())
+  organization_id        String
+  workflow_definition_id String
+  workflow_key           String
+  version                String
+  status                 String
+  current_state          String
+  subject_type           String
+  subject_id             String?
+  actor_user_id          String
+  correlation_id         String?
+  context                Json
+  started_at             DateTime               @default(now())
+  completed_at           DateTime?
+  updated_at             DateTime               @updatedAt
+  organization           Organization           @relation(fields: [organization_id], references: [id])
+  workflow_definition    WorkflowDefinition     @relation(fields: [organization_id, workflow_definition_id], references: [organization_id, id])
+  actor_user             User                   @relation("WorkflowInstance_ActorUser", fields: [organization_id, actor_user_id], references: [organization_id, id])
+  workflow_steps         WorkflowStepInstance[]
+
+  @@unique([organization_id, id])
+  @@index([organization_id, workflow_key, status])
+  @@index([organization_id, actor_user_id, started_at])
+  @@index([organization_id, subject_type, subject_id])
+  @@index([correlation_id])
+}
+
+model WorkflowStepInstance {
+  id                    String                    @id @default(cuid())
+  organization_id       String
+  workflow_instance_id  String
+  step_key              String
+  state_key             String
+  status                String
+  action_key            String
+  actor_user_id         String?
+  gatekeeper_request_id String?
+  gatekeeper_outcome    GatekeeperDecisionOutcome?
+  evidence_ref          String?
+  event_ref             String?
+  started_at            DateTime                  @default(now())
+  completed_at          DateTime?
+  metadata              Json
+  organization          Organization              @relation(fields: [organization_id], references: [id])
+  workflow_instance     WorkflowInstance          @relation(fields: [organization_id, workflow_instance_id], references: [organization_id, id])
+  actor_user            User?                     @relation("WorkflowStepInstance_ActorUser", fields: [organization_id, actor_user_id], references: [organization_id, id])
+
+  @@unique([organization_id, workflow_instance_id, step_key])
+  @@index([organization_id, workflow_instance_id, started_at])
+  @@index([organization_id, action_key, started_at])
+  @@index([organization_id, gatekeeper_outcome, started_at])
+  @@index([event_ref])
 }
 
 model ModuleRegistryEntry {
