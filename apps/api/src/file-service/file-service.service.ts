@@ -87,6 +87,34 @@ export type FileStorageIntent = {
   signed_url_created: false;
 };
 
+export type FileDocumentAccessContext = {
+  organization_id: string;
+  actor_user_id: string;
+  capability_key: string;
+};
+
+export type FileDocumentAccessRecord = {
+  organization_id: string;
+  file_key: string;
+  owner_module: string;
+  storage_key: string;
+  classification: string;
+  access_policy: {
+    capability_key: string;
+    tenant_scoped: true;
+  };
+};
+
+export type FileDocumentAccessDecision = {
+  allowed: true;
+  organization_id: string;
+  actor_user_id: string;
+  file_key: string;
+  capability_key: string;
+  tenant_isolation_enforced: true;
+  capability_filter_enforced: true;
+};
+
 const STORAGE_CREDENTIAL_MARKERS = ['secret', 'password', 'access_key', 'private_key', 'token'];
 const STORAGE_KEY_SEGMENT_PATTERN = /^[a-z0-9][a-z0-9_.-]*$/;
 
@@ -236,6 +264,40 @@ export class FileService {
     const fileKey = this.storageSegment(input.file_key, 'file_key');
 
     return `${organizationId}/${ownerModule}/${fileKey}`;
+  }
+
+  authorizeMetadataAccess(
+    context: FileDocumentAccessContext,
+    record: FileDocumentAccessRecord,
+  ): FileDocumentAccessDecision {
+    const organizationId = this.requireNonEmpty(context.organization_id, 'organization_id');
+    const actorUserId = this.requireNonEmpty(context.actor_user_id, 'actor_user_id');
+    const capabilityKey = this.requireNonEmpty(context.capability_key, 'capability_key');
+    const recordOrganizationId = this.requireNonEmpty(record.organization_id, 'record organization_id');
+    const fileKey = this.requireNonEmpty(record.file_key, 'record file_key');
+    this.requireNonEmpty(record.owner_module, 'record owner_module');
+    this.requireNonEmpty(record.storage_key, 'record storage_key');
+    this.requireNonEmpty(record.classification, 'record classification');
+
+    if (!record.access_policy || record.access_policy.tenant_scoped !== true) {
+      throw new BadRequestException('file access policy must be tenant scoped');
+    }
+    if (recordOrganizationId !== organizationId) {
+      throw new BadRequestException('file access denied across organization boundary');
+    }
+    if (record.access_policy.capability_key !== capabilityKey) {
+      throw new BadRequestException('file access denied by capability policy');
+    }
+
+    return {
+      allowed: true,
+      organization_id: organizationId,
+      actor_user_id: actorUserId,
+      file_key: fileKey,
+      capability_key: capabilityKey,
+      tenant_isolation_enforced: true,
+      capability_filter_enforced: true,
+    };
   }
 
   private required(input: unknown, field: string, errors: string[]) {
