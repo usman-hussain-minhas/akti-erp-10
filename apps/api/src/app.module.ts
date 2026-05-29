@@ -5,6 +5,8 @@ import { AccessCoreService } from './access-core/access-core.service';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigurationModule } from './configuration/configuration.module';
+import { DataControlsController } from './data-controls/data-controls.controller';
+import { DataControlsService } from './data-controls/data-controls.service';
 import { EngagementGatewayController } from './engagement-gateway/engagement-gateway.controller';
 import { EngagementGatewayService } from './engagement-gateway/engagement-gateway.service';
 import { WhatsappStubProvider } from './engagement-gateway/whatsapp-stub.provider';
@@ -55,6 +57,7 @@ import { WorkflowService } from './workflow/workflow.service';
     ReportingController,
     PlatformHealthController,
     NotificationsController,
+    DataControlsController,
   ],
   providers: [
     AppService,
@@ -76,6 +79,7 @@ import { WorkflowService } from './workflow/workflow.service';
     FileService,
     ReportingService,
     NotificationsService,
+    DataControlsService,
   ],
 })
 export class AppModule {}
