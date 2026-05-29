@@ -23,6 +23,7 @@ It does not replace:
 - Phase 5C readiness audit
 - Visual direction / screen-contract audit
 - Component/API map audit
+- Phase 5C seed-matrix audit
 - Phase 5C ticket-pack audit
 - dependency graph and gate closure checks
 - predictive stop analysis
@@ -48,12 +49,13 @@ It does not replace:
 4. Create Phase 5C Component/API Map.
 5. Use Spark Genesis to audit those docs.
 6. Create Phase 5C ticket seed matrix.
-7. Create Phase 5C ticket pack.
-8. Use Spark Genesis to audit ticket pack and dependency graph.
-9. Run predictive stop analysis.
-10. Human approve.
-11. Execute Phase 5C.
-12. Use Spark Genesis post-run learning filter.
+7. Use Spark Genesis to audit the ticket seed matrix.
+8. Create Phase 5C ticket pack.
+9. Use Spark Genesis to audit ticket pack and dependency graph.
+10. Run predictive stop analysis.
+11. Human approve.
+12. Execute Phase 5C.
+13. Use Spark Genesis post-run learning filter.
 ```
 
 ## Phase 5C Risks Spark Genesis Must Check
@@ -71,6 +73,10 @@ It does not replace:
 - search scope expansion
 - notification/status/data-controls fake surface risk
 - dependency graph/gate closure issues
+- seed-matrix split/ownership/data-source issues
+- baseline or visual-reference seed without committed acceptance authority
+- active-looking action without route/action authority
+- operational card without approved API
 
 ## Current Adoption Path
 
@@ -83,5 +89,11 @@ Skill path:
 Current version:
 
 ```text
-0.2.0
+0.2.1
 ```
+
+## Version 0.2.1 Planning Additions
+
+Spark Genesis v0.2.1 adds the seed-matrix audit checklist and planning-layer failure patterns `FP-025` through `FP-032`.
+
+These additions are adopted as audit/planning aids only. They do not replace AKTI source-of-truth hierarchy, human product judgment, architecture approval, screen contracts, ticket packs, tests, or validation evidence.
