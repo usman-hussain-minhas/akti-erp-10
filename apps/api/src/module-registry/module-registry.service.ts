@@ -37,6 +37,21 @@ type PermissionManifestEntry = {
   allowed_scope_types: Array<CapabilitySeedScopeType>;
 };
 
+type CapabilityConsumptionManifestEntry = {
+  capability_key: string;
+  provider_module_key: string;
+  required: boolean;
+  min_version?: string;
+};
+
+type MenuManifestEntry = {
+  key: string;
+  label: string;
+  path: string;
+  capability_key?: string;
+  order: number;
+};
+
 type GatekeeperHookManifestEntry = {
   key: string;
   capability_key: string;
@@ -48,7 +63,9 @@ export type RuntimeModuleManifest = {
   display_name: string;
   version: string;
   capabilities: CapabilityManifestEntry[];
+  capabilities_consumed?: CapabilityConsumptionManifestEntry[];
   permissions: PermissionManifestEntry[];
+  menu_entries?: MenuManifestEntry[];
   gatekeeper_hooks: GatekeeperHookManifestEntry[];
 };
 
@@ -100,6 +117,21 @@ export type CapabilityContributionRegistrationResult = {
   manifest_hash: string;
   registered_count: number;
   capabilities: RegisteredCapabilityContribution[];
+};
+
+export type RegisteredMenuContribution = {
+  key: string;
+  label: string;
+  path: string;
+  module_key: string;
+  capability_key: string | null;
+  order: number;
+};
+
+export type MenuContributionRegistrationResult = {
+  module_key: string;
+  registered_count: number;
+  menu_entries: RegisteredMenuContribution[];
 };
 
 type ModuleListResponse = {
@@ -219,6 +251,7 @@ const ACCESS_CORE_APPROVED_SEED_CAPABILITY_KEYS = new Set([
   PLATFORM_SHELL_ACCESS_CAPABILITY_KEY,
 ]);
 const MODULE_LIFECYCLE_STATUS_SET = new Set<string>(MODULE_LIFECYCLE_STATUSES);
+const MANIFEST_KEY_PATTERN = /^[a-z][a-z0-9]*(?:[_.-][a-z0-9]+)*$/;
 const MODULE_KEY_PATTERN = /^[a-z][a-z0-9]*(?:-[a-z0-9]+)*(?:\.[a-z][a-z0-9]*(?:-[a-z0-9]+)*)+$/;
 const MODULE_ACTION_KEY_PATTERN = /^[a-z][a-z0-9]*(?:[_.-][a-z0-9]+)*$/;
 const SEMVER_PATTERN = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$/;
@@ -271,7 +304,9 @@ function isRuntimeModuleManifest(input: unknown): input is RuntimeModuleManifest
     typeof maybe.display_name === 'string' &&
     typeof maybe.version === 'string' &&
     Array.isArray(maybe.capabilities) &&
+    (maybe.capabilities_consumed === undefined || Array.isArray(maybe.capabilities_consumed)) &&
     Array.isArray(maybe.permissions) &&
+    (maybe.menu_entries === undefined || Array.isArray(maybe.menu_entries)) &&
     Array.isArray(maybe.gatekeeper_hooks)
   );
 }
@@ -462,6 +497,41 @@ function assertCapabilityContribution(
   }
 }
 
+function assertMenuContribution(
+  manifest: RuntimeModuleManifest,
+  entry: MenuManifestEntry,
+  localCapabilityKeys: Set<string>,
+  consumedCapabilityKeys: Set<string>,
+) {
+  if (!MANIFEST_KEY_PATTERN.test(entry.key)) {
+    throw new ConflictException(`Menu entry ${entry.key} must use manifest key syntax`);
+  }
+
+  if (entry.label.trim().length === 0) {
+    throw new ConflictException(`Menu entry ${entry.key} requires a label`);
+  }
+
+  if (!/^\/[A-Za-z0-9/_:.-]*$/.test(entry.path)) {
+    throw new ConflictException(`Menu entry ${entry.key} requires an absolute safe path`);
+  }
+
+  if (!Number.isInteger(entry.order) || entry.order < 0) {
+    throw new ConflictException(`Menu entry ${entry.key} requires a non-negative integer order`);
+  }
+
+  if (
+    entry.capability_key !== undefined &&
+    !localCapabilityKeys.has(entry.capability_key) &&
+    !consumedCapabilityKeys.has(entry.capability_key)
+  ) {
+    throw new ConflictException(`Menu entry ${entry.key} capability_key must reference local or consumed capability`);
+  }
+
+  if (entry.path.startsWith('/lead-desk') && manifest.module_key !== 'lead.desk') {
+    throw new ConflictException(`Menu entry ${entry.key} cannot register business-module navigation outside its owner`);
+  }
+}
+
 @Injectable()
 export class ModuleRegistryService {
   constructor(private readonly prisma: PrismaService) {}
@@ -610,6 +680,40 @@ export class ModuleRegistryService {
       manifest_hash: sha256Hex(stableJsonStringify(manifest)),
       registered_count: capabilities.length,
       capabilities,
+    };
+  }
+
+  registerMenuContributions(manifest: RuntimeModuleManifest): MenuContributionRegistrationResult {
+    assertPhase2ManifestShape(manifest);
+    const localCapabilityKeys = new Set(manifest.capabilities.map((capability) => capability.key));
+    const consumedCapabilityKeys = new Set(
+      (manifest.capabilities_consumed ?? []).map((capability) => capability.capability_key),
+    );
+    const seenMenuKeys = new Set<string>();
+
+    const menuEntries = (manifest.menu_entries ?? [])
+      .map((entry) => {
+        if (seenMenuKeys.has(entry.key)) {
+          throw new ConflictException(`Menu entry ${entry.key} must be unique`);
+        }
+        seenMenuKeys.add(entry.key);
+        assertMenuContribution(manifest, entry, localCapabilityKeys, consumedCapabilityKeys);
+
+        return {
+          key: entry.key,
+          label: entry.label,
+          path: entry.path,
+          module_key: manifest.module_key,
+          capability_key: entry.capability_key ?? null,
+          order: entry.order,
+        };
+      })
+      .sort((left, right) => left.order - right.order || left.key.localeCompare(right.key));
+
+    return {
+      module_key: manifest.module_key,
+      registered_count: menuEntries.length,
+      menu_entries: menuEntries,
     };
   }
 
