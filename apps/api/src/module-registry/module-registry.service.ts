@@ -285,6 +285,36 @@ type ModuleListResponse = {
   items: Array<Pick<ModuleRegistryEntry, 'module_key' | 'display_name' | 'version' | 'status' | 'manifest_hash'>>;
 };
 
+type RoleAwareModuleListRequest = {
+  organization_id: string;
+  actor_user_id: string;
+};
+
+export type RoleAwareModuleListResponse = {
+  items: Array<{
+    module_key: string;
+    display_name: string;
+    display_description: string;
+    icon_key: string;
+    category: ModuleDisplayMetadataEntry['category'];
+    route: string | null;
+    visibility_state: ModuleDisplayMetadataEntry['visibility_state'];
+    version: string;
+    status: ModuleRegistryEntry['status'];
+    required_capabilities: string[];
+  }>;
+  tenant_context: {
+    organization_id: string;
+    actor_user_id: string;
+  };
+  capability: {
+    required: 'platform.modules.view';
+  };
+  authority: {
+    visibility_grants_destructive_actions: false;
+  };
+};
+
 type ModuleRegistryFrontendRequest = {
   organization_id: string;
   actor_user_id: string;
@@ -1329,6 +1359,112 @@ export class ModuleRegistryService {
     });
 
     return { items };
+  }
+
+  async listModulesForActor(input: RoleAwareModuleListRequest): Promise<RoleAwareModuleListResponse> {
+    assertNonEmpty(input.organization_id, 'Role-aware module list requires organization_id');
+    assertNonEmpty(input.actor_user_id, 'Role-aware module list requires actor_user_id');
+
+    const [modules, manifests, actorCapabilities] = await Promise.all([
+      this.listModules(),
+      loadRuntimeModuleManifests(),
+      this.listActorCapabilityKeys(input),
+    ]);
+    const manifestsByKey = new Map(manifests.map((manifest) => [manifest.module_key, manifest]));
+
+    if (!actorCapabilities.has(PLATFORM_MODULES_VIEW_CAPABILITY_KEY)) {
+      return this.emptyRoleAwareModuleList(input);
+    }
+
+    const items = modules.items
+      .map((module): RoleAwareModuleListResponse['items'][number] | null => {
+        const manifest = manifestsByKey.get(module.module_key);
+        if (!manifest || manifest.display_metadata.visibility_state === 'hidden') {
+          return null;
+        }
+
+        const hasRequiredCapabilities = manifest.required_capabilities.every((capabilityKey) =>
+          actorCapabilities.has(capabilityKey),
+        );
+        if (!hasRequiredCapabilities) {
+          return null;
+        }
+
+        return {
+          module_key: module.module_key,
+          display_name: manifest.display_metadata.display_name,
+          display_description: manifest.display_metadata.display_description,
+          icon_key: manifest.display_metadata.icon_key,
+          category: manifest.display_metadata.category,
+          route: manifest.display_metadata.route,
+          visibility_state: manifest.display_metadata.visibility_state,
+          version: module.version,
+          status: module.status,
+          required_capabilities: [...manifest.required_capabilities].sort(),
+        };
+      })
+      .filter((item): item is RoleAwareModuleListResponse['items'][number] => item !== null)
+      .sort((left, right) => left.module_key.localeCompare(right.module_key));
+
+    return {
+      items,
+      tenant_context: {
+        organization_id: input.organization_id,
+        actor_user_id: input.actor_user_id,
+      },
+      capability: {
+        required: PLATFORM_MODULES_VIEW_CAPABILITY_KEY,
+      },
+      authority: {
+        visibility_grants_destructive_actions: false,
+      },
+    };
+  }
+
+  private emptyRoleAwareModuleList(input: RoleAwareModuleListRequest): RoleAwareModuleListResponse {
+    return {
+      items: [],
+      tenant_context: {
+        organization_id: input.organization_id,
+        actor_user_id: input.actor_user_id,
+      },
+      capability: {
+        required: PLATFORM_MODULES_VIEW_CAPABILITY_KEY,
+      },
+      authority: {
+        visibility_grants_destructive_actions: false,
+      },
+    };
+  }
+
+  private async listActorCapabilityKeys(input: RoleAwareModuleListRequest): Promise<Set<string>> {
+    const memberships = await this.prisma.userGroup.findMany({
+      where: {
+        organization_id: input.organization_id,
+        user_id: input.actor_user_id,
+      },
+      select: {
+        group_id: true,
+      },
+    });
+    const groupIds = memberships.map((membership) => membership.group_id);
+    if (groupIds.length === 0) {
+      return new Set();
+    }
+
+    const assignments = await this.prisma.groupCapability.findMany({
+      where: {
+        organization_id: input.organization_id,
+        group_id: {
+          in: groupIds,
+        },
+      },
+      select: {
+        capability_key: true,
+      },
+    });
+
+    return new Set(assignments.map((assignment) => assignment.capability_key));
   }
 
   async getFrontendRegistry(input: ModuleRegistryFrontendRequest): Promise<ModuleRegistryFrontendResponse> {
