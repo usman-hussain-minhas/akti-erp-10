@@ -1,5 +1,11 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 
+import {
+  type EventEnvelope,
+  assertComplianceEventContext,
+  buildEventEnvelope,
+} from '../platform-observability/event-outbox.service';
+
 const WORKFLOW_KEY_PATTERN = /^[a-z][a-z0-9]*(?:\.[a-z][a-z0-9_-]*)+$/;
 const WORKFLOW_VERSION_PATTERN = /^\d+\.\d+\.\d+$/;
 const WORKFLOW_STATE_KEY_PATTERN = /^[a-z][a-z0-9_]*(?:\.[a-z][a-z0-9_]*)*$/;
@@ -334,6 +340,48 @@ export class WorkflowService {
       event_type: transition.emitted_event_types[0],
       correlation_id: input.correlation_id,
     };
+  }
+
+  buildWorkflowAuditEvent(result: WorkflowApprovalFlowExecutionResult): EventEnvelope {
+    return assertComplianceEventContext(
+      buildEventEnvelope({
+        organization_id: result.organization_id,
+        event_type: result.event_type,
+        idempotency_key: `${result.event_type}.${result.organization_id}.${result.workflow_key}.${result.correlation_id}`,
+        source_module: 'workflow.engine',
+        subject: {
+          entity_type: 'workflow.process',
+          entity_id: result.subject_id ?? result.workflow_key,
+        },
+        payload: {
+          workflow_key: result.workflow_key,
+          version: result.version,
+          transition_key: result.transition_key,
+          from_state: result.from_state,
+          to_state: result.to_state,
+          status: result.status,
+          gatekeeper_outcome: result.gatekeeper_outcome,
+          approval_key: result.approval_key,
+          approval_chain_key: result.approval_chain_key,
+          approval_decision: result.approval_decision,
+          required_evidence: result.required_evidence,
+          evidence_keys_present: result.evidence_keys_present,
+          correlation_id: result.correlation_id,
+        },
+        compliance: {
+          privacy_class: 'restricted',
+          retention_class: 'audit',
+          redaction_policy: 'strict',
+          audit_required: true,
+          replay_allowed: false,
+        },
+        context: {
+          actor_user_id: result.actor_user_id,
+          correlation_id: result.correlation_id,
+          workflow_key: result.workflow_key,
+        },
+      }),
+    );
   }
 
   private result(
