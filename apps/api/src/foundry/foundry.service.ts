@@ -4,6 +4,11 @@ import { BadRequestException, Injectable, Optional } from '@nestjs/common';
 import type { GatekeeperDecisionResult } from '@akti/contracts/gatekeeper-contract';
 
 import { type GatekeeperPreflightInput, GatekeeperPreflightService } from '../gatekeeper/gatekeeper-preflight.service';
+import {
+  type EventEnvelope,
+  assertComplianceEventContext,
+  buildEventEnvelope,
+} from '../platform-observability/event-outbox.service';
 
 export type FoundryModuleType = 'core' | 'standard' | 'optional' | 'dedicated';
 
@@ -193,6 +198,8 @@ export type FoundryInstallPreflightInput = {
   reauth_status?: GatekeeperPreflightInput['reauth_status'];
 };
 
+type FoundryLifecycleAuditEnvelope = EventEnvelope;
+
 export type FoundryInstallPreflightResponse = {
   method: 'POST';
   route: '/platform/foundry/install-preflight';
@@ -220,6 +227,7 @@ export type FoundryInstallPreflightResponse = {
     evidence_required: true;
     evidence_package_ref: string;
     correlation_id: string;
+    event_envelope: FoundryLifecycleAuditEnvelope;
   };
   foundry_execution: {
     allowed_after_preflight: boolean;
@@ -283,6 +291,7 @@ export type FoundryInstallExecutionReceipt = {
     organization_id: string;
     actor_user_id: string;
     correlation_id: string;
+    event_envelope: FoundryLifecycleAuditEnvelope;
   };
 };
 
@@ -313,6 +322,7 @@ export type FoundryInstallEvidenceReceipt = {
   audit: {
     event_type: 'foundry.install.evidence.received';
     audit_outbox_storage_required: true;
+    event_envelope: FoundryLifecycleAuditEnvelope;
   };
   registry: {
     installed_status_evidence_required: true;
@@ -363,6 +373,7 @@ export type FoundryEnableExecutionReceipt = {
     organization_id: string;
     actor_user_id: string;
     correlation_id: string;
+    event_envelope: FoundryLifecycleAuditEnvelope;
   };
 };
 
@@ -413,6 +424,7 @@ export type FoundryDisableExecutionReceipt = {
     organization_id: string;
     actor_user_id: string;
     correlation_id: string;
+    event_envelope: FoundryLifecycleAuditEnvelope;
   };
 };
 
@@ -470,6 +482,7 @@ export type FoundryUninstallExecutionReceipt = {
     organization_id: string;
     actor_user_id: string;
     correlation_id: string;
+    event_envelope: FoundryLifecycleAuditEnvelope;
   };
 };
 
@@ -530,6 +543,7 @@ export type FoundryUpdateExecutionReceipt = {
     organization_id: string;
     actor_user_id: string;
     correlation_id: string;
+    event_envelope: FoundryLifecycleAuditEnvelope;
   };
 };
 
@@ -580,6 +594,7 @@ export type FoundryRollbackRecoveryReceipt = {
     organization_id: string;
     actor_user_id: string;
     correlation_id: string;
+    event_envelope: FoundryLifecycleAuditEnvelope;
   };
 };
 
@@ -765,6 +780,19 @@ export class FoundryService {
         evidence_required: true,
         evidence_package_ref: input.evidence_package_ref,
         correlation_id: input.correlation_id,
+        event_envelope: this.buildLifecycleEventEnvelope({
+          event_type: 'foundry.install.preflight.requested',
+          organization_id: input.organization_id,
+          actor_user_id: input.actor_user_id,
+          correlation_id: input.correlation_id,
+          module_key: input.target_module_key,
+          action_key: FOUNDRY_INSTALL_ACTION_KEY,
+          payload: {
+            target_module_version: input.target_module_version,
+            manifest_hash: input.manifest_hash,
+            evidence_package_ref: input.evidence_package_ref,
+          },
+        }),
       },
       foundry_execution: {
         allowed_after_preflight: decision?.decision === 'ALLOW',
@@ -842,6 +870,21 @@ export class FoundryService {
         organization_id: input.organization_id,
         actor_user_id: input.actor_user_id,
         correlation_id: input.correlation_id,
+        event_envelope: this.buildLifecycleEventEnvelope({
+          event_type: 'foundry.install.executed',
+          organization_id: input.organization_id,
+          actor_user_id: input.actor_user_id,
+          correlation_id: input.correlation_id,
+          module_key: input.module_key,
+          action_key: FOUNDRY_INSTALL_ACTION_KEY,
+          payload: {
+            module_version: input.module_version,
+            manifest_hash: input.manifest_hash,
+            status_from: 'installable',
+            status_to: 'installed',
+            evidence_ref: input.evidence_ref,
+          },
+        }),
       },
     };
   }
@@ -881,6 +924,19 @@ export class FoundryService {
       audit: {
         event_type: 'foundry.install.evidence.received',
         audit_outbox_storage_required: true,
+        event_envelope: this.buildLifecycleEventEnvelope({
+          event_type: 'foundry.install.evidence.received',
+          organization_id: input.organization_id,
+          actor_user_id: input.received_by_actor_id,
+          correlation_id: input.correlation_id,
+          module_key: input.install_execution_receipt.module_key,
+          action_key: FOUNDRY_INSTALL_ACTION_KEY,
+          payload: {
+            install_execution_id: input.install_execution_receipt.execution_id,
+            evidence_package_id: input.evidence_package.package_id,
+            received_at: input.received_at,
+          },
+        }),
       },
       registry: {
         installed_status_evidence_required: true,
@@ -946,6 +1002,21 @@ export class FoundryService {
         organization_id: input.organization_id,
         actor_user_id: input.actor_user_id,
         correlation_id: input.correlation_id,
+        event_envelope: this.buildLifecycleEventEnvelope({
+          event_type: 'foundry.module.enabled',
+          organization_id: input.organization_id,
+          actor_user_id: input.actor_user_id,
+          correlation_id: input.correlation_id,
+          module_key: input.module_key,
+          action_key: 'module.enable',
+          payload: {
+            module_version: input.module_version,
+            manifest_hash: input.manifest_hash,
+            status_from: input.current_status,
+            status_to: 'enabled',
+            evidence_ref: input.evidence_ref,
+          },
+        }),
       },
     };
   }
@@ -1010,6 +1081,22 @@ export class FoundryService {
         organization_id: input.organization_id,
         actor_user_id: input.actor_user_id,
         correlation_id: input.correlation_id,
+        event_envelope: this.buildLifecycleEventEnvelope({
+          event_type: 'foundry.module.disabled',
+          organization_id: input.organization_id,
+          actor_user_id: input.actor_user_id,
+          correlation_id: input.correlation_id,
+          module_key: input.module_key,
+          action_key: 'module.disable',
+          payload: {
+            module_version: input.module_version,
+            manifest_hash: input.manifest_hash,
+            status_from: 'enabled',
+            status_to: 'disabled',
+            evidence_ref: input.evidence_ref,
+            retention_plan_ref: input.retention_plan_ref,
+          },
+        }),
       },
     };
   }
@@ -1082,6 +1169,23 @@ export class FoundryService {
         organization_id: input.organization_id,
         actor_user_id: input.actor_user_id,
         correlation_id: input.correlation_id,
+        event_envelope: this.buildLifecycleEventEnvelope({
+          event_type: 'foundry.module.uninstalled',
+          organization_id: input.organization_id,
+          actor_user_id: input.actor_user_id,
+          correlation_id: input.correlation_id,
+          module_key: input.module_key,
+          action_key: 'module.uninstall',
+          payload: {
+            module_version: input.module_version,
+            manifest_hash: input.manifest_hash,
+            status_from: input.current_status,
+            status_to: 'uninstalled',
+            evidence_ref: input.evidence_ref,
+            retention_plan_ref: input.retention_plan_ref,
+            rollback_plan_ref: input.rollback_plan_ref,
+          },
+        }),
       },
     };
   }
@@ -1172,6 +1276,23 @@ export class FoundryService {
         organization_id: input.organization_id,
         actor_user_id: input.actor_user_id,
         correlation_id: input.correlation_id,
+        event_envelope: this.buildLifecycleEventEnvelope({
+          event_type: 'foundry.module.updated',
+          organization_id: input.organization_id,
+          actor_user_id: input.actor_user_id,
+          correlation_id: input.correlation_id,
+          module_key: input.module_key,
+          action_key: 'module.update',
+          payload: {
+            current_version: input.current_version,
+            target_version: input.target_version,
+            current_manifest_hash: input.current_manifest_hash,
+            target_manifest_hash: input.target_manifest_hash,
+            evidence_ref: input.evidence_ref,
+            migration_plan_ref: input.migration_plan_ref,
+            rollback_plan_ref: input.rollback_plan_ref,
+          },
+        }),
       },
     };
   }
@@ -1259,6 +1380,23 @@ export class FoundryService {
         organization_id: input.organization_id,
         actor_user_id: input.actor_user_id,
         correlation_id: input.correlation_id,
+        event_envelope: this.buildLifecycleEventEnvelope({
+          event_type: 'foundry.module.rollback_recovered',
+          organization_id: input.organization_id,
+          actor_user_id: input.actor_user_id,
+          correlation_id: input.correlation_id,
+          module_key: input.module_key,
+          action_key: 'module.rollback_recovery',
+          payload: {
+            module_version: input.module_version,
+            manifest_hash: input.manifest_hash,
+            status_from: input.current_status,
+            status_to: 'installed',
+            evidence_ref: input.evidence_ref,
+            rollback_plan_ref: input.rollback_plan_ref,
+            failure_evidence_ref: input.failure_evidence_ref,
+          },
+        }),
       },
     };
   }
@@ -1585,6 +1723,46 @@ export class FoundryService {
     }
 
     return evidencePackage;
+  }
+
+  private buildLifecycleEventEnvelope(input: {
+    event_type: string;
+    organization_id: string;
+    actor_user_id: string;
+    correlation_id: string;
+    module_key: string;
+    action_key: string;
+    payload: Record<string, unknown>;
+  }): EventEnvelope {
+    const envelope = buildEventEnvelope({
+      organization_id: input.organization_id,
+      event_type: input.event_type,
+      idempotency_key: `${input.event_type}.${input.organization_id}.${input.module_key}.${input.correlation_id}`,
+      source_module: 'foundry',
+      subject: {
+        entity_type: 'foundry.module',
+        entity_id: input.module_key,
+      },
+      payload: {
+        module_key: input.module_key,
+        action_key: input.action_key,
+        correlation_id: input.correlation_id,
+        ...input.payload,
+      },
+      compliance: {
+        privacy_class: 'restricted',
+        retention_class: 'audit',
+        redaction_policy: 'strict',
+        audit_required: true,
+        replay_allowed: false,
+      },
+      context: {
+        actor_user_id: input.actor_user_id,
+        correlation_id: input.correlation_id,
+      },
+    });
+
+    return assertComplianceEventContext(envelope);
   }
 
   private buildInstallPreflightGatekeeperRequest(input: FoundryInstallPreflightInput): GatekeeperPreflightInput {
