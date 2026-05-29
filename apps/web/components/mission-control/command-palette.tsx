@@ -7,16 +7,19 @@ import type { KeyboardEvent as ReactKeyboardEvent } from 'react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { CRM_VISIBLE_LABEL } from '../../lib/crm-alias.config';
+import { SHELL_COMMANDS } from '../../lib/routes.config';
 import { Button } from '../ui/button';
 import { EmptyState } from '../ui/design-system';
 
+type ShellCommand = (typeof SHELL_COMMANDS)[number];
+
 type CoreCommand = {
-  id: string;
-  label: string;
-  description: string;
-  group: 'Navigation' | typeof CRM_VISIBLE_LABEL | 'Settings' | 'Help';
-  route: string;
-  keywords: string[];
+  id: ShellCommand['id'];
+  label: ShellCommand['label'];
+  description: ShellCommand['description'];
+  group: ShellCommand['group'];
+  route: ShellCommand['route'];
+  keywords: ShellCommand['keywords'];
 };
 
 type RenderCommand = CoreCommand & {
@@ -25,48 +28,7 @@ type RenderCommand = CoreCommand & {
 
 const RECENT_COMMANDS_KEY = 'akti.phase4b.commandPalette.recentCommandIds';
 
-const CORE_COMMANDS: CoreCommand[] = [
-  {
-    id: 'dashboard.open',
-    label: 'Open dashboard',
-    description: 'Go to Mission Control overview.',
-    group: 'Navigation',
-    route: '/app',
-    keywords: ['home', 'mission control', 'overview'],
-  },
-  {
-    id: 'lead-desk.open',
-    label: `Open ${CRM_VISIBLE_LABEL}`,
-    description: `Open the current ${CRM_VISIBLE_LABEL} inbox.`,
-    group: CRM_VISIBLE_LABEL,
-    route: '/lead-desk/inbox',
-    keywords: ['crm', 'leads', 'inbox', 'follow up'],
-  },
-  {
-    id: 'lead-desk.create',
-    label: 'Create lead',
-    description: `Open the existing ${CRM_VISIBLE_LABEL} intake route.`,
-    group: CRM_VISIBLE_LABEL,
-    route: '/lead-desk/create',
-    keywords: ['crm', 'new lead', 'intake', 'create'],
-  },
-  {
-    id: 'settings.open',
-    label: 'Open settings',
-    description: 'Open the Settings control panel.',
-    group: 'Settings',
-    route: '/app/settings',
-    keywords: ['control panel', 'diagnostics', 'session'],
-  },
-  {
-    id: 'help.open',
-    label: 'Open help',
-    description: 'Jump to the local Mission Control help region.',
-    group: 'Help',
-    route: '#help-region',
-    keywords: ['support', 'guide', 'help'],
-  },
-];
+const CORE_COMMANDS: CoreCommand[] = [...SHELL_COMMANDS];
 
 export function CommandPalette() {
   const router = useRouter();
