@@ -54,6 +54,7 @@ model Organization {
   workflow_definitions      WorkflowDefinition[]
   workflow_instances        WorkflowInstance[]
   workflow_step_instances   WorkflowStepInstance[]
+  file_document_metadata    FileDocumentMetadata[]
   lead_records              LeadRecord[]
   lead_status_history       LeadStatusHistory[]
   lead_assignment_history   LeadAssignmentHistory[]
@@ -142,6 +143,7 @@ model User {
   module_lifecycle_events_as_actor ModuleLifecycleEvent[] @relation("ModuleLifecycleEvent_ActorUser")
   workflow_instances_as_actor WorkflowInstance[] @relation("WorkflowInstance_ActorUser")
   workflow_step_instances_as_actor WorkflowStepInstance[] @relation("WorkflowStepInstance_ActorUser")
+  file_document_metadata_created FileDocumentMetadata[] @relation("FileDocumentMetadata_CreatedByUser")
   lead_records_assigned LeadRecord[] @relation("LeadRecord_AssignedUser")
   lead_status_history_as_actor LeadStatusHistory[] @relation("LeadStatusHistory_ActorUser")
   lead_assignment_history_as_actor LeadAssignmentHistory[] @relation("LeadAssignmentHistory_ActorUser")
@@ -412,6 +414,40 @@ model WorkflowStepInstance {
   @@index([organization_id, action_key, started_at])
   @@index([organization_id, gatekeeper_outcome, started_at])
   @@index([event_ref])
+}
+
+model FileDocumentMetadata {
+  id                String       @id @default(cuid())
+  organization_id   String
+  file_key          String
+  storage_key       String
+  owner_module      String
+  owner_entity_type String?
+  owner_entity_id   String?
+  display_name      String
+  mime_type         String
+  byte_size         Int
+  checksum_sha256   String?
+  classification    String
+  retention_policy  String
+  access_policy     Json
+  storage_provider  String
+  status            String
+  created_by_user_id String?
+  created_at        DateTime     @default(now())
+  updated_at        DateTime     @updatedAt
+  deleted_at        DateTime?
+  organization      Organization @relation(fields: [organization_id], references: [id])
+  created_by_user   User?        @relation("FileDocumentMetadata_CreatedByUser", fields: [organization_id, created_by_user_id], references: [organization_id, id])
+
+  @@unique([organization_id, file_key])
+  @@unique([organization_id, storage_key])
+  @@unique([organization_id, id])
+  @@index([organization_id, owner_module, created_at])
+  @@index([organization_id, owner_entity_type, owner_entity_id])
+  @@index([organization_id, classification, created_at])
+  @@index([organization_id, status, created_at])
+  @@index([organization_id, created_by_user_id, created_at])
 }
 
 model ModuleRegistryEntry {

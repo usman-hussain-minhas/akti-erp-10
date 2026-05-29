@@ -3,8 +3,8 @@
   "sources": {
     "prisma_schema": "prisma/schema.prisma",
     "metadata": "prisma/entity-registry.metadata.json",
-    "prisma_schema_hash": "sha256:a09e0dc5ac2a0bc51f375db655e2f7dfb6eaa237826b5867329e8762d7025dad",
-    "metadata_hash": "sha256:d504eacac7f2dbb6cb890e2e46991ae05e4a4270faed0c9df672bced0de64726"
+    "prisma_schema_hash": "sha256:318016c1071145a0c4e3a39e1e9919e14a08a529e680e0d3fcf96da532c6c6c1",
+    "metadata_hash": "sha256:9fd99547b2e0be006f9609949dbc10c765629d1f487d724c15a757e3b3f35c50"
   },
   "entities": [
     {
@@ -947,6 +947,385 @@
       "retention_policy": "per_outbox_policy",
       "audit_required": true,
       "sensitive_data_classification": "internal"
+    },
+    {
+      "model_name": "FileDocumentMetadata",
+      "table_name": "FileDocumentMetadata",
+      "owner_module": "core.file",
+      "phase": 2,
+      "tenant_scoped": true,
+      "organization_id_required": true,
+      "rls_required": true,
+      "organization_id_field": "organization_id",
+      "organization_id_column": "organization_id",
+      "fields": [
+        {
+          "field_name": "access_policy",
+          "column_name": "access_policy",
+          "type": "Json",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "byte_size",
+          "column_name": "byte_size",
+          "type": "Int",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "checksum_sha256",
+          "column_name": "checksum_sha256",
+          "type": "String",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "classification",
+          "column_name": "classification",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "created_at",
+          "column_name": "created_at",
+          "type": "DateTime",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "created_by_user",
+          "column_name": "created_by_user",
+          "type": "User",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "User"
+        },
+        {
+          "field_name": "created_by_user_id",
+          "column_name": "created_by_user_id",
+          "type": "String",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "deleted_at",
+          "column_name": "deleted_at",
+          "type": "DateTime",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "display_name",
+          "column_name": "display_name",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "file_key",
+          "column_name": "file_key",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "id",
+          "column_name": "id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": true,
+          "is_relation": false
+        },
+        {
+          "field_name": "mime_type",
+          "column_name": "mime_type",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "organization",
+          "column_name": "organization",
+          "type": "Organization",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "Organization"
+        },
+        {
+          "field_name": "organization_id",
+          "column_name": "organization_id",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "owner_entity_id",
+          "column_name": "owner_entity_id",
+          "type": "String",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "owner_entity_type",
+          "column_name": "owner_entity_type",
+          "type": "String",
+          "is_required": false,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "owner_module",
+          "column_name": "owner_module",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "retention_policy",
+          "column_name": "retention_policy",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "status",
+          "column_name": "status",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "storage_key",
+          "column_name": "storage_key",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "storage_provider",
+          "column_name": "storage_provider",
+          "type": "String",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        },
+        {
+          "field_name": "updated_at",
+          "column_name": "updated_at",
+          "type": "DateTime",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": false
+        }
+      ],
+      "indexes": [
+        {
+          "name": "FileDocumentMetadata_id_pk",
+          "fields": [
+            "id"
+          ],
+          "columns": [
+            "id"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "FileDocumentMetadata_organization_id_classification_created_at_idx",
+          "fields": [
+            "organization_id",
+            "classification",
+            "created_at"
+          ],
+          "columns": [
+            "organization_id",
+            "classification",
+            "created_at"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "FileDocumentMetadata_organization_id_created_by_user_id_created_at_idx",
+          "fields": [
+            "organization_id",
+            "created_by_user_id",
+            "created_at"
+          ],
+          "columns": [
+            "organization_id",
+            "created_by_user_id",
+            "created_at"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "FileDocumentMetadata_organization_id_file_key_key",
+          "fields": [
+            "organization_id",
+            "file_key"
+          ],
+          "columns": [
+            "organization_id",
+            "file_key"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "FileDocumentMetadata_organization_id_id_key",
+          "fields": [
+            "organization_id",
+            "id"
+          ],
+          "columns": [
+            "organization_id",
+            "id"
+          ],
+          "is_unique": true
+        },
+        {
+          "name": "FileDocumentMetadata_organization_id_owner_entity_type_owner_entity_id_idx",
+          "fields": [
+            "organization_id",
+            "owner_entity_type",
+            "owner_entity_id"
+          ],
+          "columns": [
+            "organization_id",
+            "owner_entity_type",
+            "owner_entity_id"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "FileDocumentMetadata_organization_id_owner_module_created_at_idx",
+          "fields": [
+            "organization_id",
+            "owner_module",
+            "created_at"
+          ],
+          "columns": [
+            "organization_id",
+            "owner_module",
+            "created_at"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "FileDocumentMetadata_organization_id_status_created_at_idx",
+          "fields": [
+            "organization_id",
+            "status",
+            "created_at"
+          ],
+          "columns": [
+            "organization_id",
+            "status",
+            "created_at"
+          ],
+          "is_unique": false
+        },
+        {
+          "name": "FileDocumentMetadata_organization_id_storage_key_key",
+          "fields": [
+            "organization_id",
+            "storage_key"
+          ],
+          "columns": [
+            "organization_id",
+            "storage_key"
+          ],
+          "is_unique": true
+        }
+      ],
+      "unique_constraints": [
+        {
+          "name": "FileDocumentMetadata_id_pk",
+          "fields": [
+            "id"
+          ],
+          "columns": [
+            "id"
+          ]
+        },
+        {
+          "name": "FileDocumentMetadata_organization_id_file_key_key",
+          "fields": [
+            "organization_id",
+            "file_key"
+          ],
+          "columns": [
+            "organization_id",
+            "file_key"
+          ]
+        },
+        {
+          "name": "FileDocumentMetadata_organization_id_id_key",
+          "fields": [
+            "organization_id",
+            "id"
+          ],
+          "columns": [
+            "organization_id",
+            "id"
+          ]
+        },
+        {
+          "name": "FileDocumentMetadata_organization_id_storage_key_key",
+          "fields": [
+            "organization_id",
+            "storage_key"
+          ],
+          "columns": [
+            "organization_id",
+            "storage_key"
+          ]
+        }
+      ],
+      "events_emitted": [],
+      "retention_policy": "per_file_document_policy",
+      "audit_required": true,
+      "sensitive_data_classification": "restricted"
     },
     {
       "model_name": "GatekeeperDecisionRecord",
@@ -2737,6 +3116,16 @@
           "relation_model": "EventOutbox"
         },
         {
+          "field_name": "file_document_metadata",
+          "column_name": "file_document_metadata",
+          "type": "FileDocumentMetadata[]",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "FileDocumentMetadata"
+        },
+        {
           "field_name": "gatekeeper_decision_records",
           "column_name": "gatekeeper_decision_records",
           "type": "GatekeeperDecisionRecord[]",
@@ -3901,6 +4290,16 @@
           "is_id": false,
           "is_relation": true,
           "relation_model": "EngagementGatewayRequest"
+        },
+        {
+          "field_name": "file_document_metadata_created",
+          "column_name": "file_document_metadata_created",
+          "type": "FileDocumentMetadata[]",
+          "is_required": true,
+          "is_unique": false,
+          "is_id": false,
+          "is_relation": true,
+          "relation_model": "FileDocumentMetadata"
         },
         {
           "field_name": "gatekeeper_decision_records_as_actor",
