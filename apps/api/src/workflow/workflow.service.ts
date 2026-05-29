@@ -1,0 +1,463 @@
+import { BadRequestException, Injectable } from '@nestjs/common';
+
+const WORKFLOW_KEY_PATTERN = /^[a-z][a-z0-9]*(?:\.[a-z][a-z0-9_-]*)+$/;
+const WORKFLOW_VERSION_PATTERN = /^\d+\.\d+\.\d+$/;
+const WORKFLOW_STATE_KEY_PATTERN = /^[a-z][a-z0-9_]*(?:\.[a-z][a-z0-9_]*)*$/;
+const FORBIDDEN_GATEKEEPER_OUTCOME_KEYS = new Set([
+  'ALLOW',
+  'DENY',
+  'APPROVAL_REQUIRED',
+  'STOP_FOR_REVIEW',
+  'allow',
+  'deny',
+  'approval_required',
+  'stop_for_review',
+]);
+
+export type WorkflowTenantScope = 'global' | 'organization';
+export type WorkflowStateKind = 'start' | 'intermediate' | 'terminal';
+export type WorkflowGuardType = 'gatekeeper' | 'capability' | 'evidence' | 'timeout' | 'condition';
+
+export type WorkflowStateDefinition = {
+  state_key: string;
+  kind: WorkflowStateKind;
+  label: string;
+};
+
+export type WorkflowTransitionDefinition = {
+  transition_key: string;
+  from_state: string;
+  to_state: string;
+  action_key: string;
+  guard_keys: string[];
+  approval_key?: string | null;
+  emitted_event_types: string[];
+};
+
+export type WorkflowGuardDefinition = {
+  guard_key: string;
+  type: WorkflowGuardType;
+  description: string;
+};
+
+export type WorkflowApprovalDefinition = {
+  approval_key: string;
+  approval_chain_key: string;
+  evidence_required: boolean;
+  timeout_seconds?: number | null;
+};
+
+export type WorkflowAuditHookDefinition = {
+  hook_key: string;
+  event_type: string;
+  action_key: string;
+  audit_required: true;
+};
+
+export type WorkflowDeprecationPolicy = {
+  deprecated: boolean;
+  replacement_workflow_key?: string | null;
+  rollback_supported: boolean;
+};
+
+export type WorkflowProcessDefinition = {
+  workflow_key: string;
+  version: string;
+  owner: string;
+  tenant_scope: WorkflowTenantScope;
+  capability_requirements: string[];
+  states: WorkflowStateDefinition[];
+  transitions: WorkflowTransitionDefinition[];
+  guards: WorkflowGuardDefinition[];
+  approvals: WorkflowApprovalDefinition[];
+  emitted_events: string[];
+  audit_hooks: WorkflowAuditHookDefinition[];
+  error_behavior: 'fail_closed';
+  compatibility: {
+    min_platform_version: string;
+  };
+  evidence_requirements: string[];
+  deprecation_policy: WorkflowDeprecationPolicy;
+};
+
+export type WorkflowDefinitionValidationResult = {
+  valid: boolean;
+  workflow_key: string | null;
+  version: string | null;
+  tenant_scope: WorkflowTenantScope | null;
+  core_service: true;
+  foundry_module: false;
+  errors: string[];
+};
+
+@Injectable()
+export class WorkflowService {
+  validateProcessDefinition(input: unknown): WorkflowDefinitionValidationResult {
+    const errors: string[] = [];
+    const definition = isRecord(input) ? input : null;
+
+    if (!definition) {
+      return this.result(null, null, null, ['workflow definition must be an object']);
+    }
+
+    this.rejectGatekeeperOutcomeRedefinition(definition, errors);
+
+    const workflowKey = this.stringField(definition, 'workflow_key', errors);
+    const version = this.stringField(definition, 'version', errors);
+    const owner = this.stringField(definition, 'owner', errors);
+    const tenantScope = this.tenantScope(definition, errors);
+    const errorBehavior = this.stringField(definition, 'error_behavior', errors);
+    const compatibility = this.recordField(definition, 'compatibility', errors);
+    const deprecationPolicy = this.recordField(definition, 'deprecation_policy', errors);
+
+    if (workflowKey && !WORKFLOW_KEY_PATTERN.test(workflowKey)) {
+      errors.push('workflow_key must use module.process key syntax');
+    }
+    if (version && !WORKFLOW_VERSION_PATTERN.test(version)) {
+      errors.push('version must use semver syntax');
+    }
+    if (owner && owner === 'foundry') {
+      errors.push('workflow owner must be a core platform or module owner, not Foundry itself');
+    }
+    if (errorBehavior && errorBehavior !== 'fail_closed') {
+      errors.push('workflow error_behavior must fail closed');
+    }
+
+    if (compatibility) {
+      const minPlatformVersion = this.stringField(compatibility, 'min_platform_version', errors);
+      if (minPlatformVersion && !WORKFLOW_VERSION_PATTERN.test(minPlatformVersion)) {
+        errors.push('compatibility.min_platform_version must use semver syntax');
+      }
+    }
+
+    if (deprecationPolicy) {
+      if (typeof deprecationPolicy.deprecated !== 'boolean') {
+        errors.push('deprecation_policy.deprecated must be boolean');
+      }
+      if (typeof deprecationPolicy.rollback_supported !== 'boolean') {
+        errors.push('deprecation_policy.rollback_supported must be boolean');
+      }
+    }
+
+    const states = this.stateDefinitions(definition, errors);
+    const guards = this.guardDefinitions(definition, errors);
+    const approvals = this.approvalDefinitions(definition, errors);
+    const transitions = this.transitionDefinitions(definition, states, guards, approvals, errors);
+    const emittedEvents = this.stringArrayField(definition, 'emitted_events', errors);
+    const auditHooks = this.auditHookDefinitions(definition, errors);
+    const capabilities = this.stringArrayField(definition, 'capability_requirements', errors);
+    const evidenceRequirements = this.stringArrayField(definition, 'evidence_requirements', errors);
+
+    if (states.length > 0) {
+      const startCount = states.filter((state) => state.kind === 'start').length;
+      const terminalCount = states.filter((state) => state.kind === 'terminal').length;
+      if (startCount !== 1) {
+        errors.push('workflow definition must have exactly one start state');
+      }
+      if (terminalCount < 1) {
+        errors.push('workflow definition must have at least one terminal state');
+      }
+    }
+    if (transitions.length === 0) {
+      errors.push('workflow definition must include at least one transition');
+    }
+    if (emittedEvents.length === 0) {
+      errors.push('workflow definition must declare emitted_events');
+    }
+    if (auditHooks.length === 0) {
+      errors.push('workflow definition must declare audit_hooks');
+    }
+    if (capabilities.length === 0) {
+      errors.push('workflow definition must declare capability_requirements');
+    }
+    if (evidenceRequirements.length === 0) {
+      errors.push('workflow definition must declare evidence_requirements');
+    }
+
+    return this.result(workflowKey, version, tenantScope, errors);
+  }
+
+  assertProcessDefinitionValid(input: unknown): WorkflowProcessDefinition {
+    const result = this.validateProcessDefinition(input);
+    if (!result.valid) {
+      throw new BadRequestException(`Workflow process definition is invalid: ${result.errors.join('; ')}`);
+    }
+
+    return input as WorkflowProcessDefinition;
+  }
+
+  private result(
+    workflowKey: string | null,
+    version: string | null,
+    tenantScope: WorkflowTenantScope | null,
+    errors: string[],
+  ): WorkflowDefinitionValidationResult {
+    return {
+      valid: errors.length === 0,
+      workflow_key: workflowKey,
+      version,
+      tenant_scope: tenantScope,
+      core_service: true,
+      foundry_module: false,
+      errors,
+    };
+  }
+
+  private stateDefinitions(definition: Record<string, unknown>, errors: string[]): WorkflowStateDefinition[] {
+    const states = this.recordArrayField(definition, 'states', errors);
+    const seen = new Set<string>();
+    const parsed: WorkflowStateDefinition[] = [];
+
+    for (const state of states) {
+      const stateKey = this.stringField(state, 'state_key', errors);
+      const kind = this.stringField(state, 'kind', errors);
+      const label = this.stringField(state, 'label', errors);
+      if (stateKey && !WORKFLOW_STATE_KEY_PATTERN.test(stateKey)) {
+        errors.push(`state ${stateKey} must use workflow state key syntax`);
+      }
+      if (stateKey && seen.has(stateKey)) {
+        errors.push(`state ${stateKey} is duplicated`);
+      }
+      if (kind && !['start', 'intermediate', 'terminal'].includes(kind)) {
+        errors.push(`state ${stateKey ?? '<unknown>'} has invalid kind`);
+      }
+      if (stateKey && kind && label && ['start', 'intermediate', 'terminal'].includes(kind)) {
+        parsed.push({ state_key: stateKey, kind: kind as WorkflowStateKind, label });
+        seen.add(stateKey);
+      }
+    }
+
+    return parsed;
+  }
+
+  private guardDefinitions(definition: Record<string, unknown>, errors: string[]): WorkflowGuardDefinition[] {
+    const guards = this.recordArrayField(definition, 'guards', errors);
+    const seen = new Set<string>();
+    const parsed: WorkflowGuardDefinition[] = [];
+
+    for (const guard of guards) {
+      const guardKey = this.stringField(guard, 'guard_key', errors);
+      const type = this.stringField(guard, 'type', errors);
+      const description = this.stringField(guard, 'description', errors);
+      if (guardKey && seen.has(guardKey)) {
+        errors.push(`guard ${guardKey} is duplicated`);
+      }
+      if (type && !['gatekeeper', 'capability', 'evidence', 'timeout', 'condition'].includes(type)) {
+        errors.push(`guard ${guardKey ?? '<unknown>'} has invalid type`);
+      }
+      if (guardKey && type && description && ['gatekeeper', 'capability', 'evidence', 'timeout', 'condition'].includes(type)) {
+        parsed.push({ guard_key: guardKey, type: type as WorkflowGuardType, description });
+        seen.add(guardKey);
+      }
+    }
+
+    return parsed;
+  }
+
+  private approvalDefinitions(definition: Record<string, unknown>, errors: string[]): WorkflowApprovalDefinition[] {
+    const approvals = this.recordArrayField(definition, 'approvals', errors);
+    const seen = new Set<string>();
+    const parsed: WorkflowApprovalDefinition[] = [];
+
+    for (const approval of approvals) {
+      const approvalKey = this.stringField(approval, 'approval_key', errors);
+      const approvalChainKey = this.stringField(approval, 'approval_chain_key', errors);
+      const evidenceRequired = approval.evidence_required;
+      const timeoutSeconds = approval.timeout_seconds;
+      if (approvalKey && seen.has(approvalKey)) {
+        errors.push(`approval ${approvalKey} is duplicated`);
+      }
+      if (typeof evidenceRequired !== 'boolean') {
+        errors.push(`approval ${approvalKey ?? '<unknown>'} evidence_required must be boolean`);
+      }
+      if (
+        typeof timeoutSeconds === 'number' &&
+        (!Number.isInteger(timeoutSeconds) || timeoutSeconds <= 0)
+      ) {
+        errors.push(`approval ${approvalKey ?? '<unknown>'} timeout_seconds must be positive integer when present`);
+      }
+      if (timeoutSeconds !== undefined && timeoutSeconds !== null && typeof timeoutSeconds !== 'number') {
+        errors.push(`approval ${approvalKey ?? '<unknown>'} timeout_seconds must be positive integer when present`);
+      }
+      if (approvalKey && approvalChainKey && typeof evidenceRequired === 'boolean') {
+        parsed.push({
+          approval_key: approvalKey,
+          approval_chain_key: approvalChainKey,
+          evidence_required: evidenceRequired,
+          timeout_seconds: typeof timeoutSeconds === 'number' ? timeoutSeconds : null,
+        });
+        seen.add(approvalKey);
+      }
+    }
+
+    return parsed;
+  }
+
+  private transitionDefinitions(
+    definition: Record<string, unknown>,
+    states: WorkflowStateDefinition[],
+    guards: WorkflowGuardDefinition[],
+    approvals: WorkflowApprovalDefinition[],
+    errors: string[],
+  ): WorkflowTransitionDefinition[] {
+    const transitions = this.recordArrayField(definition, 'transitions', errors);
+    const stateKeys = new Set(states.map((state) => state.state_key));
+    const guardKeys = new Set(guards.map((guard) => guard.guard_key));
+    const approvalKeys = new Set(approvals.map((approval) => approval.approval_key));
+    const seen = new Set<string>();
+    const parsed: WorkflowTransitionDefinition[] = [];
+
+    for (const transition of transitions) {
+      const transitionKey = this.stringField(transition, 'transition_key', errors);
+      const fromState = this.stringField(transition, 'from_state', errors);
+      const toState = this.stringField(transition, 'to_state', errors);
+      const actionKey = this.stringField(transition, 'action_key', errors);
+      const guardKeysForTransition = this.stringArrayField(transition, 'guard_keys', errors);
+      const emittedEventTypes = this.stringArrayField(transition, 'emitted_event_types', errors);
+      const approvalKey = typeof transition.approval_key === 'string' ? transition.approval_key : null;
+
+      if (transitionKey && seen.has(transitionKey)) {
+        errors.push(`transition ${transitionKey} is duplicated`);
+      }
+      if (fromState && !stateKeys.has(fromState)) {
+        errors.push(`transition ${transitionKey ?? '<unknown>'} references unknown from_state ${fromState}`);
+      }
+      if (toState && !stateKeys.has(toState)) {
+        errors.push(`transition ${transitionKey ?? '<unknown>'} references unknown to_state ${toState}`);
+      }
+      for (const guardKey of guardKeysForTransition) {
+        if (!guardKeys.has(guardKey)) {
+          errors.push(`transition ${transitionKey ?? '<unknown>'} references unknown guard ${guardKey}`);
+        }
+      }
+      if (approvalKey && !approvalKeys.has(approvalKey)) {
+        errors.push(`transition ${transitionKey ?? '<unknown>'} references unknown approval ${approvalKey}`);
+      }
+      if (emittedEventTypes.length === 0) {
+        errors.push(`transition ${transitionKey ?? '<unknown>'} must emit at least one event`);
+      }
+      if (transitionKey && fromState && toState && actionKey) {
+        parsed.push({
+          transition_key: transitionKey,
+          from_state: fromState,
+          to_state: toState,
+          action_key: actionKey,
+          guard_keys: guardKeysForTransition,
+          approval_key: approvalKey,
+          emitted_event_types: emittedEventTypes,
+        });
+        seen.add(transitionKey);
+      }
+    }
+
+    return parsed;
+  }
+
+  private auditHookDefinitions(definition: Record<string, unknown>, errors: string[]): WorkflowAuditHookDefinition[] {
+    const hooks = this.recordArrayField(definition, 'audit_hooks', errors);
+    const parsed: WorkflowAuditHookDefinition[] = [];
+
+    for (const hook of hooks) {
+      const hookKey = this.stringField(hook, 'hook_key', errors);
+      const eventType = this.stringField(hook, 'event_type', errors);
+      const actionKey = this.stringField(hook, 'action_key', errors);
+      if (hook.audit_required !== true) {
+        errors.push(`audit hook ${hookKey ?? '<unknown>'} audit_required must be true`);
+      }
+      if (hookKey && eventType && actionKey && hook.audit_required === true) {
+        parsed.push({ hook_key: hookKey, event_type: eventType, action_key: actionKey, audit_required: true });
+      }
+    }
+
+    return parsed;
+  }
+
+  private tenantScope(definition: Record<string, unknown>, errors: string[]): WorkflowTenantScope | null {
+    const tenantScope = this.stringField(definition, 'tenant_scope', errors);
+    if (tenantScope && tenantScope !== 'global' && tenantScope !== 'organization') {
+      errors.push('tenant_scope must be global or organization');
+      return null;
+    }
+
+    return tenantScope as WorkflowTenantScope | null;
+  }
+
+  private stringField(record: Record<string, unknown>, key: string, errors: string[]): string | null {
+    const value = record[key];
+    if (typeof value !== 'string' || value.trim().length === 0) {
+      errors.push(`${key} is required`);
+      return null;
+    }
+
+    return value.trim();
+  }
+
+  private recordField(record: Record<string, unknown>, key: string, errors: string[]): Record<string, unknown> | null {
+    const value = record[key];
+    if (!isRecord(value)) {
+      errors.push(`${key} must be an object`);
+      return null;
+    }
+
+    return value;
+  }
+
+  private recordArrayField(record: Record<string, unknown>, key: string, errors: string[]): Record<string, unknown>[] {
+    const value = record[key];
+    if (!Array.isArray(value)) {
+      errors.push(`${key} must be an array`);
+      return [];
+    }
+    if (!value.every(isRecord)) {
+      errors.push(`${key} must contain objects`);
+      return value.filter(isRecord);
+    }
+
+    return value;
+  }
+
+  private stringArrayField(record: Record<string, unknown>, key: string, errors: string[]): string[] {
+    const value = record[key];
+    if (!Array.isArray(value)) {
+      errors.push(`${key} must be an array`);
+      return [];
+    }
+    const strings = value.filter((item): item is string => typeof item === 'string' && item.trim().length > 0);
+    if (strings.length !== value.length) {
+      errors.push(`${key} must contain non-empty strings`);
+    }
+
+    return strings.map((item) => item.trim());
+  }
+
+  private rejectGatekeeperOutcomeRedefinition(record: Record<string, unknown>, errors: string[], path = 'definition') {
+    for (const [key, value] of Object.entries(record)) {
+      if (key === 'gatekeeper_outcomes' || key === 'allowed_gatekeeper_outcomes' || key === 'outcomes') {
+        errors.push(`${path}.${key} must not redefine Gatekeeper outcomes`);
+      }
+      if (FORBIDDEN_GATEKEEPER_OUTCOME_KEYS.has(key)) {
+        errors.push(`${path}.${key} must not redefine a Gatekeeper outcome`);
+      }
+      if (typeof value === 'string' && FORBIDDEN_GATEKEEPER_OUTCOME_KEYS.has(value)) {
+        errors.push(`${path}.${key} must not declare Gatekeeper outcome ${value}`);
+      }
+      if (isRecord(value)) {
+        this.rejectGatekeeperOutcomeRedefinition(value, errors, `${path}.${key}`);
+      }
+      if (Array.isArray(value)) {
+        value.forEach((item, index) => {
+          if (isRecord(item)) {
+            this.rejectGatekeeperOutcomeRedefinition(item, errors, `${path}.${key}[${index}]`);
+          }
+          if (typeof item === 'string' && FORBIDDEN_GATEKEEPER_OUTCOME_KEYS.has(item)) {
+            errors.push(`${path}.${key}[${index}] must not declare Gatekeeper outcome ${item}`);
+          }
+        });
+      }
+    }
+  }
+}
+
+function isRecord(input: unknown): input is Record<string, unknown> {
+  return typeof input === 'object' && input !== null && !Array.isArray(input);
+}
