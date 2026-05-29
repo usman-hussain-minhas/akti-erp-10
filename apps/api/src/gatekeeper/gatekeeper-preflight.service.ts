@@ -645,6 +645,7 @@ export class GatekeeperPreflightService {
         approval_request_id: decision.approval_request_id ?? null,
         correlation_id: this.optionalPayloadString(request.payload, 'correlation_id'),
         evidence_intent: this.buildPreEnvelopeEvidenceIntent(request, decision, outcome),
+        audit_completeness: this.buildAuditCompletenessRecord(request, decision, outcome),
       },
     });
   }
@@ -711,6 +712,31 @@ export class GatekeeperPreflightService {
       check_keys: decision.checks.map((check) => check.check_key),
       approval_chain_key: decision.approval_chain_key ?? null,
       approval_request_id: decision.approval_request_id ?? null,
+    };
+  }
+
+  private buildAuditCompletenessRecord(
+    request: GatekeeperRequest,
+    decision: GatekeeperDecisionResult,
+    outcome: GatekeeperCanonicalOutcome,
+  ) {
+    const correlationId = this.optionalPayloadString(request.payload, 'correlation_id');
+
+    return {
+      record_key: 'gatekeeper.audit-completeness',
+      decision_recorded: true,
+      audit_recorded: true,
+      event_envelope_configured: this.eventOutboxService !== undefined,
+      organization_id_present: request.organization_id.trim().length > 0,
+      actor_user_id_present: request.actor_user_id.trim().length > 0,
+      request_id_present: request.request_id.trim().length > 0,
+      correlation_id_present: correlationId !== null,
+      action_key_present: this.optionalPayloadString(request.payload, 'action_key') !== null,
+      outcome_present: outcome.trim().length > 0,
+      reasons_recorded: decision.reasons.length,
+      checks_recorded: decision.checks.length,
+      required_evidence_recorded: decision.required_evidence.length,
+      missing_evidence_recorded: decision.missing_evidence.length,
     };
   }
 
