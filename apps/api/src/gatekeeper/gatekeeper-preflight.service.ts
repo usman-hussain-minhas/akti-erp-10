@@ -540,6 +540,8 @@ export class GatekeeperPreflightService {
       throw new ForbiddenException('Gatekeeper contract helpers are unavailable');
     }
 
+    this.assertTenantPayloadBoundary(input.organization_id, input.payload ?? {});
+
     let request: GatekeeperRequest;
     try {
       request = contracts.parseGatekeeperRequest(this.buildRequest(input));
@@ -809,6 +811,11 @@ export class GatekeeperPreflightService {
     const capabilityKey = input.capability_key ?? ACCESS_POLICY_MANAGE_CAPABILITY_KEY;
     const capabilityPolicy = CAPABILITY_POLICIES[capabilityKey];
     const moduleKey = input.module_key ?? capabilityPolicy?.module_key ?? ACCESS_MODULE_KEY;
+    const payload = {
+      action_key: input.action_key,
+      ...(input.payload ?? {}),
+    };
+    this.assertTenantPayloadBoundary(input.organization_id, payload);
 
     return {
       request_id: `gk_req_${randomUUID()}`,
@@ -819,10 +826,7 @@ export class GatekeeperPreflightService {
       entity_type: input.entity_type,
       entity_id: input.entity_id,
       scope_unit_id: input.scope_unit_id ?? null,
-      payload: {
-        action_key: input.action_key,
-        ...(input.payload ?? {}),
-      },
+      payload,
       requested_at: new Date().toISOString(),
       context: {
         current_organization_id: input.organization_id,
@@ -835,6 +839,19 @@ export class GatekeeperPreflightService {
         reauth_status: input.reauth_status ?? 'not_required',
       },
     };
+  }
+
+  private assertTenantPayloadBoundary(organizationId: string, payload: Record<string, unknown>): void {
+    for (const key of ['organization_id', 'target_organization_id', 'tenant_organization_id']) {
+      const value = payload[key];
+      if (value === undefined || value === null) {
+        continue;
+      }
+
+      if (typeof value !== 'string' || value.trim() !== organizationId) {
+        throw new ForbiddenException('Gatekeeper payload tenant boundary mismatch');
+      }
+    }
   }
 
   private assertDecisionMatchesRequest(request: GatekeeperRequest, decision: GatekeeperDecisionResult) {
