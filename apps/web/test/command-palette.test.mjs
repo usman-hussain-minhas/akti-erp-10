@@ -8,7 +8,7 @@ const shell = readFileSync(new URL('../components/mission-control/mission-contro
 test('command palette declares only static core Phase 4B commands', () => {
   for (const text of [
     'Open dashboard',
-    'Open Lead Desk',
+    'CRM_VISIBLE_LABEL',
     'Create lead',
     'Open settings',
     'Open help',

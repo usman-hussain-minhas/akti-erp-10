@@ -15,6 +15,7 @@ import {
 import { useState } from 'react';
 
 import { useLeadDeskOperatorContext } from '../../app/lead-desk/operator-context';
+import { CRM_VISIBLE_LABEL } from '../../lib/crm-alias.config';
 import { PLATFORM_PRODUCT_NAME } from '../../lib/platform-branding.config';
 import { CommandPalette } from './command-palette';
 import { DashboardOverview } from './dashboard-overview';
@@ -26,7 +27,7 @@ import { EmptyState, StatusBadge } from '../ui/design-system';
 
 const NAV_ITEMS = [
   { label: 'Mission Control', href: '/app', icon: LayoutDashboard, description: `Default ${PLATFORM_PRODUCT_NAME} shell` },
-  { label: 'Lead Desk', href: '/lead-desk/inbox', icon: Inbox, description: 'Open current lead work' },
+  { label: CRM_VISIBLE_LABEL, href: '/lead-desk/inbox', icon: Inbox, description: 'Open current CRM work' },
   { label: 'Settings', href: '/app/settings', icon: Settings, description: 'Control panel shell' },
 ];
 
@@ -139,7 +140,7 @@ export function MissionControlShell() {
 
       <nav className="fixed inset-x-0 bottom-0 z-30 grid grid-cols-4 border-t border-[var(--border)] bg-white p-2 md:hidden" aria-label="Bottom primary navigation">
         <MobileNavLink href="/app" label="Home" icon={LayoutDashboard} />
-        <MobileNavLink href="/lead-desk/inbox" label="Leads" icon={Inbox} />
+        <MobileNavLink href="/lead-desk/inbox" label={CRM_VISIBLE_LABEL} icon={Inbox} />
         <MobileNavLink href="/app/settings" label="Settings" icon={Settings} />
         <button type="button" className="grid justify-items-center gap-1 rounded-md px-2 py-1 text-xs" onClick={() => setMobileDrawerOpen(true)}>
           <Menu aria-hidden="true" size={18} />

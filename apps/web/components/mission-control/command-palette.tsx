@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import type { KeyboardEvent as ReactKeyboardEvent } from 'react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
+import { CRM_VISIBLE_LABEL } from '../../lib/crm-alias.config';
 import { Button } from '../ui/button';
 import { EmptyState } from '../ui/design-system';
 
@@ -13,7 +14,7 @@ type CoreCommand = {
   id: string;
   label: string;
   description: string;
-  group: 'Navigation' | 'Lead Desk' | 'Settings' | 'Help';
+  group: 'Navigation' | typeof CRM_VISIBLE_LABEL | 'Settings' | 'Help';
   route: string;
   keywords: string[];
 };
@@ -35,19 +36,19 @@ const CORE_COMMANDS: CoreCommand[] = [
   },
   {
     id: 'lead-desk.open',
-    label: 'Open Lead Desk',
-    description: 'Open the current Lead Desk inbox.',
-    group: 'Lead Desk',
+    label: `Open ${CRM_VISIBLE_LABEL}`,
+    description: `Open the current ${CRM_VISIBLE_LABEL} inbox.`,
+    group: CRM_VISIBLE_LABEL,
     route: '/lead-desk/inbox',
-    keywords: ['leads', 'inbox', 'follow up'],
+    keywords: ['crm', 'leads', 'inbox', 'follow up'],
   },
   {
     id: 'lead-desk.create',
     label: 'Create lead',
-    description: 'Open the existing Lead Desk intake route.',
-    group: 'Lead Desk',
+    description: `Open the existing ${CRM_VISIBLE_LABEL} intake route.`,
+    group: CRM_VISIBLE_LABEL,
     route: '/lead-desk/create',
-    keywords: ['new lead', 'intake', 'create'],
+    keywords: ['crm', 'new lead', 'intake', 'create'],
   },
   {
     id: 'settings.open',
@@ -252,7 +253,7 @@ export function CommandPalette() {
             </label>
 
             {visibleCommands.length === 0 ? (
-              <EmptyState title="No commands found" message="Try dashboard, Lead Desk, settings, create lead, or help." />
+              <EmptyState title="No commands found" message={`Try dashboard, ${CRM_VISIBLE_LABEL}, settings, create lead, or help.`} />
             ) : (
               <div className="grid max-h-[28rem] gap-4 overflow-y-auto" role="listbox" aria-label="Command results">
                 {groupedCommands.map(([group, commands]) => (
