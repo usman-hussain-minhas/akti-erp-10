@@ -143,6 +143,58 @@ export type WorkflowApprovalFlowExecutionResult = {
   correlation_id: string;
 };
 
+export type WorkflowStartApiInput = WorkflowApprovalFlowExecutionInput;
+
+export type WorkflowStartApiResponse = {
+  method: 'POST';
+  route: '/platform/workflows';
+  capability: {
+    required: 'platform.workflow.manage';
+  };
+  tenant_context: {
+    organization_id: string;
+    actor_user_id: string;
+  };
+  gatekeeper: {
+    preflight_required: true;
+    capability_key: 'platform.workflow.manage';
+    outcome: WorkflowApprovalFlowExecutionInput['gatekeeper_outcome'];
+    execution_blocked_on_stop_or_deny: true;
+  };
+  workflow: WorkflowApprovalFlowExecutionResult;
+  audit: {
+    event_type: string;
+    event_envelope: EventEnvelope;
+  };
+};
+
+export type WorkflowQueryApiInput = {
+  organization_id: string;
+  actor_user_id: string;
+  workflow_id: string;
+};
+
+export type WorkflowQueryApiResponse = {
+  method: 'GET';
+  route: '/platform/workflows/:id';
+  capability: {
+    required: 'platform.workflow.read';
+  };
+  tenant_context: {
+    organization_id: string;
+    actor_user_id: string;
+  };
+  workflow: {
+    workflow_id: string;
+    persistence_model: 'WorkflowInstance';
+    read_model_required: true;
+  };
+  audit: {
+    event_type: 'workflow.instance.read';
+    audit_required: true;
+  };
+};
+
 @Injectable()
 export class WorkflowService {
   workflowPersistenceModelBaseline(): WorkflowPersistenceModelBaseline {
@@ -339,6 +391,60 @@ export class WorkflowService {
       audit_required: true,
       event_type: transition.emitted_event_types[0],
       correlation_id: input.correlation_id,
+    };
+  }
+
+  startWorkflow(input: WorkflowStartApiInput): WorkflowStartApiResponse {
+    const workflow = this.executeApprovalFlow(input);
+
+    return {
+      method: 'POST',
+      route: '/platform/workflows',
+      capability: {
+        required: 'platform.workflow.manage',
+      },
+      tenant_context: {
+        organization_id: input.organization_id,
+        actor_user_id: input.actor_user_id,
+      },
+      gatekeeper: {
+        preflight_required: true,
+        capability_key: 'platform.workflow.manage',
+        outcome: input.gatekeeper_outcome,
+        execution_blocked_on_stop_or_deny: true,
+      },
+      workflow,
+      audit: {
+        event_type: workflow.event_type,
+        event_envelope: this.buildWorkflowAuditEvent(workflow),
+      },
+    };
+  }
+
+  getWorkflow(input: WorkflowQueryApiInput): WorkflowQueryApiResponse {
+    this.assertNonEmpty(input.organization_id, 'workflow query organization_id is required');
+    this.assertNonEmpty(input.actor_user_id, 'workflow query actor_user_id is required');
+    this.assertNonEmpty(input.workflow_id, 'workflow query workflow_id is required');
+
+    return {
+      method: 'GET',
+      route: '/platform/workflows/:id',
+      capability: {
+        required: 'platform.workflow.read',
+      },
+      tenant_context: {
+        organization_id: input.organization_id,
+        actor_user_id: input.actor_user_id,
+      },
+      workflow: {
+        workflow_id: input.workflow_id,
+        persistence_model: 'WorkflowInstance',
+        read_model_required: true,
+      },
+      audit: {
+        event_type: 'workflow.instance.read',
+        audit_required: true,
+      },
     };
   }
 

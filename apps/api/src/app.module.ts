@@ -25,6 +25,8 @@ import { EventOutboxService } from './platform-observability/event-outbox.servic
 import { PrismaService } from './prisma/prisma.service';
 import { CurrentUserController } from './security/current-user.controller';
 import { CurrentUserService } from './security/current-user.service';
+import { WorkflowController } from './workflow/workflow.controller';
+import { WorkflowService } from './workflow/workflow.service';
 
 @Module({
   imports: [ConfigurationModule, ModuleRegistryModule],
@@ -38,6 +40,7 @@ import { CurrentUserService } from './security/current-user.service';
     LeadDeskController,
     GatekeeperController,
     FoundryController,
+    WorkflowController,
   ],
   providers: [
     AppService,
@@ -54,6 +57,7 @@ import { CurrentUserService } from './security/current-user.service';
     AuditLogService,
     EventOutboxService,
     CurrentUserService,
+    WorkflowService,
   ],
 })
 export class AppModule {}
