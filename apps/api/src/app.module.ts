@@ -22,6 +22,7 @@ import { LeadDeskService } from './lead-desk/lead-desk.service';
 import { ModuleRegistryModule } from './module-registry/module-registry.module';
 import { OrganizationSetupController } from './organization-setup/organization-setup.controller';
 import { OrganizationSetupService } from './organization-setup/organization-setup.service';
+import { PlatformHealthController } from './platform-health/platform-health.controller';
 import { AuditLogService } from './platform-observability/audit-log.service';
 import { EventOutboxService } from './platform-observability/event-outbox.service';
 import { PrismaService } from './prisma/prisma.service';
@@ -50,6 +51,7 @@ import { WorkflowService } from './workflow/workflow.service';
     SearchController,
     FileServiceController,
     ReportingController,
+    PlatformHealthController,
   ],
   providers: [
     AppService,
