@@ -20,3 +20,18 @@ test('UI shell brand copy uses the frontend display substrate', () => {
   assert.doesNotMatch(page, /AKTI ERP Web Scaffold/);
   assert.doesNotMatch(shell, />AKTI ERP</);
 });
+
+test('platform branding defaults encode visual direction without backend tokens', () => {
+  const config = readFileSync('lib/platform-branding.config.ts', 'utf8');
+
+  assert.match(config, /themeDefault: 'system'/);
+  assert.match(config, /flagshipMode: 'dark'/);
+  assert.match(config, /lightModeSource: 'derived_from_dark_mode'/);
+  assert.match(config, /cssTokensProvidedByBackend: false/);
+  assert.match(config, /databaseRecordRequired: false/);
+  assert.match(config, /brandIdentity: 'purple_violet'/);
+  assert.match(config, /actionAndActivation: 'teal_cyan'/);
+  assert.match(config, /warning: 'amber'/);
+  assert.match(config, /success: 'emerald'/);
+  assert.match(config, /danger: 'red_rose'/);
+});
