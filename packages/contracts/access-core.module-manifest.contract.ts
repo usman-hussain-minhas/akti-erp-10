@@ -8,6 +8,7 @@ export const accessCoreModuleManifest: ModuleManifest = ModuleManifestSchema.par
     display_description: "Access policy and capability foundation for the platform.",
     icon_key: "shield",
     category: "core",
+    visibility_state: "hidden",
     route: null,
   },
   module_type: "core",

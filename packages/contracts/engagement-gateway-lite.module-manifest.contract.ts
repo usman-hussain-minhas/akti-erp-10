@@ -8,6 +8,7 @@ export const engagementGatewayLiteModuleManifest: ModuleManifest = ModuleManifes
     display_description: "Governed outbound engagement intent boundary; no live providers are activated.",
     icon_key: "send",
     category: "integration",
+    visibility_state: "hidden",
     route: null,
   },
   module_type: "standard",

@@ -8,6 +8,7 @@ export const internalFixtureModuleManifest: ModuleManifest = ModuleManifestSchem
     display_description: "Internal validation fixture for platform lifecycle checks; not a user-facing module.",
     icon_key: "test-tube",
     category: "internal",
+    visibility_state: "hidden",
     route: null,
   },
   module_type: "standard",

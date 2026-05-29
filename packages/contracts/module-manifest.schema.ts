@@ -23,6 +23,7 @@ export const SemverSchema = z
 
 const ModuleTypeSchema = z.enum(["core", "standard", "optional", "dedicated"]);
 const ModuleDisplayCategorySchema = z.enum(["core", "platform", "business", "integration", "internal"]);
+const VisibilityStateSchema = z.enum(["available", "requires_setup", "locked", "coming_soon", "hidden"]);
 const RiskLevelSchema = z.enum(["low", "medium", "high", "critical"]);
 const HttpMethodSchema = z.enum(["GET", "POST", "PUT", "PATCH", "DELETE"]);
 const SchemaReferenceSchema = ManifestKeySchema.nullable();
@@ -37,6 +38,7 @@ export const ModuleDisplayMetadataSchema = z
     display_description: z.string().min(1),
     icon_key: ManifestKeySchema,
     category: ModuleDisplayCategorySchema,
+    visibility_state: VisibilityStateSchema,
     route: PathSchema.nullable(),
   })
   .strict();
@@ -585,6 +587,7 @@ export const sampleCoreModuleManifest = ModuleManifestSchema.parse({
     display_description: "Access policy and capability foundation for the platform.",
     icon_key: "shield",
     category: "core",
+    visibility_state: "hidden",
     route: null,
   },
   module_type: "core",
