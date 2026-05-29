@@ -12,6 +12,15 @@ function manifest(overrides?: Partial<RuntimeModuleManifest>): RuntimeModuleMani
   return {
     module_key: 'platform.fixture',
     display_name: 'Platform Fixture',
+    display_metadata: {
+      display_name: 'Platform Fixture',
+      display_description: 'Internal platform fixture for registry contract tests.',
+      icon_key: 'test-tube',
+      category: 'internal',
+      visibility_state: 'hidden',
+      route: null,
+    },
+    ai_data_classification: 'readable',
     version: '0.1.0',
     capabilities: [
       {
@@ -39,6 +48,7 @@ function manifest(overrides?: Partial<RuntimeModuleManifest>): RuntimeModuleMani
         min_version: '0.1.0',
       },
     ],
+    required_capabilities: [],
     permissions: [
       {
         key: 'platform.fixture.read',
@@ -57,7 +67,7 @@ function manifest(overrides?: Partial<RuntimeModuleManifest>): RuntimeModuleMani
       },
     ],
     ...overrides,
-  };
+  } as RuntimeModuleManifest;
 }
 
 function screen(overrides?: Partial<ScreenContributionContract>): ScreenContributionContract {
