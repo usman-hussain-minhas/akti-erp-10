@@ -8,6 +8,8 @@ import { ConfigurationModule } from './configuration/configuration.module';
 import { EngagementGatewayController } from './engagement-gateway/engagement-gateway.controller';
 import { EngagementGatewayService } from './engagement-gateway/engagement-gateway.service';
 import { WhatsappStubProvider } from './engagement-gateway/whatsapp-stub.provider';
+import { FileServiceController } from './file-service/file-service.controller';
+import { FileService } from './file-service/file-service.service';
 import { FoundryController } from './foundry/foundry.controller';
 import { FoundryService } from './foundry/foundry.service';
 import { GatekeeperController } from './gatekeeper/gatekeeper.controller';
@@ -44,6 +46,7 @@ import { WorkflowService } from './workflow/workflow.service';
     FoundryController,
     WorkflowController,
     SearchController,
+    FileServiceController,
   ],
   providers: [
     AppService,
@@ -62,6 +65,7 @@ import { WorkflowService } from './workflow/workflow.service';
     CurrentUserService,
     WorkflowService,
     SearchService,
+    FileService,
   ],
 })
 export class AppModule {}
