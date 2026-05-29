@@ -173,6 +173,44 @@ export type ScreenContributionRegistrationResult = {
   screens: RegisteredScreenContribution[];
 };
 
+export type CommandContributionContract = {
+  id: string;
+  label: string;
+  description?: string;
+  route?: string;
+  action?: string;
+  group: string;
+  required_capability?: string;
+  module_id?: string;
+  keywords?: string[];
+  visibility_condition?: 'hidden' | 'visible' | 'admin-only' | 'context-specific';
+  disabled_reason?: string;
+};
+
+export type CommandContributionRegistrationInput = {
+  manifest: RuntimeModuleManifest;
+  commands: CommandContributionContract[];
+};
+
+export type RegisteredCommandContribution = {
+  id: string;
+  label: string;
+  module_key: string;
+  group: string;
+  route: string | null;
+  action: string | null;
+  required_capability: string | null;
+  keywords: string[];
+  visibility_condition: CommandContributionContract['visibility_condition'] | null;
+  disabled_reason: string | null;
+};
+
+export type CommandContributionRegistrationResult = {
+  module_key: string;
+  registered_count: number;
+  commands: RegisteredCommandContribution[];
+};
+
 type ModuleListResponse = {
   items: Array<Pick<ModuleRegistryEntry, 'module_key' | 'display_name' | 'version' | 'status' | 'manifest_hash'>>;
 };
@@ -630,6 +668,59 @@ function assertScreenContribution(
   }
 }
 
+function assertCommandContribution(
+  manifest: RuntimeModuleManifest,
+  command: CommandContributionContract,
+  localCapabilityKeys: Set<string>,
+  consumedCapabilityKeys: Set<string>,
+) {
+  if (!MANIFEST_KEY_PATTERN.test(command.id)) {
+    throw new ConflictException(`Command ${command.id} must use manifest key syntax`);
+  }
+
+  if (command.label.trim().length === 0) {
+    throw new ConflictException(`Command ${command.id} requires a label`);
+  }
+
+  if (command.group.trim().length === 0) {
+    throw new ConflictException(`Command ${command.id} requires a group`);
+  }
+
+  if (!command.route && !command.action) {
+    throw new ConflictException(`Command ${command.id} requires a route or action`);
+  }
+
+  if (command.route !== undefined && !/^\/[A-Za-z0-9/_:.-]*$/.test(command.route)) {
+    throw new ConflictException(`Command ${command.id} requires an absolute safe route`);
+  }
+
+  if (command.action !== undefined && !MANIFEST_KEY_PATTERN.test(command.action)) {
+    throw new ConflictException(`Command ${command.id} action must use manifest key syntax`);
+  }
+
+  if (command.module_id !== undefined && command.module_id !== manifest.module_key) {
+    throw new ConflictException(`Command ${command.id} module_id must match manifest module_key`);
+  }
+
+  if (
+    command.required_capability !== undefined &&
+    !localCapabilityKeys.has(command.required_capability) &&
+    !consumedCapabilityKeys.has(command.required_capability)
+  ) {
+    throw new ConflictException(`Command ${command.id} required_capability is not declared`);
+  }
+
+  if (command.route?.startsWith('/lead-desk') && manifest.module_key !== 'lead.desk') {
+    throw new ConflictException(`Command ${command.id} cannot register business-module routes outside its owner`);
+  }
+
+  for (const keyword of command.keywords ?? []) {
+    if (keyword.trim().length === 0) {
+      throw new ConflictException(`Command ${command.id} keywords must be non-empty`);
+    }
+  }
+}
+
 @Injectable()
 export class ModuleRegistryService {
   constructor(private readonly prisma: PrismaService) {}
@@ -856,6 +947,46 @@ export class ModuleRegistryService {
       module_key: input.manifest.module_key,
       registered_count: screens.length,
       screens,
+    };
+  }
+
+  registerCommandContributions(
+    input: CommandContributionRegistrationInput,
+  ): CommandContributionRegistrationResult {
+    assertPhase2ManifestShape(input.manifest);
+    const localCapabilityKeys = new Set(input.manifest.capabilities.map((capability) => capability.key));
+    const consumedCapabilityKeys = new Set(
+      (input.manifest.capabilities_consumed ?? []).map((capability) => capability.capability_key),
+    );
+    const seenCommandIds = new Set<string>();
+
+    const commands = input.commands
+      .map((command) => {
+        if (seenCommandIds.has(command.id)) {
+          throw new ConflictException(`Command ${command.id} must be unique`);
+        }
+        seenCommandIds.add(command.id);
+        assertCommandContribution(input.manifest, command, localCapabilityKeys, consumedCapabilityKeys);
+
+        return {
+          id: command.id,
+          label: command.label,
+          module_key: input.manifest.module_key,
+          group: command.group,
+          route: command.route ?? null,
+          action: command.action ?? null,
+          required_capability: command.required_capability ?? null,
+          keywords: [...(command.keywords ?? [])].sort(),
+          visibility_condition: command.visibility_condition ?? null,
+          disabled_reason: command.disabled_reason ?? null,
+        };
+      })
+      .sort((left, right) => left.group.localeCompare(right.group) || left.label.localeCompare(right.label));
+
+    return {
+      module_key: input.manifest.module_key,
+      registered_count: commands.length,
+      commands,
     };
   }
 
