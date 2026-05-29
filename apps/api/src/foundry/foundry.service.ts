@@ -533,6 +533,56 @@ export type FoundryUpdateExecutionReceipt = {
   };
 };
 
+export type FoundryRollbackRecoveryInput = {
+  module_key: string;
+  module_version: string;
+  current_status: 'updating' | 'rollback_required';
+  manifest_hash: string;
+  gatekeeper_outcome: FoundryGatekeeperTransitionOutcome;
+  gatekeeper_decision_token: string;
+  evidence_ref: string;
+  rollback_plan_ref: string;
+  failure_evidence_ref: string;
+  organization_id: string;
+  actor_user_id: string;
+  correlation_id: string;
+};
+
+export type FoundryRollbackRecoveryReceipt = {
+  execution_id: string;
+  receipt_hash: string;
+  module_key: string;
+  module_version: string;
+  manifest_hash: string;
+  action_key: 'module.rollback_recovery';
+  status_from: 'updating' | 'rollback_required';
+  status_to: 'installed';
+  gatekeeper_outcome: FoundryGatekeeperTransitionOutcome;
+  gatekeeper_decision_token: string;
+  foundry_execution_completed: true;
+  lifecycle_transitions: FoundryLifecycleTransitionPlan[];
+  rollback: {
+    plan_ref: string;
+    failure_evidence_ref: string;
+    recovery_completed: true;
+  };
+  registry: {
+    next_status: 'installed';
+    rollback_required_cleared: true;
+    persistence_required: true;
+  };
+  evidence: {
+    evidence_ref: string;
+    evidence_required_before_execution: true;
+  };
+  audit: {
+    event_type: 'foundry.module.rollback_recovered';
+    organization_id: string;
+    actor_user_id: string;
+    correlation_id: string;
+  };
+};
+
 type FoundryCapabilitySpec = {
   key: string;
   module_key: string;
@@ -1126,6 +1176,93 @@ export class FoundryService {
     };
   }
 
+  executeRollbackRecovery(input: FoundryRollbackRecoveryInput): FoundryRollbackRecoveryReceipt {
+    this.assertRollbackRecoveryInput(input);
+
+    const lifecycleTransitions =
+      input.current_status === 'updating'
+        ? [
+            this.assertLifecycleTransition({
+              module_key: input.module_key,
+              from_state: 'updating',
+              to_state: 'rollback_required',
+              action_key: 'module.require_rollback',
+              gatekeeper_outcome: input.gatekeeper_outcome,
+              evidence_ref: input.failure_evidence_ref,
+            }),
+            this.assertLifecycleTransition({
+              module_key: input.module_key,
+              from_state: 'rollback_required',
+              to_state: 'installed',
+              action_key: 'module.resolve_rollback',
+              gatekeeper_outcome: input.gatekeeper_outcome,
+              evidence_ref: input.evidence_ref,
+            }),
+          ]
+        : [
+            this.assertLifecycleTransition({
+              module_key: input.module_key,
+              from_state: 'rollback_required',
+              to_state: 'installed',
+              action_key: 'module.resolve_rollback',
+              gatekeeper_outcome: input.gatekeeper_outcome,
+              evidence_ref: input.evidence_ref,
+            }),
+          ];
+    const receiptBasis = {
+      module_key: input.module_key,
+      module_version: input.module_version,
+      manifest_hash: input.manifest_hash,
+      status_from: input.current_status,
+      status_to: 'installed',
+      action_key: 'module.rollback_recovery',
+      gatekeeper_outcome: input.gatekeeper_outcome,
+      gatekeeper_decision_token: input.gatekeeper_decision_token,
+      evidence_ref: input.evidence_ref,
+      rollback_plan_ref: input.rollback_plan_ref,
+      failure_evidence_ref: input.failure_evidence_ref,
+      organization_id: input.organization_id,
+      actor_user_id: input.actor_user_id,
+      correlation_id: input.correlation_id,
+    };
+    const receiptHash = sha256Hex(stableJsonStringify(receiptBasis));
+
+    return {
+      execution_id: `foundry-rollback-${receiptHash.slice(0, 16)}`,
+      receipt_hash: receiptHash,
+      module_key: input.module_key,
+      module_version: input.module_version,
+      manifest_hash: input.manifest_hash,
+      action_key: 'module.rollback_recovery',
+      status_from: input.current_status,
+      status_to: 'installed',
+      gatekeeper_outcome: input.gatekeeper_outcome,
+      gatekeeper_decision_token: input.gatekeeper_decision_token,
+      foundry_execution_completed: true,
+      lifecycle_transitions: lifecycleTransitions,
+      rollback: {
+        plan_ref: input.rollback_plan_ref,
+        failure_evidence_ref: input.failure_evidence_ref,
+        recovery_completed: true,
+      },
+      registry: {
+        next_status: 'installed',
+        rollback_required_cleared: true,
+        persistence_required: true,
+      },
+      evidence: {
+        evidence_ref: input.evidence_ref,
+        evidence_required_before_execution: true,
+      },
+      audit: {
+        event_type: 'foundry.module.rollback_recovered',
+        organization_id: input.organization_id,
+        actor_user_id: input.actor_user_id,
+        correlation_id: input.correlation_id,
+      },
+    };
+  }
+
   scaffoldModule(input: FoundryModuleScaffoldInput): FoundryModuleScaffold {
     this.assertScaffoldInput(input);
 
@@ -1693,6 +1830,37 @@ export class FoundryService {
     ] as const) {
       if (input[field].trim().length === 0) {
         throw new BadRequestException(`Foundry update execution ${field} is required`);
+      }
+    }
+  }
+
+  private assertRollbackRecoveryInput(input: FoundryRollbackRecoveryInput) {
+    if (!MODULE_KEY_PATTERN.test(input.module_key)) {
+      throw new BadRequestException('Foundry rollback recovery module_key must use module key syntax');
+    }
+    if (!SEMVER_PATTERN.test(input.module_version)) {
+      throw new BadRequestException('Foundry rollback recovery module_version must be semver');
+    }
+    if (!['updating', 'rollback_required'].includes(input.current_status)) {
+      throw new BadRequestException('Foundry rollback recovery requires updating or rollback_required status');
+    }
+    if (!HEX_SHA256_PATTERN.test(input.manifest_hash)) {
+      throw new BadRequestException('Foundry rollback recovery manifest_hash must be a SHA-256 hex digest');
+    }
+    if (input.gatekeeper_outcome !== 'ALLOW') {
+      throw new BadRequestException('Foundry rollback recovery requires Gatekeeper ALLOW');
+    }
+    for (const field of [
+      'gatekeeper_decision_token',
+      'evidence_ref',
+      'rollback_plan_ref',
+      'failure_evidence_ref',
+      'organization_id',
+      'actor_user_id',
+      'correlation_id',
+    ] as const) {
+      if (input[field].trim().length === 0) {
+        throw new BadRequestException(`Foundry rollback recovery ${field} is required`);
       }
     }
   }
