@@ -1,0 +1,2844 @@
+{
+  "phase": "Phase 5B1",
+  "name": "AKTI ERP Phase 5B1 — Platform Experience Substrate Ticket Pack v1",
+  "status": "PHASE_5B1_TICKET_PACK_READY_FOR_AUDIT",
+  "canonical_planning_basis": {
+    "plan": "docs/process/AKTI_ERP_Phase_5B1_Platform_Experience_Substrate_Plan_v1.md",
+    "visual_direction_memo": "docs/process/AKTI_ERP_Phase_5C_Visual_Direction_Decision_Memo_v1.md",
+    "external_review_verdict": "PHASE_5B1_PLAN_APPROVED — READY TO MERGE PR #17 AND CREATE TICKET PACK",
+    "locked_corrections": [
+      "tickets is an array of ticket objects, not an object keyed by ID.",
+      "Queue has 27 entries: P5B1-000 through P5B1-025 plus P5B1-GATE.",
+      "P5B1-010 seeds platform.crm.access and platform.modules.view.",
+      "P5B1-006 confirms/wires logo_url from OrganizationSetting branding assets or stops before P5B1-008/P5B1-009.",
+      "P5B1-016 depends on P5B1-010.",
+      "P5B1-023 owns route screen contracts and non-route component contract requirements.",
+      "P5B1-024 has concrete runtime/contract/doc proof MCR.",
+      "P5B1-025 owns closure readiness, Phase 5C handoff, and audit package preparation."
+    ]
+  },
+  "source_main_head": "dc6187d1a767860d30f2950c27ca3ad6ad7742e2",
+  "phase_boundary": "Phase 5B1 is substrate only. No Phase 5C UI implementation. No Phase 6 business modules.",
+  "ticket_quality_rule": "Implementation is not stale by itself. Tickets become stale. Apply maximum concrete capability within the approved scope of each ticket. Evidence supports delivery; it does not replace working software. Exact-file planning is required before edits.",
+  "ordered_ticket_queue": [
+    "P5B1-000",
+    "P5B1-001",
+    "P5B1-002",
+    "P5B1-003",
+    "P5B1-004",
+    "P5B1-005",
+    "P5B1-006",
+    "P5B1-007",
+    "P5B1-008",
+    "P5B1-009",
+    "P5B1-010",
+    "P5B1-011",
+    "P5B1-012",
+    "P5B1-013",
+    "P5B1-014",
+    "P5B1-015",
+    "P5B1-016",
+    "P5B1-017",
+    "P5B1-018",
+    "P5B1-019",
+    "P5B1-020",
+    "P5B1-021",
+    "P5B1-022",
+    "P5B1-023",
+    "P5B1-024",
+    "P5B1-025",
+    "P5B1-GATE"
+  ],
+  "tickets": [
+    {
+      "ticket_id": "P5B1-000",
+      "title": "Baseline/control and repo-state evidence",
+      "type": "control",
+      "priority": "P0",
+      "tier": "substrate",
+      "objective": "Establish Phase 5B1 execution baseline, source authority, exact queue, branch state, and non-scope boundaries before implementation tickets run.",
+      "scope": [
+        "Record current branch/head, source_main_head, ticket-pack parse result, queue count, ticket count, and source authority map.",
+        "Confirm Phase 5B1 is substrate-only and that implementation has not started.",
+        "Create ticket artifact evidence only."
+      ],
+      "non_scope": [
+        "No Phase 5C implementation.",
+        "No Phase 6 business modules.",
+        "No production deployment, secrets, real providers, runtime AI, or marketplace behavior.",
+        "No unrelated refactors or package/lockfile changes."
+      ],
+      "source_files_to_inspect": [
+        "AGENTS.md",
+        "docs/process/AKTI_ERP_Autonomous_Runbook_v2.md",
+        "docs/process/AKTI_ERP_Phase_5B1_Platform_Experience_Substrate_Plan_v1.md",
+        "docs/process/AKTI_ERP_Phase_5B1_Ticket_Pack_v1.json",
+        "docs/process/AKTI_ERP_Phase_5C_Visual_Direction_Decision_Memo_v1.md"
+      ],
+      "files_expected_to_change": [
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-000/P5B1-000-summary.md",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-000/P5B1-000-validation-summary.md"
+      ],
+      "files_forbidden_to_change": [
+        "apps/**",
+        "packages/**",
+        "prisma/**",
+        "generated/**",
+        "package.json",
+        "pnpm-lock.yaml",
+        "pnpm-workspace.yaml",
+        "docs/policies/**",
+        "docs/adr/**",
+        "docs/standards/**",
+        "docs/process/AKTI_ERP_Phase_5B1_Platform_Experience_Substrate_Plan_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Visual_Direction_Decision_Memo_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Frontend_Current_State_Evidence_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Frontend_Improvement_Backlog_Candidates_v1.md",
+        "docs/process/AKTI_ERP_Phase_5B_Ticket_Pack_v1.json",
+        "docs/process/AKTI_ERP_Phase_5B_Audit_Report_v1.md"
+      ],
+      "required_outputs": [
+        "Baseline evidence artifact with branch/head/source authority/queue validation/non-scope confirmation."
+      ],
+      "evidence_artifacts": [
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-000/P5B1-000-summary.md",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-000/P5B1-000-validation-summary.md"
+      ],
+      "tests_required": [
+        "JSON parse and queue/ticket parity check for the Phase 5B1 ticket pack."
+      ],
+      "validation_commands": [
+        "node -e \"const fs=require('fs'); const p=JSON.parse(fs.readFileSync('docs/process/AKTI_ERP_Phase_5B1_Ticket_Pack_v1.json','utf8')); if(!Array.isArray(p.tickets)||p.ordered_ticket_queue.length!==27||p.tickets.length!==27) process.exit(1); console.log('P5B1_BASELINE_OK')\"",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Required source authority is missing or conflicts with Prisma, contracts, manifests, generated registry, ADRs, active docs, tests, or validation evidence.",
+        "Implementation would start Phase 5C UI polish, Phase 6 business modules, Golden Module work, marketplace, real providers, runtime AI, deployment, or secrets access.",
+        "Implementation would invent capabilities, APIs, roles, modules, permissions, events, screens, or business rules not authorized by the ticket.",
+        "Exact-file planning discovers stale paths, overlapping ownership, or required files outside ticket scope without conditional replan authority.",
+        "Validation fails after bounded repair inside ticket scope."
+      ],
+      "acceptance_criteria": [
+        "Baseline artifact exists and proves the 27-entry queue, 27 ticket objects, and source authority map."
+      ],
+      "dependencies": [],
+      "commit_message": "P5B1-000 establish Phase 5B1 execution baseline",
+      "rollback_notes": "Revert the ticket commit and any ticket-specific evidence artifacts; do not revert unrelated prior tickets.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": false,
+      "stale_ticket_risk_notes": [
+        "Reconfirm exact files before editing because Phase 5B1 is substrate-only and repo surfaces may move before execution."
+      ],
+      "runtime_consistency_chain": [
+        "Preserve Phase 5B Gatekeeper/Foundry/module-registry boundaries.",
+        "Preserve Access Core and tenant isolation rules.",
+        "Preserve no-fake-dashboard, no-fake-module-card, and no-Phase-6-surface constraints."
+      ],
+      "minimum_concrete_requirement": "Baseline artifact records repo state, source authority map, queue/ticket parity for 27 entries, non-scope boundaries, and validation command results.",
+      "split_if": [
+        "Split only if exact-file planning proves multiple unrelated architectural surfaces or validation ladders must be owned separately."
+      ],
+      "requires_human_approval_if": [
+        "Ticket requires new dependency, broad architecture change, new ADR, production secret/provider/deployment, destructive migration, Phase 5C implementation, Phase 6 business scope, or package/lockfile change."
+      ],
+      "failure_classification": {
+        "blocker": "Stop immediately for scope, authority, validation, dependency, tenant isolation, secret, deployment, destructive migration, or phase-boundary failure.",
+        "major": "Repair only inside ticket scope when validation or exact-file planning finds deterministic local mismatch.",
+        "minor": "Document harmless evidence wording or non-runtime clarification in the ticket artifact."
+      }
+    },
+    {
+      "ticket_id": "P5B1-001",
+      "title": "AGENTS rule update for CRM alias and visibility-does-not-equal-authority",
+      "type": "documentation-control",
+      "priority": "P0",
+      "tier": "substrate",
+      "objective": "Add compact operator rules to AGENTS.md so future agents preserve the CRM visible-label rule and the distinction between visibility and authority.",
+      "scope": [
+        "Update AGENTS.md with CRM visible alias over Lead Desk technical surfaces.",
+        "Update AGENTS.md with visibility-does-not-equal-authority rule for modules and actions.",
+        "Keep AGENTS.md compact and subordinate to source-of-truth hierarchy."
+      ],
+      "non_scope": [
+        "No Phase 5C implementation.",
+        "No Phase 6 business modules.",
+        "No production deployment, secrets, real providers, runtime AI, or marketplace behavior.",
+        "No unrelated refactors or package/lockfile changes."
+      ],
+      "source_files_to_inspect": [
+        "AGENTS.md",
+        "docs/process/AKTI_ERP_Phase_5B1_Platform_Experience_Substrate_Plan_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Visual_Direction_Decision_Memo_v1.md"
+      ],
+      "files_expected_to_change": [
+        "AGENTS.md",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-001/P5B1-001-summary.md",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-001/P5B1-001-validation-summary.md"
+      ],
+      "files_forbidden_to_change": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "pnpm-workspace.yaml",
+        "docs/policies/**",
+        "docs/adr/**",
+        "docs/standards/**",
+        "docs/process/AKTI_ERP_Phase_5B1_Platform_Experience_Substrate_Plan_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Visual_Direction_Decision_Memo_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Frontend_Current_State_Evidence_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Frontend_Improvement_Backlog_Candidates_v1.md",
+        "docs/process/AKTI_ERP_Phase_5B_Ticket_Pack_v1.json",
+        "docs/process/AKTI_ERP_Phase_5B_Audit_Report_v1.md"
+      ],
+      "required_outputs": [
+        "AGENTS.md update and evidence artifact."
+      ],
+      "evidence_artifacts": [
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-001/P5B1-001-summary.md",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-001/P5B1-001-validation-summary.md"
+      ],
+      "tests_required": [
+        "Static grep proof that AGENTS.md contains CRM alias and visibility-does-not-equal-authority rules."
+      ],
+      "validation_commands": [
+        "rg \"CRM.*visible|visible.*CRM\" AGENTS.md",
+        "rg \"Visibility does not equal authority|visibility.*authority\" AGENTS.md",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Required source authority is missing or conflicts with Prisma, contracts, manifests, generated registry, ADRs, active docs, tests, or validation evidence.",
+        "Implementation would start Phase 5C UI polish, Phase 6 business modules, Golden Module work, marketplace, real providers, runtime AI, deployment, or secrets access.",
+        "Implementation would invent capabilities, APIs, roles, modules, permissions, events, screens, or business rules not authorized by the ticket.",
+        "Exact-file planning discovers stale paths, overlapping ownership, or required files outside ticket scope without conditional replan authority.",
+        "Validation fails after bounded repair inside ticket scope."
+      ],
+      "acceptance_criteria": [
+        "AGENTS.md says CRM is a user-facing label over Lead Desk and must not rename lead-desk files/routes/APIs/contracts/models.",
+        "AGENTS.md says module visibility does not grant import/export/delete/admin authority."
+      ],
+      "dependencies": [
+        "P5B1-000"
+      ],
+      "commit_message": "P5B1-001 add Phase 5B1 operating guardrails",
+      "rollback_notes": "Revert the ticket commit and any ticket-specific evidence artifacts; do not revert unrelated prior tickets.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": true,
+      "stale_ticket_risk_notes": [
+        "Reconfirm exact files before editing because Phase 5B1 is substrate-only and repo surfaces may move before execution."
+      ],
+      "runtime_consistency_chain": [
+        "Preserve Phase 5B Gatekeeper/Foundry/module-registry boundaries.",
+        "Preserve Access Core and tenant isolation rules.",
+        "Preserve no-fake-dashboard, no-fake-module-card, and no-Phase-6-surface constraints."
+      ],
+      "minimum_concrete_requirement": "AGENTS.md contains concrete CRM alias and visibility-authority guardrails, with grep validation recorded in evidence.",
+      "split_if": [
+        "Split only if exact-file planning proves multiple unrelated architectural surfaces or validation ladders must be owned separately."
+      ],
+      "requires_human_approval_if": [
+        "Ticket requires new dependency, broad architecture change, new ADR, production secret/provider/deployment, destructive migration, Phase 5C implementation, Phase 6 business scope, or package/lockfile change."
+      ],
+      "failure_classification": {
+        "blocker": "Stop immediately for scope, authority, validation, dependency, tenant isolation, secret, deployment, destructive migration, or phase-boundary failure.",
+        "major": "Repair only inside ticket scope when validation or exact-file planning finds deterministic local mismatch.",
+        "minor": "Document harmless evidence wording or non-runtime clarification in the ticket artifact."
+      }
+    },
+    {
+      "ticket_id": "P5B1-002",
+      "title": "AKTI Spark product identity substrate",
+      "type": "frontend-substrate",
+      "priority": "P1",
+      "tier": "substrate",
+      "objective": "Create a small frontend product identity substrate for UI-facing AKTI Spark naming without renaming repo/package/company/database identities.",
+      "scope": [
+        "Add a frontend display constant for product shell name AKTI Spark.",
+        "Replace UI-facing shell scaffold/Mission Control brand text that currently hardcodes AKTI ERP, while preserving repo/docs/history names.",
+        "Add focused test or static proof that the display constant is used and no package identity rename occurred."
+      ],
+      "non_scope": [
+        "No Phase 5C implementation.",
+        "No Phase 6 business modules.",
+        "No production deployment, secrets, real providers, runtime AI, or marketplace behavior.",
+        "No unrelated refactors or package/lockfile changes."
+      ],
+      "source_files_to_inspect": [
+        "apps/web/app/page.tsx",
+        "apps/web/components/mission-control/mission-control-shell.tsx",
+        "apps/web/lib/**",
+        "docs/process/AKTI_ERP_Phase_5C_Visual_Direction_Decision_Memo_v1.md"
+      ],
+      "files_expected_to_change": [
+        "apps/web/lib/platform-branding.config.ts",
+        "apps/web/lib/platform-branding.config.test.mjs",
+        "apps/web/app/page.tsx",
+        "apps/web/components/mission-control/mission-control-shell.tsx",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-002/P5B1-002-summary.md",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-002/P5B1-002-validation-summary.md"
+      ],
+      "files_forbidden_to_change": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "pnpm-workspace.yaml",
+        "docs/policies/**",
+        "docs/adr/**",
+        "docs/standards/**",
+        "docs/process/AKTI_ERP_Phase_5B1_Platform_Experience_Substrate_Plan_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Visual_Direction_Decision_Memo_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Frontend_Current_State_Evidence_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Frontend_Improvement_Backlog_Candidates_v1.md",
+        "docs/process/AKTI_ERP_Phase_5B_Ticket_Pack_v1.json",
+        "docs/process/AKTI_ERP_Phase_5B_Audit_Report_v1.md"
+      ],
+      "required_outputs": [
+        "Frontend product identity config and proof test/static validation."
+      ],
+      "evidence_artifacts": [
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-002/P5B1-002-summary.md",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-002/P5B1-002-validation-summary.md"
+      ],
+      "tests_required": [
+        "Product branding config test and web typecheck."
+      ],
+      "validation_commands": [
+        "pnpm --dir apps/web exec node --test lib/platform-branding.config.test.mjs",
+        "pnpm --filter @akti/web typecheck",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Required source authority is missing or conflicts with Prisma, contracts, manifests, generated registry, ADRs, active docs, tests, or validation evidence.",
+        "Implementation would start Phase 5C UI polish, Phase 6 business modules, Golden Module work, marketplace, real providers, runtime AI, deployment, or secrets access.",
+        "Implementation would invent capabilities, APIs, roles, modules, permissions, events, screens, or business rules not authorized by the ticket.",
+        "Exact-file planning discovers stale paths, overlapping ownership, or required files outside ticket scope without conditional replan authority.",
+        "Validation fails after bounded repair inside ticket scope."
+      ],
+      "acceptance_criteria": [
+        "AKTI Spark appears through frontend display substrate; no package, database, module, or company/legal identity rename occurs."
+      ],
+      "dependencies": [
+        "P5B1-001"
+      ],
+      "commit_message": "P5B1-002 add AKTI Spark product identity substrate",
+      "rollback_notes": "Revert the ticket commit and any ticket-specific evidence artifacts; do not revert unrelated prior tickets.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": true,
+      "stale_ticket_risk_notes": [
+        "Reconfirm exact files before editing because Phase 5B1 is substrate-only and repo surfaces may move before execution."
+      ],
+      "runtime_consistency_chain": [
+        "Preserve Phase 5B Gatekeeper/Foundry/module-registry boundaries.",
+        "Preserve Access Core and tenant isolation rules.",
+        "Preserve no-fake-dashboard, no-fake-module-card, and no-Phase-6-surface constraints."
+      ],
+      "minimum_concrete_requirement": "Frontend product identity config exports AKTI Spark, UI-facing shell/scaffold brand copy uses it, tests prove no repo/package identity rename.",
+      "split_if": [
+        "Split only if exact-file planning proves multiple unrelated architectural surfaces or validation ladders must be owned separately."
+      ],
+      "requires_human_approval_if": [
+        "Ticket requires new dependency, broad architecture change, new ADR, production secret/provider/deployment, destructive migration, Phase 5C implementation, Phase 6 business scope, or package/lockfile change."
+      ],
+      "failure_classification": {
+        "blocker": "Stop immediately for scope, authority, validation, dependency, tenant isolation, secret, deployment, destructive migration, or phase-boundary failure.",
+        "major": "Repair only inside ticket scope when validation or exact-file planning finds deterministic local mismatch.",
+        "minor": "Document harmless evidence wording or non-runtime clarification in the ticket artifact."
+      }
+    },
+    {
+      "ticket_id": "P5B1-003",
+      "title": "CRM visible alias over Lead Desk without technical rename",
+      "type": "frontend-substrate",
+      "priority": "P1",
+      "tier": "substrate",
+      "objective": "Apply CRM as user-facing label for existing Lead Desk surfaces while preserving lead-desk technical routes, files, APIs, contracts, Prisma models, and data models.",
+      "scope": [
+        "Update visible navigation/page/module-card/operator copy where appropriate.",
+        "Do not rename lead-desk technical surfaces.",
+        "Add static proof for no technical rename."
+      ],
+      "non_scope": [
+        "No Phase 5C implementation.",
+        "No Phase 6 business modules.",
+        "No production deployment, secrets, real providers, runtime AI, or marketplace behavior.",
+        "No unrelated refactors or package/lockfile changes."
+      ],
+      "source_files_to_inspect": [
+        "apps/web/app/lead-desk/**",
+        "apps/web/components/mission-control/**",
+        "packages/contracts/lead-desk-core.module-manifest.contract.ts",
+        "prisma/schema.prisma"
+      ],
+      "files_expected_to_change": [
+        "apps/web/components/mission-control/mission-control-shell.tsx",
+        "apps/web/components/mission-control/module-launcher.tsx",
+        "apps/web/components/mission-control/command-palette.tsx",
+        "apps/web/app/lead-desk/lead-desk-workspace.tsx",
+        "apps/web/lib/crm-alias.config.ts",
+        "apps/web/lib/crm-alias.config.test.mjs",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-003/P5B1-003-summary.md",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-003/P5B1-003-validation-summary.md"
+      ],
+      "files_forbidden_to_change": [
+        "apps/api/src/lead-desk/**",
+        "packages/contracts/lead-desk-core.contract.ts",
+        "packages/contracts/lead-desk-core.module-manifest.contract.ts",
+        "prisma/schema.prisma",
+        "generated/entity-registry.generated.json",
+        "package.json",
+        "pnpm-lock.yaml",
+        "pnpm-workspace.yaml",
+        "docs/policies/**",
+        "docs/adr/**",
+        "docs/standards/**",
+        "docs/process/AKTI_ERP_Phase_5B1_Platform_Experience_Substrate_Plan_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Visual_Direction_Decision_Memo_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Frontend_Current_State_Evidence_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Frontend_Improvement_Backlog_Candidates_v1.md",
+        "docs/process/AKTI_ERP_Phase_5B_Ticket_Pack_v1.json",
+        "docs/process/AKTI_ERP_Phase_5B_Audit_Report_v1.md"
+      ],
+      "required_outputs": [
+        "CRM alias config and visible-label updates with no technical rename."
+      ],
+      "evidence_artifacts": [
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-003/P5B1-003-summary.md",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-003/P5B1-003-validation-summary.md"
+      ],
+      "tests_required": [
+        "Static alias test proving lead-desk technical paths remain unchanged."
+      ],
+      "validation_commands": [
+        "pnpm --dir apps/web exec node --test lib/crm-alias.config.test.mjs",
+        "pnpm --filter @akti/web typecheck",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Required source authority is missing or conflicts with Prisma, contracts, manifests, generated registry, ADRs, active docs, tests, or validation evidence.",
+        "Implementation would start Phase 5C UI polish, Phase 6 business modules, Golden Module work, marketplace, real providers, runtime AI, deployment, or secrets access.",
+        "Implementation would invent capabilities, APIs, roles, modules, permissions, events, screens, or business rules not authorized by the ticket.",
+        "Exact-file planning discovers stale paths, overlapping ownership, or required files outside ticket scope without conditional replan authority.",
+        "Validation fails after bounded repair inside ticket scope."
+      ],
+      "acceptance_criteria": [
+        "Visible copy says CRM where locked by product direction; lead-desk file paths/routes/API/model/contract names remain unchanged."
+      ],
+      "dependencies": [
+        "P5B1-002"
+      ],
+      "commit_message": "P5B1-003 add CRM visible alias for Lead Desk",
+      "rollback_notes": "Revert the ticket commit and any ticket-specific evidence artifacts; do not revert unrelated prior tickets.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": true,
+      "stale_ticket_risk_notes": [
+        "Reconfirm exact files before editing because Phase 5B1 is substrate-only and repo surfaces may move before execution."
+      ],
+      "runtime_consistency_chain": [
+        "Preserve Phase 5B Gatekeeper/Foundry/module-registry boundaries.",
+        "Preserve Access Core and tenant isolation rules.",
+        "Preserve no-fake-dashboard, no-fake-module-card, and no-Phase-6-surface constraints."
+      ],
+      "minimum_concrete_requirement": "CRM appears as the visible label for the existing Lead Desk surface while static proof confirms no lead-desk technical route/file/API/contract/model rename.",
+      "split_if": [
+        "Split only if exact-file planning proves multiple unrelated architectural surfaces or validation ladders must be owned separately."
+      ],
+      "requires_human_approval_if": [
+        "Ticket requires new dependency, broad architecture change, new ADR, production secret/provider/deployment, destructive migration, Phase 5C implementation, Phase 6 business scope, or package/lockfile change."
+      ],
+      "failure_classification": {
+        "blocker": "Stop immediately for scope, authority, validation, dependency, tenant isolation, secret, deployment, destructive migration, or phase-boundary failure.",
+        "major": "Repair only inside ticket scope when validation or exact-file planning finds deterministic local mismatch.",
+        "minor": "Document harmless evidence wording or non-runtime clarification in the ticket artifact."
+      }
+    },
+    {
+      "ticket_id": "P5B1-004",
+      "title": "Frontend-only shell route metadata config",
+      "type": "frontend-substrate",
+      "priority": "P1",
+      "tier": "substrate",
+      "objective": "Move shell route metadata into typed frontend config without adding a backend route metadata API.",
+      "scope": [
+        "Create repo-real frontend route metadata config.",
+        "Wire Mission Control navigation/command metadata to config only where substrate-safe.",
+        "Add test for allowed route types and no active future business routes."
+      ],
+      "non_scope": [
+        "No Phase 5C implementation.",
+        "No Phase 6 business modules.",
+        "No production deployment, secrets, real providers, runtime AI, or marketplace behavior.",
+        "No unrelated refactors or package/lockfile changes."
+      ],
+      "source_files_to_inspect": [
+        "apps/web/lib/**",
+        "apps/web/components/mission-control/mission-control-shell.tsx",
+        "apps/web/components/mission-control/command-palette.tsx",
+        "apps/web/app/**"
+      ],
+      "files_expected_to_change": [
+        "apps/web/lib/routes.config.ts",
+        "apps/web/lib/routes.config.test.mjs",
+        "apps/web/components/mission-control/mission-control-shell.tsx",
+        "apps/web/components/mission-control/command-palette.tsx",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-004/P5B1-004-summary.md",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-004/P5B1-004-validation-summary.md"
+      ],
+      "files_forbidden_to_change": [
+        "apps/api/**",
+        "prisma/**",
+        "generated/**",
+        "package.json",
+        "pnpm-lock.yaml",
+        "pnpm-workspace.yaml",
+        "docs/policies/**",
+        "docs/adr/**",
+        "docs/standards/**",
+        "docs/process/AKTI_ERP_Phase_5B1_Platform_Experience_Substrate_Plan_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Visual_Direction_Decision_Memo_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Frontend_Current_State_Evidence_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Frontend_Improvement_Backlog_Candidates_v1.md",
+        "docs/process/AKTI_ERP_Phase_5B_Ticket_Pack_v1.json",
+        "docs/process/AKTI_ERP_Phase_5B_Audit_Report_v1.md"
+      ],
+      "required_outputs": [
+        "Typed frontend-only route config and validation test."
+      ],
+      "evidence_artifacts": [
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-004/P5B1-004-summary.md",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-004/P5B1-004-validation-summary.md"
+      ],
+      "tests_required": [
+        "Route config node test and web typecheck."
+      ],
+      "validation_commands": [
+        "pnpm --dir apps/web exec node --test lib/routes.config.test.mjs",
+        "pnpm --filter @akti/web typecheck",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Required source authority is missing or conflicts with Prisma, contracts, manifests, generated registry, ADRs, active docs, tests, or validation evidence.",
+        "Implementation would start Phase 5C UI polish, Phase 6 business modules, Golden Module work, marketplace, real providers, runtime AI, deployment, or secrets access.",
+        "Implementation would invent capabilities, APIs, roles, modules, permissions, events, screens, or business rules not authorized by the ticket.",
+        "Exact-file planning discovers stale paths, overlapping ownership, or required files outside ticket scope without conditional replan authority.",
+        "Validation fails after bounded repair inside ticket scope."
+      ],
+      "acceptance_criteria": [
+        "Route config includes primary/system/diagnostics/hidden/future types; no backend route metadata endpoint is introduced."
+      ],
+      "dependencies": [
+        "P5B1-003"
+      ],
+      "commit_message": "P5B1-004 add frontend shell route metadata config",
+      "rollback_notes": "Revert the ticket commit and any ticket-specific evidence artifacts; do not revert unrelated prior tickets.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": true,
+      "stale_ticket_risk_notes": [
+        "Reconfirm exact files before editing because Phase 5B1 is substrate-only and repo surfaces may move before execution."
+      ],
+      "runtime_consistency_chain": [
+        "Preserve Phase 5B Gatekeeper/Foundry/module-registry boundaries.",
+        "Preserve Access Core and tenant isolation rules.",
+        "Preserve no-fake-dashboard, no-fake-module-card, and no-Phase-6-surface constraints."
+      ],
+      "minimum_concrete_requirement": "Frontend route metadata is represented by typed config and validated without creating any backend shell route metadata API.",
+      "split_if": [
+        "Split only if exact-file planning proves multiple unrelated architectural surfaces or validation ladders must be owned separately."
+      ],
+      "requires_human_approval_if": [
+        "Ticket requires new dependency, broad architecture change, new ADR, production secret/provider/deployment, destructive migration, Phase 5C implementation, Phase 6 business scope, or package/lockfile change."
+      ],
+      "failure_classification": {
+        "blocker": "Stop immediately for scope, authority, validation, dependency, tenant isolation, secret, deployment, destructive migration, or phase-boundary failure.",
+        "major": "Repair only inside ticket scope when validation or exact-file planning finds deterministic local mismatch.",
+        "minor": "Document harmless evidence wording or non-runtime clarification in the ticket artifact."
+      }
+    },
+    {
+      "ticket_id": "P5B1-005",
+      "title": "Organization short_name schema/registry completion",
+      "type": "schema",
+      "priority": "P0",
+      "tier": "substrate",
+      "objective": "Add nullable Organization.short_name as non-destructive organization profile substrate with registry alignment.",
+      "scope": [
+        "Add nullable `short_name` to Organization.",
+        "Create non-destructive migration.",
+        "Regenerate/validate registry metadata and generated registry.",
+        "Add targeted schema proof test where repo-real."
+      ],
+      "non_scope": [
+        "No Phase 5C implementation.",
+        "No Phase 6 business modules.",
+        "No production deployment, secrets, real providers, runtime AI, or marketplace behavior.",
+        "No unrelated refactors or package/lockfile changes."
+      ],
+      "source_files_to_inspect": [
+        "prisma/schema.prisma",
+        "prisma/migrations/**",
+        "prisma/entity-registry.metadata.json",
+        "generated/entity-registry.generated.json",
+        "scripts/registry/**"
+      ],
+      "files_expected_to_change": [
+        "prisma/schema.prisma",
+        "prisma/migrations/20260529070000_p5b1_005_organization_short_name/migration.sql",
+        "prisma/entity-registry.metadata.json",
+        "generated/entity-registry.generated.json",
+        "apps/api/src/configuration/configuration.p5b1-005.test.ts",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-005/P5B1-005-summary.md",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-005/P5B1-005-validation-summary.md"
+      ],
+      "files_forbidden_to_change": [
+        "prisma/migrations/20260525180000_initial_schema_baseline/migration.sql",
+        "package.json",
+        "pnpm-lock.yaml",
+        "pnpm-workspace.yaml",
+        "docs/policies/**",
+        "docs/adr/**",
+        "docs/standards/**",
+        "docs/process/AKTI_ERP_Phase_5B1_Platform_Experience_Substrate_Plan_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Visual_Direction_Decision_Memo_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Frontend_Current_State_Evidence_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Frontend_Improvement_Backlog_Candidates_v1.md",
+        "docs/process/AKTI_ERP_Phase_5B_Ticket_Pack_v1.json",
+        "docs/process/AKTI_ERP_Phase_5B_Audit_Report_v1.md"
+      ],
+      "required_outputs": [
+        "Nullable short_name schema and non-destructive migration with registry alignment."
+      ],
+      "evidence_artifacts": [
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-005/P5B1-005-summary.md",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-005/P5B1-005-validation-summary.md"
+      ],
+      "tests_required": [
+        "Prisma validate/generate, registry generate/check, targeted configuration/schema proof."
+      ],
+      "validation_commands": [
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm exec prisma generate --schema prisma/schema.prisma",
+        "pnpm registry:generate",
+        "pnpm registry:check",
+        "pnpm --dir apps/api exec tsx src/configuration/configuration.p5b1-005.test.ts",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Required source authority is missing or conflicts with Prisma, contracts, manifests, generated registry, ADRs, active docs, tests, or validation evidence.",
+        "Implementation would start Phase 5C UI polish, Phase 6 business modules, Golden Module work, marketplace, real providers, runtime AI, deployment, or secrets access.",
+        "Implementation would invent capabilities, APIs, roles, modules, permissions, events, screens, or business rules not authorized by the ticket.",
+        "Exact-file planning discovers stale paths, overlapping ownership, or required files outside ticket scope without conditional replan authority.",
+        "Validation fails after bounded repair inside ticket scope."
+      ],
+      "acceptance_criteria": [
+        "Organization.short_name is nullable and non-destructive; migration is additive; registry files match schema."
+      ],
+      "dependencies": [
+        "P5B1-000"
+      ],
+      "commit_message": "P5B1-005 add organization short name substrate",
+      "rollback_notes": "Revert the ticket commit and any ticket-specific evidence artifacts; do not revert unrelated prior tickets.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": true,
+      "stale_ticket_risk_notes": [
+        "Reconfirm exact files before editing because Phase 5B1 is substrate-only and repo surfaces may move before execution."
+      ],
+      "runtime_consistency_chain": [
+        "Preserve Phase 5B Gatekeeper/Foundry/module-registry boundaries.",
+        "Preserve Access Core and tenant isolation rules.",
+        "Preserve no-fake-dashboard, no-fake-module-card, and no-Phase-6-surface constraints."
+      ],
+      "minimum_concrete_requirement": "Organization.short_name is added as nullable schema substrate with additive migration, regenerated registry metadata/output, and targeted validation proving no destructive schema behavior.",
+      "split_if": [
+        "Split only if exact-file planning proves multiple unrelated architectural surfaces or validation ladders must be owned separately."
+      ],
+      "requires_human_approval_if": [
+        "Migration would be destructive, require live production DB access, modify existing migrations, or add any Organization.branding_config field."
+      ],
+      "failure_classification": {
+        "blocker": "Stop immediately for scope, authority, validation, dependency, tenant isolation, secret, deployment, destructive migration, or phase-boundary failure.",
+        "major": "Repair only inside ticket scope when validation or exact-file planning finds deterministic local mismatch.",
+        "minor": "Document harmless evidence wording or non-runtime clarification in the ticket artifact."
+      }
+    },
+    {
+      "ticket_id": "P5B1-006",
+      "title": "Branding read substrate using OrganizationSetting / Configuration service",
+      "type": "api-service-substrate",
+      "priority": "P0",
+      "tier": "substrate",
+      "objective": "Confirm and wire branding read substrate through existing OrganizationSetting branding assets path, including logo_url, without adding Organization.branding_config unless human-approved.",
+      "scope": [
+        "Use existing `white_label.branding_assets` / OrganizationSetting substrate where possible.",
+        "Expose service-level helper for effective branding facts needed by later API tickets.",
+        "Confirm logo_url source and tenant isolation.",
+        "Stop before P5B1-008/P5B1-009 if OrganizationSetting cannot satisfy logo_url."
+      ],
+      "non_scope": [
+        "No Phase 5C implementation.",
+        "No Phase 6 business modules.",
+        "No production deployment, secrets, real providers, runtime AI, or marketplace behavior.",
+        "No unrelated refactors or package/lockfile changes."
+      ],
+      "source_files_to_inspect": [
+        "apps/api/src/configuration/configuration.service.ts",
+        "apps/api/src/configuration/configuration.controller.ts",
+        "apps/api/src/configuration/dto/configuration.dto.ts",
+        "prisma/schema.prisma",
+        "prisma/entity-registry.metadata.json"
+      ],
+      "files_expected_to_change": [
+        "apps/api/src/configuration/configuration.service.ts",
+        "apps/api/src/configuration/dto/configuration.dto.ts",
+        "apps/api/src/configuration/configuration.p5b1-006.test.ts",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-006/P5B1-006-summary.md",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-006/P5B1-006-validation-summary.md"
+      ],
+      "files_forbidden_to_change": [
+        "prisma/schema.prisma",
+        "prisma/migrations/**",
+        "generated/entity-registry.generated.json",
+        "package.json",
+        "pnpm-lock.yaml",
+        "pnpm-workspace.yaml",
+        "docs/policies/**",
+        "docs/adr/**",
+        "docs/standards/**",
+        "docs/process/AKTI_ERP_Phase_5B1_Platform_Experience_Substrate_Plan_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Visual_Direction_Decision_Memo_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Frontend_Current_State_Evidence_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Frontend_Improvement_Backlog_Candidates_v1.md",
+        "docs/process/AKTI_ERP_Phase_5B_Ticket_Pack_v1.json",
+        "docs/process/AKTI_ERP_Phase_5B_Audit_Report_v1.md"
+      ],
+      "required_outputs": [
+        "Configuration service branding read substrate with explicit logo_url source proof."
+      ],
+      "evidence_artifacts": [
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-006/P5B1-006-summary.md",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-006/P5B1-006-validation-summary.md"
+      ],
+      "tests_required": [
+        "Targeted ConfigurationService test for OrganizationSetting branding assets logo_url and cross-tenant isolation."
+      ],
+      "validation_commands": [
+        "pnpm --dir apps/api exec tsx src/configuration/configuration.p5b1-006.test.ts",
+        "pnpm --filter @akti/api typecheck",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Required source authority is missing or conflicts with Prisma, contracts, manifests, generated registry, ADRs, active docs, tests, or validation evidence.",
+        "Implementation would start Phase 5C UI polish, Phase 6 business modules, Golden Module work, marketplace, real providers, runtime AI, deployment, or secrets access.",
+        "Implementation would invent capabilities, APIs, roles, modules, permissions, events, screens, or business rules not authorized by the ticket.",
+        "Exact-file planning discovers stale paths, overlapping ownership, or required files outside ticket scope without conditional replan authority.",
+        "Validation fails after bounded repair inside ticket scope.",
+        "OrganizationSetting branding assets cannot satisfy logo_url; stop before P5B1-008 or P5B1-009 proceeds."
+      ],
+      "acceptance_criteria": [
+        "logo_url is sourced from OrganizationSetting branding assets where possible; no Organization.branding_config field is added; tenant-scoped reads are proven."
+      ],
+      "dependencies": [
+        "P5B1-005"
+      ],
+      "commit_message": "P5B1-006 wire branding read substrate",
+      "rollback_notes": "Revert the ticket commit and any ticket-specific evidence artifacts; do not revert unrelated prior tickets.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": true,
+      "stale_ticket_risk_notes": [
+        "Reconfirm exact files before editing because Phase 5B1 is substrate-only and repo surfaces may move before execution."
+      ],
+      "runtime_consistency_chain": [
+        "Preserve Phase 5B Gatekeeper/Foundry/module-registry boundaries.",
+        "Preserve Access Core and tenant isolation rules.",
+        "Preserve no-fake-dashboard, no-fake-module-card, and no-Phase-6-surface constraints."
+      ],
+      "minimum_concrete_requirement": "Configuration service reads branding facts including logo_url from OrganizationSetting branding assets with tenant-scoped tests, or stops with evidence before dependent branding/profile API tickets proceed.",
+      "split_if": [
+        "Split only if exact-file planning proves multiple unrelated architectural surfaces or validation ladders must be owned separately."
+      ],
+      "requires_human_approval_if": [
+        "Existing OrganizationSetting branding assets cannot satisfy effective branding/profile reads and a new Organization.branding_config schema field is proposed."
+      ],
+      "failure_classification": {
+        "blocker": "Stop immediately for scope, authority, validation, dependency, tenant isolation, secret, deployment, destructive migration, or phase-boundary failure.",
+        "major": "Repair only inside ticket scope when validation or exact-file planning finds deterministic local mismatch.",
+        "minor": "Document harmless evidence wording or non-runtime clarification in the ticket artifact."
+      }
+    },
+    {
+      "ticket_id": "P5B1-007",
+      "title": "Platform branding defaults",
+      "type": "frontend-substrate",
+      "priority": "P1",
+      "tier": "substrate",
+      "objective": "Add code-level platform branding defaults for AKTI Spark facts and token direction without database records or backend CSS token responses.",
+      "scope": [
+        "Add platform branding defaults config.",
+        "Expose product_name, theme default, and semantic brand/action color roles for frontend computation.",
+        "Do not lock final hex values beyond approved defaults."
+      ],
+      "non_scope": [
+        "No Phase 5C implementation.",
+        "No Phase 6 business modules.",
+        "No production deployment, secrets, real providers, runtime AI, or marketplace behavior.",
+        "No unrelated refactors or package/lockfile changes."
+      ],
+      "source_files_to_inspect": [
+        "apps/web/lib/platform-branding.config.ts",
+        "apps/web/app/globals.css",
+        "docs/process/AKTI_ERP_Phase_5C_Visual_Direction_Decision_Memo_v1.md"
+      ],
+      "files_expected_to_change": [
+        "apps/web/lib/platform-branding.config.ts",
+        "apps/web/lib/platform-branding.config.test.mjs",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-007/P5B1-007-summary.md",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-007/P5B1-007-validation-summary.md"
+      ],
+      "files_forbidden_to_change": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "pnpm-workspace.yaml",
+        "docs/policies/**",
+        "docs/adr/**",
+        "docs/standards/**",
+        "docs/process/AKTI_ERP_Phase_5B1_Platform_Experience_Substrate_Plan_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Visual_Direction_Decision_Memo_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Frontend_Current_State_Evidence_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Frontend_Improvement_Backlog_Candidates_v1.md",
+        "docs/process/AKTI_ERP_Phase_5B_Ticket_Pack_v1.json",
+        "docs/process/AKTI_ERP_Phase_5B_Audit_Report_v1.md"
+      ],
+      "required_outputs": [
+        "Platform branding defaults config and test."
+      ],
+      "evidence_artifacts": [
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-007/P5B1-007-summary.md",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-007/P5B1-007-validation-summary.md"
+      ],
+      "tests_required": [
+        "Branding defaults test and web typecheck."
+      ],
+      "validation_commands": [
+        "pnpm --dir apps/web exec node --test lib/platform-branding.config.test.mjs",
+        "pnpm --filter @akti/web typecheck",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Required source authority is missing or conflicts with Prisma, contracts, manifests, generated registry, ADRs, active docs, tests, or validation evidence.",
+        "Implementation would start Phase 5C UI polish, Phase 6 business modules, Golden Module work, marketplace, real providers, runtime AI, deployment, or secrets access.",
+        "Implementation would invent capabilities, APIs, roles, modules, permissions, events, screens, or business rules not authorized by the ticket.",
+        "Exact-file planning discovers stale paths, overlapping ownership, or required files outside ticket scope without conditional replan authority.",
+        "Validation fails after bounded repair inside ticket scope."
+      ],
+      "acceptance_criteria": [
+        "Defaults contain AKTI Spark, dark-mode flagship direction, purple/violet brand role, teal/cyan action role, without backend CSS tokens."
+      ],
+      "dependencies": [
+        "P5B1-002"
+      ],
+      "commit_message": "P5B1-007 add platform branding defaults",
+      "rollback_notes": "Revert the ticket commit and any ticket-specific evidence artifacts; do not revert unrelated prior tickets.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": true,
+      "stale_ticket_risk_notes": [
+        "Reconfirm exact files before editing because Phase 5B1 is substrate-only and repo surfaces may move before execution."
+      ],
+      "runtime_consistency_chain": [
+        "Preserve Phase 5B Gatekeeper/Foundry/module-registry boundaries.",
+        "Preserve Access Core and tenant isolation rules.",
+        "Preserve no-fake-dashboard, no-fake-module-card, and no-Phase-6-surface constraints."
+      ],
+      "minimum_concrete_requirement": "Frontend branding defaults are exported and tested as code-level facts, not DB records or backend CSS token payloads.",
+      "split_if": [
+        "Split only if exact-file planning proves multiple unrelated architectural surfaces or validation ladders must be owned separately."
+      ],
+      "requires_human_approval_if": [
+        "Ticket requires new dependency, broad architecture change, new ADR, production secret/provider/deployment, destructive migration, Phase 5C implementation, Phase 6 business scope, or package/lockfile change."
+      ],
+      "failure_classification": {
+        "blocker": "Stop immediately for scope, authority, validation, dependency, tenant isolation, secret, deployment, destructive migration, or phase-boundary failure.",
+        "major": "Repair only inside ticket scope when validation or exact-file planning finds deterministic local mismatch.",
+        "minor": "Document harmless evidence wording or non-runtime clarification in the ticket artifact."
+      }
+    },
+    {
+      "ticket_id": "P5B1-008",
+      "title": "GET /platform/branding/effective read API",
+      "type": "api",
+      "priority": "P0",
+      "tier": "substrate",
+      "objective": "Add read-only effective branding endpoint under Configuration boundary returning branding facts only.",
+      "scope": [
+        "Add GET /platform/branding/effective route to ConfigurationController/Service.",
+        "Return product_name, logo_url, theme_mode, primary_color, accent_color facts.",
+        "Do not return CSS tokens or write/update branding."
+      ],
+      "non_scope": [
+        "No Phase 5C implementation.",
+        "No Phase 6 business modules.",
+        "No production deployment, secrets, real providers, runtime AI, or marketplace behavior.",
+        "No unrelated refactors or package/lockfile changes."
+      ],
+      "source_files_to_inspect": [
+        "apps/api/src/configuration/configuration.controller.ts",
+        "apps/api/src/configuration/configuration.service.ts",
+        "apps/api/src/configuration/configuration.module.ts",
+        "apps/api/src/app.module.ts"
+      ],
+      "files_expected_to_change": [
+        "apps/api/src/configuration/configuration.controller.ts",
+        "apps/api/src/configuration/configuration.service.ts",
+        "apps/api/src/configuration/dto/configuration.dto.ts",
+        "apps/api/src/configuration/configuration.controller.p5b1-008.test.ts",
+        "apps/api/src/configuration/configuration.service.p5b1-008.test.ts",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-008/P5B1-008-summary.md",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-008/P5B1-008-validation-summary.md"
+      ],
+      "files_forbidden_to_change": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "pnpm-workspace.yaml",
+        "docs/policies/**",
+        "docs/adr/**",
+        "docs/standards/**",
+        "docs/process/AKTI_ERP_Phase_5B1_Platform_Experience_Substrate_Plan_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Visual_Direction_Decision_Memo_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Frontend_Current_State_Evidence_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Frontend_Improvement_Backlog_Candidates_v1.md",
+        "docs/process/AKTI_ERP_Phase_5B_Ticket_Pack_v1.json",
+        "docs/process/AKTI_ERP_Phase_5B_Audit_Report_v1.md"
+      ],
+      "required_outputs": [
+        "Read-only effective branding API and tests."
+      ],
+      "evidence_artifacts": [
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-008/P5B1-008-summary.md",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-008/P5B1-008-validation-summary.md"
+      ],
+      "tests_required": [
+        "Controller/service tests for shape, tenant context, no CSS tokens, no mutation."
+      ],
+      "validation_commands": [
+        "pnpm --dir apps/api exec tsx src/configuration/configuration.controller.p5b1-008.test.ts",
+        "pnpm --dir apps/api exec tsx src/configuration/configuration.service.p5b1-008.test.ts",
+        "pnpm --filter @akti/api typecheck",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Required source authority is missing or conflicts with Prisma, contracts, manifests, generated registry, ADRs, active docs, tests, or validation evidence.",
+        "Implementation would start Phase 5C UI polish, Phase 6 business modules, Golden Module work, marketplace, real providers, runtime AI, deployment, or secrets access.",
+        "Implementation would invent capabilities, APIs, roles, modules, permissions, events, screens, or business rules not authorized by the ticket.",
+        "Exact-file planning discovers stale paths, overlapping ownership, or required files outside ticket scope without conditional replan authority.",
+        "Validation fails after bounded repair inside ticket scope."
+      ],
+      "acceptance_criteria": [
+        "GET /platform/branding/effective returns branding facts only and is read-only; no CSS tokens, upload, storage, or white-label editor behavior."
+      ],
+      "dependencies": [
+        "P5B1-006",
+        "P5B1-007"
+      ],
+      "commit_message": "P5B1-008 add effective branding read API",
+      "rollback_notes": "Revert the ticket commit and any ticket-specific evidence artifacts; do not revert unrelated prior tickets.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": true,
+      "stale_ticket_risk_notes": [
+        "Reconfirm exact files before editing because Phase 5B1 is substrate-only and repo surfaces may move before execution."
+      ],
+      "runtime_consistency_chain": [
+        "Preserve Phase 5B Gatekeeper/Foundry/module-registry boundaries.",
+        "Preserve Access Core and tenant isolation rules.",
+        "Preserve no-fake-dashboard, no-fake-module-card, and no-Phase-6-surface constraints."
+      ],
+      "minimum_concrete_requirement": "Configuration boundary exposes GET /platform/branding/effective with tested fact-only response and no CSS token/write behavior.",
+      "split_if": [
+        "Split only if exact-file planning proves multiple unrelated architectural surfaces or validation ladders must be owned separately."
+      ],
+      "requires_human_approval_if": [
+        "Ticket requires new dependency, broad architecture change, new ADR, production secret/provider/deployment, destructive migration, Phase 5C implementation, Phase 6 business scope, or package/lockfile change."
+      ],
+      "failure_classification": {
+        "blocker": "Stop immediately for scope, authority, validation, dependency, tenant isolation, secret, deployment, destructive migration, or phase-boundary failure.",
+        "major": "Repair only inside ticket scope when validation or exact-file planning finds deterministic local mismatch.",
+        "minor": "Document harmless evidence wording or non-runtime clarification in the ticket artifact."
+      }
+    },
+    {
+      "ticket_id": "P5B1-009",
+      "title": "GET /platform/organization/profile under Configuration boundary",
+      "type": "api",
+      "priority": "P0",
+      "tier": "substrate",
+      "objective": "Add read-only organization profile endpoint under Configuration boundary, composed from Organization, OrganizationSetting branding facts, modules, role context, and actor capabilities.",
+      "scope": [
+        "Return organization_id, display_name, short_name, logo_url, branding_config, my_modules, my_role, my_capabilities.",
+        "Use my_capabilities, not my_capability_count.",
+        "Prefer ConfigurationController/Service ownership unless exact-file planning proves boundary wrong."
+      ],
+      "non_scope": [
+        "No Phase 5C implementation.",
+        "No Phase 6 business modules.",
+        "No production deployment, secrets, real providers, runtime AI, or marketplace behavior.",
+        "No unrelated refactors or package/lockfile changes."
+      ],
+      "source_files_to_inspect": [
+        "apps/api/src/configuration/**",
+        "apps/api/src/access-core/**",
+        "apps/api/src/module-registry/**",
+        "apps/api/src/security/request-context.ts",
+        "prisma/schema.prisma"
+      ],
+      "files_expected_to_change": [
+        "apps/api/src/configuration/configuration.controller.ts",
+        "apps/api/src/configuration/configuration.service.ts",
+        "apps/api/src/configuration/dto/configuration.dto.ts",
+        "apps/api/src/configuration/configuration.controller.p5b1-009.test.ts",
+        "apps/api/src/configuration/configuration.service.p5b1-009.test.ts",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-009/P5B1-009-summary.md",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-009/P5B1-009-validation-summary.md"
+      ],
+      "files_forbidden_to_change": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "pnpm-workspace.yaml",
+        "docs/policies/**",
+        "docs/adr/**",
+        "docs/standards/**",
+        "docs/process/AKTI_ERP_Phase_5B1_Platform_Experience_Substrate_Plan_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Visual_Direction_Decision_Memo_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Frontend_Current_State_Evidence_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Frontend_Improvement_Backlog_Candidates_v1.md",
+        "docs/process/AKTI_ERP_Phase_5B_Ticket_Pack_v1.json",
+        "docs/process/AKTI_ERP_Phase_5B_Audit_Report_v1.md"
+      ],
+      "required_outputs": [
+        "Read-only organization profile API and tests."
+      ],
+      "evidence_artifacts": [
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-009/P5B1-009-summary.md",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-009/P5B1-009-validation-summary.md"
+      ],
+      "tests_required": [
+        "Controller/service tests for response shape, tenant scoping, my_capabilities, and no writes."
+      ],
+      "validation_commands": [
+        "pnpm --dir apps/api exec tsx src/configuration/configuration.controller.p5b1-009.test.ts",
+        "pnpm --dir apps/api exec tsx src/configuration/configuration.service.p5b1-009.test.ts",
+        "pnpm --filter @akti/api typecheck",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Required source authority is missing or conflicts with Prisma, contracts, manifests, generated registry, ADRs, active docs, tests, or validation evidence.",
+        "Implementation would start Phase 5C UI polish, Phase 6 business modules, Golden Module work, marketplace, real providers, runtime AI, deployment, or secrets access.",
+        "Implementation would invent capabilities, APIs, roles, modules, permissions, events, screens, or business rules not authorized by the ticket.",
+        "Exact-file planning discovers stale paths, overlapping ownership, or required files outside ticket scope without conditional replan authority.",
+        "Validation fails after bounded repair inside ticket scope."
+      ],
+      "acceptance_criteria": [
+        "Endpoint returns exact profile shape with my_capabilities derived from current Access Core capability state; tenant-scoped reads do not leak another organization; no new profile service is created without documented reason; the endpoint does not require platform.crm.access or platform.modules.view to exist before P5B1-010."
+      ],
+      "dependencies": [
+        "P5B1-006"
+      ],
+      "commit_message": "P5B1-009 add organization profile read API",
+      "rollback_notes": "Revert the ticket commit and any ticket-specific evidence artifacts; do not revert unrelated prior tickets.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": true,
+      "stale_ticket_risk_notes": [
+        "Reconfirm exact files before editing because Phase 5B1 is substrate-only and repo surfaces may move before execution."
+      ],
+      "runtime_consistency_chain": [
+        "Preserve Phase 5B Gatekeeper/Foundry/module-registry boundaries.",
+        "Preserve Access Core and tenant isolation rules.",
+        "Preserve no-fake-dashboard, no-fake-module-card, and no-Phase-6-surface constraints."
+      ],
+      "minimum_concrete_requirement": "Configuration boundary exposes tested GET /platform/organization/profile using a my_capabilities array derived from current Access Core capability state, with tenant-scoped organization/branding/module facts. The endpoint does not require platform.crm.access or platform.modules.view to exist before P5B1-010; later tickets may observe those capabilities after they are seeded.",
+      "split_if": [
+        "Split only if exact-file planning proves multiple unrelated architectural surfaces or validation ladders must be owned separately."
+      ],
+      "requires_human_approval_if": [
+        "Ticket requires new dependency, broad architecture change, new ADR, production secret/provider/deployment, destructive migration, Phase 5C implementation, Phase 6 business scope, or package/lockfile change."
+      ],
+      "failure_classification": {
+        "blocker": "Stop immediately for scope, authority, validation, dependency, tenant isolation, secret, deployment, destructive migration, or phase-boundary failure.",
+        "major": "Repair only inside ticket scope when validation or exact-file planning finds deterministic local mismatch.",
+        "minor": "Document harmless evidence wording or non-runtime clarification in the ticket artifact."
+      }
+    },
+    {
+      "ticket_id": "P5B1-010",
+      "title": "Seed platform.crm.access and platform.modules.view",
+      "type": "capability-contract",
+      "priority": "P0",
+      "tier": "substrate",
+      "objective": "Seed platform.crm.access and platform.modules.view as low-risk platform capabilities in Access Core contracts and seed boundary validation.",
+      "scope": [
+        "Add both capabilities to Access Core capability seed and manifest/permissions.",
+        "Update module-registry approved seed boundary for Access Core.",
+        "Prove neither capability grants admin, Gatekeeper bypass, import/export, delete, configure, or destructive authority."
+      ],
+      "non_scope": [
+        "No Phase 5C implementation.",
+        "No Phase 6 business modules.",
+        "No production deployment, secrets, real providers, runtime AI, or marketplace behavior.",
+        "No unrelated refactors or package/lockfile changes."
+      ],
+      "source_files_to_inspect": [
+        "packages/contracts/access-core-capability-seed.contract.ts",
+        "packages/contracts/access-core.module-manifest.contract.ts",
+        "apps/api/src/module-registry/module-registry.service.ts",
+        "apps/api/src/access-core/**"
+      ],
+      "files_expected_to_change": [
+        "packages/contracts/access-core-capability-seed.contract.ts",
+        "packages/contracts/access-core.module-manifest.contract.ts",
+        "apps/api/src/module-registry/module-registry.service.ts",
+        "apps/api/src/access-core/access-core.p5b1-010.test.ts",
+        "apps/api/src/module-registry/module-registry.p5b1-010.test.ts",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-010/P5B1-010-summary.md",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-010/P5B1-010-validation-summary.md"
+      ],
+      "files_forbidden_to_change": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "pnpm-workspace.yaml",
+        "docs/policies/**",
+        "docs/adr/**",
+        "docs/standards/**",
+        "docs/process/AKTI_ERP_Phase_5B1_Platform_Experience_Substrate_Plan_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Visual_Direction_Decision_Memo_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Frontend_Current_State_Evidence_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Frontend_Improvement_Backlog_Candidates_v1.md",
+        "docs/process/AKTI_ERP_Phase_5B_Ticket_Pack_v1.json",
+        "docs/process/AKTI_ERP_Phase_5B_Audit_Report_v1.md"
+      ],
+      "required_outputs": [
+        "Capability seed/manifest updates and tests."
+      ],
+      "evidence_artifacts": [
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-010/P5B1-010-summary.md",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-010/P5B1-010-validation-summary.md"
+      ],
+      "tests_required": [
+        "Access Core and Module Registry seed boundary tests."
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/contracts build",
+        "pnpm --dir apps/api exec tsx src/access-core/access-core.p5b1-010.test.ts",
+        "pnpm --dir apps/api exec tsx src/module-registry/module-registry.p5b1-010.test.ts",
+        "pnpm --filter @akti/api typecheck",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Required source authority is missing or conflicts with Prisma, contracts, manifests, generated registry, ADRs, active docs, tests, or validation evidence.",
+        "Implementation would start Phase 5C UI polish, Phase 6 business modules, Golden Module work, marketplace, real providers, runtime AI, deployment, or secrets access.",
+        "Implementation would invent capabilities, APIs, roles, modules, permissions, events, screens, or business rules not authorized by the ticket.",
+        "Exact-file planning discovers stale paths, overlapping ownership, or required files outside ticket scope without conditional replan authority.",
+        "Validation fails after bounded repair inside ticket scope."
+      ],
+      "acceptance_criteria": [
+        "platform.crm.access and platform.modules.view are seeded, grantable to authenticated operators as appropriate, and do not imply destructive/admin/Gatekeeper bypass authority."
+      ],
+      "dependencies": [
+        "P5B1-001"
+      ],
+      "commit_message": "P5B1-010 seed CRM and modules view capabilities",
+      "rollback_notes": "Revert the ticket commit and any ticket-specific evidence artifacts; do not revert unrelated prior tickets.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": true,
+      "stale_ticket_risk_notes": [
+        "Reconfirm exact files before editing because Phase 5B1 is substrate-only and repo surfaces may move before execution."
+      ],
+      "runtime_consistency_chain": [
+        "Preserve Phase 5B Gatekeeper/Foundry/module-registry boundaries.",
+        "Preserve Access Core and tenant isolation rules.",
+        "Preserve no-fake-dashboard, no-fake-module-card, and no-Phase-6-surface constraints."
+      ],
+      "minimum_concrete_requirement": "Access Core seed and manifest declare platform.crm.access and platform.modules.view with tests proving both are low-risk view/access capabilities and not admin or bypass capabilities.",
+      "split_if": [
+        "Split only if exact-file planning proves multiple unrelated architectural surfaces or validation ladders must be owned separately."
+      ],
+      "requires_human_approval_if": [
+        "Ticket requires new dependency, broad architecture change, new ADR, production secret/provider/deployment, destructive migration, Phase 5C implementation, Phase 6 business scope, or package/lockfile change."
+      ],
+      "failure_classification": {
+        "blocker": "Stop immediately for scope, authority, validation, dependency, tenant isolation, secret, deployment, destructive migration, or phase-boundary failure.",
+        "major": "Repair only inside ticket scope when validation or exact-file planning finds deterministic local mismatch.",
+        "minor": "Document harmless evidence wording or non-runtime clarification in the ticket artifact."
+      }
+    },
+    {
+      "ticket_id": "P5B1-011",
+      "title": "Module manifest required_capabilities[]",
+      "type": "contract",
+      "priority": "P0",
+      "tier": "substrate",
+      "objective": "Add top-level module manifest required_capabilities[] so modules declare capabilities required before install/display/use.",
+      "scope": [
+        "Update module manifest schema and sample/baseline manifests.",
+        "Validate required_capabilities references declared or consumed capabilities.",
+        "Preserve screen-level required_capabilities separately."
+      ],
+      "non_scope": [
+        "No Phase 5C implementation.",
+        "No Phase 6 business modules.",
+        "No production deployment, secrets, real providers, runtime AI, or marketplace behavior.",
+        "No unrelated refactors or package/lockfile changes."
+      ],
+      "source_files_to_inspect": [
+        "packages/contracts/module-manifest.schema.ts",
+        "packages/contracts/*module-manifest.contract.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "files_expected_to_change": [
+        "packages/contracts/module-manifest.schema.ts",
+        "packages/contracts/access-core.module-manifest.contract.ts",
+        "packages/contracts/engagement-gateway-lite.module-manifest.contract.ts",
+        "packages/contracts/lead-desk-core.module-manifest.contract.ts",
+        "packages/contracts/internal-fixture.module-manifest.contract.ts",
+        "apps/api/src/module-registry/module-registry.p5b1-011.test.ts",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-011/P5B1-011-summary.md",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-011/P5B1-011-validation-summary.md"
+      ],
+      "files_forbidden_to_change": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "pnpm-workspace.yaml",
+        "docs/policies/**",
+        "docs/adr/**",
+        "docs/standards/**",
+        "docs/process/AKTI_ERP_Phase_5B1_Platform_Experience_Substrate_Plan_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Visual_Direction_Decision_Memo_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Frontend_Current_State_Evidence_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Frontend_Improvement_Backlog_Candidates_v1.md",
+        "docs/process/AKTI_ERP_Phase_5B_Ticket_Pack_v1.json",
+        "docs/process/AKTI_ERP_Phase_5B_Audit_Report_v1.md"
+      ],
+      "required_outputs": [
+        "Manifest schema field, manifest backfills, validation tests."
+      ],
+      "evidence_artifacts": [
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-011/P5B1-011-summary.md",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-011/P5B1-011-validation-summary.md"
+      ],
+      "tests_required": [
+        "Contracts validation and module registry manifest validation test."
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/contracts build",
+        "pnpm --dir apps/api exec tsx src/module-registry/module-registry.p5b1-011.test.ts",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Required source authority is missing or conflicts with Prisma, contracts, manifests, generated registry, ADRs, active docs, tests, or validation evidence.",
+        "Implementation would start Phase 5C UI polish, Phase 6 business modules, Golden Module work, marketplace, real providers, runtime AI, deployment, or secrets access.",
+        "Implementation would invent capabilities, APIs, roles, modules, permissions, events, screens, or business rules not authorized by the ticket.",
+        "Exact-file planning discovers stale paths, overlapping ownership, or required files outside ticket scope without conditional replan authority.",
+        "Validation fails after bounded repair inside ticket scope."
+      ],
+      "acceptance_criteria": [
+        "Top-level required_capabilities[] exists and is validated without replacing screen-level capability requirements."
+      ],
+      "dependencies": [
+        "P5B1-010"
+      ],
+      "commit_message": "P5B1-011 add module manifest required capabilities",
+      "rollback_notes": "Revert the ticket commit and any ticket-specific evidence artifacts; do not revert unrelated prior tickets.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": true,
+      "stale_ticket_risk_notes": [
+        "Reconfirm exact files before editing because Phase 5B1 is substrate-only and repo surfaces may move before execution."
+      ],
+      "runtime_consistency_chain": [
+        "Preserve Phase 5B Gatekeeper/Foundry/module-registry boundaries.",
+        "Preserve Access Core and tenant isolation rules.",
+        "Preserve no-fake-dashboard, no-fake-module-card, and no-Phase-6-surface constraints."
+      ],
+      "minimum_concrete_requirement": "Module manifest schema validates required_capabilities[] and existing manifests are backfilled with tests proving capability references are valid.",
+      "split_if": [
+        "Split only if exact-file planning proves multiple unrelated architectural surfaces or validation ladders must be owned separately."
+      ],
+      "requires_human_approval_if": [
+        "Ticket requires new dependency, broad architecture change, new ADR, production secret/provider/deployment, destructive migration, Phase 5C implementation, Phase 6 business scope, or package/lockfile change."
+      ],
+      "failure_classification": {
+        "blocker": "Stop immediately for scope, authority, validation, dependency, tenant isolation, secret, deployment, destructive migration, or phase-boundary failure.",
+        "major": "Repair only inside ticket scope when validation or exact-file planning finds deterministic local mismatch.",
+        "minor": "Document harmless evidence wording or non-runtime clarification in the ticket artifact."
+      }
+    },
+    {
+      "ticket_id": "P5B1-012",
+      "title": "Module display metadata",
+      "type": "contract",
+      "priority": "P1",
+      "tier": "substrate",
+      "objective": "Add module display metadata to manifest contracts for honest module cards without fake module surfaces.",
+      "scope": [
+        "Add display_description, icon_key, category, route metadata as manifest display substrate.",
+        "Backfill existing module manifests.",
+        "Do not activate future business modules."
+      ],
+      "non_scope": [
+        "No Phase 5C implementation.",
+        "No Phase 6 business modules.",
+        "No production deployment, secrets, real providers, runtime AI, or marketplace behavior.",
+        "No unrelated refactors or package/lockfile changes."
+      ],
+      "source_files_to_inspect": [
+        "packages/contracts/module-manifest.schema.ts",
+        "packages/contracts/*module-manifest.contract.ts",
+        "apps/web/components/mission-control/module-launcher.tsx"
+      ],
+      "files_expected_to_change": [
+        "packages/contracts/module-manifest.schema.ts",
+        "packages/contracts/access-core.module-manifest.contract.ts",
+        "packages/contracts/engagement-gateway-lite.module-manifest.contract.ts",
+        "packages/contracts/lead-desk-core.module-manifest.contract.ts",
+        "packages/contracts/internal-fixture.module-manifest.contract.ts",
+        "apps/api/src/module-registry/module-registry.p5b1-012.test.ts",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-012/P5B1-012-summary.md",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-012/P5B1-012-validation-summary.md"
+      ],
+      "files_forbidden_to_change": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "pnpm-workspace.yaml",
+        "docs/policies/**",
+        "docs/adr/**",
+        "docs/standards/**",
+        "docs/process/AKTI_ERP_Phase_5B1_Platform_Experience_Substrate_Plan_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Visual_Direction_Decision_Memo_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Frontend_Current_State_Evidence_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Frontend_Improvement_Backlog_Candidates_v1.md",
+        "docs/process/AKTI_ERP_Phase_5B_Ticket_Pack_v1.json",
+        "docs/process/AKTI_ERP_Phase_5B_Audit_Report_v1.md"
+      ],
+      "required_outputs": [
+        "Display metadata schema and manifest backfill."
+      ],
+      "evidence_artifacts": [
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-012/P5B1-012-summary.md",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-012/P5B1-012-validation-summary.md"
+      ],
+      "tests_required": [
+        "Contracts validation and module registry display metadata validation."
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/contracts build",
+        "pnpm --dir apps/api exec tsx src/module-registry/module-registry.p5b1-012.test.ts",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Required source authority is missing or conflicts with Prisma, contracts, manifests, generated registry, ADRs, active docs, tests, or validation evidence.",
+        "Implementation would start Phase 5C UI polish, Phase 6 business modules, Golden Module work, marketplace, real providers, runtime AI, deployment, or secrets access.",
+        "Implementation would invent capabilities, APIs, roles, modules, permissions, events, screens, or business rules not authorized by the ticket.",
+        "Exact-file planning discovers stale paths, overlapping ownership, or required files outside ticket scope without conditional replan authority.",
+        "Validation fails after bounded repair inside ticket scope."
+      ],
+      "acceptance_criteria": [
+        "Existing manifests have honest display metadata; Settings/Diagnostics are not apps; no fake future module cards are activated."
+      ],
+      "dependencies": [
+        "P5B1-011"
+      ],
+      "commit_message": "P5B1-012 add module display metadata",
+      "rollback_notes": "Revert the ticket commit and any ticket-specific evidence artifacts; do not revert unrelated prior tickets.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": true,
+      "stale_ticket_risk_notes": [
+        "Reconfirm exact files before editing because Phase 5B1 is substrate-only and repo surfaces may move before execution."
+      ],
+      "runtime_consistency_chain": [
+        "Preserve Phase 5B Gatekeeper/Foundry/module-registry boundaries.",
+        "Preserve Access Core and tenant isolation rules.",
+        "Preserve no-fake-dashboard, no-fake-module-card, and no-Phase-6-surface constraints."
+      ],
+      "minimum_concrete_requirement": "Manifest schema and existing manifests include validated display metadata sufficient for honest module cards without activating fake or future business modules.",
+      "split_if": [
+        "Split only if exact-file planning proves multiple unrelated architectural surfaces or validation ladders must be owned separately."
+      ],
+      "requires_human_approval_if": [
+        "Ticket requires new dependency, broad architecture change, new ADR, production secret/provider/deployment, destructive migration, Phase 5C implementation, Phase 6 business scope, or package/lockfile change."
+      ],
+      "failure_classification": {
+        "blocker": "Stop immediately for scope, authority, validation, dependency, tenant isolation, secret, deployment, destructive migration, or phase-boundary failure.",
+        "major": "Repair only inside ticket scope when validation or exact-file planning finds deterministic local mismatch.",
+        "minor": "Document harmless evidence wording or non-runtime clarification in the ticket artifact."
+      }
+    },
+    {
+      "ticket_id": "P5B1-013",
+      "title": "Manifest-level visibility_state enum",
+      "type": "contract",
+      "priority": "P0",
+      "tier": "substrate",
+      "objective": "Add manifest-level visibility_state enum as module display metadata validated by module manifest/Foundry validation.",
+      "scope": [
+        "Add allowed values available, requires_setup, locked, coming_soon, hidden.",
+        "Backfill existing manifests.",
+        "Ensure visibility_state is not API-only decoration and does not imply authority."
+      ],
+      "non_scope": [
+        "No Phase 5C implementation.",
+        "No Phase 6 business modules.",
+        "No production deployment, secrets, real providers, runtime AI, or marketplace behavior.",
+        "No unrelated refactors or package/lockfile changes."
+      ],
+      "source_files_to_inspect": [
+        "packages/contracts/module-manifest.schema.ts",
+        "packages/contracts/*module-manifest.contract.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "files_expected_to_change": [
+        "packages/contracts/module-manifest.schema.ts",
+        "packages/contracts/access-core.module-manifest.contract.ts",
+        "packages/contracts/engagement-gateway-lite.module-manifest.contract.ts",
+        "packages/contracts/lead-desk-core.module-manifest.contract.ts",
+        "packages/contracts/internal-fixture.module-manifest.contract.ts",
+        "apps/api/src/module-registry/module-registry.p5b1-013.test.ts",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-013/P5B1-013-summary.md",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-013/P5B1-013-validation-summary.md"
+      ],
+      "files_forbidden_to_change": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "pnpm-workspace.yaml",
+        "docs/policies/**",
+        "docs/adr/**",
+        "docs/standards/**",
+        "docs/process/AKTI_ERP_Phase_5B1_Platform_Experience_Substrate_Plan_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Visual_Direction_Decision_Memo_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Frontend_Current_State_Evidence_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Frontend_Improvement_Backlog_Candidates_v1.md",
+        "docs/process/AKTI_ERP_Phase_5B_Ticket_Pack_v1.json",
+        "docs/process/AKTI_ERP_Phase_5B_Audit_Report_v1.md"
+      ],
+      "required_outputs": [
+        "Visibility enum in schema/manifests and tests."
+      ],
+      "evidence_artifacts": [
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-013/P5B1-013-summary.md",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-013/P5B1-013-validation-summary.md"
+      ],
+      "tests_required": [
+        "Contracts validation and negative test for invalid visibility_state."
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/contracts build",
+        "pnpm --dir apps/api exec tsx src/module-registry/module-registry.p5b1-013.test.ts",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Required source authority is missing or conflicts with Prisma, contracts, manifests, generated registry, ADRs, active docs, tests, or validation evidence.",
+        "Implementation would start Phase 5C UI polish, Phase 6 business modules, Golden Module work, marketplace, real providers, runtime AI, deployment, or secrets access.",
+        "Implementation would invent capabilities, APIs, roles, modules, permissions, events, screens, or business rules not authorized by the ticket.",
+        "Exact-file planning discovers stale paths, overlapping ownership, or required files outside ticket scope without conditional replan authority.",
+        "Validation fails after bounded repair inside ticket scope."
+      ],
+      "acceptance_criteria": [
+        "visibility_state values are exactly available/requires_setup/locked/coming_soon/hidden and validation rejects unknown states."
+      ],
+      "dependencies": [
+        "P5B1-012"
+      ],
+      "commit_message": "P5B1-013 add module visibility state enum",
+      "rollback_notes": "Revert the ticket commit and any ticket-specific evidence artifacts; do not revert unrelated prior tickets.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": true,
+      "stale_ticket_risk_notes": [
+        "Reconfirm exact files before editing because Phase 5B1 is substrate-only and repo surfaces may move before execution."
+      ],
+      "runtime_consistency_chain": [
+        "Preserve Phase 5B Gatekeeper/Foundry/module-registry boundaries.",
+        "Preserve Access Core and tenant isolation rules.",
+        "Preserve no-fake-dashboard, no-fake-module-card, and no-Phase-6-surface constraints."
+      ],
+      "minimum_concrete_requirement": "Module manifest schema validates visibility_state as display metadata, backfilled manifests pass validation, and tests prove invalid states fail.",
+      "split_if": [
+        "Split only if exact-file planning proves multiple unrelated architectural surfaces or validation ladders must be owned separately."
+      ],
+      "requires_human_approval_if": [
+        "Ticket requires new dependency, broad architecture change, new ADR, production secret/provider/deployment, destructive migration, Phase 5C implementation, Phase 6 business scope, or package/lockfile change."
+      ],
+      "failure_classification": {
+        "blocker": "Stop immediately for scope, authority, validation, dependency, tenant isolation, secret, deployment, destructive migration, or phase-boundary failure.",
+        "major": "Repair only inside ticket scope when validation or exact-file planning finds deterministic local mismatch.",
+        "minor": "Document harmless evidence wording or non-runtime clarification in the ticket artifact."
+      }
+    },
+    {
+      "ticket_id": "P5B1-014",
+      "title": "Manifest-level ai_data_classification",
+      "type": "contract",
+      "priority": "P1",
+      "tier": "substrate",
+      "objective": "Add ai_data_classification declaration to module manifests without building AI runtime.",
+      "scope": [
+        "Add readable/restricted/prohibited enum to module manifest schema.",
+        "Backfill existing manifests.",
+        "Document that this is future AI boundary metadata only."
+      ],
+      "non_scope": [
+        "No Phase 5C implementation.",
+        "No Phase 6 business modules.",
+        "No production deployment, secrets, real providers, runtime AI, or marketplace behavior.",
+        "No unrelated refactors or package/lockfile changes."
+      ],
+      "source_files_to_inspect": [
+        "packages/contracts/module-manifest.schema.ts",
+        "packages/contracts/*module-manifest.contract.ts"
+      ],
+      "files_expected_to_change": [
+        "packages/contracts/module-manifest.schema.ts",
+        "packages/contracts/access-core.module-manifest.contract.ts",
+        "packages/contracts/engagement-gateway-lite.module-manifest.contract.ts",
+        "packages/contracts/lead-desk-core.module-manifest.contract.ts",
+        "packages/contracts/internal-fixture.module-manifest.contract.ts",
+        "apps/api/src/module-registry/module-registry.p5b1-014.test.ts",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-014/P5B1-014-summary.md",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-014/P5B1-014-validation-summary.md"
+      ],
+      "files_forbidden_to_change": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "pnpm-workspace.yaml",
+        "docs/policies/**",
+        "docs/adr/**",
+        "docs/standards/**",
+        "docs/process/AKTI_ERP_Phase_5B1_Platform_Experience_Substrate_Plan_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Visual_Direction_Decision_Memo_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Frontend_Current_State_Evidence_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Frontend_Improvement_Backlog_Candidates_v1.md",
+        "docs/process/AKTI_ERP_Phase_5B_Ticket_Pack_v1.json",
+        "docs/process/AKTI_ERP_Phase_5B_Audit_Report_v1.md"
+      ],
+      "required_outputs": [
+        "AI data classification manifest metadata and tests."
+      ],
+      "evidence_artifacts": [
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-014/P5B1-014-summary.md",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-014/P5B1-014-validation-summary.md"
+      ],
+      "tests_required": [
+        "Contracts validation and invalid value test."
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/contracts build",
+        "pnpm --dir apps/api exec tsx src/module-registry/module-registry.p5b1-014.test.ts",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Required source authority is missing or conflicts with Prisma, contracts, manifests, generated registry, ADRs, active docs, tests, or validation evidence.",
+        "Implementation would start Phase 5C UI polish, Phase 6 business modules, Golden Module work, marketplace, real providers, runtime AI, deployment, or secrets access.",
+        "Implementation would invent capabilities, APIs, roles, modules, permissions, events, screens, or business rules not authorized by the ticket.",
+        "Exact-file planning discovers stale paths, overlapping ownership, or required files outside ticket scope without conditional replan authority.",
+        "Validation fails after bounded repair inside ticket scope."
+      ],
+      "acceptance_criteria": [
+        "ai_data_classification accepts readable/restricted/prohibited only and no AI runtime/provider behavior is introduced."
+      ],
+      "dependencies": [
+        "P5B1-013"
+      ],
+      "commit_message": "P5B1-014 add module AI data classification metadata",
+      "rollback_notes": "Revert the ticket commit and any ticket-specific evidence artifacts; do not revert unrelated prior tickets.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": true,
+      "stale_ticket_risk_notes": [
+        "Reconfirm exact files before editing because Phase 5B1 is substrate-only and repo surfaces may move before execution."
+      ],
+      "runtime_consistency_chain": [
+        "Preserve Phase 5B Gatekeeper/Foundry/module-registry boundaries.",
+        "Preserve Access Core and tenant isolation rules.",
+        "Preserve no-fake-dashboard, no-fake-module-card, and no-Phase-6-surface constraints."
+      ],
+      "minimum_concrete_requirement": "Module manifests declare validated ai_data_classification metadata and tests prove it is metadata-only with no AI runtime behavior.",
+      "split_if": [
+        "Split only if exact-file planning proves multiple unrelated architectural surfaces or validation ladders must be owned separately."
+      ],
+      "requires_human_approval_if": [
+        "Ticket requires new dependency, broad architecture change, new ADR, production secret/provider/deployment, destructive migration, Phase 5C implementation, Phase 6 business scope, or package/lockfile change."
+      ],
+      "failure_classification": {
+        "blocker": "Stop immediately for scope, authority, validation, dependency, tenant isolation, secret, deployment, destructive migration, or phase-boundary failure.",
+        "major": "Repair only inside ticket scope when validation or exact-file planning finds deterministic local mismatch.",
+        "minor": "Document harmless evidence wording or non-runtime clarification in the ticket artifact."
+      }
+    },
+    {
+      "ticket_id": "P5B1-015",
+      "title": "Backfill module manifests and Foundry/module validation for new manifest fields",
+      "type": "contract-runtime-validation",
+      "priority": "P0",
+      "tier": "substrate",
+      "objective": "Ensure Foundry/module registry validation consumes the new manifest fields consistently across existing manifests.",
+      "scope": [
+        "Update module registry/Foundry validation paths to preserve new manifest fields.",
+        "Ensure Access Core, Engagement Gateway, Lead Desk, and internal fixture manifests pass.",
+        "Add regression tests for required_capabilities, display metadata, visibility_state, ai_data_classification."
+      ],
+      "non_scope": [
+        "No Phase 5C implementation.",
+        "No Phase 6 business modules.",
+        "No production deployment, secrets, real providers, runtime AI, or marketplace behavior.",
+        "No unrelated refactors or package/lockfile changes."
+      ],
+      "source_files_to_inspect": [
+        "apps/api/src/module-registry/module-registry.service.ts",
+        "apps/api/src/foundry/**",
+        "packages/contracts/*module-manifest.contract.ts"
+      ],
+      "files_expected_to_change": [
+        "apps/api/src/module-registry/module-registry.service.ts",
+        "apps/api/src/module-registry/module-registry.p5b1-015.test.ts",
+        "apps/api/src/foundry/foundry.p5b1-015.test.ts",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-015/P5B1-015-summary.md",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-015/P5B1-015-validation-summary.md"
+      ],
+      "files_forbidden_to_change": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "pnpm-workspace.yaml",
+        "docs/policies/**",
+        "docs/adr/**",
+        "docs/standards/**",
+        "docs/process/AKTI_ERP_Phase_5B1_Platform_Experience_Substrate_Plan_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Visual_Direction_Decision_Memo_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Frontend_Current_State_Evidence_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Frontend_Improvement_Backlog_Candidates_v1.md",
+        "docs/process/AKTI_ERP_Phase_5B_Ticket_Pack_v1.json",
+        "docs/process/AKTI_ERP_Phase_5B_Audit_Report_v1.md"
+      ],
+      "required_outputs": [
+        "Module registry/Foundry validation supports new manifest fields."
+      ],
+      "evidence_artifacts": [
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-015/P5B1-015-summary.md",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-015/P5B1-015-validation-summary.md"
+      ],
+      "tests_required": [
+        "Module registry and Foundry targeted tests plus contracts validation."
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --dir apps/api exec tsx src/module-registry/module-registry.p5b1-015.test.ts",
+        "pnpm --dir apps/api exec tsx src/foundry/foundry.p5b1-015.test.ts",
+        "pnpm --filter @akti/api typecheck",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Required source authority is missing or conflicts with Prisma, contracts, manifests, generated registry, ADRs, active docs, tests, or validation evidence.",
+        "Implementation would start Phase 5C UI polish, Phase 6 business modules, Golden Module work, marketplace, real providers, runtime AI, deployment, or secrets access.",
+        "Implementation would invent capabilities, APIs, roles, modules, permissions, events, screens, or business rules not authorized by the ticket.",
+        "Exact-file planning discovers stale paths, overlapping ownership, or required files outside ticket scope without conditional replan authority.",
+        "Validation fails after bounded repair inside ticket scope."
+      ],
+      "acceptance_criteria": [
+        "Existing manifests validate through module registry and Foundry paths with new fields; validation remains strict and rejects malformed metadata."
+      ],
+      "dependencies": [
+        "P5B1-011",
+        "P5B1-012",
+        "P5B1-013",
+        "P5B1-014"
+      ],
+      "commit_message": "P5B1-015 backfill manifest validation fields",
+      "rollback_notes": "Revert the ticket commit and any ticket-specific evidence artifacts; do not revert unrelated prior tickets.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": true,
+      "stale_ticket_risk_notes": [
+        "Reconfirm exact files before editing because Phase 5B1 is substrate-only and repo surfaces may move before execution."
+      ],
+      "runtime_consistency_chain": [
+        "Preserve Phase 5B Gatekeeper/Foundry/module-registry boundaries.",
+        "Preserve Access Core and tenant isolation rules.",
+        "Preserve no-fake-dashboard, no-fake-module-card, and no-Phase-6-surface constraints."
+      ],
+      "minimum_concrete_requirement": "Module registry and Foundry validation paths include and validate new manifest fields with targeted tests for existing manifests and malformed inputs.",
+      "split_if": [
+        "Split only if exact-file planning proves multiple unrelated architectural surfaces or validation ladders must be owned separately."
+      ],
+      "requires_human_approval_if": [
+        "Ticket requires new dependency, broad architecture change, new ADR, production secret/provider/deployment, destructive migration, Phase 5C implementation, Phase 6 business scope, or package/lockfile change."
+      ],
+      "failure_classification": {
+        "blocker": "Stop immediately for scope, authority, validation, dependency, tenant isolation, secret, deployment, destructive migration, or phase-boundary failure.",
+        "major": "Repair only inside ticket scope when validation or exact-file planning finds deterministic local mismatch.",
+        "minor": "Document harmless evidence wording or non-runtime clarification in the ticket artifact."
+      }
+    },
+    {
+      "ticket_id": "P5B1-016",
+      "title": "Role-aware /platform/modules response",
+      "type": "api",
+      "priority": "P0",
+      "tier": "substrate",
+      "objective": "Make /platform/modules role-aware and capability-aware while preserving visibility-does-not-equal-authority.",
+      "scope": [
+        "Filter module visibility by current actor capabilities including platform.crm.access and platform.modules.view.",
+        "Return visibility_state and display metadata from manifest/registry substrate.",
+        "Do not grant import/export/delete/admin authority from visibility."
+      ],
+      "non_scope": [
+        "No Phase 5C implementation.",
+        "No Phase 6 business modules.",
+        "No production deployment, secrets, real providers, runtime AI, or marketplace behavior.",
+        "No unrelated refactors or package/lockfile changes."
+      ],
+      "source_files_to_inspect": [
+        "apps/api/src/module-registry/module-registry.controller.ts",
+        "apps/api/src/module-registry/module-registry.service.ts",
+        "apps/api/src/access-core/**",
+        "packages/contracts/*module-manifest.contract.ts"
+      ],
+      "files_expected_to_change": [
+        "apps/api/src/module-registry/module-registry.controller.ts",
+        "apps/api/src/module-registry/module-registry.service.ts",
+        "apps/api/src/module-registry/module-registry.controller.p5b1-016.test.ts",
+        "apps/api/src/module-registry/module-registry.service.p5b1-016.test.ts",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-016/P5B1-016-summary.md",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-016/P5B1-016-validation-summary.md"
+      ],
+      "files_forbidden_to_change": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "pnpm-workspace.yaml",
+        "docs/policies/**",
+        "docs/adr/**",
+        "docs/standards/**",
+        "docs/process/AKTI_ERP_Phase_5B1_Platform_Experience_Substrate_Plan_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Visual_Direction_Decision_Memo_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Frontend_Current_State_Evidence_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Frontend_Improvement_Backlog_Candidates_v1.md",
+        "docs/process/AKTI_ERP_Phase_5B_Ticket_Pack_v1.json",
+        "docs/process/AKTI_ERP_Phase_5B_Audit_Report_v1.md"
+      ],
+      "required_outputs": [
+        "Role-aware modules API response and tests."
+      ],
+      "evidence_artifacts": [
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-016/P5B1-016-summary.md",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-016/P5B1-016-validation-summary.md"
+      ],
+      "tests_required": [
+        "Positive/negative actor capability tests for /platform/modules."
+      ],
+      "validation_commands": [
+        "pnpm --dir apps/api exec tsx src/module-registry/module-registry.controller.p5b1-016.test.ts",
+        "pnpm --dir apps/api exec tsx src/module-registry/module-registry.service.p5b1-016.test.ts",
+        "pnpm --filter @akti/api typecheck",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Required source authority is missing or conflicts with Prisma, contracts, manifests, generated registry, ADRs, active docs, tests, or validation evidence.",
+        "Implementation would start Phase 5C UI polish, Phase 6 business modules, Golden Module work, marketplace, real providers, runtime AI, deployment, or secrets access.",
+        "Implementation would invent capabilities, APIs, roles, modules, permissions, events, screens, or business rules not authorized by the ticket.",
+        "Exact-file planning discovers stale paths, overlapping ownership, or required files outside ticket scope without conditional replan authority.",
+        "Validation fails after bounded repair inside ticket scope."
+      ],
+      "acceptance_criteria": [
+        "Actor without required capability cannot see CRM/module cards; actor with capabilities sees allowed modules; visibility does not grant destructive/admin capabilities."
+      ],
+      "dependencies": [
+        "P5B1-010"
+      ],
+      "commit_message": "P5B1-016 add role-aware platform modules response",
+      "rollback_notes": "Revert the ticket commit and any ticket-specific evidence artifacts; do not revert unrelated prior tickets.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": true,
+      "stale_ticket_risk_notes": [
+        "Reconfirm exact files before editing because Phase 5B1 is substrate-only and repo surfaces may move before execution."
+      ],
+      "runtime_consistency_chain": [
+        "Preserve Phase 5B Gatekeeper/Foundry/module-registry boundaries.",
+        "Preserve Access Core and tenant isolation rules.",
+        "Preserve no-fake-dashboard, no-fake-module-card, and no-Phase-6-surface constraints."
+      ],
+      "minimum_concrete_requirement": "Targeted tests prove /platform/modules filters modules by actor capabilities seeded in P5B1-010 and never treats visibility as import/export/delete/admin authority.",
+      "split_if": [
+        "Split only if exact-file planning proves multiple unrelated architectural surfaces or validation ladders must be owned separately."
+      ],
+      "requires_human_approval_if": [
+        "Ticket requires new dependency, broad architecture change, new ADR, production secret/provider/deployment, destructive migration, Phase 5C implementation, Phase 6 business scope, or package/lockfile change."
+      ],
+      "failure_classification": {
+        "blocker": "Stop immediately for scope, authority, validation, dependency, tenant isolation, secret, deployment, destructive migration, or phase-boundary failure.",
+        "major": "Repair only inside ticket scope when validation or exact-file planning finds deterministic local mismatch.",
+        "minor": "Document harmless evidence wording or non-runtime clarification in the ticket artifact."
+      }
+    },
+    {
+      "ticket_id": "P5B1-017",
+      "title": "Platform Capability Namespace Registry with grantable_to",
+      "type": "documentation-control",
+      "priority": "P0",
+      "tier": "substrate",
+      "objective": "Create human-readable platform capability namespace registry with grantable_to guidance while preserving Access Core/Gatekeeper as runtime enforcement.",
+      "scope": [
+        "Create docs/process/AKTI_ERP_Platform_Capability_Namespace_Registry_v1.md.",
+        "Include required columns and initial capability set.",
+        "Mark platform.shell.actions.view reserved only; no endpoint in 5B1."
+      ],
+      "non_scope": [
+        "No Phase 5C implementation.",
+        "No Phase 6 business modules.",
+        "No production deployment, secrets, real providers, runtime AI, or marketplace behavior.",
+        "No unrelated refactors or package/lockfile changes."
+      ],
+      "source_files_to_inspect": [
+        "packages/contracts/access-core-capability-seed.contract.ts",
+        "apps/api/src/search/search.service.ts",
+        "docs/process/AKTI_ERP_Phase_5B1_Platform_Experience_Substrate_Plan_v1.md"
+      ],
+      "files_expected_to_change": [
+        "docs/process/AKTI_ERP_Platform_Capability_Namespace_Registry_v1.md",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-017/P5B1-017-summary.md",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-017/P5B1-017-validation-summary.md"
+      ],
+      "files_forbidden_to_change": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "pnpm-workspace.yaml",
+        "docs/policies/**",
+        "docs/adr/**",
+        "docs/standards/**",
+        "docs/process/AKTI_ERP_Phase_5B1_Platform_Experience_Substrate_Plan_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Visual_Direction_Decision_Memo_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Frontend_Current_State_Evidence_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Frontend_Improvement_Backlog_Candidates_v1.md",
+        "docs/process/AKTI_ERP_Phase_5B_Ticket_Pack_v1.json",
+        "docs/process/AKTI_ERP_Phase_5B_Audit_Report_v1.md"
+      ],
+      "required_outputs": [
+        "Capability namespace registry doc."
+      ],
+      "evidence_artifacts": [
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-017/P5B1-017-summary.md",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-017/P5B1-017-validation-summary.md"
+      ],
+      "tests_required": [
+        "Static validation of required columns and capability rows."
+      ],
+      "validation_commands": [
+        "rg \"grantable_to\" docs/process/AKTI_ERP_Platform_Capability_Namespace_Registry_v1.md",
+        "rg \"platform.shell.actions.view.*reserved|reserved.*platform.shell.actions.view\" docs/process/AKTI_ERP_Platform_Capability_Namespace_Registry_v1.md",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Required source authority is missing or conflicts with Prisma, contracts, manifests, generated registry, ADRs, active docs, tests, or validation evidence.",
+        "Implementation would start Phase 5C UI polish, Phase 6 business modules, Golden Module work, marketplace, real providers, runtime AI, deployment, or secrets access.",
+        "Implementation would invent capabilities, APIs, roles, modules, permissions, events, screens, or business rules not authorized by the ticket.",
+        "Exact-file planning discovers stale paths, overlapping ownership, or required files outside ticket scope without conditional replan authority.",
+        "Validation fails after bounded repair inside ticket scope."
+      ],
+      "acceptance_criteria": [
+        "Registry includes all initial capabilities, owner/phase/status/meaning/grantable_to/notes columns, and runtime-enforcement disclaimer."
+      ],
+      "dependencies": [
+        "P5B1-010"
+      ],
+      "commit_message": "P5B1-017 add platform capability namespace registry",
+      "rollback_notes": "Revert the ticket commit and any ticket-specific evidence artifacts; do not revert unrelated prior tickets.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": true,
+      "stale_ticket_risk_notes": [
+        "Reconfirm exact files before editing because Phase 5B1 is substrate-only and repo surfaces may move before execution."
+      ],
+      "runtime_consistency_chain": [
+        "Preserve Phase 5B Gatekeeper/Foundry/module-registry boundaries.",
+        "Preserve Access Core and tenant isolation rules.",
+        "Preserve no-fake-dashboard, no-fake-module-card, and no-Phase-6-surface constraints."
+      ],
+      "minimum_concrete_requirement": "Registry document lists required capability rows and grantable_to guidance, with static checks proving platform.shell.actions.view remains reserved only.",
+      "split_if": [
+        "Split only if exact-file planning proves multiple unrelated architectural surfaces or validation ladders must be owned separately."
+      ],
+      "requires_human_approval_if": [
+        "Ticket requires new dependency, broad architecture change, new ADR, production secret/provider/deployment, destructive migration, Phase 5C implementation, Phase 6 business scope, or package/lockfile change."
+      ],
+      "failure_classification": {
+        "blocker": "Stop immediately for scope, authority, validation, dependency, tenant isolation, secret, deployment, destructive migration, or phase-boundary failure.",
+        "major": "Repair only inside ticket scope when validation or exact-file planning finds deterministic local mismatch.",
+        "minor": "Document harmless evidence wording or non-runtime clarification in the ticket artifact."
+      }
+    },
+    {
+      "ticket_id": "P5B1-018",
+      "title": "Data-control capability namespace",
+      "type": "capability-contract",
+      "priority": "P1",
+      "tier": "substrate",
+      "objective": "Seed/reserve platform data-control capabilities without building import/export/backup workflows.",
+      "scope": [
+        "Add data-control capability declarations to Access Core seed/manifest where grantable in Phase 5B1.",
+        "Update capability namespace registry status rows.",
+        "Do not implement import/export/backup execution."
+      ],
+      "non_scope": [
+        "No Phase 5C implementation.",
+        "No Phase 6 business modules.",
+        "No production deployment, secrets, real providers, runtime AI, or marketplace behavior.",
+        "No unrelated refactors or package/lockfile changes."
+      ],
+      "source_files_to_inspect": [
+        "packages/contracts/access-core-capability-seed.contract.ts",
+        "packages/contracts/access-core.module-manifest.contract.ts",
+        "docs/process/AKTI_ERP_Platform_Capability_Namespace_Registry_v1.md",
+        "apps/api/src/import-export/**"
+      ],
+      "files_expected_to_change": [
+        "packages/contracts/access-core-capability-seed.contract.ts",
+        "packages/contracts/access-core.module-manifest.contract.ts",
+        "docs/process/AKTI_ERP_Platform_Capability_Namespace_Registry_v1.md",
+        "apps/api/src/access-core/access-core.p5b1-018.test.ts",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-018/P5B1-018-summary.md",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-018/P5B1-018-validation-summary.md"
+      ],
+      "files_forbidden_to_change": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "pnpm-workspace.yaml",
+        "docs/policies/**",
+        "docs/adr/**",
+        "docs/standards/**",
+        "docs/process/AKTI_ERP_Phase_5B1_Platform_Experience_Substrate_Plan_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Visual_Direction_Decision_Memo_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Frontend_Current_State_Evidence_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Frontend_Improvement_Backlog_Candidates_v1.md",
+        "docs/process/AKTI_ERP_Phase_5B_Ticket_Pack_v1.json",
+        "docs/process/AKTI_ERP_Phase_5B_Audit_Report_v1.md"
+      ],
+      "required_outputs": [
+        "Data-control capability namespace declarations and tests."
+      ],
+      "evidence_artifacts": [
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-018/P5B1-018-summary.md",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-018/P5B1-018-validation-summary.md"
+      ],
+      "tests_required": [
+        "Access Core capability seed proof for data-control namespace."
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/contracts build",
+        "pnpm --dir apps/api exec tsx src/access-core/access-core.p5b1-018.test.ts",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Required source authority is missing or conflicts with Prisma, contracts, manifests, generated registry, ADRs, active docs, tests, or validation evidence.",
+        "Implementation would start Phase 5C UI polish, Phase 6 business modules, Golden Module work, marketplace, real providers, runtime AI, deployment, or secrets access.",
+        "Implementation would invent capabilities, APIs, roles, modules, permissions, events, screens, or business rules not authorized by the ticket.",
+        "Exact-file planning discovers stale paths, overlapping ownership, or required files outside ticket scope without conditional replan authority.",
+        "Validation fails after bounded repair inside ticket scope."
+      ],
+      "acceptance_criteria": [
+        "Data-control capabilities exist with grantability guidance and no actual import/export/backup workflow implementation."
+      ],
+      "dependencies": [
+        "P5B1-017"
+      ],
+      "commit_message": "P5B1-018 add data-control capability namespace",
+      "rollback_notes": "Revert the ticket commit and any ticket-specific evidence artifacts; do not revert unrelated prior tickets.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": true,
+      "stale_ticket_risk_notes": [
+        "Reconfirm exact files before editing because Phase 5B1 is substrate-only and repo surfaces may move before execution."
+      ],
+      "runtime_consistency_chain": [
+        "Preserve Phase 5B Gatekeeper/Foundry/module-registry boundaries.",
+        "Preserve Access Core and tenant isolation rules.",
+        "Preserve no-fake-dashboard, no-fake-module-card, and no-Phase-6-surface constraints."
+      ],
+      "minimum_concrete_requirement": "Access Core and namespace registry declare platform data-control capabilities with tests proving no import/export/backup runtime execution was added.",
+      "split_if": [
+        "Split only if exact-file planning proves multiple unrelated architectural surfaces or validation ladders must be owned separately."
+      ],
+      "requires_human_approval_if": [
+        "Ticket requires new dependency, broad architecture change, new ADR, production secret/provider/deployment, destructive migration, Phase 5C implementation, Phase 6 business scope, or package/lockfile change."
+      ],
+      "failure_classification": {
+        "blocker": "Stop immediately for scope, authority, validation, dependency, tenant isolation, secret, deployment, destructive migration, or phase-boundary failure.",
+        "major": "Repair only inside ticket scope when validation or exact-file planning finds deterministic local mismatch.",
+        "minor": "Document harmless evidence wording or non-runtime clarification in the ticket artifact."
+      }
+    },
+    {
+      "ticket_id": "P5B1-019",
+      "title": "Search scope contract limited to WorkflowDefinition and WorkflowInstance",
+      "type": "contract-validation",
+      "priority": "P1",
+      "tier": "substrate",
+      "objective": "Document and prove Phase 5B1 search scope remains limited to current Phase 5B workflow surfaces.",
+      "scope": [
+        "Create or update search scope contract evidence.",
+        "Assert searchable targets are WorkflowDefinition and WorkflowInstance only.",
+        "Do not add CRM, file, notification, or future business module search."
+      ],
+      "non_scope": [
+        "No Phase 5C implementation.",
+        "No Phase 6 business modules.",
+        "No production deployment, secrets, real providers, runtime AI, or marketplace behavior.",
+        "No unrelated refactors or package/lockfile changes."
+      ],
+      "source_files_to_inspect": [
+        "apps/api/src/search/search.service.ts",
+        "apps/api/src/search/search.controller.ts",
+        "prisma/schema.prisma",
+        "docs/process/AKTI_ERP_Phase_5B1_Platform_Experience_Substrate_Plan_v1.md"
+      ],
+      "files_expected_to_change": [
+        "docs/process/AKTI_ERP_Phase_5B1_Search_Scope_Contract_v1.md",
+        "apps/api/src/search/search.p5b1-019.test.ts",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-019/P5B1-019-summary.md",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-019/P5B1-019-validation-summary.md"
+      ],
+      "files_forbidden_to_change": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "pnpm-workspace.yaml",
+        "docs/policies/**",
+        "docs/adr/**",
+        "docs/standards/**",
+        "docs/process/AKTI_ERP_Phase_5B1_Platform_Experience_Substrate_Plan_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Visual_Direction_Decision_Memo_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Frontend_Current_State_Evidence_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Frontend_Improvement_Backlog_Candidates_v1.md",
+        "docs/process/AKTI_ERP_Phase_5B_Ticket_Pack_v1.json",
+        "docs/process/AKTI_ERP_Phase_5B_Audit_Report_v1.md"
+      ],
+      "required_outputs": [
+        "Search scope contract doc and test."
+      ],
+      "evidence_artifacts": [
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-019/P5B1-019-summary.md",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-019/P5B1-019-validation-summary.md"
+      ],
+      "tests_required": [
+        "Search service test proving target keys remain workflow_definition/workflow_instance only."
+      ],
+      "validation_commands": [
+        "pnpm --dir apps/api exec tsx src/search/search.p5b1-019.test.ts",
+        "pnpm --filter @akti/api typecheck",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Required source authority is missing or conflicts with Prisma, contracts, manifests, generated registry, ADRs, active docs, tests, or validation evidence.",
+        "Implementation would start Phase 5C UI polish, Phase 6 business modules, Golden Module work, marketplace, real providers, runtime AI, deployment, or secrets access.",
+        "Implementation would invent capabilities, APIs, roles, modules, permissions, events, screens, or business rules not authorized by the ticket.",
+        "Exact-file planning discovers stale paths, overlapping ownership, or required files outside ticket scope without conditional replan authority.",
+        "Validation fails after bounded repair inside ticket scope."
+      ],
+      "acceptance_criteria": [
+        "Search scope contract and test prohibit CRM/Lead Desk/file/notification/future module search expansion in 5B1."
+      ],
+      "dependencies": [
+        "P5B1-017"
+      ],
+      "commit_message": "P5B1-019 add Phase 5B1 search scope contract",
+      "rollback_notes": "Revert the ticket commit and any ticket-specific evidence artifacts; do not revert unrelated prior tickets.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": true,
+      "stale_ticket_risk_notes": [
+        "Reconfirm exact files before editing because Phase 5B1 is substrate-only and repo surfaces may move before execution."
+      ],
+      "runtime_consistency_chain": [
+        "Preserve Phase 5B Gatekeeper/Foundry/module-registry boundaries.",
+        "Preserve Access Core and tenant isolation rules.",
+        "Preserve no-fake-dashboard, no-fake-module-card, and no-Phase-6-surface constraints."
+      ],
+      "minimum_concrete_requirement": "Search contract and tests prove Phase 5B1 searchable targets remain WorkflowDefinition and WorkflowInstance only, with tenant/capability filtering preserved.",
+      "split_if": [
+        "Split only if exact-file planning proves multiple unrelated architectural surfaces or validation ladders must be owned separately."
+      ],
+      "requires_human_approval_if": [
+        "Ticket requires new dependency, broad architecture change, new ADR, production secret/provider/deployment, destructive migration, Phase 5C implementation, Phase 6 business scope, or package/lockfile change."
+      ],
+      "failure_classification": {
+        "blocker": "Stop immediately for scope, authority, validation, dependency, tenant isolation, secret, deployment, destructive migration, or phase-boundary failure.",
+        "major": "Repair only inside ticket scope when validation or exact-file planning finds deterministic local mismatch.",
+        "minor": "Document harmless evidence wording or non-runtime clarification in the ticket artifact."
+      }
+    },
+    {
+      "ticket_id": "P5B1-020",
+      "title": "GET /platform/notifications/summary contract/API",
+      "type": "api",
+      "priority": "P1",
+      "tier": "substrate",
+      "objective": "Add honest read-only notification summary endpoint for Phase 5C notification bell without live providers or notification center runtime.",
+      "scope": [
+        "Add minimal GET /platform/notifications/summary returning unread_count and status.",
+        "No email/SMS/WhatsApp/live provider integration.",
+        "Register controller/service in app module if new surface is required."
+      ],
+      "non_scope": [
+        "No Phase 5C implementation.",
+        "No Phase 6 business modules.",
+        "No production deployment, secrets, real providers, runtime AI, or marketplace behavior.",
+        "No unrelated refactors or package/lockfile changes."
+      ],
+      "source_files_to_inspect": [
+        "apps/api/src/communication/**",
+        "apps/api/src/app.module.ts",
+        "apps/web/components/mission-control/notification-center.tsx"
+      ],
+      "files_expected_to_change": [
+        "apps/api/src/notifications/notifications.controller.ts",
+        "apps/api/src/notifications/notifications.service.ts",
+        "apps/api/src/notifications/notifications.p5b1-020.test.ts",
+        "apps/api/src/app.module.ts",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-020/P5B1-020-summary.md",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-020/P5B1-020-validation-summary.md"
+      ],
+      "files_forbidden_to_change": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "pnpm-workspace.yaml",
+        "docs/policies/**",
+        "docs/adr/**",
+        "docs/standards/**",
+        "docs/process/AKTI_ERP_Phase_5B1_Platform_Experience_Substrate_Plan_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Visual_Direction_Decision_Memo_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Frontend_Current_State_Evidence_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Frontend_Improvement_Backlog_Candidates_v1.md",
+        "docs/process/AKTI_ERP_Phase_5B_Ticket_Pack_v1.json",
+        "docs/process/AKTI_ERP_Phase_5B_Audit_Report_v1.md"
+      ],
+      "required_outputs": [
+        "Notification summary API and tests."
+      ],
+      "evidence_artifacts": [
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-020/P5B1-020-summary.md",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-020/P5B1-020-validation-summary.md"
+      ],
+      "tests_required": [
+        "Targeted API/service test for status not_configured and no provider calls."
+      ],
+      "validation_commands": [
+        "pnpm --dir apps/api exec tsx src/notifications/notifications.p5b1-020.test.ts",
+        "pnpm --filter @akti/api typecheck",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Required source authority is missing or conflicts with Prisma, contracts, manifests, generated registry, ADRs, active docs, tests, or validation evidence.",
+        "Implementation would start Phase 5C UI polish, Phase 6 business modules, Golden Module work, marketplace, real providers, runtime AI, deployment, or secrets access.",
+        "Implementation would invent capabilities, APIs, roles, modules, permissions, events, screens, or business rules not authorized by the ticket.",
+        "Exact-file planning discovers stale paths, overlapping ownership, or required files outside ticket scope without conditional replan authority.",
+        "Validation fails after bounded repair inside ticket scope."
+      ],
+      "acceptance_criteria": [
+        "Endpoint returns unread_count 0 and status not_configured; no real notification/provider runtime is added."
+      ],
+      "dependencies": [
+        "P5B1-017"
+      ],
+      "commit_message": "P5B1-020 add notification summary read API",
+      "rollback_notes": "Revert the ticket commit and any ticket-specific evidence artifacts; do not revert unrelated prior tickets.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": true,
+      "stale_ticket_risk_notes": [
+        "Reconfirm exact files before editing because Phase 5B1 is substrate-only and repo surfaces may move before execution."
+      ],
+      "runtime_consistency_chain": [
+        "Preserve Phase 5B Gatekeeper/Foundry/module-registry boundaries.",
+        "Preserve Access Core and tenant isolation rules.",
+        "Preserve no-fake-dashboard, no-fake-module-card, and no-Phase-6-surface constraints."
+      ],
+      "minimum_concrete_requirement": "GET /platform/notifications/summary returns an honest not_configured summary with tests proving no live provider or notification-center runtime behavior.",
+      "split_if": [
+        "Split only if exact-file planning proves multiple unrelated architectural surfaces or validation ladders must be owned separately."
+      ],
+      "requires_human_approval_if": [
+        "Ticket requires new dependency, broad architecture change, new ADR, production secret/provider/deployment, destructive migration, Phase 5C implementation, Phase 6 business scope, or package/lockfile change."
+      ],
+      "failure_classification": {
+        "blocker": "Stop immediately for scope, authority, validation, dependency, tenant isolation, secret, deployment, destructive migration, or phase-boundary failure.",
+        "major": "Repair only inside ticket scope when validation or exact-file planning finds deterministic local mismatch.",
+        "minor": "Document harmless evidence wording or non-runtime clarification in the ticket artifact."
+      }
+    },
+    {
+      "ticket_id": "P5B1-021",
+      "title": "GET /platform/status/overview using platform-health/observability boundary",
+      "type": "api",
+      "priority": "P1",
+      "tier": "substrate",
+      "objective": "Add Mission Control status overview on existing platform-health/observability boundary rather than inventing a new platform-status service.",
+      "scope": [
+        "Inspect platform-health and platform-observability first.",
+        "Add GET /platform/status/overview to PlatformHealthController or justified existing boundary.",
+        "Return honest states for workspace_connection, crm_pipeline, platform_services, data_controls."
+      ],
+      "non_scope": [
+        "No Phase 5C implementation.",
+        "No Phase 6 business modules.",
+        "No production deployment, secrets, real providers, runtime AI, or marketplace behavior.",
+        "No unrelated refactors or package/lockfile changes."
+      ],
+      "source_files_to_inspect": [
+        "apps/api/src/platform-health/**",
+        "apps/api/src/platform-observability/**",
+        "apps/api/src/module-registry/**",
+        "apps/api/src/app.module.ts"
+      ],
+      "files_expected_to_change": [
+        "apps/api/src/platform-health/platform-health.controller.ts",
+        "apps/api/src/platform-health/platform-health.p5b1-021.test.ts",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-021/P5B1-021-summary.md",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-021/P5B1-021-validation-summary.md"
+      ],
+      "files_forbidden_to_change": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "pnpm-workspace.yaml",
+        "docs/policies/**",
+        "docs/adr/**",
+        "docs/standards/**",
+        "docs/process/AKTI_ERP_Phase_5B1_Platform_Experience_Substrate_Plan_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Visual_Direction_Decision_Memo_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Frontend_Current_State_Evidence_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Frontend_Improvement_Backlog_Candidates_v1.md",
+        "docs/process/AKTI_ERP_Phase_5B_Ticket_Pack_v1.json",
+        "docs/process/AKTI_ERP_Phase_5B_Audit_Report_v1.md"
+      ],
+      "required_outputs": [
+        "Platform status overview route and test."
+      ],
+      "evidence_artifacts": [
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-021/P5B1-021-summary.md",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-021/P5B1-021-validation-summary.md"
+      ],
+      "tests_required": [
+        "Targeted platform-health controller test."
+      ],
+      "validation_commands": [
+        "pnpm --dir apps/api exec tsx src/platform-health/platform-health.p5b1-021.test.ts",
+        "pnpm --filter @akti/api typecheck",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Required source authority is missing or conflicts with Prisma, contracts, manifests, generated registry, ADRs, active docs, tests, or validation evidence.",
+        "Implementation would start Phase 5C UI polish, Phase 6 business modules, Golden Module work, marketplace, real providers, runtime AI, deployment, or secrets access.",
+        "Implementation would invent capabilities, APIs, roles, modules, permissions, events, screens, or business rules not authorized by the ticket.",
+        "Exact-file planning discovers stale paths, overlapping ownership, or required files outside ticket scope without conditional replan authority.",
+        "Validation fails after bounded repair inside ticket scope."
+      ],
+      "acceptance_criteria": [
+        "Status overview uses existing health/observability boundary and returns honest unavailable/offline/not_connected states without fake metrics."
+      ],
+      "dependencies": [
+        "P5B1-016"
+      ],
+      "commit_message": "P5B1-021 add platform status overview",
+      "rollback_notes": "Revert the ticket commit and any ticket-specific evidence artifacts; do not revert unrelated prior tickets.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": true,
+      "stale_ticket_risk_notes": [
+        "Reconfirm exact files before editing because Phase 5B1 is substrate-only and repo surfaces may move before execution."
+      ],
+      "runtime_consistency_chain": [
+        "Preserve Phase 5B Gatekeeper/Foundry/module-registry boundaries.",
+        "Preserve Access Core and tenant isolation rules.",
+        "Preserve no-fake-dashboard, no-fake-module-card, and no-Phase-6-surface constraints."
+      ],
+      "minimum_concrete_requirement": "GET /platform/status/overview is implemented on the existing platform-health boundary with tests proving honest current states and no fake operational metrics.",
+      "split_if": [
+        "Split only if exact-file planning proves multiple unrelated architectural surfaces or validation ladders must be owned separately."
+      ],
+      "requires_human_approval_if": [
+        "Ticket requires new dependency, broad architecture change, new ADR, production secret/provider/deployment, destructive migration, Phase 5C implementation, Phase 6 business scope, or package/lockfile change."
+      ],
+      "failure_classification": {
+        "blocker": "Stop immediately for scope, authority, validation, dependency, tenant isolation, secret, deployment, destructive migration, or phase-boundary failure.",
+        "major": "Repair only inside ticket scope when validation or exact-file planning finds deterministic local mismatch.",
+        "minor": "Document harmless evidence wording or non-runtime clarification in the ticket artifact."
+      }
+    },
+    {
+      "ticket_id": "P5B1-022",
+      "title": "GET /platform/data-controls/status",
+      "type": "api",
+      "priority": "P1",
+      "tier": "substrate",
+      "objective": "Add honest Data Controls status endpoint without building import/export, retention, or backup workflows.",
+      "scope": [
+        "Add GET /platform/data-controls/status returning import_export, retention_policy, audit_controls states.",
+        "No import/export execution, backup/restore workflow, or business report behavior.",
+        "Register service/controller in app module if needed."
+      ],
+      "non_scope": [
+        "No Phase 5C implementation.",
+        "No Phase 6 business modules.",
+        "No production deployment, secrets, real providers, runtime AI, or marketplace behavior.",
+        "No unrelated refactors or package/lockfile changes."
+      ],
+      "source_files_to_inspect": [
+        "apps/api/src/import-export/**",
+        "apps/api/src/reporting/**",
+        "apps/api/src/file-service/**",
+        "apps/api/src/app.module.ts"
+      ],
+      "files_expected_to_change": [
+        "apps/api/src/data-controls/data-controls.controller.ts",
+        "apps/api/src/data-controls/data-controls.service.ts",
+        "apps/api/src/data-controls/data-controls.p5b1-022.test.ts",
+        "apps/api/src/app.module.ts",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-022/P5B1-022-summary.md",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-022/P5B1-022-validation-summary.md"
+      ],
+      "files_forbidden_to_change": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "pnpm-workspace.yaml",
+        "docs/policies/**",
+        "docs/adr/**",
+        "docs/standards/**",
+        "docs/process/AKTI_ERP_Phase_5B1_Platform_Experience_Substrate_Plan_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Visual_Direction_Decision_Memo_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Frontend_Current_State_Evidence_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Frontend_Improvement_Backlog_Candidates_v1.md",
+        "docs/process/AKTI_ERP_Phase_5B_Ticket_Pack_v1.json",
+        "docs/process/AKTI_ERP_Phase_5B_Audit_Report_v1.md"
+      ],
+      "required_outputs": [
+        "Data controls status API and tests."
+      ],
+      "evidence_artifacts": [
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-022/P5B1-022-summary.md",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-022/P5B1-022-validation-summary.md"
+      ],
+      "tests_required": [
+        "Targeted data controls endpoint test proving unavailable/inactive states and no execution behavior."
+      ],
+      "validation_commands": [
+        "pnpm --dir apps/api exec tsx src/data-controls/data-controls.p5b1-022.test.ts",
+        "pnpm --filter @akti/api typecheck",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Required source authority is missing or conflicts with Prisma, contracts, manifests, generated registry, ADRs, active docs, tests, or validation evidence.",
+        "Implementation would start Phase 5C UI polish, Phase 6 business modules, Golden Module work, marketplace, real providers, runtime AI, deployment, or secrets access.",
+        "Implementation would invent capabilities, APIs, roles, modules, permissions, events, screens, or business rules not authorized by the ticket.",
+        "Exact-file planning discovers stale paths, overlapping ownership, or required files outside ticket scope without conditional replan authority.",
+        "Validation fails after bounded repair inside ticket scope."
+      ],
+      "acceptance_criteria": [
+        "Endpoint returns honest unavailable/inactive states and does not execute import/export/backup/retention workflows."
+      ],
+      "dependencies": [
+        "P5B1-018"
+      ],
+      "commit_message": "P5B1-022 add data controls status API",
+      "rollback_notes": "Revert the ticket commit and any ticket-specific evidence artifacts; do not revert unrelated prior tickets.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": true,
+      "stale_ticket_risk_notes": [
+        "Reconfirm exact files before editing because Phase 5B1 is substrate-only and repo surfaces may move before execution."
+      ],
+      "runtime_consistency_chain": [
+        "Preserve Phase 5B Gatekeeper/Foundry/module-registry boundaries.",
+        "Preserve Access Core and tenant isolation rules.",
+        "Preserve no-fake-dashboard, no-fake-module-card, and no-Phase-6-surface constraints."
+      ],
+      "minimum_concrete_requirement": "GET /platform/data-controls/status returns tested unavailable/inactive status facts without adding import/export, backup, retention, or business-report execution.",
+      "split_if": [
+        "Split only if exact-file planning proves multiple unrelated architectural surfaces or validation ladders must be owned separately."
+      ],
+      "requires_human_approval_if": [
+        "Ticket requires new dependency, broad architecture change, new ADR, production secret/provider/deployment, destructive migration, Phase 5C implementation, Phase 6 business scope, or package/lockfile change."
+      ],
+      "failure_classification": {
+        "blocker": "Stop immediately for scope, authority, validation, dependency, tenant isolation, secret, deployment, destructive migration, or phase-boundary failure.",
+        "major": "Repair only inside ticket scope when validation or exact-file planning finds deterministic local mismatch.",
+        "minor": "Document harmless evidence wording or non-runtime clarification in the ticket artifact."
+      }
+    },
+    {
+      "ticket_id": "P5B1-023",
+      "title": "Phase 5C Screen Contract Registry, including route screens and non-route component contract requirements",
+      "type": "documentation-control",
+      "priority": "P0",
+      "tier": "substrate",
+      "objective": "Create Phase 5C screen contract registry document covering planned route screens and non-route component contract requirements.",
+      "scope": [
+        "Create docs/process/AKTI_ERP_Phase_5C_Screen_Contract_Registry_v1.md.",
+        "List planned route screens and statuses defined/pending/deferred/blocked.",
+        "Include non-route component contract requirements for command palette, notification drawer, workspace status card, organization badge, module card.",
+        "Do not implement Phase 5C UI."
+      ],
+      "non_scope": [
+        "No Phase 5C implementation.",
+        "No Phase 6 business modules.",
+        "No production deployment, secrets, real providers, runtime AI, or marketplace behavior.",
+        "No unrelated refactors or package/lockfile changes."
+      ],
+      "source_files_to_inspect": [
+        "packages/contracts/screen-contract.schema.ts",
+        "apps/web/app/**",
+        "apps/web/components/**",
+        "docs/process/AKTI_ERP_Phase_5C_Frontend_Current_State_Evidence_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Visual_Direction_Decision_Memo_v1.md"
+      ],
+      "files_expected_to_change": [
+        "docs/process/AKTI_ERP_Phase_5C_Screen_Contract_Registry_v1.md",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-023/P5B1-023-summary.md",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-023/P5B1-023-validation-summary.md"
+      ],
+      "files_forbidden_to_change": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "pnpm-workspace.yaml",
+        "docs/policies/**",
+        "docs/adr/**",
+        "docs/standards/**",
+        "docs/process/AKTI_ERP_Phase_5B1_Platform_Experience_Substrate_Plan_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Visual_Direction_Decision_Memo_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Frontend_Current_State_Evidence_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Frontend_Improvement_Backlog_Candidates_v1.md",
+        "docs/process/AKTI_ERP_Phase_5B_Ticket_Pack_v1.json",
+        "docs/process/AKTI_ERP_Phase_5B_Audit_Report_v1.md"
+      ],
+      "required_outputs": [
+        "Phase 5C screen/component contract registry document."
+      ],
+      "evidence_artifacts": [
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-023/P5B1-023-summary.md",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-023/P5B1-023-validation-summary.md"
+      ],
+      "tests_required": [
+        "Static validation for required route statuses and component contract fields."
+      ],
+      "validation_commands": [
+        "rg \"command palette|notification drawer|workspace status card|organization badge|module card\" docs/process/AKTI_ERP_Phase_5C_Screen_Contract_Registry_v1.md",
+        "rg \"defined|pending|deferred|blocked\" docs/process/AKTI_ERP_Phase_5C_Screen_Contract_Registry_v1.md",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Required source authority is missing or conflicts with Prisma, contracts, manifests, generated registry, ADRs, active docs, tests, or validation evidence.",
+        "Implementation would start Phase 5C UI polish, Phase 6 business modules, Golden Module work, marketplace, real providers, runtime AI, deployment, or secrets access.",
+        "Implementation would invent capabilities, APIs, roles, modules, permissions, events, screens, or business rules not authorized by the ticket.",
+        "Exact-file planning discovers stale paths, overlapping ownership, or required files outside ticket scope without conditional replan authority.",
+        "Validation fails after bounded repair inside ticket scope."
+      ],
+      "acceptance_criteria": [
+        "Document covers route screen contracts and non-route component contract requirements; it does not authorize Phase 5C implementation or fake surfaces."
+      ],
+      "dependencies": [
+        "P5B1-004",
+        "P5B1-016",
+        "P5B1-020",
+        "P5B1-021",
+        "P5B1-022"
+      ],
+      "commit_message": "P5B1-023 add Phase 5C screen contract registry",
+      "rollback_notes": "Revert the ticket commit and any ticket-specific evidence artifacts; do not revert unrelated prior tickets.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": true,
+      "stale_ticket_risk_notes": [
+        "Reconfirm exact files before editing because Phase 5B1 is substrate-only and repo surfaces may move before execution."
+      ],
+      "runtime_consistency_chain": [
+        "Preserve Phase 5B Gatekeeper/Foundry/module-registry boundaries.",
+        "Preserve Access Core and tenant isolation rules.",
+        "Preserve no-fake-dashboard, no-fake-module-card, and no-Phase-6-surface constraints."
+      ],
+      "minimum_concrete_requirement": "Phase 5C screen contract registry exists with route contract statuses and non-route component contract fields, and static validation proves required component surfaces are present.",
+      "split_if": [
+        "Split only if exact-file planning proves multiple unrelated architectural surfaces or validation ladders must be owned separately."
+      ],
+      "requires_human_approval_if": [
+        "Ticket requires new dependency, broad architecture change, new ADR, production secret/provider/deployment, destructive migration, Phase 5C implementation, Phase 6 business scope, or package/lockfile change."
+      ],
+      "failure_classification": {
+        "blocker": "Stop immediately for scope, authority, validation, dependency, tenant isolation, secret, deployment, destructive migration, or phase-boundary failure.",
+        "major": "Repair only inside ticket scope when validation or exact-file planning finds deterministic local mismatch.",
+        "minor": "Document harmless evidence wording or non-runtime clarification in the ticket artifact."
+      }
+    },
+    {
+      "ticket_id": "P5B1-024",
+      "title": "Cross-substrate tenant/security/no-fake-surface validation",
+      "type": "validation",
+      "priority": "P0",
+      "tier": "substrate",
+      "objective": "Prove the Phase 5B1 substrate preserves tenant isolation, capability filtering, and no-fake-surface constraints across modules, profile, branding, status, data controls, and screen registry.",
+      "scope": [
+        "Add targeted negative/proof tests across role-aware modules and read APIs.",
+        "Add static/doc validation for no fake screen registry surfaces.",
+        "Record runtime-proven versus document-proven evidence."
+      ],
+      "non_scope": [
+        "No Phase 5C implementation.",
+        "No Phase 6 business modules.",
+        "No production deployment, secrets, real providers, runtime AI, or marketplace behavior.",
+        "No unrelated refactors or package/lockfile changes."
+      ],
+      "source_files_to_inspect": [
+        "apps/api/src/module-registry/**",
+        "apps/api/src/configuration/**",
+        "apps/api/src/platform-health/**",
+        "apps/api/src/data-controls/**",
+        "docs/process/AKTI_ERP_Phase_5C_Screen_Contract_Registry_v1.md"
+      ],
+      "files_expected_to_change": [
+        "apps/api/src/module-registry/module-registry.p5b1-024.test.ts",
+        "apps/api/src/configuration/configuration.p5b1-024.test.ts",
+        "apps/api/src/platform-health/platform-health.p5b1-024.test.ts",
+        "apps/api/src/data-controls/data-controls.p5b1-024.test.ts",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-024/P5B1-024-summary.md",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-024/P5B1-024-validation-summary.md"
+      ],
+      "files_forbidden_to_change": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "pnpm-workspace.yaml",
+        "docs/policies/**",
+        "docs/adr/**",
+        "docs/standards/**",
+        "docs/process/AKTI_ERP_Phase_5B1_Platform_Experience_Substrate_Plan_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Visual_Direction_Decision_Memo_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Frontend_Current_State_Evidence_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Frontend_Improvement_Backlog_Candidates_v1.md",
+        "docs/process/AKTI_ERP_Phase_5B_Ticket_Pack_v1.json",
+        "docs/process/AKTI_ERP_Phase_5B_Audit_Report_v1.md"
+      ],
+      "required_outputs": [
+        "Cross-substrate negative/proof tests and validation summary."
+      ],
+      "evidence_artifacts": [
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-024/P5B1-024-summary.md",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-024/P5B1-024-validation-summary.md"
+      ],
+      "tests_required": [
+        "Runtime tests for modules/profile/branding/status/data-controls and static validation for screen registry no-fake-surface rules."
+      ],
+      "validation_commands": [
+        "pnpm --dir apps/api exec tsx src/module-registry/module-registry.p5b1-024.test.ts",
+        "pnpm --dir apps/api exec tsx src/configuration/configuration.p5b1-024.test.ts",
+        "pnpm --dir apps/api exec tsx src/platform-health/platform-health.p5b1-024.test.ts",
+        "pnpm --dir apps/api exec tsx src/data-controls/data-controls.p5b1-024.test.ts",
+        "rg -v \"fake revenue|fake CRM pipeline|fake notifications|fake analytics|Admissions|Finance|HR\" docs/process/AKTI_ERP_Phase_5C_Screen_Contract_Registry_v1.md",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Required source authority is missing or conflicts with Prisma, contracts, manifests, generated registry, ADRs, active docs, tests, or validation evidence.",
+        "Implementation would start Phase 5C UI polish, Phase 6 business modules, Golden Module work, marketplace, real providers, runtime AI, deployment, or secrets access.",
+        "Implementation would invent capabilities, APIs, roles, modules, permissions, events, screens, or business rules not authorized by the ticket.",
+        "Exact-file planning discovers stale paths, overlapping ownership, or required files outside ticket scope without conditional replan authority.",
+        "Validation fails after bounded repair inside ticket scope."
+      ],
+      "acceptance_criteria": [
+        "Unauthorized actor cannot see CRM/module cards without required capability.",
+        "Visibility does not equal import/export/delete/admin authority.",
+        "Organization profile response is tenant-scoped.",
+        "Branding/status/data-control reads do not expose another organization.",
+        "No Phase 5C screen contract authorizes fake revenue, fake CRM pipeline data, fake notifications, fake analytics, or future business modules as active surfaces.",
+        "Evidence distinguishes runtime-proven checks from contract/doc-proven checks."
+      ],
+      "dependencies": [
+        "P5B1-009",
+        "P5B1-016",
+        "P5B1-021",
+        "P5B1-022",
+        "P5B1-023"
+      ],
+      "commit_message": "P5B1-024 add cross-substrate validation",
+      "rollback_notes": "Revert the ticket commit and any ticket-specific evidence artifacts; do not revert unrelated prior tickets.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": true,
+      "stale_ticket_risk_notes": [
+        "Reconfirm exact files before editing because Phase 5B1 is substrate-only and repo surfaces may move before execution."
+      ],
+      "runtime_consistency_chain": [
+        "Preserve Phase 5B Gatekeeper/Foundry/module-registry boundaries.",
+        "Preserve Access Core and tenant isolation rules.",
+        "Preserve no-fake-dashboard, no-fake-module-card, and no-Phase-6-surface constraints."
+      ],
+      "minimum_concrete_requirement": "Negative/proof tests confirm an unauthorized actor cannot see CRM/module cards without required capabilities and role-filtered /platform/modules returns no unauthorized modules; org profile and branding/status APIs do not return cross-tenant data; and frontend-planning docs/screen registry contain no fake metrics, fake module cards, or Phase 6 business-module surfaces. Validation summary records PASS for the targeted no-fake-surface and tenant/security checks.",
+      "split_if": [
+        "Split only if exact-file planning proves multiple unrelated architectural surfaces or validation ladders must be owned separately."
+      ],
+      "requires_human_approval_if": [
+        "Ticket requires new dependency, broad architecture change, new ADR, production secret/provider/deployment, destructive migration, Phase 5C implementation, Phase 6 business scope, or package/lockfile change."
+      ],
+      "failure_classification": {
+        "blocker": "Stop immediately for scope, authority, validation, dependency, tenant isolation, secret, deployment, destructive migration, or phase-boundary failure.",
+        "major": "Repair only inside ticket scope when validation or exact-file planning finds deterministic local mismatch.",
+        "minor": "Document harmless evidence wording or non-runtime clarification in the ticket artifact."
+      }
+    },
+    {
+      "ticket_id": "P5B1-025",
+      "title": "Phase 5B1 closure readiness, Phase 5C handoff, and audit package preparation",
+      "type": "closure-prep",
+      "priority": "P0",
+      "tier": "substrate",
+      "objective": "Prepare closure readiness evidence, Phase 5C handoff, and final audit package structure before P5B1-GATE.",
+      "scope": [
+        "Create/update Phase 5C readiness handoff after Phase 5B1.",
+        "Prepare final audit package manifest/checklist structure.",
+        "Do not mark Phase 5B1 complete; final evidence completion belongs to P5B1-GATE."
+      ],
+      "non_scope": [
+        "No Phase 5C implementation.",
+        "No Phase 6 business modules.",
+        "No production deployment, secrets, real providers, runtime AI, or marketplace behavior.",
+        "No unrelated refactors or package/lockfile changes."
+      ],
+      "source_files_to_inspect": [
+        "docs/process/AKTI_ERP_Phase_5B1_Ticket_Pack_v1.json",
+        "docs/process/AKTI_ERP_Phase_5C_Screen_Contract_Registry_v1.md",
+        "docs/process/AKTI_ERP_Phase_5B1_Audit_Report_v1.md"
+      ],
+      "files_expected_to_change": [
+        "docs/process/AKTI_ERP_Phase_5C_Readiness_Handoff_After_Phase_5B1_v1.md",
+        "codex-review/phase5b1-platform-experience-substrate/final-external-audit/phase5b1-audit-manifest.md",
+        "codex-review/phase5b1-platform-experience-substrate/final-external-audit/phase5b1-validation-summary.md",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-025/P5B1-025-summary.md",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-025/P5B1-025-validation-summary.md"
+      ],
+      "files_forbidden_to_change": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "pnpm-workspace.yaml",
+        "docs/policies/**",
+        "docs/adr/**",
+        "docs/standards/**",
+        "docs/process/AKTI_ERP_Phase_5B1_Platform_Experience_Substrate_Plan_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Visual_Direction_Decision_Memo_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Frontend_Current_State_Evidence_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Frontend_Improvement_Backlog_Candidates_v1.md",
+        "docs/process/AKTI_ERP_Phase_5B_Ticket_Pack_v1.json",
+        "docs/process/AKTI_ERP_Phase_5B_Audit_Report_v1.md"
+      ],
+      "required_outputs": [
+        "Phase 5C handoff draft and audit package preparation artifacts."
+      ],
+      "evidence_artifacts": [
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-025/P5B1-025-summary.md",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-025/P5B1-025-validation-summary.md"
+      ],
+      "tests_required": [
+        "Static proof that audit package prep does not claim closure and handoff does not start Phase 5C."
+      ],
+      "validation_commands": [
+        "rg \"Phase 5C implementation is not started|does not start Phase 5C|planning\" docs/process/AKTI_ERP_Phase_5C_Readiness_Handoff_After_Phase_5B1_v1.md",
+        "rg \"PENDING|preparation|not complete\" codex-review/phase5b1-platform-experience-substrate/final-external-audit/phase5b1-audit-manifest.md",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Required source authority is missing or conflicts with Prisma, contracts, manifests, generated registry, ADRs, active docs, tests, or validation evidence.",
+        "Implementation would start Phase 5C UI polish, Phase 6 business modules, Golden Module work, marketplace, real providers, runtime AI, deployment, or secrets access.",
+        "Implementation would invent capabilities, APIs, roles, modules, permissions, events, screens, or business rules not authorized by the ticket.",
+        "Exact-file planning discovers stale paths, overlapping ownership, or required files outside ticket scope without conditional replan authority.",
+        "Validation fails after bounded repair inside ticket scope."
+      ],
+      "acceptance_criteria": [
+        "P5B1-025 owns closure readiness, Phase 5C handoff, and audit package preparation; it does not claim final closure."
+      ],
+      "dependencies": [
+        "P5B1-007",
+        "P5B1-008",
+        "P5B1-011",
+        "P5B1-012",
+        "P5B1-013",
+        "P5B1-014",
+        "P5B1-015",
+        "P5B1-019",
+        "P5B1-024"
+      ],
+      "commit_message": "P5B1-025 prepare Phase 5B1 closure and handoff evidence",
+      "rollback_notes": "Revert the ticket commit and any ticket-specific evidence artifacts; do not revert unrelated prior tickets.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": true,
+      "stale_ticket_risk_notes": [
+        "Reconfirm exact files before editing because Phase 5B1 is substrate-only and repo surfaces may move before execution."
+      ],
+      "runtime_consistency_chain": [
+        "Preserve Phase 5B Gatekeeper/Foundry/module-registry boundaries.",
+        "Preserve Access Core and tenant isolation rules.",
+        "Preserve no-fake-dashboard, no-fake-module-card, and no-Phase-6-surface constraints."
+      ],
+      "minimum_concrete_requirement": "Phase 5C handoff and audit package preparation artifacts exist, clearly state Phase 5B1 is not closed until P5B1-GATE, and do not start Phase 5C implementation.",
+      "split_if": [
+        "Split only if exact-file planning proves multiple unrelated architectural surfaces or validation ladders must be owned separately."
+      ],
+      "requires_human_approval_if": [
+        "Ticket requires new dependency, broad architecture change, new ADR, production secret/provider/deployment, destructive migration, Phase 5C implementation, Phase 6 business scope, or package/lockfile change."
+      ],
+      "failure_classification": {
+        "blocker": "Stop immediately for scope, authority, validation, dependency, tenant isolation, secret, deployment, destructive migration, or phase-boundary failure.",
+        "major": "Repair only inside ticket scope when validation or exact-file planning finds deterministic local mismatch.",
+        "minor": "Document harmless evidence wording or non-runtime clarification in the ticket artifact."
+      }
+    },
+    {
+      "ticket_id": "P5B1-GATE",
+      "title": "Final audit, validation ladder, audit report completion, and handoff closure",
+      "type": "final-gate",
+      "priority": "P0",
+      "tier": "substrate",
+      "objective": "Close Phase 5B1 only after full validation, audit report completion, final audit package, and Phase 5C handoff verification.",
+      "scope": [
+        "Run final validation ladder.",
+        "Complete Phase 5B1 audit report with real closure evidence.",
+        "Finalize audit package and checksums.",
+        "Verify Phase 5C handoff remains planning/control only.",
+        "Do not merge automatically."
+      ],
+      "non_scope": [
+        "No Phase 5C implementation.",
+        "No Phase 6 business modules.",
+        "No production deployment, secrets, real providers, runtime AI, or marketplace behavior.",
+        "No unrelated refactors or package/lockfile changes."
+      ],
+      "source_files_to_inspect": [
+        "docs/process/AKTI_ERP_Phase_5B1_Ticket_Pack_v1.json",
+        "docs/process/AKTI_ERP_Phase_5B1_Audit_Report_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Readiness_Handoff_After_Phase_5B1_v1.md",
+        "codex-review/phase5b1-platform-experience-substrate/final-external-audit/phase5b1-audit-manifest.md"
+      ],
+      "files_expected_to_change": [
+        "docs/process/AKTI_ERP_Phase_5B1_Audit_Report_v1.md",
+        "codex-review/phase5b1-platform-experience-substrate/final-external-audit/phase5b1-commit-log.txt",
+        "codex-review/phase5b1-platform-experience-substrate/final-external-audit/phase5b1-file-list.txt",
+        "codex-review/phase5b1-platform-experience-substrate/final-external-audit/phase5b1-checksums.sha256",
+        "codex-review/phase5b1-platform-experience-substrate/final-external-audit/phase5b1-closure-report.md",
+        "codex-review/phase5b1-platform-experience-substrate/final-external-audit/phase5b1-known-deferrals.md",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-GATE/P5B1-GATE-summary.md",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-GATE/P5B1-GATE-validation-summary.md"
+      ],
+      "files_forbidden_to_change": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "pnpm-workspace.yaml",
+        "docs/policies/**",
+        "docs/adr/**",
+        "docs/standards/**",
+        "docs/process/AKTI_ERP_Phase_5B1_Platform_Experience_Substrate_Plan_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Visual_Direction_Decision_Memo_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Frontend_Current_State_Evidence_v1.md",
+        "docs/process/AKTI_ERP_Phase_5C_Frontend_Improvement_Backlog_Candidates_v1.md",
+        "docs/process/AKTI_ERP_Phase_5B_Ticket_Pack_v1.json",
+        "docs/process/AKTI_ERP_Phase_5B_Audit_Report_v1.md"
+      ],
+      "required_outputs": [
+        "Completed audit report, final validation summary, final audit package, and closure evidence."
+      ],
+      "evidence_artifacts": [
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-GATE/P5B1-GATE-summary.md",
+        "codex-review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-GATE/P5B1-GATE-validation-summary.md"
+      ],
+      "tests_required": [
+        "Full final validation ladder."
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm exec prisma generate --schema prisma/schema.prisma",
+        "pnpm registry:generate",
+        "pnpm registry:check",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test",
+        "pnpm build",
+        "git diff --exit-code -- prisma/schema.prisma",
+        "git diff --exit-code -- generated/entity-registry.generated.json",
+        "git diff --exit-code -- prisma/entity-registry.metadata.json",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Required source authority is missing or conflicts with Prisma, contracts, manifests, generated registry, ADRs, active docs, tests, or validation evidence.",
+        "Implementation would start Phase 5C UI polish, Phase 6 business modules, Golden Module work, marketplace, real providers, runtime AI, deployment, or secrets access.",
+        "Implementation would invent capabilities, APIs, roles, modules, permissions, events, screens, or business rules not authorized by the ticket.",
+        "Exact-file planning discovers stale paths, overlapping ownership, or required files outside ticket scope without conditional replan authority.",
+        "Validation fails after bounded repair inside ticket scope."
+      ],
+      "acceptance_criteria": [
+        "All prior tickets are committed; final validation passes; audit report contains real closure evidence; Phase 5C handoff exists and does not start implementation."
+      ],
+      "dependencies": [
+        "P5B1-025"
+      ],
+      "commit_message": "P5B1-GATE close Phase 5B1 platform experience substrate",
+      "rollback_notes": "Do not rollback prior ticket commits from the final gate; stop with findings and repair only final-gate evidence or validation issues inside scope.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": true,
+      "stale_ticket_risk_notes": [
+        "Final gate must verify generated registry drift, Prisma metadata path existence, source package contents, and no Phase 5C/Phase 6 scope leakage before closure."
+      ],
+      "runtime_consistency_chain": [
+        "Preserve Phase 5B Gatekeeper/Foundry/module-registry boundaries.",
+        "Preserve Access Core and tenant isolation rules.",
+        "Preserve no-fake-dashboard, no-fake-module-card, and no-Phase-6-surface constraints."
+      ],
+      "minimum_concrete_requirement": "Full final validation ladder passes, Phase 5B1 audit report is completed with real closure evidence, final audit package is complete, and handoff confirms Phase 5C remains planning/control only until separately approved.",
+      "split_if": [
+        "Split only if exact-file planning proves multiple unrelated architectural surfaces or validation ladders must be owned separately."
+      ],
+      "requires_human_approval_if": [
+        "Ticket requires new dependency, broad architecture change, new ADR, production secret/provider/deployment, destructive migration, Phase 5C implementation, Phase 6 business scope, or package/lockfile change."
+      ],
+      "failure_classification": {
+        "blocker": "Stop immediately for scope, authority, validation, dependency, tenant isolation, secret, deployment, destructive migration, or phase-boundary failure.",
+        "major": "Repair only inside ticket scope when validation or exact-file planning finds deterministic local mismatch.",
+        "minor": "Document harmless evidence wording or non-runtime clarification in the ticket artifact."
+      }
+    }
+  ]
+}
