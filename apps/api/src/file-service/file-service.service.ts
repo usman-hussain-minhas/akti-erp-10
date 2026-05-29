@@ -115,6 +115,22 @@ export type FileDocumentAccessDecision = {
   capability_filter_enforced: true;
 };
 
+export type FileDocumentTenantIsolationFixtureInput = {
+  context: FileDocumentAccessContext;
+  records: FileDocumentAccessRecord[];
+};
+
+export type FileDocumentTenantIsolationFixtureResult = {
+  organization_id: string;
+  actor_user_id: string;
+  visible_file_keys: string[];
+  excluded_cross_tenant_file_keys: string[];
+  excluded_unauthorized_file_keys: string[];
+  tenant_isolation_enforced: true;
+  capability_filter_enforced: true;
+  records_examined: number;
+};
+
 const STORAGE_CREDENTIAL_MARKERS = ['secret', 'password', 'access_key', 'private_key', 'token'];
 const STORAGE_KEY_SEGMENT_PATTERN = /^[a-z0-9][a-z0-9_.-]*$/;
 
@@ -297,6 +313,47 @@ export class FileService {
       capability_key: capabilityKey,
       tenant_isolation_enforced: true,
       capability_filter_enforced: true,
+    };
+  }
+
+  runTenantIsolationFixture(input: FileDocumentTenantIsolationFixtureInput): FileDocumentTenantIsolationFixtureResult {
+    if (!Array.isArray(input.records) || input.records.length === 0) {
+      throw new BadRequestException('file tenant isolation fixture records must not be empty');
+    }
+
+    const organizationId = this.requireNonEmpty(input.context.organization_id, 'organization_id');
+    const actorUserId = this.requireNonEmpty(input.context.actor_user_id, 'actor_user_id');
+    this.requireNonEmpty(input.context.capability_key, 'capability_key');
+    const visibleFileKeys: string[] = [];
+    const excludedCrossTenantFileKeys: string[] = [];
+    const excludedUnauthorizedFileKeys: string[] = [];
+
+    for (const record of input.records) {
+      const fileKey = this.requireNonEmpty(record.file_key, 'record file_key');
+      const recordOrganizationId = this.requireNonEmpty(record.organization_id, 'record organization_id');
+
+      if (recordOrganizationId !== organizationId) {
+        excludedCrossTenantFileKeys.push(fileKey);
+        continue;
+      }
+
+      try {
+        this.authorizeMetadataAccess(input.context, record);
+        visibleFileKeys.push(fileKey);
+      } catch {
+        excludedUnauthorizedFileKeys.push(fileKey);
+      }
+    }
+
+    return {
+      organization_id: organizationId,
+      actor_user_id: actorUserId,
+      visible_file_keys: visibleFileKeys.sort(),
+      excluded_cross_tenant_file_keys: excludedCrossTenantFileKeys.sort(),
+      excluded_unauthorized_file_keys: excludedUnauthorizedFileKeys.sort(),
+      tenant_isolation_enforced: true,
+      capability_filter_enforced: true,
+      records_examined: input.records.length,
     };
   }
 
