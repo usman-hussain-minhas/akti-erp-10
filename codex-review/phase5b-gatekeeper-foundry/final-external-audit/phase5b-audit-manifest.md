@@ -4,11 +4,15 @@ Phase: Phase 5B - Gatekeeper-Governed Module Foundry and Core Platform Completio
 
 Branch: `phase5b/gatekeeper-foundry`
 
-Final PR branch HEAD: `520bc2cb44a8f35b5092a648e8e3cef0fb4e1c73`
-
 Source package HEAD: `8181071700254f96287cf3a9f584de096e6d3678`
 
 Source package short SHA: `8181071`
+
+Phase 5B execution closure HEAD: `520bc2cb44a8f35b5092a648e8e3cef0fb4e1c73`
+
+Final audit evidence patch HEAD: `7494cd29cafa6c2cc011465da305fc64f0bf2f37`
+
+Final PR #14 branch HEAD at re-audit time: `7494cd29cafa6c2cc011465da305fc64f0bf2f37`
 
 Source ZIP:
 
@@ -43,11 +47,13 @@ Source ZIP size: 987176 bytes
 
 ## HEAD Split Explanation
 
-The source ZIP was generated from source package HEAD `8181071700254f96287cf3a9f584de096e6d3678` (`8181071`) before the final audit package/closure commit.
+The source ZIP was generated from source package HEAD `8181071700254f96287cf3a9f584de096e6d3678` (`8181071`) before final audit-package evidence commits.
 
-The final PR branch HEAD is `520bc2cb44a8f35b5092a648e8e3cef0fb4e1c73`.
+The Phase 5B execution closure HEAD is `520bc2cb44a8f35b5092a648e8e3cef0fb4e1c73`.
 
-The final branch commit adds closure/audit package artifacts and Phase 5C handoff evidence. Runtime/source packaging remains anchored to `8181071`, while PR review should inspect the final branch head `520bc2c` for completed audit artifacts.
+The final audit evidence patch HEAD is `7494cd29cafa6c2cc011465da305fc64f0bf2f37`.
+
+Runtime/source packaging remains anchored to `8181071`. PR #14 review should inspect final branch HEAD `7494cd29cafa6c2cc011465da305fc64f0bf2f37` for completed audit artifacts.
 
 ## Review Note
 
