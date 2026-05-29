@@ -63,7 +63,9 @@ The Phase 5C control docs now establish visual direction, route screen contracts
 
 ## 5. Required Patches
 
-No required patches remain for the Phase 5C control docs.
+No required patches remain after this audit.
+
+Historical note: PR #22 included a pre-audit completeness patch before merge. Patch commit `d899c852690a1ed9f8e6205df92e27dd9cff2ec4` added the Modules card distinction to Visual Direction Section 8 and completed the non-scope prohibition lists in Screen Contracts and Component/API Map global rules. This audit was run against the patched final control-doc set.
 
 ## 6. Ticket Seed Matrix Readiness
 
