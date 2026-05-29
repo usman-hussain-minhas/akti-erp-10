@@ -49,6 +49,30 @@ export type CommunicationIntentDeclaration = {
   };
 };
 
+export type CommunicationGatewayBoundary = {
+  communication_service_owns: 'intent_semantics_consent_risk_retention';
+  engagement_gateway_owns: 'transport_request_recording_and_stub_adapter_boundary';
+  communication_executes_transport: false;
+  gateway_bypasses_communication_intent: false;
+};
+
+export type CommunicationGatewayHandoff = {
+  handoff_type: 'engagement_gateway_request_intent';
+  source_service: 'communication.service';
+  target_service: 'engagement.gateway';
+  request_kind: 'communication.delivery.requested';
+  transport_channel: CommunicationChannel;
+  organization_id: string;
+  actor_user_id: string;
+  source_module: string;
+  recipient_ref: string;
+  payload: Record<string, unknown>;
+  idempotency_key: string;
+  capability_key: 'platform.communication.send';
+  delivery_executed: false;
+  production_provider_calls: false;
+};
+
 const ALLOWED_CHANNELS = new Set<CommunicationChannel>(['email_stub', 'sms_stub', 'push_stub', 'whatsapp_stub']);
 const ALLOWED_RISK = new Set<CommunicationRiskClassification>(['low', 'medium', 'high']);
 const ALLOWED_PRIORITY = new Set(['low', 'normal', 'high']);
@@ -90,6 +114,41 @@ export class CommunicationService {
         event_type: 'communication.intent.declared',
         audit_required: true,
       },
+    };
+  }
+
+  gatewayBoundary(): CommunicationGatewayBoundary {
+    return {
+      communication_service_owns: 'intent_semantics_consent_risk_retention',
+      engagement_gateway_owns: 'transport_request_recording_and_stub_adapter_boundary',
+      communication_executes_transport: false,
+      gateway_bypasses_communication_intent: false,
+    };
+  }
+
+  buildEngagementGatewayHandoff(intent: CommunicationIntentDeclaration): CommunicationGatewayHandoff {
+    if (intent.status !== 'declared') {
+      throw new BadRequestException('communication intent must be declared before gateway handoff');
+    }
+    if (intent.delivery_executed !== false || intent.production_provider_calls !== false) {
+      throw new BadRequestException('communication gateway handoff cannot execute delivery');
+    }
+
+    return {
+      handoff_type: 'engagement_gateway_request_intent',
+      source_service: 'communication.service',
+      target_service: 'engagement.gateway',
+      request_kind: 'communication.delivery.requested',
+      transport_channel: intent.channel,
+      organization_id: intent.organization_id,
+      actor_user_id: intent.actor_user_id,
+      source_module: intent.source_module,
+      recipient_ref: intent.recipient_ref,
+      payload: intent.payload,
+      idempotency_key: intent.idempotency_key,
+      capability_key: 'platform.communication.send',
+      delivery_executed: false,
+      production_provider_calls: false,
     };
   }
 
