@@ -368,6 +368,19 @@ class Phase1GatekeeperDecisionProvider implements GatekeeperDecisionProvider {
     }
 
     if (
+      this.payloadBoolean(request.payload, 'module_override_requested') === true ||
+      this.payloadBoolean(request.payload, 'tenant_admin_override_requested') === true ||
+      this.payloadBoolean(request.payload, 'automation_override_requested') === true ||
+      this.payloadBoolean(request.payload, 'non_architect_override_requested') === true
+    ) {
+      return this.stopForReview(
+        request,
+        'gatekeeper.migration.override-stop-for-review',
+        'Gatekeeper requires platform architect review for migration or rollback bypass attempts.',
+      );
+    }
+
+    if (
       this.payloadBoolean(request.payload, 'policy_violation') === true ||
       migrationRisk === 'policy_violation' ||
       rollbackRisk === 'policy_violation'
