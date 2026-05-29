@@ -7,13 +7,17 @@ import {
 import { TransactionIsolationLevel, type PermissionScopeType, type Prisma } from '../prisma/prisma-client';
 
 import { GatekeeperPreflightService } from '../gatekeeper/gatekeeper-preflight.service';
-import { loadAccessCoreCapabilitySeedDefinitions } from '../module-registry/module-registry.service';
+import {
+  loadAccessCoreCapabilitySeedDefinitions,
+  loadRegisteredRuntimeModuleKeys,
+} from '../module-registry/module-registry.service';
 import { AuditLogService } from '../platform-observability/audit-log.service';
 import { EventOutboxService } from '../platform-observability/event-outbox.service';
 import { PrismaService } from '../prisma/prisma.service';
 import type {
   EffectiveBrandingResponse,
   OrganizationBrandingReadSubstrate,
+  OrganizationProfileResponse,
   PortalMode,
   UpdatePortalModeInput,
 } from './dto/configuration.dto';
@@ -330,6 +334,67 @@ export class ConfigurationService {
     };
   }
 
+  async getOrganizationProfile(
+    organizationId: string,
+    actorUserIdRaw?: string,
+  ): Promise<OrganizationProfileResponse> {
+    const actor = await this.requireAccessPolicyManageActor(this.prisma, organizationId, actorUserIdRaw);
+
+    const organization = await this.prisma.organization.findUnique({
+      where: {
+        id: organizationId,
+      },
+      select: {
+        id: true,
+        display_name: true,
+        short_name: true,
+      },
+    });
+    if (!organization) {
+      throw new NotFoundException('organization not found');
+    }
+
+    const [branding, modules, groups, capabilities] = await Promise.all([
+      this.resolveBrandingReadSubstrate(organizationId, actor.actor_user_id),
+      this.listProfileModuleKeys(),
+      this.prisma.group.findMany({
+        where: {
+          organization_id: organizationId,
+          id: {
+            in: actor.active_group_ids,
+          },
+        },
+        orderBy: [{ key: 'asc' }],
+        select: {
+          key: true,
+        },
+      }),
+      this.prisma.groupCapability.findMany({
+        where: {
+          organization_id: organizationId,
+          group_id: {
+            in: actor.active_group_ids,
+          },
+        },
+        orderBy: [{ capability_key: 'asc' }],
+        select: {
+          capability_key: true,
+        },
+      }),
+    ]);
+
+    return {
+      organization_id: organization.id,
+      display_name: organization.display_name,
+      short_name: organization.short_name,
+      logo_url: branding.logo_url,
+      branding_config: branding.branding_config,
+      my_modules: modules,
+      my_role: groups[0]?.key ?? null,
+      my_capabilities: [...new Set(capabilities.map((item) => item.capability_key))].sort(),
+    };
+  }
+
   async resolveDomainSenderIdentityBoundary(
     organizationId: string,
     senderIdentityRaw: string,
@@ -468,6 +533,23 @@ export class ConfigurationService {
 
   getTenantConfigSchemaModelBaseline(): TenantConfigSchemaModelBaseline {
     return TENANT_CONFIG_SCHEMA_MODEL_BASELINE;
+  }
+
+  private async listProfileModuleKeys(): Promise<string[]> {
+    const registeredModuleKeys = await loadRegisteredRuntimeModuleKeys();
+    const modules = await this.prisma.moduleRegistryEntry.findMany({
+      where: {
+        module_key: {
+          in: [...registeredModuleKeys],
+        },
+      },
+      orderBy: [{ module_key: 'asc' }],
+      select: {
+        module_key: true,
+      },
+    });
+
+    return modules.map((module) => module.module_key);
   }
 
   private async requireAccessPolicyManageActor(

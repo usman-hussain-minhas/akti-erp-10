@@ -30,6 +30,17 @@ export type EffectiveBrandingResponse = {
   accent_color: string | null;
 };
 
+export type OrganizationProfileResponse = {
+  organization_id: string;
+  display_name: string;
+  short_name: string | null;
+  logo_url: string | null;
+  branding_config: OrganizationBrandingConfigFacts;
+  my_modules: string[];
+  my_role: string | null;
+  my_capabilities: string[];
+};
+
 const PORTAL_MODES = new Set<PortalMode>(['simple', 'builder']);
 const MAX_ID_LENGTH = 191;
 

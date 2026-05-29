@@ -36,6 +36,12 @@ export class ConfigurationController {
     return this.configurationService.getEffectiveBranding(context.organization_id, context.actor_user_id);
   }
 
+  @Get('organization/profile')
+  getOrganizationProfile(@Headers() headers: HeaderRecord) {
+    const context = resolveTrustedRequestContext(headers);
+    return this.configurationService.getOrganizationProfile(context.organization_id, context.actor_user_id);
+  }
+
   @Put('configuration/organizations/:organization_id/portal-mode')
   updatePortalMode(
     @Param('organization_id') organizationIdRaw: string,
