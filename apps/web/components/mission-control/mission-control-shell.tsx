@@ -15,6 +15,7 @@ import {
 import { useState } from 'react';
 
 import { useLeadDeskOperatorContext } from '../../app/lead-desk/operator-context';
+import { PLATFORM_PRODUCT_NAME } from '../../lib/platform-branding.config';
 import { CommandPalette } from './command-palette';
 import { DashboardOverview } from './dashboard-overview';
 import { ModuleLauncher } from './module-launcher';
@@ -24,7 +25,7 @@ import { Button } from '../ui/button';
 import { EmptyState, StatusBadge } from '../ui/design-system';
 
 const NAV_ITEMS = [
-  { label: 'Mission Control', href: '/app', icon: LayoutDashboard, description: 'Default ERP shell' },
+  { label: 'Mission Control', href: '/app', icon: LayoutDashboard, description: `Default ${PLATFORM_PRODUCT_NAME} shell` },
   { label: 'Lead Desk', href: '/lead-desk/inbox', icon: Inbox, description: 'Open current lead work' },
   { label: 'Settings', href: '/app/settings', icon: Settings, description: 'Control panel shell' },
 ];
@@ -40,7 +41,7 @@ export function MissionControlShell() {
         <div className="fixed inset-0 z-40 bg-black/30 md:hidden" role="presentation">
           <aside className="h-full w-80 max-w-[86vw] bg-white p-4 shadow-xl" aria-label="Mobile navigation drawer">
             <div className="mb-4 flex items-center justify-between">
-              <p className="m-0 text-sm font-semibold">AKTI ERP</p>
+              <p className="m-0 text-sm font-semibold">{PLATFORM_PRODUCT_NAME}</p>
               <Button type="button" variant="ghost" size="icon" onClick={() => setMobileDrawerOpen(false)} aria-label="Close menu">
                 <X aria-hidden="true" size={18} />
               </Button>
@@ -57,7 +58,7 @@ export function MissionControlShell() {
         aria-label="Module navigation"
       >
         <div className="flex items-center justify-between gap-2">
-          {sidebarCollapsed ? <span className="sr-only">AKTI ERP</span> : <p className="m-0 text-sm font-semibold">AKTI ERP</p>}
+          {sidebarCollapsed ? <span className="sr-only">{PLATFORM_PRODUCT_NAME}</span> : <p className="m-0 text-sm font-semibold">{PLATFORM_PRODUCT_NAME}</p>}
           <Button
             type="button"
             variant="ghost"
