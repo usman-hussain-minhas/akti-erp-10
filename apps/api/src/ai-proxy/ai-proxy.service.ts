@@ -91,6 +91,24 @@ export type AiProxyStubProof = {
   production_credentials_required: false;
 };
 
+export type AiProxyTenantIsolationFixtureInput = {
+  organization_id: string;
+  actor_user_id: string;
+  declaration: AiProxyDeclaration;
+  stub_proof: AiProxyStubProof;
+};
+
+export type AiProxyTenantIsolationFixtureResult = {
+  organization_id: string;
+  actor_user_id: string;
+  ai_proxy_tenant_isolation_enforced: true;
+  gatekeeper_governance_preserved: true;
+  provider_configured: false;
+  provider_request_started: false;
+  runtime_ai_executed: false;
+  production_credentials_required: false;
+};
+
 const ALLOWED_DATA_CLASSES = new Set<AiProxyDataClass>(['internal', 'confidential', 'restricted']);
 const ALLOWED_RISK = new Set<AiProxyRiskClassification>(['low', 'medium', 'high']);
 const ALLOWED_REDACTION = new Set<AiProxyDeclarationInput['redaction_policy']>(['none', 'standard', 'strict']);
@@ -195,6 +213,56 @@ export class AiProxyService {
         event_type: 'ai_proxy.stub.recorded',
         audit_required: true,
       },
+      provider_configured: false,
+      provider_request_started: false,
+      runtime_ai_executed: false,
+      production_credentials_required: false,
+    };
+  }
+
+  runTenantIsolationFixture(input: AiProxyTenantIsolationFixtureInput): AiProxyTenantIsolationFixtureResult {
+    const organizationId = this.required(input.organization_id, 'organization_id');
+    const actorUserId = this.required(input.actor_user_id, 'actor_user_id');
+    const declaration = input.declaration;
+    const stubProof = input.stub_proof;
+
+    if (!declaration || !stubProof) {
+      throw new BadRequestException('ai proxy tenant isolation fixture requires declaration and stub proof');
+    }
+    if (declaration.organization_id !== organizationId || declaration.actor_user_id !== actorUserId) {
+      throw new BadRequestException('ai proxy declaration tenant boundary mismatch');
+    }
+    if (stubProof.organization_id !== organizationId || stubProof.actor_user_id !== actorUserId) {
+      throw new BadRequestException('ai proxy stub proof tenant boundary mismatch');
+    }
+    if (stubProof.request_key !== declaration.request_key || stubProof.idempotency_key !== declaration.idempotency_key) {
+      throw new BadRequestException('ai proxy tenant isolation fixture requires declaration/proof request identity match');
+    }
+    if (
+      declaration.tenant_boundary_required !== true ||
+      declaration.gatekeeper.preflight_required !== true ||
+      declaration.gatekeeper.capability_key !== 'platform.ai_proxy.request'
+    ) {
+      throw new BadRequestException('ai proxy tenant isolation fixture requires Gatekeeper governance');
+    }
+    if (
+      declaration.provider_configured !== false ||
+      declaration.provider_request_started !== false ||
+      declaration.runtime_ai_executed !== false ||
+      declaration.production_credentials_required !== false ||
+      stubProof.provider_configured !== false ||
+      stubProof.provider_request_started !== false ||
+      stubProof.runtime_ai_executed !== false ||
+      stubProof.production_credentials_required !== false
+    ) {
+      throw new BadRequestException('ai proxy tenant isolation fixture cannot use providers, credentials, or runtime AI');
+    }
+
+    return {
+      organization_id: organizationId,
+      actor_user_id: actorUserId,
+      ai_proxy_tenant_isolation_enforced: true,
+      gatekeeper_governance_preserved: true,
       provider_configured: false,
       provider_request_started: false,
       runtime_ai_executed: false,
