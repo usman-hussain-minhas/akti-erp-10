@@ -52,6 +52,15 @@ type MenuManifestEntry = {
   order: number;
 };
 
+type SettingManifestEntry = {
+  key: string;
+  label: string;
+  description: string;
+  value_type: 'string' | 'number' | 'boolean' | 'json';
+  required: boolean;
+  default_value?: unknown;
+};
+
 type GatekeeperHookManifestEntry = {
   key: string;
   capability_key: string;
@@ -66,6 +75,7 @@ export type RuntimeModuleManifest = {
   capabilities_consumed?: CapabilityConsumptionManifestEntry[];
   permissions: PermissionManifestEntry[];
   menu_entries?: MenuManifestEntry[];
+  settings?: SettingManifestEntry[];
   gatekeeper_hooks: GatekeeperHookManifestEntry[];
 };
 
@@ -211,6 +221,22 @@ export type CommandContributionRegistrationResult = {
   commands: RegisteredCommandContribution[];
 };
 
+export type RegisteredSettingContribution = {
+  key: string;
+  label: string;
+  module_key: string;
+  description: string;
+  value_type: SettingManifestEntry['value_type'];
+  required: boolean;
+  has_default_value: boolean;
+};
+
+export type SettingContributionRegistrationResult = {
+  module_key: string;
+  registered_count: number;
+  settings: RegisteredSettingContribution[];
+};
+
 type ModuleListResponse = {
   items: Array<Pick<ModuleRegistryEntry, 'module_key' | 'display_name' | 'version' | 'status' | 'manifest_hash'>>;
 };
@@ -333,6 +359,7 @@ const SCREEN_KEY_PATTERN = /^[a-z][a-z0-9_-]*(?:\.[a-z][a-z0-9_-]*)+$/;
 const MODULE_KEY_PATTERN = /^[a-z][a-z0-9]*(?:-[a-z0-9]+)*(?:\.[a-z][a-z0-9]*(?:-[a-z0-9]+)*)+$/;
 const MODULE_ACTION_KEY_PATTERN = /^[a-z][a-z0-9]*(?:[_.-][a-z0-9]+)*$/;
 const SEMVER_PATTERN = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$/;
+const SECRET_SETTING_PATTERN = /(secret|password|credential|token|api[_-]?key)/i;
 
 const nativeImport = new Function('specifier', 'return import(specifier)') as (
   specifier: string,
@@ -385,6 +412,7 @@ function isRuntimeModuleManifest(input: unknown): input is RuntimeModuleManifest
     (maybe.capabilities_consumed === undefined || Array.isArray(maybe.capabilities_consumed)) &&
     Array.isArray(maybe.permissions) &&
     (maybe.menu_entries === undefined || Array.isArray(maybe.menu_entries)) &&
+    (maybe.settings === undefined || Array.isArray(maybe.settings)) &&
     Array.isArray(maybe.gatekeeper_hooks)
   );
 }
@@ -721,6 +749,43 @@ function assertCommandContribution(
   }
 }
 
+function assertSettingContribution(setting: SettingManifestEntry) {
+  if (!MANIFEST_KEY_PATTERN.test(setting.key)) {
+    throw new ConflictException(`Setting ${setting.key} must use manifest key syntax`);
+  }
+
+  if (setting.label.trim().length === 0) {
+    throw new ConflictException(`Setting ${setting.key} requires a label`);
+  }
+
+  if (setting.description.trim().length === 0) {
+    throw new ConflictException(`Setting ${setting.key} requires a description`);
+  }
+
+  if (!['string', 'number', 'boolean', 'json'].includes(setting.value_type)) {
+    throw new ConflictException(`Setting ${setting.key} value_type is invalid`);
+  }
+
+  if (SECRET_SETTING_PATTERN.test(`${setting.key} ${setting.label} ${setting.description}`)) {
+    throw new ConflictException(`Setting ${setting.key} cannot expose secrets as normal settings`);
+  }
+
+  if (!('default_value' in setting)) {
+    return;
+  }
+
+  const defaultValue = setting.default_value;
+  if (setting.value_type === 'string' && typeof defaultValue !== 'string') {
+    throw new ConflictException(`Setting ${setting.key} default_value must be a string`);
+  }
+  if (setting.value_type === 'number' && typeof defaultValue !== 'number') {
+    throw new ConflictException(`Setting ${setting.key} default_value must be a number`);
+  }
+  if (setting.value_type === 'boolean' && typeof defaultValue !== 'boolean') {
+    throw new ConflictException(`Setting ${setting.key} default_value must be a boolean`);
+  }
+}
+
 @Injectable()
 export class ModuleRegistryService {
   constructor(private readonly prisma: PrismaService) {}
@@ -987,6 +1052,37 @@ export class ModuleRegistryService {
       module_key: input.manifest.module_key,
       registered_count: commands.length,
       commands,
+    };
+  }
+
+  registerSettingContributions(manifest: RuntimeModuleManifest): SettingContributionRegistrationResult {
+    assertPhase2ManifestShape(manifest);
+    const seenSettingKeys = new Set<string>();
+
+    const settings = (manifest.settings ?? [])
+      .map((setting) => {
+        if (seenSettingKeys.has(setting.key)) {
+          throw new ConflictException(`Setting ${setting.key} must be unique`);
+        }
+        seenSettingKeys.add(setting.key);
+        assertSettingContribution(setting);
+
+        return {
+          key: setting.key,
+          label: setting.label,
+          module_key: manifest.module_key,
+          description: setting.description,
+          value_type: setting.value_type,
+          required: setting.required,
+          has_default_value: 'default_value' in setting,
+        };
+      })
+      .sort((left, right) => left.key.localeCompare(right.key));
+
+    return {
+      module_key: manifest.module_key,
+      registered_count: settings.length,
+      settings,
     };
   }
 
