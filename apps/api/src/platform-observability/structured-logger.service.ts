@@ -26,11 +26,14 @@ export type StructuredLogEntry = {
   entity_type: string;
   entity_id: string | null;
   metadata: Record<string, unknown>;
+  redacted_fields: string[];
   structured: true;
   emitted_at: string;
 };
 
 const ALLOWED_LEVELS = new Set<StructuredLogLevel>(['debug', 'info', 'warn', 'error']);
+const SECRET_FIELD_MARKERS = ['authorization', 'api_key', 'apikey', 'secret', 'token', 'password', 'credential', 'cookie'];
+export const STRUCTURED_LOG_REDACTED_VALUE = '[REDACTED]';
 
 @Injectable()
 export class StructuredLoggerService {
@@ -44,6 +47,7 @@ export class StructuredLoggerService {
     const actionKey = this.required(input.action_key, 'action_key');
     const entityType = this.required(input.entity_type, 'entity_type');
     const metadata = this.metadata(input.metadata ?? {});
+    const redactedMetadata = this.redactMetadata(metadata);
     const timestamp = this.isoTimestamp(emittedAt, 'emitted_at');
 
     return {
@@ -56,7 +60,8 @@ export class StructuredLoggerService {
       action_key: actionKey,
       entity_type: entityType,
       entity_id: input.entity_id === null ? null : this.required(input.entity_id, 'entity_id'),
-      metadata,
+      metadata: redactedMetadata.value,
+      redacted_fields: redactedMetadata.redactedFields,
       structured: true,
       emitted_at: timestamp,
     };
@@ -77,6 +82,48 @@ export class StructuredLoggerService {
     }
 
     return { ...input };
+  }
+
+  private redactMetadata(input: Record<string, unknown>): {
+    value: Record<string, unknown>;
+    redactedFields: string[];
+  } {
+    const redactedFields: string[] = [];
+    const value = this.redactValue(input, [], redactedFields) as Record<string, unknown>;
+
+    return {
+      value,
+      redactedFields,
+    };
+  }
+
+  private redactValue(input: unknown, path: string[], redactedFields: string[]): unknown {
+    if (Array.isArray(input)) {
+      return input.map((item, index) => this.redactValue(item, [...path, String(index)], redactedFields));
+    }
+
+    if (input && typeof input === 'object') {
+      const output: Record<string, unknown> = {};
+      for (const [key, value] of Object.entries(input as Record<string, unknown>)) {
+        const nextPath = [...path, key];
+        if (this.isSecretField(key)) {
+          redactedFields.push(nextPath.join('.'));
+          output[key] = STRUCTURED_LOG_REDACTED_VALUE;
+          continue;
+        }
+
+        output[key] = this.redactValue(value, nextPath, redactedFields);
+      }
+
+      return output;
+    }
+
+    return input;
+  }
+
+  private isSecretField(field: string): boolean {
+    const normalized = field.toLowerCase().replace(/[-\s]/g, '_');
+    return SECRET_FIELD_MARKERS.some((marker) => normalized.includes(marker));
   }
 
   private isoTimestamp(input: unknown, field: string): string {
