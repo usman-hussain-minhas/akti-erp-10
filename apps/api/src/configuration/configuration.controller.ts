@@ -8,11 +8,11 @@ import {
 import { ConfigurationService } from './configuration.service';
 import { HeaderRecord, resolveTrustedRequestContext } from '../security/request-context';
 
-@Controller('platform/configuration')
+@Controller('platform')
 export class ConfigurationController {
   constructor(private readonly configurationService: ConfigurationService) {}
 
-  @Get('organizations/:organization_id/portal-mode')
+  @Get('configuration/organizations/:organization_id/portal-mode')
   getPortalMode(
     @Param('organization_id') organizationIdRaw: string,
     @Headers() headers: HeaderRecord,
@@ -21,7 +21,7 @@ export class ConfigurationController {
     return this.configurationService.getPortalMode(organizationId, this.resolveActorUserId(headers, organizationId));
   }
 
-  @Get('organizations/:organization_id/tenant-config')
+  @Get('configuration/organizations/:organization_id/tenant-config')
   getTenantConfiguration(
     @Param('organization_id') organizationIdRaw: string,
     @Headers() headers: HeaderRecord,
@@ -30,7 +30,13 @@ export class ConfigurationController {
     return this.configurationService.getTenantConfiguration(organizationId, this.resolveActorUserId(headers, organizationId));
   }
 
-  @Put('organizations/:organization_id/portal-mode')
+  @Get('branding/effective')
+  getEffectiveBranding(@Headers() headers: HeaderRecord) {
+    const context = resolveTrustedRequestContext(headers);
+    return this.configurationService.getEffectiveBranding(context.organization_id, context.actor_user_id);
+  }
+
+  @Put('configuration/organizations/:organization_id/portal-mode')
   updatePortalMode(
     @Param('organization_id') organizationIdRaw: string,
     @Body() body: unknown,

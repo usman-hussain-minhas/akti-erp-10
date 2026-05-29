@@ -22,6 +22,14 @@ export type OrganizationBrandingReadSubstrate = {
   updated_at: string | null;
 };
 
+export type EffectiveBrandingResponse = {
+  product_name: string;
+  logo_url: string | null;
+  theme_mode: 'system' | 'light' | 'dark';
+  primary_color: string | null;
+  accent_color: string | null;
+};
+
 const PORTAL_MODES = new Set<PortalMode>(['simple', 'builder']);
 const MAX_ID_LENGTH = 191;
 

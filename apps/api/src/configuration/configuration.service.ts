@@ -12,6 +12,7 @@ import { AuditLogService } from '../platform-observability/audit-log.service';
 import { EventOutboxService } from '../platform-observability/event-outbox.service';
 import { PrismaService } from '../prisma/prisma.service';
 import type {
+  EffectiveBrandingResponse,
   OrganizationBrandingReadSubstrate,
   PortalMode,
   UpdatePortalModeInput,
@@ -24,6 +25,8 @@ const BRANDING_ASSETS_SETTING_KEY = 'white_label.branding_assets';
 const CONFIGURABLE_LABELS_SETTING_PREFIX = 'display.labels.';
 const DEFAULT_PORTAL_MODE: PortalMode = 'simple';
 const DEFAULT_WHITE_LABEL_MODE = 'none';
+const DEFAULT_EFFECTIVE_PRODUCT_NAME = 'AKTI Spark';
+const DEFAULT_EFFECTIVE_THEME_MODE: EffectiveBrandingResponse['theme_mode'] = 'system';
 const ORGANIZATION_CONFIGURATION_SCOPE_TYPES = new Set<PermissionScopeType>(['global', 'organization']);
 const BRANDING_ASSET_URL_MAX_LENGTH = 2048;
 const DOMAIN_IDENTITY_MAX_LENGTH = 253;
@@ -309,6 +312,21 @@ export class ConfigurationService {
         theme_mode: null,
       },
       updated_at: assets.updated_at,
+    };
+  }
+
+  async getEffectiveBranding(
+    organizationId: string,
+    actorUserIdRaw?: string,
+  ): Promise<EffectiveBrandingResponse> {
+    const substrate = await this.resolveBrandingReadSubstrate(organizationId, actorUserIdRaw);
+
+    return {
+      product_name: substrate.branding_config.product_name_override ?? DEFAULT_EFFECTIVE_PRODUCT_NAME,
+      logo_url: substrate.logo_url,
+      theme_mode: substrate.branding_config.theme_mode ?? DEFAULT_EFFECTIVE_THEME_MODE,
+      primary_color: substrate.branding_config.primary_color,
+      accent_color: substrate.branding_config.accent_color,
     };
   }
 
