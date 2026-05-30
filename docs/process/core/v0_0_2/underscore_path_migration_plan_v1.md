@@ -3105,6 +3105,19 @@ codex-review/
 
 ## Migration PR Train
 
+## PR 31 Guardrail Implementation
+
+PR 31 adds guardrail infrastructure before any broad rename work:
+
+- `.path_policy_exceptions.json` defines explicit path-policy exceptions and points to the Core v0.0.2 legacy baseline inventory.
+- `scripts/quality/check_lower_snake_case_paths.mjs` checks tracked paths with Node built-ins and `git ls-files`; existing hyphenated paths pass only when captured in the generated legacy baseline or covered by an explicit exception.
+- `scripts/quality/generate_path_inventory.mjs` regenerates JSON and Markdown inventory artifacts with counts, guessed categories, git HEAD, timestamp, top-level area counts, and exception totals.
+- `docs/process/core/v0_0_2/path_migration_inventory.json` and `docs/process/core/v0_0_2/path_migration_inventory.md` become the initial baseline for PR 32 through PR 35.
+- CI runs `node scripts/quality/check_lower_snake_case_paths.mjs` before dependency installation so new hyphenated paths are rejected early without requiring package installation.
+- PR 31 does not rename files, move historical evidence, change public routes, change APIs, change package or lockfile files, or change Prisma/schema/migration/generated registry files.
+- Category C route/API migration remains human-approval only and must continue through a compatibility plan before any public path rename.
+- Historical evidence remains truthful in its legacy paths; future artifacts move toward lower_snake_case indexed locations.
+
 ### PR 1 - Path Policy and Indexes Only
 
 Create only index and policy files such as:

@@ -1,0 +1,35 @@
+{
+  "status": "ACTIVE",
+  "policy": "lower_snake_case_new_paths",
+  "generated_at_phase": "core_v0_0_2_underscore_migration_guardrails",
+  "legacy_baseline": {
+    "path": "docs/process/core/v0_0_2/path_migration_inventory.json",
+    "reason": "Existing hyphenated tracked paths are temporarily allowed only because they are captured in the Core v0.0.2 migration baseline inventory."
+  },
+  "exceptions": [
+    {
+      "path_pattern": ".github/workflows/*.yml",
+      "category": "tool_convention",
+      "reason": "GitHub workflow filenames may remain as tool-controlled historical conventions until a dedicated CI workflow migration approves changes.",
+      "review_required_before_new_match": true
+    },
+    {
+      "path_pattern": "codex-review/**",
+      "category": "historical_evidence",
+      "reason": "Historical audit/evidence paths remain truthful and are not rewritten by policy guardrails.",
+      "review_required_before_new_match": false
+    },
+    {
+      "path_pattern": "apps/web/app/lead-desk/**",
+      "category": "public_route_surface",
+      "reason": "Lead Desk route path is a public/contracted route surface and CRM visible-label compatibility boundary. Rename requires route compatibility plan.",
+      "review_required_before_new_match": true
+    },
+    {
+      "path_pattern": "apps/api/src/lead-desk/**",
+      "category": "api_public_surface",
+      "reason": "Lead Desk API/module path is a technical compatibility surface. Rename requires API compatibility plan.",
+      "review_required_before_new_match": true
+    }
+  ]
+}
