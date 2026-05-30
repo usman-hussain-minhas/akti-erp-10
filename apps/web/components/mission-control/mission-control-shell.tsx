@@ -2,6 +2,8 @@
 
 import Link from 'next/link';
 import {
+  Building2,
+  ChevronDown,
   HelpCircle,
   Inbox,
   LayoutDashboard,
@@ -13,7 +15,7 @@ import {
   UserRound,
   X,
 } from 'lucide-react';
-import { useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { useLeadDeskOperatorContext } from '../../app/lead-desk/operator-context';
 import { PLATFORM_PRODUCT_NAME } from '../../lib/platform-branding.config';
@@ -32,10 +34,70 @@ const NAV_ICONS = {
   '/app/settings': Settings,
 } as const;
 
+type OrgProfileSnapshot =
+  | { state: 'placeholder'; label: string; detail: string }
+  | { state: 'loading'; label: string; detail: string }
+  | { state: 'ready'; label: string; detail: string }
+  | { state: 'error'; label: string; detail: string };
+
+function resolveApiBase(): string | null {
+  const configured = process.env.NEXT_PUBLIC_API_BASE_URL?.trim();
+  return configured ? configured.replace(/\/$/, '') : null;
+}
+
 export function MissionControlShell() {
-  const { sessionState } = useLeadDeskOperatorContext();
+  const { context, sessionState } = useLeadDeskOperatorContext();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
+  const apiBase = useMemo(resolveApiBase, []);
+  const [orgProfile, setOrgProfile] = useState<OrgProfileSnapshot>({
+    state: 'placeholder',
+    label: 'Workspace not connected',
+    detail: 'Connect your workspace',
+  });
+
+  const loadOrgProfile = useCallback(async () => {
+    if (!apiBase) {
+      setOrgProfile({ state: 'placeholder', label: 'Workspace not connected', detail: 'Connect your workspace' });
+      return;
+    }
+
+    setOrgProfile({ state: 'loading', label: 'Loading workspace', detail: 'Reading organization profile' });
+    const headers = context.sessionToken.trim().length > 0 ? { Authorization: `Bearer ${context.sessionToken.trim()}` } : undefined;
+
+    try {
+      const response = await fetch(`${apiBase}/platform/organization/profile`, { headers });
+      if (!response.ok) {
+        setOrgProfile({ state: 'error', label: 'Workspace unavailable', detail: 'Profile cannot be loaded' });
+        return;
+      }
+
+      const payload = (await response.json()) as {
+        organization?: {
+          short_name?: unknown;
+          name?: unknown;
+          display_name?: unknown;
+        };
+      };
+      const organization = payload.organization ?? {};
+      const label =
+        typeof organization.short_name === 'string' && organization.short_name.trim()
+          ? organization.short_name.trim()
+          : typeof organization.display_name === 'string' && organization.display_name.trim()
+            ? organization.display_name.trim()
+            : typeof organization.name === 'string' && organization.name.trim()
+              ? organization.name.trim()
+              : 'Workspace';
+
+      setOrgProfile({ state: 'ready', label, detail: 'Organization profile' });
+    } catch {
+      setOrgProfile({ state: 'error', label: 'Workspace unavailable', detail: 'Profile cannot be loaded' });
+    }
+  }, [apiBase, context.sessionToken]);
+
+  useEffect(() => {
+    void loadOrgProfile();
+  }, [loadOrgProfile]);
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-[var(--phase5c-bg)] text-[var(--phase5c-text)]">
@@ -76,10 +138,8 @@ export function MissionControlShell() {
                 <Settings aria-hidden="true" size={18} />
               </Link>
             </Button>
-            <div className="hidden items-center gap-2 rounded-md border border-[var(--phase5c-border)] bg-[var(--phase5c-surface)] px-3 py-2 text-sm md:flex" aria-label="User and organization menu">
-              <UserRound aria-hidden="true" size={16} />
-              <span>Operator workspace</span>
-            </div>
+            <OrgBadge snapshot={orgProfile} />
+            <UserAvatar />
           </div>
         </div>
         <div className="px-4 pb-3">
@@ -154,6 +214,36 @@ export function MissionControlShell() {
         </button>
       </nav>
     </div>
+  );
+}
+
+function OrgBadge({ snapshot }: { snapshot: OrgProfileSnapshot }) {
+  return (
+    <button
+      type="button"
+      className="hidden max-w-56 items-center gap-2 rounded-md border border-[var(--phase5c-border)] bg-[var(--phase5c-surface)] px-3 py-2 text-left text-sm transition-all hover:border-[var(--akti-cyan)] focus-visible:ring-2 focus-visible:ring-[var(--akti-cyan)] md:flex"
+      aria-label={`Organization badge: ${snapshot.label}`}
+      aria-disabled="true"
+    >
+      <Building2 aria-hidden="true" size={16} className="text-[var(--akti-violet)]" />
+      <span className="grid min-w-0">
+        <span className="truncate font-medium">{snapshot.label}</span>
+        <span className="truncate text-xs text-[var(--phase5c-text-muted)]">{snapshot.detail}</span>
+      </span>
+      <ChevronDown aria-hidden="true" size={14} className="text-[var(--phase5c-text-muted)]" />
+    </button>
+  );
+}
+
+function UserAvatar() {
+  return (
+    <button
+      type="button"
+      className="hidden h-10 w-10 place-items-center rounded-full border border-[var(--akti-violet)] bg-[rgb(139_92_246_/_.16)] text-sm font-semibold text-[var(--phase5c-text)] shadow-[var(--akti-glow-violet)] focus-visible:ring-2 focus-visible:ring-[var(--akti-cyan)] md:grid"
+      aria-label="User account avatar"
+    >
+      <UserRound aria-hidden="true" size={17} />
+    </button>
   );
 }
 

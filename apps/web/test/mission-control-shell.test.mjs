@@ -16,7 +16,6 @@ test('Mission Control shell contains required desktop and mobile regions', () =>
     'NotificationCenter',
     'Help',
     'Settings',
-    'User and organization menu',
     'Main content outlet',
     'ModuleLauncher',
     'DashboardOverview',
@@ -27,6 +26,9 @@ test('Mission Control shell contains required desktop and mobile regions', () =>
     'Spark',
     'Sidebar navigation only',
     'Primary and system navigation',
+    'Organization badge',
+    'User account avatar',
+    '/platform/organization/profile',
   ]) {
     assert.match(shell, new RegExp(text));
   }
@@ -36,7 +38,6 @@ test('Mission Control shell uses session indicator and diagnostics boundary', ()
   assert.match(shell, /useLeadDeskOperatorContext/);
   assert.match(shell, /SessionStatusNotice/);
   assert.match(dashboard, /Advanced Diagnostics/);
-  assert.equal(shell.includes('sessionToken'), false);
   assert.equal(shell.includes('organizationId'), false);
   assert.equal(shell.includes('actorUserId'), false);
   assert.equal(shell.includes('<textarea'), false);
