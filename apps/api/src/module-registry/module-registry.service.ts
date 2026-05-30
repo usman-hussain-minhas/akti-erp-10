@@ -47,6 +47,7 @@ type CapabilityConsumptionManifestEntry = {
 type ModuleDisplayMetadataEntry = {
   display_name: string;
   display_description: string;
+  display_features?: string[];
   icon_key: string;
   category: 'core' | 'platform' | 'business' | 'integration' | 'internal';
   visibility_state: 'available' | 'requires_setup' | 'locked' | 'coming_soon' | 'hidden';
@@ -295,6 +296,7 @@ export type RoleAwareModuleListResponse = {
     module_key: string;
     display_name: string;
     display_description: string;
+    display_features?: string[];
     icon_key: string;
     category: ModuleDisplayMetadataEntry['category'];
     route: string | null;
@@ -535,6 +537,8 @@ function isModuleDisplayMetadataEntry(input: unknown): input is ModuleDisplayMet
   return (
     typeof maybe.display_name === 'string' &&
     typeof maybe.display_description === 'string' &&
+    (maybe.display_features === undefined ||
+      (Array.isArray(maybe.display_features) && maybe.display_features.every((item) => typeof item === 'string'))) &&
     typeof maybe.icon_key === 'string' &&
     typeof maybe.category === 'string' &&
     typeof maybe.visibility_state === 'string' &&
@@ -562,6 +566,12 @@ function assertModuleDisplayMetadata(manifest: RuntimeModuleManifest) {
   }
   if (metadata.display_description.trim().length === 0) {
     throw new ConflictException(`manifest ${manifest.module_key} display metadata requires display_description`);
+  }
+  if (
+    metadata.display_features !== undefined &&
+    metadata.display_features.some((feature) => feature.trim().length === 0)
+  ) {
+    throw new ConflictException(`manifest ${manifest.module_key} display metadata display_features must be non-empty strings`);
   }
   if (!MANIFEST_KEY_PATTERN.test(metadata.icon_key)) {
     throw new ConflictException(`manifest ${manifest.module_key} display metadata icon_key is invalid`);
@@ -1396,6 +1406,9 @@ export class ModuleRegistryService {
           module_key: module.module_key,
           display_name: manifest.display_metadata.display_name,
           display_description: manifest.display_metadata.display_description,
+          ...(manifest.display_metadata.display_features === undefined
+            ? {}
+            : { display_features: [...manifest.display_metadata.display_features] }),
           icon_key: manifest.display_metadata.icon_key,
           category: manifest.display_metadata.category,
           route: manifest.display_metadata.route,

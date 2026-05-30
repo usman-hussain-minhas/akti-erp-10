@@ -37,6 +37,7 @@ export const ModuleDisplayMetadataSchema = z
   .object({
     display_name: z.string().min(1),
     display_description: z.string().min(1),
+    display_features: z.array(z.string().min(1)).optional(),
     icon_key: ManifestKeySchema,
     category: ModuleDisplayCategorySchema,
     visibility_state: VisibilityStateSchema,

@@ -1,4 +1,5 @@
 import { internalFixtureModuleManifest } from "./internal-fixture.module-manifest.contract.js";
+import { leadDeskCoreModuleManifest } from "./lead-desk-core.module-manifest.contract.js";
 import { ModuleManifestSchema } from "./module-manifest.schema.js";
 
 function assert(condition: boolean, message: string) {
@@ -17,6 +18,25 @@ function testInternalFixtureManifestParsesAgainstModuleManifestSchema() {
     "display name is Internal Platform Fixture",
   );
   assert(internalFixtureModuleManifest.owner === "platform", "owner is platform");
+}
+
+function testOptionalDisplayFeaturesContract() {
+  const absentResult = ModuleManifestSchema.safeParse({
+    ...internalFixtureModuleManifest,
+    display_metadata: {
+      ...internalFixtureModuleManifest.display_metadata,
+    },
+  });
+
+  assert(absentResult.success, "display_features is optional for existing module manifests");
+  assert(
+    Array.isArray(leadDeskCoreModuleManifest.display_metadata.display_features),
+    "approved Lead Desk/CRM manifest can provide display_features",
+  );
+  assert(
+    leadDeskCoreModuleManifest.display_metadata.display_features?.every((feature) => feature.trim().length > 0) === true,
+    "display_features entries are non-empty strings",
+  );
 }
 
 function testInternalFixtureUsesPlatformOnlyCapabilityAndDependencySurface() {
@@ -74,6 +94,7 @@ function testInternalFixtureDoesNotDeclareBusinessGoldenMarketplaceOrProviderSco
 
 function run() {
   testInternalFixtureManifestParsesAgainstModuleManifestSchema();
+  testOptionalDisplayFeaturesContract();
   testInternalFixtureUsesPlatformOnlyCapabilityAndDependencySurface();
   testManageCapabilityIsGatekeeperGoverned();
   testInternalFixtureDoesNotDeclareBusinessGoldenMarketplaceOrProviderScope();
