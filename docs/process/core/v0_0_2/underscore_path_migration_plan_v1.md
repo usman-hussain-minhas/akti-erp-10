@@ -3118,6 +3118,17 @@ PR 31 adds guardrail infrastructure before any broad rename work:
 - Category C route/API migration remains human-approval only and must continue through a compatibility plan before any public path rename.
 - Historical evidence remains truthful in its legacy paths; future artifacts move toward lower_snake_case indexed locations.
 
+## PR 32 Process Index Implementation
+
+PR 32 creates the active lower_snake_case process index layout without moving or copying legacy process docs:
+
+- `docs/process/index.md` becomes the top-level process index for Core and future app/domain lifecycles.
+- `docs/process/core/v0_0_1/` maps completed Core v0.0.1 through Phase 5C using phase-specific index files.
+- `docs/process/core/v0_0_2/index.md` identifies Core v0.0.2 as the next Core update space and points to the migration plan/inventory authority.
+- `docs/process/apps/training/crm/v0_0_1/`, `docs/process/apps/training/hr/v0_0_1/`, and `docs/process/apps/training/finance/v0_0_1/` are future placeholders only; those app/domain lifecycles are not started.
+- Every new index labels content as active authority, historical reference, or future placeholder.
+- PR 32 does not move legacy docs, copy evidence, rewrite historical audit paths, rename routes, rename APIs, or start Phase 6.
+
 ### PR 1 - Path Policy and Indexes Only
 
 Create only index and policy files such as:
