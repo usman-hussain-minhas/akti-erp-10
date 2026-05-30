@@ -7,14 +7,15 @@ const shell = readFileSync(new URL('../components/mission-control/mission-contro
 
 test('notification center renders bell badge drawer toast and empty shell states', () => {
   for (const text of [
-    'aria-label="Notifications, 0 unread"',
+    'summary.unreadCount} unread',
     'aria-hidden="true"',
     'Notification center',
     'Notification drawer',
     'ToastMessage',
     'No notifications',
     'Permission-aware placeholder',
-    'STATIC_SYSTEM_NOTICE',
+    '/platform/notifications/summary',
+    'NotificationSummaryState',
   ]) {
     assert.match(notificationCenter, new RegExp(text));
   }
@@ -24,7 +25,7 @@ test('notification shell remains a drawer region without a route', () => {
   assert.ok(shell.includes('<NotificationCenter />'));
   assert.match(shell, /id="notification-region"/);
   assert.equal(notificationCenter.includes('href='), false);
-  assert.equal(notificationCenter.includes('/notifications'), false);
+  assert.equal(notificationCenter.includes('href="/notifications"'), false);
   assert.equal(shell.includes('/notifications'), false);
 });
 
