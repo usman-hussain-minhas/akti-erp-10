@@ -5,6 +5,7 @@ import {
   Building2,
   ChevronDown,
   HelpCircle,
+  Link2,
   Inbox,
   LayoutDashboard,
   Menu,
@@ -236,13 +237,28 @@ export function MissionControlShell() {
 
       <div className={sidebarCollapsed ? 'md:pl-20' : 'md:pl-72'}>
         <main className="grid min-w-0 gap-6 px-4 py-6 pb-24 md:px-8 md:pb-8" aria-label="Main content outlet">
-          <section className="grid gap-2">
-            <StatusBadge tone="info">Phase 5C operator shell</StatusBadge>
-            <h1 className="m-0 text-2xl font-semibold">Mission Control</h1>
-            <p className="m-0 max-w-3xl text-sm text-[#55605a]">
-              Start with session status, then open an available work area. Unsupported operational widgets stay as clear
-              placeholders until their API or policy surface exists.
-            </p>
+          <section className="grid gap-4" aria-labelledby="mission-control-title">
+            <h1 id="mission-control-title" className="m-0 text-2xl font-semibold">
+              Mission Control
+            </h1>
+            <div className="overflow-hidden rounded-lg border border-[rgb(139_92_246_/_.55)] bg-[radial-gradient(circle_at_82%_30%,rgb(139_92_246_/_.22),transparent_34%),linear-gradient(135deg,rgb(0_213_255_/_.08),rgb(139_92_246_/_.08)_42%,transparent)] p-5 shadow-[var(--akti-glow-violet)] md:p-7">
+              <div className="grid gap-5 md:grid-cols-[auto_1fr_auto] md:items-center">
+                <span className="grid h-16 w-16 place-items-center rounded-full border border-[var(--akti-violet)] bg-[rgb(139_92_246_/_.16)] text-[var(--akti-violet)] shadow-[var(--akti-glow-violet)]">
+                  <Link2 aria-hidden="true" size={28} />
+                </span>
+                <div className="grid gap-2">
+                  <StatusBadge tone="warning">Workspace connection required</StatusBadge>
+                  <h2 className="m-0 text-2xl font-semibold">Workspace not connected</h2>
+                  <p className="m-0 max-w-2xl text-sm text-[var(--phase5c-text-muted)]">
+                    Connect your workspace to activate {SHELL_NAVIGATION_ROUTES[1].label} and platform services. Until a
+                    local/demo API is connected, operational surfaces stay unavailable rather than showing fake data.
+                  </p>
+                </div>
+                <div className="hidden h-24 w-40 place-items-center rounded-lg border border-[rgb(0_213_255_/_.35)] bg-[rgb(5_7_12_/_.45)] md:grid">
+                  <Link2 aria-hidden="true" size={34} className="text-[var(--akti-cyan)]" />
+                </div>
+              </div>
+            </div>
           </section>
 
           <ModuleLauncher />

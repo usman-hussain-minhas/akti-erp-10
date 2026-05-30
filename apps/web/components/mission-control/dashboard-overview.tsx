@@ -116,13 +116,13 @@ export function DashboardOverview() {
   return (
     <section className="grid gap-3" aria-labelledby="dashboard-overview-title">
       <div className="grid gap-2">
-        <StatusBadge tone="info">Dashboard v1</StatusBadge>
+        <StatusBadge tone="info">Operational status</StatusBadge>
         <h2 id="dashboard-overview-title" className="m-0 text-lg font-semibold">
           Operational overview
         </h2>
         <p className="m-0 max-w-3xl text-sm text-[#55605a]">
-          Dashboard v1 uses existing APIs only. Unsupported widgets are explicit placeholders or deferrals, never
-          hardcoded operational data.
+          Live status uses existing approved APIs only. Unsupported widgets are explicit unavailable states or deferrals,
+          never hardcoded operational data.
         </p>
       </div>
 
