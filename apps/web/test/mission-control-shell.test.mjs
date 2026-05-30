@@ -29,6 +29,8 @@ test('Mission Control shell contains required desktop and mobile regions', () =>
     'Organization badge',
     'User account avatar',
     '/platform/organization/profile',
+    'Workspace status card',
+    '/platform/status/overview',
   ]) {
     assert.match(shell, new RegExp(text));
   }

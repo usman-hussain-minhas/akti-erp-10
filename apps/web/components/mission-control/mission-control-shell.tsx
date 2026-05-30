@@ -40,6 +40,12 @@ type OrgProfileSnapshot =
   | { state: 'ready'; label: string; detail: string }
   | { state: 'error'; label: string; detail: string };
 
+type WorkspaceStatusSnapshot =
+  | { state: 'placeholder'; label: string; detail: string }
+  | { state: 'loading'; label: string; detail: string }
+  | { state: 'ready'; label: string; detail: string }
+  | { state: 'error'; label: string; detail: string };
+
 function resolveApiBase(): string | null {
   const configured = process.env.NEXT_PUBLIC_API_BASE_URL?.trim();
   return configured ? configured.replace(/\/$/, '') : null;
@@ -54,6 +60,11 @@ export function MissionControlShell() {
     state: 'placeholder',
     label: 'Workspace not connected',
     detail: 'Connect your workspace',
+  });
+  const [workspaceStatus, setWorkspaceStatus] = useState<WorkspaceStatusSnapshot>({
+    state: 'placeholder',
+    label: 'Workspace not connected',
+    detail: 'Connect to enable CRM and platform services.',
   });
 
   const loadOrgProfile = useCallback(async () => {
@@ -98,6 +109,53 @@ export function MissionControlShell() {
   useEffect(() => {
     void loadOrgProfile();
   }, [loadOrgProfile]);
+
+  const loadWorkspaceStatus = useCallback(async () => {
+    if (!apiBase) {
+      setWorkspaceStatus({
+        state: 'placeholder',
+        label: 'Workspace not connected',
+        detail: 'Connect to enable CRM and platform services.',
+      });
+      return;
+    }
+
+    setWorkspaceStatus({ state: 'loading', label: 'Checking workspace', detail: 'Reading platform status overview.' });
+    const headers = context.sessionToken.trim().length > 0 ? { Authorization: `Bearer ${context.sessionToken.trim()}` } : undefined;
+
+    try {
+      const response = await fetch(`${apiBase}/platform/status/overview`, { headers });
+      if (!response.ok) {
+        setWorkspaceStatus({ state: 'error', label: 'Workspace unavailable', detail: 'Platform status cannot be loaded.' });
+        return;
+      }
+
+      const payload = (await response.json()) as {
+        status?: {
+          workspace_connection?: unknown;
+        };
+      };
+      const workspaceConnection =
+        typeof payload.status?.workspace_connection === 'string'
+          ? payload.status.workspace_connection
+          : 'not_connected';
+
+      setWorkspaceStatus({
+        state: 'ready',
+        label: workspaceConnection === 'connected' ? 'Workspace connected' : 'Workspace not connected',
+        detail:
+          workspaceConnection === 'connected'
+            ? 'Platform status overview is available.'
+            : 'Connect to enable CRM and platform services.',
+      });
+    } catch {
+      setWorkspaceStatus({ state: 'error', label: 'Workspace unavailable', detail: 'Platform status cannot be loaded.' });
+    }
+  }, [apiBase, context.sessionToken]);
+
+  useEffect(() => {
+    void loadWorkspaceStatus();
+  }, [loadWorkspaceStatus]);
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-[var(--phase5c-bg)] text-[var(--phase5c-text)]">
@@ -168,6 +226,7 @@ export function MissionControlShell() {
         <div className="min-h-0 overflow-y-auto">
           <ShellNavigation collapsed={sidebarCollapsed} />
         </div>
+        <WorkspaceStatusCard collapsed={sidebarCollapsed} snapshot={workspaceStatus} />
       </aside>
 
       <div className={sidebarCollapsed ? 'md:pl-20' : 'md:pl-72'}>
@@ -244,6 +303,37 @@ function UserAvatar() {
     >
       <UserRound aria-hidden="true" size={17} />
     </button>
+  );
+}
+
+function WorkspaceStatusCard({
+  collapsed,
+  snapshot,
+}: {
+  collapsed: boolean;
+  snapshot: WorkspaceStatusSnapshot;
+}) {
+  const toneClass =
+    snapshot.state === 'ready'
+      ? 'border-[rgb(18_217_123_/_.45)]'
+      : snapshot.state === 'error'
+        ? 'border-[rgb(255_107_122_/_.45)]'
+        : 'border-[rgb(0_213_255_/_.35)]';
+
+  return (
+    <section
+      className={`mt-4 grid gap-2 rounded-lg border ${toneClass} bg-[rgb(255_255_255_/_.03)] p-3 text-sm`}
+      aria-label="Workspace status card"
+    >
+      {collapsed ? (
+        <span className="mx-auto h-2.5 w-2.5 rounded-full bg-[var(--akti-cyan)]" aria-label={snapshot.label} />
+      ) : (
+        <>
+          <p className="m-0 font-medium">{snapshot.label}</p>
+          <p className="m-0 text-xs text-[var(--phase5c-text-muted)]">{snapshot.detail}</p>
+        </>
+      )}
+    </section>
   );
 }
 
