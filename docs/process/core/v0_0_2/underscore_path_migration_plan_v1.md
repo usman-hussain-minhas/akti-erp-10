@@ -3129,6 +3129,16 @@ PR 32 creates the active lower_snake_case process index layout without moving or
 - Every new index labels content as active authority, historical reference, or future placeholder.
 - PR 32 does not move legacy docs, copy evidence, rewrite historical audit paths, rename routes, rename APIs, or start Phase 6.
 
+## PR 35 codex-review Future Path Implementation
+
+PR 35 preserves historical `codex-review/**` evidence while switching future review artifacts to lower_snake_case domain/version paths:
+
+- `codex-review/core/v0_0_1/index.md` indexes the completed Core v0.0.1 review artifact baseline without moving legacy evidence.
+- `codex-review/core/v0_0_2/index.md` defines the future Core review artifact location.
+- `codex-review/apps/training/crm/v0_0_1/index.md` reserves a future training CRM review artifact location; that lifecycle is not started.
+- `docs/process/core/v0_0_2/codex_review_future_path_policy_v1.md` states that historical paths remain truthful and future lifecycle artifact sets must include `spark_genesis_state.json`, `spark_genesis_run_log.jsonl`, and `artifact_manifest.json`.
+- PR 35 does not move old `codex-review/**`, rewrite screenshot manifests, rewrite final audit evidence, rename routes, rename APIs, or start Phase 6.
+
 ### PR 1 - Path Policy and Indexes Only
 
 Create only index and policy files such as:
