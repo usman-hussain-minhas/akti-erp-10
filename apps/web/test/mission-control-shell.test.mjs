@@ -21,6 +21,7 @@ test('Mission Control shell contains required desktop and mobile regions', () =>
     'DashboardOverview',
     'Mobile navigation drawer',
     'Bottom primary navigation',
+    'phase5c-safe-bottom',
     'BrandLockup',
     'AKTI',
     'Spark',

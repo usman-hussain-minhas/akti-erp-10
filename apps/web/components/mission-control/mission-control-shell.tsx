@@ -263,11 +263,18 @@ export function MissionControlShell() {
         </main>
       </div>
 
-      <nav className="fixed inset-x-0 bottom-0 z-30 grid grid-cols-4 border-t border-[var(--border)] bg-white p-2 md:hidden" aria-label="Bottom primary navigation">
+      <nav
+        className="phase5c-safe-bottom fixed inset-x-0 bottom-0 z-30 grid grid-cols-4 border-t border-[var(--phase5c-border)] bg-[rgb(5_7_12_/_.94)] px-2 pt-2 backdrop-blur-xl md:hidden"
+        aria-label="Bottom primary navigation"
+      >
         <MobileNavLink href="/app" label="Home" icon={LayoutDashboard} />
         <MobileNavLink href="/lead-desk/inbox" label={SHELL_NAVIGATION_ROUTES[1].label} icon={Inbox} />
         <MobileNavLink href="/app/settings" label="Settings" icon={Settings} />
-        <button type="button" className="grid justify-items-center gap-1 rounded-md px-2 py-1 text-xs" onClick={() => setMobileDrawerOpen(true)}>
+        <button
+          type="button"
+          className="grid min-h-12 justify-items-center gap-1 rounded-md px-2 py-1 text-xs hover:bg-[var(--phase5c-surface-muted)] focus-visible:ring-2 focus-visible:ring-[var(--akti-cyan)]"
+          onClick={() => setMobileDrawerOpen(true)}
+        >
           <Menu aria-hidden="true" size={18} />
           <span>Menu</span>
         </button>
@@ -391,7 +398,10 @@ function MobileNavLink({
   icon: typeof LayoutDashboard;
 }) {
   return (
-    <Link href={href} className="grid justify-items-center gap-1 rounded-md px-2 py-1 text-xs">
+    <Link
+      href={href}
+      className="grid min-h-12 justify-items-center gap-1 rounded-md px-2 py-1 text-xs hover:bg-[var(--phase5c-surface-muted)] focus-visible:ring-2 focus-visible:ring-[var(--akti-cyan)]"
+    >
       <Icon aria-hidden="true" size={18} />
       <span>{label}</span>
     </Link>
