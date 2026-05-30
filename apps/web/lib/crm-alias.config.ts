@@ -1,4 +1,5 @@
 export const CRM_VISIBLE_LABEL = 'CRM';
+export const CRM_INBOX_VISIBLE_LABEL = `${CRM_VISIBLE_LABEL} Inbox`;
 
 export const LEAD_DESK_TECHNICAL_ROUTE_PREFIX = '/lead-desk';
 
@@ -18,6 +19,7 @@ export const CRM_TECHNICAL_RENAME_FORBIDDEN = [
 
 export const CRM_ALIAS = {
   visibleLabel: CRM_VISIBLE_LABEL,
+  inboxVisibleLabel: CRM_INBOX_VISIBLE_LABEL,
   technicalRoutePrefix: LEAD_DESK_TECHNICAL_ROUTE_PREFIX,
   technicalModuleKey: LEAD_DESK_TECHNICAL_MODULE_KEY,
   visibleLabelRule: CRM_VISIBLE_LABEL_RULE,
