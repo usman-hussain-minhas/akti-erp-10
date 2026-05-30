@@ -157,6 +157,9 @@ function ModuleCard({ item }: { item: ModuleRegistryItem }) {
   const isAvailable = visibilityState === 'available' && item.status === 'available';
   const description = item.display_description ?? 'Registered module with no approved display description.';
   const moduleRoute = typeof item.route === 'string' && item.route.trim().length > 0 ? item.route : null;
+  const displayFeatures = Array.isArray(item.display_features)
+    ? item.display_features.filter((feature) => feature.trim().length > 0)
+    : [];
   const routeAuthorityNotice =
     MODULES_ROUTE_ACTION_AUTHORITY.approvedRoute === null
       ? `Open Modules action is disabled until ${MODULES_ROUTE_ACTION_AUTHORITY.deferredRoute} route authority is approved.`
@@ -172,6 +175,13 @@ function ModuleCard({ item }: { item: ModuleRegistryItem }) {
       <p className="m-0 text-xs text-[var(--phase5c-text-muted)]">
         Source: GET /platform/modules. Visibility does not equal authority.
       </p>
+      {displayFeatures.length > 0 ? (
+        <ul className="m-0 grid gap-1 pl-4 text-sm text-[var(--phase5c-text-muted)]" aria-label={`${item.display_name} features`}>
+          {displayFeatures.map((feature) => (
+            <li key={feature}>{feature}</li>
+          ))}
+        </ul>
+      ) : null}
       <p className="m-0 text-xs text-[#66716a]">Version {item.version}</p>
       {moduleRoute && isAvailable ? (
         <Button asChild variant="secondary">
