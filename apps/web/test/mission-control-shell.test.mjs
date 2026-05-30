@@ -12,7 +12,6 @@ test('/app route renders the Mission Control shell component', () => {
 
 test('Mission Control shell contains required desktop and mobile regions', () => {
   for (const text of [
-    'Module navigation',
     'CommandPalette',
     'NotificationCenter',
     'Help',
@@ -26,6 +25,8 @@ test('Mission Control shell contains required desktop and mobile regions', () =>
     'BrandLockup',
     'AKTI',
     'Spark',
+    'Sidebar navigation only',
+    'Primary and system navigation',
   ]) {
     assert.match(shell, new RegExp(text));
   }

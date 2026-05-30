@@ -88,10 +88,10 @@ export function MissionControlShell() {
       </header>
 
       <aside
-        className={`fixed bottom-0 left-0 top-[4.5rem] hidden border-r border-[var(--phase5c-border)] bg-[var(--phase5c-surface)] p-3 md:grid ${
+        className={`fixed bottom-0 left-0 top-[4.5rem] hidden grid-rows-[auto_1fr] border-r border-[var(--phase5c-border)] bg-[var(--phase5c-surface)] p-3 md:grid ${
           sidebarCollapsed ? 'w-20' : 'w-72'
         }`}
-        aria-label="Module navigation"
+        aria-label="Sidebar navigation only"
       >
         <div className="flex items-center justify-between gap-2">
           <BrandLockup collapsed={sidebarCollapsed} />
@@ -105,7 +105,9 @@ export function MissionControlShell() {
             {sidebarCollapsed ? <PanelLeftOpen aria-hidden="true" size={18} /> : <PanelLeftClose aria-hidden="true" size={18} />}
           </Button>
         </div>
-        <ShellNavigation collapsed={sidebarCollapsed} />
+        <div className="min-h-0 overflow-y-auto">
+          <ShellNavigation collapsed={sidebarCollapsed} />
+        </div>
       </aside>
 
       <div className={sidebarCollapsed ? 'md:pl-20' : 'md:pl-72'}>
@@ -172,7 +174,7 @@ function BrandLockup({ collapsed }: { collapsed: boolean }) {
 
 function ShellNavigation({ collapsed, onNavigate }: { collapsed: boolean; onNavigate?: () => void }) {
   return (
-    <nav className="mt-6 grid gap-2" aria-label="Primary module navigation">
+    <nav className="mt-6 grid gap-2" aria-label="Primary and system navigation">
       {SHELL_NAVIGATION_ROUTES.map((item) => {
         const Icon = NAV_ICONS[item.route];
 
@@ -181,7 +183,7 @@ function ShellNavigation({ collapsed, onNavigate }: { collapsed: boolean; onNavi
             key={item.route}
             href={item.route}
             onClick={onNavigate}
-            className="flex items-center gap-3 rounded-md px-3 py-2 text-sm hover:bg-[var(--phase5c-surface-muted)] focus-visible:ring-2 focus-visible:ring-[var(--akti-cyan)]"
+            className="flex min-h-12 items-center gap-3 rounded-md px-3 py-2 text-sm hover:bg-[var(--phase5c-surface-muted)] focus-visible:ring-2 focus-visible:ring-[var(--akti-cyan)]"
             aria-label={collapsed ? item.label : undefined}
             title={collapsed ? item.label : undefined}
           >
