@@ -80,17 +80,32 @@ It does not replace:
 
 ## Current Adoption Path
 
+Current stable-channel descriptor:
+
+```xml
+<skill>
+  <name>spark-genesis</name>
+  <channel>stable</channel>
+  <description>Use for phase planning, intent clarification, control docs, seed matrix, ticket-pack audit, predictive stop analysis, autonomous readiness, execution logging, postmortem learning, and recurring failure-pattern detection.</description>
+  <location>/Volumes/UsmanWork/Spark Genesis/skills/spark_genesis/SKILL.md</location>
+</skill>
+```
+
 Skill path:
 
 ```text
-/Volumes/UsmanWork/Spark Genesis/skills/spark-genesis/SKILL.md
+/Volumes/UsmanWork/Spark Genesis/skills/spark_genesis/SKILL.md
 ```
 
-Current version:
+Current adoption channel:
 
 ```text
-0.2.2
+stable
 ```
+
+AKTI Spark adopts Spark Genesis by stable channel. Spark Genesis patch/minor updates do not require an AKTI adoption PR unless the skill location, channel, major compatibility behavior, or project-specific override changes.
+
+Every Spark Genesis-generated audit, readiness report, postmortem, learning scan, and lifecycle artifact must record the exact Spark Genesis channel, version, git SHA, and repo status used for that run.
 
 ## Version 0.2.1 Planning Additions
 

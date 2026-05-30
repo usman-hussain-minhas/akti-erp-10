@@ -8,6 +8,8 @@ This document plans AKTI Spark's migration toward lower_snake_case paths and ind
 
 Spark Genesis now uses lower_snake_case path policy. AKTI Spark should align over time without breaking routes, imports, audit history, source-of-truth references, or historical evidence truthfulness.
 
+Spark Genesis adoption path has already been updated in this PR from the legacy hyphenated skill path to `skills/spark_genesis/SKILL.md`; future AKTI Spark lifecycle artifacts should use stable-channel adoption through the stable channel and record exact Spark Genesis version/commit per run.
+
 ## Current Main HEAD
 
 `07bd43b1f4abfb1c3cdf6320c2bbd2f2977c4665`
