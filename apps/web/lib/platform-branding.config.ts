@@ -5,6 +5,9 @@ export const PLATFORM_LEGACY_PRODUCT_NAME = 'AKTI ERP';
 export const PLATFORM_BRANDING = {
   productName: PLATFORM_PRODUCT_NAME,
   legacyProductName: PLATFORM_LEGACY_PRODUCT_NAME,
+  effectiveBrandingEndpoint: 'GET /platform/branding/effective',
+  readOnlyInPhase5C: true,
+  uploadWriteUiAllowedInPhase5C: false,
   themeDefault: 'system',
   flagshipMode: 'dark',
   lightModeSource: 'derived_from_dark_mode',

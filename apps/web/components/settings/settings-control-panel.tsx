@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 
 import { useLeadDeskOperatorContext } from '../../app/lead-desk/operator-context';
-import { PLATFORM_PRODUCT_NAME } from '../../lib/platform-branding.config';
+import { PLATFORM_BRANDING, PLATFORM_PRODUCT_NAME } from '../../lib/platform-branding.config';
 import { AdvancedDiagnosticsSessionPanel } from '../session/advanced-diagnostics-session-panel';
 import { SessionStatusNotice } from '../session/session-status';
 import { Button } from '../ui/button';
@@ -23,6 +23,8 @@ type SectionSnapshot = {
   message: string;
   value?: string;
 };
+
+type SettingsSnapshotKind = 'portal' | 'users' | 'groups' | 'hierarchy' | 'modules' | 'branding';
 
 function resolveApiBase(): string | null {
   const configured = process.env.NEXT_PUBLIC_API_BASE_URL?.trim();
@@ -51,8 +53,12 @@ export function SettingsControlPanel({ denialMessages }: { denialMessages: Gatek
     state: 'idle',
     message: 'Read-only module list can load from the existing module registry endpoint.',
   });
+  const [branding, setBranding] = useState<SectionSnapshot>({
+    state: 'idle',
+    message: 'Read-only branding facts can load from the effective branding API.',
+  });
 
-  async function loadSettingsSnapshot(kind: 'portal' | 'users' | 'groups' | 'hierarchy' | 'modules') {
+  async function loadSettingsSnapshot(kind: SettingsSnapshotKind) {
     const base = resolveApiBase();
     if (!base) {
       updateSnapshot(kind, { state: 'error', message: denialMessages.apiUnavailable });
@@ -74,6 +80,7 @@ export function SettingsControlPanel({ denialMessages }: { denialMessages: Gatek
       groups: `/platform/access/organizations/${organizationPath}/groups`,
       hierarchy: `/platform/hierarchy/organizations/${organizationPath}/units`,
       modules: '/platform/modules',
+      branding: '/platform/branding/effective',
     };
 
     try {
@@ -94,13 +101,14 @@ export function SettingsControlPanel({ denialMessages }: { denialMessages: Gatek
     }
   }
 
-  function updateSnapshot(kind: 'portal' | 'users' | 'groups' | 'hierarchy' | 'modules', snapshot: SectionSnapshot) {
+  function updateSnapshot(kind: SettingsSnapshotKind, snapshot: SectionSnapshot) {
     const setters = {
       portal: setPortalMode,
       users: setUsersRoles,
       groups: setGroupsAccess,
       hierarchy: setHierarchy,
       modules: setModules,
+      branding: setBranding,
     };
     setters[kind](snapshot);
   }
@@ -148,7 +156,13 @@ export function SettingsControlPanel({ denialMessages }: { denialMessages: Gatek
             <BuiltSection id="groups-access" title="Groups / Access" snapshot={groupsAccess} onLoad={() => loadSettingsSnapshot('groups')} />
             <BuiltSection id="hierarchy" title="Hierarchy / Organization Structure" snapshot={hierarchy} onLoad={() => loadSettingsSnapshot('hierarchy')} />
             <BuiltSection id="modules" title="Modules" snapshot={modules} onLoad={() => loadSettingsSnapshot('modules')} />
-            <PlaceholderSection id="appearance" title="Appearance" phase="future frontend preferences phase" />
+            <BuiltSection
+              id="appearance"
+              title="Branding / Appearance"
+              snapshot={branding}
+              onLoad={() => loadSettingsSnapshot('branding')}
+              note={`${PLATFORM_BRANDING.effectiveBrandingEndpoint}; read-only only. No logo upload, cropper, domain branding, or write UI.`}
+            />
             <PlaceholderSection id="security" title="Security" phase="Phase 5A auth/security policy" />
             <PlaceholderSection id="notifications" title="Notifications" phase="Phase 5A notification/communication policy" />
             <section id="advanced-diagnostics" className="grid gap-3">
@@ -175,15 +189,18 @@ function BuiltSection({
   title,
   snapshot,
   onLoad,
+  note,
 }: {
   id: string;
   title: string;
   snapshot: SectionSnapshot;
   onLoad: () => void;
+  note?: string;
 }) {
   return (
     <SectionCard id={id} className="grid gap-3">
       <SectionHeading title={title} disposition="Built where current APIs safely support read-only proof" />
+      {note ? <p className="m-0 text-sm text-[var(--phase5c-text-muted)]">{note}</p> : null}
       <SectionSnapshotMessage snapshot={snapshot} />
       <FormActions>
         <Button type="button" variant="secondary" onClick={onLoad} disabled={snapshot.state === 'loading'}>
@@ -234,9 +251,16 @@ function SectionHeading({ title, disposition }: { title: string; disposition: st
   );
 }
 
-function describePayload(kind: 'portal' | 'users' | 'groups' | 'hierarchy' | 'modules', payload: unknown): string {
+function describePayload(kind: SettingsSnapshotKind, payload: unknown): string {
   if (kind === 'portal' && payload && typeof payload === 'object' && 'mode' in payload) {
     return `Portal mode loaded: ${String((payload as { mode?: unknown }).mode)}`;
+  }
+
+  if (kind === 'branding' && payload && typeof payload === 'object') {
+    const branding = payload as { product_name?: unknown; theme_mode?: unknown; logo_url?: unknown };
+    return `Effective branding loaded: ${String(branding.product_name ?? PLATFORM_PRODUCT_NAME)}; theme ${String(
+      branding.theme_mode ?? 'system',
+    )}; logo ${branding.logo_url ? 'configured' : 'not configured'}.`;
   }
 
   const items = Array.isArray((payload as { items?: unknown })?.items)
@@ -251,6 +275,7 @@ function describePayload(kind: 'portal' | 'users' | 'groups' | 'hierarchy' | 'mo
     hierarchy: 'hierarchy units',
     modules: 'modules',
     portal: 'portal mode',
+    branding: 'branding facts',
   };
 
   return `${items.length} ${labels[kind]} loaded.`;
