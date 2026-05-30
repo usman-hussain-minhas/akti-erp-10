@@ -54,6 +54,9 @@ test('baseline tokens cover semantic color and focus states', () => {
 test('component behavior rules include readable disabled focus and state handling', () => {
   assert.match(button, /disabled:pointer-events-none/);
   assert.match(button, /focus-visible:ring-2/);
+  assert.match(button, /active:translate-y-px/);
+  assert.match(button, /transition-all/);
+  assert.match(globals, /--akti-glow-cyan/);
   assert.match(primitives, /aria-modal="true"/);
   assert.match(primitives, /role="status"/);
   assert.match(primitives, /aria-label="Breadcrumb"/);

@@ -94,12 +94,26 @@ textarea {
   font: inherit;
 }
 
+button,
+a,
+input,
+select,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
 ::selection {
   background: #cfe4dc;
   color: var(--foreground);
 }
 
 :focus-visible {
-  outline: 2px solid var(--ring);
-  outline-offset: 2px;
+  outline: 2px solid var(--akti-cyan);
+  outline-offset: 3px;
+  box-shadow: var(--akti-glow-cyan);
+}
+
+[aria-disabled='true'],
+:disabled {
+  cursor: not-allowed;
 }
