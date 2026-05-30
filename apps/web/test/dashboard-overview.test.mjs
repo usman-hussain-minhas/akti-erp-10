@@ -10,6 +10,7 @@ test('dashboard v1 uses existing API surfaces only', () => {
   assert.equal(dashboard.includes("leadDeskApiFetch(context, '/leads'"), true);
   assert.equal(dashboard.includes('/app/settings'), true);
   assert.equal(dashboard.includes('GET /platform/modules'), false);
+  assert.match(dashboard, /platform_services/);
 });
 
 test('dashboard v1 renders placeholders and deferrals for unsupported widgets', () => {

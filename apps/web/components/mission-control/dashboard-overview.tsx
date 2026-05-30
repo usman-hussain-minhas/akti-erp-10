@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { ClipboardList, HeartPulse, Settings, type LucideIcon } from 'lucide-react';
+import { ClipboardList, HeartPulse, ServerCog, Settings, type LucideIcon } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
@@ -146,7 +146,7 @@ export function DashboardOverview() {
         </p>
       </div>
 
-      <div className="grid gap-3 lg:grid-cols-3">
+      <div className="grid gap-3 lg:grid-cols-4">
         <DashboardCard
           title="Workspace connection"
           icon={HeartPulse}
@@ -163,6 +163,26 @@ export function DashboardOverview() {
           action={<Button type="button" variant="secondary" onClick={loadWorkspaceConnection}>Refresh workspace</Button>}
         >
           <SnapshotMessage snapshot={workspaceConnection} />
+        </DashboardCard>
+
+        <DashboardCard
+          title="Platform services"
+          icon={ServerCog}
+          badge={workspaceConnection.state === 'ready' ? formatStatusLabel(workspaceConnection.status.platform_services) : 'Unavailable'}
+          badgeTone={
+            workspaceConnection.state === 'ready' && workspaceConnection.status.platform_services === 'online'
+              ? 'success'
+              : 'warning'
+          }
+        >
+          <StateMessage
+            title="Service status"
+            message={
+              workspaceConnection.state === 'ready'
+                ? platformServicesMessage(workspaceConnection.status.platform_services)
+                : 'Connect your workspace to read platform service status.'
+            }
+          />
         </DashboardCard>
 
         <DashboardCard
@@ -208,6 +228,18 @@ export function DashboardOverview() {
       </div>
     </section>
   );
+}
+
+function platformServicesMessage(status: string | undefined): string {
+  if (status === 'online') {
+    return 'Approved platform services are online.';
+  }
+
+  return 'Core platform services are offline or unavailable until the workspace is connected.';
+}
+
+function formatStatusLabel(status: string | undefined): string {
+  return status ? status.replace(/_/g, ' ') : 'Unavailable';
 }
 
 function DashboardCard({
