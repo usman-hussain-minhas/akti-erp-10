@@ -11,10 +11,17 @@ import { CRM_VISIBLE_LABEL } from '../../lib/crm-alias.config';
 import { Button } from '../ui/button';
 import { EmptyState, ErrorState, LoadingState, PermissionState, SectionCard, StateMessage, StatusBadge, SuccessState } from '../ui/design-system';
 
-type HealthSnapshot =
+type PlatformStatusOverview = {
+  workspace_connection?: string;
+  crm_pipeline?: string;
+  platform_services?: string;
+  data_controls?: string;
+};
+
+type WorkspaceConnectionSnapshot =
   | { state: 'placeholder'; message: string }
   | { state: 'loading'; message: string }
-  | { state: 'ready'; message: string }
+  | { state: 'ready'; message: string; status: PlatformStatusOverview }
   | { state: 'error'; message: string };
 
 type LeadDeskSnapshot =
@@ -37,38 +44,47 @@ export function DashboardOverview() {
   const { context, sessionState } = useLeadDeskOperatorContext();
   const apiBase = useMemo(resolveApiBase, []);
   const sessionReady = hasOperatorContext(context);
-  const [health, setHealth] = useState<HealthSnapshot>({
+  const [workspaceConnection, setWorkspaceConnection] = useState<WorkspaceConnectionSnapshot>({
     state: 'placeholder',
-    message: 'Connect the local/demo API to show health status.',
+    message: 'Connect the local/demo API to load workspace status.',
   });
   const [leadDesk, setLeadDesk] = useState<LeadDeskSnapshot>({
     state: 'placeholder',
     message: `Set up session in Advanced Diagnostics to load ${CRM_VISIBLE_LABEL} status.`,
   });
 
-  const loadHealth = useCallback(async () => {
+  const buildHeaders = useCallback(() => {
+    return context.sessionToken.trim().length > 0 ? { Authorization: `Bearer ${context.sessionToken.trim()}` } : undefined;
+  }, [context.sessionToken]);
+
+  const loadWorkspaceConnection = useCallback(async () => {
     if (!apiBase) {
-      setHealth({ state: 'placeholder', message: 'Connect the local/demo API to show health status.' });
+      setWorkspaceConnection({ state: 'placeholder', message: 'Connect the local/demo API to load workspace status.' });
       return;
     }
 
-    setHealth({ state: 'loading', message: 'Checking API health.' });
+    setWorkspaceConnection({ state: 'loading', message: 'Checking workspace connection.' });
     try {
-      const response = await fetch(`${apiBase}/health`);
+      const response = await fetch(`${apiBase}/platform/status/overview`, { headers: buildHeaders() });
       if (!response.ok) {
-        setHealth({ state: 'error', message: 'API health is temporarily unavailable. Try again later.' });
+        setWorkspaceConnection({ state: 'error', message: 'Workspace status is temporarily unavailable. Try again later.' });
         return;
       }
 
-      const payload = (await response.json()) as { status?: unknown };
-      setHealth({
+      const payload = (await response.json()) as { status?: PlatformStatusOverview };
+      const status = payload.status ?? {};
+      setWorkspaceConnection({
         state: 'ready',
-        message: payload.status === 'healthy' ? 'API health is healthy.' : 'API responded without a healthy status.',
+        status,
+        message:
+          status.workspace_connection === 'connected'
+            ? 'Workspace connected. Platform services can load approved live status.'
+            : 'Not connected. Workspace connection is required before platform services activate.',
       });
     } catch {
-      setHealth({ state: 'error', message: 'API health is temporarily unavailable. Try again later.' });
+      setWorkspaceConnection({ state: 'error', message: 'Workspace status is temporarily unavailable. Try again later.' });
     }
-  }, [apiBase]);
+  }, [apiBase, buildHeaders]);
 
   const loadLeadDesk = useCallback(async () => {
     if (!apiBase) {
@@ -103,9 +119,9 @@ export function DashboardOverview() {
 
   useEffect(() => {
     if (apiBase) {
-      void loadHealth();
+      void loadWorkspaceConnection();
     }
-  }, [apiBase, loadHealth]);
+  }, [apiBase, loadWorkspaceConnection]);
 
   useEffect(() => {
     if (sessionReady) {
@@ -132,13 +148,21 @@ export function DashboardOverview() {
 
       <div className="grid gap-3 lg:grid-cols-3">
         <DashboardCard
-          title="Local/demo API health"
+          title="Workspace connection"
           icon={HeartPulse}
-          badge={health.state === 'ready' ? 'Ready' : 'Local/demo'}
-          badgeTone={health.state === 'ready' ? 'success' : 'neutral'}
-          action={<Button type="button" variant="secondary" onClick={loadHealth}>Refresh health</Button>}
+          badge={
+            workspaceConnection.state === 'ready' && workspaceConnection.status.workspace_connection === 'connected'
+              ? 'Connected'
+              : 'Not connected'
+          }
+          badgeTone={
+            workspaceConnection.state === 'ready' && workspaceConnection.status.workspace_connection === 'connected'
+              ? 'success'
+              : 'warning'
+          }
+          action={<Button type="button" variant="secondary" onClick={loadWorkspaceConnection}>Refresh workspace</Button>}
         >
-          <SnapshotMessage snapshot={health} />
+          <SnapshotMessage snapshot={workspaceConnection} />
         </DashboardCard>
 
         <DashboardCard
@@ -216,7 +240,7 @@ function DashboardCard({
   );
 }
 
-function SnapshotMessage({ snapshot }: { snapshot: HealthSnapshot | LeadDeskSnapshot }) {
+function SnapshotMessage({ snapshot }: { snapshot: WorkspaceConnectionSnapshot | LeadDeskSnapshot }) {
   if (snapshot.state === 'loading') {
     return <LoadingState message={snapshot.message} />;
   }
