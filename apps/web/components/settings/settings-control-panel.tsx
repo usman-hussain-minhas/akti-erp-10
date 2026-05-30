@@ -24,7 +24,7 @@ type SectionSnapshot = {
   value?: string;
 };
 
-type SettingsSnapshotKind = 'portal' | 'users' | 'groups' | 'hierarchy' | 'modules' | 'branding';
+type SettingsSnapshotKind = 'portal' | 'users' | 'groups' | 'hierarchy' | 'modules' | 'branding' | 'organizationProfile';
 
 function resolveApiBase(): string | null {
   const configured = process.env.NEXT_PUBLIC_API_BASE_URL?.trim();
@@ -57,6 +57,10 @@ export function SettingsControlPanel({ denialMessages }: { denialMessages: Gatek
     state: 'idle',
     message: 'Read-only branding facts can load from the effective branding API.',
   });
+  const [organizationProfile, setOrganizationProfile] = useState<SectionSnapshot>({
+    state: 'idle',
+    message: 'Read-only organization profile can load when session context is active.',
+  });
 
   async function loadSettingsSnapshot(kind: SettingsSnapshotKind) {
     const base = resolveApiBase();
@@ -81,6 +85,7 @@ export function SettingsControlPanel({ denialMessages }: { denialMessages: Gatek
       hierarchy: `/platform/hierarchy/organizations/${organizationPath}/units`,
       modules: '/platform/modules',
       branding: '/platform/branding/effective',
+      organizationProfile: '/platform/organization/profile',
     };
 
     try {
@@ -109,6 +114,7 @@ export function SettingsControlPanel({ denialMessages }: { denialMessages: Gatek
       hierarchy: setHierarchy,
       modules: setModules,
       branding: setBranding,
+      organizationProfile: setOrganizationProfile,
     };
     setters[kind](snapshot);
   }
@@ -135,6 +141,7 @@ export function SettingsControlPanel({ denialMessages }: { denialMessages: Gatek
           <nav className="grid h-fit gap-2 rounded-lg border border-[var(--phase5c-border)] bg-[var(--phase5c-surface)] p-3" aria-label="Settings section navigation">
             {[
               ['General', '#general'],
+              ['Organization profile', '#organization-profile'],
               ['Users & Roles', '#users-roles'],
               ['Groups / Access', '#groups-access'],
               ['Hierarchy / Organization Structure', '#hierarchy'],
@@ -152,6 +159,13 @@ export function SettingsControlPanel({ denialMessages }: { denialMessages: Gatek
 
           <div className="grid min-w-0 gap-4">
             <BuiltSection id="general" title="General / portal mode" snapshot={portalMode} onLoad={() => loadSettingsSnapshot('portal')} />
+            <BuiltSection
+              id="organization-profile"
+              title="Organization profile"
+              snapshot={organizationProfile}
+              onLoad={() => loadSettingsSnapshot('organizationProfile')}
+              note="Source: GET /platform/organization/profile. Read-only display only; no org switching, logo upload, or account rewrite."
+            />
             <BuiltSection id="users-roles" title="Users & Roles" snapshot={usersRoles} onLoad={() => loadSettingsSnapshot('users')} />
             <BuiltSection id="groups-access" title="Groups / Access" snapshot={groupsAccess} onLoad={() => loadSettingsSnapshot('groups')} />
             <BuiltSection id="hierarchy" title="Hierarchy / Organization Structure" snapshot={hierarchy} onLoad={() => loadSettingsSnapshot('hierarchy')} />
@@ -263,6 +277,13 @@ function describePayload(kind: SettingsSnapshotKind, payload: unknown): string {
     )}; logo ${branding.logo_url ? 'configured' : 'not configured'}.`;
   }
 
+  if (kind === 'organizationProfile' && payload && typeof payload === 'object') {
+    const profile = payload as { display_name?: unknown; short_name?: unknown; my_role?: unknown };
+    return `Organization profile loaded: ${String(profile.display_name ?? 'Workspace')}; short name ${String(
+      profile.short_name ?? 'not configured',
+    )}; role ${String(profile.my_role ?? 'not available')}.`;
+  }
+
   const items = Array.isArray((payload as { items?: unknown })?.items)
     ? ((payload as { items: unknown[] }).items)
     : Array.isArray(payload)
@@ -276,6 +297,7 @@ function describePayload(kind: SettingsSnapshotKind, payload: unknown): string {
     modules: 'modules',
     portal: 'portal mode',
     branding: 'branding facts',
+    organizationProfile: 'organization profile facts',
   };
 
   return `${items.length} ${labels[kind]} loaded.`;

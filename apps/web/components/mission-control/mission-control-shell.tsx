@@ -335,6 +335,7 @@ function OrgBadge({ snapshot }: { snapshot: OrgProfileSnapshot }) {
         <span className="truncate font-medium">{snapshot.label}</span>
         <span className="truncate text-xs text-[var(--phase5c-text-muted)]">{snapshot.detail}</span>
       </span>
+      <span className="sr-only">Organization profile source: GET /platform/organization/profile. Read only.</span>
       <ChevronDown aria-hidden="true" size={14} className="text-[var(--phase5c-text-muted)]" />
     </button>
   );
