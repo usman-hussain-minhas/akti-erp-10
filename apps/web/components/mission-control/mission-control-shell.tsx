@@ -20,7 +20,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { useLeadDeskOperatorContext } from '../../app/lead-desk/operator-context';
 import { PLATFORM_PRODUCT_NAME } from '../../lib/platform-branding.config';
-import { SHELL_NAVIGATION_ROUTES } from '../../lib/routes.config';
+import { SHELL_NAVIGATION_ROUTES, SHELL_SYSTEM_NAVIGATION_ROUTES } from '../../lib/routes.config';
 import { CommandPalette } from './command-palette';
 import { DashboardOverview } from './dashboard-overview';
 import { ModuleLauncher } from './module-launcher';
@@ -34,6 +34,7 @@ const NAV_ICONS = {
   '/lead-desk/inbox': Inbox,
   '/app#module-launcher': Shapes,
   '/app/settings': Settings,
+  '#diagnostics-region': HelpCircle,
 } as const;
 
 type OrgProfileSnapshot =
@@ -257,6 +258,9 @@ export function MissionControlShell() {
           </section>
 
           <section id="help-region" aria-labelledby="help-title">
+            <span id="diagnostics-region" className="sr-only">
+              Diagnostics boundary
+            </span>
             <EmptyState
               title="Help"
               message="Use Mission Control, the sidebar, or the command palette to open available work areas. Advanced Diagnostics owns session setup."
@@ -364,15 +368,38 @@ function BrandLockup({ collapsed }: { collapsed: boolean }) {
 function ShellNavigation({ collapsed, onNavigate }: { collapsed: boolean; onNavigate?: () => void }) {
   return (
     <nav className="mt-6 grid gap-2" aria-label="Primary and system navigation">
-      {SHELL_NAVIGATION_ROUTES.map((item) => {
+      <NavigationGroup items={SHELL_NAVIGATION_ROUTES} collapsed={collapsed} onNavigate={onNavigate} />
+      <div className="mt-5 border-t border-[var(--phase5c-border)] pt-5">
+        {collapsed ? null : <p className="mb-2 px-3 text-xs font-medium uppercase text-[var(--phase5c-text-muted)]">System</p>}
+        <NavigationGroup items={SHELL_SYSTEM_NAVIGATION_ROUTES} collapsed={collapsed} onNavigate={onNavigate} muted />
+      </div>
+    </nav>
+  );
+}
+
+function NavigationGroup({
+  items,
+  collapsed,
+  onNavigate,
+  muted = false,
+}: {
+  items: readonly (typeof SHELL_NAVIGATION_ROUTES[number] | typeof SHELL_SYSTEM_NAVIGATION_ROUTES[number])[];
+  collapsed: boolean;
+  onNavigate?: () => void;
+  muted?: boolean;
+}) {
+  return (
+    <div className="grid gap-2">
+      {items.map((item) => {
         const Icon = NAV_ICONS[item.route];
+        const mutedClass = muted ? 'text-[var(--phase5c-text-muted)]' : '';
 
         return (
           <Link
             key={item.route}
             href={item.route}
             onClick={onNavigate}
-            className="flex min-h-12 items-center gap-3 rounded-md px-3 py-2 text-sm hover:bg-[var(--phase5c-surface-muted)] focus-visible:ring-2 focus-visible:ring-[var(--akti-cyan)]"
+            className={`flex min-h-12 items-center gap-3 rounded-md px-3 py-2 text-sm hover:bg-[var(--phase5c-surface-muted)] focus-visible:ring-2 focus-visible:ring-[var(--akti-cyan)] ${mutedClass}`}
             aria-label={collapsed ? item.label : undefined}
             title={collapsed ? item.label : undefined}
           >
@@ -386,7 +413,7 @@ function ShellNavigation({ collapsed, onNavigate }: { collapsed: boolean; onNavi
           </Link>
         );
       })}
-    </nav>
+    </div>
   );
 }
 

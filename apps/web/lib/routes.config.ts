@@ -76,6 +76,14 @@ export const SHELL_ROUTES = {
     visible: true,
     section: 'system',
   },
+  '#diagnostics-region': {
+    route: '#diagnostics-region',
+    type: 'diagnostics',
+    label: 'Diagnostics',
+    description: 'Session setup and diagnostics boundary',
+    visible: true,
+    section: 'diagnostics',
+  },
   '#help-region': {
     route: '#help-region',
     type: 'hidden',
@@ -90,8 +98,9 @@ export const SHELL_NAVIGATION_ROUTES = [
   SHELL_ROUTES['/app'],
   SHELL_ROUTES['/lead-desk/inbox'],
   SHELL_ROUTES['/app#module-launcher'],
-  SHELL_ROUTES['/app/settings'],
 ] as const;
+
+export const SHELL_SYSTEM_NAVIGATION_ROUTES = [SHELL_ROUTES['/app/settings'], SHELL_ROUTES['#diagnostics-region']] as const;
 
 export const SHELL_COMMANDS: readonly ShellCommandMetadata[] = [
   {
@@ -133,6 +142,14 @@ export const SHELL_COMMANDS: readonly ShellCommandMetadata[] = [
     description: 'Open the Settings control panel.',
     group: 'Settings',
     keywords: ['control panel', 'diagnostics', 'session'],
+  },
+  {
+    id: 'diagnostics.open',
+    route: SHELL_ROUTES['#diagnostics-region'].route,
+    label: 'Open diagnostics',
+    description: SHELL_ROUTES['#diagnostics-region'].description,
+    group: 'Settings',
+    keywords: ['diagnostics', 'session setup', 'technical setup'],
   },
   {
     id: 'help.open',
