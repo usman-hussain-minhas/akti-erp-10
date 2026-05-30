@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 
 import { useLeadDeskOperatorContext } from '../../app/lead-desk/operator-context';
+import { PLATFORM_PRODUCT_NAME } from '../../lib/platform-branding.config';
 import { AdvancedDiagnosticsSessionPanel } from '../session/advanced-diagnostics-session-panel';
 import { SessionStatusNotice } from '../session/session-status';
 import { Button } from '../ui/button';
@@ -105,25 +106,25 @@ export function SettingsControlPanel({ denialMessages }: { denialMessages: Gatek
   }
 
   return (
-    <main className="min-h-screen bg-[var(--background)] px-4 py-6 text-[var(--foreground)] md:px-6">
-      <div className="mx-auto grid max-w-6xl gap-6">
-        <header className="grid gap-3">
+    <main className="min-h-screen bg-[var(--phase5c-bg)] px-4 py-6 text-[var(--phase5c-text)] md:px-6">
+      <div className="mx-auto grid max-w-7xl gap-6">
+        <header className="grid gap-4 rounded-lg border border-[var(--phase5c-border)] bg-[var(--phase5c-surface)] p-5 shadow-[var(--akti-glow-cyan)]">
           <Link className="text-sm font-medium text-[var(--primary)] underline underline-offset-4" href="/app">
             Back to Mission Control
           </Link>
           <div className="grid gap-2">
-            <StatusBadge tone="info">Control panel</StatusBadge>
+            <StatusBadge tone="info">{PLATFORM_PRODUCT_NAME} control panel</StatusBadge>
             <h1 className="m-0 text-2xl font-semibold">Settings</h1>
             <p className="m-0 max-w-3xl text-sm text-[#55605a]">
-              Review real supported settings, read-only admin surfaces, and future-phase placeholders without exposing
-              unsupported controls or fake data.
+              Review supported settings, read-only admin surfaces, and future-phase placeholders without exposing
+              unsupported write controls or fake data.
             </p>
           </div>
           <SessionStatusNotice state={sessionState} />
         </header>
 
         <div className="grid gap-4 lg:grid-cols-[16rem_1fr]">
-          <nav className="grid h-fit gap-2 rounded-lg border border-[var(--border)] bg-white p-3" aria-label="Settings section navigation">
+          <nav className="grid h-fit gap-2 rounded-lg border border-[var(--phase5c-border)] bg-[var(--phase5c-surface)] p-3" aria-label="Settings section navigation">
             {[
               ['General', '#general'],
               ['Users & Roles', '#users-roles'],
@@ -135,7 +136,7 @@ export function SettingsControlPanel({ denialMessages }: { denialMessages: Gatek
               ['Notifications', '#notifications'],
               ['Advanced Diagnostics', '#advanced-diagnostics'],
             ].map(([label, href]) => (
-              <a key={href} className="rounded-md px-3 py-2 text-sm hover:bg-[var(--surface-muted)]" href={href}>
+              <a key={href} className="rounded-md px-3 py-2 text-sm hover:bg-[var(--phase5c-surface-muted)] focus-visible:ring-2 focus-visible:ring-[var(--akti-cyan)]" href={href}>
                 {label}
               </a>
             ))}
