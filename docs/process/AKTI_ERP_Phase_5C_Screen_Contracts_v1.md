@@ -99,3 +99,23 @@ Implementation tickets must require screenshots before completion:
 - hover/focus/active/disabled states for major controls;
 - proof that unsupported modules are not active/openable;
 - proof that module feature bullets render only from approved manifest `display_features[]`.
+
+## Validation Alignment
+
+Phase 5C screen contracts must stay aligned with `packages/contracts/screen-contract.schema.ts` and `packages/contracts/scripts/validate-screen-contracts.mjs`.
+
+Before any Phase 5C frontend implementation ticket starts, the implementation plan must verify that:
+
+- every route screen maps to an active, deferred, conditional, or blocked contract status in this document;
+- every non-route component maps to a component contract in this document;
+- each frontend surface has a Component/API Map entry;
+- no ticket creates a frontend screen without screen/component contract authority;
+- no screenshot acceptance claim replaces schema or contract validation;
+- module cards remain bound to `GET /platform/modules`, module manifest display metadata, `visibility_state`, and optional manifest `display_features[]`;
+- CRM remains a visible label over existing Lead Desk technical surfaces.
+
+Contract validation command:
+
+```bash
+pnpm contracts:validate
+```

@@ -87,3 +87,23 @@ Do not create a CRM pipeline endpoint. Do not expand Lead Desk / CRM APIs. Do no
 ## Ticket Seed Readiness
 
 This map is ready to inform a future ticket seed matrix only after review. The first seed dependency must be the manifest contract extension for optional `display_features[]`. No implementation ticket for module card bullets may be created before that dependency.
+
+## Validation Alignment
+
+Phase 5C implementation tickets must reconcile this Component/API Map with `docs/process/AKTI_ERP_Phase_5C_Screen_Contracts_v1.md`, `packages/contracts/screen-contract.schema.ts`, and `packages/contracts/scripts/validate-screen-contracts.mjs` before code changes.
+
+Validation alignment requires:
+
+- each component or screen in this map has a matching screen or component contract;
+- each mapped API/data source is approved by the Phase 5C control docs or explicitly unavailable as a placeholder;
+- no mapped UI action invents a dynamic `GET /platform/shell/actions` endpoint;
+- no mapped UI surface expands search beyond `WorkflowDefinition` and `WorkflowInstance`;
+- no mapped module card hardcodes cards or feature bullets;
+- unavailable CRM pipeline state remains a placeholder with no endpoint;
+- settings/branding surfaces remain read-only and do not create upload/write UI.
+
+Contract validation command:
+
+```bash
+pnpm contracts:validate
+```
