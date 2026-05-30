@@ -18,7 +18,7 @@ import {
   SectionCard,
   StateMessage,
   StatusBadge,
-} from '../../../../components/ui/design-system';
+} from '../../../../components/ui/design_system';
 
 type LeadDetail = {
   lead_id: string;

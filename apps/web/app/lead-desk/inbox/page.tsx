@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { hasOperatorContext, leadDeskApiFetch } from '../api-client';
 import { LeadDeskWorkspace } from '../lead-desk-workspace';
 import { useLeadDeskOperatorContext } from '../operator-context';
-import { CRM_INBOX_VISIBLE_LABEL, CRM_VISIBLE_LABEL } from '../../../lib/crm-alias.config';
+import { CRM_INBOX_VISIBLE_LABEL, CRM_VISIBLE_LABEL } from '../../../lib/crm_alias.config';
 import { Button } from '../../../components/ui/button';
 import {
   DataTable,
@@ -20,7 +20,7 @@ import {
   PermissionState,
   SectionCard,
   StateMessage,
-} from '../../../components/ui/design-system';
+} from '../../../components/ui/design_system';
 
 type LeadRow = {
   lead_id: string;

@@ -3,9 +3,9 @@ import { readFileSync } from 'node:fs';
 import test from 'node:test';
 
 const page = readFileSync(new URL('../app/app/settings/page.tsx', import.meta.url), 'utf8');
-const settings = readFileSync(new URL('../components/settings/settings-control-panel.tsx', import.meta.url), 'utf8');
-const shell = readFileSync(new URL('../components/mission-control/mission-control-shell.tsx', import.meta.url), 'utf8');
-const sessionStatus = readFileSync(new URL('../components/session/session-status.tsx', import.meta.url), 'utf8');
+const settings = readFileSync(new URL('../components/settings/settings_control_panel.tsx', import.meta.url), 'utf8');
+const shell = readFileSync(new URL('../components/mission-control/mission_control_shell.tsx', import.meta.url), 'utf8');
+const sessionStatus = readFileSync(new URL('../components/session/session_status.tsx', import.meta.url), 'utf8');
 const routes = readFileSync(new URL('../lib/routes.config.ts', import.meta.url), 'utf8');
 
 test('/app/settings route renders the Settings Control Panel', () => {

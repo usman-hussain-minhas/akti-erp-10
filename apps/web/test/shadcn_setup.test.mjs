@@ -5,7 +5,7 @@ import test from 'node:test';
 const globals = readFileSync(new URL('../app/globals.css', import.meta.url), 'utf8');
 const layout = readFileSync(new URL('../app/layout.tsx', import.meta.url), 'utf8');
 const button = readFileSync(new URL('../components/ui/button.tsx', import.meta.url), 'utf8');
-const proof = readFileSync(new URL('../components/phase4b-shadcn-import-proof.tsx', import.meta.url), 'utf8');
+const proof = readFileSync(new URL('../components/phase4b_shadcn_import_proof.tsx', import.meta.url), 'utf8');
 const componentsConfig = readFileSync(new URL('../components.json', import.meta.url), 'utf8');
 
 test('Tailwind global stylesheet is wired into the web app layout', () => {

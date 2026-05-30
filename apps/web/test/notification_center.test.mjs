@@ -2,8 +2,8 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
 
-const notificationCenter = readFileSync(new URL('../components/mission-control/notification-center.tsx', import.meta.url), 'utf8');
-const shell = readFileSync(new URL('../components/mission-control/mission-control-shell.tsx', import.meta.url), 'utf8');
+const notificationCenter = readFileSync(new URL('../components/mission-control/notification_center.tsx', import.meta.url), 'utf8');
+const shell = readFileSync(new URL('../components/mission-control/mission_control_shell.tsx', import.meta.url), 'utf8');
 
 test('notification center renders bell badge drawer toast and empty shell states', () => {
   for (const text of [

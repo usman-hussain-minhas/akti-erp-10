@@ -1,4 +1,4 @@
-import { PLATFORM_PRODUCT_NAME } from '../lib/platform-branding.config';
+import { PLATFORM_PRODUCT_NAME } from '../lib/platform_branding.config';
 
 export default function HomePage() {
   return (

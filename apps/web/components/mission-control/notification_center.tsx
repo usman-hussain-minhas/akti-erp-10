@@ -5,7 +5,7 @@ import { useCallback, useMemo, useState } from 'react';
 
 import { useLeadDeskOperatorContext } from '../../app/lead-desk/operator-context';
 import { Button } from '../ui/button';
-import { DrawerPanel, EmptyState, ErrorState, LoadingState, PermissionState, StatusBadge, ToastMessage } from '../ui/design-system';
+import { DrawerPanel, EmptyState, ErrorState, LoadingState, PermissionState, StatusBadge, ToastMessage } from '../ui/design_system';
 
 type NotificationSummarySnapshot =
   | { state: 'placeholder'; unreadCount: 0; message: string }

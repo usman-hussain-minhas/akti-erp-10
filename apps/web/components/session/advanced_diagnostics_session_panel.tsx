@@ -4,8 +4,8 @@ import { useState } from 'react';
 
 import { useLeadDeskOperatorContext } from '../../app/lead-desk/operator-context';
 import { Button } from '../ui/button';
-import { Field, Textarea } from '../ui/design-system';
-import { SESSION_STATE_COPY } from './session-state';
+import { Field, Textarea } from '../ui/design_system';
+import { SESSION_STATE_COPY } from './session_state';
 
 export function AdvancedDiagnosticsSessionPanel() {
   const { sessionState, updateContext } = useLeadDeskOperatorContext();

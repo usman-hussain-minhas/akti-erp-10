@@ -6,10 +6,10 @@ import { useRouter } from 'next/navigation';
 import type { KeyboardEvent as ReactKeyboardEvent } from 'react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
-import { CRM_VISIBLE_LABEL } from '../../lib/crm-alias.config';
+import { CRM_VISIBLE_LABEL } from '../../lib/crm_alias.config';
 import { COMMAND_SEARCH_SCOPE_GUARD, SHELL_COMMANDS } from '../../lib/routes.config';
 import { Button } from '../ui/button';
-import { EmptyState } from '../ui/design-system';
+import { EmptyState } from '../ui/design_system';
 
 type ShellCommand = (typeof SHELL_COMMANDS)[number];
 
