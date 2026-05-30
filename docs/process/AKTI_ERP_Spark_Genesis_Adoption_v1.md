@@ -89,7 +89,7 @@ Skill path:
 Current version:
 
 ```text
-0.2.1
+0.2.2
 ```
 
 ## Version 0.2.1 Planning Additions
@@ -97,3 +97,14 @@ Current version:
 Spark Genesis v0.2.1 adds the seed-matrix audit checklist and planning-layer failure patterns `FP-025` through `FP-032`.
 
 These additions are adopted as audit/planning aids only. They do not replace AKTI source-of-truth hierarchy, human product judgment, architecture approval, screen contracts, ticket packs, tests, or validation evidence.
+
+## Version 0.2.2 Planning Additions
+
+Spark Genesis v0.2.2 adds post-run learning and ticket-pack audit refinements from the Phase 5C autonomous execution evidence:
+
+- `FP-033`: implementation ticket lacks concrete committed evidence artifact.
+- `FP-034`: control-doc guardrail not propagated into implementation tickets.
+- `FP-005` refinement: expected/forbidden file overlap detection.
+- `FP-010b` refinement: accepted mid-gate deferral closure-proof requirement.
+
+These additions are adopted as audit/planning aids only. They do not replace AKTI source-of-truth hierarchy, human product judgment, architecture approval, screen contracts, ticket packs, tests, or validation evidence, and they do not change Phase 5C or authorize Phase 6 work.
