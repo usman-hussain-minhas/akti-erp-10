@@ -23,12 +23,15 @@ test('Mission Control shell contains required desktop and mobile regions', () =>
     'DashboardOverview',
     'Mobile navigation drawer',
     'Bottom primary navigation',
+    'BrandLockup',
+    'AKTI',
+    'Spark',
   ]) {
     assert.match(shell, new RegExp(text));
   }
 });
 
-test('Mission Control shell uses P4B-004 session indicator and diagnostics boundary', () => {
+test('Mission Control shell uses session indicator and diagnostics boundary', () => {
   assert.match(shell, /useLeadDeskOperatorContext/);
   assert.match(shell, /SessionStatusNotice/);
   assert.match(dashboard, /Advanced Diagnostics/);
