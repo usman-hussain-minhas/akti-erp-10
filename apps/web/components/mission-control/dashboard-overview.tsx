@@ -163,7 +163,7 @@ export function DashboardOverview() {
               ? 'success'
               : 'warning'
           }
-          action={<Button type="button" variant="secondary" onClick={loadWorkspaceConnection}>Refresh workspace</Button>}
+          action={<Button type="button" variant="secondary" onClick={loadWorkspaceConnection}>Refresh workspace status</Button>}
         >
           <SnapshotMessage snapshot={workspaceConnection} />
         </DashboardCard>

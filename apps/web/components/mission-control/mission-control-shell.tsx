@@ -233,7 +233,7 @@ export function MissionControlShell() {
         <div className="min-h-0 overflow-y-auto">
           <ShellNavigation collapsed={sidebarCollapsed} />
         </div>
-        <WorkspaceStatusCard collapsed={sidebarCollapsed} snapshot={workspaceStatus} />
+        <WorkspaceStatusCard collapsed={sidebarCollapsed} snapshot={workspaceStatus} onRefresh={loadWorkspaceStatus} />
       </aside>
 
       <div className={sidebarCollapsed ? 'md:pl-20' : 'md:pl-72'}>
@@ -356,9 +356,11 @@ function UserAvatar() {
 function WorkspaceStatusCard({
   collapsed,
   snapshot,
+  onRefresh,
 }: {
   collapsed: boolean;
   snapshot: WorkspaceStatusSnapshot;
+  onRefresh: () => void;
 }) {
   const toneClass =
     snapshot.state === 'ready'
@@ -371,6 +373,7 @@ function WorkspaceStatusCard({
     <section
       className={`mt-4 grid gap-2 rounded-lg border ${toneClass} bg-[rgb(255_255_255_/_.03)] p-3 text-sm`}
       aria-label="Workspace status card"
+      aria-live="polite"
     >
       {collapsed ? (
         <span className="mx-auto h-2.5 w-2.5 rounded-full bg-[var(--akti-cyan)]" aria-label={snapshot.label} />
@@ -383,6 +386,9 @@ function WorkspaceStatusCard({
               <Link2 aria-hidden="true" size={14} />
               Connect workspace
             </Link>
+          </Button>
+          <Button type="button" variant="ghost" className="w-full justify-center" onClick={onRefresh}>
+            Refresh status
           </Button>
         </>
       )}
