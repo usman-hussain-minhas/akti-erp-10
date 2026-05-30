@@ -5,7 +5,6 @@ import { RefreshCw, Shapes } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { useLeadDeskOperatorContext } from '../../app/lead-desk/operator-context';
-import { CRM_VISIBLE_LABEL } from '../../lib/crm-alias.config';
 import { MODULES_ROUTE_ACTION_AUTHORITY } from '../../lib/routes.config';
 import { Button } from '../ui/button';
 import { EmptyState, ErrorState, LoadingState, SectionCard, StatusBadge } from '../ui/design-system';
@@ -13,8 +12,15 @@ import { EmptyState, ErrorState, LoadingState, SectionCard, StatusBadge } from '
 type ModuleRegistryItem = {
   module_key: string;
   display_name: string;
+  display_description?: string;
+  display_features?: string[];
+  icon_key?: string;
+  category?: string;
+  route?: string | null;
+  visibility_state?: 'available' | 'requires_setup' | 'locked' | 'coming_soon' | 'hidden';
   version: string;
   status: string;
+  required_capabilities?: string[];
 };
 
 type ModuleListSnapshot =
@@ -22,20 +28,6 @@ type ModuleListSnapshot =
   | { state: 'loading'; message: string }
   | { state: 'ready'; items: ModuleRegistryItem[] }
   | { state: 'error'; message: string };
-
-const MODULE_SURFACES: Record<string, { href?: string; description: string }> = {
-  'core.access': {
-    href: '/app/settings',
-    description: 'Control panel, Access read surfaces, and Advanced Diagnostics.',
-  },
-  'engagement.gateway': {
-    description: 'Shared messaging platform foundation. No operator screen is exposed in Phase 4B.',
-  },
-  'lead.desk': {
-    href: '/lead-desk/inbox',
-    description: `${CRM_VISIBLE_LABEL} inbox and intake work area using approved session context.`,
-  },
-};
 
 function resolveApiBase(): string | null {
   const configured = process.env.NEXT_PUBLIC_API_BASE_URL?.trim();
@@ -116,8 +108,8 @@ export function ModuleLauncher() {
         <EmptyState title="No modules available" message="Available modules will appear after the local/demo registry is seeded." />
       ) : null}
       {snapshot.state === 'ready' && snapshot.items.length > 0 ? (
-        <div className="grid gap-3 md:grid-cols-3">
-          {snapshot.items.map((item) => (
+        <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+          {snapshot.items.filter(isVisibleModule).map((item) => (
             <ModuleCard key={item.module_key} item={item} />
           ))}
         </div>
@@ -127,9 +119,10 @@ export function ModuleLauncher() {
 }
 
 function ModuleCard({ item }: { item: ModuleRegistryItem }) {
-  const surface = MODULE_SURFACES[item.module_key];
-  const isAvailable = item.status === 'available';
-  const description = surface?.description ?? 'Registered module with no Phase 4B shell surface yet.';
+  const visibilityState = item.visibility_state ?? 'locked';
+  const isAvailable = visibilityState === 'available' && item.status === 'available';
+  const description = item.display_description ?? 'Registered module with no approved display description.';
+  const moduleRoute = typeof item.route === 'string' && item.route.trim().length > 0 ? item.route : null;
   const routeAuthorityNotice =
     MODULES_ROUTE_ACTION_AUTHORITY.approvedRoute === null
       ? `Open Modules action is disabled until ${MODULES_ROUTE_ACTION_AUTHORITY.deferredRoute} route authority is approved.`
@@ -139,18 +132,31 @@ function ModuleCard({ item }: { item: ModuleRegistryItem }) {
     <SectionCard className="grid min-w-0 gap-3">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h3 className="m-0 text-base font-semibold">{item.display_name}</h3>
-        <StatusBadge tone={isAvailable ? 'success' : 'warning'}>{isAvailable ? 'Available' : 'Unavailable'}</StatusBadge>
+        <StatusBadge tone={isAvailable ? 'success' : visibilityState === 'coming_soon' ? 'neutral' : 'warning'}>
+          {formatVisibilityState(visibilityState)}
+        </StatusBadge>
       </div>
       <p className="m-0 text-sm text-[#55605a]">{description}</p>
+      <p className="m-0 text-xs text-[var(--phase5c-text-muted)]">
+        Source: GET /platform/modules. Visibility does not equal authority.
+      </p>
       <p className="m-0 text-xs text-[#66716a]">Version {item.version}</p>
-      {surface?.href && isAvailable ? (
+      {moduleRoute && isAvailable ? (
         <Button asChild variant="secondary">
-          <Link href={surface.href}>Open work area</Link>
+          <Link href={moduleRoute}>Open work area</Link>
         </Button>
       ) : (
-        <p className="m-0 text-sm text-[#66716a]">No operator screen is available for this module in Phase 4B.</p>
+        <p className="m-0 text-sm text-[#66716a]">No approved operator route is available for this module.</p>
       )}
       {routeAuthorityNotice ? <p className="m-0 text-xs text-[var(--phase5c-text-muted)]">{routeAuthorityNotice}</p> : null}
     </SectionCard>
   );
+}
+
+function isVisibleModule(item: ModuleRegistryItem): boolean {
+  return item.visibility_state !== 'hidden';
+}
+
+function formatVisibilityState(state: NonNullable<ModuleRegistryItem['visibility_state']>): string {
+  return state.replace(/_/g, ' ');
 }

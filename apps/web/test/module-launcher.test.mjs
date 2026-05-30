@@ -13,12 +13,11 @@ test('module launcher reads the existing module registry endpoint when configure
 });
 
 test('module launcher maps known Phase 2 modules to read-only shell surfaces', () => {
-  assert.equal(launcher.includes('core.access'), true);
-  assert.equal(launcher.includes('engagement.gateway'), true);
-  assert.equal(launcher.includes('lead.desk'), true);
-  assert.equal(launcher.includes('/app/settings'), true);
-  assert.equal(launcher.includes('/lead-desk/inbox'), true);
-  assert.match(launcher, /No operator screen is available for this module in Phase 4B/);
+  assert.match(launcher, /display_description/);
+  assert.match(launcher, /visibility_state/);
+  assert.match(launcher, /required_capabilities/);
+  assert.match(launcher, /Visibility does not equal authority/);
+  assert.match(launcher, /No approved operator route is available for this module/);
 });
 
 test('module launcher does not introduce module lifecycle or Foundry controls', () => {
