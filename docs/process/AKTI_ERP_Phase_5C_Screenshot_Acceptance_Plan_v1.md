@@ -57,6 +57,7 @@ A screenshot passes when it:
 - follows the approved Phase 5C visual direction;
 - preserves the AKTI Spark product identity;
 - keeps dark and light modes visually related;
+- uses the committed Phase 5C token substrate for cyan/teal action states, violet brand glow, emerald success, amber warning, high-contrast text, and visible focus rings;
 - avoids layout overlap or clipped text;
 - keeps controls readable with visible focus states;
 - uses real approved data sources or honest unavailable/empty states;
@@ -67,6 +68,7 @@ A screenshot passes when it:
 
 A screenshot fails when it shows:
 
+- token drift that makes dark mode no longer flagship or makes light mode low contrast;
 - fake dashboards;
 - fake modules;
 - fake metrics;
@@ -86,3 +88,25 @@ A screenshot fails when it shows:
 ## Downstream Use
 
 All Phase 5C implementation tickets that alter visual output must reference this acceptance plan. Final screenshot evidence must include a manifest that records route, viewport, theme mode, file path, capture method, pass/fail result, skipped routes, and confirmation that no production secrets or production data were used.
+
+## Theme-Specific Criteria
+
+Dark mode must verify:
+
+- near-black/charcoal shell background;
+- high-contrast text;
+- cyan/teal active states;
+- violet brand highlight/glow;
+- emerald success and amber warning accents;
+- subtle borders and shadows without hiding content.
+
+Light mode must verify:
+
+- white or warm-slate surfaces;
+- readable slate text;
+- light cyan/teal active states;
+- violet brand highlights;
+- soft shadows;
+- stronger contrast than earlier light drafts.
+
+Mobile screenshots must verify that the same tokens remain legible without overlapping text, clipped controls, or inaccessible tap targets.
