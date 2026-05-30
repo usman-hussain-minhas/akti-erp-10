@@ -51,6 +51,15 @@ export const SHELL_ROUTES = {
     visible: true,
     section: 'primary',
   },
+  '/app#module-launcher': {
+    route: '/app#module-launcher',
+    type: 'primary_navigation',
+    label: 'Modules',
+    description: 'View role-aware platform modules',
+    visible: true,
+    section: 'primary',
+    capability_required: 'platform.modules.view',
+  },
   '/lead-desk/create': {
     route: '/lead-desk/create',
     type: 'hidden',
@@ -80,6 +89,7 @@ export const SHELL_ROUTES = {
 export const SHELL_NAVIGATION_ROUTES = [
   SHELL_ROUTES['/app'],
   SHELL_ROUTES['/lead-desk/inbox'],
+  SHELL_ROUTES['/app#module-launcher'],
   SHELL_ROUTES['/app/settings'],
 ] as const;
 
@@ -99,6 +109,14 @@ export const SHELL_COMMANDS: readonly ShellCommandMetadata[] = [
     description: `Open the current ${CRM_VISIBLE_LABEL} inbox.`,
     group: CRM_VISIBLE_LABEL,
     keywords: ['crm', 'leads', 'inbox', 'follow up'],
+  },
+  {
+    id: 'modules.view',
+    route: SHELL_ROUTES['/app#module-launcher'].route,
+    label: 'View modules',
+    description: 'Jump to the role-aware Modules area.',
+    group: 'Navigation',
+    keywords: ['modules', 'apps', 'module cards'],
   },
   {
     id: 'lead-desk.create',

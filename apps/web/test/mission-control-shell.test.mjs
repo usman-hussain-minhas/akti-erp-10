@@ -32,6 +32,7 @@ test('Mission Control shell contains required desktop and mobile regions', () =>
     '/platform/organization/profile',
     'Workspace status card',
     '/platform/status/overview',
+    '/app#module-launcher',
   ]) {
     assert.match(shell, new RegExp(text));
   }

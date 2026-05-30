@@ -11,6 +11,7 @@ import {
   PanelLeftClose,
   PanelLeftOpen,
   Settings,
+  Shapes,
   Sparkles,
   UserRound,
   X,
@@ -31,6 +32,7 @@ import { EmptyState, StatusBadge } from '../ui/design-system';
 const NAV_ICONS = {
   '/app': LayoutDashboard,
   '/lead-desk/inbox': Inbox,
+  '/app#module-launcher': Shapes,
   '/app/settings': Settings,
 } as const;
 

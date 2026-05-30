@@ -13,7 +13,7 @@ test('route config declares the allowed frontend-only route types', () => {
 });
 
 test('route config covers current repo-real shell routes without active future business routes', () => {
-  for (const route of ['/', '/app', '/lead-desk/inbox', '/lead-desk/create', '/app/settings', '#help-region']) {
+  for (const route of ['/', '/app', '/lead-desk/inbox', '/app#module-launcher', '/lead-desk/create', '/app/settings', '#help-region']) {
     assert.equal(routesConfig.includes(route), true);
   }
 
@@ -25,6 +25,8 @@ test('route config covers current repo-real shell routes without active future b
 test('shell and command palette consume frontend route config without backend shell actions API', () => {
   assert.match(shell, /SHELL_NAVIGATION_ROUTES/);
   assert.match(palette, /SHELL_COMMANDS/);
+  assert.match(routesConfig, /platform\.modules\.view/);
+  assert.match(routesConfig, /modules\.view/);
   assert.equal(routesConfig.includes('GET /platform/shell/actions'), false);
   assert.equal(routesConfig.includes('/platform/shell/actions'), false);
 });
