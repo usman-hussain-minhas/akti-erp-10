@@ -19,6 +19,7 @@ import {
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { useLeadDeskOperatorContext } from '../../app/lead-desk/operator-context';
+import { CRM_VISIBLE_LABEL_RULE } from '../../lib/crm-alias.config';
 import { PLATFORM_PRODUCT_NAME } from '../../lib/platform-branding.config';
 import { SHELL_NAVIGATION_ROUTES, SHELL_SYSTEM_NAVIGATION_ROUTES } from '../../lib/routes.config';
 import { CommandPalette } from './command-palette';
@@ -162,6 +163,7 @@ export function MissionControlShell() {
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-[var(--phase5c-bg)] text-[var(--phase5c-text)]">
+      <span className="sr-only">{CRM_VISIBLE_LABEL_RULE}</span>
       {mobileDrawerOpen ? (
         <div className="fixed inset-0 z-40 bg-black/30 md:hidden" role="presentation">
           <aside className="h-full w-80 max-w-[86vw] bg-[var(--phase5c-surface)] p-4 shadow-xl" aria-label="Mobile navigation drawer">

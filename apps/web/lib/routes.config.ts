@@ -1,4 +1,4 @@
-import { CRM_VISIBLE_LABEL } from './crm-alias.config';
+import { CRM_VISIBLE_LABEL, CRM_VISIBLE_LABEL_RULE } from './crm-alias.config';
 import { PLATFORM_PRODUCT_NAME } from './platform-branding.config';
 
 export const SHELL_ROUTE_TYPES = ['primary_navigation', 'system_navigation', 'diagnostics', 'hidden', 'future'] as const;
@@ -47,7 +47,7 @@ export const SHELL_ROUTES = {
     route: '/lead-desk/inbox',
     type: 'primary_navigation',
     label: CRM_VISIBLE_LABEL,
-    description: 'Open current CRM work',
+    description: `Open current CRM work. ${CRM_VISIBLE_LABEL_RULE}`,
     visible: true,
     section: 'primary',
   },
