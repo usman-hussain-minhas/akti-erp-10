@@ -2,12 +2,12 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
 
-const aliasConfig = readFileSync('lib/crm-alias.config.ts', 'utf8');
-const shell = readFileSync('components/mission-control/mission-control-shell.tsx', 'utf8');
-const launcher = readFileSync('components/mission-control/module-launcher.tsx', 'utf8');
-const palette = readFileSync('components/mission-control/command-palette.tsx', 'utf8');
+const aliasConfig = readFileSync('lib/crm_alias.config.ts', 'utf8');
+const shell = readFileSync('components/mission-control/mission_control_shell.tsx', 'utf8');
+const launcher = readFileSync('components/mission-control/module_launcher.tsx', 'utf8');
+const palette = readFileSync('components/mission-control/command_palette.tsx', 'utf8');
 const workspace = readFileSync('app/lead-desk/lead-desk-workspace.tsx', 'utf8');
-const dashboard = readFileSync('components/mission-control/dashboard-overview.tsx', 'utf8');
+const dashboard = readFileSync('components/mission-control/dashboard_overview.tsx', 'utf8');
 const manifest = readFileSync('../../packages/contracts/lead-desk-core.module-manifest.contract.ts', 'utf8');
 const schema = readFileSync('../../prisma/schema.prisma', 'utf8');
 

@@ -5,10 +5,10 @@ import { ClipboardList, LayoutDashboard, Plus, Settings } from 'lucide-react';
 import type { ReactNode } from 'react';
 
 import type { OperatorSessionState } from './operator-context';
-import { CRM_INBOX_VISIBLE_LABEL, CRM_VISIBLE_LABEL } from '../../lib/crm-alias.config';
-import { SessionStatusNotice } from '../../components/session/session-status';
+import { CRM_INBOX_VISIBLE_LABEL, CRM_VISIBLE_LABEL } from '../../lib/crm_alias.config';
+import { SessionStatusNotice } from '../../components/session/session_status';
 import { Button } from '../../components/ui/button';
-import { StatusBadge } from '../../components/ui/design-system';
+import { StatusBadge } from '../../components/ui/design_system';
 
 export function LeadDeskWorkspace({
   title,

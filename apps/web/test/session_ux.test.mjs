@@ -3,9 +3,9 @@ import { readFileSync } from 'node:fs';
 import test from 'node:test';
 
 const contextHook = readFileSync(new URL('../app/lead-desk/operator-context.ts', import.meta.url), 'utf8');
-const stateCopy = readFileSync(new URL('../components/session/session-state.ts', import.meta.url), 'utf8');
-const status = readFileSync(new URL('../components/session/session-status.tsx', import.meta.url), 'utf8');
-const diagnostics = readFileSync(new URL('../components/session/advanced-diagnostics-session-panel.tsx', import.meta.url), 'utf8');
+const stateCopy = readFileSync(new URL('../components/session/session_state.ts', import.meta.url), 'utf8');
+const status = readFileSync(new URL('../components/session/session_status.tsx', import.meta.url), 'utf8');
+const diagnostics = readFileSync(new URL('../components/session/advanced_diagnostics_session_panel.tsx', import.meta.url), 'utf8');
 
 test('session model declares the four approved Phase 4B states', () => {
   for (const state of ['active', 'missing', 'expired_invalid', 'limited_diagnostics']) {

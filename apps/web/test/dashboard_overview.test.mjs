@@ -2,8 +2,8 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
 
-const dashboard = readFileSync(new URL('../components/mission-control/dashboard-overview.tsx', import.meta.url), 'utf8');
-const shell = readFileSync(new URL('../components/mission-control/mission-control-shell.tsx', import.meta.url), 'utf8');
+const dashboard = readFileSync(new URL('../components/mission-control/dashboard_overview.tsx', import.meta.url), 'utf8');
+const shell = readFileSync(new URL('../components/mission-control/mission_control_shell.tsx', import.meta.url), 'utf8');
 
 test('dashboard v1 uses existing API surfaces only', () => {
   assert.equal(dashboard.includes('/platform/status/overview'), true);

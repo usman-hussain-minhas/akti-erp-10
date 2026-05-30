@@ -2,9 +2,9 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
 
-const primitives = readFileSync(new URL('../components/ui/design-system.tsx', import.meta.url), 'utf8');
-const dashboard = readFileSync(new URL('../components/mission-control/dashboard-overview.tsx', import.meta.url), 'utf8');
-const settings = readFileSync(new URL('../components/settings/settings-control-panel.tsx', import.meta.url), 'utf8');
+const primitives = readFileSync(new URL('../components/ui/design_system.tsx', import.meta.url), 'utf8');
+const dashboard = readFileSync(new URL('../components/mission-control/dashboard_overview.tsx', import.meta.url), 'utf8');
+const settings = readFileSync(new URL('../components/settings/settings_control_panel.tsx', import.meta.url), 'utf8');
 
 test('state UX baseline exposes reusable plain-English states', () => {
   for (const exportName of ['StateMessage', 'LoadingState', 'ErrorState', 'PermissionState', 'DegradedState', 'SuccessState']) {

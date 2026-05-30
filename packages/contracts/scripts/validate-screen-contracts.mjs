@@ -11,7 +11,7 @@ const phase1ScreensDir = resolve(repoRoot, "docs", "screen-contracts", "phase-1"
 const phase2ScreensDir = resolve(repoRoot, "docs", "screen-contracts", "phase-2");
 const phase4bScreensDir = resolve(repoRoot, "docs", "screen-contracts", "phase-4b");
 const webLeadDeskDir = resolve(repoRoot, "apps", "web", "app", "lead-desk");
-const webLeadDeskTestsFile = resolve(repoRoot, "apps", "web", "test", "lead-desk-screens.test.mjs");
+const webLeadDeskTestsFile = resolve(repoRoot, "apps", "web", "test", "lead_desk_screens.test.mjs");
 
 const EXPECTED_ROUTE_BY_FILE = {
   "setup-organization.screen.json": "/setup/organization",
@@ -266,7 +266,7 @@ function validatePhase2Contracts(failures) {
     try {
       testsSource = readFileSync(webLeadDeskTestsFile, "utf8");
     } catch (error) {
-      failures.push("Phase 2 active screens require apps/web/test/lead-desk-screens.test.mjs");
+      failures.push("Phase 2 active screens require apps/web/test/lead_desk_screens.test.mjs");
     }
 
     for (const activeRoute of activeRoutes) {

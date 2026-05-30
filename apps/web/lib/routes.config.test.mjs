@@ -3,8 +3,8 @@ import { readFileSync } from 'node:fs';
 import test from 'node:test';
 
 const routesConfig = readFileSync('lib/routes.config.ts', 'utf8');
-const shell = readFileSync('components/mission-control/mission-control-shell.tsx', 'utf8');
-const palette = readFileSync('components/mission-control/command-palette.tsx', 'utf8');
+const shell = readFileSync('components/mission-control/mission_control_shell.tsx', 'utf8');
+const palette = readFileSync('components/mission-control/command_palette.tsx', 'utf8');
 
 test('route config declares the allowed frontend-only route types', () => {
   for (const type of ['primary_navigation', 'system_navigation', 'diagnostics', 'hidden', 'future']) {

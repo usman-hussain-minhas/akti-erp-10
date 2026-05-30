@@ -2,8 +2,8 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
 
-const palette = readFileSync(new URL('../components/mission-control/command-palette.tsx', import.meta.url), 'utf8');
-const shell = readFileSync(new URL('../components/mission-control/mission-control-shell.tsx', import.meta.url), 'utf8');
+const palette = readFileSync(new URL('../components/mission-control/command_palette.tsx', import.meta.url), 'utf8');
+const shell = readFileSync(new URL('../components/mission-control/mission_control_shell.tsx', import.meta.url), 'utf8');
 const routes = readFileSync(new URL('../lib/routes.config.ts', import.meta.url), 'utf8');
 
 test('command palette consumes static core Phase 4B commands from route config', () => {

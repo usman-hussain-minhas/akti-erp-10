@@ -3,7 +3,7 @@ import { readFileSync } from 'node:fs';
 import test from 'node:test';
 
 test('platform branding config defines AKTI Spark without package rename', () => {
-  const config = readFileSync('lib/platform-branding.config.ts', 'utf8');
+  const config = readFileSync('lib/platform_branding.config.ts', 'utf8');
   const packageJson = JSON.parse(readFileSync('package.json', 'utf8'));
 
   assert.match(config, /PLATFORM_PRODUCT_NAME = 'AKTI Spark'/);
@@ -13,7 +13,7 @@ test('platform branding config defines AKTI Spark without package rename', () =>
 
 test('UI shell brand copy uses the frontend display substrate', () => {
   const page = readFileSync('app/page.tsx', 'utf8');
-  const shell = readFileSync('components/mission-control/mission-control-shell.tsx', 'utf8');
+  const shell = readFileSync('components/mission-control/mission_control_shell.tsx', 'utf8');
 
   assert.match(page, /PLATFORM_PRODUCT_NAME/);
   assert.match(shell, /PLATFORM_PRODUCT_NAME/);
@@ -22,7 +22,7 @@ test('UI shell brand copy uses the frontend display substrate', () => {
 });
 
 test('platform branding defaults encode visual direction without backend tokens', () => {
-  const config = readFileSync('lib/platform-branding.config.ts', 'utf8');
+  const config = readFileSync('lib/platform_branding.config.ts', 'utf8');
 
   assert.match(config, /themeDefault: 'system'/);
   assert.match(config, /flagshipMode: 'dark'/);

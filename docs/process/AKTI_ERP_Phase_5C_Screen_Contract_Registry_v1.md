@@ -44,11 +44,11 @@ Each non-route component contract must include:
 
 | component surface | current source | contract status | required data source | capability filter | must-not-show |
 | --- | --- | --- | --- | --- | --- |
-| command palette | `apps/web/components/mission-control/command-palette.tsx` | `pending` | Static capability-filtered frontend actions derived from route config and module visibility. | route/module capabilities; no dynamic shell actions endpoint in Phase 5C | `GET /platform/shell/actions`, fake actions, Phase 6 module actions |
-| notification drawer | `apps/web/components/mission-control/notification-center.tsx` | `pending` | `GET /platform/notifications/summary` only. | `platform.notifications.summary.view` when enforced | fake notifications, provider status, notification center runtime |
+| command palette | `apps/web/components/mission-control/command_palette.tsx` | `pending` | Static capability-filtered frontend actions derived from route config and module visibility. | route/module capabilities; no dynamic shell actions endpoint in Phase 5C | `GET /platform/shell/actions`, fake actions, Phase 6 module actions |
+| notification drawer | `apps/web/components/mission-control/notification_center.tsx` | `pending` | `GET /platform/notifications/summary` only. | `platform.notifications.summary.view` when enforced | fake notifications, provider status, notification center runtime |
 | workspace status card | Mission Control shell/status area | `pending` | `GET /platform/status/overview`. | `platform.shell.access` | fake service uptime, fake CRM pipeline, fake revenue |
 | organization badge | topbar future shell surface | `pending` | `GET /platform/organization/profile` and `GET /platform/branding/effective`. | `platform.organization.profile.view`, `platform.branding.view` when enforced | logo upload, write UI, domain branding |
-| module card | `apps/web/components/mission-control/module-launcher.tsx` | `pending` | Role-aware `GET /platform/modules`. | `platform.modules.view` plus module `required_capabilities[]` | fake module cards, marketplace, import/export/delete/admin authority |
+| module card | `apps/web/components/mission-control/module_launcher.tsx` | `pending` | Role-aware `GET /platform/modules`. | `platform.modules.view` plus module `required_capabilities[]` | fake module cards, marketplace, import/export/delete/admin authority |
 
 ## Locked Rules For Phase 5C Planning
 

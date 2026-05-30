@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
 import type { OperatorSessionState } from '../../app/lead-desk/operator-context';
-import { SESSION_STATE_COPY } from './session-state';
+import { SESSION_STATE_COPY } from './session_state';
 
 export function SessionStatusNotice({ state }: { state: OperatorSessionState }) {
   const copy = SESSION_STATE_COPY[state];

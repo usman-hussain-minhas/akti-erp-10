@@ -21,16 +21,16 @@ import {
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { useLeadDeskOperatorContext } from '../../app/lead-desk/operator-context';
-import { CRM_VISIBLE_LABEL_RULE } from '../../lib/crm-alias.config';
-import { PLATFORM_PRODUCT_NAME } from '../../lib/platform-branding.config';
+import { CRM_VISIBLE_LABEL_RULE } from '../../lib/crm_alias.config';
+import { PLATFORM_PRODUCT_NAME } from '../../lib/platform_branding.config';
 import { SHELL_NAVIGATION_ROUTES, SHELL_SYSTEM_NAVIGATION_ROUTES } from '../../lib/routes.config';
-import { CommandPalette } from './command-palette';
-import { DashboardOverview } from './dashboard-overview';
-import { ModuleLauncher } from './module-launcher';
-import { NotificationCenter } from './notification-center';
-import { SessionStatusNotice } from '../session/session-status';
+import { CommandPalette } from './command_palette';
+import { DashboardOverview } from './dashboard_overview';
+import { ModuleLauncher } from './module_launcher';
+import { NotificationCenter } from './notification_center';
+import { SessionStatusNotice } from '../session/session_status';
 import { Button } from '../ui/button';
-import { EmptyState, StatusBadge } from '../ui/design-system';
+import { EmptyState, StatusBadge } from '../ui/design_system';
 
 const NAV_ICONS = {
   '/app': LayoutDashboard,

@@ -6,9 +6,9 @@ import type { ReactNode } from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { useLeadDeskOperatorContext } from '../../app/lead-desk/operator-context';
-import { CRM_VISIBLE_LABEL } from '../../lib/crm-alias.config';
+import { CRM_VISIBLE_LABEL } from '../../lib/crm_alias.config';
 import { Button } from '../ui/button';
-import { EmptyState, ErrorState, LoadingState, PermissionState, SectionCard, StateMessage, StatusBadge, SuccessState } from '../ui/design-system';
+import { EmptyState, ErrorState, LoadingState, PermissionState, SectionCard, StateMessage, StatusBadge, SuccessState } from '../ui/design_system';
 
 type PlatformStatusOverview = {
   workspace_connection?: string;

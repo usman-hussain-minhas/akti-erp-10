@@ -4,11 +4,11 @@ import Link from 'next/link';
 import { useState } from 'react';
 
 import { useLeadDeskOperatorContext } from '../../app/lead-desk/operator-context';
-import { PLATFORM_BRANDING, PLATFORM_PRODUCT_NAME } from '../../lib/platform-branding.config';
-import { AdvancedDiagnosticsSessionPanel } from '../session/advanced-diagnostics-session-panel';
-import { SessionStatusNotice } from '../session/session-status';
+import { PLATFORM_BRANDING, PLATFORM_PRODUCT_NAME } from '../../lib/platform_branding.config';
+import { AdvancedDiagnosticsSessionPanel } from '../session/advanced_diagnostics_session_panel';
+import { SessionStatusNotice } from '../session/session_status';
 import { Button } from '../ui/button';
-import { EmptyState, ErrorState, FormActions, LoadingState, PermissionState, SectionCard, StateMessage, StatusBadge, SuccessState } from '../ui/design-system';
+import { EmptyState, ErrorState, FormActions, LoadingState, PermissionState, SectionCard, StateMessage, StatusBadge, SuccessState } from '../ui/design_system';
 
 type GatekeeperDenialMessages = {
   forbidden: string;

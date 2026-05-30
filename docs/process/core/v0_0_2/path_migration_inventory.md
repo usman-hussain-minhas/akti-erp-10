@@ -6,11 +6,11 @@ This inventory captures tracked hyphenated paths that existed when PR 31 introdu
 
 ## Summary
 
-- Generated at: 2026-05-30T11:21:47.003Z
-- Git HEAD: a16cd861ba98b0f346666a0ddc8b0681ca3ce92e
-- Total tracked files: 1640
-- Hyphenated path count: 1462
-- Underscore-compliant path count: 178
+- Generated at: 2026-05-30T11:34:23.295Z
+- Git HEAD: de8f8ebe133717471b3f7f3e6e39ebb7af287839
+- Total tracked files: 1661
+- Hyphenated path count: 1441
+- Underscore-compliant path count: 220
 - Explicit exception count: 4
 
 ## Top-Level Area Counts
@@ -18,7 +18,7 @@ This inventory captures tracked hyphenated paths that existed when PR 31 introdu
 | Area | Count |
 | --- | ---: |
 | `.github` | 1 |
-| `apps` | 220 |
+| `apps` | 199 |
 | `codex-review` | 1174 |
 | `docker-compose.local.yml` | 1 |
 | `docs` | 34 |
@@ -35,7 +35,7 @@ This inventory captures tracked hyphenated paths that existed when PR 31 introdu
 | --- | ---: |
 | `docs_artifact_candidate` | 33 |
 | `historical_evidence` | 1174 |
-| `internal_code_import_candidate` | 155 |
+| `internal_code_import_candidate` | 134 |
 | `review_required` | 4 |
 | `route_api_public_surface` | 93 |
 | `tool_convention` | 3 |
@@ -236,33 +236,12 @@ This inventory captures tracked hyphenated paths that existed when PR 31 introdu
 - `apps/web/app/lead-desk/leads/[leadId]/actions/page.tsx`
 - `apps/web/app/lead-desk/leads/[leadId]/page.tsx`
 - `apps/web/app/lead-desk/operator-context.ts`
-- `apps/web/components/mission-control/command-palette.tsx`
-- `apps/web/components/mission-control/dashboard-overview.tsx`
-- `apps/web/components/mission-control/mission-control-shell.tsx`
-- `apps/web/components/mission-control/module-launcher.tsx`
-- `apps/web/components/mission-control/notification-center.tsx`
-- `apps/web/components/phase4b-shadcn-import-proof.tsx`
-- `apps/web/components/session/advanced-diagnostics-session-panel.tsx`
-- `apps/web/components/session/session-state.ts`
-- `apps/web/components/session/session-status.tsx`
-- `apps/web/components/settings/settings-control-panel.tsx`
-- `apps/web/components/ui/design-system.tsx`
-- `apps/web/lib/crm-alias.config.test.mjs`
-- `apps/web/lib/crm-alias.config.ts`
-- `apps/web/lib/platform-branding.config.test.mjs`
-- `apps/web/lib/platform-branding.config.ts`
+- `apps/web/components/mission-control/command_palette.tsx`
+- `apps/web/components/mission-control/dashboard_overview.tsx`
+- `apps/web/components/mission-control/mission_control_shell.tsx`
+- `apps/web/components/mission-control/module_launcher.tsx`
+- `apps/web/components/mission-control/notification_center.tsx`
 - `apps/web/next-env.d.ts`
-- `apps/web/test/command-palette.test.mjs`
-- `apps/web/test/dashboard-overview.test.mjs`
-- `apps/web/test/design-system-baseline.test.mjs`
-- `apps/web/test/lead-desk-screens.test.mjs`
-- `apps/web/test/mission-control-shell.test.mjs`
-- `apps/web/test/module-launcher.test.mjs`
-- `apps/web/test/notification-center.test.mjs`
-- `apps/web/test/session-ux.test.mjs`
-- `apps/web/test/settings-control-panel.test.mjs`
-- `apps/web/test/shadcn-setup.test.mjs`
-- `apps/web/test/state-ux-baseline.test.mjs`
 - `codex-review/phase3-security-auth-tenant/phase3-run-journal.md`
 - `codex-review/phase3-security-auth-tenant/ticket-artifacts/P3-000/P3-000-changed-files.zip`
 - `codex-review/phase3-security-auth-tenant/ticket-artifacts/P3-000/P3-000-summary.md`

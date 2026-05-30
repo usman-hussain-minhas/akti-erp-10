@@ -1,5 +1,5 @@
-import { CRM_VISIBLE_LABEL, CRM_VISIBLE_LABEL_RULE } from './crm-alias.config';
-import { PLATFORM_PRODUCT_NAME } from './platform-branding.config';
+import { CRM_VISIBLE_LABEL, CRM_VISIBLE_LABEL_RULE } from './crm_alias.config';
+import { PLATFORM_PRODUCT_NAME } from './platform_branding.config';
 
 export const SHELL_ROUTE_TYPES = ['primary_navigation', 'system_navigation', 'diagnostics', 'hidden', 'future'] as const;
 

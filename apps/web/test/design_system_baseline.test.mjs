@@ -3,7 +3,7 @@ import { readFileSync } from 'node:fs';
 import test from 'node:test';
 
 const globals = readFileSync(new URL('../app/globals.css', import.meta.url), 'utf8');
-const primitives = readFileSync(new URL('../components/ui/design-system.tsx', import.meta.url), 'utf8');
+const primitives = readFileSync(new URL('../components/ui/design_system.tsx', import.meta.url), 'utf8');
 const button = readFileSync(new URL('../components/ui/button.tsx', import.meta.url), 'utf8');
 
 test('design system exposes baseline must-use component families', () => {

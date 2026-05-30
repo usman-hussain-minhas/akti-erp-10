@@ -7,7 +7,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLeadDeskOperatorContext } from '../../app/lead-desk/operator-context';
 import { MODULES_ROUTE_ACTION_AUTHORITY, PHASE5C_MODULE_ROUTE_AUTHORITY } from '../../lib/routes.config';
 import { Button } from '../ui/button';
-import { EmptyState, ErrorState, LoadingState, SectionCard, StatusBadge } from '../ui/design-system';
+import { EmptyState, ErrorState, LoadingState, SectionCard, StatusBadge } from '../ui/design_system';
 
 type ModuleRegistryItem = {
   module_key: string;

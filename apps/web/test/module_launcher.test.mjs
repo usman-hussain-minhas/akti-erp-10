@@ -2,8 +2,8 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
 
-const launcher = readFileSync(new URL('../components/mission-control/module-launcher.tsx', import.meta.url), 'utf8');
-const shell = readFileSync(new URL('../components/mission-control/mission-control-shell.tsx', import.meta.url), 'utf8');
+const launcher = readFileSync(new URL('../components/mission-control/module_launcher.tsx', import.meta.url), 'utf8');
+const shell = readFileSync(new URL('../components/mission-control/mission_control_shell.tsx', import.meta.url), 'utf8');
 
 test('module launcher reads the existing module registry endpoint when configured', () => {
   assert.match(launcher, /NEXT_PUBLIC_API_BASE_URL/);

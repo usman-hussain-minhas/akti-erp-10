@@ -9,9 +9,9 @@ const actions = readFileSync(new URL('../app/lead-desk/leads/[leadId]/actions/pa
 const workspace = readFileSync(new URL('../app/lead-desk/lead-desk-workspace.tsx', import.meta.url), 'utf8');
 const apiClient = readFileSync(new URL('../app/lead-desk/api-client.ts', import.meta.url), 'utf8');
 const contextHook = readFileSync(new URL('../app/lead-desk/operator-context.ts', import.meta.url), 'utf8');
-const sessionStatus = readFileSync(new URL('../components/session/session-status.tsx', import.meta.url), 'utf8');
+const sessionStatus = readFileSync(new URL('../components/session/session_status.tsx', import.meta.url), 'utf8');
 const advancedDiagnostics = readFileSync(
-  new URL('../components/session/advanced-diagnostics-session-panel.tsx', import.meta.url),
+  new URL('../components/session/advanced_diagnostics_session_panel.tsx', import.meta.url),
   'utf8',
 );
 const leadDeskScreens = [inbox, create, detail, actions];

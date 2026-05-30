@@ -19,7 +19,7 @@ import {
   StateMessage,
   SuccessState,
   Textarea,
-} from '../../../components/ui/design-system';
+} from '../../../components/ui/design_system';
 
 type LoadState = 'idle' | 'loading' | 'ready' | 'error' | 'permission' | 'degraded';
 
