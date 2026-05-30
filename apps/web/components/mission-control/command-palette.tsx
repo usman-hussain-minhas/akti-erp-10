@@ -170,7 +170,7 @@ export function CommandPalette() {
     <>
       <button
         type="button"
-        className="hidden min-w-48 items-center gap-2 rounded-md border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-left text-sm text-[#55605a] md:inline-flex"
+        className="inline-flex min-w-48 items-center gap-2 rounded-md border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-left text-sm text-[#55605a]"
         aria-label="Command palette entry"
         aria-keyshortcuts="Control+K Meta+K"
         onClick={() => setOpen(true)}

@@ -89,7 +89,7 @@ export function NotificationCenter() {
 
       {open ? (
         <div className="fixed inset-0 z-50 bg-black/20" role="presentation">
-          <div className="absolute inset-y-0 right-0 w-full max-w-md bg-white shadow-xl">
+          <div className="absolute inset-y-0 right-0 w-full max-w-md overflow-y-auto bg-white shadow-xl">
             <DrawerPanel title="Notification center">
               <div id="notification-drawer" className="grid gap-4" aria-label="Notification drawer">
                 <div className="flex items-start justify-between gap-3">

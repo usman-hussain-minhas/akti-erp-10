@@ -177,6 +177,9 @@ export function MissionControlShell() {
               </Button>
             </div>
             <ShellNavigation collapsed={false} onNavigate={() => setMobileDrawerOpen(false)} />
+            <div className="mt-4">
+              <CommandPalette />
+            </div>
           </aside>
         </div>
       ) : null}
