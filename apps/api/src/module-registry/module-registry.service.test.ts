@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 
 import {
   loadAccessCoreCapabilitySeedDefinitions,
@@ -206,11 +207,19 @@ async function testListModulesReturnsSeededCoreModuleOnly() {
   );
 }
 
+function testModuleRegistryModuleProvidesPrismaService() {
+  const moduleSource = readFileSync('src/module-registry/module-registry.module.ts', 'utf8');
+
+  assert.equal(moduleSource.includes("import { PrismaService } from '../prisma/prisma.service';"), true);
+  assert.match(moduleSource, /providers:\s*\[\s*ModuleRegistryService,\s*PrismaService\s*\]/);
+}
+
 async function run() {
   await testSeedCreatesCoreAccessModuleAndCapability();
   await testSeedIsIdempotentAndHashIsStable();
   await testSeedUpdatesOnlyDeterministicFields();
   await testListModulesReturnsSeededCoreModuleOnly();
+  testModuleRegistryModuleProvidesPrismaService();
 
   console.log('module-registry.service tests passed');
 }
