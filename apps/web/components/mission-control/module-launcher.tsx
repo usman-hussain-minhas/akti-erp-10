@@ -29,6 +29,39 @@ type ModuleListSnapshot =
   | { state: 'ready'; items: ModuleRegistryItem[] }
   | { state: 'error'; message: string };
 
+const MODULE_VISUAL_STATES = {
+  available: {
+    label: 'Available',
+    tone: 'success',
+    className: 'border-[rgb(18_217_123_/_.35)]',
+    actionLabel: 'Open work area',
+  },
+  requires_setup: {
+    label: 'Requires setup',
+    tone: 'warning',
+    className: 'border-[rgb(255_193_7_/_.35)]',
+    actionLabel: 'Setup required',
+  },
+  locked: {
+    label: 'Locked',
+    tone: 'warning',
+    className: 'border-[rgb(139_92_246_/_.25)] opacity-90',
+    actionLabel: 'Locked',
+  },
+  coming_soon: {
+    label: 'Coming soon',
+    tone: 'neutral',
+    className: 'border-[var(--phase5c-border)] opacity-85',
+    actionLabel: 'Coming soon',
+  },
+  hidden: {
+    label: 'Hidden',
+    tone: 'neutral',
+    className: 'hidden',
+    actionLabel: 'Hidden',
+  },
+} as const;
+
 function resolveApiBase(): string | null {
   const configured = process.env.NEXT_PUBLIC_API_BASE_URL?.trim();
   return configured ? configured.replace(/\/$/, '') : null;
@@ -120,6 +153,7 @@ export function ModuleLauncher() {
 
 function ModuleCard({ item }: { item: ModuleRegistryItem }) {
   const visibilityState = item.visibility_state ?? 'locked';
+  const visualState = MODULE_VISUAL_STATES[visibilityState];
   const isAvailable = visibilityState === 'available' && item.status === 'available';
   const description = item.display_description ?? 'Registered module with no approved display description.';
   const moduleRoute = typeof item.route === 'string' && item.route.trim().length > 0 ? item.route : null;
@@ -129,12 +163,10 @@ function ModuleCard({ item }: { item: ModuleRegistryItem }) {
       : null;
 
   return (
-    <SectionCard className="grid min-w-0 gap-3">
+    <SectionCard className={`grid min-w-0 gap-3 ${visualState.className}`}>
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h3 className="m-0 text-base font-semibold">{item.display_name}</h3>
-        <StatusBadge tone={isAvailable ? 'success' : visibilityState === 'coming_soon' ? 'neutral' : 'warning'}>
-          {formatVisibilityState(visibilityState)}
-        </StatusBadge>
+        <StatusBadge tone={visualState.tone}>{visualState.label}</StatusBadge>
       </div>
       <p className="m-0 text-sm text-[#55605a]">{description}</p>
       <p className="m-0 text-xs text-[var(--phase5c-text-muted)]">
@@ -143,10 +175,12 @@ function ModuleCard({ item }: { item: ModuleRegistryItem }) {
       <p className="m-0 text-xs text-[#66716a]">Version {item.version}</p>
       {moduleRoute && isAvailable ? (
         <Button asChild variant="secondary">
-          <Link href={moduleRoute}>Open work area</Link>
+          <Link href={moduleRoute}>{visualState.actionLabel}</Link>
         </Button>
       ) : (
-        <p className="m-0 text-sm text-[#66716a]">No approved operator route is available for this module.</p>
+        <p className="m-0 text-sm text-[#66716a]">
+          {visualState.actionLabel}. No approved operator route is available for this module.
+        </p>
       )}
       {routeAuthorityNotice ? <p className="m-0 text-xs text-[var(--phase5c-text-muted)]">{routeAuthorityNotice}</p> : null}
     </SectionCard>
@@ -155,8 +189,4 @@ function ModuleCard({ item }: { item: ModuleRegistryItem }) {
 
 function isVisibleModule(item: ModuleRegistryItem): boolean {
   return item.visibility_state !== 'hidden';
-}
-
-function formatVisibilityState(state: NonNullable<ModuleRegistryItem['visibility_state']>): string {
-  return state.replace(/_/g, ' ');
 }
