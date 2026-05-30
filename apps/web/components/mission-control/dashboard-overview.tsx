@@ -5,7 +5,6 @@ import { ClipboardList, HeartPulse, ServerCog, Settings, type LucideIcon } from 
 import type { ReactNode } from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { hasOperatorContext, leadDeskApiFetch } from '../../app/lead-desk/api-client';
 import { useLeadDeskOperatorContext } from '../../app/lead-desk/operator-context';
 import { CRM_VISIBLE_LABEL } from '../../lib/crm-alias.config';
 import { Button } from '../ui/button';
@@ -22,18 +21,8 @@ type WorkspaceConnectionSnapshot =
   | { state: 'placeholder'; message: string }
   | { state: 'loading'; message: string }
   | { state: 'ready'; message: string; status: PlatformStatusOverview }
-  | { state: 'error'; message: string };
-
-type LeadDeskSnapshot =
-  | { state: 'placeholder'; message: string }
-  | { state: 'loading'; message: string }
-  | { state: 'ready'; message: string }
   | { state: 'error'; message: string }
   | { state: 'permission'; message: string };
-
-type LeadDeskListResponse = {
-  items?: unknown[];
-};
 
 function resolveApiBase(): string | null {
   const configured = process.env.NEXT_PUBLIC_API_BASE_URL?.trim();
@@ -41,16 +30,11 @@ function resolveApiBase(): string | null {
 }
 
 export function DashboardOverview() {
-  const { context, sessionState } = useLeadDeskOperatorContext();
+  const { context } = useLeadDeskOperatorContext();
   const apiBase = useMemo(resolveApiBase, []);
-  const sessionReady = hasOperatorContext(context);
   const [workspaceConnection, setWorkspaceConnection] = useState<WorkspaceConnectionSnapshot>({
     state: 'placeholder',
     message: 'Connect the local/demo API to load workspace status.',
-  });
-  const [leadDesk, setLeadDesk] = useState<LeadDeskSnapshot>({
-    state: 'placeholder',
-    message: `Set up session in Advanced Diagnostics to load ${CRM_VISIBLE_LABEL} status.`,
   });
 
   const buildHeaders = useCallback(() => {
@@ -66,6 +50,10 @@ export function DashboardOverview() {
     setWorkspaceConnection({ state: 'loading', message: 'Checking workspace connection.' });
     try {
       const response = await fetch(`${apiBase}/platform/status/overview`, { headers: buildHeaders() });
+      if (response.status === 401 || response.status === 403) {
+        setWorkspaceConnection({ state: 'permission', message: 'Access needed to read workspace status.' });
+        return;
+      }
       if (!response.ok) {
         setWorkspaceConnection({ state: 'error', message: 'Workspace status is temporarily unavailable. Try again later.' });
         return;
@@ -86,48 +74,11 @@ export function DashboardOverview() {
     }
   }, [apiBase, buildHeaders]);
 
-  const loadLeadDesk = useCallback(async () => {
-    if (!apiBase) {
-      setLeadDesk({ state: 'placeholder', message: `Connect the local/demo API to load ${CRM_VISIBLE_LABEL} status.` });
-      return;
-    }
-
-    if (!sessionReady) {
-      setLeadDesk({ state: 'placeholder', message: `Set up session in Advanced Diagnostics to load ${CRM_VISIBLE_LABEL} status.` });
-      return;
-    }
-
-    setLeadDesk({ state: 'loading', message: `Loading ${CRM_VISIBLE_LABEL} status from the existing list API.` });
-    try {
-      const response = await leadDeskApiFetch(context, '/leads', { method: 'GET' });
-      if (response.status === 401 || response.status === 403) {
-        setLeadDesk({ state: 'permission', message: `You do not have permission to view the ${CRM_VISIBLE_LABEL} summary.` });
-        return;
-      }
-      if (!response.ok) {
-        setLeadDesk({ state: 'error', message: `${CRM_VISIBLE_LABEL} status is temporarily unavailable. Try again later.` });
-        return;
-      }
-
-      const payload = (await response.json()) as LeadDeskListResponse;
-      const count = Array.isArray(payload.items) ? payload.items.length : 0;
-      setLeadDesk({ state: 'ready', message: `${count} ${CRM_VISIBLE_LABEL} records returned by the existing list API.` });
-    } catch {
-      setLeadDesk({ state: 'error', message: `${CRM_VISIBLE_LABEL} status is temporarily unavailable. Try again later.` });
-    }
-  }, [apiBase, context, sessionReady]);
-
   useEffect(() => {
     if (apiBase) {
       void loadWorkspaceConnection();
     }
   }, [apiBase, loadWorkspaceConnection]);
-
-  useEffect(() => {
-    if (sessionReady) {
-      void loadLeadDesk();
-    }
-  }, [loadLeadDesk, sessionReady]);
 
   return (
     <section className="grid gap-3" aria-labelledby="dashboard-overview-title">
@@ -186,17 +137,20 @@ export function DashboardOverview() {
         </DashboardCard>
 
         <DashboardCard
-          title={`${CRM_VISIBLE_LABEL} quick card`}
+          title={`${CRM_VISIBLE_LABEL} pipeline status`}
           icon={ClipboardList}
-          badge={leadDesk.state === 'ready' ? 'Loaded' : sessionState === 'active' ? 'Session active' : 'Session needed'}
-          badgeTone={leadDesk.state === 'ready' ? 'success' : sessionState === 'active' ? 'info' : 'warning'}
+          badge={workspaceConnection.state === 'ready' ? formatStatusLabel(workspaceConnection.status.crm_pipeline) : 'Not available'}
+          badgeTone="warning"
           action={
-            <Button type="button" variant="secondary" onClick={loadLeadDesk} disabled={!sessionReady || leadDesk.state === 'loading'}>
-              Load {CRM_VISIBLE_LABEL} status
+            <Button asChild variant="secondary">
+              <Link href="/lead-desk/inbox">Open {CRM_VISIBLE_LABEL}</Link>
             </Button>
           }
         >
-          <SnapshotMessage snapshot={leadDesk} />
+          <StateMessage
+            title="Not available"
+            message="Workspace connection is required. No CRM pipeline endpoint, stage counts, tasks, revenue, or conversion data exists in Phase 5C."
+          />
         </DashboardCard>
 
         <DashboardCard
@@ -272,7 +226,7 @@ function DashboardCard({
   );
 }
 
-function SnapshotMessage({ snapshot }: { snapshot: WorkspaceConnectionSnapshot | LeadDeskSnapshot }) {
+function SnapshotMessage({ snapshot }: { snapshot: WorkspaceConnectionSnapshot }) {
   if (snapshot.state === 'loading') {
     return <LoadingState message={snapshot.message} />;
   }
