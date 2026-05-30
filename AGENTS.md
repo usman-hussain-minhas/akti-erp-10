@@ -126,12 +126,16 @@ When two sources conflict, the lower rank number wins. If conflict remains unres
 
 <skill>
 <name>spark-genesis</name>
-<version>0.2.2</version>
-<description>Use when planning, auditing, generating, executing, resuming, or self-healing Codex phase work. Includes JSON ticket-pack audit, dependency graph checks, predictive stop patterns, scoped repair rules, and post-run learning filters.</description>
-<location>/Volumes/UsmanWork/Spark Genesis/skills/spark-genesis/SKILL.md</location>
+<channel>stable</channel>
+<description>Use for phase planning, intent clarification, control docs, seed matrix, ticket-pack audit, predictive stop analysis, autonomous readiness, execution logging, postmortem learning, and recurring failure-pattern detection.</description>
+<location>/Volumes/UsmanWork/Spark Genesis/skills/spark_genesis/SKILL.md</location>
 </skill>
 
 Spark Genesis is an audit/planning aid, not source of truth. If Spark Genesis conflicts with AGENTS.md, Prisma, contracts, manifests, generated registry, ADRs, active process docs, tests, or validation evidence, the AKTI source-of-truth hierarchy wins.
+
+AKTI Spark adopts Spark Genesis by stable channel. Spark Genesis patch/minor updates do not require an AKTI adoption PR unless the skill location, channel, major compatibility behavior, or project-specific override changes.
+
+Every Spark Genesis-generated audit, readiness report, postmortem, learning scan, and lifecycle artifact must record the exact Spark Genesis channel, version, git SHA, and repo status used for that run.
 
 Use Spark Genesis before:
 
