@@ -5,7 +5,7 @@ import { RefreshCw, Shapes } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { useLeadDeskOperatorContext } from '../../app/lead-desk/operator-context';
-import { MODULES_ROUTE_ACTION_AUTHORITY } from '../../lib/routes.config';
+import { MODULES_ROUTE_ACTION_AUTHORITY, PHASE5C_MODULE_ROUTE_AUTHORITY } from '../../lib/routes.config';
 import { Button } from '../ui/button';
 import { EmptyState, ErrorState, LoadingState, SectionCard, StatusBadge } from '../ui/design-system';
 
@@ -133,6 +133,7 @@ export function ModuleLauncher() {
         requires an approved {MODULES_ROUTE_ACTION_AUTHORITY.deferredRoute} frontend route; until then, this area may
         show module availability and status only.
       </p>
+      <PlatformModulesSurfaceCard />
 
       {snapshot.state === 'loading' ? <LoadingState message={snapshot.message} /> : null}
       {snapshot.state === 'placeholder' ? <EmptyState title="Module registry not connected" message={snapshot.message} /> : null}
@@ -156,7 +157,7 @@ function ModuleCard({ item }: { item: ModuleRegistryItem }) {
   const visualState = MODULE_VISUAL_STATES[visibilityState];
   const isAvailable = visibilityState === 'available' && item.status === 'available';
   const description = item.display_description ?? 'Registered module with no approved display description.';
-  const moduleRoute = typeof item.route === 'string' && item.route.trim().length > 0 ? item.route : null;
+  const moduleRoute = resolveApprovedModuleRoute(item);
   const displayFeatures = Array.isArray(item.display_features)
     ? item.display_features.filter((feature) => feature.trim().length > 0)
     : [];
@@ -197,6 +198,43 @@ function ModuleCard({ item }: { item: ModuleRegistryItem }) {
   );
 }
 
+function PlatformModulesSurfaceCard() {
+  return (
+    <SectionCard className="grid gap-3 border-[rgb(0_213_255_/_.35)]">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <h3 className="m-0 text-base font-semibold">Modules</h3>
+        <StatusBadge tone="success">Active platform surface</StatusBadge>
+      </div>
+      <p className="m-0 text-sm text-[#55605a]">
+        The Modules card is a legitimate Phase 5B1 platform surface backed by {PHASE5C_MODULE_ROUTE_AUTHORITY.dataSource}.
+        It is distinct from future business-module cards.
+      </p>
+      <p className="m-0 text-xs text-[var(--phase5c-text-muted)]">
+        Open Modules action is conditional on an approved {MODULES_ROUTE_ACTION_AUTHORITY.deferredRoute} frontend route.
+        Until that route exists, this surface shows availability and status only.
+      </p>
+    </SectionCard>
+  );
+}
+
 function isVisibleModule(item: ModuleRegistryItem): boolean {
   return item.visibility_state !== 'hidden';
+}
+
+function resolveApprovedModuleRoute(item: ModuleRegistryItem): string | null {
+  const rawRoute = typeof item.route === 'string' && item.route.trim().length > 0 ? item.route.trim() : null;
+  if (!rawRoute) {
+    return null;
+  }
+
+  const normalizedRoute = item.module_key === 'lead.desk' && rawRoute === '/lead-desk' ? '/lead-desk/inbox' : rawRoute;
+  if (item.category === 'business' && item.module_key !== 'lead.desk') {
+    return null;
+  }
+
+  return PHASE5C_MODULE_ROUTE_AUTHORITY.approvedModuleRoutes.includes(
+    normalizedRoute as (typeof PHASE5C_MODULE_ROUTE_AUTHORITY.approvedModuleRoutes)[number],
+  )
+    ? normalizedRoute
+    : null;
 }

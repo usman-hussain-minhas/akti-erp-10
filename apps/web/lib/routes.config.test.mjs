@@ -30,8 +30,11 @@ test('shell and command palette consume frontend route config without backend sh
   assert.match(routesConfig, /platform\.modules\.view/);
   assert.match(routesConfig, /modules\.view/);
   assert.match(routesConfig, /MODULES_ROUTE_ACTION_AUTHORITY/);
+  assert.match(routesConfig, /PHASE5C_MODULE_ROUTE_AUTHORITY/);
   assert.match(routesConfig, /approvedRoute: null/);
   assert.match(routesConfig, /deferredRoute: '\/modules'/);
+  assert.match(routesConfig, /visibilityDoesNotEqualAuthority: true/);
+  assert.match(routesConfig, /futureBusinessModuleRoutesAreActive: false/);
   assert.equal(routesConfig.includes('GET /platform/shell/actions'), false);
   assert.equal(routesConfig.includes('/platform/shell/actions'), false);
 });

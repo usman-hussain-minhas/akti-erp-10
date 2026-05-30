@@ -101,6 +101,16 @@ export const MODULES_ROUTE_ACTION_AUTHORITY = {
   fallbackRoute: SHELL_ROUTES['/app#module-launcher'].route,
 } as const;
 
+export const PHASE5C_MODULE_ROUTE_AUTHORITY = {
+  dataSource: 'GET /platform/modules',
+  moduleManifestAuthority: 'module manifest display metadata',
+  stateAuthority: 'visibility_state',
+  bulletAuthority: 'optional manifest display_features[]',
+  visibilityDoesNotEqualAuthority: true,
+  approvedModuleRoutes: ['/lead-desk/inbox', '/app/settings'] as const,
+  futureBusinessModuleRoutesAreActive: false,
+} as const;
+
 export const SHELL_NAVIGATION_ROUTES = [
   SHELL_ROUTES['/app'],
   SHELL_ROUTES['/lead-desk/inbox'],
