@@ -13,7 +13,7 @@ test('route config declares the allowed frontend-only route types', () => {
 });
 
 test('route config covers current repo-real shell routes without active future business routes', () => {
-  for (const route of ['/', '/app', '/lead-desk/inbox', '/lead-desk/create', '/app/settings', '#help-region']) {
+  for (const route of ['/', '/app', '/lead-desk/inbox', '/app#module-launcher', '/lead-desk/create', '/app/settings', '#diagnostics-region', '#help-region']) {
     assert.equal(routesConfig.includes(route), true);
   }
 
@@ -24,7 +24,22 @@ test('route config covers current repo-real shell routes without active future b
 
 test('shell and command palette consume frontend route config without backend shell actions API', () => {
   assert.match(shell, /SHELL_NAVIGATION_ROUTES/);
+  assert.match(shell, /SHELL_SYSTEM_NAVIGATION_ROUTES/);
+  assert.match(shell, /Diagnostics boundary/);
   assert.match(palette, /SHELL_COMMANDS/);
+  assert.match(routesConfig, /platform\.modules\.view/);
+  assert.match(routesConfig, /modules\.view/);
+  assert.match(routesConfig, /MODULES_ROUTE_ACTION_AUTHORITY/);
+  assert.match(routesConfig, /PHASE5C_MODULE_ROUTE_AUTHORITY/);
+  assert.match(routesConfig, /approvedRoute: null/);
+  assert.match(routesConfig, /deferredRoute: '\/modules'/);
+  assert.match(routesConfig, /visibilityDoesNotEqualAuthority: true/);
+  assert.match(routesConfig, /futureBusinessModuleRoutesAreActive: false/);
+  assert.match(routesConfig, /COMMAND_SEARCH_SCOPE_GUARD/);
+  assert.match(routesConfig, /WorkflowDefinition/);
+  assert.match(routesConfig, /WorkflowInstance/);
+  assert.match(routesConfig, /crmLeadDeskSearchExpansionAllowed: false/);
+  assert.match(routesConfig, /backendSearchIsNotInvokedByPalette: true/);
   assert.equal(routesConfig.includes('GET /platform/shell/actions'), false);
   assert.equal(routesConfig.includes('/platform/shell/actions'), false);
 });

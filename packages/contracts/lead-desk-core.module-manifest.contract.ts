@@ -6,6 +6,11 @@ export const leadDeskCoreModuleManifest: ModuleManifest = ModuleManifestSchema.p
   display_metadata: {
     display_name: "CRM",
     display_description: "Manage admissions lead intake and follow-up through the existing Lead Desk module.",
+    display_features: [
+      "Lead intake inbox",
+      "Follow-up workspace",
+      "Existing Lead Desk routes",
+    ],
     icon_key: "users",
     category: "business",
     visibility_state: "available",

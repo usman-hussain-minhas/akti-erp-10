@@ -15,6 +15,9 @@ test('CRM alias config preserves Lead Desk technical route and module key', () =
   assert.match(aliasConfig, /CRM_VISIBLE_LABEL = 'CRM'/);
   assert.equal(aliasConfig.includes("LEAD_DESK_TECHNICAL_ROUTE_PREFIX = '/lead-desk'"), true);
   assert.equal(aliasConfig.includes("LEAD_DESK_TECHNICAL_MODULE_KEY = 'lead.desk'"), true);
+  assert.match(aliasConfig, /CRM_VISIBLE_LABEL_RULE/);
+  assert.match(aliasConfig, /do not rename lead-desk routes/);
+  assert.match(aliasConfig, /CRM_TECHNICAL_RENAME_FORBIDDEN/);
 });
 
 test('visible shell surfaces use CRM while technical routes remain lead-desk', () => {
@@ -32,4 +35,15 @@ test('Lead Desk technical contracts and Prisma schema are not renamed', () => {
   assert.equal(manifest.includes('/api/lead-desk/organizations'), true);
   assert.doesNotMatch(manifest, /module_key: "crm"/);
   assert.doesNotMatch(schema, /model\\s+Crm/);
+});
+
+test('Phase 5C CRM visible label keeps lead-desk technical names intact', () => {
+  assert.match(aliasConfig, /CRM_INBOX_VISIBLE_LABEL/);
+  assert.equal(aliasConfig.includes("technicalRoutePrefix: LEAD_DESK_TECHNICAL_ROUTE_PREFIX"), true);
+  assert.equal(aliasConfig.includes("technicalModuleKey: LEAD_DESK_TECHNICAL_MODULE_KEY"), true);
+
+  for (const source of [shell, launcher, palette, workspace]) {
+    assert.equal(source.includes('/crm'), false);
+    assert.equal(source.includes('api/crm'), false);
+  }
 });

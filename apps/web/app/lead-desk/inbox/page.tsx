@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { hasOperatorContext, leadDeskApiFetch } from '../api-client';
 import { LeadDeskWorkspace } from '../lead-desk-workspace';
 import { useLeadDeskOperatorContext } from '../operator-context';
+import { CRM_INBOX_VISIBLE_LABEL, CRM_VISIBLE_LABEL } from '../../../lib/crm-alias.config';
 import { Button } from '../../../components/ui/button';
 import {
   DataTable,
@@ -37,19 +38,19 @@ export default function LeadDeskInboxPage() {
   const [assignedFilter, setAssignedFilter] = useState('');
   const [rows, setRows] = useState<LeadRow[]>([]);
   const [state, setState] = useState<LoadState>('idle');
-  const [message, setMessage] = useState('Set up session in Advanced Diagnostics to load the lead inbox.');
+  const [message, setMessage] = useState(`Set up session in Advanced Diagnostics to load the ${CRM_VISIBLE_LABEL} inbox.`);
 
   const canLoad = hasOperatorContext(context);
 
   async function loadInbox() {
     if (!canLoad) {
       setState('permission');
-      setMessage('Set up session in Advanced Diagnostics before loading the inbox.');
+      setMessage(`Set up session in Advanced Diagnostics before loading the ${CRM_VISIBLE_LABEL} inbox.`);
       return;
     }
 
     setState('loading');
-    setMessage('Lead records are loading.');
+    setMessage(`${CRM_VISIBLE_LABEL} records are loading.`);
 
     const params = new URLSearchParams();
     if (statusFilter.trim()) {
@@ -67,14 +68,14 @@ export default function LeadDeskInboxPage() {
       if (response.status === 401 || response.status === 403) {
         setRows([]);
         setState('permission');
-        setMessage('You do not have permission to view the lead inbox.');
+        setMessage(`You do not have permission to view the ${CRM_VISIBLE_LABEL} inbox.`);
         return;
       }
 
       if (!response.ok) {
         setRows([]);
         setState('error');
-        setMessage('Lead inbox is temporarily unavailable. Try again later.');
+        setMessage(`${CRM_VISIBLE_LABEL} inbox is temporarily unavailable. Try again later.`);
         return;
       }
 
@@ -82,18 +83,18 @@ export default function LeadDeskInboxPage() {
       const items = Array.isArray(payload.items) ? payload.items : [];
       setRows(items);
       setState('ready');
-      setMessage(items.length === 0 ? 'There are no leads matching the current filters.' : 'Lead inbox loaded.');
+      setMessage(items.length === 0 ? `There are no ${CRM_VISIBLE_LABEL} records matching the current filters.` : `${CRM_VISIBLE_LABEL} inbox loaded.`);
     } catch {
       setRows([]);
       setState('degraded');
-      setMessage('Lead inbox is limited because the local/demo API is not connected.');
+      setMessage(`${CRM_VISIBLE_LABEL} inbox is limited because the local/demo API is not connected.`);
     }
   }
 
   return (
     <LeadDeskWorkspace
-      title="Lead Inbox"
-      description="Review current leads with safe session status, clear filters, and no raw technical session details."
+      title={CRM_INBOX_VISIBLE_LABEL}
+      description={`${CRM_VISIBLE_LABEL} is the visible label for the existing Lead Desk technical surface. Review current records with safe session status, clear filters, and no raw technical session details.`}
       sessionState={sessionState}
     >
       <SectionCard className="grid gap-4">
@@ -116,7 +117,7 @@ export default function LeadDeskInboxPage() {
 
         <FormActions>
           <Button type="button" onClick={loadInbox} disabled={!canLoad || state === 'loading'}>
-            {state === 'loading' ? 'Loading inbox' : 'Load inbox'}
+            {state === 'loading' ? `Loading ${CRM_VISIBLE_LABEL} inbox` : `Load ${CRM_VISIBLE_LABEL} inbox`}
           </Button>
           <StateMessage title="Inbox status" message={message} />
         </FormActions>
@@ -158,23 +159,23 @@ export default function LeadDeskInboxPage() {
 
 function LeadDeskState({ state, message, empty }: { state: LoadState; message: string; empty: boolean }) {
   if (state === 'loading') {
-    return <LoadingState message="Loading lead inbox." />;
+    return <LoadingState message="Loading CRM inbox." />;
   }
 
   if (state === 'permission') {
-    return <PermissionState message="You do not have permission to view the lead inbox." />;
+    return <PermissionState message="You do not have permission to view the CRM inbox." />;
   }
 
   if (state === 'degraded') {
-    return <DegradedState message="Lead inbox is limited because the local/demo API is not connected." />;
+    return <DegradedState message="CRM inbox is limited because the local/demo API is not connected." />;
   }
 
   if (state === 'error') {
-    return <ErrorState message="Lead inbox is temporarily unavailable. Try again later." />;
+    return <ErrorState message="CRM inbox is temporarily unavailable. Try again later." />;
   }
 
   if (state === 'ready' && empty) {
-    return <EmptyState title="No leads waiting" message="There are no leads matching the current filters." />;
+    return <EmptyState title="No CRM records waiting" message="There are no CRM records matching the current filters." />;
   }
 
   if (state === 'idle') {

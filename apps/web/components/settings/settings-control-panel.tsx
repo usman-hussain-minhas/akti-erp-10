@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 
 import { useLeadDeskOperatorContext } from '../../app/lead-desk/operator-context';
+import { PLATFORM_BRANDING, PLATFORM_PRODUCT_NAME } from '../../lib/platform-branding.config';
 import { AdvancedDiagnosticsSessionPanel } from '../session/advanced-diagnostics-session-panel';
 import { SessionStatusNotice } from '../session/session-status';
 import { Button } from '../ui/button';
@@ -22,6 +23,8 @@ type SectionSnapshot = {
   message: string;
   value?: string;
 };
+
+type SettingsSnapshotKind = 'portal' | 'users' | 'groups' | 'hierarchy' | 'modules' | 'branding' | 'organizationProfile';
 
 function resolveApiBase(): string | null {
   const configured = process.env.NEXT_PUBLIC_API_BASE_URL?.trim();
@@ -50,8 +53,16 @@ export function SettingsControlPanel({ denialMessages }: { denialMessages: Gatek
     state: 'idle',
     message: 'Read-only module list can load from the existing module registry endpoint.',
   });
+  const [branding, setBranding] = useState<SectionSnapshot>({
+    state: 'idle',
+    message: 'Read-only branding facts can load from the effective branding API.',
+  });
+  const [organizationProfile, setOrganizationProfile] = useState<SectionSnapshot>({
+    state: 'idle',
+    message: 'Read-only organization profile can load when session context is active.',
+  });
 
-  async function loadSettingsSnapshot(kind: 'portal' | 'users' | 'groups' | 'hierarchy' | 'modules') {
+  async function loadSettingsSnapshot(kind: SettingsSnapshotKind) {
     const base = resolveApiBase();
     if (!base) {
       updateSnapshot(kind, { state: 'error', message: denialMessages.apiUnavailable });
@@ -73,6 +84,8 @@ export function SettingsControlPanel({ denialMessages }: { denialMessages: Gatek
       groups: `/platform/access/organizations/${organizationPath}/groups`,
       hierarchy: `/platform/hierarchy/organizations/${organizationPath}/units`,
       modules: '/platform/modules',
+      branding: '/platform/branding/effective',
+      organizationProfile: '/platform/organization/profile',
     };
 
     try {
@@ -93,39 +106,42 @@ export function SettingsControlPanel({ denialMessages }: { denialMessages: Gatek
     }
   }
 
-  function updateSnapshot(kind: 'portal' | 'users' | 'groups' | 'hierarchy' | 'modules', snapshot: SectionSnapshot) {
+  function updateSnapshot(kind: SettingsSnapshotKind, snapshot: SectionSnapshot) {
     const setters = {
       portal: setPortalMode,
       users: setUsersRoles,
       groups: setGroupsAccess,
       hierarchy: setHierarchy,
       modules: setModules,
+      branding: setBranding,
+      organizationProfile: setOrganizationProfile,
     };
     setters[kind](snapshot);
   }
 
   return (
-    <main className="min-h-screen bg-[var(--background)] px-4 py-6 text-[var(--foreground)] md:px-6">
-      <div className="mx-auto grid max-w-6xl gap-6">
-        <header className="grid gap-3">
+    <main className="min-h-screen bg-[var(--phase5c-bg)] px-4 py-6 text-[var(--phase5c-text)] md:px-6">
+      <div className="mx-auto grid max-w-7xl gap-6">
+        <header className="grid gap-4 rounded-lg border border-[var(--phase5c-border)] bg-[var(--phase5c-surface)] p-5 shadow-[var(--akti-glow-cyan)]">
           <Link className="text-sm font-medium text-[var(--primary)] underline underline-offset-4" href="/app">
             Back to Mission Control
           </Link>
           <div className="grid gap-2">
-            <StatusBadge tone="info">Control panel</StatusBadge>
+            <StatusBadge tone="info">{PLATFORM_PRODUCT_NAME} control panel</StatusBadge>
             <h1 className="m-0 text-2xl font-semibold">Settings</h1>
             <p className="m-0 max-w-3xl text-sm text-[#55605a]">
-              Review real supported settings, read-only admin surfaces, and future-phase placeholders without exposing
-              unsupported controls or fake data.
+              Review supported settings, read-only admin surfaces, and future-phase placeholders without exposing
+              unsupported write controls or fake data.
             </p>
           </div>
           <SessionStatusNotice state={sessionState} />
         </header>
 
         <div className="grid gap-4 lg:grid-cols-[16rem_1fr]">
-          <nav className="grid h-fit gap-2 rounded-lg border border-[var(--border)] bg-white p-3" aria-label="Settings section navigation">
+          <nav className="grid h-fit gap-2 rounded-lg border border-[var(--phase5c-border)] bg-[var(--phase5c-surface)] p-3" aria-label="Settings section navigation">
             {[
               ['General', '#general'],
+              ['Organization profile', '#organization-profile'],
               ['Users & Roles', '#users-roles'],
               ['Groups / Access', '#groups-access'],
               ['Hierarchy / Organization Structure', '#hierarchy'],
@@ -135,7 +151,7 @@ export function SettingsControlPanel({ denialMessages }: { denialMessages: Gatek
               ['Notifications', '#notifications'],
               ['Advanced Diagnostics', '#advanced-diagnostics'],
             ].map(([label, href]) => (
-              <a key={href} className="rounded-md px-3 py-2 text-sm hover:bg-[var(--surface-muted)]" href={href}>
+              <a key={href} className="rounded-md px-3 py-2 text-sm hover:bg-[var(--phase5c-surface-muted)] focus-visible:ring-2 focus-visible:ring-[var(--akti-cyan)]" href={href}>
                 {label}
               </a>
             ))}
@@ -143,11 +159,24 @@ export function SettingsControlPanel({ denialMessages }: { denialMessages: Gatek
 
           <div className="grid min-w-0 gap-4">
             <BuiltSection id="general" title="General / portal mode" snapshot={portalMode} onLoad={() => loadSettingsSnapshot('portal')} />
+            <BuiltSection
+              id="organization-profile"
+              title="Organization profile"
+              snapshot={organizationProfile}
+              onLoad={() => loadSettingsSnapshot('organizationProfile')}
+              note="Source: GET /platform/organization/profile. Read-only display only; no org switching, logo upload, or account rewrite."
+            />
             <BuiltSection id="users-roles" title="Users & Roles" snapshot={usersRoles} onLoad={() => loadSettingsSnapshot('users')} />
             <BuiltSection id="groups-access" title="Groups / Access" snapshot={groupsAccess} onLoad={() => loadSettingsSnapshot('groups')} />
             <BuiltSection id="hierarchy" title="Hierarchy / Organization Structure" snapshot={hierarchy} onLoad={() => loadSettingsSnapshot('hierarchy')} />
             <BuiltSection id="modules" title="Modules" snapshot={modules} onLoad={() => loadSettingsSnapshot('modules')} />
-            <PlaceholderSection id="appearance" title="Appearance" phase="future frontend preferences phase" />
+            <BuiltSection
+              id="appearance"
+              title="Branding / Appearance"
+              snapshot={branding}
+              onLoad={() => loadSettingsSnapshot('branding')}
+              note={`${PLATFORM_BRANDING.effectiveBrandingEndpoint}; read-only only. No logo upload, cropper, domain branding, or write UI.`}
+            />
             <PlaceholderSection id="security" title="Security" phase="Phase 5A auth/security policy" />
             <PlaceholderSection id="notifications" title="Notifications" phase="Phase 5A notification/communication policy" />
             <section id="advanced-diagnostics" className="grid gap-3">
@@ -174,15 +203,18 @@ function BuiltSection({
   title,
   snapshot,
   onLoad,
+  note,
 }: {
   id: string;
   title: string;
   snapshot: SectionSnapshot;
   onLoad: () => void;
+  note?: string;
 }) {
   return (
     <SectionCard id={id} className="grid gap-3">
       <SectionHeading title={title} disposition="Built where current APIs safely support read-only proof" />
+      {note ? <p className="m-0 text-sm text-[var(--phase5c-text-muted)]">{note}</p> : null}
       <SectionSnapshotMessage snapshot={snapshot} />
       <FormActions>
         <Button type="button" variant="secondary" onClick={onLoad} disabled={snapshot.state === 'loading'}>
@@ -233,9 +265,23 @@ function SectionHeading({ title, disposition }: { title: string; disposition: st
   );
 }
 
-function describePayload(kind: 'portal' | 'users' | 'groups' | 'hierarchy' | 'modules', payload: unknown): string {
+function describePayload(kind: SettingsSnapshotKind, payload: unknown): string {
   if (kind === 'portal' && payload && typeof payload === 'object' && 'mode' in payload) {
     return `Portal mode loaded: ${String((payload as { mode?: unknown }).mode)}`;
+  }
+
+  if (kind === 'branding' && payload && typeof payload === 'object') {
+    const branding = payload as { product_name?: unknown; theme_mode?: unknown; logo_url?: unknown };
+    return `Effective branding loaded: ${String(branding.product_name ?? PLATFORM_PRODUCT_NAME)}; theme ${String(
+      branding.theme_mode ?? 'system',
+    )}; logo ${branding.logo_url ? 'configured' : 'not configured'}.`;
+  }
+
+  if (kind === 'organizationProfile' && payload && typeof payload === 'object') {
+    const profile = payload as { display_name?: unknown; short_name?: unknown; my_role?: unknown };
+    return `Organization profile loaded: ${String(profile.display_name ?? 'Workspace')}; short name ${String(
+      profile.short_name ?? 'not configured',
+    )}; role ${String(profile.my_role ?? 'not available')}.`;
   }
 
   const items = Array.isArray((payload as { items?: unknown })?.items)
@@ -250,6 +296,8 @@ function describePayload(kind: 'portal' | 'users' | 'groups' | 'hierarchy' | 'mo
     hierarchy: 'hierarchy units',
     modules: 'modules',
     portal: 'portal mode',
+    branding: 'branding facts',
+    organizationProfile: 'organization profile facts',
   };
 
   return `${items.length} ${labels[kind]} loaded.`;

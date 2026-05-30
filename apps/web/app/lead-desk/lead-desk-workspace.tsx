@@ -5,7 +5,7 @@ import { ClipboardList, LayoutDashboard, Plus, Settings } from 'lucide-react';
 import type { ReactNode } from 'react';
 
 import type { OperatorSessionState } from './operator-context';
-import { CRM_VISIBLE_LABEL } from '../../lib/crm-alias.config';
+import { CRM_INBOX_VISIBLE_LABEL, CRM_VISIBLE_LABEL } from '../../lib/crm-alias.config';
 import { SessionStatusNotice } from '../../components/session/session-status';
 import { Button } from '../../components/ui/button';
 import { StatusBadge } from '../../components/ui/design-system';
@@ -48,7 +48,7 @@ export function LeadDeskWorkspace({
           </div>
           <SessionStatusNotice state={sessionState} />
           <nav className="flex flex-wrap gap-2 rounded-lg border border-[var(--border)] bg-white p-3" aria-label={`${CRM_VISIBLE_LABEL} navigation`}>
-            <LeadDeskNavLink href="/lead-desk/inbox" label="Inbox" icon={<ClipboardList aria-hidden="true" size={16} />} />
+            <LeadDeskNavLink href="/lead-desk/inbox" label={CRM_INBOX_VISIBLE_LABEL} icon={<ClipboardList aria-hidden="true" size={16} />} />
             <LeadDeskNavLink href="/lead-desk/create" label="Create lead" icon={<Plus aria-hidden="true" size={16} />} />
           </nav>
         </header>

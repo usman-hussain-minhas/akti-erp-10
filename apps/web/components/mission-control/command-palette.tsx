@@ -7,7 +7,7 @@ import type { KeyboardEvent as ReactKeyboardEvent } from 'react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { CRM_VISIBLE_LABEL } from '../../lib/crm-alias.config';
-import { SHELL_COMMANDS } from '../../lib/routes.config';
+import { COMMAND_SEARCH_SCOPE_GUARD, SHELL_COMMANDS } from '../../lib/routes.config';
 import { Button } from '../ui/button';
 import { EmptyState } from '../ui/design-system';
 
@@ -20,6 +20,9 @@ type CoreCommand = {
   group: ShellCommand['group'];
   route: ShellCommand['route'];
   keywords: ShellCommand['keywords'];
+  action_type: ShellCommand['action_type'];
+  source: ShellCommand['source'];
+  required_capability?: ShellCommand['required_capability'];
 };
 
 type RenderCommand = CoreCommand & {
@@ -125,7 +128,7 @@ export function CommandPalette() {
   function runCommand(command: CoreCommand) {
     rememberCommand(command);
     closePalette();
-    if (command.route.startsWith('#')) {
+    if (command.action_type === 'anchor') {
       const target = document.getElementById(command.route.slice(1));
       target?.scrollIntoView({ block: 'start' });
       window.history.replaceState(null, '', command.route);
@@ -167,7 +170,7 @@ export function CommandPalette() {
     <>
       <button
         type="button"
-        className="hidden min-w-48 items-center gap-2 rounded-md border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-left text-sm text-[#55605a] md:inline-flex"
+        className="inline-flex min-w-48 items-center gap-2 rounded-md border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-left text-sm text-[#55605a]"
         aria-label="Command palette entry"
         aria-keyshortcuts="Control+K Meta+K"
         onClick={() => setOpen(true)}
@@ -212,6 +215,10 @@ export function CommandPalette() {
                 onKeyDown={handleInputKeyDown}
                 placeholder="Type a destination or action"
               />
+              <span className="text-xs text-[var(--phase5c-text-muted)]">
+                Static command filtering only. Backend search scope remains{' '}
+                {COMMAND_SEARCH_SCOPE_GUARD.allowedSearchModels.join(' and ')}; no CRM or Lead Desk search expansion.
+              </span>
             </label>
 
             {visibleCommands.length === 0 ? (
@@ -239,6 +246,11 @@ export function CommandPalette() {
                           >
                             <span className="font-medium">{command.label}</span>
                             <span className="text-[#55605a]">{command.description}</span>
+                            {command.required_capability ? (
+                              <span className="text-xs text-[var(--phase5c-text-muted)]">
+                                Capability: {command.required_capability}
+                              </span>
+                            ) : null}
                           </button>
                         );
                       })}

@@ -1,32 +1,35 @@
 'use client';
 
 import Link from 'next/link';
-import { ClipboardList, HeartPulse, Settings, type LucideIcon } from 'lucide-react';
+import { ClipboardList, HeartPulse, ServerCog, Settings, ShieldCheck, type LucideIcon } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { hasOperatorContext, leadDeskApiFetch } from '../../app/lead-desk/api-client';
 import { useLeadDeskOperatorContext } from '../../app/lead-desk/operator-context';
 import { CRM_VISIBLE_LABEL } from '../../lib/crm-alias.config';
 import { Button } from '../ui/button';
 import { EmptyState, ErrorState, LoadingState, PermissionState, SectionCard, StateMessage, StatusBadge, SuccessState } from '../ui/design-system';
 
-type HealthSnapshot =
-  | { state: 'placeholder'; message: string }
-  | { state: 'loading'; message: string }
-  | { state: 'ready'; message: string }
-  | { state: 'error'; message: string };
+type PlatformStatusOverview = {
+  workspace_connection?: string;
+  crm_pipeline?: string;
+  platform_services?: string;
+  data_controls?: string;
+};
 
-type LeadDeskSnapshot =
+type WorkspaceConnectionSnapshot =
   | { state: 'placeholder'; message: string }
   | { state: 'loading'; message: string }
-  | { state: 'ready'; message: string }
+  | { state: 'ready'; message: string; status: PlatformStatusOverview }
   | { state: 'error'; message: string }
   | { state: 'permission'; message: string };
 
-type LeadDeskListResponse = {
-  items?: unknown[];
-};
+type DataControlsSnapshot =
+  | { state: 'placeholder'; message: string }
+  | { state: 'loading'; message: string }
+  | { state: 'ready'; message: string; import_export: string; retention_policy: string; audit_controls: string }
+  | { state: 'error'; message: string }
+  | { state: 'permission'; message: string };
 
 function resolveApiBase(): string | null {
   const configured = process.env.NEXT_PUBLIC_API_BASE_URL?.trim();
@@ -34,121 +37,172 @@ function resolveApiBase(): string | null {
 }
 
 export function DashboardOverview() {
-  const { context, sessionState } = useLeadDeskOperatorContext();
+  const { context } = useLeadDeskOperatorContext();
   const apiBase = useMemo(resolveApiBase, []);
-  const sessionReady = hasOperatorContext(context);
-  const [health, setHealth] = useState<HealthSnapshot>({
+  const [workspaceConnection, setWorkspaceConnection] = useState<WorkspaceConnectionSnapshot>({
     state: 'placeholder',
-    message: 'Connect the local/demo API to show health status.',
+    message: 'Connect the local/demo API to load workspace status.',
   });
-  const [leadDesk, setLeadDesk] = useState<LeadDeskSnapshot>({
+  const [dataControls, setDataControls] = useState<DataControlsSnapshot>({
     state: 'placeholder',
-    message: `Set up session in Advanced Diagnostics to load ${CRM_VISIBLE_LABEL} status.`,
+    message: 'Connect the local/demo API to load data controls status.',
   });
 
-  const loadHealth = useCallback(async () => {
+  const buildHeaders = useCallback(() => {
+    return context.sessionToken.trim().length > 0 ? { Authorization: `Bearer ${context.sessionToken.trim()}` } : undefined;
+  }, [context.sessionToken]);
+
+  const loadWorkspaceConnection = useCallback(async () => {
     if (!apiBase) {
-      setHealth({ state: 'placeholder', message: 'Connect the local/demo API to show health status.' });
+      setWorkspaceConnection({ state: 'placeholder', message: 'Connect the local/demo API to load workspace status.' });
       return;
     }
 
-    setHealth({ state: 'loading', message: 'Checking API health.' });
+    setWorkspaceConnection({ state: 'loading', message: 'Checking workspace connection.' });
     try {
-      const response = await fetch(`${apiBase}/health`);
+      const response = await fetch(`${apiBase}/platform/status/overview`, { headers: buildHeaders() });
+      if (response.status === 401 || response.status === 403) {
+        setWorkspaceConnection({ state: 'permission', message: 'Access needed to read workspace status.' });
+        return;
+      }
       if (!response.ok) {
-        setHealth({ state: 'error', message: 'API health is temporarily unavailable. Try again later.' });
+        setWorkspaceConnection({ state: 'error', message: 'Workspace status is temporarily unavailable. Try again later.' });
         return;
       }
 
-      const payload = (await response.json()) as { status?: unknown };
-      setHealth({
+      const payload = (await response.json()) as { status?: PlatformStatusOverview };
+      const status = payload.status ?? {};
+      setWorkspaceConnection({
         state: 'ready',
-        message: payload.status === 'healthy' ? 'API health is healthy.' : 'API responded without a healthy status.',
+        status,
+        message:
+          status.workspace_connection === 'connected'
+            ? 'Workspace connected. Platform services can load approved live status.'
+            : 'Not connected. Workspace connection is required before platform services activate.',
       });
     } catch {
-      setHealth({ state: 'error', message: 'API health is temporarily unavailable. Try again later.' });
+      setWorkspaceConnection({ state: 'error', message: 'Workspace status is temporarily unavailable. Try again later.' });
     }
-  }, [apiBase]);
+  }, [apiBase, buildHeaders]);
 
-  const loadLeadDesk = useCallback(async () => {
+  const loadDataControls = useCallback(async () => {
     if (!apiBase) {
-      setLeadDesk({ state: 'placeholder', message: `Connect the local/demo API to load ${CRM_VISIBLE_LABEL} status.` });
+      setDataControls({ state: 'placeholder', message: 'Connect the local/demo API to load data controls status.' });
       return;
     }
 
-    if (!sessionReady) {
-      setLeadDesk({ state: 'placeholder', message: `Set up session in Advanced Diagnostics to load ${CRM_VISIBLE_LABEL} status.` });
-      return;
-    }
-
-    setLeadDesk({ state: 'loading', message: `Loading ${CRM_VISIBLE_LABEL} status from the existing list API.` });
+    setDataControls({ state: 'loading', message: 'Checking data controls status.' });
     try {
-      const response = await leadDeskApiFetch(context, '/leads', { method: 'GET' });
+      const response = await fetch(`${apiBase}/platform/data-controls/status`, { headers: buildHeaders() });
       if (response.status === 401 || response.status === 403) {
-        setLeadDesk({ state: 'permission', message: `You do not have permission to view the ${CRM_VISIBLE_LABEL} summary.` });
+        setDataControls({ state: 'permission', message: 'Access needed to read data controls status.' });
         return;
       }
       if (!response.ok) {
-        setLeadDesk({ state: 'error', message: `${CRM_VISIBLE_LABEL} status is temporarily unavailable. Try again later.` });
+        setDataControls({ state: 'error', message: 'Data controls status is temporarily unavailable.' });
         return;
       }
 
-      const payload = (await response.json()) as LeadDeskListResponse;
-      const count = Array.isArray(payload.items) ? payload.items.length : 0;
-      setLeadDesk({ state: 'ready', message: `${count} ${CRM_VISIBLE_LABEL} records returned by the existing list API.` });
+      const payload = (await response.json()) as {
+        import_export?: string;
+        retention_policy?: string;
+        audit_controls?: string;
+      };
+      setDataControls({
+        state: 'ready',
+        import_export: payload.import_export ?? 'unavailable',
+        retention_policy: payload.retention_policy ?? 'inactive',
+        audit_controls: payload.audit_controls ?? 'inactive',
+        message: 'Governance inactive until workspace connection and approved controls are available.',
+      });
     } catch {
-      setLeadDesk({ state: 'error', message: `${CRM_VISIBLE_LABEL} status is temporarily unavailable. Try again later.` });
+      setDataControls({ state: 'error', message: 'Data controls status is temporarily unavailable.' });
     }
-  }, [apiBase, context, sessionReady]);
+  }, [apiBase, buildHeaders]);
 
   useEffect(() => {
     if (apiBase) {
-      void loadHealth();
+      void loadWorkspaceConnection();
     }
-  }, [apiBase, loadHealth]);
+  }, [apiBase, loadWorkspaceConnection]);
 
   useEffect(() => {
-    if (sessionReady) {
-      void loadLeadDesk();
+    if (apiBase) {
+      void loadDataControls();
     }
-  }, [loadLeadDesk, sessionReady]);
+  }, [apiBase, loadDataControls]);
 
   return (
     <section className="grid gap-3" aria-labelledby="dashboard-overview-title">
       <div className="grid gap-2">
-        <StatusBadge tone="info">Dashboard v1</StatusBadge>
+        <StatusBadge tone="info">Operational status</StatusBadge>
         <h2 id="dashboard-overview-title" className="m-0 text-lg font-semibold">
           Operational overview
         </h2>
         <p className="m-0 max-w-3xl text-sm text-[#55605a]">
-          Dashboard v1 uses existing APIs only. Unsupported widgets are explicit placeholders or deferrals, never
-          hardcoded operational data.
+          Live status uses existing approved APIs only. Unsupported widgets are explicit unavailable states or deferrals,
+          never hardcoded operational data.
+        </p>
+        <p className="m-0 max-w-3xl text-sm text-[var(--phase5c-text-muted)]">
+          Connect your workspace to load your apps. If the local/demo API is not configured, each card stays in an honest
+          unavailable state.
         </p>
       </div>
 
-      <div className="grid gap-3 lg:grid-cols-3">
+      <div className="grid gap-3 lg:grid-cols-5">
         <DashboardCard
-          title="Local/demo API health"
+          title="Workspace connection"
           icon={HeartPulse}
-          badge={health.state === 'ready' ? 'Ready' : 'Local/demo'}
-          badgeTone={health.state === 'ready' ? 'success' : 'neutral'}
-          action={<Button type="button" variant="secondary" onClick={loadHealth}>Refresh health</Button>}
+          badge={
+            workspaceConnection.state === 'ready' && workspaceConnection.status.workspace_connection === 'connected'
+              ? 'Connected'
+              : 'Not connected'
+          }
+          badgeTone={
+            workspaceConnection.state === 'ready' && workspaceConnection.status.workspace_connection === 'connected'
+              ? 'success'
+              : 'warning'
+          }
+          action={<Button type="button" variant="secondary" onClick={loadWorkspaceConnection}>Refresh workspace status</Button>}
         >
-          <SnapshotMessage snapshot={health} />
+          <SnapshotMessage snapshot={workspaceConnection} />
         </DashboardCard>
 
         <DashboardCard
-          title={`${CRM_VISIBLE_LABEL} quick card`}
+          title="Platform services"
+          icon={ServerCog}
+          badge={workspaceConnection.state === 'ready' ? formatStatusLabel(workspaceConnection.status.platform_services) : 'Unavailable'}
+          badgeTone={
+            workspaceConnection.state === 'ready' && workspaceConnection.status.platform_services === 'online'
+              ? 'success'
+              : 'warning'
+          }
+        >
+          <StateMessage
+            title="Service status"
+            message={
+              workspaceConnection.state === 'ready'
+                ? platformServicesMessage(workspaceConnection.status.platform_services)
+                : 'Connect your workspace to read platform service status.'
+            }
+          />
+        </DashboardCard>
+
+        <DashboardCard
+          title={`${CRM_VISIBLE_LABEL} pipeline status`}
           icon={ClipboardList}
-          badge={leadDesk.state === 'ready' ? 'Loaded' : sessionState === 'active' ? 'Session active' : 'Session needed'}
-          badgeTone={leadDesk.state === 'ready' ? 'success' : sessionState === 'active' ? 'info' : 'warning'}
+          badge={workspaceConnection.state === 'ready' ? formatStatusLabel(workspaceConnection.status.crm_pipeline) : 'Not available'}
+          badgeTone="warning"
           action={
-            <Button type="button" variant="secondary" onClick={loadLeadDesk} disabled={!sessionReady || leadDesk.state === 'loading'}>
-              Load {CRM_VISIBLE_LABEL} status
+            <Button asChild variant="secondary">
+              <Link href="/lead-desk/inbox">Open {CRM_VISIBLE_LABEL}</Link>
             </Button>
           }
         >
-          <SnapshotMessage snapshot={leadDesk} />
+          <StateMessage
+            title="Not available"
+            message="Workspace connection is required. No CRM pipeline endpoint, stage counts, tasks, revenue, or conversion data exists in Phase 5C."
+          />
         </DashboardCard>
 
         <DashboardCard
@@ -166,6 +220,16 @@ export function DashboardOverview() {
             Open the Settings control panel for portal mode, read-only access sections, modules, and Advanced Diagnostics.
           </p>
         </DashboardCard>
+
+        <DashboardCard
+          title="Data controls and governance"
+          icon={ShieldCheck}
+          badge={dataControls.state === 'ready' ? formatStatusLabel(dataControls.audit_controls) : 'Unavailable'}
+          badgeTone="warning"
+          action={<Button type="button" variant="secondary" onClick={loadDataControls}>Refresh governance</Button>}
+        >
+          <DataControlsMessage snapshot={dataControls} />
+        </DashboardCard>
       </div>
 
       <div className="grid gap-3 md:grid-cols-2">
@@ -180,6 +244,18 @@ export function DashboardOverview() {
       </div>
     </section>
   );
+}
+
+function platformServicesMessage(status: string | undefined): string {
+  if (status === 'online') {
+    return 'Approved platform services are online.';
+  }
+
+  return 'Core platform services are offline or unavailable until the workspace is connected.';
+}
+
+function formatStatusLabel(status: string | undefined): string {
+  return status ? status.replace(/_/g, ' ') : 'Unavailable';
 }
 
 function DashboardCard({
@@ -212,7 +288,7 @@ function DashboardCard({
   );
 }
 
-function SnapshotMessage({ snapshot }: { snapshot: HealthSnapshot | LeadDeskSnapshot }) {
+function SnapshotMessage({ snapshot }: { snapshot: WorkspaceConnectionSnapshot }) {
   if (snapshot.state === 'loading') {
     return <LoadingState message={snapshot.message} />;
   }
@@ -227,6 +303,31 @@ function SnapshotMessage({ snapshot }: { snapshot: HealthSnapshot | LeadDeskSnap
 
   if (snapshot.state === 'permission') {
     return <PermissionState message={snapshot.message} />;
+  }
+
+  return <StateMessage title="Not connected yet" message={snapshot.message} />;
+}
+
+function DataControlsMessage({ snapshot }: { snapshot: DataControlsSnapshot }) {
+  if (snapshot.state === 'loading') {
+    return <LoadingState message={snapshot.message} />;
+  }
+
+  if (snapshot.state === 'error') {
+    return <ErrorState message={snapshot.message} />;
+  }
+
+  if (snapshot.state === 'permission') {
+    return <PermissionState message={snapshot.message} />;
+  }
+
+  if (snapshot.state === 'ready') {
+    return (
+      <StateMessage
+        title="Governance inactive"
+        message={`Import/export ${snapshot.import_export}; retention ${snapshot.retention_policy}; audit controls ${snapshot.audit_controls}. Read only, no execution authority.`}
+      />
+    );
   }
 
   return <StateMessage title="Not connected yet" message={snapshot.message} />;
