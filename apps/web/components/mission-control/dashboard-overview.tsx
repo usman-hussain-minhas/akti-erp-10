@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { ClipboardList, HeartPulse, ServerCog, Settings, type LucideIcon } from 'lucide-react';
+import { ClipboardList, HeartPulse, ServerCog, Settings, ShieldCheck, type LucideIcon } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
@@ -24,6 +24,13 @@ type WorkspaceConnectionSnapshot =
   | { state: 'error'; message: string }
   | { state: 'permission'; message: string };
 
+type DataControlsSnapshot =
+  | { state: 'placeholder'; message: string }
+  | { state: 'loading'; message: string }
+  | { state: 'ready'; message: string; import_export: string; retention_policy: string; audit_controls: string }
+  | { state: 'error'; message: string }
+  | { state: 'permission'; message: string };
+
 function resolveApiBase(): string | null {
   const configured = process.env.NEXT_PUBLIC_API_BASE_URL?.trim();
   return configured ? configured.replace(/\/$/, '') : null;
@@ -35,6 +42,10 @@ export function DashboardOverview() {
   const [workspaceConnection, setWorkspaceConnection] = useState<WorkspaceConnectionSnapshot>({
     state: 'placeholder',
     message: 'Connect the local/demo API to load workspace status.',
+  });
+  const [dataControls, setDataControls] = useState<DataControlsSnapshot>({
+    state: 'placeholder',
+    message: 'Connect the local/demo API to load data controls status.',
   });
 
   const buildHeaders = useCallback(() => {
@@ -74,11 +85,52 @@ export function DashboardOverview() {
     }
   }, [apiBase, buildHeaders]);
 
+  const loadDataControls = useCallback(async () => {
+    if (!apiBase) {
+      setDataControls({ state: 'placeholder', message: 'Connect the local/demo API to load data controls status.' });
+      return;
+    }
+
+    setDataControls({ state: 'loading', message: 'Checking data controls status.' });
+    try {
+      const response = await fetch(`${apiBase}/platform/data-controls/status`, { headers: buildHeaders() });
+      if (response.status === 401 || response.status === 403) {
+        setDataControls({ state: 'permission', message: 'Access needed to read data controls status.' });
+        return;
+      }
+      if (!response.ok) {
+        setDataControls({ state: 'error', message: 'Data controls status is temporarily unavailable.' });
+        return;
+      }
+
+      const payload = (await response.json()) as {
+        import_export?: string;
+        retention_policy?: string;
+        audit_controls?: string;
+      };
+      setDataControls({
+        state: 'ready',
+        import_export: payload.import_export ?? 'unavailable',
+        retention_policy: payload.retention_policy ?? 'inactive',
+        audit_controls: payload.audit_controls ?? 'inactive',
+        message: 'Governance inactive until workspace connection and approved controls are available.',
+      });
+    } catch {
+      setDataControls({ state: 'error', message: 'Data controls status is temporarily unavailable.' });
+    }
+  }, [apiBase, buildHeaders]);
+
   useEffect(() => {
     if (apiBase) {
       void loadWorkspaceConnection();
     }
   }, [apiBase, loadWorkspaceConnection]);
+
+  useEffect(() => {
+    if (apiBase) {
+      void loadDataControls();
+    }
+  }, [apiBase, loadDataControls]);
 
   return (
     <section className="grid gap-3" aria-labelledby="dashboard-overview-title">
@@ -97,7 +149,7 @@ export function DashboardOverview() {
         </p>
       </div>
 
-      <div className="grid gap-3 lg:grid-cols-4">
+      <div className="grid gap-3 lg:grid-cols-5">
         <DashboardCard
           title="Workspace connection"
           icon={HeartPulse}
@@ -167,6 +219,16 @@ export function DashboardOverview() {
           <p className="m-0 text-sm text-[#55605a]">
             Open the Settings control panel for portal mode, read-only access sections, modules, and Advanced Diagnostics.
           </p>
+        </DashboardCard>
+
+        <DashboardCard
+          title="Data controls and governance"
+          icon={ShieldCheck}
+          badge={dataControls.state === 'ready' ? formatStatusLabel(dataControls.audit_controls) : 'Unavailable'}
+          badgeTone="warning"
+          action={<Button type="button" variant="secondary" onClick={loadDataControls}>Refresh governance</Button>}
+        >
+          <DataControlsMessage snapshot={dataControls} />
         </DashboardCard>
       </div>
 
@@ -241,6 +303,31 @@ function SnapshotMessage({ snapshot }: { snapshot: WorkspaceConnectionSnapshot }
 
   if (snapshot.state === 'permission') {
     return <PermissionState message={snapshot.message} />;
+  }
+
+  return <StateMessage title="Not connected yet" message={snapshot.message} />;
+}
+
+function DataControlsMessage({ snapshot }: { snapshot: DataControlsSnapshot }) {
+  if (snapshot.state === 'loading') {
+    return <LoadingState message={snapshot.message} />;
+  }
+
+  if (snapshot.state === 'error') {
+    return <ErrorState message={snapshot.message} />;
+  }
+
+  if (snapshot.state === 'permission') {
+    return <PermissionState message={snapshot.message} />;
+  }
+
+  if (snapshot.state === 'ready') {
+    return (
+      <StateMessage
+        title="Governance inactive"
+        message={`Import/export ${snapshot.import_export}; retention ${snapshot.retention_policy}; audit controls ${snapshot.audit_controls}. Read only, no execution authority.`}
+      />
+    );
   }
 
   return <StateMessage title="Not connected yet" message={snapshot.message} />;

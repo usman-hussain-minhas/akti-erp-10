@@ -12,6 +12,7 @@ test('dashboard v1 uses existing API surfaces only', () => {
   assert.equal(dashboard.includes('GET /platform/modules'), false);
   assert.match(dashboard, /platform_services/);
   assert.match(dashboard, /crm_pipeline/);
+  assert.equal(dashboard.includes('/platform/data-controls/status'), true);
 });
 
 test('dashboard v1 renders placeholders and deferrals for unsupported widgets', () => {
@@ -44,6 +45,7 @@ test('dashboard v1 preserves session and no-fake-data boundaries', () => {
   assert.match(dashboard, /No CRM pipeline endpoint/);
   assert.match(dashboard, /hardcoded operational data/);
   assert.match(dashboard, /Workspace connection is required/);
+  assert.match(dashboard, /Read only, no execution authority/);
   assert.match(dashboard, /PermissionState/);
   assert.match(dashboard, /ErrorState/);
   assert.match(dashboard, /Authorization/);
