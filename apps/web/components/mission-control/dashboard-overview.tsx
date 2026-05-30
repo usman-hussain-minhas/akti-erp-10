@@ -124,6 +124,10 @@ export function DashboardOverview() {
           Live status uses existing approved APIs only. Unsupported widgets are explicit unavailable states or deferrals,
           never hardcoded operational data.
         </p>
+        <p className="m-0 max-w-3xl text-sm text-[var(--phase5c-text-muted)]">
+          Connect your workspace to load your apps. If the local/demo API is not configured, each card stays in an honest
+          unavailable state.
+        </p>
       </div>
 
       <div className="grid gap-3 lg:grid-cols-3">

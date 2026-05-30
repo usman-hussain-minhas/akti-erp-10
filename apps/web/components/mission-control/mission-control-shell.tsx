@@ -11,6 +11,7 @@ import {
   Menu,
   PanelLeftClose,
   PanelLeftOpen,
+  ArrowRight,
   Settings,
   Shapes,
   Sparkles,
@@ -253,6 +254,20 @@ export function MissionControlShell() {
                     Connect your workspace to activate {SHELL_NAVIGATION_ROUTES[1].label} and platform services. Until a
                     local/demo API is connected, operational surfaces stay unavailable rather than showing fake data.
                   </p>
+                  <div className="flex flex-wrap gap-3 pt-2">
+                    <Button asChild>
+                      <Link href="#diagnostics-region">
+                        <Link2 aria-hidden="true" size={16} />
+                        Connect workspace
+                      </Link>
+                    </Button>
+                    <Button asChild variant="ghost">
+                      <Link href="#help-region">
+                        Learn more
+                        <ArrowRight aria-hidden="true" size={16} />
+                      </Link>
+                    </Button>
+                  </div>
                 </div>
                 <div className="hidden h-24 w-40 place-items-center rounded-lg border border-[rgb(0_213_255_/_.35)] bg-[rgb(5_7_12_/_.45)] md:grid">
                   <Link2 aria-hidden="true" size={34} className="text-[var(--akti-cyan)]" />
@@ -362,6 +377,12 @@ function WorkspaceStatusCard({
         <>
           <p className="m-0 font-medium">{snapshot.label}</p>
           <p className="m-0 text-xs text-[var(--phase5c-text-muted)]">{snapshot.detail}</p>
+          <Button asChild variant="secondary" className="mt-1 w-full justify-center">
+            <Link href="#diagnostics-region">
+              <Link2 aria-hidden="true" size={14} />
+              Connect workspace
+            </Link>
+          </Button>
         </>
       )}
     </section>
