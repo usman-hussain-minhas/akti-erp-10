@@ -7,7 +7,7 @@ import type { KeyboardEvent as ReactKeyboardEvent } from 'react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { CRM_VISIBLE_LABEL } from '../../lib/crm-alias.config';
-import { SHELL_COMMANDS } from '../../lib/routes.config';
+import { COMMAND_SEARCH_SCOPE_GUARD, SHELL_COMMANDS } from '../../lib/routes.config';
 import { Button } from '../ui/button';
 import { EmptyState } from '../ui/design-system';
 
@@ -215,6 +215,10 @@ export function CommandPalette() {
                 onKeyDown={handleInputKeyDown}
                 placeholder="Type a destination or action"
               />
+              <span className="text-xs text-[var(--phase5c-text-muted)]">
+                Static command filtering only. Backend search scope remains{' '}
+                {COMMAND_SEARCH_SCOPE_GUARD.allowedSearchModels.join(' and ')}; no CRM or Lead Desk search expansion.
+              </span>
             </label>
 
             {visibleCommands.length === 0 ? (

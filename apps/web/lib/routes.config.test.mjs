@@ -35,6 +35,11 @@ test('shell and command palette consume frontend route config without backend sh
   assert.match(routesConfig, /deferredRoute: '\/modules'/);
   assert.match(routesConfig, /visibilityDoesNotEqualAuthority: true/);
   assert.match(routesConfig, /futureBusinessModuleRoutesAreActive: false/);
+  assert.match(routesConfig, /COMMAND_SEARCH_SCOPE_GUARD/);
+  assert.match(routesConfig, /WorkflowDefinition/);
+  assert.match(routesConfig, /WorkflowInstance/);
+  assert.match(routesConfig, /crmLeadDeskSearchExpansionAllowed: false/);
+  assert.match(routesConfig, /backendSearchIsNotInvokedByPalette: true/);
   assert.equal(routesConfig.includes('GET /platform/shell/actions'), false);
   assert.equal(routesConfig.includes('/platform/shell/actions'), false);
 });

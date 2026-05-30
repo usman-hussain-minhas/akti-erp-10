@@ -114,6 +114,13 @@ export const PHASE5C_MODULE_ROUTE_AUTHORITY = {
   futureBusinessModuleRoutesAreActive: false,
 } as const;
 
+export const COMMAND_SEARCH_SCOPE_GUARD = {
+  dynamicShellActionsEndpoint: null,
+  allowedSearchModels: ['WorkflowDefinition', 'WorkflowInstance'] as const,
+  crmLeadDeskSearchExpansionAllowed: false,
+  backendSearchIsNotInvokedByPalette: true,
+} as const;
+
 export const SHELL_NAVIGATION_ROUTES = [
   SHELL_ROUTES['/app'],
   SHELL_ROUTES['/lead-desk/inbox'],
