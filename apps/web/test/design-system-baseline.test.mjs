@@ -43,6 +43,11 @@ test('baseline tokens cover semantic color and focus states', () => {
     assert.match(globals, new RegExp(token));
   }
 
+  for (const token of ['--akti-cyan', '--akti-violet', '--akti-emerald', '--phase5c-bg', '--phase5c-surface', '--phase5c-border']) {
+    assert.match(globals, new RegExp(token));
+  }
+
+  assert.match(globals, /data-theme='light'/);
   assert.match(globals, /:focus-visible/);
 });
 

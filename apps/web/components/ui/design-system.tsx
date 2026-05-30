@@ -73,6 +73,18 @@ export function SectionCard({ className, ...props }: React.ComponentProps<'secti
   );
 }
 
+export function SparkPanel({ className, ...props }: React.ComponentProps<'section'>) {
+  return (
+    <section
+      className={cn(
+        'rounded-lg border border-[var(--phase5c-border)] bg-[var(--phase5c-surface)] p-4 text-[var(--phase5c-text)] shadow-[var(--akti-shadow)]',
+        className,
+      )}
+      {...props}
+    />
+  );
+}
+
 export function DataTable({ className, ...props }: React.ComponentProps<'table'>) {
   return (
     <div className="w-full overflow-x-auto rounded-lg border border-[var(--border)] bg-[var(--surface)]">
