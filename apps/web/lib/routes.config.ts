@@ -94,6 +94,13 @@ export const SHELL_ROUTES = {
   },
 } as const satisfies Record<string, ShellRouteMetadata>;
 
+export const MODULES_ROUTE_ACTION_AUTHORITY = {
+  dataSource: 'GET /platform/modules',
+  approvedRoute: null,
+  deferredRoute: '/modules',
+  fallbackRoute: SHELL_ROUTES['/app#module-launcher'].route,
+} as const;
+
 export const SHELL_NAVIGATION_ROUTES = [
   SHELL_ROUTES['/app'],
   SHELL_ROUTES['/lead-desk/inbox'],

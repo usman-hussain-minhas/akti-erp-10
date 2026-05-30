@@ -6,6 +6,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { useLeadDeskOperatorContext } from '../../app/lead-desk/operator-context';
 import { CRM_VISIBLE_LABEL } from '../../lib/crm-alias.config';
+import { MODULES_ROUTE_ACTION_AUTHORITY } from '../../lib/routes.config';
 import { Button } from '../ui/button';
 import { EmptyState, ErrorState, LoadingState, SectionCard, StatusBadge } from '../ui/design-system';
 
@@ -84,7 +85,7 @@ export function ModuleLauncher() {
   }, [apiBase, loadModules]);
 
   return (
-    <section className="grid gap-3" aria-labelledby="module-launcher-title">
+    <section id="module-launcher" className="grid scroll-mt-28 gap-3" aria-labelledby="module-launcher-title">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-2">
           <Shapes aria-hidden="true" size={18} />
@@ -101,6 +102,11 @@ export function ModuleLauncher() {
       <p className="m-0 max-w-3xl text-sm text-[#55605a]">
         This read-only list uses the current module registry when the local/demo API is connected. Module lifecycle
         actions remain out of Phase 4B.
+      </p>
+      <p className="m-0 max-w-3xl text-xs text-[var(--phase5c-text-muted)]">
+        Modules route action authority uses {MODULES_ROUTE_ACTION_AUTHORITY.dataSource}. A working Open Modules action
+        requires an approved {MODULES_ROUTE_ACTION_AUTHORITY.deferredRoute} frontend route; until then, this area may
+        show module availability and status only.
       </p>
 
       {snapshot.state === 'loading' ? <LoadingState message={snapshot.message} /> : null}
@@ -124,6 +130,10 @@ function ModuleCard({ item }: { item: ModuleRegistryItem }) {
   const surface = MODULE_SURFACES[item.module_key];
   const isAvailable = item.status === 'available';
   const description = surface?.description ?? 'Registered module with no Phase 4B shell surface yet.';
+  const routeAuthorityNotice =
+    MODULES_ROUTE_ACTION_AUTHORITY.approvedRoute === null
+      ? `Open Modules action is disabled until ${MODULES_ROUTE_ACTION_AUTHORITY.deferredRoute} route authority is approved.`
+      : null;
 
   return (
     <SectionCard className="grid min-w-0 gap-3">
@@ -140,6 +150,7 @@ function ModuleCard({ item }: { item: ModuleRegistryItem }) {
       ) : (
         <p className="m-0 text-sm text-[#66716a]">No operator screen is available for this module in Phase 4B.</p>
       )}
+      {routeAuthorityNotice ? <p className="m-0 text-xs text-[var(--phase5c-text-muted)]">{routeAuthorityNotice}</p> : null}
     </SectionCard>
   );
 }
