@@ -61,6 +61,7 @@ export function MissionControlShell() {
   const { context, sessionState } = useLeadDeskOperatorContext();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
+  const [orgBadgeOpen, setOrgBadgeOpen] = useState(false);
   const apiBase = useMemo(resolveApiBase, []);
   const [orgProfile, setOrgProfile] = useState<OrgProfileSnapshot>({
     state: 'placeholder',
@@ -203,7 +204,7 @@ export function MissionControlShell() {
                 <Settings aria-hidden="true" size={18} />
               </Link>
             </Button>
-            <OrgBadge snapshot={orgProfile} />
+            <OrgBadge snapshot={orgProfile} open={orgBadgeOpen} onToggle={() => setOrgBadgeOpen((current) => !current)} />
             <UserAvatar />
           </div>
         </div>
@@ -322,22 +323,41 @@ export function MissionControlShell() {
   );
 }
 
-function OrgBadge({ snapshot }: { snapshot: OrgProfileSnapshot }) {
+function OrgBadge({ snapshot, open, onToggle }: { snapshot: OrgProfileSnapshot; open: boolean; onToggle: () => void }) {
   return (
-    <button
-      type="button"
-      className="hidden max-w-56 items-center gap-2 rounded-md border border-[var(--phase5c-border)] bg-[var(--phase5c-surface)] px-3 py-2 text-left text-sm transition-all hover:border-[var(--akti-cyan)] focus-visible:ring-2 focus-visible:ring-[var(--akti-cyan)] md:flex"
-      aria-label={`Organization badge: ${snapshot.label}`}
-      aria-disabled="true"
-    >
-      <Building2 aria-hidden="true" size={16} className="text-[var(--akti-violet)]" />
-      <span className="grid min-w-0">
-        <span className="truncate font-medium">{snapshot.label}</span>
-        <span className="truncate text-xs text-[var(--phase5c-text-muted)]">{snapshot.detail}</span>
-      </span>
-      <span className="sr-only">Organization profile source: GET /platform/organization/profile. Read only.</span>
-      <ChevronDown aria-hidden="true" size={14} className="text-[var(--phase5c-text-muted)]" />
-    </button>
+    <div className="relative hidden md:block">
+      <button
+        type="button"
+        className="flex max-w-56 items-center gap-2 rounded-md border border-[var(--phase5c-border)] bg-[var(--phase5c-surface)] px-3 py-2 text-left text-sm transition-all hover:border-[var(--akti-cyan)] focus-visible:ring-2 focus-visible:ring-[var(--akti-cyan)]"
+        aria-label={`Organization badge: ${snapshot.label}`}
+        aria-expanded={open}
+        aria-controls="organization-badge-menu"
+        onClick={onToggle}
+      >
+        <Building2 aria-hidden="true" size={16} className="text-[var(--akti-violet)]" />
+        <span className="grid min-w-0">
+          <span className="truncate font-medium">{snapshot.label}</span>
+          <span className="truncate text-xs text-[var(--phase5c-text-muted)]">{snapshot.detail}</span>
+        </span>
+        <span className="sr-only">Organization profile source: GET /platform/organization/profile. Read only.</span>
+        <ChevronDown aria-hidden="true" size={14} className="text-[var(--phase5c-text-muted)]" />
+      </button>
+      {open ? (
+        <div
+          id="organization-badge-menu"
+          className="absolute right-0 top-12 z-40 grid w-72 gap-2 rounded-lg border border-[var(--phase5c-border)] bg-[var(--phase5c-surface)] p-3 text-sm shadow-xl"
+          role="dialog"
+          aria-label="Organization profile summary"
+        >
+          <p className="m-0 font-medium">{snapshot.label}</p>
+          <p className="m-0 text-xs text-[var(--phase5c-text-muted)]">{snapshot.detail}</p>
+          <p className="m-0 text-xs text-[var(--phase5c-text-muted)]">
+            Read-only organization context. Org switching, logo upload, account management, and production auth changes
+            are not available in Phase 5C.
+          </p>
+        </div>
+      ) : null}
+    </div>
   );
 }
 
