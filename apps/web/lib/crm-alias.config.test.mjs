@@ -36,3 +36,14 @@ test('Lead Desk technical contracts and Prisma schema are not renamed', () => {
   assert.doesNotMatch(manifest, /module_key: "crm"/);
   assert.doesNotMatch(schema, /model\\s+Crm/);
 });
+
+test('Phase 5C CRM visible label keeps lead-desk technical names intact', () => {
+  assert.match(aliasConfig, /CRM_INBOX_VISIBLE_LABEL/);
+  assert.equal(aliasConfig.includes("technicalRoutePrefix: LEAD_DESK_TECHNICAL_ROUTE_PREFIX"), true);
+  assert.equal(aliasConfig.includes("technicalModuleKey: LEAD_DESK_TECHNICAL_MODULE_KEY"), true);
+
+  for (const source of [shell, launcher, palette, workspace]) {
+    assert.equal(source.includes('/crm'), false);
+    assert.equal(source.includes('api/crm'), false);
+  }
+});
