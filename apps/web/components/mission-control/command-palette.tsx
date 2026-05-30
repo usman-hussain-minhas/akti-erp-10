@@ -20,6 +20,9 @@ type CoreCommand = {
   group: ShellCommand['group'];
   route: ShellCommand['route'];
   keywords: ShellCommand['keywords'];
+  action_type: ShellCommand['action_type'];
+  source: ShellCommand['source'];
+  required_capability?: ShellCommand['required_capability'];
 };
 
 type RenderCommand = CoreCommand & {
@@ -125,7 +128,7 @@ export function CommandPalette() {
   function runCommand(command: CoreCommand) {
     rememberCommand(command);
     closePalette();
-    if (command.route.startsWith('#')) {
+    if (command.action_type === 'anchor') {
       const target = document.getElementById(command.route.slice(1));
       target?.scrollIntoView({ block: 'start' });
       window.history.replaceState(null, '', command.route);
@@ -239,6 +242,11 @@ export function CommandPalette() {
                           >
                             <span className="font-medium">{command.label}</span>
                             <span className="text-[#55605a]">{command.description}</span>
+                            {command.required_capability ? (
+                              <span className="text-xs text-[var(--phase5c-text-muted)]">
+                                Capability: {command.required_capability}
+                              </span>
+                            ) : null}
                           </button>
                         );
                       })}

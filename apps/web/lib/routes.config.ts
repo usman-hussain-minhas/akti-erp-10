@@ -24,6 +24,9 @@ export type ShellCommandMetadata = {
   description: string;
   group: 'Navigation' | typeof CRM_VISIBLE_LABEL | 'Settings' | 'Help';
   keywords: readonly string[];
+  action_type: 'route' | 'anchor';
+  source: 'static_route_config';
+  required_capability?: string;
 };
 
 export const SHELL_ROUTES = {
@@ -127,6 +130,8 @@ export const SHELL_COMMANDS: readonly ShellCommandMetadata[] = [
     description: 'Go to Mission Control overview.',
     group: 'Navigation',
     keywords: ['home', 'mission control', 'overview'],
+    action_type: 'route',
+    source: 'static_route_config',
   },
   {
     id: 'lead-desk.open',
@@ -135,6 +140,9 @@ export const SHELL_COMMANDS: readonly ShellCommandMetadata[] = [
     description: `Open the current ${CRM_VISIBLE_LABEL} inbox.`,
     group: CRM_VISIBLE_LABEL,
     keywords: ['crm', 'leads', 'inbox', 'follow up'],
+    action_type: 'route',
+    source: 'static_route_config',
+    required_capability: 'platform.crm.access',
   },
   {
     id: 'modules.view',
@@ -143,6 +151,9 @@ export const SHELL_COMMANDS: readonly ShellCommandMetadata[] = [
     description: 'Jump to the role-aware Modules area.',
     group: 'Navigation',
     keywords: ['modules', 'apps', 'module cards'],
+    action_type: 'anchor',
+    source: 'static_route_config',
+    required_capability: 'platform.modules.view',
   },
   {
     id: 'lead-desk.create',
@@ -151,6 +162,9 @@ export const SHELL_COMMANDS: readonly ShellCommandMetadata[] = [
     description: SHELL_ROUTES['/lead-desk/create'].description,
     group: CRM_VISIBLE_LABEL,
     keywords: ['crm', 'new lead', 'intake', 'create'],
+    action_type: 'route',
+    source: 'static_route_config',
+    required_capability: 'platform.crm.access',
   },
   {
     id: 'settings.open',
@@ -159,6 +173,8 @@ export const SHELL_COMMANDS: readonly ShellCommandMetadata[] = [
     description: 'Open the Settings control panel.',
     group: 'Settings',
     keywords: ['control panel', 'diagnostics', 'session'],
+    action_type: 'route',
+    source: 'static_route_config',
   },
   {
     id: 'diagnostics.open',
@@ -167,6 +183,8 @@ export const SHELL_COMMANDS: readonly ShellCommandMetadata[] = [
     description: SHELL_ROUTES['#diagnostics-region'].description,
     group: 'Settings',
     keywords: ['diagnostics', 'session setup', 'technical setup'],
+    action_type: 'anchor',
+    source: 'static_route_config',
   },
   {
     id: 'help.open',
@@ -175,5 +193,7 @@ export const SHELL_COMMANDS: readonly ShellCommandMetadata[] = [
     description: SHELL_ROUTES['#help-region'].description,
     group: 'Help',
     keywords: ['support', 'guide', 'help'],
+    action_type: 'anchor',
+    source: 'static_route_config',
   },
 ] as const;
