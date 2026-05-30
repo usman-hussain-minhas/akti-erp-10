@@ -398,7 +398,6 @@
         "pnpm-workspace.yaml",
         "apps/api/src/lead-desk/**",
         "packages/contracts/lead-desk-core.contract.ts",
-        "packages/contracts/lead-desk-core.module-manifest.contract.ts",
         ".env",
         ".env.*"
       ],
@@ -435,7 +434,8 @@
         "No fake surfaces, no Phase 6 leakage, no CRM technical migration, no production auth/deployment/secrets, and visibility does not equal authority.",
         "Validation commands pass or unavailable commands are reported with evidence.",
         "Pre-approved narrow exception: future execution may modify packages/contracts/module-manifest.schema.ts only to add optional display_features?: string[] in module manifest display metadata, plus module manifest / Foundry / module registry validation, approved existing manifest backfill, and tests/fixtures needed to preserve strict validation.",
-        "This exception does not authorize Prisma/schema/migration changes, generated registry changes, package/lockfile changes, Phase 6 module features, hardcoded frontend bullet text, or broad module manifest redesign."
+        "This exception does not authorize Prisma/schema/migration changes, generated registry changes, package/lockfile changes, Phase 6 module features, hardcoded frontend bullet text, or broad module manifest redesign.",
+        "Lead Desk module manifest edits are allowed only for approved display metadata verification/backfill and must not rename lead-desk routes, files, APIs, contracts, Prisma models, or data models."
       ],
       "dependencies": [
         "P5C-001"
@@ -623,7 +623,6 @@
         "pnpm-workspace.yaml",
         "apps/api/src/lead-desk/**",
         "packages/contracts/lead-desk-core.contract.ts",
-        "packages/contracts/lead-desk-core.module-manifest.contract.ts",
         ".env",
         ".env.*"
       ],
@@ -655,7 +654,8 @@
         "Module metadata verification satisfies the mapped Phase 5C screen/component contract and seed traceability.",
         "Exact file plan is recorded before edits and changes stay within files_expected_to_change unless bounded replan is explicitly triggered.",
         "No fake surfaces, no Phase 6 leakage, no CRM technical migration, no production auth/deployment/secrets, and visibility does not equal authority.",
-        "Validation commands pass or unavailable commands are reported with evidence."
+        "Validation commands pass or unavailable commands are reported with evidence.",
+        "Lead Desk module manifest edits are allowed only for approved display metadata verification/backfill and must not rename lead-desk routes, files, APIs, contracts, Prisma models, or data models."
       ],
       "dependencies": [
         "P5C-010"
@@ -2261,7 +2261,8 @@
         "bullet authority: optional manifest display_features[]",
         "Do not hardcode module cards or module feature bullets.",
         "Do not make future modules active/openable and do not make visibility equal authority.",
-        "Do not expose import/export/delete/admin/destructive authority from module visibility."
+        "Do not expose import/export/delete/admin/destructive authority from module visibility.",
+        "Do not hardcode module feature bullets."
       ],
       "non_scope": [
         "No Phase 6 business modules or future modules as active/openable surfaces.",
@@ -2271,7 +2272,8 @@
         "No white-label upload/write/cropper/domain branding UI.",
         "No production auth, deployment, secrets, real providers, marketplace, workflow builder, AI assistant, or runtime AI.",
         "No package or lockfile changes.",
-        "Visibility does not equal authority; module visibility must not imply import/export/delete/admin/destructive permissions."
+        "Visibility does not equal authority; module visibility must not imply import/export/delete/admin/destructive permissions.",
+        "Do not hardcode module feature bullets."
       ],
       "source_files_to_inspect": [
         "AGENTS.md",
@@ -2346,7 +2348,8 @@
         "bullet authority: optional manifest display_features[]",
         "Do not hardcode module cards or module feature bullets.",
         "Do not make future modules active/openable and do not make visibility equal authority.",
-        "Do not expose import/export/delete/admin/destructive authority from module visibility."
+        "Do not expose import/export/delete/admin/destructive authority from module visibility.",
+        "Do not hardcode module feature bullets."
       ],
       "dependencies": [
         "P5C-051",
@@ -2849,7 +2852,8 @@
         "bullet authority: optional manifest display_features[]",
         "Do not hardcode module cards or module feature bullets.",
         "Do not make future modules active/openable and do not make visibility equal authority.",
-        "Do not expose import/export/delete/admin/destructive authority from module visibility."
+        "Do not expose import/export/delete/admin/destructive authority from module visibility.",
+        "Do not hardcode module feature bullets."
       ],
       "non_scope": [
         "No Phase 6 business modules or future modules as active/openable surfaces.",
@@ -2859,7 +2863,8 @@
         "No white-label upload/write/cropper/domain branding UI.",
         "No production auth, deployment, secrets, real providers, marketplace, workflow builder, AI assistant, or runtime AI.",
         "No package or lockfile changes.",
-        "Visibility does not equal authority; module visibility must not imply import/export/delete/admin/destructive permissions."
+        "Visibility does not equal authority; module visibility must not imply import/export/delete/admin/destructive permissions.",
+        "Do not hardcode module feature bullets."
       ],
       "source_files_to_inspect": [
         "AGENTS.md",
@@ -2933,7 +2938,8 @@
         "bullet authority: optional manifest display_features[]",
         "Do not hardcode module cards or module feature bullets.",
         "Do not make future modules active/openable and do not make visibility equal authority.",
-        "Do not expose import/export/delete/admin/destructive authority from module visibility."
+        "Do not expose import/export/delete/admin/destructive authority from module visibility.",
+        "Do not hardcode module feature bullets."
       ],
       "dependencies": [
         "P5C-052"
@@ -2979,7 +2985,8 @@
         "bullet authority: optional manifest display_features[]",
         "Do not hardcode module cards or module feature bullets.",
         "Do not make future modules active/openable and do not make visibility equal authority.",
-        "Do not expose import/export/delete/admin/destructive authority from module visibility."
+        "Do not expose import/export/delete/admin/destructive authority from module visibility.",
+        "Do not hardcode module feature bullets."
       ],
       "non_scope": [
         "No Phase 6 business modules or future modules as active/openable surfaces.",
@@ -2989,7 +2996,8 @@
         "No white-label upload/write/cropper/domain branding UI.",
         "No production auth, deployment, secrets, real providers, marketplace, workflow builder, AI assistant, or runtime AI.",
         "No package or lockfile changes.",
-        "Visibility does not equal authority; module visibility must not imply import/export/delete/admin/destructive permissions."
+        "Visibility does not equal authority; module visibility must not imply import/export/delete/admin/destructive permissions.",
+        "Do not hardcode module feature bullets."
       ],
       "source_files_to_inspect": [
         "AGENTS.md",
@@ -3063,7 +3071,8 @@
         "bullet authority: optional manifest display_features[]",
         "Do not hardcode module cards or module feature bullets.",
         "Do not make future modules active/openable and do not make visibility equal authority.",
-        "Do not expose import/export/delete/admin/destructive authority from module visibility."
+        "Do not expose import/export/delete/admin/destructive authority from module visibility.",
+        "Do not hardcode module feature bullets."
       ],
       "dependencies": [
         "P5C-060",
@@ -3111,7 +3120,8 @@
         "Do not hardcode module cards or module feature bullets.",
         "Do not make future modules active/openable and do not make visibility equal authority.",
         "Do not expose import/export/delete/admin/destructive authority from module visibility.",
-        "Modules card is a legitimate active Phase 5B1 platform surface backed by GET /platform/modules, distinct from future business-module cards; Open Modules action is conditional on approved /modules route authority."
+        "Modules card is a legitimate active Phase 5B1 platform surface backed by GET /platform/modules, distinct from future business-module cards; Open Modules action is conditional on approved /modules route authority.",
+        "Do not hardcode module feature bullets."
       ],
       "non_scope": [
         "No Phase 6 business modules or future modules as active/openable surfaces.",
@@ -3121,7 +3131,8 @@
         "No white-label upload/write/cropper/domain branding UI.",
         "No production auth, deployment, secrets, real providers, marketplace, workflow builder, AI assistant, or runtime AI.",
         "No package or lockfile changes.",
-        "Visibility does not equal authority; module visibility must not imply import/export/delete/admin/destructive permissions."
+        "Visibility does not equal authority; module visibility must not imply import/export/delete/admin/destructive permissions.",
+        "Do not hardcode module feature bullets."
       ],
       "source_files_to_inspect": [
         "AGENTS.md",
@@ -3198,7 +3209,8 @@
         "Do not hardcode module cards or module feature bullets.",
         "Do not make future modules active/openable and do not make visibility equal authority.",
         "Do not expose import/export/delete/admin/destructive authority from module visibility.",
-        "Modules card is a legitimate active Phase 5B1 platform surface backed by GET /platform/modules, distinct from future business-module cards; Open Modules action is conditional on approved /modules route authority."
+        "Modules card is a legitimate active Phase 5B1 platform surface backed by GET /platform/modules, distinct from future business-module cards; Open Modules action is conditional on approved /modules route authority.",
+        "Do not hardcode module feature bullets."
       ],
       "dependencies": [
         "P5C-061",
