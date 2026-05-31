@@ -1,0 +1,2263 @@
+{
+  "artifact_type": "seed_matrix",
+  "status": "TRAIN_PREPLANNING_SEED_MATRIX_READY_FOR_AUDIT",
+  "train": "train_1_l1_l4",
+  "doctrine_enforcement_lines": [
+    "Implementation is not stale by itself. Tickets become stale.",
+    "Apply maximum concrete capability within the approved scope of each ticket."
+  ],
+  "execution_authorized": false,
+  "future_execution_requires": [
+    "repo_refresh",
+    "staleness_scan",
+    "dependency_refresh",
+    "ticket_pack_reaudit",
+    "predictive_stop_analysis",
+    "autonomous_readiness",
+    "explicit_human_approval"
+  ],
+  "seeds": [
+    {
+      "seed_id": "T1-G001",
+      "train": "train_1_l1_l4",
+      "level": "level_1",
+      "type": "gate_candidate",
+      "title": "Source and repo authority gate",
+      "objective": "Verify Train 1 source authority, clean repo state, and no boundary leakage.",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_platform_build_v2_phase_intent_packet.json"
+      ],
+      "adl_refs": [],
+      "scope": [
+        "Preplan Source and repo authority gate within train_1_l1_l4."
+      ],
+      "non_scope": [
+        "No execution authority.",
+        "No cross-train expansion.",
+        "No production deployment.",
+        "No production sensitive values."
+      ],
+      "expected_ticket_type": "gate",
+      "expected_outputs": [
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_repo_truth_gate_artifact.md"
+      ],
+      "likely_file_domains": [
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_repo_truth_gate_artifact.md"
+      ],
+      "forbidden_file_domains": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "prisma/migrations/** unless the active ticket explicitly lists a migration path",
+        "generated/** unless the active ticket explicitly authorizes regeneration",
+        "/Volumes/UsmanWork/Spark Genesis/**",
+        "codex-review/** tracked commits"
+      ],
+      "dependencies": [],
+      "validation_ladder": [
+        "path policy",
+        "contracts validation",
+        "lint",
+        "typecheck"
+      ],
+      "evidence_expectation": [
+        "codex-review/core/v0_0_2/spark_platform_build_v2_full_train_preplanning/train_1_l1_l4/t1-g001_evidence.json"
+      ],
+      "runtime_validation_required": false,
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime, Foundry, module installer, business modules, production auth, deployment, protected values, or destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "ticket_quality_notes": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket.",
+        "Exact-file plan required before execution.",
+        "Repo refresh required before execution."
+      ]
+    },
+    {
+      "seed_id": "T1-L1-001",
+      "train": "train_1_l1_l4",
+      "level": "level_1",
+      "type": "implementation_candidate",
+      "title": "AWS EKS non-production infrastructure scaffold",
+      "objective": "Plan IaC layout for AWS EKS, namespaces, quotas, autoscaling, and non-production environment templates.",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md"
+      ],
+      "adl_refs": [],
+      "scope": [
+        "Preplan AWS EKS non-production infrastructure scaffold within train_1_l1_l4."
+      ],
+      "non_scope": [
+        "No execution authority.",
+        "No cross-train expansion.",
+        "No production deployment.",
+        "No production sensitive values."
+      ],
+      "expected_ticket_type": "implementation",
+      "expected_outputs": [
+        "infra/terraform/aws_eks/**",
+        "infra/helm/**"
+      ],
+      "likely_file_domains": [
+        "infra/terraform/aws_eks/**",
+        "infra/helm/**"
+      ],
+      "forbidden_file_domains": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "prisma/migrations/** unless the active ticket explicitly lists a migration path",
+        "generated/** unless the active ticket explicitly authorizes regeneration",
+        "/Volumes/UsmanWork/Spark Genesis/**",
+        "codex-review/** tracked commits"
+      ],
+      "dependencies": [
+        "T1-G001"
+      ],
+      "validation_ladder": [
+        "contracts validation",
+        "lint",
+        "typecheck",
+        "targeted tests",
+        "local startup health smoke verification"
+      ],
+      "evidence_expectation": [
+        "codex-review/core/v0_0_2/spark_platform_build_v2_full_train_preplanning/train_1_l1_l4/t1-l1-001_evidence.json"
+      ],
+      "runtime_validation_required": true,
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime, Foundry, module installer, business modules, production auth, deployment, protected values, or destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "ticket_quality_notes": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket.",
+        "Exact-file plan required before execution.",
+        "Repo refresh required before execution."
+      ]
+    },
+    {
+      "seed_id": "T1-L1-002",
+      "train": "train_1_l1_l4",
+      "level": "level_1",
+      "type": "implementation_candidate",
+      "title": "Kubernetes application deployment baseline",
+      "objective": "Plan Helm, readiness, liveness, graceful shutdown, pod anti-affinity, and runtime health checks.",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md"
+      ],
+      "adl_refs": [],
+      "scope": [
+        "Preplan Kubernetes application deployment baseline within train_1_l1_l4."
+      ],
+      "non_scope": [
+        "No execution authority.",
+        "No cross-train expansion.",
+        "No production deployment.",
+        "No production sensitive values."
+      ],
+      "expected_ticket_type": "implementation",
+      "expected_outputs": [
+        "infra/helm/akti_spark/**",
+        "apps/api/src/platform-health/**"
+      ],
+      "likely_file_domains": [
+        "infra/helm/akti_spark/**",
+        "apps/api/src/platform-health/**"
+      ],
+      "forbidden_file_domains": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "prisma/migrations/** unless the active ticket explicitly lists a migration path",
+        "generated/** unless the active ticket explicitly authorizes regeneration",
+        "/Volumes/UsmanWork/Spark Genesis/**",
+        "codex-review/** tracked commits"
+      ],
+      "dependencies": [
+        "T1-L1-001"
+      ],
+      "validation_ladder": [
+        "contracts validation",
+        "lint",
+        "typecheck",
+        "targeted tests",
+        "local startup health smoke verification"
+      ],
+      "evidence_expectation": [
+        "codex-review/core/v0_0_2/spark_platform_build_v2_full_train_preplanning/train_1_l1_l4/t1-l1-002_evidence.json"
+      ],
+      "runtime_validation_required": true,
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime, Foundry, module installer, business modules, production auth, deployment, protected values, or destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "ticket_quality_notes": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket.",
+        "Exact-file plan required before execution.",
+        "Repo refresh required before execution."
+      ]
+    },
+    {
+      "seed_id": "T1-L1-003",
+      "train": "train_1_l1_l4",
+      "level": "level_1",
+      "type": "implementation_candidate",
+      "title": "CI validation and promotion guardrails",
+      "objective": "Plan CI stages for lint, tests, security scan, build, staging proof, and promotion controls without production activation.",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md"
+      ],
+      "adl_refs": [],
+      "scope": [
+        "Preplan CI validation and promotion guardrails within train_1_l1_l4."
+      ],
+      "non_scope": [
+        "No execution authority.",
+        "No cross-train expansion.",
+        "No production deployment.",
+        "No production sensitive values."
+      ],
+      "expected_ticket_type": "implementation",
+      "expected_outputs": [
+        ".github/workflows/**",
+        "docs/process/core/v0_0_2/**"
+      ],
+      "likely_file_domains": [
+        ".github/workflows/**",
+        "docs/process/core/v0_0_2/**"
+      ],
+      "forbidden_file_domains": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "prisma/migrations/** unless the active ticket explicitly lists a migration path",
+        "generated/** unless the active ticket explicitly authorizes regeneration",
+        "/Volumes/UsmanWork/Spark Genesis/**",
+        "codex-review/** tracked commits"
+      ],
+      "dependencies": [
+        "T1-L1-002"
+      ],
+      "validation_ladder": [
+        "contracts validation",
+        "lint",
+        "typecheck",
+        "targeted tests",
+        "local startup health smoke verification"
+      ],
+      "evidence_expectation": [
+        "codex-review/core/v0_0_2/spark_platform_build_v2_full_train_preplanning/train_1_l1_l4/t1-l1-003_evidence.json"
+      ],
+      "runtime_validation_required": true,
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime, Foundry, module installer, business modules, production auth, deployment, protected values, or destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "ticket_quality_notes": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket.",
+        "Exact-file plan required before execution.",
+        "Repo refresh required before execution."
+      ]
+    },
+    {
+      "seed_id": "T1-L1-004",
+      "train": "train_1_l1_l4",
+      "level": "level_1",
+      "type": "implementation_candidate",
+      "title": "Cloudflare and Route 53 edge planning scaffold",
+      "objective": "Plan Cloudflare edge, DNS, WAF, CDN, and Route 53 secondary DNS configuration templates without live activation.",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md"
+      ],
+      "adl_refs": [],
+      "scope": [
+        "Preplan Cloudflare and Route 53 edge planning scaffold within train_1_l1_l4."
+      ],
+      "non_scope": [
+        "No execution authority.",
+        "No cross-train expansion.",
+        "No production deployment.",
+        "No production sensitive values."
+      ],
+      "expected_ticket_type": "implementation",
+      "expected_outputs": [
+        "infra/cloudflare/**",
+        "infra/route53/**"
+      ],
+      "likely_file_domains": [
+        "infra/cloudflare/**",
+        "infra/route53/**"
+      ],
+      "forbidden_file_domains": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "prisma/migrations/** unless the active ticket explicitly lists a migration path",
+        "generated/** unless the active ticket explicitly authorizes regeneration",
+        "/Volumes/UsmanWork/Spark Genesis/**",
+        "codex-review/** tracked commits"
+      ],
+      "dependencies": [
+        "T1-L1-003"
+      ],
+      "validation_ladder": [
+        "contracts validation",
+        "lint",
+        "typecheck",
+        "targeted tests",
+        "local startup health smoke verification"
+      ],
+      "evidence_expectation": [
+        "codex-review/core/v0_0_2/spark_platform_build_v2_full_train_preplanning/train_1_l1_l4/t1-l1-004_evidence.json"
+      ],
+      "runtime_validation_required": true,
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime, Foundry, module installer, business modules, production auth, deployment, protected values, or destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "ticket_quality_notes": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket.",
+        "Exact-file plan required before execution.",
+        "Repo refresh required before execution."
+      ]
+    },
+    {
+      "seed_id": "T1-L1-005",
+      "train": "train_1_l1_l4",
+      "level": "level_1",
+      "type": "implementation_candidate",
+      "title": "Observability and recovery runbook foundation",
+      "objective": "Plan traces, RED telemetry, structured logs, incident runbooks, and disaster recovery drill evidence.",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md"
+      ],
+      "adl_refs": [],
+      "scope": [
+        "Preplan Observability and recovery runbook foundation within train_1_l1_l4."
+      ],
+      "non_scope": [
+        "No execution authority.",
+        "No cross-train expansion.",
+        "No production deployment.",
+        "No production sensitive values."
+      ],
+      "expected_ticket_type": "implementation",
+      "expected_outputs": [
+        "apps/api/src/platform-observability/**",
+        "docs/runbooks/**"
+      ],
+      "likely_file_domains": [
+        "apps/api/src/platform-observability/**",
+        "docs/runbooks/**"
+      ],
+      "forbidden_file_domains": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "prisma/migrations/** unless the active ticket explicitly lists a migration path",
+        "generated/** unless the active ticket explicitly authorizes regeneration",
+        "/Volumes/UsmanWork/Spark Genesis/**",
+        "codex-review/** tracked commits"
+      ],
+      "dependencies": [
+        "T1-L1-004"
+      ],
+      "validation_ladder": [
+        "contracts validation",
+        "lint",
+        "typecheck",
+        "targeted tests",
+        "local startup health smoke verification"
+      ],
+      "evidence_expectation": [
+        "codex-review/core/v0_0_2/spark_platform_build_v2_full_train_preplanning/train_1_l1_l4/t1-l1-005_evidence.json"
+      ],
+      "runtime_validation_required": true,
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime, Foundry, module installer, business modules, production auth, deployment, protected values, or destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "ticket_quality_notes": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket.",
+        "Exact-file plan required before execution.",
+        "Repo refresh required before execution."
+      ]
+    },
+    {
+      "seed_id": "T1-G010",
+      "train": "train_1_l1_l4",
+      "level": "level_1",
+      "type": "gate_candidate",
+      "title": "Level 1 gate",
+      "objective": "Verify Level 1 infrastructure planning tickets preserve lockouts and validation evidence.",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md"
+      ],
+      "adl_refs": [],
+      "scope": [
+        "Preplan Level 1 gate within train_1_l1_l4."
+      ],
+      "non_scope": [
+        "No execution authority.",
+        "No cross-train expansion.",
+        "No production deployment.",
+        "No production sensitive values."
+      ],
+      "expected_ticket_type": "gate",
+      "expected_outputs": [
+        "codex-review/core/v0_0_2/train_1_l1_gate.md"
+      ],
+      "likely_file_domains": [
+        "codex-review/core/v0_0_2/train_1_l1_gate.md"
+      ],
+      "forbidden_file_domains": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "prisma/migrations/** unless the active ticket explicitly lists a migration path",
+        "generated/** unless the active ticket explicitly authorizes regeneration",
+        "/Volumes/UsmanWork/Spark Genesis/**",
+        "codex-review/** tracked commits"
+      ],
+      "dependencies": [
+        "T1-L1-001",
+        "T1-L1-002",
+        "T1-L1-003",
+        "T1-L1-004",
+        "T1-L1-005"
+      ],
+      "validation_ladder": [
+        "path policy",
+        "contracts validation",
+        "lint",
+        "typecheck"
+      ],
+      "evidence_expectation": [
+        "codex-review/core/v0_0_2/spark_platform_build_v2_full_train_preplanning/train_1_l1_l4/t1-g010_evidence.json"
+      ],
+      "runtime_validation_required": false,
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime, Foundry, module installer, business modules, production auth, deployment, protected values, or destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "ticket_quality_notes": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket.",
+        "Exact-file plan required before execution.",
+        "Repo refresh required before execution."
+      ]
+    },
+    {
+      "seed_id": "T1-L2-001",
+      "train": "train_1_l1_l4",
+      "level": "level_2",
+      "type": "implementation_candidate",
+      "title": "SVFS contract and metadata foundation",
+      "objective": "Plan content-addressed object metadata, version refs, audit chain, and approved schema authority for cloud-native SVFS.",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md"
+      ],
+      "adl_refs": [],
+      "scope": [
+        "Preplan SVFS contract and metadata foundation within train_1_l1_l4."
+      ],
+      "non_scope": [
+        "No execution authority.",
+        "No cross-train expansion.",
+        "No production deployment.",
+        "No production sensitive values."
+      ],
+      "expected_ticket_type": "implementation",
+      "expected_outputs": [
+        "prisma/schema.prisma",
+        "packages/contracts/svfs-contract.ts",
+        "apps/api/src/file-service/**"
+      ],
+      "likely_file_domains": [
+        "prisma/schema.prisma",
+        "packages/contracts/svfs-contract.ts",
+        "apps/api/src/file-service/**"
+      ],
+      "forbidden_file_domains": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "prisma/migrations/** unless the active ticket explicitly lists a migration path",
+        "generated/** unless the active ticket explicitly authorizes regeneration",
+        "/Volumes/UsmanWork/Spark Genesis/**",
+        "codex-review/** tracked commits"
+      ],
+      "dependencies": [
+        "T1-G010"
+      ],
+      "validation_ladder": [
+        "contracts validation",
+        "lint",
+        "typecheck",
+        "targeted tests",
+        "local startup health smoke verification"
+      ],
+      "evidence_expectation": [
+        "codex-review/core/v0_0_2/spark_platform_build_v2_full_train_preplanning/train_1_l1_l4/t1-l2-001_evidence.json"
+      ],
+      "runtime_validation_required": true,
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime, Foundry, module installer, business modules, production auth, deployment, protected values, or destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "ticket_quality_notes": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket.",
+        "Exact-file plan required before execution.",
+        "Repo refresh required before execution."
+      ]
+    },
+    {
+      "seed_id": "T1-L2-002",
+      "train": "train_1_l1_l4",
+      "level": "level_2",
+      "type": "implementation_candidate",
+      "title": "Object storage adapter and signed URL boundary",
+      "objective": "Plan S3-compatible storage adapter, lifecycle policy hooks, encryption envelope, and temporary URL boundaries.",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md"
+      ],
+      "adl_refs": [],
+      "scope": [
+        "Preplan Object storage adapter and signed URL boundary within train_1_l1_l4."
+      ],
+      "non_scope": [
+        "No execution authority.",
+        "No cross-train expansion.",
+        "No production deployment.",
+        "No production sensitive values."
+      ],
+      "expected_ticket_type": "implementation",
+      "expected_outputs": [
+        "apps/api/src/file-service/**",
+        "packages/contracts/file-service-contract.ts"
+      ],
+      "likely_file_domains": [
+        "apps/api/src/file-service/**",
+        "packages/contracts/file-service-contract.ts"
+      ],
+      "forbidden_file_domains": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "prisma/migrations/** unless the active ticket explicitly lists a migration path",
+        "generated/** unless the active ticket explicitly authorizes regeneration",
+        "/Volumes/UsmanWork/Spark Genesis/**",
+        "codex-review/** tracked commits"
+      ],
+      "dependencies": [
+        "T1-L2-001"
+      ],
+      "validation_ladder": [
+        "contracts validation",
+        "lint",
+        "typecheck",
+        "targeted tests",
+        "local startup health smoke verification"
+      ],
+      "evidence_expectation": [
+        "codex-review/core/v0_0_2/spark_platform_build_v2_full_train_preplanning/train_1_l1_l4/t1-l2-002_evidence.json"
+      ],
+      "runtime_validation_required": true,
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime, Foundry, module installer, business modules, production auth, deployment, protected values, or destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "ticket_quality_notes": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket.",
+        "Exact-file plan required before execution.",
+        "Repo refresh required before execution."
+      ]
+    },
+    {
+      "seed_id": "T1-L2-003",
+      "train": "train_1_l1_l4",
+      "level": "level_2",
+      "type": "implementation_candidate",
+      "title": "Soft removal and staged permanent removal foundation",
+      "objective": "Plan reversible operational removal and delayed compliance removal with audit trails and approval gates.",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md"
+      ],
+      "adl_refs": [],
+      "scope": [
+        "Preplan Soft removal and staged permanent removal foundation within train_1_l1_l4."
+      ],
+      "non_scope": [
+        "No execution authority.",
+        "No cross-train expansion.",
+        "No production deployment.",
+        "No production sensitive values."
+      ],
+      "expected_ticket_type": "implementation",
+      "expected_outputs": [
+        "prisma/schema.prisma",
+        "apps/api/src/data-controls/**"
+      ],
+      "likely_file_domains": [
+        "prisma/schema.prisma",
+        "apps/api/src/data-controls/**"
+      ],
+      "forbidden_file_domains": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "prisma/migrations/** unless the active ticket explicitly lists a migration path",
+        "generated/** unless the active ticket explicitly authorizes regeneration",
+        "/Volumes/UsmanWork/Spark Genesis/**",
+        "codex-review/** tracked commits"
+      ],
+      "dependencies": [
+        "T1-L2-002"
+      ],
+      "validation_ladder": [
+        "contracts validation",
+        "lint",
+        "typecheck",
+        "targeted tests",
+        "local startup health smoke verification"
+      ],
+      "evidence_expectation": [
+        "codex-review/core/v0_0_2/spark_platform_build_v2_full_train_preplanning/train_1_l1_l4/t1-l2-003_evidence.json"
+      ],
+      "runtime_validation_required": true,
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime, Foundry, module installer, business modules, production auth, deployment, protected values, or destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "ticket_quality_notes": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket.",
+        "Exact-file plan required before execution.",
+        "Repo refresh required before execution."
+      ]
+    },
+    {
+      "seed_id": "T1-L2-004",
+      "train": "train_1_l1_l4",
+      "level": "level_2",
+      "type": "implementation_candidate",
+      "title": "Cloud delta sync envelope",
+      "objective": "Plan cloud-only delta packet envelope, sequence checks, idempotent application, and WebSocket delivery contract.",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md"
+      ],
+      "adl_refs": [],
+      "scope": [
+        "Preplan Cloud delta sync envelope within train_1_l1_l4."
+      ],
+      "non_scope": [
+        "No execution authority.",
+        "No cross-train expansion.",
+        "No production deployment.",
+        "No production sensitive values."
+      ],
+      "expected_ticket_type": "implementation",
+      "expected_outputs": [
+        "packages/contracts/sync-contract.ts",
+        "apps/api/src/sync/**"
+      ],
+      "likely_file_domains": [
+        "packages/contracts/sync-contract.ts",
+        "apps/api/src/sync/**"
+      ],
+      "forbidden_file_domains": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "prisma/migrations/** unless the active ticket explicitly lists a migration path",
+        "generated/** unless the active ticket explicitly authorizes regeneration",
+        "/Volumes/UsmanWork/Spark Genesis/**",
+        "codex-review/** tracked commits"
+      ],
+      "dependencies": [
+        "T1-L2-003"
+      ],
+      "validation_ladder": [
+        "contracts validation",
+        "lint",
+        "typecheck",
+        "targeted tests",
+        "local startup health smoke verification"
+      ],
+      "evidence_expectation": [
+        "codex-review/core/v0_0_2/spark_platform_build_v2_full_train_preplanning/train_1_l1_l4/t1-l2-004_evidence.json"
+      ],
+      "runtime_validation_required": true,
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime, Foundry, module installer, business modules, production auth, deployment, protected values, or destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "ticket_quality_notes": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket.",
+        "Exact-file plan required before execution.",
+        "Repo refresh required before execution."
+      ]
+    },
+    {
+      "seed_id": "T1-L2-005",
+      "train": "train_1_l1_l4",
+      "level": "level_2",
+      "type": "implementation_candidate",
+      "title": "Backup and restore verification scaffold",
+      "objective": "Plan incremental backup verification, restore drill artifact format, and recovery evidence checks.",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md"
+      ],
+      "adl_refs": [],
+      "scope": [
+        "Preplan Backup and restore verification scaffold within train_1_l1_l4."
+      ],
+      "non_scope": [
+        "No execution authority.",
+        "No cross-train expansion.",
+        "No production deployment.",
+        "No production sensitive values."
+      ],
+      "expected_ticket_type": "implementation",
+      "expected_outputs": [
+        "apps/api/src/backup/**",
+        "docs/runbooks/backup_restore.md"
+      ],
+      "likely_file_domains": [
+        "apps/api/src/backup/**",
+        "docs/runbooks/backup_restore.md"
+      ],
+      "forbidden_file_domains": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "prisma/migrations/** unless the active ticket explicitly lists a migration path",
+        "generated/** unless the active ticket explicitly authorizes regeneration",
+        "/Volumes/UsmanWork/Spark Genesis/**",
+        "codex-review/** tracked commits"
+      ],
+      "dependencies": [
+        "T1-L2-004"
+      ],
+      "validation_ladder": [
+        "contracts validation",
+        "lint",
+        "typecheck",
+        "targeted tests",
+        "local startup health smoke verification"
+      ],
+      "evidence_expectation": [
+        "codex-review/core/v0_0_2/spark_platform_build_v2_full_train_preplanning/train_1_l1_l4/t1-l2-005_evidence.json"
+      ],
+      "runtime_validation_required": true,
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime, Foundry, module installer, business modules, production auth, deployment, protected values, or destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "ticket_quality_notes": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket.",
+        "Exact-file plan required before execution.",
+        "Repo refresh required before execution."
+      ]
+    },
+    {
+      "seed_id": "T1-L2-006",
+      "train": "train_1_l1_l4",
+      "level": "level_2",
+      "type": "implementation_candidate",
+      "title": "Image processing pipeline boundary",
+      "objective": "Plan upload validation, WebP variants, EXIF stripping, and CDN-friendly variant selection.",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md"
+      ],
+      "adl_refs": [],
+      "scope": [
+        "Preplan Image processing pipeline boundary within train_1_l1_l4."
+      ],
+      "non_scope": [
+        "No execution authority.",
+        "No cross-train expansion.",
+        "No production deployment.",
+        "No production sensitive values."
+      ],
+      "expected_ticket_type": "implementation",
+      "expected_outputs": [
+        "apps/api/src/file-service/**",
+        "packages/contracts/image-pipeline-contract.ts"
+      ],
+      "likely_file_domains": [
+        "apps/api/src/file-service/**",
+        "packages/contracts/image-pipeline-contract.ts"
+      ],
+      "forbidden_file_domains": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "prisma/migrations/** unless the active ticket explicitly lists a migration path",
+        "generated/** unless the active ticket explicitly authorizes regeneration",
+        "/Volumes/UsmanWork/Spark Genesis/**",
+        "codex-review/** tracked commits"
+      ],
+      "dependencies": [
+        "T1-L2-005"
+      ],
+      "validation_ladder": [
+        "contracts validation",
+        "lint",
+        "typecheck",
+        "targeted tests",
+        "local startup health smoke verification"
+      ],
+      "evidence_expectation": [
+        "codex-review/core/v0_0_2/spark_platform_build_v2_full_train_preplanning/train_1_l1_l4/t1-l2-006_evidence.json"
+      ],
+      "runtime_validation_required": true,
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime, Foundry, module installer, business modules, production auth, deployment, protected values, or destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "ticket_quality_notes": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket.",
+        "Exact-file plan required before execution.",
+        "Repo refresh required before execution."
+      ]
+    },
+    {
+      "seed_id": "T1-G020",
+      "train": "train_1_l1_l4",
+      "level": "level_2",
+      "type": "gate_candidate",
+      "title": "Level 2 gate",
+      "objective": "Verify Level 2 remains cloud-native and excludes desktop/mobile/P2P execution scope.",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md"
+      ],
+      "adl_refs": [],
+      "scope": [
+        "Preplan Level 2 gate within train_1_l1_l4."
+      ],
+      "non_scope": [
+        "No execution authority.",
+        "No cross-train expansion.",
+        "No production deployment.",
+        "No production sensitive values."
+      ],
+      "expected_ticket_type": "gate",
+      "expected_outputs": [
+        "codex-review/core/v0_0_2/train_1_l2_gate.md"
+      ],
+      "likely_file_domains": [
+        "codex-review/core/v0_0_2/train_1_l2_gate.md"
+      ],
+      "forbidden_file_domains": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "prisma/migrations/** unless the active ticket explicitly lists a migration path",
+        "generated/** unless the active ticket explicitly authorizes regeneration",
+        "/Volumes/UsmanWork/Spark Genesis/**",
+        "codex-review/** tracked commits"
+      ],
+      "dependencies": [
+        "T1-L2-001",
+        "T1-L2-002",
+        "T1-L2-003",
+        "T1-L2-004",
+        "T1-L2-005",
+        "T1-L2-006"
+      ],
+      "validation_ladder": [
+        "path policy",
+        "contracts validation",
+        "lint",
+        "typecheck"
+      ],
+      "evidence_expectation": [
+        "codex-review/core/v0_0_2/spark_platform_build_v2_full_train_preplanning/train_1_l1_l4/t1-g020_evidence.json"
+      ],
+      "runtime_validation_required": false,
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime, Foundry, module installer, business modules, production auth, deployment, protected values, or destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "ticket_quality_notes": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket.",
+        "Exact-file plan required before execution.",
+        "Repo refresh required before execution."
+      ]
+    },
+    {
+      "seed_id": "T1-L3-001",
+      "train": "train_1_l1_l4",
+      "level": "level_3",
+      "type": "implementation_candidate",
+      "title": "Auth session foundation",
+      "objective": "Plan access/refresh token lifecycle, rotation, idle timeout, and session invalidation behavior.",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md"
+      ],
+      "adl_refs": [],
+      "scope": [
+        "Preplan Auth session foundation within train_1_l1_l4."
+      ],
+      "non_scope": [
+        "No execution authority.",
+        "No cross-train expansion.",
+        "No production deployment.",
+        "No production sensitive values."
+      ],
+      "expected_ticket_type": "implementation",
+      "expected_outputs": [
+        "apps/api/src/auth/**",
+        "packages/contracts/auth-session-contract.ts"
+      ],
+      "likely_file_domains": [
+        "apps/api/src/auth/**",
+        "packages/contracts/auth-session-contract.ts"
+      ],
+      "forbidden_file_domains": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "prisma/migrations/** unless the active ticket explicitly lists a migration path",
+        "generated/** unless the active ticket explicitly authorizes regeneration",
+        "/Volumes/UsmanWork/Spark Genesis/**",
+        "codex-review/** tracked commits"
+      ],
+      "dependencies": [
+        "T1-G020"
+      ],
+      "validation_ladder": [
+        "contracts validation",
+        "lint",
+        "typecheck",
+        "targeted tests",
+        "local startup health smoke verification"
+      ],
+      "evidence_expectation": [
+        "codex-review/core/v0_0_2/spark_platform_build_v2_full_train_preplanning/train_1_l1_l4/t1-l3-001_evidence.json"
+      ],
+      "runtime_validation_required": true,
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime, Foundry, module installer, business modules, production auth, deployment, protected values, or destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "ticket_quality_notes": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket.",
+        "Exact-file plan required before execution.",
+        "Repo refresh required before execution."
+      ]
+    },
+    {
+      "seed_id": "T1-L3-002",
+      "train": "train_1_l1_l4",
+      "level": "level_3",
+      "type": "implementation_candidate",
+      "title": "MFA and trusted-device foundation",
+      "objective": "Plan TOTP, OTP channel boundaries, backup codes, trusted devices, and reset approval evidence.",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md"
+      ],
+      "adl_refs": [],
+      "scope": [
+        "Preplan MFA and trusted-device foundation within train_1_l1_l4."
+      ],
+      "non_scope": [
+        "No execution authority.",
+        "No cross-train expansion.",
+        "No production deployment.",
+        "No production sensitive values."
+      ],
+      "expected_ticket_type": "implementation",
+      "expected_outputs": [
+        "apps/api/src/auth/**",
+        "packages/contracts/mfa-contract.ts"
+      ],
+      "likely_file_domains": [
+        "apps/api/src/auth/**",
+        "packages/contracts/mfa-contract.ts"
+      ],
+      "forbidden_file_domains": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "prisma/migrations/** unless the active ticket explicitly lists a migration path",
+        "generated/** unless the active ticket explicitly authorizes regeneration",
+        "/Volumes/UsmanWork/Spark Genesis/**",
+        "codex-review/** tracked commits"
+      ],
+      "dependencies": [
+        "T1-L3-001"
+      ],
+      "validation_ladder": [
+        "contracts validation",
+        "lint",
+        "typecheck",
+        "targeted tests",
+        "local startup health smoke verification"
+      ],
+      "evidence_expectation": [
+        "codex-review/core/v0_0_2/spark_platform_build_v2_full_train_preplanning/train_1_l1_l4/t1-l3-002_evidence.json"
+      ],
+      "runtime_validation_required": true,
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime, Foundry, module installer, business modules, production auth, deployment, protected values, or destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "ticket_quality_notes": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket.",
+        "Exact-file plan required before execution.",
+        "Repo refresh required before execution."
+      ]
+    },
+    {
+      "seed_id": "T1-L3-003",
+      "train": "train_1_l1_l4",
+      "level": "level_3",
+      "type": "implementation_candidate",
+      "title": "Password and reset controls",
+      "objective": "Plan password policy, common-password check, progressive delay, reset expiry, and audit evidence.",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md"
+      ],
+      "adl_refs": [],
+      "scope": [
+        "Preplan Password and reset controls within train_1_l1_l4."
+      ],
+      "non_scope": [
+        "No execution authority.",
+        "No cross-train expansion.",
+        "No production deployment.",
+        "No production sensitive values."
+      ],
+      "expected_ticket_type": "implementation",
+      "expected_outputs": [
+        "apps/api/src/auth/**",
+        "packages/contracts/password-policy-contract.ts"
+      ],
+      "likely_file_domains": [
+        "apps/api/src/auth/**",
+        "packages/contracts/password-policy-contract.ts"
+      ],
+      "forbidden_file_domains": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "prisma/migrations/** unless the active ticket explicitly lists a migration path",
+        "generated/** unless the active ticket explicitly authorizes regeneration",
+        "/Volumes/UsmanWork/Spark Genesis/**",
+        "codex-review/** tracked commits"
+      ],
+      "dependencies": [
+        "T1-L3-002"
+      ],
+      "validation_ladder": [
+        "contracts validation",
+        "lint",
+        "typecheck",
+        "targeted tests",
+        "local startup health smoke verification"
+      ],
+      "evidence_expectation": [
+        "codex-review/core/v0_0_2/spark_platform_build_v2_full_train_preplanning/train_1_l1_l4/t1-l3-003_evidence.json"
+      ],
+      "runtime_validation_required": true,
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime, Foundry, module installer, business modules, production auth, deployment, protected values, or destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "ticket_quality_notes": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket.",
+        "Exact-file plan required before execution.",
+        "Repo refresh required before execution."
+      ]
+    },
+    {
+      "seed_id": "T1-L3-004",
+      "train": "train_1_l1_l4",
+      "level": "level_3",
+      "type": "implementation_candidate",
+      "title": "Organisation and user identity APIs",
+      "objective": "Plan organisation profile, branch hierarchy, invite, status, and capability override contracts.",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md"
+      ],
+      "adl_refs": [],
+      "scope": [
+        "Preplan Organisation and user identity APIs within train_1_l1_l4."
+      ],
+      "non_scope": [
+        "No execution authority.",
+        "No cross-train expansion.",
+        "No production deployment.",
+        "No production sensitive values."
+      ],
+      "expected_ticket_type": "implementation",
+      "expected_outputs": [
+        "apps/api/src/organization-setup/**",
+        "apps/api/src/access-core/**",
+        "packages/contracts/access-core-capability-seed.contract.ts"
+      ],
+      "likely_file_domains": [
+        "apps/api/src/organization-setup/**",
+        "apps/api/src/access-core/**",
+        "packages/contracts/access-core-capability-seed.contract.ts"
+      ],
+      "forbidden_file_domains": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "prisma/migrations/** unless the active ticket explicitly lists a migration path",
+        "generated/** unless the active ticket explicitly authorizes regeneration",
+        "/Volumes/UsmanWork/Spark Genesis/**",
+        "codex-review/** tracked commits"
+      ],
+      "dependencies": [
+        "T1-L3-003"
+      ],
+      "validation_ladder": [
+        "contracts validation",
+        "lint",
+        "typecheck",
+        "targeted tests",
+        "local startup health smoke verification"
+      ],
+      "evidence_expectation": [
+        "codex-review/core/v0_0_2/spark_platform_build_v2_full_train_preplanning/train_1_l1_l4/t1-l3-004_evidence.json"
+      ],
+      "runtime_validation_required": true,
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime, Foundry, module installer, business modules, production auth, deployment, protected values, or destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "ticket_quality_notes": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket.",
+        "Exact-file plan required before execution.",
+        "Repo refresh required before execution."
+      ]
+    },
+    {
+      "seed_id": "T1-L3-005",
+      "train": "train_1_l1_l4",
+      "level": "level_3",
+      "type": "implementation_candidate",
+      "title": "API key lifecycle and request logs",
+      "objective": "Plan named scoped keys, expiry overlap, renewal notifications, and request log evidence.",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md"
+      ],
+      "adl_refs": [],
+      "scope": [
+        "Preplan API key lifecycle and request logs within train_1_l1_l4."
+      ],
+      "non_scope": [
+        "No execution authority.",
+        "No cross-train expansion.",
+        "No production deployment.",
+        "No production sensitive values."
+      ],
+      "expected_ticket_type": "implementation",
+      "expected_outputs": [
+        "apps/api/src/auth/**",
+        "packages/contracts/api-key-contract.ts"
+      ],
+      "likely_file_domains": [
+        "apps/api/src/auth/**",
+        "packages/contracts/api-key-contract.ts"
+      ],
+      "forbidden_file_domains": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "prisma/migrations/** unless the active ticket explicitly lists a migration path",
+        "generated/** unless the active ticket explicitly authorizes regeneration",
+        "/Volumes/UsmanWork/Spark Genesis/**",
+        "codex-review/** tracked commits"
+      ],
+      "dependencies": [
+        "T1-L3-004"
+      ],
+      "validation_ladder": [
+        "contracts validation",
+        "lint",
+        "typecheck",
+        "targeted tests",
+        "local startup health smoke verification"
+      ],
+      "evidence_expectation": [
+        "codex-review/core/v0_0_2/spark_platform_build_v2_full_train_preplanning/train_1_l1_l4/t1-l3-005_evidence.json"
+      ],
+      "runtime_validation_required": true,
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime, Foundry, module installer, business modules, production auth, deployment, protected values, or destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "ticket_quality_notes": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket.",
+        "Exact-file plan required before execution.",
+        "Repo refresh required before execution."
+      ]
+    },
+    {
+      "seed_id": "T1-L3-006",
+      "train": "train_1_l1_l4",
+      "level": "level_3",
+      "type": "implementation_candidate",
+      "title": "Terms and consent logging",
+      "objective": "Plan ToS acceptance records and explicit marketing consent audit contracts.",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md"
+      ],
+      "adl_refs": [],
+      "scope": [
+        "Preplan Terms and consent logging within train_1_l1_l4."
+      ],
+      "non_scope": [
+        "No execution authority.",
+        "No cross-train expansion.",
+        "No production deployment.",
+        "No production sensitive values."
+      ],
+      "expected_ticket_type": "implementation",
+      "expected_outputs": [
+        "apps/api/src/auth/**",
+        "packages/contracts/consent-contract.ts"
+      ],
+      "likely_file_domains": [
+        "apps/api/src/auth/**",
+        "packages/contracts/consent-contract.ts"
+      ],
+      "forbidden_file_domains": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "prisma/migrations/** unless the active ticket explicitly lists a migration path",
+        "generated/** unless the active ticket explicitly authorizes regeneration",
+        "/Volumes/UsmanWork/Spark Genesis/**",
+        "codex-review/** tracked commits"
+      ],
+      "dependencies": [
+        "T1-L3-005"
+      ],
+      "validation_ladder": [
+        "contracts validation",
+        "lint",
+        "typecheck",
+        "targeted tests",
+        "local startup health smoke verification"
+      ],
+      "evidence_expectation": [
+        "codex-review/core/v0_0_2/spark_platform_build_v2_full_train_preplanning/train_1_l1_l4/t1-l3-006_evidence.json"
+      ],
+      "runtime_validation_required": true,
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime, Foundry, module installer, business modules, production auth, deployment, protected values, or destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "ticket_quality_notes": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket.",
+        "Exact-file plan required before execution.",
+        "Repo refresh required before execution."
+      ]
+    },
+    {
+      "seed_id": "T1-G030",
+      "train": "train_1_l1_l4",
+      "level": "level_3",
+      "type": "gate_candidate",
+      "title": "Level 3 gate",
+      "objective": "Verify auth/identity contracts preserve Access Core and tenant boundaries.",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md"
+      ],
+      "adl_refs": [],
+      "scope": [
+        "Preplan Level 3 gate within train_1_l1_l4."
+      ],
+      "non_scope": [
+        "No execution authority.",
+        "No cross-train expansion.",
+        "No production deployment.",
+        "No production sensitive values."
+      ],
+      "expected_ticket_type": "gate",
+      "expected_outputs": [
+        "codex-review/core/v0_0_2/train_1_l3_gate.md"
+      ],
+      "likely_file_domains": [
+        "codex-review/core/v0_0_2/train_1_l3_gate.md"
+      ],
+      "forbidden_file_domains": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "prisma/migrations/** unless the active ticket explicitly lists a migration path",
+        "generated/** unless the active ticket explicitly authorizes regeneration",
+        "/Volumes/UsmanWork/Spark Genesis/**",
+        "codex-review/** tracked commits"
+      ],
+      "dependencies": [
+        "T1-L3-001",
+        "T1-L3-002",
+        "T1-L3-003",
+        "T1-L3-004",
+        "T1-L3-005",
+        "T1-L3-006"
+      ],
+      "validation_ladder": [
+        "path policy",
+        "contracts validation",
+        "lint",
+        "typecheck"
+      ],
+      "evidence_expectation": [
+        "codex-review/core/v0_0_2/spark_platform_build_v2_full_train_preplanning/train_1_l1_l4/t1-g030_evidence.json"
+      ],
+      "runtime_validation_required": false,
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime, Foundry, module installer, business modules, production auth, deployment, protected values, or destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "ticket_quality_notes": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket.",
+        "Exact-file plan required before execution.",
+        "Repo refresh required before execution."
+      ]
+    },
+    {
+      "seed_id": "T1-L4-001",
+      "train": "train_1_l1_l4",
+      "level": "level_4",
+      "type": "implementation_candidate",
+      "title": "Event schema package and compatibility matrix",
+      "objective": "Plan versioned event schemas, tolerant reader policy, and compatibility matrix per ADL-002.",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_adl_complete.md"
+      ],
+      "adl_refs": [
+        "ADL-002"
+      ],
+      "scope": [
+        "Preplan Event schema package and compatibility matrix within train_1_l1_l4."
+      ],
+      "non_scope": [
+        "No execution authority.",
+        "No cross-train expansion.",
+        "No production deployment.",
+        "No production sensitive values."
+      ],
+      "expected_ticket_type": "implementation",
+      "expected_outputs": [
+        "packages/schemas/events/**",
+        "packages/schemas/compatibility.md"
+      ],
+      "likely_file_domains": [
+        "packages/schemas/events/**",
+        "packages/schemas/compatibility.md"
+      ],
+      "forbidden_file_domains": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "prisma/migrations/** unless the active ticket explicitly lists a migration path",
+        "generated/** unless the active ticket explicitly authorizes regeneration",
+        "/Volumes/UsmanWork/Spark Genesis/**",
+        "codex-review/** tracked commits"
+      ],
+      "dependencies": [
+        "T1-G030"
+      ],
+      "validation_ladder": [
+        "contracts validation",
+        "lint",
+        "typecheck",
+        "targeted tests",
+        "local startup health smoke verification"
+      ],
+      "evidence_expectation": [
+        "codex-review/core/v0_0_2/spark_platform_build_v2_full_train_preplanning/train_1_l1_l4/t1-l4-001_evidence.json"
+      ],
+      "runtime_validation_required": true,
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime, Foundry, module installer, business modules, production auth, deployment, protected values, or destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "ticket_quality_notes": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket.",
+        "Exact-file plan required before execution.",
+        "Repo refresh required before execution."
+      ]
+    },
+    {
+      "seed_id": "T1-L4-002",
+      "train": "train_1_l1_l4",
+      "level": "level_4",
+      "type": "implementation_candidate",
+      "title": "Event outbox, persistent queue, and DLQ",
+      "objective": "Plan outbox persistence, replay, DLQ operations, and Saga compensation hooks per ADL-001 and ADL-002.",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_adl_complete.md"
+      ],
+      "adl_refs": [
+        "ADL-001",
+        "ADL-002"
+      ],
+      "scope": [
+        "Preplan Event outbox, persistent queue, and DLQ within train_1_l1_l4."
+      ],
+      "non_scope": [
+        "No execution authority.",
+        "No cross-train expansion.",
+        "No production deployment.",
+        "No production sensitive values."
+      ],
+      "expected_ticket_type": "implementation",
+      "expected_outputs": [
+        "apps/api/src/platform-observability/**",
+        "prisma/schema.prisma"
+      ],
+      "likely_file_domains": [
+        "apps/api/src/platform-observability/**",
+        "prisma/schema.prisma"
+      ],
+      "forbidden_file_domains": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "prisma/migrations/** unless the active ticket explicitly lists a migration path",
+        "generated/** unless the active ticket explicitly authorizes regeneration",
+        "/Volumes/UsmanWork/Spark Genesis/**",
+        "codex-review/** tracked commits"
+      ],
+      "dependencies": [
+        "T1-L4-001"
+      ],
+      "validation_ladder": [
+        "contracts validation",
+        "lint",
+        "typecheck",
+        "targeted tests",
+        "local startup health smoke verification"
+      ],
+      "evidence_expectation": [
+        "codex-review/core/v0_0_2/spark_platform_build_v2_full_train_preplanning/train_1_l1_l4/t1-l4-002_evidence.json"
+      ],
+      "runtime_validation_required": true,
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime, Foundry, module installer, business modules, production auth, deployment, protected values, or destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "ticket_quality_notes": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket.",
+        "Exact-file plan required before execution.",
+        "Repo refresh required before execution."
+      ]
+    },
+    {
+      "seed_id": "T1-L4-003",
+      "train": "train_1_l1_l4",
+      "level": "level_4",
+      "type": "implementation_candidate",
+      "title": "Idempotency key service and write boundary",
+      "objective": "Plan client-supplied key enforcement, 24-hour dedupe window, and write API boundary per ADL-003.",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_adl_complete.md"
+      ],
+      "adl_refs": [
+        "ADL-003"
+      ],
+      "scope": [
+        "Preplan Idempotency key service and write boundary within train_1_l1_l4."
+      ],
+      "non_scope": [
+        "No execution authority.",
+        "No cross-train expansion.",
+        "No production deployment.",
+        "No production sensitive values."
+      ],
+      "expected_ticket_type": "implementation",
+      "expected_outputs": [
+        "apps/api/src/idempotency/**",
+        "prisma/schema.prisma"
+      ],
+      "likely_file_domains": [
+        "apps/api/src/idempotency/**",
+        "prisma/schema.prisma"
+      ],
+      "forbidden_file_domains": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "prisma/migrations/** unless the active ticket explicitly lists a migration path",
+        "generated/** unless the active ticket explicitly authorizes regeneration",
+        "/Volumes/UsmanWork/Spark Genesis/**",
+        "codex-review/** tracked commits"
+      ],
+      "dependencies": [
+        "T1-L4-002"
+      ],
+      "validation_ladder": [
+        "contracts validation",
+        "lint",
+        "typecheck",
+        "targeted tests",
+        "local startup health smoke verification"
+      ],
+      "evidence_expectation": [
+        "codex-review/core/v0_0_2/spark_platform_build_v2_full_train_preplanning/train_1_l1_l4/t1-l4-003_evidence.json"
+      ],
+      "runtime_validation_required": true,
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime, Foundry, module installer, business modules, production auth, deployment, protected values, or destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "ticket_quality_notes": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket.",
+        "Exact-file plan required before execution.",
+        "Repo refresh required before execution."
+      ]
+    },
+    {
+      "seed_id": "T1-L4-004",
+      "train": "train_1_l1_l4",
+      "level": "level_4",
+      "type": "implementation_candidate",
+      "title": "Communication gateway opt-out registry",
+      "objective": "Plan gateway-owned opt-out enforcement, send log, and re-opt-in contract per ADL-004.",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_adl_complete.md"
+      ],
+      "adl_refs": [
+        "ADL-004"
+      ],
+      "scope": [
+        "Preplan Communication gateway opt-out registry within train_1_l1_l4."
+      ],
+      "non_scope": [
+        "No execution authority.",
+        "No cross-train expansion.",
+        "No production deployment.",
+        "No production sensitive values."
+      ],
+      "expected_ticket_type": "implementation",
+      "expected_outputs": [
+        "apps/api/src/engagement-gateway/**",
+        "prisma/schema.prisma",
+        "packages/contracts/engagement-gateway-lite.contract.ts"
+      ],
+      "likely_file_domains": [
+        "apps/api/src/engagement-gateway/**",
+        "prisma/schema.prisma",
+        "packages/contracts/engagement-gateway-lite.contract.ts"
+      ],
+      "forbidden_file_domains": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "prisma/migrations/** unless the active ticket explicitly lists a migration path",
+        "generated/** unless the active ticket explicitly authorizes regeneration",
+        "/Volumes/UsmanWork/Spark Genesis/**",
+        "codex-review/** tracked commits"
+      ],
+      "dependencies": [
+        "T1-L4-003"
+      ],
+      "validation_ladder": [
+        "contracts validation",
+        "lint",
+        "typecheck",
+        "targeted tests",
+        "local startup health smoke verification"
+      ],
+      "evidence_expectation": [
+        "codex-review/core/v0_0_2/spark_platform_build_v2_full_train_preplanning/train_1_l1_l4/t1-l4-004_evidence.json"
+      ],
+      "runtime_validation_required": true,
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime, Foundry, module installer, business modules, production auth, deployment, protected values, or destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "ticket_quality_notes": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket.",
+        "Exact-file plan required before execution.",
+        "Repo refresh required before execution."
+      ]
+    },
+    {
+      "seed_id": "T1-L4-005",
+      "train": "train_1_l1_l4",
+      "level": "level_4",
+      "type": "implementation_candidate",
+      "title": "Notification engine provider boundary",
+      "objective": "Plan channel preferences, retry behavior, quiet hours, digest policy, and gateway routing.",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md"
+      ],
+      "adl_refs": [],
+      "scope": [
+        "Preplan Notification engine provider boundary within train_1_l1_l4."
+      ],
+      "non_scope": [
+        "No execution authority.",
+        "No cross-train expansion.",
+        "No production deployment.",
+        "No production sensitive values."
+      ],
+      "expected_ticket_type": "implementation",
+      "expected_outputs": [
+        "apps/api/src/notifications/**",
+        "packages/contracts/notification-contract.ts"
+      ],
+      "likely_file_domains": [
+        "apps/api/src/notifications/**",
+        "packages/contracts/notification-contract.ts"
+      ],
+      "forbidden_file_domains": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "prisma/migrations/** unless the active ticket explicitly lists a migration path",
+        "generated/** unless the active ticket explicitly authorizes regeneration",
+        "/Volumes/UsmanWork/Spark Genesis/**",
+        "codex-review/** tracked commits"
+      ],
+      "dependencies": [
+        "T1-L4-004"
+      ],
+      "validation_ladder": [
+        "contracts validation",
+        "lint",
+        "typecheck",
+        "targeted tests",
+        "local startup health smoke verification"
+      ],
+      "evidence_expectation": [
+        "codex-review/core/v0_0_2/spark_platform_build_v2_full_train_preplanning/train_1_l1_l4/t1-l4-005_evidence.json"
+      ],
+      "runtime_validation_required": true,
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime, Foundry, module installer, business modules, production auth, deployment, protected values, or destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "ticket_quality_notes": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket.",
+        "Exact-file plan required before execution.",
+        "Repo refresh required before execution."
+      ]
+    },
+    {
+      "seed_id": "T1-L4-006",
+      "train": "train_1_l1_l4",
+      "level": "level_4",
+      "type": "implementation_candidate",
+      "title": "Search baseline",
+      "objective": "Plan PostgreSQL FTS baseline, index ownership, fallback behavior, and result contract.",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md"
+      ],
+      "adl_refs": [],
+      "scope": [
+        "Preplan Search baseline within train_1_l1_l4."
+      ],
+      "non_scope": [
+        "No execution authority.",
+        "No cross-train expansion.",
+        "No production deployment.",
+        "No production sensitive values."
+      ],
+      "expected_ticket_type": "implementation",
+      "expected_outputs": [
+        "apps/api/src/search/**",
+        "packages/contracts/search-contract.ts"
+      ],
+      "likely_file_domains": [
+        "apps/api/src/search/**",
+        "packages/contracts/search-contract.ts"
+      ],
+      "forbidden_file_domains": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "prisma/migrations/** unless the active ticket explicitly lists a migration path",
+        "generated/** unless the active ticket explicitly authorizes regeneration",
+        "/Volumes/UsmanWork/Spark Genesis/**",
+        "codex-review/** tracked commits"
+      ],
+      "dependencies": [
+        "T1-L4-005"
+      ],
+      "validation_ladder": [
+        "contracts validation",
+        "lint",
+        "typecheck",
+        "targeted tests",
+        "local startup health smoke verification"
+      ],
+      "evidence_expectation": [
+        "codex-review/core/v0_0_2/spark_platform_build_v2_full_train_preplanning/train_1_l1_l4/t1-l4-006_evidence.json"
+      ],
+      "runtime_validation_required": true,
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime, Foundry, module installer, business modules, production auth, deployment, protected values, or destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "ticket_quality_notes": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket.",
+        "Exact-file plan required before execution.",
+        "Repo refresh required before execution."
+      ]
+    },
+    {
+      "seed_id": "T1-L4-007",
+      "train": "train_1_l1_l4",
+      "level": "level_4",
+      "type": "implementation_candidate",
+      "title": "File scan and quarantine boundary",
+      "objective": "Plan upload validation, scan policy, quarantine evidence, and storage integration boundary.",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md"
+      ],
+      "adl_refs": [],
+      "scope": [
+        "Preplan File scan and quarantine boundary within train_1_l1_l4."
+      ],
+      "non_scope": [
+        "No execution authority.",
+        "No cross-train expansion.",
+        "No production deployment.",
+        "No production sensitive values."
+      ],
+      "expected_ticket_type": "implementation",
+      "expected_outputs": [
+        "apps/api/src/file-service/**",
+        "packages/contracts/file-service-contract.ts"
+      ],
+      "likely_file_domains": [
+        "apps/api/src/file-service/**",
+        "packages/contracts/file-service-contract.ts"
+      ],
+      "forbidden_file_domains": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "prisma/migrations/** unless the active ticket explicitly lists a migration path",
+        "generated/** unless the active ticket explicitly authorizes regeneration",
+        "/Volumes/UsmanWork/Spark Genesis/**",
+        "codex-review/** tracked commits"
+      ],
+      "dependencies": [
+        "T1-L4-006"
+      ],
+      "validation_ladder": [
+        "contracts validation",
+        "lint",
+        "typecheck",
+        "targeted tests",
+        "local startup health smoke verification"
+      ],
+      "evidence_expectation": [
+        "codex-review/core/v0_0_2/spark_platform_build_v2_full_train_preplanning/train_1_l1_l4/t1-l4-007_evidence.json"
+      ],
+      "runtime_validation_required": true,
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime, Foundry, module installer, business modules, production auth, deployment, protected values, or destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "ticket_quality_notes": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket.",
+        "Exact-file plan required before execution.",
+        "Repo refresh required before execution."
+      ]
+    },
+    {
+      "seed_id": "T1-L4-008",
+      "train": "train_1_l1_l4",
+      "level": "level_4",
+      "type": "implementation_candidate",
+      "title": "AI proxy classification and cost cap boundary",
+      "objective": "Plan request classification, monthly cap enforcement, audit trail, and provider-disabled behavior.",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md"
+      ],
+      "adl_refs": [],
+      "scope": [
+        "Preplan AI proxy classification and cost cap boundary within train_1_l1_l4."
+      ],
+      "non_scope": [
+        "No execution authority.",
+        "No cross-train expansion.",
+        "No production deployment.",
+        "No production sensitive values."
+      ],
+      "expected_ticket_type": "implementation",
+      "expected_outputs": [
+        "apps/api/src/ai-proxy/**",
+        "packages/contracts/ai-proxy-contract.ts"
+      ],
+      "likely_file_domains": [
+        "apps/api/src/ai-proxy/**",
+        "packages/contracts/ai-proxy-contract.ts"
+      ],
+      "forbidden_file_domains": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "prisma/migrations/** unless the active ticket explicitly lists a migration path",
+        "generated/** unless the active ticket explicitly authorizes regeneration",
+        "/Volumes/UsmanWork/Spark Genesis/**",
+        "codex-review/** tracked commits"
+      ],
+      "dependencies": [
+        "T1-L4-007"
+      ],
+      "validation_ladder": [
+        "contracts validation",
+        "lint",
+        "typecheck",
+        "targeted tests",
+        "local startup health smoke verification"
+      ],
+      "evidence_expectation": [
+        "codex-review/core/v0_0_2/spark_platform_build_v2_full_train_preplanning/train_1_l1_l4/t1-l4-008_evidence.json"
+      ],
+      "runtime_validation_required": true,
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime, Foundry, module installer, business modules, production auth, deployment, protected values, or destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "ticket_quality_notes": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket.",
+        "Exact-file plan required before execution.",
+        "Repo refresh required before execution."
+      ]
+    },
+    {
+      "seed_id": "T1-L4-009",
+      "train": "train_1_l1_l4",
+      "level": "level_4",
+      "type": "implementation_candidate",
+      "title": "Tamper-evident audit log",
+      "objective": "Plan append-only audit chain, sensitive-field redaction, and verification evidence.",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md"
+      ],
+      "adl_refs": [],
+      "scope": [
+        "Preplan Tamper-evident audit log within train_1_l1_l4."
+      ],
+      "non_scope": [
+        "No execution authority.",
+        "No cross-train expansion.",
+        "No production deployment.",
+        "No production sensitive values."
+      ],
+      "expected_ticket_type": "implementation",
+      "expected_outputs": [
+        "apps/api/src/platform-observability/**",
+        "packages/contracts/audit-log-contract.ts"
+      ],
+      "likely_file_domains": [
+        "apps/api/src/platform-observability/**",
+        "packages/contracts/audit-log-contract.ts"
+      ],
+      "forbidden_file_domains": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "prisma/migrations/** unless the active ticket explicitly lists a migration path",
+        "generated/** unless the active ticket explicitly authorizes regeneration",
+        "/Volumes/UsmanWork/Spark Genesis/**",
+        "codex-review/** tracked commits"
+      ],
+      "dependencies": [
+        "T1-L4-008"
+      ],
+      "validation_ladder": [
+        "contracts validation",
+        "lint",
+        "typecheck",
+        "targeted tests",
+        "local startup health smoke verification"
+      ],
+      "evidence_expectation": [
+        "codex-review/core/v0_0_2/spark_platform_build_v2_full_train_preplanning/train_1_l1_l4/t1-l4-009_evidence.json"
+      ],
+      "runtime_validation_required": true,
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime, Foundry, module installer, business modules, production auth, deployment, protected values, or destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "ticket_quality_notes": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket.",
+        "Exact-file plan required before execution.",
+        "Repo refresh required before execution."
+      ]
+    },
+    {
+      "seed_id": "T1-L4-010",
+      "train": "train_1_l1_l4",
+      "level": "level_4",
+      "type": "implementation_candidate",
+      "title": "Webhook management",
+      "objective": "Plan webhook registration, delivery retry, signing, disable behavior, and audit evidence.",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md"
+      ],
+      "adl_refs": [],
+      "scope": [
+        "Preplan Webhook management within train_1_l1_l4."
+      ],
+      "non_scope": [
+        "No execution authority.",
+        "No cross-train expansion.",
+        "No production deployment.",
+        "No production sensitive values."
+      ],
+      "expected_ticket_type": "implementation",
+      "expected_outputs": [
+        "apps/api/src/webhooks/**",
+        "packages/contracts/webhook-contract.ts"
+      ],
+      "likely_file_domains": [
+        "apps/api/src/webhooks/**",
+        "packages/contracts/webhook-contract.ts"
+      ],
+      "forbidden_file_domains": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "prisma/migrations/** unless the active ticket explicitly lists a migration path",
+        "generated/** unless the active ticket explicitly authorizes regeneration",
+        "/Volumes/UsmanWork/Spark Genesis/**",
+        "codex-review/** tracked commits"
+      ],
+      "dependencies": [
+        "T1-L4-009"
+      ],
+      "validation_ladder": [
+        "contracts validation",
+        "lint",
+        "typecheck",
+        "targeted tests",
+        "local startup health smoke verification"
+      ],
+      "evidence_expectation": [
+        "codex-review/core/v0_0_2/spark_platform_build_v2_full_train_preplanning/train_1_l1_l4/t1-l4-010_evidence.json"
+      ],
+      "runtime_validation_required": true,
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime, Foundry, module installer, business modules, production auth, deployment, protected values, or destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "ticket_quality_notes": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket.",
+        "Exact-file plan required before execution.",
+        "Repo refresh required before execution."
+      ]
+    },
+    {
+      "seed_id": "T1-L4-011",
+      "train": "train_1_l1_l4",
+      "level": "level_4",
+      "type": "implementation_candidate",
+      "title": "API gateway enforcement",
+      "objective": "Plan rate limits, idempotency-header enforcement, tenant CORS allowlist, and API version headers.",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md"
+      ],
+      "adl_refs": [],
+      "scope": [
+        "Preplan API gateway enforcement within train_1_l1_l4."
+      ],
+      "non_scope": [
+        "No execution authority.",
+        "No cross-train expansion.",
+        "No production deployment.",
+        "No production sensitive values."
+      ],
+      "expected_ticket_type": "implementation",
+      "expected_outputs": [
+        "apps/api/src/api-gateway/**",
+        "packages/contracts/api-gateway-contract.ts"
+      ],
+      "likely_file_domains": [
+        "apps/api/src/api-gateway/**",
+        "packages/contracts/api-gateway-contract.ts"
+      ],
+      "forbidden_file_domains": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "prisma/migrations/** unless the active ticket explicitly lists a migration path",
+        "generated/** unless the active ticket explicitly authorizes regeneration",
+        "/Volumes/UsmanWork/Spark Genesis/**",
+        "codex-review/** tracked commits"
+      ],
+      "dependencies": [
+        "T1-L4-010"
+      ],
+      "validation_ladder": [
+        "contracts validation",
+        "lint",
+        "typecheck",
+        "targeted tests",
+        "local startup health smoke verification"
+      ],
+      "evidence_expectation": [
+        "codex-review/core/v0_0_2/spark_platform_build_v2_full_train_preplanning/train_1_l1_l4/t1-l4-011_evidence.json"
+      ],
+      "runtime_validation_required": true,
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime, Foundry, module installer, business modules, production auth, deployment, protected values, or destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "ticket_quality_notes": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket.",
+        "Exact-file plan required before execution.",
+        "Repo refresh required before execution."
+      ]
+    },
+    {
+      "seed_id": "T1-G040",
+      "train": "train_1_l1_l4",
+      "level": "level_4",
+      "type": "gate_candidate",
+      "title": "Level 4 gate",
+      "objective": "Verify ADL-001 through ADL-004 are implemented only as constraints and all platform services have evidence.",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_adl_complete.md"
+      ],
+      "adl_refs": [
+        "ADL-001",
+        "ADL-002",
+        "ADL-003",
+        "ADL-004"
+      ],
+      "scope": [
+        "Preplan Level 4 gate within train_1_l1_l4."
+      ],
+      "non_scope": [
+        "No execution authority.",
+        "No cross-train expansion.",
+        "No production deployment.",
+        "No production sensitive values."
+      ],
+      "expected_ticket_type": "gate",
+      "expected_outputs": [
+        "codex-review/core/v0_0_2/train_1_l4_gate.md"
+      ],
+      "likely_file_domains": [
+        "codex-review/core/v0_0_2/train_1_l4_gate.md"
+      ],
+      "forbidden_file_domains": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "prisma/migrations/** unless the active ticket explicitly lists a migration path",
+        "generated/** unless the active ticket explicitly authorizes regeneration",
+        "/Volumes/UsmanWork/Spark Genesis/**",
+        "codex-review/** tracked commits"
+      ],
+      "dependencies": [
+        "T1-L4-001",
+        "T1-L4-002",
+        "T1-L4-003",
+        "T1-L4-004",
+        "T1-L4-005",
+        "T1-L4-006",
+        "T1-L4-007",
+        "T1-L4-008",
+        "T1-L4-009",
+        "T1-L4-010",
+        "T1-L4-011"
+      ],
+      "validation_ladder": [
+        "path policy",
+        "contracts validation",
+        "lint",
+        "typecheck"
+      ],
+      "evidence_expectation": [
+        "codex-review/core/v0_0_2/spark_platform_build_v2_full_train_preplanning/train_1_l1_l4/t1-g040_evidence.json"
+      ],
+      "runtime_validation_required": false,
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime, Foundry, module installer, business modules, production auth, deployment, protected values, or destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "ticket_quality_notes": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket.",
+        "Exact-file plan required before execution.",
+        "Repo refresh required before execution."
+      ]
+    },
+    {
+      "seed_id": "T1-G999",
+      "train": "train_1_l1_l4",
+      "level": "level_4",
+      "type": "gate_candidate",
+      "title": "Final Train 1 gate",
+      "objective": "Verify transitive closure for Levels 1-4 before any future readiness step.",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md"
+      ],
+      "adl_refs": [
+        "ADL-001",
+        "ADL-002",
+        "ADL-003",
+        "ADL-004"
+      ],
+      "scope": [
+        "Preplan Final Train 1 gate within train_1_l1_l4."
+      ],
+      "non_scope": [
+        "No execution authority.",
+        "No cross-train expansion.",
+        "No production deployment.",
+        "No production sensitive values."
+      ],
+      "expected_ticket_type": "gate",
+      "expected_outputs": [
+        "codex-review/core/v0_0_2/train_1_final_gate.md"
+      ],
+      "likely_file_domains": [
+        "codex-review/core/v0_0_2/train_1_final_gate.md"
+      ],
+      "forbidden_file_domains": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "prisma/migrations/** unless the active ticket explicitly lists a migration path",
+        "generated/** unless the active ticket explicitly authorizes regeneration",
+        "/Volumes/UsmanWork/Spark Genesis/**",
+        "codex-review/** tracked commits"
+      ],
+      "dependencies": [
+        "T1-G010",
+        "T1-G020",
+        "T1-G030",
+        "T1-G040"
+      ],
+      "validation_ladder": [
+        "path policy",
+        "contracts validation",
+        "lint",
+        "typecheck"
+      ],
+      "evidence_expectation": [
+        "codex-review/core/v0_0_2/spark_platform_build_v2_full_train_preplanning/train_1_l1_l4/t1-g999_evidence.json"
+      ],
+      "runtime_validation_required": false,
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime, Foundry, module installer, business modules, production auth, deployment, protected values, or destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "ticket_quality_notes": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket.",
+        "Exact-file plan required before execution.",
+        "Repo refresh required before execution."
+      ]
+    }
+  ]
+}

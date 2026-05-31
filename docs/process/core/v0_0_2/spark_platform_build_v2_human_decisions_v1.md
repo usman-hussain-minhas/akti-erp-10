@@ -42,3 +42,15 @@ Long autonomous runs are allowed when tickets are repo-grounded, ordered, precis
 Train 1 Levels 1–4 is the first execution-train candidate after Genesis lifecycle planning review. This decision does not authorize ticket creation, seed matrix creation, production deployment, production secrets access, implementation work, or Train 2+ ticket generation.
 
 Train 2 through Train 5 are future candidates only. They require separate human review and approval after Train 1 control outputs, audited ticket pack, and readiness review are accepted.
+
+## Full Train 1-5 Preplanning Decision
+
+Status: ACCEPTED_FOR_PREPLANNING_ONLY
+
+Full Train 1-5 ticket preplanning is authorized now. Ticket packs and audits may be created for all trains now. No train is authorized for execution by this preplanning package.
+
+Before any train executes, its ticket pack must be refreshed against the then-current repo, audited again, run through predictive stop analysis, run through autonomous readiness, and receive explicit human approval.
+
+After manual inspection of all Train 1-5 ticket packs and audits, humans may keep the five-train model, split trains further, combine trains differently, reorder only where dependency rules allow, or revise ticket packs before readiness/execution.
+
+Ticket packs created in this package are preplanning artifacts only. They do not authorize execution.

@@ -1,0 +1,1015 @@
+{
+  "artifact_type": "ticket_pack",
+  "status": "FUTURE_DRAFT_REQUIRES_REPO_REFRESH_BEFORE_EXECUTION",
+  "train": "train_4_l13_l17",
+  "title": "Spark Platform Build v2 train_4_l13_l17 ticket pack",
+  "execution_authorized": false,
+  "predictive_stop_analysis_authorized": false,
+  "autonomous_readiness_authorized": false,
+  "doctrine_enforcement_lines": [
+    "Implementation is not stale by itself. Tickets become stale.",
+    "Apply maximum concrete capability within the approved scope of each ticket."
+  ],
+  "future_execution_requires": [
+    "repo_refresh",
+    "staleness_scan",
+    "dependency_refresh",
+    "ticket_pack_reaudit",
+    "predictive_stop_analysis",
+    "autonomous_readiness",
+    "explicit_human_approval"
+  ],
+  "future_draft_notice": "FUTURE_DRAFT_REQUIRES_REPO_REFRESH_BEFORE_EXECUTION",
+  "ordered_ticket_queue": [
+    "T4-G001",
+    "T4-L13-001",
+    "T4-L13-002",
+    "T4-L14-001",
+    "T4-L14-002",
+    "T4-L15-001",
+    "T4-L15-002",
+    "T4-L16-001",
+    "T4-L17-001",
+    "T4-G999"
+  ],
+  "tickets": [
+    {
+      "ticket_id": "T4-G001",
+      "title": "Train 4 refresh gate",
+      "type": "gate",
+      "tier": "future_draft_preplanning",
+      "priority": "gate",
+      "objective": "Verify lower trains merged and provider boundaries remain approved before advanced modules.",
+      "scope": "Verify lower trains merged and provider boundaries remain approved before advanced modules. This is a preplanning ticket for train_4_l13_l17; future execution requires explicit human approval and repo refresh. Approved future ticket authority is limited to level_13 within train_4_l13_l17.",
+      "non_scope": "No execution in this task. No production deployment. No production sensitive values. No dependency additions without explicit later approval. No cross-train expansion beyond train_4_l13_l17.",
+      "source_files_to_inspect": [
+        "AGENTS.md",
+        "docs/doctrine/AKTI_ERP_Ticket_Quality_Doctrine_v1.md",
+        "docs/doctrine/AKTI_ERP_Failure_Prevention_Codex_Operating_Doctrine_v1.json",
+        "docs/process/core/v0_0_2/spark_plan_v2.md",
+        "docs/process/core/v0_0_2/spark_adl_complete.md",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_phase_intent_packet.json",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_human_decisions_v1.md"
+      ],
+      "files_expected_to_change": [
+        "codex-review/core/v0_0_2/train_4_refresh_gate.md"
+      ],
+      "files_forbidden_to_change": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "prisma/migrations/** unless the active ticket explicitly lists a migration path",
+        "generated/** unless the active ticket explicitly authorizes regeneration",
+        "/Volumes/UsmanWork/Spark Genesis/**",
+        "codex-review/** tracked commits",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_**",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_2_l5_**",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_**",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_5_l18_**"
+      ],
+      "required_outputs": [
+        "Gate result artifact for T4-G001",
+        "PASS/WARN/STOP finding list",
+        "Evidence that dependencies are complete before this gate closes"
+      ],
+      "evidence_artifacts": [
+        "codex-review/core/v0_0_2/spark_platform_build_v2_full_train_preplanning/train_4_l13_l17/t4-g001_evidence.json"
+      ],
+      "tests_required": [
+        "Contract/path validation evidence",
+        "Gate closure evidence"
+      ],
+      "validation_commands": [
+        "node scripts/quality/check_lower_snake_case_paths.mjs",
+        "pnpm contracts:validate",
+        "pnpm lint",
+        "pnpm typecheck",
+        "git diff --check",
+        "git status --short --branch",
+        "local startup health smoke verification recorded when gate covers runtime-sensitive tickets"
+      ],
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime, Foundry, module installer, business modules, production auth, deployment, protected values, or destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "acceptance_criteria": [
+        "T4-G001 records PASS or WARN-with-named-risk only after all dependencies provide evidence.",
+        "No STOP/high finding remains unresolved.",
+        "Gate closure references every dependency and produced evidence artifact.",
+        "Runtime-sensitive dependencies have local startup health smoke verification evidence or documented future-refresh requirement."
+      ],
+      "dependencies": [],
+      "commit_message": "train preplanning: train 4 refresh gate",
+      "rollback_notes": "Revert the future ticket commit for T4-G001; no production data migration or deployment authority is granted by this preplanning pack.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Required if exact-file planning reveals forbidden files, missing source authority, dependency drift, or train-boundary leakage.",
+      "stale_ticket_risk_notes": "Before execution, refresh against current main, re-run staleness scan, re-audit dependencies, and obtain explicit human approval.",
+      "runtime_consistency_chain": "Repo truth scan -> train_4_l13_l17 control plan -> seed matrix -> ticket pack -> ticket-pack audit -> future predictive stop analysis -> future autonomous readiness -> human approval.",
+      "minimum_concrete_requirement": "T4-G001 gate artifact records PASS/WARN/STOP and lists dependency evidence by ticket id.",
+      "split_if": [
+        "Split if work creates multiple runtime subsystems.",
+        "Split if schema/contracts and runtime implementation are not narrowly coupled.",
+        "Split if validation ladders are unrelated.",
+        "Split if file ownership overlaps another ticket."
+      ],
+      "requires_human_approval_if": [
+        "Any dependency addition is needed.",
+        "Any production deployment or production sensitive value is needed.",
+        "Any architecture choice is not already committed.",
+        "Any cross-train scope is required."
+      ],
+      "failure_classification": "STOP for source authority conflict, train-boundary leakage, protected-value requirement, unresolved high audit finding, or validation failure after bounded repair.",
+      "seed_traceability": [
+        "T4-G001"
+      ],
+      "adl_refs": []
+    },
+    {
+      "ticket_id": "T4-L13-001",
+      "title": "Campaign audience and channel foundation",
+      "type": "implementation",
+      "tier": "future_draft_preplanning",
+      "priority": "high",
+      "objective": "Plan audience segmentation, suppression routing, templates, attribution evidence, and gateway-only channel sends.",
+      "scope": "Plan audience segmentation, suppression routing, templates, attribution evidence, and gateway-only channel sends. This is a preplanning ticket for train_4_l13_l17; future execution requires explicit human approval and repo refresh. Approved future ticket authority is limited to level_13 within train_4_l13_l17.",
+      "non_scope": "No execution in this task. No production deployment. No production sensitive values. No dependency additions without explicit later approval. No cross-train expansion beyond train_4_l13_l17.",
+      "source_files_to_inspect": [
+        "AGENTS.md",
+        "docs/doctrine/AKTI_ERP_Ticket_Quality_Doctrine_v1.md",
+        "docs/doctrine/AKTI_ERP_Failure_Prevention_Codex_Operating_Doctrine_v1.json",
+        "docs/process/core/v0_0_2/spark_plan_v2.md",
+        "docs/process/core/v0_0_2/spark_adl_complete.md",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_phase_intent_packet.json",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_human_decisions_v1.md"
+      ],
+      "files_expected_to_change": [
+        "apps/api/src/campaigns/**",
+        "packages/contracts/campaigns-contract.ts",
+        "prisma/schema.prisma"
+      ],
+      "files_forbidden_to_change": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "prisma/migrations/** unless the active ticket explicitly lists a migration path",
+        "generated/** unless the active ticket explicitly authorizes regeneration",
+        "/Volumes/UsmanWork/Spark Genesis/**",
+        "codex-review/** tracked commits",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_**",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_2_l5_**",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_**",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_5_l18_**"
+      ],
+      "required_outputs": [
+        "Implemented future artifact set for T4-L13-001",
+        "Tests or validation evidence for the named behavior",
+        "Ticket-local run evidence"
+      ],
+      "evidence_artifacts": [
+        "codex-review/core/v0_0_2/spark_platform_build_v2_full_train_preplanning/train_4_l13_l17/t4-l13-001_evidence.json"
+      ],
+      "tests_required": [
+        "Focused unit/integration tests for affected boundary",
+        "Negative tenant or permission tests where tenant scoped data is touched",
+        "Local startup health smoke verification evidence"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test --filter api",
+        "local startup health smoke verification recorded for affected service boundary",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime, Foundry, module installer, business modules, production auth, deployment, protected values, or destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "acceptance_criteria": [
+        "T4-L13-001 produces observable runtime behavior, CI command result, named artifact, negative test, or measured target described in the MCR.",
+        "All validations pass, including local startup health smoke verification when a runtime boundary is touched.",
+        "No train-boundary or protected-value scope is introduced."
+      ],
+      "dependencies": [
+        "T4-G001"
+      ],
+      "commit_message": "train preplanning: campaign audience and channel foundation",
+      "rollback_notes": "Revert the future ticket commit for T4-L13-001; no production data migration or deployment authority is granted by this preplanning pack.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Required if exact-file planning reveals forbidden files, missing source authority, dependency drift, or train-boundary leakage.",
+      "stale_ticket_risk_notes": "Before execution, refresh against current main, re-run staleness scan, re-audit dependencies, and obtain explicit human approval.",
+      "runtime_consistency_chain": "Repo truth scan -> train_4_l13_l17 control plan -> seed matrix -> ticket pack -> ticket-pack audit -> future predictive stop analysis -> future autonomous readiness -> human approval.",
+      "minimum_concrete_requirement": "T4-L13-001 proves the planned behavior through named artifact codex-review/core/v0_0_2/spark_platform_build_v2_full_train_preplanning/train_4_l13_l17/t4-l13-001_evidence.json plus CI command results; documentation alone is not sufficient.",
+      "split_if": [
+        "Split if work creates multiple runtime subsystems.",
+        "Split if schema/contracts and runtime implementation are not narrowly coupled.",
+        "Split if validation ladders are unrelated.",
+        "Split if file ownership overlaps another ticket."
+      ],
+      "requires_human_approval_if": [
+        "Any dependency addition is needed.",
+        "Any production deployment or production sensitive value is needed.",
+        "Any architecture choice is not already committed.",
+        "Any cross-train scope is required."
+      ],
+      "failure_classification": "STOP for source authority conflict, train-boundary leakage, protected-value requirement, unresolved high audit finding, or validation failure after bounded repair.",
+      "seed_traceability": [
+        "T4-L13-001"
+      ],
+      "adl_refs": []
+    },
+    {
+      "ticket_id": "T4-L13-002",
+      "title": "Campaign automation and provider boundary",
+      "type": "implementation",
+      "tier": "future_draft_preplanning",
+      "priority": "high",
+      "objective": "Plan sequences, schedule rules, provider-disabled behavior, and audit logs without live provider activation.",
+      "scope": "Plan sequences, schedule rules, provider-disabled behavior, and audit logs without live provider activation. This is a preplanning ticket for train_4_l13_l17; future execution requires explicit human approval and repo refresh. Approved future ticket authority is limited to level_13 within train_4_l13_l17.",
+      "non_scope": "No execution in this task. No production deployment. No production sensitive values. No dependency additions without explicit later approval. No cross-train expansion beyond train_4_l13_l17.",
+      "source_files_to_inspect": [
+        "AGENTS.md",
+        "docs/doctrine/AKTI_ERP_Ticket_Quality_Doctrine_v1.md",
+        "docs/doctrine/AKTI_ERP_Failure_Prevention_Codex_Operating_Doctrine_v1.json",
+        "docs/process/core/v0_0_2/spark_plan_v2.md",
+        "docs/process/core/v0_0_2/spark_adl_complete.md",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_phase_intent_packet.json",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_human_decisions_v1.md"
+      ],
+      "files_expected_to_change": [
+        "apps/api/src/campaigns/**",
+        "packages/contracts/campaign-automation-contract.ts"
+      ],
+      "files_forbidden_to_change": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "prisma/migrations/** unless the active ticket explicitly lists a migration path",
+        "generated/** unless the active ticket explicitly authorizes regeneration",
+        "/Volumes/UsmanWork/Spark Genesis/**",
+        "codex-review/** tracked commits",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_**",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_2_l5_**",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_**",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_5_l18_**"
+      ],
+      "required_outputs": [
+        "Implemented future artifact set for T4-L13-002",
+        "Tests or validation evidence for the named behavior",
+        "Ticket-local run evidence"
+      ],
+      "evidence_artifacts": [
+        "codex-review/core/v0_0_2/spark_platform_build_v2_full_train_preplanning/train_4_l13_l17/t4-l13-002_evidence.json"
+      ],
+      "tests_required": [
+        "Focused unit/integration tests for affected boundary",
+        "Negative tenant or permission tests where tenant scoped data is touched",
+        "Local startup health smoke verification evidence"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test --filter api",
+        "local startup health smoke verification recorded for affected service boundary",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime, Foundry, module installer, business modules, production auth, deployment, protected values, or destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "acceptance_criteria": [
+        "T4-L13-002 produces observable runtime behavior, CI command result, named artifact, negative test, or measured target described in the MCR.",
+        "All validations pass, including local startup health smoke verification when a runtime boundary is touched.",
+        "No train-boundary or protected-value scope is introduced."
+      ],
+      "dependencies": [
+        "T4-L13-001"
+      ],
+      "commit_message": "train preplanning: campaign automation and provider boundary",
+      "rollback_notes": "Revert the future ticket commit for T4-L13-002; no production data migration or deployment authority is granted by this preplanning pack.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Required if exact-file planning reveals forbidden files, missing source authority, dependency drift, or train-boundary leakage.",
+      "stale_ticket_risk_notes": "Before execution, refresh against current main, re-run staleness scan, re-audit dependencies, and obtain explicit human approval.",
+      "runtime_consistency_chain": "Repo truth scan -> train_4_l13_l17 control plan -> seed matrix -> ticket pack -> ticket-pack audit -> future predictive stop analysis -> future autonomous readiness -> human approval.",
+      "minimum_concrete_requirement": "T4-L13-002 proves the planned behavior through named artifact codex-review/core/v0_0_2/spark_platform_build_v2_full_train_preplanning/train_4_l13_l17/t4-l13-002_evidence.json plus CI command results; documentation alone is not sufficient.",
+      "split_if": [
+        "Split if work creates multiple runtime subsystems.",
+        "Split if schema/contracts and runtime implementation are not narrowly coupled.",
+        "Split if validation ladders are unrelated.",
+        "Split if file ownership overlaps another ticket."
+      ],
+      "requires_human_approval_if": [
+        "Any dependency addition is needed.",
+        "Any production deployment or production sensitive value is needed.",
+        "Any architecture choice is not already committed.",
+        "Any cross-train scope is required."
+      ],
+      "failure_classification": "STOP for source authority conflict, train-boundary leakage, protected-value requirement, unresolved high audit finding, or validation failure after bounded repair.",
+      "seed_traceability": [
+        "T4-L13-002"
+      ],
+      "adl_refs": []
+    },
+    {
+      "ticket_id": "T4-L14-001",
+      "title": "E-Commerce store and checkout foundation",
+      "type": "implementation",
+      "tier": "future_draft_preplanning",
+      "priority": "high",
+      "objective": "Plan storefront catalogue reuse, cart, checkout, payment handoff, order states, and return boundaries.",
+      "scope": "Plan storefront catalogue reuse, cart, checkout, payment handoff, order states, and return boundaries. This is a preplanning ticket for train_4_l13_l17; future execution requires explicit human approval and repo refresh. Approved future ticket authority is limited to level_14 within train_4_l13_l17.",
+      "non_scope": "No execution in this task. No production deployment. No production sensitive values. No dependency additions without explicit later approval. No cross-train expansion beyond train_4_l13_l17.",
+      "source_files_to_inspect": [
+        "AGENTS.md",
+        "docs/doctrine/AKTI_ERP_Ticket_Quality_Doctrine_v1.md",
+        "docs/doctrine/AKTI_ERP_Failure_Prevention_Codex_Operating_Doctrine_v1.json",
+        "docs/process/core/v0_0_2/spark_plan_v2.md",
+        "docs/process/core/v0_0_2/spark_adl_complete.md",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_phase_intent_packet.json",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_human_decisions_v1.md"
+      ],
+      "files_expected_to_change": [
+        "apps/api/src/ecommerce/**",
+        "packages/contracts/ecommerce-contract.ts",
+        "prisma/schema.prisma"
+      ],
+      "files_forbidden_to_change": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "prisma/migrations/** unless the active ticket explicitly lists a migration path",
+        "generated/** unless the active ticket explicitly authorizes regeneration",
+        "/Volumes/UsmanWork/Spark Genesis/**",
+        "codex-review/** tracked commits",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_**",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_2_l5_**",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_**",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_5_l18_**"
+      ],
+      "required_outputs": [
+        "Implemented future artifact set for T4-L14-001",
+        "Tests or validation evidence for the named behavior",
+        "Ticket-local run evidence"
+      ],
+      "evidence_artifacts": [
+        "codex-review/core/v0_0_2/spark_platform_build_v2_full_train_preplanning/train_4_l13_l17/t4-l14-001_evidence.json"
+      ],
+      "tests_required": [
+        "Focused unit/integration tests for affected boundary",
+        "Negative tenant or permission tests where tenant scoped data is touched",
+        "Local startup health smoke verification evidence"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test --filter api",
+        "local startup health smoke verification recorded for affected service boundary",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime, Foundry, module installer, business modules, production auth, deployment, protected values, or destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "acceptance_criteria": [
+        "T4-L14-001 produces observable runtime behavior, CI command result, named artifact, negative test, or measured target described in the MCR.",
+        "All validations pass, including local startup health smoke verification when a runtime boundary is touched.",
+        "No train-boundary or protected-value scope is introduced."
+      ],
+      "dependencies": [
+        "T4-L13-002"
+      ],
+      "commit_message": "train preplanning: e-commerce store and checkout foundation",
+      "rollback_notes": "Revert the future ticket commit for T4-L14-001; no production data migration or deployment authority is granted by this preplanning pack.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Required if exact-file planning reveals forbidden files, missing source authority, dependency drift, or train-boundary leakage.",
+      "stale_ticket_risk_notes": "Before execution, refresh against current main, re-run staleness scan, re-audit dependencies, and obtain explicit human approval.",
+      "runtime_consistency_chain": "Repo truth scan -> train_4_l13_l17 control plan -> seed matrix -> ticket pack -> ticket-pack audit -> future predictive stop analysis -> future autonomous readiness -> human approval.",
+      "minimum_concrete_requirement": "T4-L14-001 proves the planned behavior through named artifact codex-review/core/v0_0_2/spark_platform_build_v2_full_train_preplanning/train_4_l13_l17/t4-l14-001_evidence.json plus CI command results; documentation alone is not sufficient.",
+      "split_if": [
+        "Split if work creates multiple runtime subsystems.",
+        "Split if schema/contracts and runtime implementation are not narrowly coupled.",
+        "Split if validation ladders are unrelated.",
+        "Split if file ownership overlaps another ticket."
+      ],
+      "requires_human_approval_if": [
+        "Any dependency addition is needed.",
+        "Any production deployment or production sensitive value is needed.",
+        "Any architecture choice is not already committed.",
+        "Any cross-train scope is required."
+      ],
+      "failure_classification": "STOP for source authority conflict, train-boundary leakage, protected-value requirement, unresolved high audit finding, or validation failure after bounded repair.",
+      "seed_traceability": [
+        "T4-L14-001"
+      ],
+      "adl_refs": []
+    },
+    {
+      "ticket_id": "T4-L14-002",
+      "title": "E-Commerce fulfillment and marketplace option boundary",
+      "type": "implementation",
+      "tier": "future_draft_preplanning",
+      "priority": "high",
+      "objective": "Plan fulfillment, shipping adapter boundary, return flow, and marketplace non-scope guardrails.",
+      "scope": "Plan fulfillment, shipping adapter boundary, return flow, and marketplace non-scope guardrails. This is a preplanning ticket for train_4_l13_l17; future execution requires explicit human approval and repo refresh. Approved future ticket authority is limited to level_14 within train_4_l13_l17.",
+      "non_scope": "No execution in this task. No production deployment. No production sensitive values. No dependency additions without explicit later approval. No cross-train expansion beyond train_4_l13_l17.",
+      "source_files_to_inspect": [
+        "AGENTS.md",
+        "docs/doctrine/AKTI_ERP_Ticket_Quality_Doctrine_v1.md",
+        "docs/doctrine/AKTI_ERP_Failure_Prevention_Codex_Operating_Doctrine_v1.json",
+        "docs/process/core/v0_0_2/spark_plan_v2.md",
+        "docs/process/core/v0_0_2/spark_adl_complete.md",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_phase_intent_packet.json",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_human_decisions_v1.md"
+      ],
+      "files_expected_to_change": [
+        "apps/api/src/ecommerce/**",
+        "packages/contracts/fulfillment-contract.ts"
+      ],
+      "files_forbidden_to_change": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "prisma/migrations/** unless the active ticket explicitly lists a migration path",
+        "generated/** unless the active ticket explicitly authorizes regeneration",
+        "/Volumes/UsmanWork/Spark Genesis/**",
+        "codex-review/** tracked commits",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_**",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_2_l5_**",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_**",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_5_l18_**"
+      ],
+      "required_outputs": [
+        "Implemented future artifact set for T4-L14-002",
+        "Tests or validation evidence for the named behavior",
+        "Ticket-local run evidence"
+      ],
+      "evidence_artifacts": [
+        "codex-review/core/v0_0_2/spark_platform_build_v2_full_train_preplanning/train_4_l13_l17/t4-l14-002_evidence.json"
+      ],
+      "tests_required": [
+        "Focused unit/integration tests for affected boundary",
+        "Negative tenant or permission tests where tenant scoped data is touched",
+        "Local startup health smoke verification evidence"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test --filter api",
+        "local startup health smoke verification recorded for affected service boundary",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime, Foundry, module installer, business modules, production auth, deployment, protected values, or destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "acceptance_criteria": [
+        "T4-L14-002 produces observable runtime behavior, CI command result, named artifact, negative test, or measured target described in the MCR.",
+        "All validations pass, including local startup health smoke verification when a runtime boundary is touched.",
+        "No train-boundary or protected-value scope is introduced."
+      ],
+      "dependencies": [
+        "T4-L14-001"
+      ],
+      "commit_message": "train preplanning: e-commerce fulfillment and marketplace option boundary",
+      "rollback_notes": "Revert the future ticket commit for T4-L14-002; no production data migration or deployment authority is granted by this preplanning pack.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Required if exact-file planning reveals forbidden files, missing source authority, dependency drift, or train-boundary leakage.",
+      "stale_ticket_risk_notes": "Before execution, refresh against current main, re-run staleness scan, re-audit dependencies, and obtain explicit human approval.",
+      "runtime_consistency_chain": "Repo truth scan -> train_4_l13_l17 control plan -> seed matrix -> ticket pack -> ticket-pack audit -> future predictive stop analysis -> future autonomous readiness -> human approval.",
+      "minimum_concrete_requirement": "T4-L14-002 proves the planned behavior through named artifact codex-review/core/v0_0_2/spark_platform_build_v2_full_train_preplanning/train_4_l13_l17/t4-l14-002_evidence.json plus CI command results; documentation alone is not sufficient.",
+      "split_if": [
+        "Split if work creates multiple runtime subsystems.",
+        "Split if schema/contracts and runtime implementation are not narrowly coupled.",
+        "Split if validation ladders are unrelated.",
+        "Split if file ownership overlaps another ticket."
+      ],
+      "requires_human_approval_if": [
+        "Any dependency addition is needed.",
+        "Any production deployment or production sensitive value is needed.",
+        "Any architecture choice is not already committed.",
+        "Any cross-train scope is required."
+      ],
+      "failure_classification": "STOP for source authority conflict, train-boundary leakage, protected-value requirement, unresolved high audit finding, or validation failure after bounded repair.",
+      "seed_traceability": [
+        "T4-L14-002"
+      ],
+      "adl_refs": []
+    },
+    {
+      "ticket_id": "T4-L15-001",
+      "title": "Website builder content model",
+      "type": "implementation",
+      "tier": "future_draft_preplanning",
+      "priority": "high",
+      "objective": "Plan pages, blocks, version history, draft/published enforcement, and SEO contracts.",
+      "scope": "Plan pages, blocks, version history, draft/published enforcement, and SEO contracts. This is a preplanning ticket for train_4_l13_l17; future execution requires explicit human approval and repo refresh. Approved future ticket authority is limited to level_15 within train_4_l13_l17.",
+      "non_scope": "No execution in this task. No production deployment. No production sensitive values. No dependency additions without explicit later approval. No cross-train expansion beyond train_4_l13_l17.",
+      "source_files_to_inspect": [
+        "AGENTS.md",
+        "docs/doctrine/AKTI_ERP_Ticket_Quality_Doctrine_v1.md",
+        "docs/doctrine/AKTI_ERP_Failure_Prevention_Codex_Operating_Doctrine_v1.json",
+        "docs/process/core/v0_0_2/spark_plan_v2.md",
+        "docs/process/core/v0_0_2/spark_adl_complete.md",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_phase_intent_packet.json",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_human_decisions_v1.md"
+      ],
+      "files_expected_to_change": [
+        "apps/api/src/site-builder/**",
+        "packages/contracts/site-builder-contract.ts",
+        "prisma/schema.prisma"
+      ],
+      "files_forbidden_to_change": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "prisma/migrations/** unless the active ticket explicitly lists a migration path",
+        "generated/** unless the active ticket explicitly authorizes regeneration",
+        "/Volumes/UsmanWork/Spark Genesis/**",
+        "codex-review/** tracked commits",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_**",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_2_l5_**",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_**",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_5_l18_**"
+      ],
+      "required_outputs": [
+        "Implemented future artifact set for T4-L15-001",
+        "Tests or validation evidence for the named behavior",
+        "Ticket-local run evidence"
+      ],
+      "evidence_artifacts": [
+        "codex-review/core/v0_0_2/spark_platform_build_v2_full_train_preplanning/train_4_l13_l17/t4-l15-001_evidence.json"
+      ],
+      "tests_required": [
+        "Focused unit/integration tests for affected boundary",
+        "Negative tenant or permission tests where tenant scoped data is touched",
+        "Local startup health smoke verification evidence"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test --filter api",
+        "local startup health smoke verification recorded for affected service boundary",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime, Foundry, module installer, business modules, production auth, deployment, protected values, or destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "acceptance_criteria": [
+        "T4-L15-001 produces observable runtime behavior, CI command result, named artifact, negative test, or measured target described in the MCR.",
+        "All validations pass, including local startup health smoke verification when a runtime boundary is touched.",
+        "No train-boundary or protected-value scope is introduced."
+      ],
+      "dependencies": [
+        "T4-L14-002"
+      ],
+      "commit_message": "train preplanning: website builder content model",
+      "rollback_notes": "Revert the future ticket commit for T4-L15-001; no production data migration or deployment authority is granted by this preplanning pack.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Required if exact-file planning reveals forbidden files, missing source authority, dependency drift, or train-boundary leakage.",
+      "stale_ticket_risk_notes": "Before execution, refresh against current main, re-run staleness scan, re-audit dependencies, and obtain explicit human approval.",
+      "runtime_consistency_chain": "Repo truth scan -> train_4_l13_l17 control plan -> seed matrix -> ticket pack -> ticket-pack audit -> future predictive stop analysis -> future autonomous readiness -> human approval.",
+      "minimum_concrete_requirement": "T4-L15-001 proves the planned behavior through named artifact codex-review/core/v0_0_2/spark_platform_build_v2_full_train_preplanning/train_4_l13_l17/t4-l15-001_evidence.json plus CI command results; documentation alone is not sufficient.",
+      "split_if": [
+        "Split if work creates multiple runtime subsystems.",
+        "Split if schema/contracts and runtime implementation are not narrowly coupled.",
+        "Split if validation ladders are unrelated.",
+        "Split if file ownership overlaps another ticket."
+      ],
+      "requires_human_approval_if": [
+        "Any dependency addition is needed.",
+        "Any production deployment or production sensitive value is needed.",
+        "Any architecture choice is not already committed.",
+        "Any cross-train scope is required."
+      ],
+      "failure_classification": "STOP for source authority conflict, train-boundary leakage, protected-value requirement, unresolved high audit finding, or validation failure after bounded repair.",
+      "seed_traceability": [
+        "T4-L15-001"
+      ],
+      "adl_refs": []
+    },
+    {
+      "ticket_id": "T4-L15-002",
+      "title": "App builder and connected block boundaries",
+      "type": "implementation",
+      "tier": "future_draft_preplanning",
+      "priority": "high",
+      "objective": "Plan PWA builder data contracts, connected block data boundaries, and unavailable-state behavior.",
+      "scope": "Plan PWA builder data contracts, connected block data boundaries, and unavailable-state behavior. This is a preplanning ticket for train_4_l13_l17; future execution requires explicit human approval and repo refresh. Approved future ticket authority is limited to level_15 within train_4_l13_l17.",
+      "non_scope": "No execution in this task. No production deployment. No production sensitive values. No dependency additions without explicit later approval. No cross-train expansion beyond train_4_l13_l17.",
+      "source_files_to_inspect": [
+        "AGENTS.md",
+        "docs/doctrine/AKTI_ERP_Ticket_Quality_Doctrine_v1.md",
+        "docs/doctrine/AKTI_ERP_Failure_Prevention_Codex_Operating_Doctrine_v1.json",
+        "docs/process/core/v0_0_2/spark_plan_v2.md",
+        "docs/process/core/v0_0_2/spark_adl_complete.md",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_phase_intent_packet.json",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_human_decisions_v1.md"
+      ],
+      "files_expected_to_change": [
+        "apps/api/src/site-builder/**",
+        "packages/contracts/app-builder-contract.ts"
+      ],
+      "files_forbidden_to_change": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "prisma/migrations/** unless the active ticket explicitly lists a migration path",
+        "generated/** unless the active ticket explicitly authorizes regeneration",
+        "/Volumes/UsmanWork/Spark Genesis/**",
+        "codex-review/** tracked commits",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_**",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_2_l5_**",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_**",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_5_l18_**"
+      ],
+      "required_outputs": [
+        "Implemented future artifact set for T4-L15-002",
+        "Tests or validation evidence for the named behavior",
+        "Ticket-local run evidence"
+      ],
+      "evidence_artifacts": [
+        "codex-review/core/v0_0_2/spark_platform_build_v2_full_train_preplanning/train_4_l13_l17/t4-l15-002_evidence.json"
+      ],
+      "tests_required": [
+        "Focused unit/integration tests for affected boundary",
+        "Negative tenant or permission tests where tenant scoped data is touched",
+        "Local startup health smoke verification evidence"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test --filter api",
+        "local startup health smoke verification recorded for affected service boundary",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime, Foundry, module installer, business modules, production auth, deployment, protected values, or destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "acceptance_criteria": [
+        "T4-L15-002 produces observable runtime behavior, CI command result, named artifact, negative test, or measured target described in the MCR.",
+        "All validations pass, including local startup health smoke verification when a runtime boundary is touched.",
+        "No train-boundary or protected-value scope is introduced."
+      ],
+      "dependencies": [
+        "T4-L15-001"
+      ],
+      "commit_message": "train preplanning: app builder and connected block boundaries",
+      "rollback_notes": "Revert the future ticket commit for T4-L15-002; no production data migration or deployment authority is granted by this preplanning pack.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Required if exact-file planning reveals forbidden files, missing source authority, dependency drift, or train-boundary leakage.",
+      "stale_ticket_risk_notes": "Before execution, refresh against current main, re-run staleness scan, re-audit dependencies, and obtain explicit human approval.",
+      "runtime_consistency_chain": "Repo truth scan -> train_4_l13_l17 control plan -> seed matrix -> ticket pack -> ticket-pack audit -> future predictive stop analysis -> future autonomous readiness -> human approval.",
+      "minimum_concrete_requirement": "T4-L15-002 proves the planned behavior through named artifact codex-review/core/v0_0_2/spark_platform_build_v2_full_train_preplanning/train_4_l13_l17/t4-l15-002_evidence.json plus CI command results; documentation alone is not sufficient.",
+      "split_if": [
+        "Split if work creates multiple runtime subsystems.",
+        "Split if schema/contracts and runtime implementation are not narrowly coupled.",
+        "Split if validation ladders are unrelated.",
+        "Split if file ownership overlaps another ticket."
+      ],
+      "requires_human_approval_if": [
+        "Any dependency addition is needed.",
+        "Any production deployment or production sensitive value is needed.",
+        "Any architecture choice is not already committed.",
+        "Any cross-train scope is required."
+      ],
+      "failure_classification": "STOP for source authority conflict, train-boundary leakage, protected-value requirement, unresolved high audit finding, or validation failure after bounded repair.",
+      "seed_traceability": [
+        "T4-L15-002"
+      ],
+      "adl_refs": []
+    },
+    {
+      "ticket_id": "T4-L16-001",
+      "title": "AI consultant governance boundary",
+      "type": "implementation",
+      "tier": "future_draft_preplanning",
+      "priority": "high",
+      "objective": "Plan classification, opt-out, cost cap hard limits, and provider-disabled operation.",
+      "scope": "Plan classification, opt-out, cost cap hard limits, and provider-disabled operation. This is a preplanning ticket for train_4_l13_l17; future execution requires explicit human approval and repo refresh. Approved future ticket authority is limited to level_16 within train_4_l13_l17.",
+      "non_scope": "No execution in this task. No production deployment. No production sensitive values. No dependency additions without explicit later approval. No cross-train expansion beyond train_4_l13_l17.",
+      "source_files_to_inspect": [
+        "AGENTS.md",
+        "docs/doctrine/AKTI_ERP_Ticket_Quality_Doctrine_v1.md",
+        "docs/doctrine/AKTI_ERP_Failure_Prevention_Codex_Operating_Doctrine_v1.json",
+        "docs/process/core/v0_0_2/spark_plan_v2.md",
+        "docs/process/core/v0_0_2/spark_adl_complete.md",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_phase_intent_packet.json",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_human_decisions_v1.md"
+      ],
+      "files_expected_to_change": [
+        "apps/api/src/ai-proxy/**",
+        "packages/contracts/ai-consultant-contract.ts"
+      ],
+      "files_forbidden_to_change": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "prisma/migrations/** unless the active ticket explicitly lists a migration path",
+        "generated/** unless the active ticket explicitly authorizes regeneration",
+        "/Volumes/UsmanWork/Spark Genesis/**",
+        "codex-review/** tracked commits",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_**",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_2_l5_**",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_**",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_5_l18_**"
+      ],
+      "required_outputs": [
+        "Implemented future artifact set for T4-L16-001",
+        "Tests or validation evidence for the named behavior",
+        "Ticket-local run evidence"
+      ],
+      "evidence_artifacts": [
+        "codex-review/core/v0_0_2/spark_platform_build_v2_full_train_preplanning/train_4_l13_l17/t4-l16-001_evidence.json"
+      ],
+      "tests_required": [
+        "Focused unit/integration tests for affected boundary",
+        "Negative tenant or permission tests where tenant scoped data is touched",
+        "Local startup health smoke verification evidence"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test --filter api",
+        "local startup health smoke verification recorded for affected service boundary",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime, Foundry, module installer, business modules, production auth, deployment, protected values, or destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "acceptance_criteria": [
+        "T4-L16-001 produces observable runtime behavior, CI command result, named artifact, negative test, or measured target described in the MCR.",
+        "All validations pass, including local startup health smoke verification when a runtime boundary is touched.",
+        "No train-boundary or protected-value scope is introduced."
+      ],
+      "dependencies": [
+        "T4-L15-002"
+      ],
+      "commit_message": "train preplanning: ai consultant governance boundary",
+      "rollback_notes": "Revert the future ticket commit for T4-L16-001; no production data migration or deployment authority is granted by this preplanning pack.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Required if exact-file planning reveals forbidden files, missing source authority, dependency drift, or train-boundary leakage.",
+      "stale_ticket_risk_notes": "Before execution, refresh against current main, re-run staleness scan, re-audit dependencies, and obtain explicit human approval.",
+      "runtime_consistency_chain": "Repo truth scan -> train_4_l13_l17 control plan -> seed matrix -> ticket pack -> ticket-pack audit -> future predictive stop analysis -> future autonomous readiness -> human approval.",
+      "minimum_concrete_requirement": "T4-L16-001 proves the planned behavior through named artifact codex-review/core/v0_0_2/spark_platform_build_v2_full_train_preplanning/train_4_l13_l17/t4-l16-001_evidence.json plus CI command results; documentation alone is not sufficient.",
+      "split_if": [
+        "Split if work creates multiple runtime subsystems.",
+        "Split if schema/contracts and runtime implementation are not narrowly coupled.",
+        "Split if validation ladders are unrelated.",
+        "Split if file ownership overlaps another ticket."
+      ],
+      "requires_human_approval_if": [
+        "Any dependency addition is needed.",
+        "Any production deployment or production sensitive value is needed.",
+        "Any architecture choice is not already committed.",
+        "Any cross-train scope is required."
+      ],
+      "failure_classification": "STOP for source authority conflict, train-boundary leakage, protected-value requirement, unresolved high audit finding, or validation failure after bounded repair.",
+      "seed_traceability": [
+        "T4-L16-001"
+      ],
+      "adl_refs": []
+    },
+    {
+      "ticket_id": "T4-L17-001",
+      "title": "Admin onboarding and support foundation",
+      "type": "implementation",
+      "tier": "future_draft_preplanning",
+      "priority": "high",
+      "objective": "Plan onboarding tours, migration wizard contracts, support cases, and compliance request handling.",
+      "scope": "Plan onboarding tours, migration wizard contracts, support cases, and compliance request handling. This is a preplanning ticket for train_4_l13_l17; future execution requires explicit human approval and repo refresh. Approved future ticket authority is limited to level_17 within train_4_l13_l17.",
+      "non_scope": "No execution in this task. No production deployment. No production sensitive values. No dependency additions without explicit later approval. No cross-train expansion beyond train_4_l13_l17.",
+      "source_files_to_inspect": [
+        "AGENTS.md",
+        "docs/doctrine/AKTI_ERP_Ticket_Quality_Doctrine_v1.md",
+        "docs/doctrine/AKTI_ERP_Failure_Prevention_Codex_Operating_Doctrine_v1.json",
+        "docs/process/core/v0_0_2/spark_plan_v2.md",
+        "docs/process/core/v0_0_2/spark_adl_complete.md",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_phase_intent_packet.json",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_human_decisions_v1.md"
+      ],
+      "files_expected_to_change": [
+        "apps/api/src/admin-support/**",
+        "packages/contracts/admin-support-contract.ts",
+        "prisma/schema.prisma"
+      ],
+      "files_forbidden_to_change": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "prisma/migrations/** unless the active ticket explicitly lists a migration path",
+        "generated/** unless the active ticket explicitly authorizes regeneration",
+        "/Volumes/UsmanWork/Spark Genesis/**",
+        "codex-review/** tracked commits",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_**",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_2_l5_**",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_**",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_5_l18_**"
+      ],
+      "required_outputs": [
+        "Implemented future artifact set for T4-L17-001",
+        "Tests or validation evidence for the named behavior",
+        "Ticket-local run evidence"
+      ],
+      "evidence_artifacts": [
+        "codex-review/core/v0_0_2/spark_platform_build_v2_full_train_preplanning/train_4_l13_l17/t4-l17-001_evidence.json"
+      ],
+      "tests_required": [
+        "Focused unit/integration tests for affected boundary",
+        "Negative tenant or permission tests where tenant scoped data is touched",
+        "Local startup health smoke verification evidence"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm lint",
+        "pnpm typecheck",
+        "pnpm test --filter api",
+        "local startup health smoke verification recorded for affected service boundary",
+        "git diff --check",
+        "git status --short --branch"
+      ],
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime, Foundry, module installer, business modules, production auth, deployment, protected values, or destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "acceptance_criteria": [
+        "T4-L17-001 produces observable runtime behavior, CI command result, named artifact, negative test, or measured target described in the MCR.",
+        "All validations pass, including local startup health smoke verification when a runtime boundary is touched.",
+        "No train-boundary or protected-value scope is introduced."
+      ],
+      "dependencies": [
+        "T4-L16-001"
+      ],
+      "commit_message": "train preplanning: admin onboarding and support foundation",
+      "rollback_notes": "Revert the future ticket commit for T4-L17-001; no production data migration or deployment authority is granted by this preplanning pack.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Required if exact-file planning reveals forbidden files, missing source authority, dependency drift, or train-boundary leakage.",
+      "stale_ticket_risk_notes": "Before execution, refresh against current main, re-run staleness scan, re-audit dependencies, and obtain explicit human approval.",
+      "runtime_consistency_chain": "Repo truth scan -> train_4_l13_l17 control plan -> seed matrix -> ticket pack -> ticket-pack audit -> future predictive stop analysis -> future autonomous readiness -> human approval.",
+      "minimum_concrete_requirement": "T4-L17-001 proves the planned behavior through named artifact codex-review/core/v0_0_2/spark_platform_build_v2_full_train_preplanning/train_4_l13_l17/t4-l17-001_evidence.json plus CI command results; documentation alone is not sufficient.",
+      "split_if": [
+        "Split if work creates multiple runtime subsystems.",
+        "Split if schema/contracts and runtime implementation are not narrowly coupled.",
+        "Split if validation ladders are unrelated.",
+        "Split if file ownership overlaps another ticket."
+      ],
+      "requires_human_approval_if": [
+        "Any dependency addition is needed.",
+        "Any production deployment or production sensitive value is needed.",
+        "Any architecture choice is not already committed.",
+        "Any cross-train scope is required."
+      ],
+      "failure_classification": "STOP for source authority conflict, train-boundary leakage, protected-value requirement, unresolved high audit finding, or validation failure after bounded repair.",
+      "seed_traceability": [
+        "T4-L17-001"
+      ],
+      "adl_refs": []
+    },
+    {
+      "ticket_id": "T4-G999",
+      "title": "Final Train 4 draft gate",
+      "type": "final_gate",
+      "tier": "future_draft_preplanning",
+      "priority": "gate",
+      "objective": "Verify Train 4 draft remains future-only and lower-train dependent.",
+      "scope": "Verify Train 4 draft remains future-only and lower-train dependent. This is a preplanning ticket for train_4_l13_l17; future execution requires explicit human approval and repo refresh. Approved future ticket authority is limited to level_17 within train_4_l13_l17.",
+      "non_scope": "No execution in this task. No production deployment. No production sensitive values. No dependency additions without explicit later approval. No cross-train expansion beyond train_4_l13_l17.",
+      "source_files_to_inspect": [
+        "AGENTS.md",
+        "docs/doctrine/AKTI_ERP_Ticket_Quality_Doctrine_v1.md",
+        "docs/doctrine/AKTI_ERP_Failure_Prevention_Codex_Operating_Doctrine_v1.json",
+        "docs/process/core/v0_0_2/spark_plan_v2.md",
+        "docs/process/core/v0_0_2/spark_adl_complete.md",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_phase_intent_packet.json",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_human_decisions_v1.md"
+      ],
+      "files_expected_to_change": [
+        "codex-review/core/v0_0_2/train_4_final_gate.md"
+      ],
+      "files_forbidden_to_change": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "prisma/migrations/** unless the active ticket explicitly lists a migration path",
+        "generated/** unless the active ticket explicitly authorizes regeneration",
+        "/Volumes/UsmanWork/Spark Genesis/**",
+        "codex-review/** tracked commits",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_**",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_2_l5_**",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_**",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_5_l18_**"
+      ],
+      "required_outputs": [
+        "Gate result artifact for T4-G999",
+        "PASS/WARN/STOP finding list",
+        "Evidence that dependencies are complete before this gate closes"
+      ],
+      "evidence_artifacts": [
+        "codex-review/core/v0_0_2/spark_platform_build_v2_full_train_preplanning/train_4_l13_l17/t4-g999_evidence.json"
+      ],
+      "tests_required": [
+        "Contract/path validation evidence",
+        "Gate closure evidence"
+      ],
+      "validation_commands": [
+        "node scripts/quality/check_lower_snake_case_paths.mjs",
+        "pnpm contracts:validate",
+        "pnpm lint",
+        "pnpm typecheck",
+        "git diff --check",
+        "git status --short --branch",
+        "local startup health smoke verification recorded when gate covers runtime-sensitive tickets"
+      ],
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime, Foundry, module installer, business modules, production auth, deployment, protected values, or destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "acceptance_criteria": [
+        "T4-G999 records PASS or WARN-with-named-risk only after all dependencies provide evidence.",
+        "No STOP/high finding remains unresolved.",
+        "Gate closure references every dependency and produced evidence artifact.",
+        "Final gate transitive closure covers every implementation ticket in this pack.",
+        "Runtime-sensitive dependencies have local startup health smoke verification evidence or documented future-refresh requirement."
+      ],
+      "dependencies": [
+        "T4-L13-001",
+        "T4-L13-002",
+        "T4-L14-001",
+        "T4-L14-002",
+        "T4-L15-001",
+        "T4-L15-002",
+        "T4-L16-001",
+        "T4-L17-001"
+      ],
+      "commit_message": "train preplanning: final train 4 draft gate",
+      "rollback_notes": "Revert the future ticket commit for T4-G999; no production data migration or deployment authority is granted by this preplanning pack.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Required if exact-file planning reveals forbidden files, missing source authority, dependency drift, or train-boundary leakage.",
+      "stale_ticket_risk_notes": "Before execution, refresh against current main, re-run staleness scan, re-audit dependencies, and obtain explicit human approval.",
+      "runtime_consistency_chain": "Repo truth scan -> train_4_l13_l17 control plan -> seed matrix -> ticket pack -> ticket-pack audit -> future predictive stop analysis -> future autonomous readiness -> human approval.",
+      "minimum_concrete_requirement": "T4-G999 gate artifact records PASS/WARN/STOP and lists dependency evidence by ticket id.",
+      "split_if": [
+        "Split if work creates multiple runtime subsystems.",
+        "Split if schema/contracts and runtime implementation are not narrowly coupled.",
+        "Split if validation ladders are unrelated.",
+        "Split if file ownership overlaps another ticket."
+      ],
+      "requires_human_approval_if": [
+        "Any dependency addition is needed.",
+        "Any production deployment or production sensitive value is needed.",
+        "Any architecture choice is not already committed.",
+        "Any cross-train scope is required."
+      ],
+      "failure_classification": "STOP for source authority conflict, train-boundary leakage, protected-value requirement, unresolved high audit finding, or validation failure after bounded repair.",
+      "seed_traceability": [
+        "T4-G999"
+      ],
+      "adl_refs": []
+    }
+  ]
+}
