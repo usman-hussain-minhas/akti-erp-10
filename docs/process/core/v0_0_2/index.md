@@ -23,3 +23,18 @@ Core v0.0.2 is the next Core update space after the completed Core v0.0.1 baseli
 - Train 2 through Train 5 remain future-only and are not authorized for ticket generation by the Spark Platform Build v2 Genesis lifecycle planning package.
 - Route/API public-surface migration requires a separate compatibility plan and human approval.
 - Historical evidence remains in legacy paths unless a later approved index/copy/move PR preserves provenance.
+
+## Spark Platform Build v2 Full Train Preplanning v2
+
+Status: ACTIVE_PREPLANNING_AUTHORITY
+
+PR #39 remains open as failure evidence and is superseded for review by v2 preplanning. v2 artifacts include the AKTI scale profile, PR #39 failure review, train dependency map, repo truth scan, Train 1-5 v2 packages, scale audit report, and gate summary.
+
+Key paths:
+
+- docs/process/core/v0_0_2/spark_platform_build_v2_scale_decomposition_profile_v2.json
+- docs/process/core/v0_0_2/spark_platform_build_v2_pr39_scale_decomposition_failure_review_v1.md
+- docs/process/core/v0_0_2/spark_platform_build_v2_full_train_scale_decomposition_audit_v2.md
+- docs/process/core/v0_0_2/spark_platform_build_v2_full_train_preplanning_gate_summary_v2.md
+
+Ticket packs are preplanning artifacts only and do not authorize execution.
