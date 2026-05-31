@@ -4,7 +4,7 @@
 This document records the repository source-of-truth configuration used by Spark Genesis through `.spark_genesis/project.json`.
 
 ## Spark Genesis Adoption
-AKTI Spark adopts Spark Genesis on the `stable` channel using this project configuration.
+AKTI Spark adopts Spark Genesis on the `stable` channel (`stable-channel`) using this project configuration.
 
 ## Lean reliability checks version
 The project config requires Spark Genesis minimum version:
