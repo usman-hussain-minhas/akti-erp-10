@@ -1,0 +1,2727 @@
+{
+  "artifact_type": "seed_matrix",
+  "version": "v3",
+  "status": "SEED_MATRIX_V3_READY_FOR_AUDIT",
+  "train_id": "train_3_l6_l12",
+  "levels": [
+    "level_6",
+    "level_7",
+    "level_8",
+    "level_9",
+    "level_10",
+    "level_11",
+    "level_12"
+  ],
+  "enforcement_lines": [
+    "Implementation is not stale by itself. Tickets become stale.",
+    "Apply maximum concrete capability within the approved scope of each ticket."
+  ],
+  "scale_floor": 116,
+  "ticket_count": 124,
+  "scale_decomposition_audit_required_before_ticket_pack_audit_pass": true,
+  "ticket_quality_gate_required_before_ticket_pack_audit_pass": true,
+  "seeds": [
+    {
+      "seed_id": "SPARK-V3-T3-001-SEED",
+      "ticket_id": "SPARK-V3-T3-001",
+      "level": "level_6",
+      "surface": "product type contract",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_6_product_type_contract",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_6",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#product_type_contract",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "prisma/schema.prisma",
+        "prisma/migrations/20260701_product_type_contract/migration.sql",
+        "packages/contracts/product-type-contract.contract.ts",
+        "apps/api/src/catalogue/product-type-contract.repository.ts"
+      ],
+      "validation_anchor": "pnpm exec prisma validate --schema prisma/schema.prisma",
+      "dependencies": []
+    },
+    {
+      "seed_id": "SPARK-V3-T3-002-SEED",
+      "ticket_id": "SPARK-V3-T3-002",
+      "level": "level_6",
+      "surface": "catalogue item service",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_6_catalogue_item_service",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_6",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#catalogue_item_service",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/catalogue/catalogue-item-service.service.ts",
+        "apps/api/src/catalogue/catalogue-item-service.controller.ts",
+        "apps/api/src/catalogue/catalogue-item-service.test.ts",
+        "packages/contracts/catalogue-item-service.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-001"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-003-SEED",
+      "ticket_id": "SPARK-V3-T3-003",
+      "level": "level_6",
+      "surface": "pricing rule evaluator",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_6_pricing_rule_evaluator",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_6",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#pricing_rule_evaluator",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/catalogue/pricing-rule-evaluator.service.ts",
+        "apps/api/src/catalogue/pricing-rule-evaluator.controller.ts",
+        "apps/api/src/catalogue/pricing-rule-evaluator.test.ts",
+        "packages/contracts/pricing-rule-evaluator.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-002"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-004-SEED",
+      "ticket_id": "SPARK-V3-T3-004",
+      "level": "level_6",
+      "surface": "discount contract",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_6_discount_contract",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_6",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#discount_contract",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/catalogue/discount-contract.service.ts",
+        "apps/api/src/catalogue/discount-contract.controller.ts",
+        "apps/api/src/catalogue/discount-contract.test.ts",
+        "packages/contracts/discount-contract.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-003"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-005-SEED",
+      "ticket_id": "SPARK-V3-T3-005",
+      "level": "level_6",
+      "surface": "inventory quantity ledger",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_6_inventory_quantity_ledger",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_6",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#inventory_quantity_ledger",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "prisma/schema.prisma",
+        "prisma/migrations/20260705_inventory_quantity_ledger/migration.sql",
+        "packages/contracts/inventory-quantity-ledger.contract.ts",
+        "apps/api/src/catalogue/inventory-quantity-ledger.repository.ts"
+      ],
+      "validation_anchor": "pnpm exec prisma validate --schema prisma/schema.prisma",
+      "dependencies": [
+        "SPARK-V3-T3-004"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-006-SEED",
+      "ticket_id": "SPARK-V3-T3-006",
+      "level": "level_6",
+      "surface": "batch tracking rule",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_6_batch_tracking_rule",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_6",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#batch_tracking_rule",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "prisma/schema.prisma",
+        "prisma/migrations/20260706_batch_tracking_rule/migration.sql",
+        "packages/contracts/batch-tracking-rule.contract.ts",
+        "apps/api/src/catalogue/batch-tracking-rule.repository.ts"
+      ],
+      "validation_anchor": "pnpm exec prisma validate --schema prisma/schema.prisma",
+      "dependencies": [
+        "SPARK-V3-T3-005"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-007-SEED",
+      "ticket_id": "SPARK-V3-T3-007",
+      "level": "level_6",
+      "surface": "currency display contract",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_6_currency_display_contract",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_6",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#currency_display_contract",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "packages/contracts/currency-display-contract.contract.ts",
+        "packages/contracts/currency-display-contract.contract.test.ts",
+        "apps/api/src/catalogue/currency-display-contract.contract-adapter.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-006"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-008-SEED",
+      "ticket_id": "SPARK-V3-T3-008",
+      "level": "level_6",
+      "surface": "exchange rate timing guard",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_6_exchange_rate_timing_guard",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#ADL-016",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#exchange_rate_timing_guard",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/catalogue/exchange-rate-timing-guard.service.ts",
+        "apps/api/src/catalogue/exchange-rate-timing-guard.controller.ts",
+        "apps/api/src/catalogue/exchange-rate-timing-guard.test.ts",
+        "packages/contracts/exchange-rate-timing-guard.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-007"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-009-SEED",
+      "ticket_id": "SPARK-V3-T3-009",
+      "level": "level_6",
+      "surface": "product import validator",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_6_product_import_validator",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_6",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#product_import_validator",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "scripts/quality/product_import_validator_check.mjs",
+        "apps/api/src/catalogue/product-import-validator.service.ts",
+        "apps/api/src/catalogue/product-import-validator.test.ts"
+      ],
+      "validation_anchor": "pnpm test --filter api -- apps/api/src/catalogue/product-import-validator.test.ts",
+      "dependencies": [
+        "SPARK-V3-T3-008"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-010-SEED",
+      "ticket_id": "SPARK-V3-T3-010",
+      "level": "level_6",
+      "surface": "product export contract",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_6_product_export_contract",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_6",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#product_export_contract",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/catalogue/product-export-contract.service.ts",
+        "apps/api/src/catalogue/product-export-contract.controller.ts",
+        "apps/api/src/catalogue/product-export-contract.test.ts",
+        "packages/contracts/product-export-contract.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-009"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-011-SEED",
+      "ticket_id": "SPARK-V3-T3-011",
+      "level": "level_6",
+      "surface": "product permission guard",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_6_product_permission_guard",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_6",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#product_permission_guard",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/catalogue/product-permission-guard.service.ts",
+        "apps/api/src/catalogue/product-permission-guard.controller.ts",
+        "apps/api/src/catalogue/product-permission-guard.test.ts",
+        "packages/contracts/product-permission-guard.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-010"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-012-SEED",
+      "ticket_id": "SPARK-V3-T3-012",
+      "level": "level_6",
+      "surface": "catalogue audit event writer",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_6_catalogue_audit_event_writer",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_6",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#catalogue_audit_event_writer",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/catalogue/catalogue-audit-event-writer.service.ts",
+        "apps/api/src/catalogue/catalogue-audit-event-writer.controller.ts",
+        "apps/api/src/catalogue/catalogue-audit-event-writer.test.ts",
+        "packages/contracts/catalogue-audit-event-writer.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-011"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-013-SEED",
+      "ticket_id": "SPARK-V3-T3-013",
+      "level": "level_6",
+      "surface": "product report read model",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_6_product_report_read_model",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_6",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#product_report_read_model",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/catalogue/product-report-read-model.service.ts",
+        "apps/api/src/catalogue/product-report-read-model.controller.ts",
+        "apps/api/src/catalogue/product-report-read-model.test.ts",
+        "packages/contracts/product-report-read-model.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-012"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-014-SEED",
+      "ticket_id": "SPARK-V3-T3-014",
+      "level": "level_6",
+      "surface": "Products final gate",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_6_products_final_gate",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_6",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#products_final_gate",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "scripts/quality/train_3_l6_l12_products_final_gate_gate_check.mjs",
+        ".github/workflows/train_3_l6_l12_products-final-gate_gate.yml",
+        "packages/contracts/train_3_l6_l12-products-final-gate.contract.ts"
+      ],
+      "validation_anchor": "node scripts/quality/train_3_l6_l12_products_final_gate_gate_check.mjs --verify-dependency-closure --verify-evidence-closure",
+      "dependencies": [
+        "SPARK-V3-T3-013"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-015-SEED",
+      "ticket_id": "SPARK-V3-T3-015",
+      "level": "level_7",
+      "surface": "lead intake source connector",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_7_lead_intake_source_connector",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_7",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#lead_intake_source_connector",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/lead-desk/lead-intake-source-connector.service.ts",
+        "apps/api/src/lead-desk/lead-intake-source-connector.controller.ts",
+        "apps/api/src/lead-desk/lead-intake-source-connector.test.ts",
+        "packages/contracts/lead-intake-source-connector.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-014"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-016-SEED",
+      "ticket_id": "SPARK-V3-T3-016",
+      "level": "level_7",
+      "surface": "lead dedupe rule",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_7_lead_dedupe_rule",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#ADL-021",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#lead_dedupe_rule",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/lead-desk/lead-dedupe-rule.service.ts",
+        "apps/api/src/lead-desk/lead-dedupe-rule.controller.ts",
+        "apps/api/src/lead-desk/lead-dedupe-rule.test.ts",
+        "packages/contracts/lead-dedupe-rule.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-015"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-017-SEED",
+      "ticket_id": "SPARK-V3-T3-017",
+      "level": "level_7",
+      "surface": "lead merge audit ledger",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_7_lead_merge_audit_ledger",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#ADL-021",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#lead_merge_audit_ledger",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "prisma/schema.prisma",
+        "prisma/migrations/20260717_lead_merge_audit_ledger/migration.sql",
+        "packages/contracts/lead-merge-audit-ledger.contract.ts",
+        "apps/api/src/lead-desk/lead-merge-audit-ledger.repository.ts"
+      ],
+      "validation_anchor": "pnpm exec prisma validate --schema prisma/schema.prisma",
+      "dependencies": [
+        "SPARK-V3-T3-016"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-018-SEED",
+      "ticket_id": "SPARK-V3-T3-018",
+      "level": "level_7",
+      "surface": "lead contact record contract",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_7_lead_contact_record_contract",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_7",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#lead_contact_record_contract",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "packages/contracts/lead-contact-record-contract.contract.ts",
+        "packages/contracts/lead-contact-record-contract.contract.test.ts",
+        "apps/api/src/lead-desk/lead-contact-record-contract.contract-adapter.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-017"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-019-SEED",
+      "ticket_id": "SPARK-V3-T3-019",
+      "level": "level_7",
+      "surface": "immutable lead timeline writer",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_7_immutable_lead_timeline_writer",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_7",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#immutable_lead_timeline_writer",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/lead-desk/immutable-lead-timeline-writer.service.ts",
+        "apps/api/src/lead-desk/immutable-lead-timeline-writer.controller.ts",
+        "apps/api/src/lead-desk/immutable-lead-timeline-writer.test.ts",
+        "packages/contracts/immutable-lead-timeline-writer.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-018"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-020-SEED",
+      "ticket_id": "SPARK-V3-T3-020",
+      "level": "level_7",
+      "surface": "communication panel contract",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_7_communication_panel_contract",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_7",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#communication_panel_contract",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "packages/contracts/communication-panel-contract.contract.ts",
+        "packages/contracts/communication-panel-contract.contract.test.ts",
+        "apps/api/src/lead-desk/communication-panel-contract.contract-adapter.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-019"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-021-SEED",
+      "ticket_id": "SPARK-V3-T3-021",
+      "level": "level_7",
+      "surface": "internal comment thread service",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_7_internal_comment_thread_service",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_7",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#internal_comment_thread_service",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/lead-desk/internal-comment-thread-service.service.ts",
+        "apps/api/src/lead-desk/internal-comment-thread-service.controller.ts",
+        "apps/api/src/lead-desk/internal-comment-thread-service.test.ts",
+        "packages/contracts/internal-comment-thread-service.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-020"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-022-SEED",
+      "ticket_id": "SPARK-V3-T3-022",
+      "level": "level_7",
+      "surface": "WhatsApp template registry",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_7_whatsapp_template_registry",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_7",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#whatsapp_template_registry",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/lead-desk/whatsapp-template-registry.service.ts",
+        "apps/api/src/lead-desk/whatsapp-template-registry.controller.ts",
+        "apps/api/src/lead-desk/whatsapp-template-registry.test.ts",
+        "packages/contracts/whatsapp-template-registry.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-021"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-023-SEED",
+      "ticket_id": "SPARK-V3-T3-023",
+      "level": "level_7",
+      "surface": "WhatsApp inbound route handler",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_7_whatsapp_inbound_route_handler",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_7",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#whatsapp_inbound_route_handler",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/lead-desk/whatsapp-inbound-route-handler.service.ts",
+        "apps/api/src/lead-desk/whatsapp-inbound-route-handler.controller.ts",
+        "apps/api/src/lead-desk/whatsapp-inbound-route-handler.test.ts",
+        "packages/contracts/whatsapp-inbound-route-handler.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-022"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-024-SEED",
+      "ticket_id": "SPARK-V3-T3-024",
+      "level": "level_7",
+      "surface": "WhatsApp outbound window guard",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_7_whatsapp_outbound_window_guard",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_7",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#whatsapp_outbound_window_guard",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/lead-desk/whatsapp-outbound-window-guard.service.ts",
+        "apps/api/src/lead-desk/whatsapp-outbound-window-guard.controller.ts",
+        "apps/api/src/lead-desk/whatsapp-outbound-window-guard.test.ts",
+        "packages/contracts/whatsapp-outbound-window-guard.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-023"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-025-SEED",
+      "ticket_id": "SPARK-V3-T3-025",
+      "level": "level_7",
+      "surface": "WhatsApp broadcast rate guard",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_7_whatsapp_broadcast_rate_guard",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_7",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#whatsapp_broadcast_rate_guard",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/lead-desk/whatsapp-broadcast-rate-guard.service.ts",
+        "apps/api/src/lead-desk/whatsapp-broadcast-rate-guard.controller.ts",
+        "apps/api/src/lead-desk/whatsapp-broadcast-rate-guard.test.ts",
+        "packages/contracts/whatsapp-broadcast-rate-guard.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-024"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-026-SEED",
+      "ticket_id": "SPARK-V3-T3-026",
+      "level": "level_7",
+      "surface": "WhatsApp keyword reply rule",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_7_whatsapp_keyword_reply_rule",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_7",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#whatsapp_keyword_reply_rule",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/lead-desk/whatsapp-keyword-reply-rule.service.ts",
+        "apps/api/src/lead-desk/whatsapp-keyword-reply-rule.controller.ts",
+        "apps/api/src/lead-desk/whatsapp-keyword-reply-rule.test.ts",
+        "packages/contracts/whatsapp-keyword-reply-rule.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-025"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-027-SEED",
+      "ticket_id": "SPARK-V3-T3-027",
+      "level": "level_7",
+      "surface": "email connected inbox adapter",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_7_email_connected_inbox_adapter",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_7",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#email_connected_inbox_adapter",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/lead-desk/email-connected-inbox-adapter.service.ts",
+        "apps/api/src/lead-desk/email-connected-inbox-adapter.controller.ts",
+        "apps/api/src/lead-desk/email-connected-inbox-adapter.test.ts",
+        "packages/contracts/email-connected-inbox-adapter.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-026"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-028-SEED",
+      "ticket_id": "SPARK-V3-T3-028",
+      "level": "level_7",
+      "surface": "email template sequence runner",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_7_email_template_sequence_runner",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_7",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#email_template_sequence_runner",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/lead-desk/email-template-sequence-runner.service.ts",
+        "apps/api/src/lead-desk/email-template-sequence-runner.controller.ts",
+        "apps/api/src/lead-desk/email-template-sequence-runner.test.ts",
+        "packages/contracts/email-template-sequence-runner.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-027"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-029-SEED",
+      "ticket_id": "SPARK-V3-T3-029",
+      "level": "level_7",
+      "surface": "pipeline kanban query",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_7_pipeline_kanban_query",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_7",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#pipeline_kanban_query",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/lead-desk/pipeline-kanban-query.service.ts",
+        "apps/api/src/lead-desk/pipeline-kanban-query.controller.ts",
+        "apps/api/src/lead-desk/pipeline-kanban-query.test.ts",
+        "packages/contracts/pipeline-kanban-query.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-028"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-030-SEED",
+      "ticket_id": "SPARK-V3-T3-030",
+      "level": "level_7",
+      "surface": "lead scoring rule",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_7_lead_scoring_rule",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_7",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#lead_scoring_rule",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/lead-desk/lead-scoring-rule.service.ts",
+        "apps/api/src/lead-desk/lead-scoring-rule.controller.ts",
+        "apps/api/src/lead-desk/lead-scoring-rule.test.ts",
+        "packages/contracts/lead-scoring-rule.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-029"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-031-SEED",
+      "ticket_id": "SPARK-V3-T3-031",
+      "level": "level_7",
+      "surface": "follow up cadence task",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_7_follow_up_cadence_task",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_7",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#follow_up_cadence_task",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/lead-desk/follow-up-cadence-task.service.ts",
+        "apps/api/src/lead-desk/follow-up-cadence-task.controller.ts",
+        "apps/api/src/lead-desk/follow-up-cadence-task.test.ts",
+        "packages/contracts/follow-up-cadence-task.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-030"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-032-SEED",
+      "ticket_id": "SPARK-V3-T3-032",
+      "level": "level_7",
+      "surface": "CRM reporting final gate",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_7_crm_reporting_final_gate",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_7",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#crm_reporting_final_gate",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "scripts/quality/train_3_l6_l12_crm_reporting_final_gate_gate_check.mjs",
+        ".github/workflows/train_3_l6_l12_crm-reporting-final-gate_gate.yml",
+        "packages/contracts/train_3_l6_l12-crm-reporting-final-gate.contract.ts"
+      ],
+      "validation_anchor": "node scripts/quality/train_3_l6_l12_crm_reporting_final_gate_gate_check.mjs --verify-dependency-closure --verify-evidence-closure",
+      "dependencies": [
+        "SPARK-V3-T3-031"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-033-SEED",
+      "ticket_id": "SPARK-V3-T3-033",
+      "level": "level_8",
+      "surface": "invoice record FBR format",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_8_invoice_record_fbr_format",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#ADL-017",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#invoice_record_fbr_format",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "prisma/schema.prisma",
+        "prisma/migrations/20260733_invoice_record_fbr_format/migration.sql",
+        "packages/contracts/invoice-record-fbr-format.contract.ts",
+        "apps/api/src/finance/invoice-record-fbr-format.repository.ts"
+      ],
+      "validation_anchor": "pnpm exec prisma validate --schema prisma/schema.prisma",
+      "dependencies": [
+        "SPARK-V3-T3-032"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-034-SEED",
+      "ticket_id": "SPARK-V3-T3-034",
+      "level": "level_8",
+      "surface": "invoice lifecycle state machine",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_8_invoice_lifecycle_state_machine",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_8",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#invoice_lifecycle_state_machine",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/finance/invoice-lifecycle-state-machine.service.ts",
+        "apps/api/src/finance/invoice-lifecycle-state-machine.controller.ts",
+        "apps/api/src/finance/invoice-lifecycle-state-machine.test.ts",
+        "packages/contracts/invoice-lifecycle-state-machine.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-033"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-035-SEED",
+      "ticket_id": "SPARK-V3-T3-035",
+      "level": "level_8",
+      "surface": "quote to invoice converter",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_8_quote_to_invoice_converter",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#ADL-012",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#quote_to_invoice_converter",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/finance/quote-to-invoice-converter.service.ts",
+        "apps/api/src/finance/quote-to-invoice-converter.controller.ts",
+        "apps/api/src/finance/quote-to-invoice-converter.test.ts",
+        "packages/contracts/quote-to-invoice-converter.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-034"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-036-SEED",
+      "ticket_id": "SPARK-V3-T3-036",
+      "level": "level_8",
+      "surface": "payment allocation balance calculator",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_8_payment_allocation_balance_calculator",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#ADL-013",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#payment_allocation_balance_calculator",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/finance/payment-allocation-balance-calculator.service.ts",
+        "apps/api/src/finance/payment-allocation-balance-calculator.controller.ts",
+        "apps/api/src/finance/payment-allocation-balance-calculator.test.ts",
+        "packages/contracts/payment-allocation-balance-calculator.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-035"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-037-SEED",
+      "ticket_id": "SPARK-V3-T3-037",
+      "level": "level_8",
+      "surface": "JazzCash EasyPaisa RAAST QuickPay gateway boundary",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_8_jazzcash_easypaisa_raast_quickpay_gateway_boundary",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_8",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#jazzcash_easypaisa_raast_quickpay_gateway_boundary",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/finance/jazzcash-easypaisa-raast-quickpay-gateway-boundary.service.ts",
+        "apps/api/src/finance/jazzcash-easypaisa-raast-quickpay-gateway-boundary.controller.ts",
+        "apps/api/src/finance/jazzcash-easypaisa-raast-quickpay-gateway-boundary.test.ts",
+        "packages/contracts/jazzcash-easypaisa-raast-quickpay-gateway-boundary.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-036"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-038-SEED",
+      "ticket_id": "SPARK-V3-T3-038",
+      "level": "level_8",
+      "surface": "Stripe Wise gateway boundary",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_8_stripe_wise_gateway_boundary",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_8",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#stripe_wise_gateway_boundary",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/finance/stripe-wise-gateway-boundary.service.ts",
+        "apps/api/src/finance/stripe-wise-gateway-boundary.controller.ts",
+        "apps/api/src/finance/stripe-wise-gateway-boundary.test.ts",
+        "packages/contracts/stripe-wise-gateway-boundary.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-037"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-039-SEED",
+      "ticket_id": "SPARK-V3-T3-039",
+      "level": "level_8",
+      "surface": "refund original rail workflow",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_8_refund_original_rail_workflow",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#ADL-014",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#refund_original_rail_workflow",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/finance/refund-original-rail-workflow.service.ts",
+        "apps/api/src/finance/refund-original-rail-workflow.controller.ts",
+        "apps/api/src/finance/refund-original-rail-workflow.test.ts",
+        "packages/contracts/refund-original-rail-workflow.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-038"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-040-SEED",
+      "ticket_id": "SPARK-V3-T3-040",
+      "level": "level_8",
+      "surface": "discount stack calculator",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_8_discount_stack_calculator",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#ADL-015",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#discount_stack_calculator",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/finance/discount-stack-calculator.service.ts",
+        "apps/api/src/finance/discount-stack-calculator.controller.ts",
+        "apps/api/src/finance/discount-stack-calculator.test.ts",
+        "packages/contracts/discount-stack-calculator.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-039"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-041-SEED",
+      "ticket_id": "SPARK-V3-T3-041",
+      "level": "level_8",
+      "surface": "tax rounding calculator",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_8_tax_rounding_calculator",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#ADL-018",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#tax_rounding_calculator",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/finance/tax-rounding-calculator.service.ts",
+        "apps/api/src/finance/tax-rounding-calculator.controller.ts",
+        "apps/api/src/finance/tax-rounding-calculator.test.ts",
+        "packages/contracts/tax-rounding-calculator.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-040"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-042-SEED",
+      "ticket_id": "SPARK-V3-T3-042",
+      "level": "level_8",
+      "surface": "overdue reminder scheduler",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_8_overdue_reminder_scheduler",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_8",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#overdue_reminder_scheduler",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/finance/overdue-reminder-scheduler.service.ts",
+        "apps/api/src/finance/overdue-reminder-scheduler.controller.ts",
+        "apps/api/src/finance/overdue-reminder-scheduler.test.ts",
+        "packages/contracts/overdue-reminder-scheduler.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-041"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-043-SEED",
+      "ticket_id": "SPARK-V3-T3-043",
+      "level": "level_8",
+      "surface": "expense approval workflow",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_8_expense_approval_workflow",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_8",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#expense_approval_workflow",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/finance/expense-approval-workflow.service.ts",
+        "apps/api/src/finance/expense-approval-workflow.controller.ts",
+        "apps/api/src/finance/expense-approval-workflow.test.ts",
+        "packages/contracts/expense-approval-workflow.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-042"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-044-SEED",
+      "ticket_id": "SPARK-V3-T3-044",
+      "level": "level_8",
+      "surface": "vendor purchase order record",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_8_vendor_purchase_order_record",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_8",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#vendor_purchase_order_record",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "prisma/schema.prisma",
+        "prisma/migrations/20260744_vendor_purchase_order_record/migration.sql",
+        "packages/contracts/vendor-purchase-order-record.contract.ts",
+        "apps/api/src/finance/vendor-purchase-order-record.repository.ts"
+      ],
+      "validation_anchor": "pnpm exec prisma validate --schema prisma/schema.prisma",
+      "dependencies": [
+        "SPARK-V3-T3-043"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-045-SEED",
+      "ticket_id": "SPARK-V3-T3-045",
+      "level": "level_8",
+      "surface": "three way match validator",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_8_three_way_match_validator",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_8",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#three_way_match_validator",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/finance/three-way-match-validator.service.ts",
+        "apps/api/src/finance/three-way-match-validator.controller.ts",
+        "apps/api/src/finance/three-way-match-validator.test.ts",
+        "packages/contracts/three-way-match-validator.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-044"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-046-SEED",
+      "ticket_id": "SPARK-V3-T3-046",
+      "level": "level_8",
+      "surface": "budget allocation ledger",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_8_budget_allocation_ledger",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_8",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#budget_allocation_ledger",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "prisma/schema.prisma",
+        "prisma/migrations/20260746_budget_allocation_ledger/migration.sql",
+        "packages/contracts/budget-allocation-ledger.contract.ts",
+        "apps/api/src/finance/budget-allocation-ledger.repository.ts"
+      ],
+      "validation_anchor": "pnpm exec prisma validate --schema prisma/schema.prisma",
+      "dependencies": [
+        "SPARK-V3-T3-045"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-047-SEED",
+      "ticket_id": "SPARK-V3-T3-047",
+      "level": "level_8",
+      "surface": "general ledger journal writer",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_8_general_ledger_journal_writer",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_8",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#general_ledger_journal_writer",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/finance/general-ledger-journal-writer.service.ts",
+        "apps/api/src/finance/general-ledger-journal-writer.controller.ts",
+        "apps/api/src/finance/general-ledger-journal-writer.test.ts",
+        "packages/contracts/general-ledger-journal-writer.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-046"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-048-SEED",
+      "ticket_id": "SPARK-V3-T3-048",
+      "level": "level_8",
+      "surface": "bank reconciliation matcher",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_8_bank_reconciliation_matcher",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_8",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#bank_reconciliation_matcher",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/finance/bank-reconciliation-matcher.service.ts",
+        "apps/api/src/finance/bank-reconciliation-matcher.controller.ts",
+        "apps/api/src/finance/bank-reconciliation-matcher.test.ts",
+        "packages/contracts/bank-reconciliation-matcher.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-047"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-049-SEED",
+      "ticket_id": "SPARK-V3-T3-049",
+      "level": "level_8",
+      "surface": "financial report read model",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_8_financial_report_read_model",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_8",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#financial_report_read_model",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/finance/financial-report-read-model.service.ts",
+        "apps/api/src/finance/financial-report-read-model.controller.ts",
+        "apps/api/src/finance/financial-report-read-model.test.ts",
+        "packages/contracts/financial-report-read-model.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-048"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-050-SEED",
+      "ticket_id": "SPARK-V3-T3-050",
+      "level": "level_8",
+      "surface": "payroll tax slab calculator",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_8_payroll_tax_slab_calculator",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_8",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#payroll_tax_slab_calculator",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/finance/payroll-tax-slab-calculator.service.ts",
+        "apps/api/src/finance/payroll-tax-slab-calculator.controller.ts",
+        "apps/api/src/finance/payroll-tax-slab-calculator.test.ts",
+        "packages/contracts/payroll-tax-slab-calculator.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-049"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-051-SEED",
+      "ticket_id": "SPARK-V3-T3-051",
+      "level": "level_8",
+      "surface": "payroll disbursement export",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_8_payroll_disbursement_export",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_8",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#payroll_disbursement_export",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "scripts/quality/payroll_disbursement_export_check.mjs",
+        "apps/api/src/finance/payroll-disbursement-export.service.ts",
+        "apps/api/src/finance/payroll-disbursement-export.test.ts"
+      ],
+      "validation_anchor": "pnpm test --filter api -- apps/api/src/finance/payroll-disbursement-export.test.ts",
+      "dependencies": [
+        "SPARK-V3-T3-050"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-052-SEED",
+      "ticket_id": "SPARK-V3-T3-052",
+      "level": "level_8",
+      "surface": "prepaid billing proration",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_8_prepaid_billing_proration",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#ADL-019",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#prepaid_billing_proration",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/finance/prepaid-billing-proration.service.ts",
+        "apps/api/src/finance/prepaid-billing-proration.controller.ts",
+        "apps/api/src/finance/prepaid-billing-proration.test.ts",
+        "packages/contracts/prepaid-billing-proration.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-051"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-053-SEED",
+      "ticket_id": "SPARK-V3-T3-053",
+      "level": "level_8",
+      "surface": "finance permission audit boundary",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_8_finance_permission_audit_boundary",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_8",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#finance_permission_audit_boundary",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/finance/finance-permission-audit-boundary.service.ts",
+        "apps/api/src/finance/finance-permission-audit-boundary.controller.ts",
+        "apps/api/src/finance/finance-permission-audit-boundary.test.ts",
+        "packages/contracts/finance-permission-audit-boundary.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-052"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-054-SEED",
+      "ticket_id": "SPARK-V3-T3-054",
+      "level": "level_8",
+      "surface": "Finance final gate",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_8_finance_final_gate",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_8",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#finance_final_gate",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "scripts/quality/train_3_l6_l12_finance_final_gate_gate_check.mjs",
+        ".github/workflows/train_3_l6_l12_finance-final-gate_gate.yml",
+        "packages/contracts/train_3_l6_l12-finance-final-gate.contract.ts"
+      ],
+      "validation_anchor": "node scripts/quality/train_3_l6_l12_finance_final_gate_gate_check.mjs --verify-dependency-closure --verify-evidence-closure",
+      "dependencies": [
+        "SPARK-V3-T3-053"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-055-SEED",
+      "ticket_id": "SPARK-V3-T3-055",
+      "level": "level_9",
+      "surface": "employee record org structure",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_9_employee_record_org_structure",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_9",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#employee_record_org_structure",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "prisma/schema.prisma",
+        "prisma/migrations/20260755_employee_record_org_structure/migration.sql",
+        "packages/contracts/employee-record-org-structure.contract.ts",
+        "apps/api/src/hr/employee-record-org-structure.repository.ts"
+      ],
+      "validation_anchor": "pnpm exec prisma validate --schema prisma/schema.prisma",
+      "dependencies": [
+        "SPARK-V3-T3-054"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-056-SEED",
+      "ticket_id": "SPARK-V3-T3-056",
+      "level": "level_9",
+      "surface": "recruitment candidate pipeline",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_9_recruitment_candidate_pipeline",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_9",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#recruitment_candidate_pipeline",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/hr/recruitment-candidate-pipeline.service.ts",
+        "apps/api/src/hr/recruitment-candidate-pipeline.controller.ts",
+        "apps/api/src/hr/recruitment-candidate-pipeline.test.ts",
+        "packages/contracts/recruitment-candidate-pipeline.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-055"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-057-SEED",
+      "ticket_id": "SPARK-V3-T3-057",
+      "level": "level_9",
+      "surface": "geofenced QR attendance",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_9_geofenced_qr_attendance",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_9",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#geofenced_qr_attendance",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/hr/geofenced-qr-attendance.service.ts",
+        "apps/api/src/hr/geofenced-qr-attendance.controller.ts",
+        "apps/api/src/hr/geofenced-qr-attendance.test.ts",
+        "packages/contracts/geofenced-qr-attendance.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-056"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-058-SEED",
+      "ticket_id": "SPARK-V3-T3-058",
+      "level": "level_9",
+      "surface": "bio device attendance cloud API",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_9_bio_device_attendance_cloud_api",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_9",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#bio_device_attendance_cloud_api",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/hr/bio-device-attendance-cloud-api.service.ts",
+        "apps/api/src/hr/bio-device-attendance-cloud-api.controller.ts",
+        "apps/api/src/hr/bio-device-attendance-cloud-api.test.ts",
+        "packages/contracts/bio-device-attendance-cloud-api.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-057"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-059-SEED",
+      "ticket_id": "SPARK-V3-T3-059",
+      "level": "level_9",
+      "surface": "RFID NFC GPS manual attendance policy",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_9_rfid_nfc_gps_manual_attendance_policy",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_9",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#rfid_nfc_gps_manual_attendance_policy",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/hr/rfid-nfc-gps-manual-attendance-policy.service.ts",
+        "apps/api/src/hr/rfid-nfc-gps-manual-attendance-policy.controller.ts",
+        "apps/api/src/hr/rfid-nfc-gps-manual-attendance-policy.test.ts",
+        "packages/contracts/rfid-nfc-gps-manual-attendance-policy.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-058"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-060-SEED",
+      "ticket_id": "SPARK-V3-T3-060",
+      "level": "level_9",
+      "surface": "shift overtime rule",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_9_shift_overtime_rule",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_9",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#shift_overtime_rule",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/hr/shift-overtime-rule.service.ts",
+        "apps/api/src/hr/shift-overtime-rule.controller.ts",
+        "apps/api/src/hr/shift-overtime-rule.test.ts",
+        "packages/contracts/shift-overtime-rule.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-059"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-061-SEED",
+      "ticket_id": "SPARK-V3-T3-061",
+      "level": "level_9",
+      "surface": "leave balance workflow",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_9_leave_balance_workflow",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_9",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#leave_balance_workflow",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/hr/leave-balance-workflow.service.ts",
+        "apps/api/src/hr/leave-balance-workflow.controller.ts",
+        "apps/api/src/hr/leave-balance-workflow.test.ts",
+        "packages/contracts/leave-balance-workflow.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-060"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-062-SEED",
+      "ticket_id": "SPARK-V3-T3-062",
+      "level": "level_9",
+      "surface": "performance review cycle",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_9_performance_review_cycle",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_9",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#performance_review_cycle",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/hr/performance-review-cycle.service.ts",
+        "apps/api/src/hr/performance-review-cycle.controller.ts",
+        "apps/api/src/hr/performance-review-cycle.test.ts",
+        "packages/contracts/performance-review-cycle.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-061"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-063-SEED",
+      "ticket_id": "SPARK-V3-T3-063",
+      "level": "level_9",
+      "surface": "commission incentive calculator",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_9_commission_incentive_calculator",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_9",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#commission_incentive_calculator",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/hr/commission-incentive-calculator.service.ts",
+        "apps/api/src/hr/commission-incentive-calculator.controller.ts",
+        "apps/api/src/hr/commission-incentive-calculator.test.ts",
+        "packages/contracts/commission-incentive-calculator.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-062"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-064-SEED",
+      "ticket_id": "SPARK-V3-T3-064",
+      "level": "level_9",
+      "surface": "policy offboarding checklist",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_9_policy_offboarding_checklist",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_9",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#policy_offboarding_checklist",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/hr/policy-offboarding-checklist.service.ts",
+        "apps/api/src/hr/policy-offboarding-checklist.controller.ts",
+        "apps/api/src/hr/policy-offboarding-checklist.test.ts",
+        "packages/contracts/policy-offboarding-checklist.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-063"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-065-SEED",
+      "ticket_id": "SPARK-V3-T3-065",
+      "level": "level_9",
+      "surface": "payroll integration boundary",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_9_payroll_integration_boundary",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_9",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#payroll_integration_boundary",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "packages/contracts/payroll-integration-boundary.contract.ts",
+        "packages/contracts/payroll-integration-boundary.contract.test.ts",
+        "apps/api/src/hr/payroll-integration-boundary.contract-adapter.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-064"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-066-SEED",
+      "ticket_id": "SPARK-V3-T3-066",
+      "level": "level_9",
+      "surface": "HR audit event writer",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_9_hr_audit_event_writer",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_9",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#hr_audit_event_writer",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/hr/hr-audit-event-writer.service.ts",
+        "apps/api/src/hr/hr-audit-event-writer.controller.ts",
+        "apps/api/src/hr/hr-audit-event-writer.test.ts",
+        "packages/contracts/hr-audit-event-writer.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-065"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-067-SEED",
+      "ticket_id": "SPARK-V3-T3-067",
+      "level": "level_9",
+      "surface": "HR report read model",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_9_hr_report_read_model",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_9",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#hr_report_read_model",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/hr/hr-report-read-model.service.ts",
+        "apps/api/src/hr/hr-report-read-model.controller.ts",
+        "apps/api/src/hr/hr-report-read-model.test.ts",
+        "packages/contracts/hr-report-read-model.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-066"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-068-SEED",
+      "ticket_id": "SPARK-V3-T3-068",
+      "level": "level_9",
+      "surface": "HR final gate",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_9_hr_final_gate",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_9",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#hr_final_gate",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "scripts/quality/train_3_l6_l12_hr_final_gate_gate_check.mjs",
+        ".github/workflows/train_3_l6_l12_hr-final-gate_gate.yml",
+        "packages/contracts/train_3_l6_l12-hr-final-gate.contract.ts"
+      ],
+      "validation_anchor": "node scripts/quality/train_3_l6_l12_hr_final_gate_gate_check.mjs --verify-dependency-closure --verify-evidence-closure",
+      "dependencies": [
+        "SPARK-V3-T3-067"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-069-SEED",
+      "ticket_id": "SPARK-V3-T3-069",
+      "level": "level_10",
+      "surface": "message thread service",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_10_message_thread_service",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_10",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#message_thread_service",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/workspace/message-thread-service.service.ts",
+        "apps/api/src/workspace/message-thread-service.controller.ts",
+        "apps/api/src/workspace/message-thread-service.test.ts",
+        "packages/contracts/message-thread-service.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-068"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-070-SEED",
+      "ticket_id": "SPARK-V3-T3-070",
+      "level": "level_10",
+      "surface": "channel type permission guard",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_10_channel_type_permission_guard",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_10",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#channel_type_permission_guard",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/workspace/channel-type-permission-guard.service.ts",
+        "apps/api/src/workspace/channel-type-permission-guard.controller.ts",
+        "apps/api/src/workspace/channel-type-permission-guard.test.ts",
+        "packages/contracts/channel-type-permission-guard.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-069"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-071-SEED",
+      "ticket_id": "SPARK-V3-T3-071",
+      "level": "level_10",
+      "surface": "task project record contract",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_10_task_project_record_contract",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_10",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#task_project_record_contract",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "prisma/schema.prisma",
+        "prisma/migrations/20260771_task_project_record_contract/migration.sql",
+        "packages/contracts/task-project-record-contract.contract.ts",
+        "apps/api/src/workspace/task-project-record-contract.repository.ts"
+      ],
+      "validation_anchor": "pnpm exec prisma validate --schema prisma/schema.prisma",
+      "dependencies": [
+        "SPARK-V3-T3-070"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-072-SEED",
+      "ticket_id": "SPARK-V3-T3-072",
+      "level": "level_10",
+      "surface": "document knowledge base service",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_10_document_knowledge_base_service",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_10",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#document_knowledge_base_service",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/workspace/document-knowledge-base-service.service.ts",
+        "apps/api/src/workspace/document-knowledge-base-service.controller.ts",
+        "apps/api/src/workspace/document-knowledge-base-service.test.ts",
+        "packages/contracts/document-knowledge-base-service.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-071"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-073-SEED",
+      "ticket_id": "SPARK-V3-T3-073",
+      "level": "level_10",
+      "surface": "calendar meeting room booking",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_10_calendar_meeting_room_booking",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_10",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#calendar_meeting_room_booking",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/workspace/calendar-meeting-room-booking.service.ts",
+        "apps/api/src/workspace/calendar-meeting-room-booking.controller.ts",
+        "apps/api/src/workspace/calendar-meeting-room-booking.test.ts",
+        "packages/contracts/calendar-meeting-room-booking.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-072"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-074-SEED",
+      "ticket_id": "SPARK-V3-T3-074",
+      "level": "level_10",
+      "surface": "announcement reminder scheduler",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_10_announcement_reminder_scheduler",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_10",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#announcement_reminder_scheduler",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/workspace/announcement-reminder-scheduler.service.ts",
+        "apps/api/src/workspace/announcement-reminder-scheduler.controller.ts",
+        "apps/api/src/workspace/announcement-reminder-scheduler.test.ts",
+        "packages/contracts/announcement-reminder-scheduler.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-073"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-075-SEED",
+      "ticket_id": "SPARK-V3-T3-075",
+      "level": "level_10",
+      "surface": "workspace search connector",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_10_workspace_search_connector",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_10",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#workspace_search_connector",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/workspace/workspace-search-connector.service.ts",
+        "apps/api/src/workspace/workspace-search-connector.controller.ts",
+        "apps/api/src/workspace/workspace-search-connector.test.ts",
+        "packages/contracts/workspace-search-connector.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-074"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-076-SEED",
+      "ticket_id": "SPARK-V3-T3-076",
+      "level": "level_10",
+      "surface": "workspace file attachment rule",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_10_workspace_file_attachment_rule",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_10",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#workspace_file_attachment_rule",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/workspace/workspace-file-attachment-rule.service.ts",
+        "apps/api/src/workspace/workspace-file-attachment-rule.controller.ts",
+        "apps/api/src/workspace/workspace-file-attachment-rule.test.ts",
+        "packages/contracts/workspace-file-attachment-rule.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-075"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-077-SEED",
+      "ticket_id": "SPARK-V3-T3-077",
+      "level": "level_10",
+      "surface": "workspace notification fanout",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_10_workspace_notification_fanout",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_10",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#workspace_notification_fanout",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/workspace/workspace-notification-fanout.service.ts",
+        "apps/api/src/workspace/workspace-notification-fanout.controller.ts",
+        "apps/api/src/workspace/workspace-notification-fanout.test.ts",
+        "packages/contracts/workspace-notification-fanout.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-076"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-078-SEED",
+      "ticket_id": "SPARK-V3-T3-078",
+      "level": "level_10",
+      "surface": "workspace audit timeline",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_10_workspace_audit_timeline",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_10",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#workspace_audit_timeline",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/workspace/workspace-audit-timeline.service.ts",
+        "apps/api/src/workspace/workspace-audit-timeline.controller.ts",
+        "apps/api/src/workspace/workspace-audit-timeline.test.ts",
+        "packages/contracts/workspace-audit-timeline.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-077"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-079-SEED",
+      "ticket_id": "SPARK-V3-T3-079",
+      "level": "level_10",
+      "surface": "workspace import export boundary",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_10_workspace_import_export_boundary",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_10",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#workspace_import_export_boundary",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "scripts/quality/workspace_import_export_boundary_check.mjs",
+        "apps/api/src/workspace/workspace-import-export-boundary.service.ts",
+        "apps/api/src/workspace/workspace-import-export-boundary.test.ts"
+      ],
+      "validation_anchor": "pnpm test --filter api -- apps/api/src/workspace/workspace-import-export-boundary.test.ts",
+      "dependencies": [
+        "SPARK-V3-T3-078"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-080-SEED",
+      "ticket_id": "SPARK-V3-T3-080",
+      "level": "level_10",
+      "surface": "workspace permission audit",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_10_workspace_permission_audit",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_10",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#workspace_permission_audit",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/workspace/workspace-permission-audit.service.ts",
+        "apps/api/src/workspace/workspace-permission-audit.controller.ts",
+        "apps/api/src/workspace/workspace-permission-audit.test.ts",
+        "packages/contracts/workspace-permission-audit.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-079"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-081-SEED",
+      "ticket_id": "SPARK-V3-T3-081",
+      "level": "level_10",
+      "surface": "workspace report read model",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_10_workspace_report_read_model",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_10",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#workspace_report_read_model",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/workspace/workspace-report-read-model.service.ts",
+        "apps/api/src/workspace/workspace-report-read-model.controller.ts",
+        "apps/api/src/workspace/workspace-report-read-model.test.ts",
+        "packages/contracts/workspace-report-read-model.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-080"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-082-SEED",
+      "ticket_id": "SPARK-V3-T3-082",
+      "level": "level_10",
+      "surface": "Workspace final gate",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_10_workspace_final_gate",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_10",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#workspace_final_gate",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "scripts/quality/train_3_l6_l12_workspace_final_gate_gate_check.mjs",
+        ".github/workflows/train_3_l6_l12_workspace-final-gate_gate.yml",
+        "packages/contracts/train_3_l6_l12-workspace-final-gate.contract.ts"
+      ],
+      "validation_anchor": "node scripts/quality/train_3_l6_l12_workspace_final_gate_gate_check.mjs --verify-dependency-closure --verify-evidence-closure",
+      "dependencies": [
+        "SPARK-V3-T3-081"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-083-SEED",
+      "ticket_id": "SPARK-V3-T3-083",
+      "level": "level_11",
+      "surface": "student lifecycle inquiry preclass",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_11_student_lifecycle_inquiry_preclass",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_11",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#student_lifecycle_inquiry_preclass",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/lms/student-lifecycle-inquiry-preclass.service.ts",
+        "apps/api/src/lms/student-lifecycle-inquiry-preclass.controller.ts",
+        "apps/api/src/lms/student-lifecycle-inquiry-preclass.test.ts",
+        "packages/contracts/student-lifecycle-inquiry-preclass.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-082"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-084-SEED",
+      "ticket_id": "SPARK-V3-T3-084",
+      "level": "level_11",
+      "surface": "student lifecycle active alumni",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_11_student_lifecycle_active_alumni",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_11",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#student_lifecycle_active_alumni",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/lms/student-lifecycle-active-alumni.service.ts",
+        "apps/api/src/lms/student-lifecycle-active-alumni.controller.ts",
+        "apps/api/src/lms/student-lifecycle-active-alumni.test.ts",
+        "packages/contracts/student-lifecycle-active-alumni.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-083"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-085-SEED",
+      "ticket_id": "SPARK-V3-T3-085",
+      "level": "level_11",
+      "surface": "timetable builder conflict detector",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_11_timetable_builder_conflict_detector",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_11",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#timetable_builder_conflict_detector",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/lms/timetable-builder-conflict-detector.service.ts",
+        "apps/api/src/lms/timetable-builder-conflict-detector.controller.ts",
+        "apps/api/src/lms/timetable-builder-conflict-detector.test.ts",
+        "packages/contracts/timetable-builder-conflict-detector.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-084"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-086-SEED",
+      "ticket_id": "SPARK-V3-T3-086",
+      "level": "level_11",
+      "surface": "LMS geofenced QR attendance",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_11_lms_geofenced_qr_attendance",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_11",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#lms_geofenced_qr_attendance",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/lms/lms-geofenced-qr-attendance.service.ts",
+        "apps/api/src/lms/lms-geofenced-qr-attendance.controller.ts",
+        "apps/api/src/lms/lms-geofenced-qr-attendance.test.ts",
+        "packages/contracts/lms-geofenced-qr-attendance.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-085"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-087-SEED",
+      "ticket_id": "SPARK-V3-T3-087",
+      "level": "level_11",
+      "surface": "LMS bio device attendance API",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_11_lms_bio_device_attendance_api",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_11",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#lms_bio_device_attendance_api",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/lms/lms-bio-device-attendance-api.service.ts",
+        "apps/api/src/lms/lms-bio-device-attendance-api.controller.ts",
+        "apps/api/src/lms/lms-bio-device-attendance-api.test.ts",
+        "packages/contracts/lms-bio-device-attendance-api.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-086"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-088-SEED",
+      "ticket_id": "SPARK-V3-T3-088",
+      "level": "level_11",
+      "surface": "LMS RFID GPS manual attendance policy",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_11_lms_rfid_gps_manual_attendance_policy",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_11",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#lms_rfid_gps_manual_attendance_policy",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/lms/lms-rfid-gps-manual-attendance-policy.service.ts",
+        "apps/api/src/lms/lms-rfid-gps-manual-attendance-policy.controller.ts",
+        "apps/api/src/lms/lms-rfid-gps-manual-attendance-policy.test.ts",
+        "packages/contracts/lms-rfid-gps-manual-attendance-policy.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-087"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-089-SEED",
+      "ticket_id": "SPARK-V3-T3-089",
+      "level": "level_11",
+      "surface": "assignment resubmission limit",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_11_assignment_resubmission_limit",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_11",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#assignment_resubmission_limit",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/lms/assignment-resubmission-limit.service.ts",
+        "apps/api/src/lms/assignment-resubmission-limit.controller.ts",
+        "apps/api/src/lms/assignment-resubmission-limit.test.ts",
+        "packages/contracts/assignment-resubmission-limit.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-088"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-090-SEED",
+      "ticket_id": "SPARK-V3-T3-090",
+      "level": "level_11",
+      "surface": "plagiarism cheating log",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_11_plagiarism_cheating_log",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_11",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#plagiarism_cheating_log",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/lms/plagiarism-cheating-log.service.ts",
+        "apps/api/src/lms/plagiarism-cheating-log.controller.ts",
+        "apps/api/src/lms/plagiarism-cheating-log.test.ts",
+        "packages/contracts/plagiarism-cheating-log.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-089"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-091-SEED",
+      "ticket_id": "SPARK-V3-T3-091",
+      "level": "level_11",
+      "surface": "quiz question lockdown log",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_11_quiz_question_lockdown_log",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_11",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#quiz_question_lockdown_log",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/lms/quiz-question-lockdown-log.service.ts",
+        "apps/api/src/lms/quiz-question-lockdown-log.controller.ts",
+        "apps/api/src/lms/quiz-question-lockdown-log.test.ts",
+        "packages/contracts/quiz-question-lockdown-log.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-090"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-092-SEED",
+      "ticket_id": "SPARK-V3-T3-092",
+      "level": "level_11",
+      "surface": "in person exam moderation",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_11_in_person_exam_moderation",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_11",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#in_person_exam_moderation",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/lms/in-person-exam-moderation.service.ts",
+        "apps/api/src/lms/in-person-exam-moderation.controller.ts",
+        "apps/api/src/lms/in-person-exam-moderation.test.ts",
+        "packages/contracts/in-person-exam-moderation.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-091"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-093-SEED",
+      "ticket_id": "SPARK-V3-T3-093",
+      "level": "level_11",
+      "surface": "grading appeal transcript",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_11_grading_appeal_transcript",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_11",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#grading_appeal_transcript",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/lms/grading-appeal-transcript.service.ts",
+        "apps/api/src/lms/grading-appeal-transcript.controller.ts",
+        "apps/api/src/lms/grading-appeal-transcript.test.ts",
+        "packages/contracts/grading-appeal-transcript.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-092"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-094-SEED",
+      "ticket_id": "SPARK-V3-T3-094",
+      "level": "level_11",
+      "surface": "SCORM xAPI H5P LRS library",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_11_scorm_xapi_h5p_lrs_library",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_11",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#scorm_xapi_h5p_lrs_library",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/lms/scorm-xapi-h5p-lrs-library.service.ts",
+        "apps/api/src/lms/scorm-xapi-h5p-lrs-library.controller.ts",
+        "apps/api/src/lms/scorm-xapi-h5p-lrs-library.test.ts",
+        "packages/contracts/scorm-xapi-h5p-lrs-library.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-093"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-095-SEED",
+      "ticket_id": "SPARK-V3-T3-095",
+      "level": "level_11",
+      "surface": "student portal screen contract",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_11_student_portal_screen_contract",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_11",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#student_portal_screen_contract",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "packages/contracts/student-portal-screen-contract.contract.ts",
+        "packages/contracts/student-portal-screen-contract.contract.test.ts",
+        "apps/api/src/lms/student-portal-screen-contract.contract-adapter.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-094"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-096-SEED",
+      "ticket_id": "SPARK-V3-T3-096",
+      "level": "level_11",
+      "surface": "teacher dashboard screen contract",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_11_teacher_dashboard_screen_contract",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_11",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#teacher_dashboard_screen_contract",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "packages/contracts/teacher-dashboard-screen-contract.contract.ts",
+        "packages/contracts/teacher-dashboard-screen-contract.contract.test.ts",
+        "apps/api/src/lms/teacher-dashboard-screen-contract.contract-adapter.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-095"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-097-SEED",
+      "ticket_id": "SPARK-V3-T3-097",
+      "level": "level_11",
+      "surface": "academic coordinator dashboard contract",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_11_academic_coordinator_dashboard_contract",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_11",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#academic_coordinator_dashboard_contract",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "packages/contracts/academic-coordinator-dashboard-contract.contract.ts",
+        "packages/contracts/academic-coordinator-dashboard-contract.contract.test.ts",
+        "apps/api/src/lms/academic-coordinator-dashboard-contract.contract-adapter.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-096"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-098-SEED",
+      "ticket_id": "SPARK-V3-T3-098",
+      "level": "level_11",
+      "surface": "guardian portal screen contract",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_11_guardian_portal_screen_contract",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_11",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#guardian_portal_screen_contract",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "packages/contracts/guardian-portal-screen-contract.contract.ts",
+        "packages/contracts/guardian-portal-screen-contract.contract.test.ts",
+        "apps/api/src/lms/guardian-portal-screen-contract.contract-adapter.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-097"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-099-SEED",
+      "ticket_id": "SPARK-V3-T3-099",
+      "level": "level_11",
+      "surface": "certificate public verification URL",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_11_certificate_public_verification_url",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_11",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#certificate_public_verification_url",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/lms/certificate-public-verification-url.service.ts",
+        "apps/api/src/lms/certificate-public-verification-url.controller.ts",
+        "apps/api/src/lms/certificate-public-verification-url.test.ts",
+        "packages/contracts/certificate-public-verification-url.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-098"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-100-SEED",
+      "ticket_id": "SPARK-V3-T3-100",
+      "level": "level_11",
+      "surface": "university credit hour extension",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_11_university_credit_hour_extension",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_11",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#university_credit_hour_extension",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "prisma/schema.prisma",
+        "prisma/migrations/202607100_university_credit_hour_extension/migration.sql",
+        "packages/contracts/university-credit-hour-extension.contract.ts",
+        "apps/api/src/lms/university-credit-hour-extension.repository.ts"
+      ],
+      "validation_anchor": "pnpm exec prisma validate --schema prisma/schema.prisma",
+      "dependencies": [
+        "SPARK-V3-T3-099"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-101-SEED",
+      "ticket_id": "SPARK-V3-T3-101",
+      "level": "level_11",
+      "surface": "university prerequisite degree audit",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_11_university_prerequisite_degree_audit",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_11",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#university_prerequisite_degree_audit",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/lms/university-prerequisite-degree-audit.service.ts",
+        "apps/api/src/lms/university-prerequisite-degree-audit.controller.ts",
+        "apps/api/src/lms/university-prerequisite-degree-audit.test.ts",
+        "packages/contracts/university-prerequisite-degree-audit.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-100"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-102-SEED",
+      "ticket_id": "SPARK-V3-T3-102",
+      "level": "level_11",
+      "surface": "thesis dissertation workflow",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_11_thesis_dissertation_workflow",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_11",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#thesis_dissertation_workflow",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/lms/thesis-dissertation-workflow.service.ts",
+        "apps/api/src/lms/thesis-dissertation-workflow.controller.ts",
+        "apps/api/src/lms/thesis-dissertation-workflow.test.ts",
+        "packages/contracts/thesis-dissertation-workflow.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-101"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-103-SEED",
+      "ticket_id": "SPARK-V3-T3-103",
+      "level": "level_11",
+      "surface": "LMS data contract authority",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_11_lms_data_contract_authority",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_11",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#lms_data_contract_authority",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "packages/contracts/lms-data-contract-authority.contract.ts",
+        "packages/contracts/lms-data-contract-authority.contract.test.ts",
+        "apps/api/src/lms/lms-data-contract-authority.contract-adapter.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-102"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-104-SEED",
+      "ticket_id": "SPARK-V3-T3-104",
+      "level": "level_11",
+      "surface": "LMS API boundary map",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_11_lms_api_boundary_map",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_11",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#lms_api_boundary_map",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/lms/lms-api-boundary-map.service.ts",
+        "apps/api/src/lms/lms-api-boundary-map.controller.ts",
+        "apps/api/src/lms/lms-api-boundary-map.test.ts",
+        "packages/contracts/lms-api-boundary-map.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-103"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-105-SEED",
+      "ticket_id": "SPARK-V3-T3-105",
+      "level": "level_11",
+      "surface": "LMS validation gate coverage",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_11_lms_validation_gate_coverage",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_11",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#lms_validation_gate_coverage",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "scripts/quality/train_3_l6_l12_lms_validation_gate_coverage_gate_check.mjs",
+        ".github/workflows/train_3_l6_l12_lms-validation-gate-coverage_gate.yml",
+        "packages/contracts/train_3_l6_l12-lms-validation-gate-coverage.contract.ts"
+      ],
+      "validation_anchor": "node scripts/quality/train_3_l6_l12_lms_validation_gate_coverage_gate_check.mjs --verify-dependency-closure --verify-evidence-closure",
+      "dependencies": [
+        "SPARK-V3-T3-104"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-106-SEED",
+      "ticket_id": "SPARK-V3-T3-106",
+      "level": "level_11",
+      "surface": "LMS evidence artifact check",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_11_lms_evidence_artifact_check",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_11",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#lms_evidence_artifact_check",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "scripts/quality/lms_evidence_artifact_check_check.mjs",
+        "apps/api/src/lms/lms-evidence-artifact-check.service.ts",
+        "apps/api/src/lms/lms-evidence-artifact-check.test.ts"
+      ],
+      "validation_anchor": "pnpm test --filter api -- apps/api/src/lms/lms-evidence-artifact-check.test.ts",
+      "dependencies": [
+        "SPARK-V3-T3-105"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-107-SEED",
+      "ticket_id": "SPARK-V3-T3-107",
+      "level": "level_11",
+      "surface": "LMS runtime validation trigger",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_11_lms_runtime_validation_trigger",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_11",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#lms_runtime_validation_trigger",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/lms/lms-runtime-validation-trigger.service.ts",
+        "apps/api/src/lms/lms-runtime-validation-trigger.controller.ts",
+        "apps/api/src/lms/lms-runtime-validation-trigger.test.ts",
+        "packages/contracts/lms-runtime-validation-trigger.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-106"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-108-SEED",
+      "ticket_id": "SPARK-V3-T3-108",
+      "level": "level_11",
+      "surface": "LMS lower train dependency gate",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_11_lms_lower_train_dependency_gate",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_11",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#lms_lower_train_dependency_gate",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "scripts/quality/train_3_l6_l12_lms_lower_train_dependency_gate_gate_check.mjs",
+        ".github/workflows/train_3_l6_l12_lms-lower-train-dependency-gate_gate.yml",
+        "packages/contracts/train_3_l6_l12-lms-lower-train-dependency-gate.contract.ts"
+      ],
+      "validation_anchor": "node scripts/quality/train_3_l6_l12_lms_lower_train_dependency_gate_gate_check.mjs --verify-dependency-closure --verify-evidence-closure",
+      "dependencies": [
+        "SPARK-V3-T3-107"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-109-SEED",
+      "ticket_id": "SPARK-V3-T3-109",
+      "level": "level_11",
+      "surface": "LMS permission capability guard",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_11_lms_permission_capability_guard",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_11",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#lms_permission_capability_guard",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/lms/lms-permission-capability-guard.service.ts",
+        "apps/api/src/lms/lms-permission-capability-guard.controller.ts",
+        "apps/api/src/lms/lms-permission-capability-guard.test.ts",
+        "packages/contracts/lms-permission-capability-guard.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-108"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-110-SEED",
+      "ticket_id": "SPARK-V3-T3-110",
+      "level": "level_11",
+      "surface": "LMS audit timeline writer",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_11_lms_audit_timeline_writer",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_11",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#lms_audit_timeline_writer",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/lms/lms-audit-timeline-writer.service.ts",
+        "apps/api/src/lms/lms-audit-timeline-writer.controller.ts",
+        "apps/api/src/lms/lms-audit-timeline-writer.test.ts",
+        "packages/contracts/lms-audit-timeline-writer.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-109"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-111-SEED",
+      "ticket_id": "SPARK-V3-T3-111",
+      "level": "level_11",
+      "surface": "LMS import export reporting boundary",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_11_lms_import_export_reporting_boundary",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_11",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#lms_import_export_reporting_boundary",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "scripts/quality/lms_import_export_reporting_boundary_check.mjs",
+        "apps/api/src/lms/lms-import-export-reporting-boundary.service.ts",
+        "apps/api/src/lms/lms-import-export-reporting-boundary.test.ts"
+      ],
+      "validation_anchor": "pnpm test --filter api -- apps/api/src/lms/lms-import-export-reporting-boundary.test.ts",
+      "dependencies": [
+        "SPARK-V3-T3-110"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-112-SEED",
+      "ticket_id": "SPARK-V3-T3-112",
+      "level": "level_11",
+      "surface": "LMS final gate",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_11_lms_final_gate",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_11",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#lms_final_gate",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "scripts/quality/train_3_l6_l12_lms_final_gate_gate_check.mjs",
+        ".github/workflows/train_3_l6_l12_lms-final-gate_gate.yml",
+        "packages/contracts/train_3_l6_l12-lms-final-gate.contract.ts"
+      ],
+      "validation_anchor": "node scripts/quality/train_3_l6_l12_lms_final_gate_gate_check.mjs --verify-dependency-closure --verify-evidence-closure",
+      "dependencies": [
+        "SPARK-V3-T3-111"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-113-SEED",
+      "ticket_id": "SPARK-V3-T3-113",
+      "level": "level_12",
+      "surface": "event type configuration",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_12_event_type_configuration",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_12",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#event_type_configuration",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "prisma/schema.prisma",
+        "prisma/migrations/202607113_event_type_configuration/migration.sql",
+        "packages/contracts/event-type-configuration.contract.ts",
+        "apps/api/src/events/event-type-configuration.repository.ts"
+      ],
+      "validation_anchor": "pnpm exec prisma validate --schema prisma/schema.prisma",
+      "dependencies": [
+        "SPARK-V3-T3-112"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-114-SEED",
+      "ticket_id": "SPARK-V3-T3-114",
+      "level": "level_12",
+      "surface": "multi track session scheduler",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_12_multi_track_session_scheduler",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_12",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#multi_track_session_scheduler",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/events/multi-track-session-scheduler.service.ts",
+        "apps/api/src/events/multi-track-session-scheduler.controller.ts",
+        "apps/api/src/events/multi-track-session-scheduler.test.ts",
+        "packages/contracts/multi-track-session-scheduler.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-113"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-115-SEED",
+      "ticket_id": "SPARK-V3-T3-115",
+      "level": "level_12",
+      "surface": "speaker presenter manager",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_12_speaker_presenter_manager",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_12",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#speaker_presenter_manager",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/events/speaker-presenter-manager.service.ts",
+        "apps/api/src/events/speaker-presenter-manager.controller.ts",
+        "apps/api/src/events/speaker-presenter-manager.test.ts",
+        "packages/contracts/speaker-presenter-manager.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-114"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-116-SEED",
+      "ticket_id": "SPARK-V3-T3-116",
+      "level": "level_12",
+      "surface": "registration ticketing flow",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_12_registration_ticketing_flow",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_12",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#registration_ticketing_flow",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/events/registration-ticketing-flow.service.ts",
+        "apps/api/src/events/registration-ticketing-flow.controller.ts",
+        "apps/api/src/events/registration-ticketing-flow.test.ts",
+        "packages/contracts/registration-ticketing-flow.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-115"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-117-SEED",
+      "ticket_id": "SPARK-V3-T3-117",
+      "level": "level_12",
+      "surface": "waitlist promotion claim deadline",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_12_waitlist_promotion_claim_deadline",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#ADL-023",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#waitlist_promotion_claim_deadline",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/events/waitlist-promotion-claim-deadline.service.ts",
+        "apps/api/src/events/waitlist-promotion-claim-deadline.controller.ts",
+        "apps/api/src/events/waitlist-promotion-claim-deadline.test.ts",
+        "packages/contracts/waitlist-promotion-claim-deadline.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-116"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-118-SEED",
+      "ticket_id": "SPARK-V3-T3-118",
+      "level": "level_12",
+      "surface": "check in time window validator",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_12_check_in_time_window_validator",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#ADL-024",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#check_in_time_window_validator",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/events/check-in-time-window-validator.service.ts",
+        "apps/api/src/events/check-in-time-window-validator.controller.ts",
+        "apps/api/src/events/check-in-time-window-validator.test.ts",
+        "packages/contracts/check-in-time-window-validator.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-117"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-119-SEED",
+      "ticket_id": "SPARK-V3-T3-119",
+      "level": "level_12",
+      "surface": "post event resource feedback",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_12_post_event_resource_feedback",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_12",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#post_event_resource_feedback",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/events/post-event-resource-feedback.service.ts",
+        "apps/api/src/events/post-event-resource-feedback.controller.ts",
+        "apps/api/src/events/post-event-resource-feedback.test.ts",
+        "packages/contracts/post-event-resource-feedback.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-118"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-120-SEED",
+      "ticket_id": "SPARK-V3-T3-120",
+      "level": "level_12",
+      "surface": "event CRM lead capture bridge",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_12_event_crm_lead_capture_bridge",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_12",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#event_crm_lead_capture_bridge",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/events/event-crm-lead-capture-bridge.service.ts",
+        "apps/api/src/events/event-crm-lead-capture-bridge.controller.ts",
+        "apps/api/src/events/event-crm-lead-capture-bridge.test.ts",
+        "packages/contracts/event-crm-lead-capture-bridge.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-119"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-121-SEED",
+      "ticket_id": "SPARK-V3-T3-121",
+      "level": "level_12",
+      "surface": "event report read model",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_12_event_report_read_model",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_12",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#event_report_read_model",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/events/event-report-read-model.service.ts",
+        "apps/api/src/events/event-report-read-model.controller.ts",
+        "apps/api/src/events/event-report-read-model.test.ts",
+        "packages/contracts/event-report-read-model.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-120"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-122-SEED",
+      "ticket_id": "SPARK-V3-T3-122",
+      "level": "level_12",
+      "surface": "event permission audit guard",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_12_event_permission_audit_guard",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_12",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#event_permission_audit_guard",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "apps/api/src/events/event-permission-audit-guard.service.ts",
+        "apps/api/src/events/event-permission-audit-guard.controller.ts",
+        "apps/api/src/events/event-permission-audit-guard.test.ts",
+        "packages/contracts/event-permission-audit-guard.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T3-121"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-123-SEED",
+      "ticket_id": "SPARK-V3-T3-123",
+      "level": "level_12",
+      "surface": "event import export contract",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_12_event_import_export_contract",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_12",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#event_import_export_contract",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "scripts/quality/event_import_export_contract_check.mjs",
+        "apps/api/src/events/event-import-export-contract.service.ts",
+        "apps/api/src/events/event-import-export-contract.test.ts"
+      ],
+      "validation_anchor": "pnpm test --filter api -- apps/api/src/events/event-import-export-contract.test.ts",
+      "dependencies": [
+        "SPARK-V3-T3-122"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T3-124-SEED",
+      "ticket_id": "SPARK-V3-T3-124",
+      "level": "level_12",
+      "surface": "Events final gate",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_12_events_final_gate",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_12",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_3_l6_l12_control_plan_v3.md#events_final_gate",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_3_l6_l12"
+      ],
+      "future_paths": [
+        "scripts/quality/train_3_l6_l12_events_final_gate_gate_check.mjs",
+        ".github/workflows/train_3_l6_l12_events-final-gate_gate.yml",
+        "packages/contracts/train_3_l6_l12-events-final-gate.contract.ts"
+      ],
+      "validation_anchor": "node scripts/quality/train_3_l6_l12_events_final_gate_gate_check.mjs --verify-dependency-closure --verify-evidence-closure",
+      "dependencies": [
+        "SPARK-V3-T3-123"
+      ]
+    }
+  ]
+}
