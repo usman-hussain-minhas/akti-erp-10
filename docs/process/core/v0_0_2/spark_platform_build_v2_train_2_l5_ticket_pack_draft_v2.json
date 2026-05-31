@@ -1,0 +1,2052 @@
+{
+  "artifact_type": "ticket_pack",
+  "artifact_version": "v2",
+  "train": "train_2_l5",
+  "status": "FUTURE_DRAFT_REQUIRES_REPO_REFRESH_BEFORE_EXECUTION",
+  "lifecycle_status": "preplanning_only_not_execution_authority",
+  "execution_authorized": false,
+  "predictive_stop_analysis_authorized": false,
+  "autonomous_readiness_authorized": false,
+  "doctrine_enforcement_lines": [
+    "Implementation is not stale by itself. Tickets become stale.",
+    "Apply maximum concrete capability within the approved scope of each ticket."
+  ],
+  "scale_profile": "docs/process/core/v0_0_2/spark_platform_build_v2_scale_decomposition_profile_v2.json",
+  "scale_policy": {
+    "thresholds_are_floors_not_exact_targets": true,
+    "no_filler_tickets_allowed": true,
+    "no_compression_to_match_exact_counts": true
+  },
+  "coverage_notes": [
+    "source authority, contracts, data schema, approved api boundary, runtime service, validation, evidence, gate, dependency order, runtime validation, and screen contract applicability are represented in structured ticket fields.",
+    "frontend_or_screen_contract_when_applicable = not_applicable_for_this_train_except_future_screen_contract_references"
+  ],
+  "future_refresh_policy": "Future draft requires repo refresh, staleness scan, dependency refresh, ticket-pack re-audit, scale_decomposition_audit, predictive stop analysis, autonomous readiness, and explicit human approval before execution.",
+  "execution_lock": "execution_locked before execution until refresh and re-audit are complete",
+  "future_execution_requires": [
+    "repo_refresh",
+    "staleness_scan",
+    "dependency_refresh",
+    "ticket_pack_reaudit",
+    "scale_decomposition_audit",
+    "predictive_stop_analysis",
+    "autonomous_readiness",
+    "explicit_human_approval"
+  ],
+  "ordered_ticket_queue": [
+    "T2-L5-001",
+    "T2-L5-002",
+    "T2-L5-003",
+    "T2-L5-004",
+    "T2-L5-005",
+    "T2-L5-006",
+    "T2-L5-007",
+    "T2-L5-008",
+    "T2-L5-009",
+    "T2-L5-010",
+    "T2-L5-011",
+    "T2-L5-012",
+    "T2-L5-013",
+    "T2-L5-014",
+    "T2-L5-015",
+    "T2-L5-016",
+    "T2-L5-017",
+    "T2-L5-018",
+    "T2-L5-019",
+    "T2-L5-020",
+    "T2-G999"
+  ],
+  "tickets": [
+    {
+      "ticket_id": "T2-L5-001",
+      "title": "T2-L5-001 configuration schema registry",
+      "type": "implementation",
+      "tier": "train_2_l5",
+      "priority": "P1",
+      "level": "level_5",
+      "primary_level": "level_5",
+      "objective": "Define the configuration schema registry implementation surface for Train 2 Level 5 with source authority, contracts, data schema references, approved api boundary, validation ladder, and evidence artifact. Future draft refresh, re-audit, and execution_locked before execution are mandatory before this ticket may be considered for readiness.",
+      "scope": "configuration schema registry owns one bounded level_5 surface. Include source authority, contract references, data schema references, approved api action authority, runtime service checks when applicable, dependency order, evidence path, and frontend_or_screen_contract_when_applicable = not_applicable_for_this_train_except_future_screen_contract_references.",
+      "non_scope": "No production deployment activation, protected value access, module frontend implementation outside approved screen contracts, predictive stop analysis, autonomous readiness, execution prompt creation, ticket execution, runtime code edit by this planning task, Prisma migration edit by this planning task, package change, or Spark Genesis repository change.",
+      "source_files_to_inspect": [
+        "AGENTS.md",
+        "docs/doctrine/AKTI_ERP_Ticket_Quality_Doctrine_v1.md",
+        "docs/doctrine/AKTI_ERP_Failure_Prevention_Codex_Operating_Doctrine_v1.json",
+        ".spark_genesis/project.json",
+        "docs/process/core/v0_0_2/spark_plan_v2.md",
+        "docs/process/core/v0_0_2/spark_adl_complete.md",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_phase_intent_packet.json",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_human_decisions_v1.md",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_scale_decomposition_profile_v2.json",
+        "prisma/schema.prisma",
+        "packages/contracts"
+      ],
+      "files_expected_to_change": [
+        "docs/process/core/v0_0_2/future_ticket_artifacts/t2-l5-001_configuration_schema_registry.md",
+        "codex_review/core/v0_0_2/full_train_preplanning_v2/t2-l5-001_evidence.md"
+      ],
+      "files_forbidden_to_change": [
+        "apps/api/**",
+        "apps/web/**",
+        "prisma/schema.prisma",
+        "prisma/migrations/**",
+        "generated/**",
+        "package.json",
+        "pnpm-lock.yaml",
+        "/Volumes/UsmanWork/Spark Genesis/**"
+      ],
+      "required_outputs": [
+        "configuration schema registry exact-file plan",
+        "configuration schema registry implementation result or decision artifact",
+        "configuration schema registry validation result",
+        "configuration schema registry evidence artifact"
+      ],
+      "evidence_artifacts": [
+        "codex_review/core/v0_0_2/full_train_preplanning_v2/t2-l5-001_evidence.md"
+      ],
+      "tests_required": [
+        "contract or behavior test tied to the ticket surface",
+        "negative boundary test where the surface handles permission or tenant isolation",
+        "health smoke verification when runtime service or api boundary is touched"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm lint",
+        "pnpm typecheck",
+        "local startup health smoke verification for the affected service surface after exact-file planning"
+      ],
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime / Foundry / module installer / business modules / production auth / deployment / secrets / destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "acceptance_criteria": [
+        "configuration schema registry has a bounded source-authorized exact-file plan before work starts.",
+        "CI command result and named evidence artifact prove the minimum concrete requirement.",
+        "Approved api action authority, data schema reference, contract reference, evidence artifact, validation ladder, and dependency order are recorded.",
+        "Screen contract applicability is explicitly resolved before any future UI work."
+      ],
+      "dependencies": [],
+      "commit_message": "feat: deliver configuration schema registry",
+      "rollback_notes": "Revert the future commit and preserve codex_review/core/v0_0_2/full_train_preplanning_v2/t2-l5-001_evidence.md as failed-run evidence if validation cannot be repaired within bounded attempts.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Required if exact-file planning finds stale source authority, missing dependency, train-boundary leakage, or a file outside approved scope.",
+      "stale_ticket_risk_notes": "Ticket becomes stale if source paths, lower-train dependency state, contract authority, data schema authority, validation command behavior, or evidence path changes before execution. Future draft refresh, re-audit, and execution_locked before execution are mandatory before this ticket may be considered for readiness.",
+      "runtime_consistency_chain": "source authority -> exact-file plan -> implementation surface -> contract/data/api validation -> health smoke verification -> evidence artifact -> gate closure",
+      "minimum_concrete_requirement": "configuration schema registry produces an observable behavior, CI command result, named evidence artifact, negative test, or measured target tied to the approved source authority.",
+      "split_if": "Split only if exact-file planning discovers distinct architectural decisions, unrelated validation ladders, separate runtime subsystems, or overlapping ownership.",
+      "requires_human_approval_if": [
+        "new architecture decision is required",
+        "production deployment activation is requested",
+        "protected values are requested",
+        "train boundary must change"
+      ],
+      "failure_classification": "stale_or_under_decomposed_ticket_risk",
+      "seed_traceability": [
+        "TRAIN_2_L5-LEVEL_5-001"
+      ]
+    },
+    {
+      "ticket_id": "T2-L5-002",
+      "title": "T2-L5-002 module install plan",
+      "type": "implementation",
+      "tier": "train_2_l5",
+      "priority": "P1",
+      "level": "level_5",
+      "primary_level": "level_5",
+      "objective": "Define the module install plan implementation surface for Train 2 Level 5 with source authority, contracts, data schema references, approved api boundary, validation ladder, and evidence artifact. Future draft refresh, re-audit, and execution_locked before execution are mandatory before this ticket may be considered for readiness.",
+      "scope": "module install plan owns one bounded level_5 surface. Include source authority, contract references, data schema references, approved api action authority, runtime service checks when applicable, dependency order, evidence path, and frontend_or_screen_contract_when_applicable = not_applicable_for_this_train_except_future_screen_contract_references.",
+      "non_scope": "No production deployment activation, protected value access, module frontend implementation outside approved screen contracts, predictive stop analysis, autonomous readiness, execution prompt creation, ticket execution, runtime code edit by this planning task, Prisma migration edit by this planning task, package change, or Spark Genesis repository change.",
+      "source_files_to_inspect": [
+        "AGENTS.md",
+        "docs/doctrine/AKTI_ERP_Ticket_Quality_Doctrine_v1.md",
+        "docs/doctrine/AKTI_ERP_Failure_Prevention_Codex_Operating_Doctrine_v1.json",
+        ".spark_genesis/project.json",
+        "docs/process/core/v0_0_2/spark_plan_v2.md",
+        "docs/process/core/v0_0_2/spark_adl_complete.md",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_phase_intent_packet.json",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_human_decisions_v1.md",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_scale_decomposition_profile_v2.json",
+        "prisma/schema.prisma",
+        "packages/contracts"
+      ],
+      "files_expected_to_change": [
+        "docs/process/core/v0_0_2/future_ticket_artifacts/t2-l5-002_module_install_plan.md",
+        "codex_review/core/v0_0_2/full_train_preplanning_v2/t2-l5-002_evidence.md"
+      ],
+      "files_forbidden_to_change": [
+        "apps/api/**",
+        "apps/web/**",
+        "prisma/schema.prisma",
+        "prisma/migrations/**",
+        "generated/**",
+        "package.json",
+        "pnpm-lock.yaml",
+        "/Volumes/UsmanWork/Spark Genesis/**"
+      ],
+      "required_outputs": [
+        "module install plan exact-file plan",
+        "module install plan implementation result or decision artifact",
+        "module install plan validation result",
+        "module install plan evidence artifact"
+      ],
+      "evidence_artifacts": [
+        "codex_review/core/v0_0_2/full_train_preplanning_v2/t2-l5-002_evidence.md"
+      ],
+      "tests_required": [
+        "contract or behavior test tied to the ticket surface",
+        "negative boundary test where the surface handles permission or tenant isolation",
+        "health smoke verification when runtime service or api boundary is touched"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm lint",
+        "pnpm typecheck",
+        "local startup health smoke verification for the affected service surface after exact-file planning"
+      ],
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime / Foundry / module installer / business modules / production auth / deployment / secrets / destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "acceptance_criteria": [
+        "module install plan has a bounded source-authorized exact-file plan before work starts.",
+        "CI command result and named evidence artifact prove the minimum concrete requirement.",
+        "Approved api action authority, data schema reference, contract reference, evidence artifact, validation ladder, and dependency order are recorded.",
+        "Screen contract applicability is explicitly resolved before any future UI work."
+      ],
+      "dependencies": [
+        "T2-L5-001"
+      ],
+      "commit_message": "feat: deliver module install plan",
+      "rollback_notes": "Revert the future commit and preserve codex_review/core/v0_0_2/full_train_preplanning_v2/t2-l5-002_evidence.md as failed-run evidence if validation cannot be repaired within bounded attempts.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Required if exact-file planning finds stale source authority, missing dependency, train-boundary leakage, or a file outside approved scope.",
+      "stale_ticket_risk_notes": "Ticket becomes stale if source paths, lower-train dependency state, contract authority, data schema authority, validation command behavior, or evidence path changes before execution. Future draft refresh, re-audit, and execution_locked before execution are mandatory before this ticket may be considered for readiness.",
+      "runtime_consistency_chain": "source authority -> exact-file plan -> implementation surface -> contract/data/api validation -> health smoke verification -> evidence artifact -> gate closure",
+      "minimum_concrete_requirement": "module install plan produces an observable behavior, CI command result, named evidence artifact, negative test, or measured target tied to the approved source authority.",
+      "split_if": "Split only if exact-file planning discovers distinct architectural decisions, unrelated validation ladders, separate runtime subsystems, or overlapping ownership.",
+      "requires_human_approval_if": [
+        "new architecture decision is required",
+        "production deployment activation is requested",
+        "protected values are requested",
+        "train boundary must change"
+      ],
+      "failure_classification": "stale_or_under_decomposed_ticket_risk",
+      "seed_traceability": [
+        "TRAIN_2_L5-LEVEL_5-002"
+      ]
+    },
+    {
+      "ticket_id": "T2-L5-003",
+      "title": "T2-L5-003 module enable lifecycle",
+      "type": "implementation",
+      "tier": "train_2_l5",
+      "priority": "P1",
+      "level": "level_5",
+      "primary_level": "level_5",
+      "objective": "Define the module enable lifecycle implementation surface for Train 2 Level 5 with source authority, contracts, data schema references, approved api boundary, validation ladder, and evidence artifact. Future draft refresh, re-audit, and execution_locked before execution are mandatory before this ticket may be considered for readiness.",
+      "scope": "module enable lifecycle owns one bounded level_5 surface. Include source authority, contract references, data schema references, approved api action authority, runtime service checks when applicable, dependency order, evidence path, and frontend_or_screen_contract_when_applicable = not_applicable_for_this_train_except_future_screen_contract_references.",
+      "non_scope": "No production deployment activation, protected value access, module frontend implementation outside approved screen contracts, predictive stop analysis, autonomous readiness, execution prompt creation, ticket execution, runtime code edit by this planning task, Prisma migration edit by this planning task, package change, or Spark Genesis repository change.",
+      "source_files_to_inspect": [
+        "AGENTS.md",
+        "docs/doctrine/AKTI_ERP_Ticket_Quality_Doctrine_v1.md",
+        "docs/doctrine/AKTI_ERP_Failure_Prevention_Codex_Operating_Doctrine_v1.json",
+        ".spark_genesis/project.json",
+        "docs/process/core/v0_0_2/spark_plan_v2.md",
+        "docs/process/core/v0_0_2/spark_adl_complete.md",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_phase_intent_packet.json",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_human_decisions_v1.md",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_scale_decomposition_profile_v2.json",
+        "prisma/schema.prisma",
+        "packages/contracts"
+      ],
+      "files_expected_to_change": [
+        "docs/process/core/v0_0_2/future_ticket_artifacts/t2-l5-003_module_enable_lifecycle.md",
+        "codex_review/core/v0_0_2/full_train_preplanning_v2/t2-l5-003_evidence.md"
+      ],
+      "files_forbidden_to_change": [
+        "apps/api/**",
+        "apps/web/**",
+        "prisma/schema.prisma",
+        "prisma/migrations/**",
+        "generated/**",
+        "package.json",
+        "pnpm-lock.yaml",
+        "/Volumes/UsmanWork/Spark Genesis/**"
+      ],
+      "required_outputs": [
+        "module enable lifecycle exact-file plan",
+        "module enable lifecycle implementation result or decision artifact",
+        "module enable lifecycle validation result",
+        "module enable lifecycle evidence artifact"
+      ],
+      "evidence_artifacts": [
+        "codex_review/core/v0_0_2/full_train_preplanning_v2/t2-l5-003_evidence.md"
+      ],
+      "tests_required": [
+        "contract or behavior test tied to the ticket surface",
+        "negative boundary test where the surface handles permission or tenant isolation",
+        "health smoke verification when runtime service or api boundary is touched"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm lint",
+        "pnpm typecheck",
+        "local startup health smoke verification for the affected service surface after exact-file planning"
+      ],
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime / Foundry / module installer / business modules / production auth / deployment / secrets / destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "acceptance_criteria": [
+        "module enable lifecycle has a bounded source-authorized exact-file plan before work starts.",
+        "CI command result and named evidence artifact prove the minimum concrete requirement.",
+        "Approved api action authority, data schema reference, contract reference, evidence artifact, validation ladder, and dependency order are recorded.",
+        "Screen contract applicability is explicitly resolved before any future UI work."
+      ],
+      "dependencies": [
+        "T2-L5-002"
+      ],
+      "commit_message": "feat: deliver module enable lifecycle",
+      "rollback_notes": "Revert the future commit and preserve codex_review/core/v0_0_2/full_train_preplanning_v2/t2-l5-003_evidence.md as failed-run evidence if validation cannot be repaired within bounded attempts.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Required if exact-file planning finds stale source authority, missing dependency, train-boundary leakage, or a file outside approved scope.",
+      "stale_ticket_risk_notes": "Ticket becomes stale if source paths, lower-train dependency state, contract authority, data schema authority, validation command behavior, or evidence path changes before execution. Future draft refresh, re-audit, and execution_locked before execution are mandatory before this ticket may be considered for readiness.",
+      "runtime_consistency_chain": "source authority -> exact-file plan -> implementation surface -> contract/data/api validation -> health smoke verification -> evidence artifact -> gate closure",
+      "minimum_concrete_requirement": "module enable lifecycle produces an observable behavior, CI command result, named evidence artifact, negative test, or measured target tied to the approved source authority.",
+      "split_if": "Split only if exact-file planning discovers distinct architectural decisions, unrelated validation ladders, separate runtime subsystems, or overlapping ownership.",
+      "requires_human_approval_if": [
+        "new architecture decision is required",
+        "production deployment activation is requested",
+        "protected values are requested",
+        "train boundary must change"
+      ],
+      "failure_classification": "stale_or_under_decomposed_ticket_risk",
+      "seed_traceability": [
+        "TRAIN_2_L5-LEVEL_5-003"
+      ]
+    },
+    {
+      "ticket_id": "T2-L5-004",
+      "title": "T2-L5-004 module disable lifecycle",
+      "type": "implementation",
+      "tier": "train_2_l5",
+      "priority": "P1",
+      "level": "level_5",
+      "primary_level": "level_5",
+      "objective": "Define the module disable lifecycle implementation surface for Train 2 Level 5 with source authority, contracts, data schema references, approved api boundary, validation ladder, and evidence artifact. Future draft refresh, re-audit, and execution_locked before execution are mandatory before this ticket may be considered for readiness.",
+      "scope": "module disable lifecycle owns one bounded level_5 surface. Include source authority, contract references, data schema references, approved api action authority, runtime service checks when applicable, dependency order, evidence path, and frontend_or_screen_contract_when_applicable = not_applicable_for_this_train_except_future_screen_contract_references.",
+      "non_scope": "No production deployment activation, protected value access, module frontend implementation outside approved screen contracts, predictive stop analysis, autonomous readiness, execution prompt creation, ticket execution, runtime code edit by this planning task, Prisma migration edit by this planning task, package change, or Spark Genesis repository change.",
+      "source_files_to_inspect": [
+        "AGENTS.md",
+        "docs/doctrine/AKTI_ERP_Ticket_Quality_Doctrine_v1.md",
+        "docs/doctrine/AKTI_ERP_Failure_Prevention_Codex_Operating_Doctrine_v1.json",
+        ".spark_genesis/project.json",
+        "docs/process/core/v0_0_2/spark_plan_v2.md",
+        "docs/process/core/v0_0_2/spark_adl_complete.md",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_phase_intent_packet.json",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_human_decisions_v1.md",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_scale_decomposition_profile_v2.json",
+        "prisma/schema.prisma",
+        "packages/contracts"
+      ],
+      "files_expected_to_change": [
+        "docs/process/core/v0_0_2/future_ticket_artifacts/t2-l5-004_module_disable_lifecycle.md",
+        "codex_review/core/v0_0_2/full_train_preplanning_v2/t2-l5-004_evidence.md"
+      ],
+      "files_forbidden_to_change": [
+        "apps/api/**",
+        "apps/web/**",
+        "prisma/schema.prisma",
+        "prisma/migrations/**",
+        "generated/**",
+        "package.json",
+        "pnpm-lock.yaml",
+        "/Volumes/UsmanWork/Spark Genesis/**"
+      ],
+      "required_outputs": [
+        "module disable lifecycle exact-file plan",
+        "module disable lifecycle implementation result or decision artifact",
+        "module disable lifecycle validation result",
+        "module disable lifecycle evidence artifact"
+      ],
+      "evidence_artifacts": [
+        "codex_review/core/v0_0_2/full_train_preplanning_v2/t2-l5-004_evidence.md"
+      ],
+      "tests_required": [
+        "contract or behavior test tied to the ticket surface",
+        "negative boundary test where the surface handles permission or tenant isolation",
+        "health smoke verification when runtime service or api boundary is touched"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm lint",
+        "pnpm typecheck",
+        "local startup health smoke verification for the affected service surface after exact-file planning"
+      ],
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime / Foundry / module installer / business modules / production auth / deployment / secrets / destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "acceptance_criteria": [
+        "module disable lifecycle has a bounded source-authorized exact-file plan before work starts.",
+        "CI command result and named evidence artifact prove the minimum concrete requirement.",
+        "Approved api action authority, data schema reference, contract reference, evidence artifact, validation ladder, and dependency order are recorded.",
+        "Screen contract applicability is explicitly resolved before any future UI work."
+      ],
+      "dependencies": [
+        "T2-L5-003"
+      ],
+      "commit_message": "feat: deliver module disable lifecycle",
+      "rollback_notes": "Revert the future commit and preserve codex_review/core/v0_0_2/full_train_preplanning_v2/t2-l5-004_evidence.md as failed-run evidence if validation cannot be repaired within bounded attempts.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Required if exact-file planning finds stale source authority, missing dependency, train-boundary leakage, or a file outside approved scope.",
+      "stale_ticket_risk_notes": "Ticket becomes stale if source paths, lower-train dependency state, contract authority, data schema authority, validation command behavior, or evidence path changes before execution. Future draft refresh, re-audit, and execution_locked before execution are mandatory before this ticket may be considered for readiness.",
+      "runtime_consistency_chain": "source authority -> exact-file plan -> implementation surface -> contract/data/api validation -> health smoke verification -> evidence artifact -> gate closure",
+      "minimum_concrete_requirement": "module disable lifecycle produces an observable behavior, CI command result, named evidence artifact, negative test, or measured target tied to the approved source authority.",
+      "split_if": "Split only if exact-file planning discovers distinct architectural decisions, unrelated validation ladders, separate runtime subsystems, or overlapping ownership.",
+      "requires_human_approval_if": [
+        "new architecture decision is required",
+        "production deployment activation is requested",
+        "protected values are requested",
+        "train boundary must change"
+      ],
+      "failure_classification": "stale_or_under_decomposed_ticket_risk",
+      "seed_traceability": [
+        "TRAIN_2_L5-LEVEL_5-004"
+      ]
+    },
+    {
+      "ticket_id": "T2-L5-005",
+      "title": "T2-L5-005 dependency resolver",
+      "type": "implementation",
+      "tier": "train_2_l5",
+      "priority": "P1",
+      "level": "level_5",
+      "primary_level": "level_5",
+      "objective": "Define the dependency resolver implementation surface for Train 2 Level 5 with source authority, contracts, data schema references, approved api boundary, validation ladder, and evidence artifact. Future draft refresh, re-audit, and execution_locked before execution are mandatory before this ticket may be considered for readiness.",
+      "scope": "dependency resolver owns one bounded level_5 surface. Include source authority, contract references, data schema references, approved api action authority, runtime service checks when applicable, dependency order, evidence path, and frontend_or_screen_contract_when_applicable = not_applicable_for_this_train_except_future_screen_contract_references.",
+      "non_scope": "No production deployment activation, protected value access, module frontend implementation outside approved screen contracts, predictive stop analysis, autonomous readiness, execution prompt creation, ticket execution, runtime code edit by this planning task, Prisma migration edit by this planning task, package change, or Spark Genesis repository change.",
+      "source_files_to_inspect": [
+        "AGENTS.md",
+        "docs/doctrine/AKTI_ERP_Ticket_Quality_Doctrine_v1.md",
+        "docs/doctrine/AKTI_ERP_Failure_Prevention_Codex_Operating_Doctrine_v1.json",
+        ".spark_genesis/project.json",
+        "docs/process/core/v0_0_2/spark_plan_v2.md",
+        "docs/process/core/v0_0_2/spark_adl_complete.md",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_phase_intent_packet.json",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_human_decisions_v1.md",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_scale_decomposition_profile_v2.json",
+        "prisma/schema.prisma",
+        "packages/contracts"
+      ],
+      "files_expected_to_change": [
+        "docs/process/core/v0_0_2/future_ticket_artifacts/t2-l5-005_dependency_resolver.md",
+        "codex_review/core/v0_0_2/full_train_preplanning_v2/t2-l5-005_evidence.md"
+      ],
+      "files_forbidden_to_change": [
+        "apps/api/**",
+        "apps/web/**",
+        "prisma/schema.prisma",
+        "prisma/migrations/**",
+        "generated/**",
+        "package.json",
+        "pnpm-lock.yaml",
+        "/Volumes/UsmanWork/Spark Genesis/**"
+      ],
+      "required_outputs": [
+        "dependency resolver exact-file plan",
+        "dependency resolver implementation result or decision artifact",
+        "dependency resolver validation result",
+        "dependency resolver evidence artifact"
+      ],
+      "evidence_artifacts": [
+        "codex_review/core/v0_0_2/full_train_preplanning_v2/t2-l5-005_evidence.md"
+      ],
+      "tests_required": [
+        "contract or behavior test tied to the ticket surface",
+        "negative boundary test where the surface handles permission or tenant isolation",
+        "health smoke verification when runtime service or api boundary is touched"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm lint",
+        "pnpm typecheck",
+        "local startup health smoke verification for the affected service surface after exact-file planning"
+      ],
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime / Foundry / module installer / business modules / production auth / deployment / secrets / destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "acceptance_criteria": [
+        "dependency resolver has a bounded source-authorized exact-file plan before work starts.",
+        "CI command result and named evidence artifact prove the minimum concrete requirement.",
+        "Approved api action authority, data schema reference, contract reference, evidence artifact, validation ladder, and dependency order are recorded.",
+        "Screen contract applicability is explicitly resolved before any future UI work."
+      ],
+      "dependencies": [
+        "T2-L5-004"
+      ],
+      "commit_message": "feat: deliver dependency resolver",
+      "rollback_notes": "Revert the future commit and preserve codex_review/core/v0_0_2/full_train_preplanning_v2/t2-l5-005_evidence.md as failed-run evidence if validation cannot be repaired within bounded attempts.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Required if exact-file planning finds stale source authority, missing dependency, train-boundary leakage, or a file outside approved scope.",
+      "stale_ticket_risk_notes": "Ticket becomes stale if source paths, lower-train dependency state, contract authority, data schema authority, validation command behavior, or evidence path changes before execution. Future draft refresh, re-audit, and execution_locked before execution are mandatory before this ticket may be considered for readiness.",
+      "runtime_consistency_chain": "source authority -> exact-file plan -> implementation surface -> contract/data/api validation -> health smoke verification -> evidence artifact -> gate closure",
+      "minimum_concrete_requirement": "dependency resolver produces an observable behavior, CI command result, named evidence artifact, negative test, or measured target tied to the approved source authority.",
+      "split_if": "Split only if exact-file planning discovers distinct architectural decisions, unrelated validation ladders, separate runtime subsystems, or overlapping ownership.",
+      "requires_human_approval_if": [
+        "new architecture decision is required",
+        "production deployment activation is requested",
+        "protected values are requested",
+        "train boundary must change"
+      ],
+      "failure_classification": "stale_or_under_decomposed_ticket_risk",
+      "seed_traceability": [
+        "TRAIN_2_L5-LEVEL_5-005"
+      ]
+    },
+    {
+      "ticket_id": "T2-L5-006",
+      "title": "T2-L5-006 migration precheck policy",
+      "type": "implementation",
+      "tier": "train_2_l5",
+      "priority": "P1",
+      "level": "level_5",
+      "primary_level": "level_5",
+      "objective": "Define the migration precheck policy implementation surface for Train 2 Level 5 with source authority, contracts, data schema references, approved api boundary, validation ladder, and evidence artifact. Future draft refresh, re-audit, and execution_locked before execution are mandatory before this ticket may be considered for readiness.",
+      "scope": "migration precheck policy owns one bounded level_5 surface. Include source authority, contract references, data schema references, approved api action authority, runtime service checks when applicable, dependency order, evidence path, and frontend_or_screen_contract_when_applicable = not_applicable_for_this_train_except_future_screen_contract_references.",
+      "non_scope": "No production deployment activation, protected value access, module frontend implementation outside approved screen contracts, predictive stop analysis, autonomous readiness, execution prompt creation, ticket execution, runtime code edit by this planning task, Prisma migration edit by this planning task, package change, or Spark Genesis repository change.",
+      "source_files_to_inspect": [
+        "AGENTS.md",
+        "docs/doctrine/AKTI_ERP_Ticket_Quality_Doctrine_v1.md",
+        "docs/doctrine/AKTI_ERP_Failure_Prevention_Codex_Operating_Doctrine_v1.json",
+        ".spark_genesis/project.json",
+        "docs/process/core/v0_0_2/spark_plan_v2.md",
+        "docs/process/core/v0_0_2/spark_adl_complete.md",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_phase_intent_packet.json",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_human_decisions_v1.md",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_scale_decomposition_profile_v2.json",
+        "prisma/schema.prisma",
+        "packages/contracts"
+      ],
+      "files_expected_to_change": [
+        "docs/process/core/v0_0_2/future_ticket_artifacts/t2-l5-006_migration_precheck_policy.md",
+        "codex_review/core/v0_0_2/full_train_preplanning_v2/t2-l5-006_evidence.md"
+      ],
+      "files_forbidden_to_change": [
+        "apps/api/**",
+        "apps/web/**",
+        "prisma/schema.prisma",
+        "prisma/migrations/**",
+        "generated/**",
+        "package.json",
+        "pnpm-lock.yaml",
+        "/Volumes/UsmanWork/Spark Genesis/**"
+      ],
+      "required_outputs": [
+        "migration precheck policy exact-file plan",
+        "migration precheck policy implementation result or decision artifact",
+        "migration precheck policy validation result",
+        "migration precheck policy evidence artifact"
+      ],
+      "evidence_artifacts": [
+        "codex_review/core/v0_0_2/full_train_preplanning_v2/t2-l5-006_evidence.md"
+      ],
+      "tests_required": [
+        "contract or behavior test tied to the ticket surface",
+        "negative boundary test where the surface handles permission or tenant isolation",
+        "health smoke verification when runtime service or api boundary is touched"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm lint",
+        "pnpm typecheck",
+        "local startup health smoke verification for the affected service surface after exact-file planning"
+      ],
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime / Foundry / module installer / business modules / production auth / deployment / secrets / destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "acceptance_criteria": [
+        "migration precheck policy has a bounded source-authorized exact-file plan before work starts.",
+        "CI command result and named evidence artifact prove the minimum concrete requirement.",
+        "Approved api action authority, data schema reference, contract reference, evidence artifact, validation ladder, and dependency order are recorded.",
+        "Screen contract applicability is explicitly resolved before any future UI work."
+      ],
+      "dependencies": [
+        "T2-L5-005"
+      ],
+      "commit_message": "feat: deliver migration precheck policy",
+      "rollback_notes": "Revert the future commit and preserve codex_review/core/v0_0_2/full_train_preplanning_v2/t2-l5-006_evidence.md as failed-run evidence if validation cannot be repaired within bounded attempts.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Required if exact-file planning finds stale source authority, missing dependency, train-boundary leakage, or a file outside approved scope.",
+      "stale_ticket_risk_notes": "Ticket becomes stale if source paths, lower-train dependency state, contract authority, data schema authority, validation command behavior, or evidence path changes before execution. Future draft refresh, re-audit, and execution_locked before execution are mandatory before this ticket may be considered for readiness.",
+      "runtime_consistency_chain": "source authority -> exact-file plan -> implementation surface -> contract/data/api validation -> health smoke verification -> evidence artifact -> gate closure",
+      "minimum_concrete_requirement": "migration precheck policy produces an observable behavior, CI command result, named evidence artifact, negative test, or measured target tied to the approved source authority.",
+      "split_if": "Split only if exact-file planning discovers distinct architectural decisions, unrelated validation ladders, separate runtime subsystems, or overlapping ownership.",
+      "requires_human_approval_if": [
+        "new architecture decision is required",
+        "production deployment activation is requested",
+        "protected values are requested",
+        "train boundary must change"
+      ],
+      "failure_classification": "stale_or_under_decomposed_ticket_risk",
+      "seed_traceability": [
+        "TRAIN_2_L5-LEVEL_5-006"
+      ]
+    },
+    {
+      "ticket_id": "T2-L5-007",
+      "title": "T2-L5-007 capability declaration model",
+      "type": "implementation",
+      "tier": "train_2_l5",
+      "priority": "P1",
+      "level": "level_5",
+      "primary_level": "level_5",
+      "objective": "Define the capability declaration model implementation surface for Train 2 Level 5 with source authority, contracts, data schema references, approved api boundary, validation ladder, and evidence artifact. Future draft refresh, re-audit, and execution_locked before execution are mandatory before this ticket may be considered for readiness.",
+      "scope": "capability declaration model owns one bounded level_5 surface. Include source authority, contract references, data schema references, approved api action authority, runtime service checks when applicable, dependency order, evidence path, and frontend_or_screen_contract_when_applicable = not_applicable_for_this_train_except_future_screen_contract_references.",
+      "non_scope": "No production deployment activation, protected value access, module frontend implementation outside approved screen contracts, predictive stop analysis, autonomous readiness, execution prompt creation, ticket execution, runtime code edit by this planning task, Prisma migration edit by this planning task, package change, or Spark Genesis repository change.",
+      "source_files_to_inspect": [
+        "AGENTS.md",
+        "docs/doctrine/AKTI_ERP_Ticket_Quality_Doctrine_v1.md",
+        "docs/doctrine/AKTI_ERP_Failure_Prevention_Codex_Operating_Doctrine_v1.json",
+        ".spark_genesis/project.json",
+        "docs/process/core/v0_0_2/spark_plan_v2.md",
+        "docs/process/core/v0_0_2/spark_adl_complete.md",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_phase_intent_packet.json",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_human_decisions_v1.md",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_scale_decomposition_profile_v2.json",
+        "prisma/schema.prisma",
+        "packages/contracts"
+      ],
+      "files_expected_to_change": [
+        "docs/process/core/v0_0_2/future_ticket_artifacts/t2-l5-007_capability_declaration_model.md",
+        "codex_review/core/v0_0_2/full_train_preplanning_v2/t2-l5-007_evidence.md"
+      ],
+      "files_forbidden_to_change": [
+        "apps/api/**",
+        "apps/web/**",
+        "prisma/schema.prisma",
+        "prisma/migrations/**",
+        "generated/**",
+        "package.json",
+        "pnpm-lock.yaml",
+        "/Volumes/UsmanWork/Spark Genesis/**"
+      ],
+      "required_outputs": [
+        "capability declaration model exact-file plan",
+        "capability declaration model implementation result or decision artifact",
+        "capability declaration model validation result",
+        "capability declaration model evidence artifact"
+      ],
+      "evidence_artifacts": [
+        "codex_review/core/v0_0_2/full_train_preplanning_v2/t2-l5-007_evidence.md"
+      ],
+      "tests_required": [
+        "contract or behavior test tied to the ticket surface",
+        "negative boundary test where the surface handles permission or tenant isolation",
+        "health smoke verification when runtime service or api boundary is touched"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm lint",
+        "pnpm typecheck",
+        "local startup health smoke verification for the affected service surface after exact-file planning"
+      ],
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime / Foundry / module installer / business modules / production auth / deployment / secrets / destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "acceptance_criteria": [
+        "capability declaration model has a bounded source-authorized exact-file plan before work starts.",
+        "CI command result and named evidence artifact prove the minimum concrete requirement.",
+        "Approved api action authority, data schema reference, contract reference, evidence artifact, validation ladder, and dependency order are recorded.",
+        "Screen contract applicability is explicitly resolved before any future UI work."
+      ],
+      "dependencies": [
+        "T2-L5-006"
+      ],
+      "commit_message": "feat: deliver capability declaration model",
+      "rollback_notes": "Revert the future commit and preserve codex_review/core/v0_0_2/full_train_preplanning_v2/t2-l5-007_evidence.md as failed-run evidence if validation cannot be repaired within bounded attempts.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Required if exact-file planning finds stale source authority, missing dependency, train-boundary leakage, or a file outside approved scope.",
+      "stale_ticket_risk_notes": "Ticket becomes stale if source paths, lower-train dependency state, contract authority, data schema authority, validation command behavior, or evidence path changes before execution. Future draft refresh, re-audit, and execution_locked before execution are mandatory before this ticket may be considered for readiness.",
+      "runtime_consistency_chain": "source authority -> exact-file plan -> implementation surface -> contract/data/api validation -> health smoke verification -> evidence artifact -> gate closure",
+      "minimum_concrete_requirement": "capability declaration model produces an observable behavior, CI command result, named evidence artifact, negative test, or measured target tied to the approved source authority.",
+      "split_if": "Split only if exact-file planning discovers distinct architectural decisions, unrelated validation ladders, separate runtime subsystems, or overlapping ownership.",
+      "requires_human_approval_if": [
+        "new architecture decision is required",
+        "production deployment activation is requested",
+        "protected values are requested",
+        "train boundary must change"
+      ],
+      "failure_classification": "stale_or_under_decomposed_ticket_risk",
+      "seed_traceability": [
+        "TRAIN_2_L5-LEVEL_5-007"
+      ]
+    },
+    {
+      "ticket_id": "T2-L5-008",
+      "title": "T2-L5-008 settings form contract",
+      "type": "implementation",
+      "tier": "train_2_l5",
+      "priority": "P1",
+      "level": "level_5",
+      "primary_level": "level_5",
+      "objective": "Define the settings form contract implementation surface for Train 2 Level 5 with source authority, contracts, data schema references, approved api boundary, validation ladder, and evidence artifact. Future draft refresh, re-audit, and execution_locked before execution are mandatory before this ticket may be considered for readiness.",
+      "scope": "settings form contract owns one bounded level_5 surface. Include source authority, contract references, data schema references, approved api action authority, runtime service checks when applicable, dependency order, evidence path, and frontend_or_screen_contract_when_applicable = not_applicable_for_this_train_except_future_screen_contract_references.",
+      "non_scope": "No production deployment activation, protected value access, module frontend implementation outside approved screen contracts, predictive stop analysis, autonomous readiness, execution prompt creation, ticket execution, runtime code edit by this planning task, Prisma migration edit by this planning task, package change, or Spark Genesis repository change.",
+      "source_files_to_inspect": [
+        "AGENTS.md",
+        "docs/doctrine/AKTI_ERP_Ticket_Quality_Doctrine_v1.md",
+        "docs/doctrine/AKTI_ERP_Failure_Prevention_Codex_Operating_Doctrine_v1.json",
+        ".spark_genesis/project.json",
+        "docs/process/core/v0_0_2/spark_plan_v2.md",
+        "docs/process/core/v0_0_2/spark_adl_complete.md",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_phase_intent_packet.json",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_human_decisions_v1.md",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_scale_decomposition_profile_v2.json",
+        "prisma/schema.prisma",
+        "packages/contracts"
+      ],
+      "files_expected_to_change": [
+        "docs/process/core/v0_0_2/future_ticket_artifacts/t2-l5-008_settings_form_contract.md",
+        "codex_review/core/v0_0_2/full_train_preplanning_v2/t2-l5-008_evidence.md"
+      ],
+      "files_forbidden_to_change": [
+        "apps/api/**",
+        "apps/web/**",
+        "prisma/schema.prisma",
+        "prisma/migrations/**",
+        "generated/**",
+        "package.json",
+        "pnpm-lock.yaml",
+        "/Volumes/UsmanWork/Spark Genesis/**"
+      ],
+      "required_outputs": [
+        "settings form contract exact-file plan",
+        "settings form contract implementation result or decision artifact",
+        "settings form contract validation result",
+        "settings form contract evidence artifact"
+      ],
+      "evidence_artifacts": [
+        "codex_review/core/v0_0_2/full_train_preplanning_v2/t2-l5-008_evidence.md"
+      ],
+      "tests_required": [
+        "contract or behavior test tied to the ticket surface",
+        "negative boundary test where the surface handles permission or tenant isolation",
+        "health smoke verification when runtime service or api boundary is touched"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm lint",
+        "pnpm typecheck",
+        "local startup health smoke verification for the affected service surface after exact-file planning"
+      ],
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime / Foundry / module installer / business modules / production auth / deployment / secrets / destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "acceptance_criteria": [
+        "settings form contract has a bounded source-authorized exact-file plan before work starts.",
+        "CI command result and named evidence artifact prove the minimum concrete requirement.",
+        "Approved api action authority, data schema reference, contract reference, evidence artifact, validation ladder, and dependency order are recorded.",
+        "Screen contract applicability is explicitly resolved before any future UI work."
+      ],
+      "dependencies": [
+        "T2-L5-007"
+      ],
+      "commit_message": "feat: deliver settings form contract",
+      "rollback_notes": "Revert the future commit and preserve codex_review/core/v0_0_2/full_train_preplanning_v2/t2-l5-008_evidence.md as failed-run evidence if validation cannot be repaired within bounded attempts.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Required if exact-file planning finds stale source authority, missing dependency, train-boundary leakage, or a file outside approved scope.",
+      "stale_ticket_risk_notes": "Ticket becomes stale if source paths, lower-train dependency state, contract authority, data schema authority, validation command behavior, or evidence path changes before execution. Future draft refresh, re-audit, and execution_locked before execution are mandatory before this ticket may be considered for readiness.",
+      "runtime_consistency_chain": "source authority -> exact-file plan -> implementation surface -> contract/data/api validation -> health smoke verification -> evidence artifact -> gate closure",
+      "minimum_concrete_requirement": "settings form contract produces an observable behavior, CI command result, named evidence artifact, negative test, or measured target tied to the approved source authority.",
+      "split_if": "Split only if exact-file planning discovers distinct architectural decisions, unrelated validation ladders, separate runtime subsystems, or overlapping ownership.",
+      "requires_human_approval_if": [
+        "new architecture decision is required",
+        "production deployment activation is requested",
+        "protected values are requested",
+        "train boundary must change"
+      ],
+      "failure_classification": "stale_or_under_decomposed_ticket_risk",
+      "seed_traceability": [
+        "TRAIN_2_L5-LEVEL_5-008"
+      ]
+    },
+    {
+      "ticket_id": "T2-L5-009",
+      "title": "T2-L5-009 tenant override rules",
+      "type": "implementation",
+      "tier": "train_2_l5",
+      "priority": "P1",
+      "level": "level_5",
+      "primary_level": "level_5",
+      "objective": "Define the tenant override rules implementation surface for Train 2 Level 5 with source authority, contracts, data schema references, approved api boundary, validation ladder, and evidence artifact. Future draft refresh, re-audit, and execution_locked before execution are mandatory before this ticket may be considered for readiness.",
+      "scope": "tenant override rules owns one bounded level_5 surface. Include source authority, contract references, data schema references, approved api action authority, runtime service checks when applicable, dependency order, evidence path, and frontend_or_screen_contract_when_applicable = not_applicable_for_this_train_except_future_screen_contract_references.",
+      "non_scope": "No production deployment activation, protected value access, module frontend implementation outside approved screen contracts, predictive stop analysis, autonomous readiness, execution prompt creation, ticket execution, runtime code edit by this planning task, Prisma migration edit by this planning task, package change, or Spark Genesis repository change.",
+      "source_files_to_inspect": [
+        "AGENTS.md",
+        "docs/doctrine/AKTI_ERP_Ticket_Quality_Doctrine_v1.md",
+        "docs/doctrine/AKTI_ERP_Failure_Prevention_Codex_Operating_Doctrine_v1.json",
+        ".spark_genesis/project.json",
+        "docs/process/core/v0_0_2/spark_plan_v2.md",
+        "docs/process/core/v0_0_2/spark_adl_complete.md",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_phase_intent_packet.json",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_human_decisions_v1.md",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_scale_decomposition_profile_v2.json",
+        "prisma/schema.prisma",
+        "packages/contracts"
+      ],
+      "files_expected_to_change": [
+        "docs/process/core/v0_0_2/future_ticket_artifacts/t2-l5-009_tenant_override_rules.md",
+        "codex_review/core/v0_0_2/full_train_preplanning_v2/t2-l5-009_evidence.md"
+      ],
+      "files_forbidden_to_change": [
+        "apps/api/**",
+        "apps/web/**",
+        "prisma/schema.prisma",
+        "prisma/migrations/**",
+        "generated/**",
+        "package.json",
+        "pnpm-lock.yaml",
+        "/Volumes/UsmanWork/Spark Genesis/**"
+      ],
+      "required_outputs": [
+        "tenant override rules exact-file plan",
+        "tenant override rules implementation result or decision artifact",
+        "tenant override rules validation result",
+        "tenant override rules evidence artifact"
+      ],
+      "evidence_artifacts": [
+        "codex_review/core/v0_0_2/full_train_preplanning_v2/t2-l5-009_evidence.md"
+      ],
+      "tests_required": [
+        "contract or behavior test tied to the ticket surface",
+        "negative boundary test where the surface handles permission or tenant isolation",
+        "health smoke verification when runtime service or api boundary is touched"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm lint",
+        "pnpm typecheck",
+        "local startup health smoke verification for the affected service surface after exact-file planning"
+      ],
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime / Foundry / module installer / business modules / production auth / deployment / secrets / destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "acceptance_criteria": [
+        "tenant override rules has a bounded source-authorized exact-file plan before work starts.",
+        "CI command result and named evidence artifact prove the minimum concrete requirement.",
+        "Approved api action authority, data schema reference, contract reference, evidence artifact, validation ladder, and dependency order are recorded.",
+        "Screen contract applicability is explicitly resolved before any future UI work."
+      ],
+      "dependencies": [
+        "T2-L5-008"
+      ],
+      "commit_message": "feat: deliver tenant override rules",
+      "rollback_notes": "Revert the future commit and preserve codex_review/core/v0_0_2/full_train_preplanning_v2/t2-l5-009_evidence.md as failed-run evidence if validation cannot be repaired within bounded attempts.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Required if exact-file planning finds stale source authority, missing dependency, train-boundary leakage, or a file outside approved scope.",
+      "stale_ticket_risk_notes": "Ticket becomes stale if source paths, lower-train dependency state, contract authority, data schema authority, validation command behavior, or evidence path changes before execution. Future draft refresh, re-audit, and execution_locked before execution are mandatory before this ticket may be considered for readiness.",
+      "runtime_consistency_chain": "source authority -> exact-file plan -> implementation surface -> contract/data/api validation -> health smoke verification -> evidence artifact -> gate closure",
+      "minimum_concrete_requirement": "tenant override rules produces an observable behavior, CI command result, named evidence artifact, negative test, or measured target tied to the approved source authority.",
+      "split_if": "Split only if exact-file planning discovers distinct architectural decisions, unrelated validation ladders, separate runtime subsystems, or overlapping ownership.",
+      "requires_human_approval_if": [
+        "new architecture decision is required",
+        "production deployment activation is requested",
+        "protected values are requested",
+        "train boundary must change"
+      ],
+      "failure_classification": "stale_or_under_decomposed_ticket_risk",
+      "seed_traceability": [
+        "TRAIN_2_L5-LEVEL_5-009"
+      ]
+    },
+    {
+      "ticket_id": "T2-L5-010",
+      "title": "T2-L5-010 label override rules",
+      "type": "implementation",
+      "tier": "train_2_l5",
+      "priority": "P1",
+      "level": "level_5",
+      "primary_level": "level_5",
+      "objective": "Define the label override rules implementation surface for Train 2 Level 5 with source authority, contracts, data schema references, approved api boundary, validation ladder, and evidence artifact. Future draft refresh, re-audit, and execution_locked before execution are mandatory before this ticket may be considered for readiness.",
+      "scope": "label override rules owns one bounded level_5 surface. Include source authority, contract references, data schema references, approved api action authority, runtime service checks when applicable, dependency order, evidence path, and frontend_or_screen_contract_when_applicable = not_applicable_for_this_train_except_future_screen_contract_references.",
+      "non_scope": "No production deployment activation, protected value access, module frontend implementation outside approved screen contracts, predictive stop analysis, autonomous readiness, execution prompt creation, ticket execution, runtime code edit by this planning task, Prisma migration edit by this planning task, package change, or Spark Genesis repository change.",
+      "source_files_to_inspect": [
+        "AGENTS.md",
+        "docs/doctrine/AKTI_ERP_Ticket_Quality_Doctrine_v1.md",
+        "docs/doctrine/AKTI_ERP_Failure_Prevention_Codex_Operating_Doctrine_v1.json",
+        ".spark_genesis/project.json",
+        "docs/process/core/v0_0_2/spark_plan_v2.md",
+        "docs/process/core/v0_0_2/spark_adl_complete.md",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_phase_intent_packet.json",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_human_decisions_v1.md",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_scale_decomposition_profile_v2.json",
+        "prisma/schema.prisma",
+        "packages/contracts"
+      ],
+      "files_expected_to_change": [
+        "docs/process/core/v0_0_2/future_ticket_artifacts/t2-l5-010_label_override_rules.md",
+        "codex_review/core/v0_0_2/full_train_preplanning_v2/t2-l5-010_evidence.md"
+      ],
+      "files_forbidden_to_change": [
+        "apps/api/**",
+        "apps/web/**",
+        "prisma/schema.prisma",
+        "prisma/migrations/**",
+        "generated/**",
+        "package.json",
+        "pnpm-lock.yaml",
+        "/Volumes/UsmanWork/Spark Genesis/**"
+      ],
+      "required_outputs": [
+        "label override rules exact-file plan",
+        "label override rules implementation result or decision artifact",
+        "label override rules validation result",
+        "label override rules evidence artifact"
+      ],
+      "evidence_artifacts": [
+        "codex_review/core/v0_0_2/full_train_preplanning_v2/t2-l5-010_evidence.md"
+      ],
+      "tests_required": [
+        "contract or behavior test tied to the ticket surface",
+        "negative boundary test where the surface handles permission or tenant isolation",
+        "health smoke verification when runtime service or api boundary is touched"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm lint",
+        "pnpm typecheck",
+        "local startup health smoke verification for the affected service surface after exact-file planning"
+      ],
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime / Foundry / module installer / business modules / production auth / deployment / secrets / destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "acceptance_criteria": [
+        "label override rules has a bounded source-authorized exact-file plan before work starts.",
+        "CI command result and named evidence artifact prove the minimum concrete requirement.",
+        "Approved api action authority, data schema reference, contract reference, evidence artifact, validation ladder, and dependency order are recorded.",
+        "Screen contract applicability is explicitly resolved before any future UI work."
+      ],
+      "dependencies": [
+        "T2-L5-009"
+      ],
+      "commit_message": "feat: deliver label override rules",
+      "rollback_notes": "Revert the future commit and preserve codex_review/core/v0_0_2/full_train_preplanning_v2/t2-l5-010_evidence.md as failed-run evidence if validation cannot be repaired within bounded attempts.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Required if exact-file planning finds stale source authority, missing dependency, train-boundary leakage, or a file outside approved scope.",
+      "stale_ticket_risk_notes": "Ticket becomes stale if source paths, lower-train dependency state, contract authority, data schema authority, validation command behavior, or evidence path changes before execution. Future draft refresh, re-audit, and execution_locked before execution are mandatory before this ticket may be considered for readiness.",
+      "runtime_consistency_chain": "source authority -> exact-file plan -> implementation surface -> contract/data/api validation -> health smoke verification -> evidence artifact -> gate closure",
+      "minimum_concrete_requirement": "label override rules produces an observable behavior, CI command result, named evidence artifact, negative test, or measured target tied to the approved source authority.",
+      "split_if": "Split only if exact-file planning discovers distinct architectural decisions, unrelated validation ladders, separate runtime subsystems, or overlapping ownership.",
+      "requires_human_approval_if": [
+        "new architecture decision is required",
+        "production deployment activation is requested",
+        "protected values are requested",
+        "train boundary must change"
+      ],
+      "failure_classification": "stale_or_under_decomposed_ticket_risk",
+      "seed_traceability": [
+        "TRAIN_2_L5-LEVEL_5-010"
+      ]
+    },
+    {
+      "ticket_id": "T2-L5-011",
+      "title": "T2-L5-011 internal catalog entry model",
+      "type": "implementation",
+      "tier": "train_2_l5",
+      "priority": "P1",
+      "level": "level_5",
+      "primary_level": "level_5",
+      "objective": "Define the internal catalog entry model implementation surface for Train 2 Level 5 with source authority, contracts, data schema references, approved api boundary, validation ladder, and evidence artifact. Future draft refresh, re-audit, and execution_locked before execution are mandatory before this ticket may be considered for readiness.",
+      "scope": "internal catalog entry model owns one bounded level_5 surface. Include source authority, contract references, data schema references, approved api action authority, runtime service checks when applicable, dependency order, evidence path, and frontend_or_screen_contract_when_applicable = not_applicable_for_this_train_except_future_screen_contract_references.",
+      "non_scope": "No production deployment activation, protected value access, module frontend implementation outside approved screen contracts, predictive stop analysis, autonomous readiness, execution prompt creation, ticket execution, runtime code edit by this planning task, Prisma migration edit by this planning task, package change, or Spark Genesis repository change.",
+      "source_files_to_inspect": [
+        "AGENTS.md",
+        "docs/doctrine/AKTI_ERP_Ticket_Quality_Doctrine_v1.md",
+        "docs/doctrine/AKTI_ERP_Failure_Prevention_Codex_Operating_Doctrine_v1.json",
+        ".spark_genesis/project.json",
+        "docs/process/core/v0_0_2/spark_plan_v2.md",
+        "docs/process/core/v0_0_2/spark_adl_complete.md",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_phase_intent_packet.json",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_human_decisions_v1.md",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_scale_decomposition_profile_v2.json",
+        "prisma/schema.prisma",
+        "packages/contracts"
+      ],
+      "files_expected_to_change": [
+        "docs/process/core/v0_0_2/future_ticket_artifacts/t2-l5-011_internal_catalog_entry_model.md",
+        "codex_review/core/v0_0_2/full_train_preplanning_v2/t2-l5-011_evidence.md"
+      ],
+      "files_forbidden_to_change": [
+        "apps/api/**",
+        "apps/web/**",
+        "prisma/schema.prisma",
+        "prisma/migrations/**",
+        "generated/**",
+        "package.json",
+        "pnpm-lock.yaml",
+        "/Volumes/UsmanWork/Spark Genesis/**"
+      ],
+      "required_outputs": [
+        "internal catalog entry model exact-file plan",
+        "internal catalog entry model implementation result or decision artifact",
+        "internal catalog entry model validation result",
+        "internal catalog entry model evidence artifact"
+      ],
+      "evidence_artifacts": [
+        "codex_review/core/v0_0_2/full_train_preplanning_v2/t2-l5-011_evidence.md"
+      ],
+      "tests_required": [
+        "contract or behavior test tied to the ticket surface",
+        "negative boundary test where the surface handles permission or tenant isolation",
+        "health smoke verification when runtime service or api boundary is touched"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm lint",
+        "pnpm typecheck",
+        "local startup health smoke verification for the affected service surface after exact-file planning"
+      ],
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime / Foundry / module installer / business modules / production auth / deployment / secrets / destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "acceptance_criteria": [
+        "internal catalog entry model has a bounded source-authorized exact-file plan before work starts.",
+        "CI command result and named evidence artifact prove the minimum concrete requirement.",
+        "Approved api action authority, data schema reference, contract reference, evidence artifact, validation ladder, and dependency order are recorded.",
+        "Screen contract applicability is explicitly resolved before any future UI work."
+      ],
+      "dependencies": [
+        "T2-L5-010"
+      ],
+      "commit_message": "feat: deliver internal catalog entry model",
+      "rollback_notes": "Revert the future commit and preserve codex_review/core/v0_0_2/full_train_preplanning_v2/t2-l5-011_evidence.md as failed-run evidence if validation cannot be repaired within bounded attempts.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Required if exact-file planning finds stale source authority, missing dependency, train-boundary leakage, or a file outside approved scope.",
+      "stale_ticket_risk_notes": "Ticket becomes stale if source paths, lower-train dependency state, contract authority, data schema authority, validation command behavior, or evidence path changes before execution. Future draft refresh, re-audit, and execution_locked before execution are mandatory before this ticket may be considered for readiness.",
+      "runtime_consistency_chain": "source authority -> exact-file plan -> implementation surface -> contract/data/api validation -> health smoke verification -> evidence artifact -> gate closure",
+      "minimum_concrete_requirement": "internal catalog entry model produces an observable behavior, CI command result, named evidence artifact, negative test, or measured target tied to the approved source authority.",
+      "split_if": "Split only if exact-file planning discovers distinct architectural decisions, unrelated validation ladders, separate runtime subsystems, or overlapping ownership.",
+      "requires_human_approval_if": [
+        "new architecture decision is required",
+        "production deployment activation is requested",
+        "protected values are requested",
+        "train boundary must change"
+      ],
+      "failure_classification": "stale_or_under_decomposed_ticket_risk",
+      "seed_traceability": [
+        "TRAIN_2_L5-LEVEL_5-011"
+      ]
+    },
+    {
+      "ticket_id": "T2-L5-012",
+      "title": "T2-L5-012 Gatekeeper request payload",
+      "type": "implementation",
+      "tier": "train_2_l5",
+      "priority": "P1",
+      "level": "level_5",
+      "primary_level": "level_5",
+      "objective": "Define the Gatekeeper request payload implementation surface for Train 2 Level 5 with source authority, contracts, data schema references, approved api boundary, validation ladder, and evidence artifact. Future draft refresh, re-audit, and execution_locked before execution are mandatory before this ticket may be considered for readiness.",
+      "scope": "Gatekeeper request payload owns one bounded level_5 surface. Include source authority, contract references, data schema references, approved api action authority, runtime service checks when applicable, dependency order, evidence path, and frontend_or_screen_contract_when_applicable = not_applicable_for_this_train_except_future_screen_contract_references.",
+      "non_scope": "No production deployment activation, protected value access, module frontend implementation outside approved screen contracts, predictive stop analysis, autonomous readiness, execution prompt creation, ticket execution, runtime code edit by this planning task, Prisma migration edit by this planning task, package change, or Spark Genesis repository change.",
+      "source_files_to_inspect": [
+        "AGENTS.md",
+        "docs/doctrine/AKTI_ERP_Ticket_Quality_Doctrine_v1.md",
+        "docs/doctrine/AKTI_ERP_Failure_Prevention_Codex_Operating_Doctrine_v1.json",
+        ".spark_genesis/project.json",
+        "docs/process/core/v0_0_2/spark_plan_v2.md",
+        "docs/process/core/v0_0_2/spark_adl_complete.md",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_phase_intent_packet.json",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_human_decisions_v1.md",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_scale_decomposition_profile_v2.json",
+        "prisma/schema.prisma",
+        "packages/contracts"
+      ],
+      "files_expected_to_change": [
+        "docs/process/core/v0_0_2/future_ticket_artifacts/t2-l5-012_gatekeeper_request_payload.md",
+        "codex_review/core/v0_0_2/full_train_preplanning_v2/t2-l5-012_evidence.md"
+      ],
+      "files_forbidden_to_change": [
+        "apps/api/**",
+        "apps/web/**",
+        "prisma/schema.prisma",
+        "prisma/migrations/**",
+        "generated/**",
+        "package.json",
+        "pnpm-lock.yaml",
+        "/Volumes/UsmanWork/Spark Genesis/**"
+      ],
+      "required_outputs": [
+        "Gatekeeper request payload exact-file plan",
+        "Gatekeeper request payload implementation result or decision artifact",
+        "Gatekeeper request payload validation result",
+        "Gatekeeper request payload evidence artifact"
+      ],
+      "evidence_artifacts": [
+        "codex_review/core/v0_0_2/full_train_preplanning_v2/t2-l5-012_evidence.md"
+      ],
+      "tests_required": [
+        "contract or behavior test tied to the ticket surface",
+        "negative boundary test where the surface handles permission or tenant isolation",
+        "health smoke verification when runtime service or api boundary is touched"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm lint",
+        "pnpm typecheck",
+        "local startup health smoke verification for the affected service surface after exact-file planning"
+      ],
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime / Foundry / module installer / business modules / production auth / deployment / secrets / destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "acceptance_criteria": [
+        "Gatekeeper request payload has a bounded source-authorized exact-file plan before work starts.",
+        "CI command result and named evidence artifact prove the minimum concrete requirement.",
+        "Approved api action authority, data schema reference, contract reference, evidence artifact, validation ladder, and dependency order are recorded.",
+        "Screen contract applicability is explicitly resolved before any future UI work."
+      ],
+      "dependencies": [
+        "T2-L5-011"
+      ],
+      "commit_message": "feat: deliver gatekeeper request payload",
+      "rollback_notes": "Revert the future commit and preserve codex_review/core/v0_0_2/full_train_preplanning_v2/t2-l5-012_evidence.md as failed-run evidence if validation cannot be repaired within bounded attempts.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Required if exact-file planning finds stale source authority, missing dependency, train-boundary leakage, or a file outside approved scope.",
+      "stale_ticket_risk_notes": "Ticket becomes stale if source paths, lower-train dependency state, contract authority, data schema authority, validation command behavior, or evidence path changes before execution. Future draft refresh, re-audit, and execution_locked before execution are mandatory before this ticket may be considered for readiness.",
+      "runtime_consistency_chain": "source authority -> exact-file plan -> implementation surface -> contract/data/api validation -> health smoke verification -> evidence artifact -> gate closure",
+      "minimum_concrete_requirement": "Gatekeeper request payload produces an observable behavior, CI command result, named evidence artifact, negative test, or measured target tied to the approved source authority.",
+      "split_if": "Split only if exact-file planning discovers distinct architectural decisions, unrelated validation ladders, separate runtime subsystems, or overlapping ownership.",
+      "requires_human_approval_if": [
+        "new architecture decision is required",
+        "production deployment activation is requested",
+        "protected values are requested",
+        "train boundary must change"
+      ],
+      "failure_classification": "stale_or_under_decomposed_ticket_risk",
+      "seed_traceability": [
+        "TRAIN_2_L5-LEVEL_5-012"
+      ]
+    },
+    {
+      "ticket_id": "T2-L5-013",
+      "title": "T2-L5-013 approval workflow handoff",
+      "type": "implementation",
+      "tier": "train_2_l5",
+      "priority": "P1",
+      "level": "level_5",
+      "primary_level": "level_5",
+      "objective": "Define the approval workflow handoff implementation surface for Train 2 Level 5 with source authority, contracts, data schema references, approved api boundary, validation ladder, and evidence artifact. Future draft refresh, re-audit, and execution_locked before execution are mandatory before this ticket may be considered for readiness.",
+      "scope": "approval workflow handoff owns one bounded level_5 surface. Include source authority, contract references, data schema references, approved api action authority, runtime service checks when applicable, dependency order, evidence path, and frontend_or_screen_contract_when_applicable = not_applicable_for_this_train_except_future_screen_contract_references.",
+      "non_scope": "No production deployment activation, protected value access, module frontend implementation outside approved screen contracts, predictive stop analysis, autonomous readiness, execution prompt creation, ticket execution, runtime code edit by this planning task, Prisma migration edit by this planning task, package change, or Spark Genesis repository change.",
+      "source_files_to_inspect": [
+        "AGENTS.md",
+        "docs/doctrine/AKTI_ERP_Ticket_Quality_Doctrine_v1.md",
+        "docs/doctrine/AKTI_ERP_Failure_Prevention_Codex_Operating_Doctrine_v1.json",
+        ".spark_genesis/project.json",
+        "docs/process/core/v0_0_2/spark_plan_v2.md",
+        "docs/process/core/v0_0_2/spark_adl_complete.md",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_phase_intent_packet.json",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_human_decisions_v1.md",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_scale_decomposition_profile_v2.json",
+        "prisma/schema.prisma",
+        "packages/contracts"
+      ],
+      "files_expected_to_change": [
+        "docs/process/core/v0_0_2/future_ticket_artifacts/t2-l5-013_approval_workflow_handoff.md",
+        "codex_review/core/v0_0_2/full_train_preplanning_v2/t2-l5-013_evidence.md"
+      ],
+      "files_forbidden_to_change": [
+        "apps/api/**",
+        "apps/web/**",
+        "prisma/schema.prisma",
+        "prisma/migrations/**",
+        "generated/**",
+        "package.json",
+        "pnpm-lock.yaml",
+        "/Volumes/UsmanWork/Spark Genesis/**"
+      ],
+      "required_outputs": [
+        "approval workflow handoff exact-file plan",
+        "approval workflow handoff implementation result or decision artifact",
+        "approval workflow handoff validation result",
+        "approval workflow handoff evidence artifact"
+      ],
+      "evidence_artifacts": [
+        "codex_review/core/v0_0_2/full_train_preplanning_v2/t2-l5-013_evidence.md"
+      ],
+      "tests_required": [
+        "contract or behavior test tied to the ticket surface",
+        "negative boundary test where the surface handles permission or tenant isolation",
+        "health smoke verification when runtime service or api boundary is touched"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm lint",
+        "pnpm typecheck",
+        "local startup health smoke verification for the affected service surface after exact-file planning"
+      ],
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime / Foundry / module installer / business modules / production auth / deployment / secrets / destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "acceptance_criteria": [
+        "approval workflow handoff has a bounded source-authorized exact-file plan before work starts.",
+        "CI command result and named evidence artifact prove the minimum concrete requirement.",
+        "Approved api action authority, data schema reference, contract reference, evidence artifact, validation ladder, and dependency order are recorded.",
+        "Screen contract applicability is explicitly resolved before any future UI work."
+      ],
+      "dependencies": [
+        "T2-L5-012"
+      ],
+      "commit_message": "feat: deliver approval workflow handoff",
+      "rollback_notes": "Revert the future commit and preserve codex_review/core/v0_0_2/full_train_preplanning_v2/t2-l5-013_evidence.md as failed-run evidence if validation cannot be repaired within bounded attempts.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Required if exact-file planning finds stale source authority, missing dependency, train-boundary leakage, or a file outside approved scope.",
+      "stale_ticket_risk_notes": "Ticket becomes stale if source paths, lower-train dependency state, contract authority, data schema authority, validation command behavior, or evidence path changes before execution. Future draft refresh, re-audit, and execution_locked before execution are mandatory before this ticket may be considered for readiness.",
+      "runtime_consistency_chain": "source authority -> exact-file plan -> implementation surface -> contract/data/api validation -> health smoke verification -> evidence artifact -> gate closure",
+      "minimum_concrete_requirement": "approval workflow handoff produces an observable behavior, CI command result, named evidence artifact, negative test, or measured target tied to the approved source authority.",
+      "split_if": "Split only if exact-file planning discovers distinct architectural decisions, unrelated validation ladders, separate runtime subsystems, or overlapping ownership.",
+      "requires_human_approval_if": [
+        "new architecture decision is required",
+        "production deployment activation is requested",
+        "protected values are requested",
+        "train boundary must change"
+      ],
+      "failure_classification": "stale_or_under_decomposed_ticket_risk",
+      "seed_traceability": [
+        "TRAIN_2_L5-LEVEL_5-013"
+      ]
+    },
+    {
+      "ticket_id": "T2-L5-014",
+      "title": "T2-L5-014 rollback plan surface",
+      "type": "implementation",
+      "tier": "train_2_l5",
+      "priority": "P1",
+      "level": "level_5",
+      "primary_level": "level_5",
+      "objective": "Define the rollback plan surface implementation surface for Train 2 Level 5 with source authority, contracts, data schema references, approved api boundary, validation ladder, and evidence artifact. Future draft refresh, re-audit, and execution_locked before execution are mandatory before this ticket may be considered for readiness.",
+      "scope": "rollback plan surface owns one bounded level_5 surface. Include source authority, contract references, data schema references, approved api action authority, runtime service checks when applicable, dependency order, evidence path, and frontend_or_screen_contract_when_applicable = not_applicable_for_this_train_except_future_screen_contract_references.",
+      "non_scope": "No production deployment activation, protected value access, module frontend implementation outside approved screen contracts, predictive stop analysis, autonomous readiness, execution prompt creation, ticket execution, runtime code edit by this planning task, Prisma migration edit by this planning task, package change, or Spark Genesis repository change.",
+      "source_files_to_inspect": [
+        "AGENTS.md",
+        "docs/doctrine/AKTI_ERP_Ticket_Quality_Doctrine_v1.md",
+        "docs/doctrine/AKTI_ERP_Failure_Prevention_Codex_Operating_Doctrine_v1.json",
+        ".spark_genesis/project.json",
+        "docs/process/core/v0_0_2/spark_plan_v2.md",
+        "docs/process/core/v0_0_2/spark_adl_complete.md",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_phase_intent_packet.json",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_human_decisions_v1.md",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_scale_decomposition_profile_v2.json",
+        "prisma/schema.prisma",
+        "packages/contracts"
+      ],
+      "files_expected_to_change": [
+        "docs/process/core/v0_0_2/future_ticket_artifacts/t2-l5-014_rollback_plan_surface.md",
+        "codex_review/core/v0_0_2/full_train_preplanning_v2/t2-l5-014_evidence.md"
+      ],
+      "files_forbidden_to_change": [
+        "apps/api/**",
+        "apps/web/**",
+        "prisma/schema.prisma",
+        "prisma/migrations/**",
+        "generated/**",
+        "package.json",
+        "pnpm-lock.yaml",
+        "/Volumes/UsmanWork/Spark Genesis/**"
+      ],
+      "required_outputs": [
+        "rollback plan surface exact-file plan",
+        "rollback plan surface implementation result or decision artifact",
+        "rollback plan surface validation result",
+        "rollback plan surface evidence artifact"
+      ],
+      "evidence_artifacts": [
+        "codex_review/core/v0_0_2/full_train_preplanning_v2/t2-l5-014_evidence.md"
+      ],
+      "tests_required": [
+        "contract or behavior test tied to the ticket surface",
+        "negative boundary test where the surface handles permission or tenant isolation",
+        "health smoke verification when runtime service or api boundary is touched"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm lint",
+        "pnpm typecheck",
+        "local startup health smoke verification for the affected service surface after exact-file planning"
+      ],
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime / Foundry / module installer / business modules / production auth / deployment / secrets / destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "acceptance_criteria": [
+        "rollback plan surface has a bounded source-authorized exact-file plan before work starts.",
+        "CI command result and named evidence artifact prove the minimum concrete requirement.",
+        "Approved api action authority, data schema reference, contract reference, evidence artifact, validation ladder, and dependency order are recorded.",
+        "Screen contract applicability is explicitly resolved before any future UI work."
+      ],
+      "dependencies": [
+        "T2-L5-013"
+      ],
+      "commit_message": "feat: deliver rollback plan surface",
+      "rollback_notes": "Revert the future commit and preserve codex_review/core/v0_0_2/full_train_preplanning_v2/t2-l5-014_evidence.md as failed-run evidence if validation cannot be repaired within bounded attempts.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Required if exact-file planning finds stale source authority, missing dependency, train-boundary leakage, or a file outside approved scope.",
+      "stale_ticket_risk_notes": "Ticket becomes stale if source paths, lower-train dependency state, contract authority, data schema authority, validation command behavior, or evidence path changes before execution. Future draft refresh, re-audit, and execution_locked before execution are mandatory before this ticket may be considered for readiness.",
+      "runtime_consistency_chain": "source authority -> exact-file plan -> implementation surface -> contract/data/api validation -> health smoke verification -> evidence artifact -> gate closure",
+      "minimum_concrete_requirement": "rollback plan surface produces an observable behavior, CI command result, named evidence artifact, negative test, or measured target tied to the approved source authority.",
+      "split_if": "Split only if exact-file planning discovers distinct architectural decisions, unrelated validation ladders, separate runtime subsystems, or overlapping ownership.",
+      "requires_human_approval_if": [
+        "new architecture decision is required",
+        "production deployment activation is requested",
+        "protected values are requested",
+        "train boundary must change"
+      ],
+      "failure_classification": "stale_or_under_decomposed_ticket_risk",
+      "seed_traceability": [
+        "TRAIN_2_L5-LEVEL_5-014"
+      ]
+    },
+    {
+      "ticket_id": "T2-L5-015",
+      "title": "T2-L5-015 audit event emission",
+      "type": "implementation",
+      "tier": "train_2_l5",
+      "priority": "P1",
+      "level": "level_5",
+      "primary_level": "level_5",
+      "objective": "Define the audit event emission implementation surface for Train 2 Level 5 with source authority, contracts, data schema references, approved api boundary, validation ladder, and evidence artifact. Future draft refresh, re-audit, and execution_locked before execution are mandatory before this ticket may be considered for readiness.",
+      "scope": "audit event emission owns one bounded level_5 surface. Include source authority, contract references, data schema references, approved api action authority, runtime service checks when applicable, dependency order, evidence path, and frontend_or_screen_contract_when_applicable = not_applicable_for_this_train_except_future_screen_contract_references.",
+      "non_scope": "No production deployment activation, protected value access, module frontend implementation outside approved screen contracts, predictive stop analysis, autonomous readiness, execution prompt creation, ticket execution, runtime code edit by this planning task, Prisma migration edit by this planning task, package change, or Spark Genesis repository change.",
+      "source_files_to_inspect": [
+        "AGENTS.md",
+        "docs/doctrine/AKTI_ERP_Ticket_Quality_Doctrine_v1.md",
+        "docs/doctrine/AKTI_ERP_Failure_Prevention_Codex_Operating_Doctrine_v1.json",
+        ".spark_genesis/project.json",
+        "docs/process/core/v0_0_2/spark_plan_v2.md",
+        "docs/process/core/v0_0_2/spark_adl_complete.md",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_phase_intent_packet.json",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_human_decisions_v1.md",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_scale_decomposition_profile_v2.json",
+        "prisma/schema.prisma",
+        "packages/contracts"
+      ],
+      "files_expected_to_change": [
+        "docs/process/core/v0_0_2/future_ticket_artifacts/t2-l5-015_audit_event_emission.md",
+        "codex_review/core/v0_0_2/full_train_preplanning_v2/t2-l5-015_evidence.md"
+      ],
+      "files_forbidden_to_change": [
+        "apps/api/**",
+        "apps/web/**",
+        "prisma/schema.prisma",
+        "prisma/migrations/**",
+        "generated/**",
+        "package.json",
+        "pnpm-lock.yaml",
+        "/Volumes/UsmanWork/Spark Genesis/**"
+      ],
+      "required_outputs": [
+        "audit event emission exact-file plan",
+        "audit event emission implementation result or decision artifact",
+        "audit event emission validation result",
+        "audit event emission evidence artifact"
+      ],
+      "evidence_artifacts": [
+        "codex_review/core/v0_0_2/full_train_preplanning_v2/t2-l5-015_evidence.md"
+      ],
+      "tests_required": [
+        "contract or behavior test tied to the ticket surface",
+        "negative boundary test where the surface handles permission or tenant isolation",
+        "health smoke verification when runtime service or api boundary is touched"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm lint",
+        "pnpm typecheck",
+        "local startup health smoke verification for the affected service surface after exact-file planning"
+      ],
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime / Foundry / module installer / business modules / production auth / deployment / secrets / destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "acceptance_criteria": [
+        "audit event emission has a bounded source-authorized exact-file plan before work starts.",
+        "CI command result and named evidence artifact prove the minimum concrete requirement.",
+        "Approved api action authority, data schema reference, contract reference, evidence artifact, validation ladder, and dependency order are recorded.",
+        "Screen contract applicability is explicitly resolved before any future UI work."
+      ],
+      "dependencies": [
+        "T2-L5-014"
+      ],
+      "commit_message": "feat: deliver audit event emission",
+      "rollback_notes": "Revert the future commit and preserve codex_review/core/v0_0_2/full_train_preplanning_v2/t2-l5-015_evidence.md as failed-run evidence if validation cannot be repaired within bounded attempts.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Required if exact-file planning finds stale source authority, missing dependency, train-boundary leakage, or a file outside approved scope.",
+      "stale_ticket_risk_notes": "Ticket becomes stale if source paths, lower-train dependency state, contract authority, data schema authority, validation command behavior, or evidence path changes before execution. Future draft refresh, re-audit, and execution_locked before execution are mandatory before this ticket may be considered for readiness.",
+      "runtime_consistency_chain": "source authority -> exact-file plan -> implementation surface -> contract/data/api validation -> health smoke verification -> evidence artifact -> gate closure",
+      "minimum_concrete_requirement": "audit event emission produces an observable behavior, CI command result, named evidence artifact, negative test, or measured target tied to the approved source authority.",
+      "split_if": "Split only if exact-file planning discovers distinct architectural decisions, unrelated validation ladders, separate runtime subsystems, or overlapping ownership.",
+      "requires_human_approval_if": [
+        "new architecture decision is required",
+        "production deployment activation is requested",
+        "protected values are requested",
+        "train boundary must change"
+      ],
+      "failure_classification": "stale_or_under_decomposed_ticket_risk",
+      "seed_traceability": [
+        "TRAIN_2_L5-LEVEL_5-015"
+      ]
+    },
+    {
+      "ticket_id": "T2-L5-016",
+      "title": "T2-L5-016 version compatibility check",
+      "type": "implementation",
+      "tier": "train_2_l5",
+      "priority": "P1",
+      "level": "level_5",
+      "primary_level": "level_5",
+      "objective": "Define the version compatibility check implementation surface for Train 2 Level 5 with source authority, contracts, data schema references, approved api boundary, validation ladder, and evidence artifact. Future draft refresh, re-audit, and execution_locked before execution are mandatory before this ticket may be considered for readiness.",
+      "scope": "version compatibility check owns one bounded level_5 surface. Include source authority, contract references, data schema references, approved api action authority, runtime service checks when applicable, dependency order, evidence path, and frontend_or_screen_contract_when_applicable = not_applicable_for_this_train_except_future_screen_contract_references.",
+      "non_scope": "No production deployment activation, protected value access, module frontend implementation outside approved screen contracts, predictive stop analysis, autonomous readiness, execution prompt creation, ticket execution, runtime code edit by this planning task, Prisma migration edit by this planning task, package change, or Spark Genesis repository change.",
+      "source_files_to_inspect": [
+        "AGENTS.md",
+        "docs/doctrine/AKTI_ERP_Ticket_Quality_Doctrine_v1.md",
+        "docs/doctrine/AKTI_ERP_Failure_Prevention_Codex_Operating_Doctrine_v1.json",
+        ".spark_genesis/project.json",
+        "docs/process/core/v0_0_2/spark_plan_v2.md",
+        "docs/process/core/v0_0_2/spark_adl_complete.md",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_phase_intent_packet.json",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_human_decisions_v1.md",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_scale_decomposition_profile_v2.json",
+        "prisma/schema.prisma",
+        "packages/contracts"
+      ],
+      "files_expected_to_change": [
+        "docs/process/core/v0_0_2/future_ticket_artifacts/t2-l5-016_version_compatibility_check.md",
+        "codex_review/core/v0_0_2/full_train_preplanning_v2/t2-l5-016_evidence.md"
+      ],
+      "files_forbidden_to_change": [
+        "apps/api/**",
+        "apps/web/**",
+        "prisma/schema.prisma",
+        "prisma/migrations/**",
+        "generated/**",
+        "package.json",
+        "pnpm-lock.yaml",
+        "/Volumes/UsmanWork/Spark Genesis/**"
+      ],
+      "required_outputs": [
+        "version compatibility check exact-file plan",
+        "version compatibility check implementation result or decision artifact",
+        "version compatibility check validation result",
+        "version compatibility check evidence artifact"
+      ],
+      "evidence_artifacts": [
+        "codex_review/core/v0_0_2/full_train_preplanning_v2/t2-l5-016_evidence.md"
+      ],
+      "tests_required": [
+        "contract or behavior test tied to the ticket surface",
+        "negative boundary test where the surface handles permission or tenant isolation",
+        "health smoke verification when runtime service or api boundary is touched"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm lint",
+        "pnpm typecheck",
+        "local startup health smoke verification for the affected service surface after exact-file planning"
+      ],
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime / Foundry / module installer / business modules / production auth / deployment / secrets / destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "acceptance_criteria": [
+        "version compatibility check has a bounded source-authorized exact-file plan before work starts.",
+        "CI command result and named evidence artifact prove the minimum concrete requirement.",
+        "Approved api action authority, data schema reference, contract reference, evidence artifact, validation ladder, and dependency order are recorded.",
+        "Screen contract applicability is explicitly resolved before any future UI work."
+      ],
+      "dependencies": [
+        "T2-L5-015"
+      ],
+      "commit_message": "feat: deliver version compatibility check",
+      "rollback_notes": "Revert the future commit and preserve codex_review/core/v0_0_2/full_train_preplanning_v2/t2-l5-016_evidence.md as failed-run evidence if validation cannot be repaired within bounded attempts.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Required if exact-file planning finds stale source authority, missing dependency, train-boundary leakage, or a file outside approved scope.",
+      "stale_ticket_risk_notes": "Ticket becomes stale if source paths, lower-train dependency state, contract authority, data schema authority, validation command behavior, or evidence path changes before execution. Future draft refresh, re-audit, and execution_locked before execution are mandatory before this ticket may be considered for readiness.",
+      "runtime_consistency_chain": "source authority -> exact-file plan -> implementation surface -> contract/data/api validation -> health smoke verification -> evidence artifact -> gate closure",
+      "minimum_concrete_requirement": "version compatibility check produces an observable behavior, CI command result, named evidence artifact, negative test, or measured target tied to the approved source authority.",
+      "split_if": "Split only if exact-file planning discovers distinct architectural decisions, unrelated validation ladders, separate runtime subsystems, or overlapping ownership.",
+      "requires_human_approval_if": [
+        "new architecture decision is required",
+        "production deployment activation is requested",
+        "protected values are requested",
+        "train boundary must change"
+      ],
+      "failure_classification": "stale_or_under_decomposed_ticket_risk",
+      "seed_traceability": [
+        "TRAIN_2_L5-LEVEL_5-016"
+      ]
+    },
+    {
+      "ticket_id": "T2-L5-017",
+      "title": "T2-L5-017 bundle ingestion path",
+      "type": "implementation",
+      "tier": "train_2_l5",
+      "priority": "P1",
+      "level": "level_5",
+      "primary_level": "level_5",
+      "objective": "Define the bundle ingestion path implementation surface for Train 2 Level 5 with source authority, contracts, data schema references, approved api boundary, validation ladder, and evidence artifact. Future draft refresh, re-audit, and execution_locked before execution are mandatory before this ticket may be considered for readiness.",
+      "scope": "bundle ingestion path owns one bounded level_5 surface. Include source authority, contract references, data schema references, approved api action authority, runtime service checks when applicable, dependency order, evidence path, and frontend_or_screen_contract_when_applicable = not_applicable_for_this_train_except_future_screen_contract_references.",
+      "non_scope": "No production deployment activation, protected value access, module frontend implementation outside approved screen contracts, predictive stop analysis, autonomous readiness, execution prompt creation, ticket execution, runtime code edit by this planning task, Prisma migration edit by this planning task, package change, or Spark Genesis repository change.",
+      "source_files_to_inspect": [
+        "AGENTS.md",
+        "docs/doctrine/AKTI_ERP_Ticket_Quality_Doctrine_v1.md",
+        "docs/doctrine/AKTI_ERP_Failure_Prevention_Codex_Operating_Doctrine_v1.json",
+        ".spark_genesis/project.json",
+        "docs/process/core/v0_0_2/spark_plan_v2.md",
+        "docs/process/core/v0_0_2/spark_adl_complete.md",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_phase_intent_packet.json",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_human_decisions_v1.md",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_scale_decomposition_profile_v2.json",
+        "prisma/schema.prisma",
+        "packages/contracts"
+      ],
+      "files_expected_to_change": [
+        "docs/process/core/v0_0_2/future_ticket_artifacts/t2-l5-017_bundle_ingestion_path.md",
+        "codex_review/core/v0_0_2/full_train_preplanning_v2/t2-l5-017_evidence.md"
+      ],
+      "files_forbidden_to_change": [
+        "apps/api/**",
+        "apps/web/**",
+        "prisma/schema.prisma",
+        "prisma/migrations/**",
+        "generated/**",
+        "package.json",
+        "pnpm-lock.yaml",
+        "/Volumes/UsmanWork/Spark Genesis/**"
+      ],
+      "required_outputs": [
+        "bundle ingestion path exact-file plan",
+        "bundle ingestion path implementation result or decision artifact",
+        "bundle ingestion path validation result",
+        "bundle ingestion path evidence artifact"
+      ],
+      "evidence_artifacts": [
+        "codex_review/core/v0_0_2/full_train_preplanning_v2/t2-l5-017_evidence.md"
+      ],
+      "tests_required": [
+        "contract or behavior test tied to the ticket surface",
+        "negative boundary test where the surface handles permission or tenant isolation",
+        "health smoke verification when runtime service or api boundary is touched"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm lint",
+        "pnpm typecheck",
+        "local startup health smoke verification for the affected service surface after exact-file planning"
+      ],
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime / Foundry / module installer / business modules / production auth / deployment / secrets / destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "acceptance_criteria": [
+        "bundle ingestion path has a bounded source-authorized exact-file plan before work starts.",
+        "CI command result and named evidence artifact prove the minimum concrete requirement.",
+        "Approved api action authority, data schema reference, contract reference, evidence artifact, validation ladder, and dependency order are recorded.",
+        "Screen contract applicability is explicitly resolved before any future UI work."
+      ],
+      "dependencies": [
+        "T2-L5-016"
+      ],
+      "commit_message": "feat: deliver bundle ingestion path",
+      "rollback_notes": "Revert the future commit and preserve codex_review/core/v0_0_2/full_train_preplanning_v2/t2-l5-017_evidence.md as failed-run evidence if validation cannot be repaired within bounded attempts.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Required if exact-file planning finds stale source authority, missing dependency, train-boundary leakage, or a file outside approved scope.",
+      "stale_ticket_risk_notes": "Ticket becomes stale if source paths, lower-train dependency state, contract authority, data schema authority, validation command behavior, or evidence path changes before execution. Future draft refresh, re-audit, and execution_locked before execution are mandatory before this ticket may be considered for readiness.",
+      "runtime_consistency_chain": "source authority -> exact-file plan -> implementation surface -> contract/data/api validation -> health smoke verification -> evidence artifact -> gate closure",
+      "minimum_concrete_requirement": "bundle ingestion path produces an observable behavior, CI command result, named evidence artifact, negative test, or measured target tied to the approved source authority.",
+      "split_if": "Split only if exact-file planning discovers distinct architectural decisions, unrelated validation ladders, separate runtime subsystems, or overlapping ownership.",
+      "requires_human_approval_if": [
+        "new architecture decision is required",
+        "production deployment activation is requested",
+        "protected values are requested",
+        "train boundary must change"
+      ],
+      "failure_classification": "stale_or_under_decomposed_ticket_risk",
+      "seed_traceability": [
+        "TRAIN_2_L5-LEVEL_5-017"
+      ]
+    },
+    {
+      "ticket_id": "T2-L5-018",
+      "title": "T2-L5-018 tenant module state",
+      "type": "implementation",
+      "tier": "train_2_l5",
+      "priority": "P1",
+      "level": "level_5",
+      "primary_level": "level_5",
+      "objective": "Define the tenant module state implementation surface for Train 2 Level 5 with source authority, contracts, data schema references, approved api boundary, validation ladder, and evidence artifact. Future draft refresh, re-audit, and execution_locked before execution are mandatory before this ticket may be considered for readiness.",
+      "scope": "tenant module state owns one bounded level_5 surface. Include source authority, contract references, data schema references, approved api action authority, runtime service checks when applicable, dependency order, evidence path, and frontend_or_screen_contract_when_applicable = not_applicable_for_this_train_except_future_screen_contract_references.",
+      "non_scope": "No production deployment activation, protected value access, module frontend implementation outside approved screen contracts, predictive stop analysis, autonomous readiness, execution prompt creation, ticket execution, runtime code edit by this planning task, Prisma migration edit by this planning task, package change, or Spark Genesis repository change.",
+      "source_files_to_inspect": [
+        "AGENTS.md",
+        "docs/doctrine/AKTI_ERP_Ticket_Quality_Doctrine_v1.md",
+        "docs/doctrine/AKTI_ERP_Failure_Prevention_Codex_Operating_Doctrine_v1.json",
+        ".spark_genesis/project.json",
+        "docs/process/core/v0_0_2/spark_plan_v2.md",
+        "docs/process/core/v0_0_2/spark_adl_complete.md",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_phase_intent_packet.json",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_human_decisions_v1.md",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_scale_decomposition_profile_v2.json",
+        "prisma/schema.prisma",
+        "packages/contracts"
+      ],
+      "files_expected_to_change": [
+        "docs/process/core/v0_0_2/future_ticket_artifacts/t2-l5-018_tenant_module_state.md",
+        "codex_review/core/v0_0_2/full_train_preplanning_v2/t2-l5-018_evidence.md"
+      ],
+      "files_forbidden_to_change": [
+        "apps/api/**",
+        "apps/web/**",
+        "prisma/schema.prisma",
+        "prisma/migrations/**",
+        "generated/**",
+        "package.json",
+        "pnpm-lock.yaml",
+        "/Volumes/UsmanWork/Spark Genesis/**"
+      ],
+      "required_outputs": [
+        "tenant module state exact-file plan",
+        "tenant module state implementation result or decision artifact",
+        "tenant module state validation result",
+        "tenant module state evidence artifact"
+      ],
+      "evidence_artifacts": [
+        "codex_review/core/v0_0_2/full_train_preplanning_v2/t2-l5-018_evidence.md"
+      ],
+      "tests_required": [
+        "contract or behavior test tied to the ticket surface",
+        "negative boundary test where the surface handles permission or tenant isolation",
+        "health smoke verification when runtime service or api boundary is touched"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm lint",
+        "pnpm typecheck",
+        "local startup health smoke verification for the affected service surface after exact-file planning"
+      ],
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime / Foundry / module installer / business modules / production auth / deployment / secrets / destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "acceptance_criteria": [
+        "tenant module state has a bounded source-authorized exact-file plan before work starts.",
+        "CI command result and named evidence artifact prove the minimum concrete requirement.",
+        "Approved api action authority, data schema reference, contract reference, evidence artifact, validation ladder, and dependency order are recorded.",
+        "Screen contract applicability is explicitly resolved before any future UI work."
+      ],
+      "dependencies": [
+        "T2-L5-017"
+      ],
+      "commit_message": "feat: deliver tenant module state",
+      "rollback_notes": "Revert the future commit and preserve codex_review/core/v0_0_2/full_train_preplanning_v2/t2-l5-018_evidence.md as failed-run evidence if validation cannot be repaired within bounded attempts.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Required if exact-file planning finds stale source authority, missing dependency, train-boundary leakage, or a file outside approved scope.",
+      "stale_ticket_risk_notes": "Ticket becomes stale if source paths, lower-train dependency state, contract authority, data schema authority, validation command behavior, or evidence path changes before execution. Future draft refresh, re-audit, and execution_locked before execution are mandatory before this ticket may be considered for readiness.",
+      "runtime_consistency_chain": "source authority -> exact-file plan -> implementation surface -> contract/data/api validation -> health smoke verification -> evidence artifact -> gate closure",
+      "minimum_concrete_requirement": "tenant module state produces an observable behavior, CI command result, named evidence artifact, negative test, or measured target tied to the approved source authority.",
+      "split_if": "Split only if exact-file planning discovers distinct architectural decisions, unrelated validation ladders, separate runtime subsystems, or overlapping ownership.",
+      "requires_human_approval_if": [
+        "new architecture decision is required",
+        "production deployment activation is requested",
+        "protected values are requested",
+        "train boundary must change"
+      ],
+      "failure_classification": "stale_or_under_decomposed_ticket_risk",
+      "seed_traceability": [
+        "TRAIN_2_L5-LEVEL_5-018"
+      ]
+    },
+    {
+      "ticket_id": "T2-L5-019",
+      "title": "T2-L5-019 Foundry error taxonomy",
+      "type": "implementation",
+      "tier": "train_2_l5",
+      "priority": "P1",
+      "level": "level_5",
+      "primary_level": "level_5",
+      "objective": "Define the Foundry error taxonomy implementation surface for Train 2 Level 5 with source authority, contracts, data schema references, approved api boundary, validation ladder, and evidence artifact. Future draft refresh, re-audit, and execution_locked before execution are mandatory before this ticket may be considered for readiness.",
+      "scope": "Foundry error taxonomy owns one bounded level_5 surface. Include source authority, contract references, data schema references, approved api action authority, runtime service checks when applicable, dependency order, evidence path, and frontend_or_screen_contract_when_applicable = not_applicable_for_this_train_except_future_screen_contract_references.",
+      "non_scope": "No production deployment activation, protected value access, module frontend implementation outside approved screen contracts, predictive stop analysis, autonomous readiness, execution prompt creation, ticket execution, runtime code edit by this planning task, Prisma migration edit by this planning task, package change, or Spark Genesis repository change.",
+      "source_files_to_inspect": [
+        "AGENTS.md",
+        "docs/doctrine/AKTI_ERP_Ticket_Quality_Doctrine_v1.md",
+        "docs/doctrine/AKTI_ERP_Failure_Prevention_Codex_Operating_Doctrine_v1.json",
+        ".spark_genesis/project.json",
+        "docs/process/core/v0_0_2/spark_plan_v2.md",
+        "docs/process/core/v0_0_2/spark_adl_complete.md",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_phase_intent_packet.json",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_human_decisions_v1.md",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_scale_decomposition_profile_v2.json",
+        "prisma/schema.prisma",
+        "packages/contracts"
+      ],
+      "files_expected_to_change": [
+        "docs/process/core/v0_0_2/future_ticket_artifacts/t2-l5-019_foundry_error_taxonomy.md",
+        "codex_review/core/v0_0_2/full_train_preplanning_v2/t2-l5-019_evidence.md"
+      ],
+      "files_forbidden_to_change": [
+        "apps/api/**",
+        "apps/web/**",
+        "prisma/schema.prisma",
+        "prisma/migrations/**",
+        "generated/**",
+        "package.json",
+        "pnpm-lock.yaml",
+        "/Volumes/UsmanWork/Spark Genesis/**"
+      ],
+      "required_outputs": [
+        "Foundry error taxonomy exact-file plan",
+        "Foundry error taxonomy implementation result or decision artifact",
+        "Foundry error taxonomy validation result",
+        "Foundry error taxonomy evidence artifact"
+      ],
+      "evidence_artifacts": [
+        "codex_review/core/v0_0_2/full_train_preplanning_v2/t2-l5-019_evidence.md"
+      ],
+      "tests_required": [
+        "contract or behavior test tied to the ticket surface",
+        "negative boundary test where the surface handles permission or tenant isolation",
+        "health smoke verification when runtime service or api boundary is touched"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm lint",
+        "pnpm typecheck",
+        "local startup health smoke verification for the affected service surface after exact-file planning"
+      ],
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime / Foundry / module installer / business modules / production auth / deployment / secrets / destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "acceptance_criteria": [
+        "Foundry error taxonomy has a bounded source-authorized exact-file plan before work starts.",
+        "CI command result and named evidence artifact prove the minimum concrete requirement.",
+        "Approved api action authority, data schema reference, contract reference, evidence artifact, validation ladder, and dependency order are recorded.",
+        "Screen contract applicability is explicitly resolved before any future UI work."
+      ],
+      "dependencies": [
+        "T2-L5-018"
+      ],
+      "commit_message": "feat: deliver foundry error taxonomy",
+      "rollback_notes": "Revert the future commit and preserve codex_review/core/v0_0_2/full_train_preplanning_v2/t2-l5-019_evidence.md as failed-run evidence if validation cannot be repaired within bounded attempts.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Required if exact-file planning finds stale source authority, missing dependency, train-boundary leakage, or a file outside approved scope.",
+      "stale_ticket_risk_notes": "Ticket becomes stale if source paths, lower-train dependency state, contract authority, data schema authority, validation command behavior, or evidence path changes before execution. Future draft refresh, re-audit, and execution_locked before execution are mandatory before this ticket may be considered for readiness.",
+      "runtime_consistency_chain": "source authority -> exact-file plan -> implementation surface -> contract/data/api validation -> health smoke verification -> evidence artifact -> gate closure",
+      "minimum_concrete_requirement": "Foundry error taxonomy produces an observable behavior, CI command result, named evidence artifact, negative test, or measured target tied to the approved source authority.",
+      "split_if": "Split only if exact-file planning discovers distinct architectural decisions, unrelated validation ladders, separate runtime subsystems, or overlapping ownership.",
+      "requires_human_approval_if": [
+        "new architecture decision is required",
+        "production deployment activation is requested",
+        "protected values are requested",
+        "train boundary must change"
+      ],
+      "failure_classification": "stale_or_under_decomposed_ticket_risk",
+      "seed_traceability": [
+        "TRAIN_2_L5-LEVEL_5-019"
+      ]
+    },
+    {
+      "ticket_id": "T2-L5-020",
+      "title": "T2-L5-020 Level 5 validation gate",
+      "type": "implementation",
+      "tier": "train_2_l5",
+      "priority": "P1",
+      "level": "level_5",
+      "primary_level": "level_5",
+      "objective": "Define the Level 5 validation gate implementation surface for Train 2 Level 5 with source authority, contracts, data schema references, approved api boundary, validation ladder, and evidence artifact. Future draft refresh, re-audit, and execution_locked before execution are mandatory before this ticket may be considered for readiness.",
+      "scope": "Level 5 validation gate owns one bounded level_5 surface. Include source authority, contract references, data schema references, approved api action authority, runtime service checks when applicable, dependency order, evidence path, and frontend_or_screen_contract_when_applicable = not_applicable_for_this_train_except_future_screen_contract_references.",
+      "non_scope": "No production deployment activation, protected value access, module frontend implementation outside approved screen contracts, predictive stop analysis, autonomous readiness, execution prompt creation, ticket execution, runtime code edit by this planning task, Prisma migration edit by this planning task, package change, or Spark Genesis repository change.",
+      "source_files_to_inspect": [
+        "AGENTS.md",
+        "docs/doctrine/AKTI_ERP_Ticket_Quality_Doctrine_v1.md",
+        "docs/doctrine/AKTI_ERP_Failure_Prevention_Codex_Operating_Doctrine_v1.json",
+        ".spark_genesis/project.json",
+        "docs/process/core/v0_0_2/spark_plan_v2.md",
+        "docs/process/core/v0_0_2/spark_adl_complete.md",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_phase_intent_packet.json",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_human_decisions_v1.md",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_scale_decomposition_profile_v2.json",
+        "prisma/schema.prisma",
+        "packages/contracts"
+      ],
+      "files_expected_to_change": [
+        "docs/process/core/v0_0_2/future_ticket_artifacts/t2-l5-020_level_5_validation_gate.md",
+        "codex_review/core/v0_0_2/full_train_preplanning_v2/t2-l5-020_evidence.md"
+      ],
+      "files_forbidden_to_change": [
+        "apps/api/**",
+        "apps/web/**",
+        "prisma/schema.prisma",
+        "prisma/migrations/**",
+        "generated/**",
+        "package.json",
+        "pnpm-lock.yaml",
+        "/Volumes/UsmanWork/Spark Genesis/**"
+      ],
+      "required_outputs": [
+        "Level 5 validation gate exact-file plan",
+        "Level 5 validation gate implementation result or decision artifact",
+        "Level 5 validation gate validation result",
+        "Level 5 validation gate evidence artifact"
+      ],
+      "evidence_artifacts": [
+        "codex_review/core/v0_0_2/full_train_preplanning_v2/t2-l5-020_evidence.md"
+      ],
+      "tests_required": [
+        "contract or behavior test tied to the ticket surface",
+        "negative boundary test where the surface handles permission or tenant isolation",
+        "health smoke verification when runtime service or api boundary is touched"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm lint",
+        "pnpm typecheck",
+        "local startup health smoke verification for the affected service surface after exact-file planning"
+      ],
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime / Foundry / module installer / business modules / production auth / deployment / secrets / destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "acceptance_criteria": [
+        "Level 5 validation gate has a bounded source-authorized exact-file plan before work starts.",
+        "CI command result and named evidence artifact prove the minimum concrete requirement.",
+        "Approved api action authority, data schema reference, contract reference, evidence artifact, validation ladder, and dependency order are recorded.",
+        "Screen contract applicability is explicitly resolved before any future UI work."
+      ],
+      "dependencies": [
+        "T2-L5-019"
+      ],
+      "commit_message": "feat: deliver level 5 validation gate",
+      "rollback_notes": "Revert the future commit and preserve codex_review/core/v0_0_2/full_train_preplanning_v2/t2-l5-020_evidence.md as failed-run evidence if validation cannot be repaired within bounded attempts.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Required if exact-file planning finds stale source authority, missing dependency, train-boundary leakage, or a file outside approved scope.",
+      "stale_ticket_risk_notes": "Ticket becomes stale if source paths, lower-train dependency state, contract authority, data schema authority, validation command behavior, or evidence path changes before execution. Future draft refresh, re-audit, and execution_locked before execution are mandatory before this ticket may be considered for readiness.",
+      "runtime_consistency_chain": "source authority -> exact-file plan -> implementation surface -> contract/data/api validation -> health smoke verification -> evidence artifact -> gate closure",
+      "minimum_concrete_requirement": "Level 5 validation gate produces an observable behavior, CI command result, named evidence artifact, negative test, or measured target tied to the approved source authority.",
+      "split_if": "Split only if exact-file planning discovers distinct architectural decisions, unrelated validation ladders, separate runtime subsystems, or overlapping ownership.",
+      "requires_human_approval_if": [
+        "new architecture decision is required",
+        "production deployment activation is requested",
+        "protected values are requested",
+        "train boundary must change"
+      ],
+      "failure_classification": "stale_or_under_decomposed_ticket_risk",
+      "seed_traceability": [
+        "TRAIN_2_L5-LEVEL_5-020"
+      ]
+    },
+    {
+      "ticket_id": "T2-G999",
+      "title": "T2-G999 Train 2 Level 5 final gate",
+      "type": "final_gate",
+      "tier": "train_2_l5",
+      "priority": "P0",
+      "level": "level_5",
+      "primary_level": "level_5",
+      "objective": "Define the Train 2 Level 5 final gate implementation surface for Train 2 Level 5 with source authority, contracts, data schema references, approved api boundary, validation ladder, and evidence artifact. Future draft refresh, re-audit, and execution_locked before execution are mandatory before this ticket may be considered for readiness.",
+      "scope": "Train 2 Level 5 final gate owns one bounded level_5 surface. Include source authority, contract references, data schema references, approved api action authority, runtime service checks when applicable, dependency order, evidence path, and frontend_or_screen_contract_when_applicable = not_applicable_for_this_train_except_future_screen_contract_references.",
+      "non_scope": "No production deployment activation, protected value access, module frontend implementation outside approved screen contracts, predictive stop analysis, autonomous readiness, execution prompt creation, ticket execution, runtime code edit by this planning task, Prisma migration edit by this planning task, package change, or Spark Genesis repository change.",
+      "source_files_to_inspect": [
+        "AGENTS.md",
+        "docs/doctrine/AKTI_ERP_Ticket_Quality_Doctrine_v1.md",
+        "docs/doctrine/AKTI_ERP_Failure_Prevention_Codex_Operating_Doctrine_v1.json",
+        ".spark_genesis/project.json",
+        "docs/process/core/v0_0_2/spark_plan_v2.md",
+        "docs/process/core/v0_0_2/spark_adl_complete.md",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_phase_intent_packet.json",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_human_decisions_v1.md",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_scale_decomposition_profile_v2.json",
+        "prisma/schema.prisma",
+        "packages/contracts"
+      ],
+      "files_expected_to_change": [
+        "docs/process/core/v0_0_2/future_ticket_artifacts/t2-g999_train_2_level_5_final_gate.md",
+        "codex_review/core/v0_0_2/full_train_preplanning_v2/t2-g999_evidence.md"
+      ],
+      "files_forbidden_to_change": [
+        "apps/api/**",
+        "apps/web/**",
+        "prisma/schema.prisma",
+        "prisma/migrations/**",
+        "generated/**",
+        "package.json",
+        "pnpm-lock.yaml",
+        "/Volumes/UsmanWork/Spark Genesis/**"
+      ],
+      "required_outputs": [
+        "Train 2 Level 5 final gate exact-file plan",
+        "Train 2 Level 5 final gate implementation result or decision artifact",
+        "Train 2 Level 5 final gate validation result",
+        "Train 2 Level 5 final gate evidence artifact"
+      ],
+      "evidence_artifacts": [
+        "codex_review/core/v0_0_2/full_train_preplanning_v2/t2-g999_evidence.md"
+      ],
+      "tests_required": [
+        "contract or behavior test tied to the ticket surface",
+        "negative boundary test where the surface handles permission or tenant isolation",
+        "health smoke verification when runtime service or api boundary is touched"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm lint",
+        "pnpm typecheck",
+        "local startup health smoke verification for the affected service surface after exact-file planning"
+      ],
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime / Foundry / module installer / business modules / production auth / deployment / secrets / destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change."
+      ],
+      "acceptance_criteria": [
+        "Train 2 Level 5 final gate has a bounded source-authorized exact-file plan before work starts.",
+        "CI command result and named evidence artifact prove the minimum concrete requirement.",
+        "Approved api action authority, data schema reference, contract reference, evidence artifact, validation ladder, and dependency order are recorded.",
+        "Screen contract applicability is explicitly resolved before any future UI work."
+      ],
+      "dependencies": [
+        "T2-L5-001",
+        "T2-L5-002",
+        "T2-L5-003",
+        "T2-L5-004",
+        "T2-L5-005",
+        "T2-L5-006",
+        "T2-L5-007",
+        "T2-L5-008",
+        "T2-L5-009",
+        "T2-L5-010",
+        "T2-L5-011",
+        "T2-L5-012",
+        "T2-L5-013",
+        "T2-L5-014",
+        "T2-L5-015",
+        "T2-L5-016",
+        "T2-L5-017",
+        "T2-L5-018",
+        "T2-L5-019",
+        "T2-L5-020"
+      ],
+      "commit_message": "feat: deliver train 2 level 5 final gate",
+      "rollback_notes": "Revert the future commit and preserve codex_review/core/v0_0_2/full_train_preplanning_v2/t2-g999_evidence.md as failed-run evidence if validation cannot be repaired within bounded attempts.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Required if exact-file planning finds stale source authority, missing dependency, train-boundary leakage, or a file outside approved scope.",
+      "stale_ticket_risk_notes": "Ticket becomes stale if source paths, lower-train dependency state, contract authority, data schema authority, validation command behavior, or evidence path changes before execution. Future draft refresh, re-audit, and execution_locked before execution are mandatory before this ticket may be considered for readiness.",
+      "runtime_consistency_chain": "source authority -> exact-file plan -> implementation surface -> contract/data/api validation -> health smoke verification -> evidence artifact -> gate closure",
+      "minimum_concrete_requirement": "Train 2 Level 5 final gate produces an observable behavior, CI command result, named evidence artifact, negative test, or measured target tied to the approved source authority.",
+      "split_if": "Split only if exact-file planning discovers distinct architectural decisions, unrelated validation ladders, separate runtime subsystems, or overlapping ownership.",
+      "requires_human_approval_if": [
+        "new architecture decision is required",
+        "production deployment activation is requested",
+        "protected values are requested",
+        "train boundary must change"
+      ],
+      "failure_classification": "stale_or_under_decomposed_ticket_risk",
+      "seed_traceability": [
+        "TRAIN_2_L5-LEVEL_5-021"
+      ]
+    }
+  ]
+}
