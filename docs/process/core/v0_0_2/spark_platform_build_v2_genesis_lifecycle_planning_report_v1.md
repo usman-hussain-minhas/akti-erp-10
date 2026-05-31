@@ -136,3 +136,9 @@ Recommended next artifact:
 `docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v1.md`
 
 Do not create this Level 1 control plan until separately approved.
+
+## Full Train Preplanning Update
+
+Human decision after PR #38 merge authorizes full Train 1-5 ticket preplanning only. This update allows train control plans, seed matrices, ticket packs, and ticket-pack audits for all trains as planning artifacts. It does not authorize predictive stop analysis, autonomous readiness, execution prompts, ticket execution, production deployment, or production sensitive value access.
+
+Future execution of any train requires repo refresh, staleness scan, dependency refresh, ticket-pack re-audit, predictive stop analysis, autonomous readiness, and explicit human approval.

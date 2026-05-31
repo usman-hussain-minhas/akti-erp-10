@@ -106,7 +106,10 @@
     "Ticket Quality Doctrine enforcement lines are present.",
     "Genesis lifecycle planning report recommends docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v1.md as the next artifact and does not create it.",
     "No runtime/frontend/backend/schema/generated/package/lockfile files changed.",
-    "No tickets, seed matrix, implementation code, deployment, or Spark Genesis repository changes were created."
+    "No tickets, seed matrix, implementation code, deployment, or Spark Genesis repository changes were created.",
+    "Full Train 1-5 preplanning artifacts are created as docs/process authority only.",
+    "Every Train 2-5 ticket pack states FUTURE_DRAFT_REQUIRES_REPO_REFRESH_BEFORE_EXECUTION.",
+    "No predictive stop analysis, autonomous readiness, execution prompt, or ticket execution is created."
   ],
   "stop_conditions": [
     "Stop if missing or conflicting repo authority is found.",
@@ -122,7 +125,10 @@
     "Stop if stale, vague, shallow, overlapping, unsafe, or non-predictive ticket quality would be produced.",
     "Stop if a runtime/frontend/backend/schema/generated/package/lockfile file would need to change.",
     "Stop if Spark Genesis repo changes would be required.",
-    "Stop if lifecycle artifacts write outside ignored codex-review/core/v0_0_2/spark_platform_build_v2_genesis_lifecycle_planning/."
+    "Stop if lifecycle artifacts write outside ignored codex-review/core/v0_0_2/spark_platform_build_v2_genesis_lifecycle_planning/.",
+    "Stop if any train ticket pack is treated as execution authority.",
+    "Stop if predictive stop analysis or autonomous readiness is created in full-train preplanning.",
+    "Stop if ticket execution is attempted from preplanning artifacts."
   ],
   "human_decisions_still_needed": [
     "Human approval of docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v1.md before Train 1 Levels 1-4 ticket pack or seed matrix creation.",
@@ -669,5 +675,28 @@
     "Design system and frontend contracts."
   ],
   "next_recommended_artifact": "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v1.md",
-  "final_status": "AKTI_SPARK_PLATFORM_BUILD_V2_PHASE_INTENT_PACKET_ACCEPTED_FOR_GENESIS_LIFECYCLE_PLANNING"
+  "final_status": "AKTI_SPARK_PLATFORM_BUILD_V2_PHASE_INTENT_PACKET_ACCEPTED_FOR_GENESIS_LIFECYCLE_PLANNING",
+  "full_train_preplanning_decision": {
+    "status": "authorized_for_preplanning_only",
+    "trains_to_preplan": [
+      "train_1_l1_l4",
+      "train_2_l5",
+      "train_3_l6_l12",
+      "train_4_l13_l17",
+      "train_5_l18"
+    ],
+    "execution_authorized": false,
+    "predictive_stop_analysis_authorized": false,
+    "autonomous_readiness_authorized": false,
+    "future_execution_requires": [
+      "repo_refresh",
+      "staleness_scan",
+      "dependency_refresh",
+      "ticket_pack_reaudit",
+      "predictive_stop_analysis",
+      "autonomous_readiness",
+      "explicit_human_approval"
+    ],
+    "human_may_revise_train_model_after_manual_review": true
+  }
 }
