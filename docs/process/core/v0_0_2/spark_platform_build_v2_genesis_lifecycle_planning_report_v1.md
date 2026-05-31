@@ -31,15 +31,25 @@ This report records the AKTI Spark Genesis lifecycle planning package for Spark 
 ## 6. Human Decisions Encoded
 
 - Execution train model: `level_bounded_sequential_autonomous_trains`
-- First execution train: `level_1_cloud_infrastructure_and_deployment`
+- First execution train: `train_1_l1_l4`
 - Plan files committed to repo: yes
 - Intent packet path: `docs/process/core/v0_0_2/spark_platform_build_v2_phase_intent_packet.json`
-- Cloud vendor for Level 1 planning: `aws_eks`
+- Cloud vendor for Train 1 planning: `aws_eks`
 - Production deployment: locked out until explicit human approval
 - Desktop/mobile/P2P: deferred until cloud stable and beta tested
 - Readiness threshold: PASS proceed, WARN proceed only with documented risk acceptance, STOP no-go
 
 Genesis informs readiness and risk. Genesis does not own product/architecture/train decisions. Human confirms.
+
+## Confirmed Execution Train Model
+
+| Train | Levels | Label | Current authorization |
+| --- | --- | --- | --- |
+| Train 1 | Level 1–4 | Infrastructure + Storage/Auth/Platform Services foundation | Next lifecycle package only. |
+| Train 2 | Level 5 | Configuration Engine / Foundry | Future only. |
+| Train 3 | Level 6–12 | Products, CRM, Finance, HR, Workspace, LMS, Events | Future only. |
+| Train 4 | Level 13–17 | Campaigns, E-Commerce, Website/App Builder, AI Consultant, Admin/Support | Future only. |
+| Train 5 | Level 18 | Design System and Frontend | Future only. |
 
 ## 7. Intent Readiness Result
 
@@ -73,11 +83,11 @@ The uploaded ADL bundle contains an ADL index and ADL-001 through ADL-024. All s
 
 ## 12. Level Dependency Summary
 
-Level 0 is treated as the already-built foundation. Level 1 cloud infrastructure and deployment is the first execution train candidate. Level 2 through Level 18 remain future candidates and are not authorized for ticket generation by this package.
+Level 0 is treated as the already-built foundation. Train 1 Levels 1–4 is the first execution-train candidate. Train 2 through Train 5 remain future candidates and are not authorized for ticket generation by this package.
 
 ## 13. First Train Boundary: Level 1 Only
 
-The first train is Level 1 only: cloud infrastructure and deployment planning/control. Human review is required before Level 1 seed matrix, ticket pack, autonomous execution, or any later train planning.
+The first train is Train 1 Levels 1–4: infrastructure, storage/auth, and platform services foundation planning/control. Human review is required before Train 1 seed matrix, ticket pack, autonomous execution, or any later train planning.
 
 ## 14. Production Deployment Lockout
 
@@ -103,13 +113,13 @@ Genesis may support the next approved planning artifact by checking repo truth, 
 
 ## 19. What Genesis Must Not Do Yet
 
-Genesis must not create tickets, create seed matrix, authorize Level 2+ ticket generation, start implementation, deploy production infrastructure, access secrets, create desktop/mobile/P2P tickets, create frontend work without screen contracts, or modify the Spark Genesis repo.
+Genesis must not create tickets, create seed matrix, authorize Train 2+ ticket generation, start implementation, deploy production infrastructure, access secrets, create desktop/mobile/P2P tickets, create frontend work without screen contracts, or modify the Spark Genesis repo.
 
 ## 20. Stop Conditions
 
 - Missing or conflicting repo authority
 - ADL status not `ACCEPTED` for affected level
-- Attempting Level 2+ ticket generation before Level 1 approval
+- Attempting Train 2+ ticket generation before Train 1 approval
 - Attempting production deployment
 - Attempting secrets access
 - Attempting desktop/mobile/P2P tickets in first train
@@ -123,6 +133,6 @@ Genesis must not create tickets, create seed matrix, authorize Level 2+ ticket g
 ## 21. Recommended Next Artifact
 
 Recommended next artifact:
-`docs/process/core/v0_0_2/spark_platform_build_v2_level_1_control_plan_v1.md`
+`docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v1.md`
 
 Do not create this Level 1 control plan until separately approved.

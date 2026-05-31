@@ -8,7 +8,7 @@
   "target_version": "v0_0_2",
   "industry": "education_training_multi_industry_platform",
   "product_app_module_name": "AKTI Spark",
-  "problem_statement": "Convert the uploaded Spark Platform Complete Build Specification v2 and complete ADL set into a repo-grounded Spark Genesis lifecycle planning package for AKTI Spark Core v0_0_2. The package must prepare reviewed control planning for the first execution train only, without creating tickets, seed matrix, implementation code, deployment, production secret access, or Level 2+ authorization.",
+  "problem_statement": "Convert the uploaded Spark Platform Complete Build Specification v2 and complete ADL set into a repo-grounded Spark Genesis lifecycle planning package for AKTI Spark Core v0_0_2. The package must prepare reviewed control planning for Train 1 Levels 1-4 only, without creating tickets, seed matrix, implementation code, deployment, production secret access, or Train 2+ authorization.",
   "primary_users": [
     "AKTI leadership / product owner",
     "AKTI platform architect / reviewer",
@@ -23,8 +23,8 @@
     "Commit this updated Spark Platform Build v2 phase intent packet as lifecycle planning authority.",
     "Record the eight accepted human decisions for Genesis lifecycle planning.",
     "Run Spark Genesis v0.3.5 project-aware validation, intent readiness, clarification, and lifecycle init checks.",
-    "Create a Genesis lifecycle planning report for human review.",
-    "Prepare only the next recommended artifact path for Level 1 control planning; do not create it in this task."
+    "Create a Genesis lifecycle planning report for human review using the confirmed Train 1 Levels 1-4 boundary.",
+    "Prepare only the next recommended artifact path for Train 1 Levels 1-4 control planning; do not create it in this task."
   ],
   "non_scope": [
     "No product implementation code.",
@@ -33,7 +33,7 @@
     "No seed matrix creation.",
     "No Phase 6 or business-module implementation.",
     "No CRM tickets.",
-    "No Level 2+ ticket generation or authorization before Level 1 control outputs/readiness are approved.",
+    "No Train 2+ ticket generation or authorization before Train 1 Levels 1-4 control outputs/readiness are approved.",
     "No runtime/frontend/backend/schema/generated/package/lockfile file changes.",
     "No Prisma schema or migration changes.",
     "No production deployment.",
@@ -100,18 +100,18 @@
   "acceptance_criteria": [
     "Committed planning files use lower_snake_case paths.",
     "Eight human decisions are encoded in this packet and in the human decisions record.",
-    "Level 1 is the first train boundary and Level 2+ ticket generation is not authorized.",
+    "Train 1 Levels 1-4 is the first train boundary and Train 2+ ticket generation is not authorized.",
     "Production deployment and secrets access remain locked out until explicit human approval.",
     "Desktop/mobile/P2P first-train scope is deferred until cloud is stable and beta tested.",
     "Ticket Quality Doctrine enforcement lines are present.",
-    "Genesis lifecycle planning report recommends docs/process/core/v0_0_2/spark_platform_build_v2_level_1_control_plan_v1.md as the next artifact and does not create it.",
+    "Genesis lifecycle planning report recommends docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v1.md as the next artifact and does not create it.",
     "No runtime/frontend/backend/schema/generated/package/lockfile files changed.",
     "No tickets, seed matrix, implementation code, deployment, or Spark Genesis repository changes were created."
   ],
   "stop_conditions": [
     "Stop if missing or conflicting repo authority is found.",
     "Stop if any affected ADL status is not ACCEPTED.",
-    "Stop if Level 2+ ticket generation is attempted before Level 1 approval.",
+    "Stop if Train 2+ ticket generation is attempted before Train 1 Levels 1-4 approval.",
     "Stop if production deployment is attempted.",
     "Stop if production secrets access is attempted.",
     "Stop if desktop/mobile/P2P tickets are attempted in the first train.",
@@ -125,13 +125,13 @@
     "Stop if lifecycle artifacts write outside ignored codex-review/core/v0_0_2/spark_platform_build_v2_genesis_lifecycle_planning/."
   ],
   "human_decisions_still_needed": [
-    "Human approval of docs/process/core/v0_0_2/spark_platform_build_v2_level_1_control_plan_v1.md before Level 1 ticket pack or seed matrix creation.",
+    "Human approval of docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v1.md before Train 1 Levels 1-4 ticket pack or seed matrix creation.",
     "Human approval before production deployment, production credentials, exact production account values, or region-specific production configuration.",
-    "Human approval before Level 2+ train planning or ticket generation."
+    "Human approval before Train 2+ planning or ticket generation."
   ],
   "confirmed_human_decisions": {
     "execution_train_model": "level_bounded_sequential_autonomous_trains",
-    "first_execution_train": "level_1_cloud_infrastructure_and_deployment",
+    "first_execution_train": "train_1_l1_l4",
     "commit_plan_files_to_repo": true,
     "plan_file_paths": [
       "docs/process/core/v0_0_2/spark_plan_v2.md",
@@ -145,7 +145,53 @@
       "PASS": "proceed_autonomously",
       "WARN": "proceed_only_with_documented_risk_acceptance",
       "STOP": "do_not_proceed_until_fixed"
-    }
+    },
+    "execution_trains": {
+      "train_1": {
+        "levels": [
+          "level_1",
+          "level_2",
+          "level_3",
+          "level_4"
+        ],
+        "label": "infrastructure_storage_auth_platform_services_foundation"
+      },
+      "train_2": {
+        "levels": [
+          "level_5"
+        ],
+        "label": "configuration_engine_foundry"
+      },
+      "train_3": {
+        "levels": [
+          "level_6",
+          "level_7",
+          "level_8",
+          "level_9",
+          "level_10",
+          "level_11",
+          "level_12"
+        ],
+        "label": "business_modules_products_crm_finance_hr_workspace_lms_events"
+      },
+      "train_4": {
+        "levels": [
+          "level_13",
+          "level_14",
+          "level_15",
+          "level_16",
+          "level_17"
+        ],
+        "label": "advanced_modules_campaigns_ecommerce_website_ai_admin_support"
+      },
+      "train_5": {
+        "levels": [
+          "level_18"
+        ],
+        "label": "design_system_and_frontend"
+      }
+    },
+    "cloud_vendor_for_train_1": "aws_eks"
   },
   "genesis_role": {
     "authority_boundary": "Genesis does not decide whether execution is one long run or level-bounded trains. Genesis informs readiness/risk/ticket quality. Human confirms execution train decisions.",
@@ -186,9 +232,54 @@
   },
   "execution_train_boundary": {
     "model": "level_bounded_sequential_autonomous_trains",
-    "first_train": "level_1_cloud_infrastructure_and_deployment",
-    "level_1_scope": "Cloud infrastructure and deployment planning/control only until a Level 1 control plan is reviewed and approved.",
-    "level_2_plus_ticket_generation_authorized": false,
+    "first_train": "train_1_l1_l4",
+    "execution_trains": {
+      "train_1": {
+        "levels": [
+          "level_1",
+          "level_2",
+          "level_3",
+          "level_4"
+        ],
+        "label": "infrastructure_storage_auth_platform_services_foundation"
+      },
+      "train_2": {
+        "levels": [
+          "level_5"
+        ],
+        "label": "configuration_engine_foundry"
+      },
+      "train_3": {
+        "levels": [
+          "level_6",
+          "level_7",
+          "level_8",
+          "level_9",
+          "level_10",
+          "level_11",
+          "level_12"
+        ],
+        "label": "business_modules_products_crm_finance_hr_workspace_lms_events"
+      },
+      "train_4": {
+        "levels": [
+          "level_13",
+          "level_14",
+          "level_15",
+          "level_16",
+          "level_17"
+        ],
+        "label": "advanced_modules_campaigns_ecommerce_website_ai_admin_support"
+      },
+      "train_5": {
+        "levels": [
+          "level_18"
+        ],
+        "label": "design_system_and_frontend"
+      }
+    },
+    "train_1_scope": "Levels 1-4: infrastructure, storage/auth/platform services foundation.",
+    "train_2_plus_ticket_generation_authorized": false,
     "human_review_gate_between_trains": true
   },
   "deferred_tracks": {
@@ -256,8 +347,8 @@
   "level_plan_reference": {
     "source": "docs/process/core/v0_0_2/spark_plan_v2.md",
     "level_0": "already-built foundation; do not rebuild",
-    "level_1": "first train candidate after lifecycle planning review",
-    "level_2_through_level_18": "future train candidates only; not authorized for ticket generation by this packet"
+    "level_1": "part of Train 1 Levels 1-4 after lifecycle planning review",
+    "level_2_through_level_18": "Train 1 includes Levels 2-4 only; Levels 5-18 are future train candidates and are not authorized for ticket generation by this packet."
   },
   "preserved_uploaded_level_plan": [
     {
@@ -577,6 +668,6 @@
     "Module sandbox and dry-run data isolation.",
     "Design system and frontend contracts."
   ],
-  "next_recommended_artifact": "docs/process/core/v0_0_2/spark_platform_build_v2_level_1_control_plan_v1.md",
+  "next_recommended_artifact": "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v1.md",
   "final_status": "AKTI_SPARK_PLATFORM_BUILD_V2_PHASE_INTENT_PACKET_ACCEPTED_FOR_GENESIS_LIFECYCLE_PLANNING"
 }
