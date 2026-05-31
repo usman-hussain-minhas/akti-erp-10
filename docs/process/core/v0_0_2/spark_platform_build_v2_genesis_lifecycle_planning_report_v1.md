@@ -136,3 +136,11 @@ Recommended next artifact:
 `docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v1.md`
 
 Do not create this Level 1 control plan until separately approved.
+
+## 22. Full Train Preplanning v3 Supersession
+
+Status: FULL_TRAIN_PREPLANNING_V3_AUTHORIZED_FOR_PREPLANNING_ONLY
+
+The v3 package supersedes PR #39 and PR #40 for review purposes only. PR #39 remains open as under-decomposition failure evidence. PR #40 remains open as ticket-quality and executability failure evidence. v3 permits Train 1-5 preplanning artifacts and ticket-pack audits, but it does not authorize predictive stop analysis, autonomous readiness, execution prompt creation, ticket execution, runtime changes, schema changes, package changes, or Spark Genesis repository changes.
+
+scale_decomposition_audit and ticket_quality_gate are required before any v3 ticket-pack audit can pass.

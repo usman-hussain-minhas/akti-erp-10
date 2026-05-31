@@ -1,0 +1,1568 @@
+{
+  "artifact_type": "seed_matrix",
+  "version": "v3",
+  "status": "SEED_MATRIX_V3_READY_FOR_AUDIT",
+  "train_id": "train_4_l13_l17",
+  "levels": [
+    "level_13",
+    "level_14",
+    "level_15",
+    "level_16",
+    "level_17"
+  ],
+  "enforcement_lines": [
+    "Implementation is not stale by itself. Tickets become stale.",
+    "Apply maximum concrete capability within the approved scope of each ticket."
+  ],
+  "scale_floor": 68,
+  "ticket_count": 71,
+  "scale_decomposition_audit_required_before_ticket_pack_audit_pass": true,
+  "ticket_quality_gate_required_before_ticket_pack_audit_pass": true,
+  "seeds": [
+    {
+      "seed_id": "SPARK-V3-T4-001-SEED",
+      "ticket_id": "SPARK-V3-T4-001",
+      "level": "level_13",
+      "surface": "email campaign segment builder",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_13_email_campaign_segment_builder",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_13",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#email_campaign_segment_builder",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "apps/api/src/campaigns/email-campaign-segment-builder.service.ts",
+        "apps/api/src/campaigns/email-campaign-segment-builder.controller.ts",
+        "apps/api/src/campaigns/email-campaign-segment-builder.test.ts",
+        "packages/contracts/email-campaign-segment-builder.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": []
+    },
+    {
+      "seed_id": "SPARK-V3-T4-002-SEED",
+      "ticket_id": "SPARK-V3-T4-002",
+      "level": "level_13",
+      "surface": "email campaign send guard",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_13_email_campaign_send_guard",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_13",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#email_campaign_send_guard",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "apps/api/src/campaigns/email-campaign-send-guard.service.ts",
+        "apps/api/src/campaigns/email-campaign-send-guard.controller.ts",
+        "apps/api/src/campaigns/email-campaign-send-guard.test.ts",
+        "packages/contracts/email-campaign-send-guard.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T4-001"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-003-SEED",
+      "ticket_id": "SPARK-V3-T4-003",
+      "level": "level_13",
+      "surface": "WhatsApp campaign template guard",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_13_whatsapp_campaign_template_guard",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_13",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#whatsapp_campaign_template_guard",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "apps/api/src/campaigns/whatsapp-campaign-template-guard.service.ts",
+        "apps/api/src/campaigns/whatsapp-campaign-template-guard.controller.ts",
+        "apps/api/src/campaigns/whatsapp-campaign-template-guard.test.ts",
+        "packages/contracts/whatsapp-campaign-template-guard.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T4-002"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-004-SEED",
+      "ticket_id": "SPARK-V3-T4-004",
+      "level": "level_13",
+      "surface": "WhatsApp campaign send window",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_13_whatsapp_campaign_send_window",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_13",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#whatsapp_campaign_send_window",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "apps/api/src/campaigns/whatsapp-campaign-send-window.service.ts",
+        "apps/api/src/campaigns/whatsapp-campaign-send-window.controller.ts",
+        "apps/api/src/campaigns/whatsapp-campaign-send-window.test.ts",
+        "packages/contracts/whatsapp-campaign-send-window.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T4-003"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-005-SEED",
+      "ticket_id": "SPARK-V3-T4-005",
+      "level": "level_13",
+      "surface": "SMS campaign adapter boundary",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_13_sms_campaign_adapter_boundary",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_13",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#sms_campaign_adapter_boundary",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "apps/api/src/campaigns/sms-campaign-adapter-boundary.service.ts",
+        "apps/api/src/campaigns/sms-campaign-adapter-boundary.controller.ts",
+        "apps/api/src/campaigns/sms-campaign-adapter-boundary.test.ts",
+        "packages/contracts/sms-campaign-adapter-boundary.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T4-004"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-006-SEED",
+      "ticket_id": "SPARK-V3-T4-006",
+      "level": "level_13",
+      "surface": "Meta Ads audience sync boundary",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_13_meta_ads_audience_sync_boundary",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_13",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#meta_ads_audience_sync_boundary",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "apps/api/src/campaigns/meta-ads-audience-sync-boundary.service.ts",
+        "apps/api/src/campaigns/meta-ads-audience-sync-boundary.controller.ts",
+        "apps/api/src/campaigns/meta-ads-audience-sync-boundary.test.ts",
+        "packages/contracts/meta-ads-audience-sync-boundary.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T4-005"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-007-SEED",
+      "ticket_id": "SPARK-V3-T4-007",
+      "level": "level_13",
+      "surface": "automation sequence trigger",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_13_automation_sequence_trigger",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_13",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#automation_sequence_trigger",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "apps/api/src/campaigns/automation-sequence-trigger.service.ts",
+        "apps/api/src/campaigns/automation-sequence-trigger.controller.ts",
+        "apps/api/src/campaigns/automation-sequence-trigger.test.ts",
+        "packages/contracts/automation-sequence-trigger.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T4-006"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-008-SEED",
+      "ticket_id": "SPARK-V3-T4-008",
+      "level": "level_13",
+      "surface": "push notification audience rule",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_13_push_notification_audience_rule",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_13",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#push_notification_audience_rule",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "apps/api/src/campaigns/push-notification-audience-rule.service.ts",
+        "apps/api/src/campaigns/push-notification-audience-rule.controller.ts",
+        "apps/api/src/campaigns/push-notification-audience-rule.test.ts",
+        "packages/contracts/push-notification-audience-rule.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T4-007"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-009-SEED",
+      "ticket_id": "SPARK-V3-T4-009",
+      "level": "level_13",
+      "surface": "campaign attribution read model",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_13_campaign_attribution_read_model",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_13",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#campaign_attribution_read_model",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "apps/api/src/campaigns/campaign-attribution-read-model.service.ts",
+        "apps/api/src/campaigns/campaign-attribution-read-model.controller.ts",
+        "apps/api/src/campaigns/campaign-attribution-read-model.test.ts",
+        "packages/contracts/campaign-attribution-read-model.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T4-008"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-010-SEED",
+      "ticket_id": "SPARK-V3-T4-010",
+      "level": "level_13",
+      "surface": "campaign opt out enforcement",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_13_campaign_opt_out_enforcement",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_13",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#campaign_opt_out_enforcement",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "apps/api/src/campaigns/campaign-opt-out-enforcement.service.ts",
+        "apps/api/src/campaigns/campaign-opt-out-enforcement.controller.ts",
+        "apps/api/src/campaigns/campaign-opt-out-enforcement.test.ts",
+        "packages/contracts/campaign-opt-out-enforcement.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T4-009"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-011-SEED",
+      "ticket_id": "SPARK-V3-T4-011",
+      "level": "level_13",
+      "surface": "campaign budget cap guard",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_13_campaign_budget_cap_guard",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_13",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#campaign_budget_cap_guard",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "apps/api/src/campaigns/campaign-budget-cap-guard.service.ts",
+        "apps/api/src/campaigns/campaign-budget-cap-guard.controller.ts",
+        "apps/api/src/campaigns/campaign-budget-cap-guard.test.ts",
+        "packages/contracts/campaign-budget-cap-guard.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T4-010"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-012-SEED",
+      "ticket_id": "SPARK-V3-T4-012",
+      "level": "level_13",
+      "surface": "campaign report export",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_13_campaign_report_export",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_13",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#campaign_report_export",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "scripts/quality/campaign_report_export_check.mjs",
+        "apps/api/src/campaigns/campaign-report-export.service.ts",
+        "apps/api/src/campaigns/campaign-report-export.test.ts"
+      ],
+      "validation_anchor": "pnpm test --filter api -- apps/api/src/campaigns/campaign-report-export.test.ts",
+      "dependencies": [
+        "SPARK-V3-T4-011"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-013-SEED",
+      "ticket_id": "SPARK-V3-T4-013",
+      "level": "level_13",
+      "surface": "Campaigns permission audit",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_13_campaigns_permission_audit",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_13",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#campaigns_permission_audit",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "apps/api/src/campaigns/campaigns-permission-audit.service.ts",
+        "apps/api/src/campaigns/campaigns-permission-audit.controller.ts",
+        "apps/api/src/campaigns/campaigns-permission-audit.test.ts",
+        "packages/contracts/campaigns-permission-audit.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T4-012"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-014-SEED",
+      "ticket_id": "SPARK-V3-T4-014",
+      "level": "level_13",
+      "surface": "Campaigns final gate",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_13_campaigns_final_gate",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_13",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#campaigns_final_gate",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "scripts/quality/train_4_l13_l17_campaigns_final_gate_gate_check.mjs",
+        ".github/workflows/train_4_l13_l17_campaigns-final-gate_gate.yml",
+        "packages/contracts/train_4_l13_l17-campaigns-final-gate.contract.ts"
+      ],
+      "validation_anchor": "node scripts/quality/train_4_l13_l17_campaigns_final_gate_gate_check.mjs --verify-dependency-closure --verify-evidence-closure",
+      "dependencies": [
+        "SPARK-V3-T4-013"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-015-SEED",
+      "ticket_id": "SPARK-V3-T4-015",
+      "level": "level_14",
+      "surface": "store profile contract",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_14_store_profile_contract",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_14",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#store_profile_contract",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "prisma/schema.prisma",
+        "prisma/migrations/20260715_store_profile_contract/migration.sql",
+        "packages/contracts/store-profile-contract.contract.ts",
+        "apps/api/src/commerce/store-profile-contract.repository.ts"
+      ],
+      "validation_anchor": "pnpm exec prisma validate --schema prisma/schema.prisma",
+      "dependencies": [
+        "SPARK-V3-T4-014"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-016-SEED",
+      "ticket_id": "SPARK-V3-T4-016",
+      "level": "level_14",
+      "surface": "product listing projection",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_14_product_listing_projection",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_14",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#product_listing_projection",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "apps/api/src/commerce/product-listing-projection.service.ts",
+        "apps/api/src/commerce/product-listing-projection.controller.ts",
+        "apps/api/src/commerce/product-listing-projection.test.ts",
+        "packages/contracts/product-listing-projection.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T4-015"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-017-SEED",
+      "ticket_id": "SPARK-V3-T4-017",
+      "level": "level_14",
+      "surface": "cart item pricing guard",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_14_cart_item_pricing_guard",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_14",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#cart_item_pricing_guard",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "apps/api/src/commerce/cart-item-pricing-guard.service.ts",
+        "apps/api/src/commerce/cart-item-pricing-guard.controller.ts",
+        "apps/api/src/commerce/cart-item-pricing-guard.test.ts",
+        "packages/contracts/cart-item-pricing-guard.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T4-016"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-018-SEED",
+      "ticket_id": "SPARK-V3-T4-018",
+      "level": "level_14",
+      "surface": "checkout session contract",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_14_checkout_session_contract",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_14",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#checkout_session_contract",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "apps/api/src/commerce/checkout-session-contract.service.ts",
+        "apps/api/src/commerce/checkout-session-contract.controller.ts",
+        "apps/api/src/commerce/checkout-session-contract.test.ts",
+        "packages/contracts/checkout-session-contract.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T4-017"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-019-SEED",
+      "ticket_id": "SPARK-V3-T4-019",
+      "level": "level_14",
+      "surface": "commerce payment boundary",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_14_commerce_payment_boundary",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_14",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#commerce_payment_boundary",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "apps/api/src/commerce/commerce-payment-boundary.service.ts",
+        "apps/api/src/commerce/commerce-payment-boundary.controller.ts",
+        "apps/api/src/commerce/commerce-payment-boundary.test.ts",
+        "packages/contracts/commerce-payment-boundary.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T4-018"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-020-SEED",
+      "ticket_id": "SPARK-V3-T4-020",
+      "level": "level_14",
+      "surface": "order lifecycle state machine",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_14_order_lifecycle_state_machine",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_14",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#order_lifecycle_state_machine",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "apps/api/src/commerce/order-lifecycle-state-machine.service.ts",
+        "apps/api/src/commerce/order-lifecycle-state-machine.controller.ts",
+        "apps/api/src/commerce/order-lifecycle-state-machine.test.ts",
+        "packages/contracts/order-lifecycle-state-machine.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T4-019"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-021-SEED",
+      "ticket_id": "SPARK-V3-T4-021",
+      "level": "level_14",
+      "surface": "shipping rate adapter boundary",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_14_shipping_rate_adapter_boundary",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_14",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#shipping_rate_adapter_boundary",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "apps/api/src/commerce/shipping-rate-adapter-boundary.service.ts",
+        "apps/api/src/commerce/shipping-rate-adapter-boundary.controller.ts",
+        "apps/api/src/commerce/shipping-rate-adapter-boundary.test.ts",
+        "packages/contracts/shipping-rate-adapter-boundary.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T4-020"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-022-SEED",
+      "ticket_id": "SPARK-V3-T4-022",
+      "level": "level_14",
+      "surface": "return request workflow",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_14_return_request_workflow",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_14",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#return_request_workflow",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "apps/api/src/commerce/return-request-workflow.service.ts",
+        "apps/api/src/commerce/return-request-workflow.controller.ts",
+        "apps/api/src/commerce/return-request-workflow.test.ts",
+        "packages/contracts/return-request-workflow.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T4-021"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-023-SEED",
+      "ticket_id": "SPARK-V3-T4-023",
+      "level": "level_14",
+      "surface": "commerce refund handoff",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_14_commerce_refund_handoff",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_14",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#commerce_refund_handoff",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "apps/api/src/commerce/commerce-refund-handoff.service.ts",
+        "apps/api/src/commerce/commerce-refund-handoff.controller.ts",
+        "apps/api/src/commerce/commerce-refund-handoff.test.ts",
+        "packages/contracts/commerce-refund-handoff.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T4-022"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-024-SEED",
+      "ticket_id": "SPARK-V3-T4-024",
+      "level": "level_14",
+      "surface": "marketplace seller boundary",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_14_marketplace_seller_boundary",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_14",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#marketplace_seller_boundary",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "apps/api/src/commerce/marketplace-seller-boundary.service.ts",
+        "apps/api/src/commerce/marketplace-seller-boundary.controller.ts",
+        "apps/api/src/commerce/marketplace-seller-boundary.test.ts",
+        "packages/contracts/marketplace-seller-boundary.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T4-023"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-025-SEED",
+      "ticket_id": "SPARK-V3-T4-025",
+      "level": "level_14",
+      "surface": "commerce analytics read model",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_14_commerce_analytics_read_model",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_14",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#commerce_analytics_read_model",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "apps/api/src/commerce/commerce-analytics-read-model.service.ts",
+        "apps/api/src/commerce/commerce-analytics-read-model.controller.ts",
+        "apps/api/src/commerce/commerce-analytics-read-model.test.ts",
+        "packages/contracts/commerce-analytics-read-model.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T4-024"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-026-SEED",
+      "ticket_id": "SPARK-V3-T4-026",
+      "level": "level_14",
+      "surface": "storefront screen contract",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_14_storefront_screen_contract",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_14",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#storefront_screen_contract",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "packages/contracts/storefront-screen-contract.contract.ts",
+        "packages/contracts/storefront-screen-contract.contract.test.ts",
+        "apps/api/src/commerce/storefront-screen-contract.contract-adapter.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T4-025"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-027-SEED",
+      "ticket_id": "SPARK-V3-T4-027",
+      "level": "level_14",
+      "surface": "commerce permission audit",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_14_commerce_permission_audit",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_14",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#commerce_permission_audit",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "apps/api/src/commerce/commerce-permission-audit.service.ts",
+        "apps/api/src/commerce/commerce-permission-audit.controller.ts",
+        "apps/api/src/commerce/commerce-permission-audit.test.ts",
+        "packages/contracts/commerce-permission-audit.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T4-026"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-028-SEED",
+      "ticket_id": "SPARK-V3-T4-028",
+      "level": "level_14",
+      "surface": "commerce inventory bridge",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_14_commerce_inventory_bridge",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_14",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#commerce_inventory_bridge",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "apps/api/src/commerce/commerce-inventory-bridge.service.ts",
+        "apps/api/src/commerce/commerce-inventory-bridge.controller.ts",
+        "apps/api/src/commerce/commerce-inventory-bridge.test.ts",
+        "packages/contracts/commerce-inventory-bridge.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T4-027"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-029-SEED",
+      "ticket_id": "SPARK-V3-T4-029",
+      "level": "level_14",
+      "surface": "Commerce final gate",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_14_commerce_final_gate",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_14",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#commerce_final_gate",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "scripts/quality/train_4_l13_l17_commerce_final_gate_gate_check.mjs",
+        ".github/workflows/train_4_l13_l17_commerce-final-gate_gate.yml",
+        "packages/contracts/train_4_l13_l17-commerce-final-gate.contract.ts"
+      ],
+      "validation_anchor": "node scripts/quality/train_4_l13_l17_commerce_final_gate_gate_check.mjs --verify-dependency-closure --verify-evidence-closure",
+      "dependencies": [
+        "SPARK-V3-T4-028"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-030-SEED",
+      "ticket_id": "SPARK-V3-T4-030",
+      "level": "level_15",
+      "surface": "visual editor document model",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_15_visual_editor_document_model",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_15",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#visual_editor_document_model",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "prisma/schema.prisma",
+        "prisma/migrations/20260730_visual_editor_document_model/migration.sql",
+        "packages/contracts/visual-editor-document-model.contract.ts",
+        "apps/api/src/site-builder/visual-editor-document-model.repository.ts"
+      ],
+      "validation_anchor": "pnpm exec prisma validate --schema prisma/schema.prisma",
+      "dependencies": [
+        "SPARK-V3-T4-029"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-031-SEED",
+      "ticket_id": "SPARK-V3-T4-031",
+      "level": "level_15",
+      "surface": "visual editor publish guard",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_15_visual_editor_publish_guard",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_15",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#visual_editor_publish_guard",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "apps/api/src/site-builder/visual-editor-publish-guard.service.ts",
+        "apps/api/src/site-builder/visual-editor-publish-guard.controller.ts",
+        "apps/api/src/site-builder/visual-editor-publish-guard.test.ts",
+        "packages/contracts/visual-editor-publish-guard.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T4-030"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-032-SEED",
+      "ticket_id": "SPARK-V3-T4-032",
+      "level": "level_15",
+      "surface": "block library contract",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_15_block_library_contract",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_15",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#block_library_contract",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "packages/contracts/block-library-contract.contract.ts",
+        "packages/contracts/block-library-contract.contract.test.ts",
+        "apps/api/src/site-builder/block-library-contract.contract-adapter.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T4-031"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-033-SEED",
+      "ticket_id": "SPARK-V3-T4-033",
+      "level": "level_15",
+      "surface": "form spam protection rule",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_15_form_spam_protection_rule",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_15",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#form_spam_protection_rule",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "apps/api/src/site-builder/form-spam-protection-rule.service.ts",
+        "apps/api/src/site-builder/form-spam-protection-rule.controller.ts",
+        "apps/api/src/site-builder/form-spam-protection-rule.test.ts",
+        "packages/contracts/form-spam-protection-rule.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T4-032"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-034-SEED",
+      "ticket_id": "SPARK-V3-T4-034",
+      "level": "level_15",
+      "surface": "multi site routing contract",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_15_multi_site_routing_contract",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_15",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#multi_site_routing_contract",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "apps/api/src/site-builder/multi-site-routing-contract.service.ts",
+        "apps/api/src/site-builder/multi-site-routing-contract.controller.ts",
+        "apps/api/src/site-builder/multi-site-routing-contract.test.ts",
+        "packages/contracts/multi-site-routing-contract.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T4-033"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-035-SEED",
+      "ticket_id": "SPARK-V3-T4-035",
+      "level": "level_15",
+      "surface": "SEO metadata validator",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_15_seo_metadata_validator",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_15",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#seo_metadata_validator",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "apps/api/src/site-builder/seo-metadata-validator.service.ts",
+        "apps/api/src/site-builder/seo-metadata-validator.controller.ts",
+        "apps/api/src/site-builder/seo-metadata-validator.test.ts",
+        "packages/contracts/seo-metadata-validator.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T4-034"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-036-SEED",
+      "ticket_id": "SPARK-V3-T4-036",
+      "level": "level_15",
+      "surface": "blog post workflow",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_15_blog_post_workflow",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_15",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#blog_post_workflow",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "apps/api/src/site-builder/blog-post-workflow.service.ts",
+        "apps/api/src/site-builder/blog-post-workflow.controller.ts",
+        "apps/api/src/site-builder/blog-post-workflow.test.ts",
+        "packages/contracts/blog-post-workflow.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T4-035"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-037-SEED",
+      "ticket_id": "SPARK-V3-T4-037",
+      "level": "level_15",
+      "surface": "PWA manifest builder",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_15_pwa_manifest_builder",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_15",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#pwa_manifest_builder",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "apps/api/src/site-builder/pwa-manifest-builder.service.ts",
+        "apps/api/src/site-builder/pwa-manifest-builder.controller.ts",
+        "apps/api/src/site-builder/pwa-manifest-builder.test.ts",
+        "packages/contracts/pwa-manifest-builder.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T4-036"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-038-SEED",
+      "ticket_id": "SPARK-V3-T4-038",
+      "level": "level_15",
+      "surface": "builder asset storage rule",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_15_builder_asset_storage_rule",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_15",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#builder_asset_storage_rule",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "apps/api/src/site-builder/builder-asset-storage-rule.service.ts",
+        "apps/api/src/site-builder/builder-asset-storage-rule.controller.ts",
+        "apps/api/src/site-builder/builder-asset-storage-rule.test.ts",
+        "packages/contracts/builder-asset-storage-rule.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T4-037"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-039-SEED",
+      "ticket_id": "SPARK-V3-T4-039",
+      "level": "level_15",
+      "surface": "builder preview route contract",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_15_builder_preview_route_contract",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_15",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#builder_preview_route_contract",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "packages/contracts/builder-preview-route-contract.contract.ts",
+        "packages/contracts/builder-preview-route-contract.contract.test.ts",
+        "apps/api/src/site-builder/builder-preview-route-contract.contract-adapter.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T4-038"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-040-SEED",
+      "ticket_id": "SPARK-V3-T4-040",
+      "level": "level_15",
+      "surface": "builder permission audit",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_15_builder_permission_audit",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_15",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#builder_permission_audit",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "apps/api/src/site-builder/builder-permission-audit.service.ts",
+        "apps/api/src/site-builder/builder-permission-audit.controller.ts",
+        "apps/api/src/site-builder/builder-permission-audit.test.ts",
+        "packages/contracts/builder-permission-audit.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T4-039"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-041-SEED",
+      "ticket_id": "SPARK-V3-T4-041",
+      "level": "level_15",
+      "surface": "builder rollback snapshot",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_15_builder_rollback_snapshot",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_15",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#builder_rollback_snapshot",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "apps/api/src/site-builder/builder-rollback-snapshot.service.ts",
+        "apps/api/src/site-builder/builder-rollback-snapshot.controller.ts",
+        "apps/api/src/site-builder/builder-rollback-snapshot.test.ts",
+        "packages/contracts/builder-rollback-snapshot.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T4-040"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-042-SEED",
+      "ticket_id": "SPARK-V3-T4-042",
+      "level": "level_15",
+      "surface": "builder accessibility check",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_15_builder_accessibility_check",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_15",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#builder_accessibility_check",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "scripts/quality/builder_accessibility_check_check.mjs",
+        "apps/api/src/site-builder/builder-accessibility-check.service.ts",
+        "apps/api/src/site-builder/builder-accessibility-check.test.ts"
+      ],
+      "validation_anchor": "pnpm test --filter api -- apps/api/src/site-builder/builder-accessibility-check.test.ts",
+      "dependencies": [
+        "SPARK-V3-T4-041"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-043-SEED",
+      "ticket_id": "SPARK-V3-T4-043",
+      "level": "level_15",
+      "surface": "builder import export contract",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_15_builder_import_export_contract",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_15",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#builder_import_export_contract",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "scripts/quality/builder_import_export_contract_check.mjs",
+        "apps/api/src/site-builder/builder-import-export-contract.service.ts",
+        "apps/api/src/site-builder/builder-import-export-contract.test.ts"
+      ],
+      "validation_anchor": "pnpm test --filter api -- apps/api/src/site-builder/builder-import-export-contract.test.ts",
+      "dependencies": [
+        "SPARK-V3-T4-042"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-044-SEED",
+      "ticket_id": "SPARK-V3-T4-044",
+      "level": "level_15",
+      "surface": "builder report read model",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_15_builder_report_read_model",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_15",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#builder_report_read_model",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "apps/api/src/site-builder/builder-report-read-model.service.ts",
+        "apps/api/src/site-builder/builder-report-read-model.controller.ts",
+        "apps/api/src/site-builder/builder-report-read-model.test.ts",
+        "packages/contracts/builder-report-read-model.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T4-043"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-045-SEED",
+      "ticket_id": "SPARK-V3-T4-045",
+      "level": "level_15",
+      "surface": "Website app builder final gate",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_15_website_app_builder_final_gate",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_15",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#website_app_builder_final_gate",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "scripts/quality/train_4_l13_l17_website_app_builder_final_gate_gate_check.mjs",
+        ".github/workflows/train_4_l13_l17_website-app-builder-final-gate_gate.yml",
+        "packages/contracts/train_4_l13_l17-website-app-builder-final-gate.contract.ts"
+      ],
+      "validation_anchor": "node scripts/quality/train_4_l13_l17_website_app_builder_final_gate_gate_check.mjs --verify-dependency-closure --verify-evidence-closure",
+      "dependencies": [
+        "SPARK-V3-T4-044"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-046-SEED",
+      "ticket_id": "SPARK-V3-T4-046",
+      "level": "level_16",
+      "surface": "individual intelligence profile",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_16_individual_intelligence_profile",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_16",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#individual_intelligence_profile",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "apps/api/src/ai-proxy/individual-intelligence-profile.service.ts",
+        "apps/api/src/ai-proxy/individual-intelligence-profile.controller.ts",
+        "apps/api/src/ai-proxy/individual-intelligence-profile.test.ts",
+        "packages/contracts/individual-intelligence-profile.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T4-045"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-047-SEED",
+      "ticket_id": "SPARK-V3-T4-047",
+      "level": "level_16",
+      "surface": "proactive monitoring signal",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_16_proactive_monitoring_signal",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_16",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#proactive_monitoring_signal",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "apps/api/src/ai-proxy/proactive-monitoring-signal.service.ts",
+        "apps/api/src/ai-proxy/proactive-monitoring-signal.controller.ts",
+        "apps/api/src/ai-proxy/proactive-monitoring-signal.test.ts",
+        "packages/contracts/proactive-monitoring-signal.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T4-046"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-048-SEED",
+      "ticket_id": "SPARK-V3-T4-048",
+      "level": "level_16",
+      "surface": "health dashboard contract",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_16_health_dashboard_contract",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_16",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#health_dashboard_contract",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "packages/contracts/health-dashboard-contract.contract.ts",
+        "packages/contracts/health-dashboard-contract.contract.test.ts",
+        "apps/api/src/ai-proxy/health-dashboard-contract.contract-adapter.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T4-047"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-049-SEED",
+      "ticket_id": "SPARK-V3-T4-049",
+      "level": "level_16",
+      "surface": "after action review workflow",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_16_after_action_review_workflow",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_16",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#after_action_review_workflow",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "apps/api/src/ai-proxy/after-action-review-workflow.service.ts",
+        "apps/api/src/ai-proxy/after-action-review-workflow.controller.ts",
+        "apps/api/src/ai-proxy/after-action-review-workflow.test.ts",
+        "packages/contracts/after-action-review-workflow.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T4-048"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-050-SEED",
+      "ticket_id": "SPARK-V3-T4-050",
+      "level": "level_16",
+      "surface": "prediction maturity evaluator",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_16_prediction_maturity_evaluator",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_16",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#prediction_maturity_evaluator",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "apps/api/src/ai-proxy/prediction-maturity-evaluator.service.ts",
+        "apps/api/src/ai-proxy/prediction-maturity-evaluator.controller.ts",
+        "apps/api/src/ai-proxy/prediction-maturity-evaluator.test.ts",
+        "packages/contracts/prediction-maturity-evaluator.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T4-049"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-051-SEED",
+      "ticket_id": "SPARK-V3-T4-051",
+      "level": "level_16",
+      "surface": "collective intelligence aggregation",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_16_collective_intelligence_aggregation",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_16",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#collective_intelligence_aggregation",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "apps/api/src/ai-proxy/collective-intelligence-aggregation.service.ts",
+        "apps/api/src/ai-proxy/collective-intelligence-aggregation.controller.ts",
+        "apps/api/src/ai-proxy/collective-intelligence-aggregation.test.ts",
+        "packages/contracts/collective-intelligence-aggregation.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T4-050"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-052-SEED",
+      "ticket_id": "SPARK-V3-T4-052",
+      "level": "level_16",
+      "surface": "AI hard limit guard",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_16_ai_hard_limit_guard",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_16",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#ai_hard_limit_guard",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "apps/api/src/ai-proxy/ai-hard-limit-guard.service.ts",
+        "apps/api/src/ai-proxy/ai-hard-limit-guard.controller.ts",
+        "apps/api/src/ai-proxy/ai-hard-limit-guard.test.ts",
+        "packages/contracts/ai-hard-limit-guard.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T4-051"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-053-SEED",
+      "ticket_id": "SPARK-V3-T4-053",
+      "level": "level_16",
+      "surface": "AI cost cap ledger",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_16_ai_cost_cap_ledger",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_16",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#ai_cost_cap_ledger",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "apps/api/src/ai-proxy/ai-cost-cap-ledger.service.ts",
+        "apps/api/src/ai-proxy/ai-cost-cap-ledger.controller.ts",
+        "apps/api/src/ai-proxy/ai-cost-cap-ledger.test.ts",
+        "packages/contracts/ai-cost-cap-ledger.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T4-052"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-054-SEED",
+      "ticket_id": "SPARK-V3-T4-054",
+      "level": "level_16",
+      "surface": "AI recommendation approval gate",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_16_ai_recommendation_approval_gate",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_16",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#ai_recommendation_approval_gate",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "apps/api/src/ai-proxy/ai-recommendation-approval-gate.service.ts",
+        "apps/api/src/ai-proxy/ai-recommendation-approval-gate.controller.ts",
+        "apps/api/src/ai-proxy/ai-recommendation-approval-gate.test.ts",
+        "packages/contracts/ai-recommendation-approval-gate.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T4-053"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-055-SEED",
+      "ticket_id": "SPARK-V3-T4-055",
+      "level": "level_16",
+      "surface": "AI prohibited data filter",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_16_ai_prohibited_data_filter",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_16",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#ai_prohibited_data_filter",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "apps/api/src/ai-proxy/ai-prohibited-data-filter.service.ts",
+        "apps/api/src/ai-proxy/ai-prohibited-data-filter.controller.ts",
+        "apps/api/src/ai-proxy/ai-prohibited-data-filter.test.ts",
+        "packages/contracts/ai-prohibited-data-filter.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T4-054"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-056-SEED",
+      "ticket_id": "SPARK-V3-T4-056",
+      "level": "level_16",
+      "surface": "AI audit explanation writer",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_16_ai_audit_explanation_writer",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_16",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#ai_audit_explanation_writer",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "apps/api/src/ai-proxy/ai-audit-explanation-writer.service.ts",
+        "apps/api/src/ai-proxy/ai-audit-explanation-writer.controller.ts",
+        "apps/api/src/ai-proxy/ai-audit-explanation-writer.test.ts",
+        "packages/contracts/ai-audit-explanation-writer.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T4-055"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-057-SEED",
+      "ticket_id": "SPARK-V3-T4-057",
+      "level": "level_16",
+      "surface": "AI evaluation evidence command",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_16_ai_evaluation_evidence_command",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_16",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#ai_evaluation_evidence_command",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "scripts/quality/ai_evaluation_evidence_command_check.mjs",
+        "apps/api/src/ai-proxy/ai-evaluation-evidence-command.service.ts",
+        "apps/api/src/ai-proxy/ai-evaluation-evidence-command.test.ts"
+      ],
+      "validation_anchor": "pnpm test --filter api -- apps/api/src/ai-proxy/ai-evaluation-evidence-command.test.ts",
+      "dependencies": [
+        "SPARK-V3-T4-056"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-058-SEED",
+      "ticket_id": "SPARK-V3-T4-058",
+      "level": "level_16",
+      "surface": "AI consultant permission audit",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_16_ai_consultant_permission_audit",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_16",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#ai_consultant_permission_audit",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "apps/api/src/ai-proxy/ai-consultant-permission-audit.service.ts",
+        "apps/api/src/ai-proxy/ai-consultant-permission-audit.controller.ts",
+        "apps/api/src/ai-proxy/ai-consultant-permission-audit.test.ts",
+        "packages/contracts/ai-consultant-permission-audit.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T4-057"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-059-SEED",
+      "ticket_id": "SPARK-V3-T4-059",
+      "level": "level_16",
+      "surface": "AI consultant final gate",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_16_ai_consultant_final_gate",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_16",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#ai_consultant_final_gate",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "scripts/quality/train_4_l13_l17_ai_consultant_final_gate_gate_check.mjs",
+        ".github/workflows/train_4_l13_l17_ai-consultant-final-gate_gate.yml",
+        "packages/contracts/train_4_l13_l17-ai-consultant-final-gate.contract.ts"
+      ],
+      "validation_anchor": "node scripts/quality/train_4_l13_l17_ai_consultant_final_gate_gate_check.mjs --verify-dependency-closure --verify-evidence-closure",
+      "dependencies": [
+        "SPARK-V3-T4-058"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-060-SEED",
+      "ticket_id": "SPARK-V3-T4-060",
+      "level": "level_17",
+      "surface": "organization management workflow",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_17_organization_management_workflow",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_17",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#organization_management_workflow",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "apps/api/src/admin-support/organization-management-workflow.service.ts",
+        "apps/api/src/admin-support/organization-management-workflow.controller.ts",
+        "apps/api/src/admin-support/organization-management-workflow.test.ts",
+        "packages/contracts/organization-management-workflow.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T4-059"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-061-SEED",
+      "ticket_id": "SPARK-V3-T4-061",
+      "level": "level_17",
+      "surface": "data migration dry run validator",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_17_data_migration_dry_run_validator",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_17",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#data_migration_dry_run_validator",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "scripts/quality/data_migration_dry_run_validator_check.mjs",
+        "apps/api/src/admin-support/data-migration-dry-run-validator.service.ts",
+        "apps/api/src/admin-support/data-migration-dry-run-validator.test.ts"
+      ],
+      "validation_anchor": "pnpm test --filter api -- apps/api/src/admin-support/data-migration-dry-run-validator.test.ts",
+      "dependencies": [
+        "SPARK-V3-T4-060"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-062-SEED",
+      "ticket_id": "SPARK-V3-T4-062",
+      "level": "level_17",
+      "surface": "AI concierge onboarding script",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_17_ai_concierge_onboarding_script",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_17",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#ai_concierge_onboarding_script",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "apps/api/src/admin-support/ai-concierge-onboarding-script.service.ts",
+        "apps/api/src/admin-support/ai-concierge-onboarding-script.controller.ts",
+        "apps/api/src/admin-support/ai-concierge-onboarding-script.test.ts",
+        "packages/contracts/ai-concierge-onboarding-script.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T4-061"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-063-SEED",
+      "ticket_id": "SPARK-V3-T4-063",
+      "level": "level_17",
+      "surface": "support tier SLA contract",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_17_support_tier_sla_contract",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_17",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#support_tier_sla_contract",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "prisma/schema.prisma",
+        "prisma/migrations/20260763_support_tier_sla_contract/migration.sql",
+        "packages/contracts/support-tier-sla-contract.contract.ts",
+        "apps/api/src/admin-support/support-tier-sla-contract.repository.ts"
+      ],
+      "validation_anchor": "pnpm exec prisma validate --schema prisma/schema.prisma",
+      "dependencies": [
+        "SPARK-V3-T4-062"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-064-SEED",
+      "ticket_id": "SPARK-V3-T4-064",
+      "level": "level_17",
+      "surface": "support case routing",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_17_support_case_routing",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_17",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#support_case_routing",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "apps/api/src/admin-support/support-case-routing.service.ts",
+        "apps/api/src/admin-support/support-case-routing.controller.ts",
+        "apps/api/src/admin-support/support-case-routing.test.ts",
+        "packages/contracts/support-case-routing.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T4-063"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-065-SEED",
+      "ticket_id": "SPARK-V3-T4-065",
+      "level": "level_17",
+      "surface": "documentation publishing workflow",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_17_documentation_publishing_workflow",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_17",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#documentation_publishing_workflow",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "apps/api/src/admin-support/documentation-publishing-workflow.service.ts",
+        "apps/api/src/admin-support/documentation-publishing-workflow.controller.ts",
+        "apps/api/src/admin-support/documentation-publishing-workflow.test.ts",
+        "packages/contracts/documentation-publishing-workflow.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T4-064"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-066-SEED",
+      "ticket_id": "SPARK-V3-T4-066",
+      "level": "level_17",
+      "surface": "compliance tool evidence registry",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_17_compliance_tool_evidence_registry",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_17",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#compliance_tool_evidence_registry",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "apps/api/src/admin-support/compliance-tool-evidence-registry.service.ts",
+        "apps/api/src/admin-support/compliance-tool-evidence-registry.controller.ts",
+        "apps/api/src/admin-support/compliance-tool-evidence-registry.test.ts",
+        "packages/contracts/compliance-tool-evidence-registry.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T4-065"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-067-SEED",
+      "ticket_id": "SPARK-V3-T4-067",
+      "level": "level_17",
+      "surface": "admin permission audit",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_17_admin_permission_audit",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_17",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#admin_permission_audit",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "apps/api/src/admin-support/admin-permission-audit.service.ts",
+        "apps/api/src/admin-support/admin-permission-audit.controller.ts",
+        "apps/api/src/admin-support/admin-permission-audit.test.ts",
+        "packages/contracts/admin-permission-audit.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T4-066"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-068-SEED",
+      "ticket_id": "SPARK-V3-T4-068",
+      "level": "level_17",
+      "surface": "onboarding progress tracker",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_17_onboarding_progress_tracker",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_17",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#onboarding_progress_tracker",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "apps/api/src/admin-support/onboarding-progress-tracker.service.ts",
+        "apps/api/src/admin-support/onboarding-progress-tracker.controller.ts",
+        "apps/api/src/admin-support/onboarding-progress-tracker.test.ts",
+        "packages/contracts/onboarding-progress-tracker.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T4-067"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-069-SEED",
+      "ticket_id": "SPARK-V3-T4-069",
+      "level": "level_17",
+      "surface": "support report read model",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_17_support_report_read_model",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_17",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#support_report_read_model",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "apps/api/src/admin-support/support-report-read-model.service.ts",
+        "apps/api/src/admin-support/support-report-read-model.controller.ts",
+        "apps/api/src/admin-support/support-report-read-model.test.ts",
+        "packages/contracts/support-report-read-model.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T4-068"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-070-SEED",
+      "ticket_id": "SPARK-V3-T4-070",
+      "level": "level_17",
+      "surface": "admin import export boundary",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_17_admin_import_export_boundary",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_17",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#admin_import_export_boundary",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "scripts/quality/admin_import_export_boundary_check.mjs",
+        "apps/api/src/admin-support/admin-import-export-boundary.service.ts",
+        "apps/api/src/admin-support/admin-import-export-boundary.test.ts"
+      ],
+      "validation_anchor": "pnpm test --filter api -- apps/api/src/admin-support/admin-import-export-boundary.test.ts",
+      "dependencies": [
+        "SPARK-V3-T4-069"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T4-071-SEED",
+      "ticket_id": "SPARK-V3-T4-071",
+      "level": "level_17",
+      "surface": "Admin support final gate",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_17_admin_support_final_gate",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_17",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_4_l13_l17_control_plan_v3.md#admin_support_final_gate",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_4_l13_l17"
+      ],
+      "future_paths": [
+        "scripts/quality/train_4_l13_l17_admin_support_final_gate_gate_check.mjs",
+        ".github/workflows/train_4_l13_l17_admin-support-final-gate_gate.yml",
+        "packages/contracts/train_4_l13_l17-admin-support-final-gate.contract.ts"
+      ],
+      "validation_anchor": "node scripts/quality/train_4_l13_l17_admin_support_final_gate_gate_check.mjs --verify-dependency-closure --verify-evidence-closure",
+      "dependencies": [
+        "SPARK-V3-T4-070"
+      ]
+    }
+  ]
+}

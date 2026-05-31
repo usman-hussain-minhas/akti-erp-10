@@ -1,0 +1,1344 @@
+{
+  "artifact_type": "seed_matrix",
+  "version": "v3",
+  "status": "SEED_MATRIX_V3_READY_FOR_AUDIT",
+  "train_id": "train_1_l1_l4",
+  "levels": [
+    "level_1",
+    "level_2",
+    "level_3",
+    "level_4"
+  ],
+  "enforcement_lines": [
+    "Implementation is not stale by itself. Tickets become stale.",
+    "Apply maximum concrete capability within the approved scope of each ticket."
+  ],
+  "scale_floor": 52,
+  "ticket_count": 61,
+  "scale_decomposition_audit_required_before_ticket_pack_audit_pass": true,
+  "ticket_quality_gate_required_before_ticket_pack_audit_pass": true,
+  "seeds": [
+    {
+      "seed_id": "SPARK-V3-T1-001-SEED",
+      "ticket_id": "SPARK-V3-T1-001",
+      "level": "level_1",
+      "surface": "AWS EKS cluster workspace declaration",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_1_aws_eks_cluster_workspace_declaration",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_1",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v3.md#aws_eks_cluster_workspace_declaration",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_1_l1_l4"
+      ],
+      "future_paths": [
+        "infra/terraform/aws_eks/aws-eks-cluster-workspace-declaration.tf",
+        ".github/workflows/aws-eks-cluster-workspace-declaration.yml",
+        "scripts/quality/aws_eks_cluster_workspace_declaration_infra_check.mjs"
+      ],
+      "validation_anchor": "terraform -chdir=infra/terraform/aws_eks validate",
+      "dependencies": []
+    },
+    {
+      "seed_id": "SPARK-V3-T1-002-SEED",
+      "ticket_id": "SPARK-V3-T1-002",
+      "level": "level_1",
+      "surface": "cluster network policy and ingress segmentation",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_1_cluster_network_policy_and_ingress_segmentation",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_1",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v3.md#cluster_network_policy_and_ingress_segmentation",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_1_l1_l4"
+      ],
+      "future_paths": [
+        "infra/terraform/aws_eks/cluster-network-policy-and-ingress-segmentation.tf",
+        ".github/workflows/cluster-network-policy-and-ingress-segmentation.yml",
+        "scripts/quality/cluster_network_policy_and_ingress_segmentation_infra_check.mjs"
+      ],
+      "validation_anchor": "terraform -chdir=infra/terraform/aws_eks validate",
+      "dependencies": [
+        "SPARK-V3-T1-001"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T1-003-SEED",
+      "ticket_id": "SPARK-V3-T1-003",
+      "level": "level_1",
+      "surface": "managed PostgreSQL connection contract",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_1_managed_postgresql_connection_contract",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_1",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v3.md#managed_postgresql_connection_contract",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_1_l1_l4"
+      ],
+      "future_paths": [
+        "prisma/schema.prisma",
+        "prisma/migrations/20260703_managed_postgresql_connection_contract/migration.sql",
+        "packages/contracts/managed-postgresql-connection-contract.contract.ts",
+        "apps/api/src/platform-health/managed-postgresql-connection-contract.repository.ts"
+      ],
+      "validation_anchor": "pnpm exec prisma validate --schema prisma/schema.prisma",
+      "dependencies": [
+        "SPARK-V3-T1-002"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T1-004-SEED",
+      "ticket_id": "SPARK-V3-T1-004",
+      "level": "level_1",
+      "surface": "object storage bucket policy contract",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_1_object_storage_bucket_policy_contract",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_1",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v3.md#object_storage_bucket_policy_contract",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_1_l1_l4"
+      ],
+      "future_paths": [
+        "apps/api/src/platform-health/object-storage-bucket-policy-contract.service.ts",
+        "apps/api/src/platform-health/object-storage-bucket-policy-contract.controller.ts",
+        "apps/api/src/platform-health/object-storage-bucket-policy-contract.test.ts",
+        "packages/contracts/object-storage-bucket-policy-contract.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T1-003"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T1-005-SEED",
+      "ticket_id": "SPARK-V3-T1-005",
+      "level": "level_1",
+      "surface": "Cloudflare DNS WAF and CDN routing plan",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_1_cloudflare_dns_waf_and_cdn_routing_plan",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_1",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v3.md#cloudflare_dns_waf_and_cdn_routing_plan",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_1_l1_l4"
+      ],
+      "future_paths": [
+        "infra/terraform/aws_eks/cloudflare-dns-waf-and-cdn-routing-plan.tf",
+        ".github/workflows/cloudflare-dns-waf-and-cdn-routing-plan.yml",
+        "scripts/quality/cloudflare_dns_waf_and_cdn_routing_plan_infra_check.mjs"
+      ],
+      "validation_anchor": "terraform -chdir=infra/terraform/aws_eks validate",
+      "dependencies": [
+        "SPARK-V3-T1-004"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T1-006-SEED",
+      "ticket_id": "SPARK-V3-T1-006",
+      "level": "level_1",
+      "surface": "API gateway ingress health route",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_1_api_gateway_ingress_health_route",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_1",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v3.md#api_gateway_ingress_health_route",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_1_l1_l4"
+      ],
+      "future_paths": [
+        "apps/api/src/platform-health/api-gateway-ingress-health-route.service.ts",
+        "apps/api/src/platform-health/api-gateway-ingress-health-route.controller.ts",
+        "apps/api/src/platform-health/api-gateway-ingress-health-route.test.ts",
+        "packages/contracts/api-gateway-ingress-health-route.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T1-005"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T1-007-SEED",
+      "ticket_id": "SPARK-V3-T1-007",
+      "level": "level_1",
+      "surface": "deployment workflow dry run check",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_1_deployment_workflow_dry_run_check",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_1",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v3.md#deployment_workflow_dry_run_check",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_1_l1_l4"
+      ],
+      "future_paths": [
+        ".github/workflows/deployment-workflow-dry-run-check.yml",
+        "scripts/quality/deployment_workflow_dry_run_check_workflow_check.mjs",
+        "apps/api/src/platform-health/deployment-workflow-dry-run-check.service.ts"
+      ],
+      "validation_anchor": "pnpm test --filter api -- apps/api/src/platform-health/deployment-workflow-dry-run-check.test.ts",
+      "dependencies": [
+        "SPARK-V3-T1-006"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T1-008-SEED",
+      "ticket_id": "SPARK-V3-T1-008",
+      "level": "level_1",
+      "surface": "observability collector pipeline",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_1_observability_collector_pipeline",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_1",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v3.md#observability_collector_pipeline",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_1_l1_l4"
+      ],
+      "future_paths": [
+        "apps/api/src/platform-health/observability-collector-pipeline.service.ts",
+        "apps/api/src/platform-health/observability-collector-pipeline.controller.ts",
+        "apps/api/src/platform-health/observability-collector-pipeline.test.ts",
+        "packages/contracts/observability-collector-pipeline.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T1-007"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T1-009-SEED",
+      "ticket_id": "SPARK-V3-T1-009",
+      "level": "level_1",
+      "surface": "database backup verification command",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_1_database_backup_verification_command",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_1",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v3.md#database_backup_verification_command",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_1_l1_l4"
+      ],
+      "future_paths": [
+        "scripts/quality/database_backup_verification_command_check.mjs",
+        "apps/api/src/platform-health/database-backup-verification-command.service.ts",
+        "apps/api/src/platform-health/database-backup-verification-command.test.ts"
+      ],
+      "validation_anchor": "pnpm test --filter api -- apps/api/src/platform-health/database-backup-verification-command.test.ts",
+      "dependencies": [
+        "SPARK-V3-T1-008"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T1-010-SEED",
+      "ticket_id": "SPARK-V3-T1-010",
+      "level": "level_1",
+      "surface": "restore rehearsal command",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_1_restore_rehearsal_command",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_1",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v3.md#restore_rehearsal_command",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_1_l1_l4"
+      ],
+      "future_paths": [
+        "scripts/quality/restore_rehearsal_command_check.mjs",
+        "apps/api/src/platform-health/restore-rehearsal-command.service.ts",
+        "apps/api/src/platform-health/restore-rehearsal-command.test.ts"
+      ],
+      "validation_anchor": "pnpm test --filter api -- apps/api/src/platform-health/restore-rehearsal-command.test.ts",
+      "dependencies": [
+        "SPARK-V3-T1-009"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T1-011-SEED",
+      "ticket_id": "SPARK-V3-T1-011",
+      "level": "level_1",
+      "surface": "feature flag environment guard",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_1_feature_flag_environment_guard",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_1",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v3.md#feature_flag_environment_guard",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_1_l1_l4"
+      ],
+      "future_paths": [
+        "apps/api/src/platform-health/feature-flag-environment-guard.service.ts",
+        "apps/api/src/platform-health/feature-flag-environment-guard.controller.ts",
+        "apps/api/src/platform-health/feature-flag-environment-guard.test.ts",
+        "packages/contracts/feature-flag-environment-guard.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T1-010"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T1-012-SEED",
+      "ticket_id": "SPARK-V3-T1-012",
+      "level": "level_1",
+      "surface": "rollback workflow check",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_1_rollback_workflow_check",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_1",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v3.md#rollback_workflow_check",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_1_l1_l4"
+      ],
+      "future_paths": [
+        ".github/workflows/rollback-workflow-check.yml",
+        "scripts/quality/rollback_workflow_check_workflow_check.mjs",
+        "apps/api/src/platform-health/rollback-workflow-check.service.ts"
+      ],
+      "validation_anchor": "pnpm test --filter api -- apps/api/src/platform-health/rollback-workflow-check.test.ts",
+      "dependencies": [
+        "SPARK-V3-T1-011"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T1-013-SEED",
+      "ticket_id": "SPARK-V3-T1-013",
+      "level": "level_1",
+      "surface": "edge rate limit contract",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_1_edge_rate_limit_contract",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_1",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v3.md#edge_rate_limit_contract",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_1_l1_l4"
+      ],
+      "future_paths": [
+        "apps/api/src/platform-health/edge-rate-limit-contract.service.ts",
+        "apps/api/src/platform-health/edge-rate-limit-contract.controller.ts",
+        "apps/api/src/platform-health/edge-rate-limit-contract.test.ts",
+        "packages/contracts/edge-rate-limit-contract.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T1-012"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T1-014-SEED",
+      "ticket_id": "SPARK-V3-T1-014",
+      "level": "level_1",
+      "surface": "Level 1 closure gate",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_1_level_1_closure_gate",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_1",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v3.md#level_1_closure_gate",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_1_l1_l4"
+      ],
+      "future_paths": [
+        "scripts/quality/train_1_l1_l4_level_1_closure_gate_gate_check.mjs",
+        ".github/workflows/train_1_l1_l4_level-1-closure-gate_gate.yml",
+        "packages/contracts/train_1_l1_l4-level-1-closure-gate.contract.ts"
+      ],
+      "validation_anchor": "node scripts/quality/train_1_l1_l4_level_1_closure_gate_gate_check.mjs --verify-dependency-closure --verify-evidence-closure",
+      "dependencies": [
+        "SPARK-V3-T1-013"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T1-015-SEED",
+      "ticket_id": "SPARK-V3-T1-015",
+      "level": "level_2",
+      "surface": "SVFS metadata record contract",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_2_svfs_metadata_record_contract",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_2",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v3.md#svfs_metadata_record_contract",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_1_l1_l4"
+      ],
+      "future_paths": [
+        "prisma/schema.prisma",
+        "prisma/migrations/20260715_svfs_metadata_record_contract/migration.sql",
+        "packages/contracts/svfs-metadata-record-contract.contract.ts",
+        "apps/api/src/file-service/svfs-metadata-record-contract.repository.ts"
+      ],
+      "validation_anchor": "pnpm exec prisma validate --schema prisma/schema.prisma",
+      "dependencies": [
+        "SPARK-V3-T1-014"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T1-016-SEED",
+      "ticket_id": "SPARK-V3-T1-016",
+      "level": "level_2",
+      "surface": "cloud object write adapter",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_2_cloud_object_write_adapter",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_2",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v3.md#cloud_object_write_adapter",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_1_l1_l4"
+      ],
+      "future_paths": [
+        "apps/api/src/file-service/cloud-object-write-adapter.service.ts",
+        "apps/api/src/file-service/cloud-object-write-adapter.controller.ts",
+        "apps/api/src/file-service/cloud-object-write-adapter.test.ts",
+        "packages/contracts/cloud-object-write-adapter.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T1-015"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T1-017-SEED",
+      "ticket_id": "SPARK-V3-T1-017",
+      "level": "level_2",
+      "surface": "cloud object read adapter",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_2_cloud_object_read_adapter",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_2",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v3.md#cloud_object_read_adapter",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_1_l1_l4"
+      ],
+      "future_paths": [
+        "apps/api/src/file-service/cloud-object-read-adapter.service.ts",
+        "apps/api/src/file-service/cloud-object-read-adapter.controller.ts",
+        "apps/api/src/file-service/cloud-object-read-adapter.test.ts",
+        "packages/contracts/cloud-object-read-adapter.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T1-016"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T1-018-SEED",
+      "ticket_id": "SPARK-V3-T1-018",
+      "level": "level_2",
+      "surface": "sync queue idempotency handler",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_2_sync_queue_idempotency_handler",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_2",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v3.md#sync_queue_idempotency_handler",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_1_l1_l4"
+      ],
+      "future_paths": [
+        "apps/api/src/file-service/sync-queue-idempotency-handler.service.ts",
+        "apps/api/src/file-service/sync-queue-idempotency-handler.controller.ts",
+        "apps/api/src/file-service/sync-queue-idempotency-handler.test.ts",
+        "packages/contracts/sync-queue-idempotency-handler.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T1-017"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T1-019-SEED",
+      "ticket_id": "SPARK-V3-T1-019",
+      "level": "level_2",
+      "surface": "image rendition processing job",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_2_image_rendition_processing_job",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_2",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v3.md#image_rendition_processing_job",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_1_l1_l4"
+      ],
+      "future_paths": [
+        "apps/api/src/file-service/image-rendition-processing-job.service.ts",
+        "apps/api/src/file-service/image-rendition-processing-job.controller.ts",
+        "apps/api/src/file-service/image-rendition-processing-job.test.ts",
+        "packages/contracts/image-rendition-processing-job.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T1-018"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T1-020-SEED",
+      "ticket_id": "SPARK-V3-T1-020",
+      "level": "level_2",
+      "surface": "soft deletion retention rule",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_2_soft_deletion_retention_rule",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_2",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v3.md#soft_deletion_retention_rule",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_1_l1_l4"
+      ],
+      "future_paths": [
+        "prisma/schema.prisma",
+        "prisma/migrations/20260720_soft_deletion_retention_rule/migration.sql",
+        "packages/contracts/soft-deletion-retention-rule.contract.ts",
+        "apps/api/src/file-service/soft-deletion-retention-rule.repository.ts"
+      ],
+      "validation_anchor": "pnpm exec prisma validate --schema prisma/schema.prisma",
+      "dependencies": [
+        "SPARK-V3-T1-019"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T1-021-SEED",
+      "ticket_id": "SPARK-V3-T1-021",
+      "level": "level_2",
+      "surface": "staged deletion review command",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_2_staged_deletion_review_command",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_2",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v3.md#staged_deletion_review_command",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_1_l1_l4"
+      ],
+      "future_paths": [
+        "scripts/quality/staged_deletion_review_command_check.mjs",
+        "apps/api/src/file-service/staged-deletion-review-command.service.ts",
+        "apps/api/src/file-service/staged-deletion-review-command.test.ts"
+      ],
+      "validation_anchor": "pnpm test --filter api -- apps/api/src/file-service/staged-deletion-review-command.test.ts",
+      "dependencies": [
+        "SPARK-V3-T1-020"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T1-022-SEED",
+      "ticket_id": "SPARK-V3-T1-022",
+      "level": "level_2",
+      "surface": "object encryption policy check",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_2_object_encryption_policy_check",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_2",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v3.md#object_encryption_policy_check",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_1_l1_l4"
+      ],
+      "future_paths": [
+        "scripts/quality/object_encryption_policy_check_check.mjs",
+        "apps/api/src/file-service/object-encryption-policy-check.service.ts",
+        "apps/api/src/file-service/object-encryption-policy-check.test.ts"
+      ],
+      "validation_anchor": "pnpm test --filter api -- apps/api/src/file-service/object-encryption-policy-check.test.ts",
+      "dependencies": [
+        "SPARK-V3-T1-021"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T1-023-SEED",
+      "ticket_id": "SPARK-V3-T1-023",
+      "level": "level_2",
+      "surface": "storage backup retention proof",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_2_storage_backup_retention_proof",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_2",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v3.md#storage_backup_retention_proof",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_1_l1_l4"
+      ],
+      "future_paths": [
+        "scripts/quality/storage_backup_retention_proof_check.mjs",
+        "apps/api/src/file-service/storage-backup-retention-proof.service.ts",
+        "apps/api/src/file-service/storage-backup-retention-proof.test.ts"
+      ],
+      "validation_anchor": "pnpm test --filter api -- apps/api/src/file-service/storage-backup-retention-proof.test.ts",
+      "dependencies": [
+        "SPARK-V3-T1-022"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T1-024-SEED",
+      "ticket_id": "SPARK-V3-T1-024",
+      "level": "level_2",
+      "surface": "restore verification fixture",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_2_restore_verification_fixture",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_2",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v3.md#restore_verification_fixture",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_1_l1_l4"
+      ],
+      "future_paths": [
+        "scripts/quality/restore_verification_fixture_check.mjs",
+        "apps/api/src/file-service/restore-verification-fixture.service.ts",
+        "apps/api/src/file-service/restore-verification-fixture.test.ts"
+      ],
+      "validation_anchor": "pnpm test --filter api -- apps/api/src/file-service/restore-verification-fixture.test.ts",
+      "dependencies": [
+        "SPARK-V3-T1-023"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T1-025-SEED",
+      "ticket_id": "SPARK-V3-T1-025",
+      "level": "level_2",
+      "surface": "file access policy guard",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_2_file_access_policy_guard",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_2",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v3.md#file_access_policy_guard",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_1_l1_l4"
+      ],
+      "future_paths": [
+        "apps/api/src/file-service/file-access-policy-guard.service.ts",
+        "apps/api/src/file-service/file-access-policy-guard.controller.ts",
+        "apps/api/src/file-service/file-access-policy-guard.test.ts",
+        "packages/contracts/file-access-policy-guard.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T1-024"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T1-026-SEED",
+      "ticket_id": "SPARK-V3-T1-026",
+      "level": "level_2",
+      "surface": "storage quota accounting",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_2_storage_quota_accounting",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_2",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v3.md#storage_quota_accounting",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_1_l1_l4"
+      ],
+      "future_paths": [
+        "apps/api/src/file-service/storage-quota-accounting.service.ts",
+        "apps/api/src/file-service/storage-quota-accounting.controller.ts",
+        "apps/api/src/file-service/storage-quota-accounting.test.ts",
+        "packages/contracts/storage-quota-accounting.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T1-025"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T1-027-SEED",
+      "ticket_id": "SPARK-V3-T1-027",
+      "level": "level_2",
+      "surface": "desktop mobile P2P deferral gate",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_2_desktop_mobile_p2p_deferral_gate",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_2",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v3.md#desktop_mobile_p2p_deferral_gate",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_1_l1_l4"
+      ],
+      "future_paths": [
+        "scripts/quality/train_1_l1_l4_desktop_mobile_p2p_deferral_gate_gate_check.mjs",
+        ".github/workflows/train_1_l1_l4_desktop-mobile-p2p-deferral-gate_gate.yml",
+        "packages/contracts/train_1_l1_l4-desktop-mobile-p2p-deferral-gate.contract.ts"
+      ],
+      "validation_anchor": "node scripts/quality/train_1_l1_l4_desktop_mobile_p2p_deferral_gate_gate_check.mjs --verify-dependency-closure --verify-evidence-closure",
+      "dependencies": [
+        "SPARK-V3-T1-026"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T1-028-SEED",
+      "ticket_id": "SPARK-V3-T1-028",
+      "level": "level_2",
+      "surface": "Level 2 closure gate",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_2_level_2_closure_gate",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_2",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v3.md#level_2_closure_gate",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_1_l1_l4"
+      ],
+      "future_paths": [
+        "scripts/quality/train_1_l1_l4_level_2_closure_gate_gate_check.mjs",
+        ".github/workflows/train_1_l1_l4_level-2-closure-gate_gate.yml",
+        "packages/contracts/train_1_l1_l4-level-2-closure-gate.contract.ts"
+      ],
+      "validation_anchor": "node scripts/quality/train_1_l1_l4_level_2_closure_gate_gate_check.mjs --verify-dependency-closure --verify-evidence-closure",
+      "dependencies": [
+        "SPARK-V3-T1-027"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T1-029-SEED",
+      "ticket_id": "SPARK-V3-T1-029",
+      "level": "level_3",
+      "surface": "MFA challenge lifecycle",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_3_mfa_challenge_lifecycle",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_3",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v3.md#mfa_challenge_lifecycle",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_1_l1_l4"
+      ],
+      "future_paths": [
+        "apps/api/src/access-core/mfa-challenge-lifecycle.service.ts",
+        "apps/api/src/access-core/mfa-challenge-lifecycle.controller.ts",
+        "apps/api/src/access-core/mfa-challenge-lifecycle.test.ts",
+        "packages/contracts/mfa-challenge-lifecycle.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T1-028"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T1-030-SEED",
+      "ticket_id": "SPARK-V3-T1-030",
+      "level": "level_3",
+      "surface": "session device registry",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_3_session_device_registry",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_3",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v3.md#session_device_registry",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_1_l1_l4"
+      ],
+      "future_paths": [
+        "prisma/schema.prisma",
+        "prisma/migrations/20260730_session_device_registry/migration.sql",
+        "packages/contracts/session-device-registry.contract.ts",
+        "apps/api/src/access-core/session-device-registry.repository.ts"
+      ],
+      "validation_anchor": "pnpm exec prisma validate --schema prisma/schema.prisma",
+      "dependencies": [
+        "SPARK-V3-T1-029"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T1-031-SEED",
+      "ticket_id": "SPARK-V3-T1-031",
+      "level": "level_3",
+      "surface": "organization branch identity resolver",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_3_organization_branch_identity_resolver",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_3",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v3.md#organization_branch_identity_resolver",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_1_l1_l4"
+      ],
+      "future_paths": [
+        "apps/api/src/access-core/organization-branch-identity-resolver.service.ts",
+        "apps/api/src/access-core/organization-branch-identity-resolver.controller.ts",
+        "apps/api/src/access-core/organization-branch-identity-resolver.test.ts",
+        "packages/contracts/organization-branch-identity-resolver.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T1-030"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T1-032-SEED",
+      "ticket_id": "SPARK-V3-T1-032",
+      "level": "level_3",
+      "surface": "user status transition contract",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_3_user_status_transition_contract",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_3",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v3.md#user_status_transition_contract",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_1_l1_l4"
+      ],
+      "future_paths": [
+        "apps/api/src/access-core/user-status-transition-contract.service.ts",
+        "apps/api/src/access-core/user-status-transition-contract.controller.ts",
+        "apps/api/src/access-core/user-status-transition-contract.test.ts",
+        "packages/contracts/user-status-transition-contract.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T1-031"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T1-033-SEED",
+      "ticket_id": "SPARK-V3-T1-033",
+      "level": "level_3",
+      "surface": "role capability assignment guard",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_3_role_capability_assignment_guard",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_3",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v3.md#role_capability_assignment_guard",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_1_l1_l4"
+      ],
+      "future_paths": [
+        "apps/api/src/access-core/role-capability-assignment-guard.service.ts",
+        "apps/api/src/access-core/role-capability-assignment-guard.controller.ts",
+        "apps/api/src/access-core/role-capability-assignment-guard.test.ts",
+        "packages/contracts/role-capability-assignment-guard.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T1-032"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T1-034-SEED",
+      "ticket_id": "SPARK-V3-T1-034",
+      "level": "level_3",
+      "surface": "API key lifecycle controller",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_3_api_key_lifecycle_controller",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_3",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v3.md#api_key_lifecycle_controller",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_1_l1_l4"
+      ],
+      "future_paths": [
+        "apps/api/src/access-core/api-key-lifecycle-controller.service.ts",
+        "apps/api/src/access-core/api-key-lifecycle-controller.controller.ts",
+        "apps/api/src/access-core/api-key-lifecycle-controller.test.ts",
+        "packages/contracts/api-key-lifecycle-controller.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T1-033"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T1-035-SEED",
+      "ticket_id": "SPARK-V3-T1-035",
+      "level": "level_3",
+      "surface": "access revocation propagation",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_3_access_revocation_propagation",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_3",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v3.md#access_revocation_propagation",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_1_l1_l4"
+      ],
+      "future_paths": [
+        "apps/api/src/access-core/access-revocation-propagation.service.ts",
+        "apps/api/src/access-core/access-revocation-propagation.controller.ts",
+        "apps/api/src/access-core/access-revocation-propagation.test.ts",
+        "packages/contracts/access-revocation-propagation.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T1-034"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T1-036-SEED",
+      "ticket_id": "SPARK-V3-T1-036",
+      "level": "level_3",
+      "surface": "terms consent ledger",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_3_terms_consent_ledger",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_3",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v3.md#terms_consent_ledger",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_1_l1_l4"
+      ],
+      "future_paths": [
+        "prisma/schema.prisma",
+        "prisma/migrations/20260736_terms_consent_ledger/migration.sql",
+        "packages/contracts/terms-consent-ledger.contract.ts",
+        "apps/api/src/access-core/terms-consent-ledger.repository.ts"
+      ],
+      "validation_anchor": "pnpm exec prisma validate --schema prisma/schema.prisma",
+      "dependencies": [
+        "SPARK-V3-T1-035"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T1-037-SEED",
+      "ticket_id": "SPARK-V3-T1-037",
+      "level": "level_3",
+      "surface": "identity audit event writer",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_3_identity_audit_event_writer",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_3",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v3.md#identity_audit_event_writer",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_1_l1_l4"
+      ],
+      "future_paths": [
+        "apps/api/src/access-core/identity-audit-event-writer.service.ts",
+        "apps/api/src/access-core/identity-audit-event-writer.controller.ts",
+        "apps/api/src/access-core/identity-audit-event-writer.test.ts",
+        "packages/contracts/identity-audit-event-writer.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T1-036"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T1-038-SEED",
+      "ticket_id": "SPARK-V3-T1-038",
+      "level": "level_3",
+      "surface": "login rate limit middleware",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_3_login_rate_limit_middleware",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_3",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v3.md#login_rate_limit_middleware",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_1_l1_l4"
+      ],
+      "future_paths": [
+        "apps/api/src/access-core/login-rate-limit-middleware.service.ts",
+        "apps/api/src/access-core/login-rate-limit-middleware.controller.ts",
+        "apps/api/src/access-core/login-rate-limit-middleware.test.ts",
+        "packages/contracts/login-rate-limit-middleware.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T1-037"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T1-039-SEED",
+      "ticket_id": "SPARK-V3-T1-039",
+      "level": "level_3",
+      "surface": "password reset token lifecycle",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_3_password_reset_token_lifecycle",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_3",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v3.md#password_reset_token_lifecycle",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_1_l1_l4"
+      ],
+      "future_paths": [
+        "apps/api/src/access-core/password-reset-token-lifecycle.service.ts",
+        "apps/api/src/access-core/password-reset-token-lifecycle.controller.ts",
+        "apps/api/src/access-core/password-reset-token-lifecycle.test.ts",
+        "packages/contracts/password-reset-token-lifecycle.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T1-038"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T1-040-SEED",
+      "ticket_id": "SPARK-V3-T1-040",
+      "level": "level_3",
+      "surface": "service account boundary",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_3_service_account_boundary",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_3",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v3.md#service_account_boundary",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_1_l1_l4"
+      ],
+      "future_paths": [
+        "apps/api/src/access-core/service-account-boundary.service.ts",
+        "apps/api/src/access-core/service-account-boundary.controller.ts",
+        "apps/api/src/access-core/service-account-boundary.test.ts",
+        "packages/contracts/service-account-boundary.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T1-039"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T1-041-SEED",
+      "ticket_id": "SPARK-V3-T1-041",
+      "level": "level_3",
+      "surface": "Identity negative tenant test",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_3_identity_negative_tenant_test",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_3",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v3.md#identity_negative_tenant_test",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_1_l1_l4"
+      ],
+      "future_paths": [
+        "apps/api/src/access-core/identity-negative-tenant-test.service.ts",
+        "apps/api/src/access-core/identity-negative-tenant-test.controller.ts",
+        "apps/api/src/access-core/identity-negative-tenant-test.test.ts",
+        "packages/contracts/identity-negative-tenant-test.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T1-040"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T1-042-SEED",
+      "ticket_id": "SPARK-V3-T1-042",
+      "level": "level_3",
+      "surface": "Level 3 closure gate",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_3_level_3_closure_gate",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_3",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v3.md#level_3_closure_gate",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_1_l1_l4"
+      ],
+      "future_paths": [
+        "scripts/quality/train_1_l1_l4_level_3_closure_gate_gate_check.mjs",
+        ".github/workflows/train_1_l1_l4_level-3-closure-gate_gate.yml",
+        "packages/contracts/train_1_l1_l4-level-3-closure-gate.contract.ts"
+      ],
+      "validation_anchor": "node scripts/quality/train_1_l1_l4_level_3_closure_gate_gate_check.mjs --verify-dependency-closure --verify-evidence-closure",
+      "dependencies": [
+        "SPARK-V3-T1-041"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T1-043-SEED",
+      "ticket_id": "SPARK-V3-T1-043",
+      "level": "level_4",
+      "surface": "event bus transaction boundary",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_4_event_bus_transaction_boundary",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#ADL-001",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v3.md#event_bus_transaction_boundary",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_1_l1_l4"
+      ],
+      "future_paths": [
+        "apps/api/src/platform-observability/event-bus-transaction-boundary.service.ts",
+        "apps/api/src/platform-observability/event-bus-transaction-boundary.controller.ts",
+        "apps/api/src/platform-observability/event-bus-transaction-boundary.test.ts",
+        "packages/contracts/event-bus-transaction-boundary.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T1-042"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T1-044-SEED",
+      "ticket_id": "SPARK-V3-T1-044",
+      "level": "level_4",
+      "surface": "event schema version registry",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_4_event_schema_version_registry",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#ADL-002",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v3.md#event_schema_version_registry",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_1_l1_l4"
+      ],
+      "future_paths": [
+        "packages/contracts/event-schema-version-registry.contract.ts",
+        "packages/contracts/event-schema-version-registry.contract.test.ts",
+        "apps/api/src/platform-observability/event-schema-version-registry.contract-adapter.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T1-043"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T1-045-SEED",
+      "ticket_id": "SPARK-V3-T1-045",
+      "level": "level_4",
+      "surface": "idempotency key enforcement",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_4_idempotency_key_enforcement",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#ADL-003",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v3.md#idempotency_key_enforcement",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_1_l1_l4"
+      ],
+      "future_paths": [
+        "apps/api/src/platform-observability/idempotency-key-enforcement.service.ts",
+        "apps/api/src/platform-observability/idempotency-key-enforcement.controller.ts",
+        "apps/api/src/platform-observability/idempotency-key-enforcement.test.ts",
+        "packages/contracts/idempotency-key-enforcement.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T1-044"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T1-046-SEED",
+      "ticket_id": "SPARK-V3-T1-046",
+      "level": "level_4",
+      "surface": "global opt out registry enforcement",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_4_global_opt_out_registry_enforcement",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#ADL-004",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v3.md#global_opt_out_registry_enforcement",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_1_l1_l4"
+      ],
+      "future_paths": [
+        "prisma/schema.prisma",
+        "prisma/migrations/20260746_global_opt_out_registry_enforcement/migration.sql",
+        "packages/contracts/global-opt-out-registry-enforcement.contract.ts",
+        "apps/api/src/platform-observability/global-opt-out-registry-enforcement.repository.ts"
+      ],
+      "validation_anchor": "pnpm exec prisma validate --schema prisma/schema.prisma",
+      "dependencies": [
+        "SPARK-V3-T1-045"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T1-047-SEED",
+      "ticket_id": "SPARK-V3-T1-047",
+      "level": "level_4",
+      "surface": "notification dispatch queue",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_4_notification_dispatch_queue",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_4",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v3.md#notification_dispatch_queue",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_1_l1_l4"
+      ],
+      "future_paths": [
+        "apps/api/src/platform-observability/notification-dispatch-queue.service.ts",
+        "apps/api/src/platform-observability/notification-dispatch-queue.controller.ts",
+        "apps/api/src/platform-observability/notification-dispatch-queue.test.ts",
+        "packages/contracts/notification-dispatch-queue.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T1-046"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T1-048-SEED",
+      "ticket_id": "SPARK-V3-T1-048",
+      "level": "level_4",
+      "surface": "communication gateway provider boundary",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_4_communication_gateway_provider_boundary",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_4",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v3.md#communication_gateway_provider_boundary",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_1_l1_l4"
+      ],
+      "future_paths": [
+        "apps/api/src/platform-observability/communication-gateway-provider-boundary.service.ts",
+        "apps/api/src/platform-observability/communication-gateway-provider-boundary.controller.ts",
+        "apps/api/src/platform-observability/communication-gateway-provider-boundary.test.ts",
+        "packages/contracts/communication-gateway-provider-boundary.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T1-047"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T1-049-SEED",
+      "ticket_id": "SPARK-V3-T1-049",
+      "level": "level_4",
+      "surface": "search indexing write path",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_4_search_indexing_write_path",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_4",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v3.md#search_indexing_write_path",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_1_l1_l4"
+      ],
+      "future_paths": [
+        "apps/api/src/platform-observability/search-indexing-write-path.service.ts",
+        "apps/api/src/platform-observability/search-indexing-write-path.controller.ts",
+        "apps/api/src/platform-observability/search-indexing-write-path.test.ts",
+        "packages/contracts/search-indexing-write-path.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T1-048"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T1-050-SEED",
+      "ticket_id": "SPARK-V3-T1-050",
+      "level": "level_4",
+      "surface": "file service metadata authority",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_4_file_service_metadata_authority",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_4",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v3.md#file_service_metadata_authority",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_1_l1_l4"
+      ],
+      "future_paths": [
+        "apps/api/src/platform-observability/file-service-metadata-authority.service.ts",
+        "apps/api/src/platform-observability/file-service-metadata-authority.controller.ts",
+        "apps/api/src/platform-observability/file-service-metadata-authority.test.ts",
+        "packages/contracts/file-service-metadata-authority.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T1-049"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T1-051-SEED",
+      "ticket_id": "SPARK-V3-T1-051",
+      "level": "level_4",
+      "surface": "AI proxy governance cap",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_4_ai_proxy_governance_cap",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_4",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v3.md#ai_proxy_governance_cap",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_1_l1_l4"
+      ],
+      "future_paths": [
+        "apps/api/src/platform-observability/ai-proxy-governance-cap.service.ts",
+        "apps/api/src/platform-observability/ai-proxy-governance-cap.controller.ts",
+        "apps/api/src/platform-observability/ai-proxy-governance-cap.test.ts",
+        "packages/contracts/ai-proxy-governance-cap.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T1-050"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T1-052-SEED",
+      "ticket_id": "SPARK-V3-T1-052",
+      "level": "level_4",
+      "surface": "audit log append path",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_4_audit_log_append_path",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_4",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v3.md#audit_log_append_path",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_1_l1_l4"
+      ],
+      "future_paths": [
+        "apps/api/src/platform-observability/audit-log-append-path.service.ts",
+        "apps/api/src/platform-observability/audit-log-append-path.controller.ts",
+        "apps/api/src/platform-observability/audit-log-append-path.test.ts",
+        "packages/contracts/audit-log-append-path.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T1-051"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T1-053-SEED",
+      "ticket_id": "SPARK-V3-T1-053",
+      "level": "level_4",
+      "surface": "webhook delivery retry policy",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_4_webhook_delivery_retry_policy",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_4",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v3.md#webhook_delivery_retry_policy",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_1_l1_l4"
+      ],
+      "future_paths": [
+        "apps/api/src/platform-observability/webhook-delivery-retry-policy.service.ts",
+        "apps/api/src/platform-observability/webhook-delivery-retry-policy.controller.ts",
+        "apps/api/src/platform-observability/webhook-delivery-retry-policy.test.ts",
+        "packages/contracts/webhook-delivery-retry-policy.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T1-052"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T1-054-SEED",
+      "ticket_id": "SPARK-V3-T1-054",
+      "level": "level_4",
+      "surface": "API gateway request context",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_4_api_gateway_request_context",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_4",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v3.md#api_gateway_request_context",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_1_l1_l4"
+      ],
+      "future_paths": [
+        "apps/api/src/platform-observability/api-gateway-request-context.service.ts",
+        "apps/api/src/platform-observability/api-gateway-request-context.controller.ts",
+        "apps/api/src/platform-observability/api-gateway-request-context.test.ts",
+        "packages/contracts/api-gateway-request-context.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T1-053"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T1-055-SEED",
+      "ticket_id": "SPARK-V3-T1-055",
+      "level": "level_4",
+      "surface": "scheduler retry contract",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_4_scheduler_retry_contract",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_4",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v3.md#scheduler_retry_contract",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_1_l1_l4"
+      ],
+      "future_paths": [
+        "apps/api/src/platform-observability/scheduler-retry-contract.service.ts",
+        "apps/api/src/platform-observability/scheduler-retry-contract.controller.ts",
+        "apps/api/src/platform-observability/scheduler-retry-contract.test.ts",
+        "packages/contracts/scheduler-retry-contract.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T1-054"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T1-056-SEED",
+      "ticket_id": "SPARK-V3-T1-056",
+      "level": "level_4",
+      "surface": "reporting read model consumer",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_4_reporting_read_model_consumer",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_4",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v3.md#reporting_read_model_consumer",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_1_l1_l4"
+      ],
+      "future_paths": [
+        "apps/api/src/platform-observability/reporting-read-model-consumer.service.ts",
+        "apps/api/src/platform-observability/reporting-read-model-consumer.controller.ts",
+        "apps/api/src/platform-observability/reporting-read-model-consumer.test.ts",
+        "packages/contracts/reporting-read-model-consumer.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T1-055"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T1-057-SEED",
+      "ticket_id": "SPARK-V3-T1-057",
+      "level": "level_4",
+      "surface": "health endpoint diagnostics",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_4_health_endpoint_diagnostics",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_4",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v3.md#health_endpoint_diagnostics",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_1_l1_l4"
+      ],
+      "future_paths": [
+        "apps/api/src/platform-observability/health-endpoint-diagnostics.service.ts",
+        "apps/api/src/platform-observability/health-endpoint-diagnostics.controller.ts",
+        "apps/api/src/platform-observability/health-endpoint-diagnostics.test.ts",
+        "packages/contracts/health-endpoint-diagnostics.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T1-056"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T1-058-SEED",
+      "ticket_id": "SPARK-V3-T1-058",
+      "level": "level_4",
+      "surface": "Gatekeeper integration guard",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_4_gatekeeper_integration_guard",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_4",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v3.md#gatekeeper_integration_guard",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_1_l1_l4"
+      ],
+      "future_paths": [
+        "apps/api/src/platform-observability/gatekeeper-integration-guard.service.ts",
+        "apps/api/src/platform-observability/gatekeeper-integration-guard.controller.ts",
+        "apps/api/src/platform-observability/gatekeeper-integration-guard.test.ts",
+        "packages/contracts/gatekeeper-integration-guard.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T1-057"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T1-059-SEED",
+      "ticket_id": "SPARK-V3-T1-059",
+      "level": "level_4",
+      "surface": "workflow service event handoff",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_4_workflow_service_event_handoff",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_4",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v3.md#workflow_service_event_handoff",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_1_l1_l4"
+      ],
+      "future_paths": [
+        "apps/api/src/platform-observability/workflow-service-event-handoff.service.ts",
+        "apps/api/src/platform-observability/workflow-service-event-handoff.controller.ts",
+        "apps/api/src/platform-observability/workflow-service-event-handoff.test.ts",
+        "packages/contracts/workflow-service-event-handoff.contract.ts"
+      ],
+      "validation_anchor": "pnpm contracts:validate",
+      "dependencies": [
+        "SPARK-V3-T1-058"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T1-060-SEED",
+      "ticket_id": "SPARK-V3-T1-060",
+      "level": "level_4",
+      "surface": "Level 4 closure gate",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_4_level_4_closure_gate",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_4",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v3.md#level_4_closure_gate",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_1_l1_l4"
+      ],
+      "future_paths": [
+        "scripts/quality/train_1_l1_l4_level_4_closure_gate_gate_check.mjs",
+        ".github/workflows/train_1_l1_l4_level-4-closure-gate_gate.yml",
+        "packages/contracts/train_1_l1_l4-level-4-closure-gate.contract.ts"
+      ],
+      "validation_anchor": "node scripts/quality/train_1_l1_l4_level_4_closure_gate_gate_check.mjs --verify-dependency-closure --verify-evidence-closure",
+      "dependencies": [
+        "SPARK-V3-T1-059"
+      ]
+    },
+    {
+      "seed_id": "SPARK-V3-T1-061-SEED",
+      "ticket_id": "SPARK-V3-T1-061",
+      "level": "level_4",
+      "surface": "Train 1 final gate",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_plan_v2.md#level_4_train_1_final_gate",
+        "docs/process/core/v0_0_2/spark_adl_complete.md#level_4",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_train_1_l1_l4_control_plan_v3.md#train_1_final_gate",
+        "docs/process/core/v0_0_2/spark_platform_build_v2_master_train_dependency_map_v3.md#train_1_l1_l4"
+      ],
+      "future_paths": [
+        "scripts/quality/train_1_l1_l4_train_1_final_gate_gate_check.mjs",
+        ".github/workflows/train_1_l1_l4_train-1-final-gate_gate.yml",
+        "packages/contracts/train_1_l1_l4-train-1-final-gate.contract.ts"
+      ],
+      "validation_anchor": "node scripts/quality/train_1_l1_l4_train_1_final_gate_gate_check.mjs --verify-dependency-closure --verify-evidence-closure",
+      "dependencies": [
+        "SPARK-V3-T1-060"
+      ]
+    }
+  ]
+}
