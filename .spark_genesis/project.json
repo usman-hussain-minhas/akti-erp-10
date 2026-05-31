@@ -1,0 +1,105 @@
+{
+  "project_name": "AKTI Spark",
+  "project_repo": "/Volumes/UsmanWork/AKTI ERP 10",
+  "github_repo": "usman-hussain-minhas/akti-erp-10",
+  "spark_genesis_channel": "stable",
+  "spark_genesis_min_version": "0.3.5",
+  "spark_genesis_skill_path": "/Volumes/UsmanWork/Spark Genesis/skills/spark_genesis/SKILL.md",
+  "source_of_truth_hierarchy": [
+    "current_github_repo_state",
+    "AGENTS.md",
+    "prisma/schema.prisma",
+    "packages/contracts",
+    "module_manifests",
+    "docs/adr",
+    "screen_contracts",
+    "docs/process",
+    "ticket_packs",
+    "audit_reports",
+    "spark_genesis_guidance",
+    "chat_history"
+  ],
+  "default_process_root": "docs/process",
+  "default_review_root": "codex-review",
+  "domain_layout": "domain_version_lifecycle",
+  "path_style": "lower_snake_case",
+  "domains": {
+    "core": {
+      "current_version": "v0_0_2",
+      "completed_baseline": "v0_0_1",
+      "completed_baseline_note": "Core v0.0.1 completed through Phase 5C.",
+      "process_path": "docs/process/core/v0_0_2",
+      "review_path": "codex-review/core/v0_0_2"
+    },
+    "apps.training.crm": {
+      "current_version": "v0_0_1",
+      "status": "planned_not_started",
+      "process_path": "docs/process/apps/training/crm/v0_0_1",
+      "review_path": "codex-review/apps/training/crm/v0_0_1"
+    },
+    "apps.training.hr": {
+      "current_version": "v0_0_1",
+      "status": "placeholder_not_started",
+      "process_path": "docs/process/apps/training/hr/v0_0_1",
+      "review_path": "codex-review/apps/training/hr/v0_0_1"
+    },
+    "apps.training.finance": {
+      "current_version": "v0_0_1",
+      "status": "placeholder_not_started",
+      "process_path": "docs/process/apps/training/finance/v0_0_1",
+      "review_path": "codex-review/apps/training/finance/v0_0_1"
+    }
+  },
+  "validation_commands": [
+    "node scripts/quality/check_lower_snake_case_paths.mjs",
+    "pnpm contracts:validate",
+    "pnpm lint",
+    "pnpm typecheck",
+    "pnpm test",
+    "pnpm build",
+    "git diff --check",
+    "git status --short --branch"
+  ],
+  "runtime_validation_required_after": [
+    "structural_path_migration",
+    "module_wiring_change",
+    "dependency_injection_change",
+    "route_or_api_boundary_change",
+    "framework_module_change"
+  ],
+  "hard_boundaries": [
+    "no_phase_6_without_intent_packet_and_human_approval",
+    "no_production_secrets",
+    "no_deployment_without_approval",
+    "no_package_or_lockfile_changes_without_approval",
+    "no_prisma_schema_migration_or_generated_registry_changes_without_approval",
+    "no_public_route_or_api_rename_without_compatibility_plan",
+    "no_historical_evidence_rewrite",
+    "no_fake_dashboards_metrics_notifications_or_revenue",
+    "no_invented_apis_modules_screens_or_permissions",
+    "no_runtime_frontend_backend_schema_generated_or_package_changes_for_config_only_pr"
+  ],
+  "public_route_api_compatibility": {
+    "lead_desk": {
+      "technical_path": "lead-desk",
+      "visible_label": "CRM",
+      "decision": "compatibility_exception_until_approved_migration"
+    },
+    "module_registry": {
+      "technical_path": "module-registry",
+      "decision": "compatibility_exception_until_approved_migration"
+    }
+  },
+  "future_review_paths": {
+    "core_v0_0_2": "codex-review/core/v0_0_2",
+    "training_crm_v0_0_1": "codex-review/apps/training/crm/v0_0_1",
+    "training_hr_v0_0_1": "codex-review/apps/training/hr/v0_0_1",
+    "training_finance_v0_0_1": "codex-review/apps/training/finance/v0_0_1"
+  },
+  "future_process_paths": {
+    "core_v0_0_2": "docs/process/core/v0_0_2",
+    "training_crm_v0_0_1": "docs/process/apps/training/crm/v0_0_1",
+    "training_hr_v0_0_1": "docs/process/apps/training/hr/v0_0_1",
+    "training_finance_v0_0_1": "docs/process/apps/training/finance/v0_0_1"
+  }
+}
