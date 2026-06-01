@@ -1,0 +1,1264 @@
+{
+  "artifact": "spark_platform_v4_1_surface_catalog_derived_v1",
+  "status": "DERIVED_GENESIS_SUPPORT_ARTIFACT_NOT_TICKET_AUTHORITY",
+  "authority_note": "This derived surface catalog supports Spark Genesis v0.5.0 auditing only. It is not primary business authority, ticket authority, execution authority, or an override for v4.1 source docs, Prisma, contracts, manifests, ADRs, or repo source.",
+  "surfaces": [
+    {
+      "surface_id": "surface_6a_storage_file_lifecycle",
+      "train": "phase_6a",
+      "level": "level_group_0_5",
+      "title": "Storage and file lifecycle foundation",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_platform_v4_1/0_business_logic.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/subsurface_decomposition_guide.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/6a_core_update_foundation.md"
+      ],
+      "scope_summary": "Storage and file lifecycle foundation is a derived broad planning surface from Spark Platform v4.1 candidate components. It exists only to support Genesis v0.5.0 sub-surface audit coverage.",
+      "non_scope": [
+        "ticket_generation",
+        "seed_matrix_generation",
+        "runtime_implementation",
+        "schema_change"
+      ],
+      "complexity_signals": [
+        "stateful_file_lifecycle",
+        "retention_boundary"
+      ],
+      "requires_subsurface_catalog": true,
+      "subsurface_expected_categories": [
+        "object_storage",
+        "backup",
+        "image_processing",
+        "deletion_lifecycle"
+      ],
+      "adl_refs": [],
+      "provider_refs": [],
+      "standard_refs": [],
+      "connector_refs": [],
+      "depends_on_surfaces": [],
+      "stop_conditions": [
+        "Do not generate execution seed matrix or ticket packs until the mandatory sub-surface catalog audit passes and receives manual review."
+      ],
+      "akti_local": {
+        "phase_id": "6a",
+        "catalog_order": 1,
+        "catalog_outcome": "split_into_services",
+        "split_axes": [
+          "mandatory_core_microservice"
+        ],
+        "phase_dependency_rule": "6a is the foundation phase and must not depend on later phases.",
+        "support_artifact_only": true
+      }
+    },
+    {
+      "surface_id": "surface_6a_reliability_primitives",
+      "train": "phase_6a",
+      "level": "level_group_0_5",
+      "title": "Event bus and saga reliability foundation",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_platform_v4_1/0_business_logic.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/subsurface_decomposition_guide.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/6a_core_update_foundation.md"
+      ],
+      "scope_summary": "Event bus and saga reliability foundation is a derived broad planning surface from Spark Platform v4.1 candidate components. It exists only to support Genesis v0.5.0 sub-surface audit coverage.",
+      "non_scope": [
+        "ticket_generation",
+        "seed_matrix_generation",
+        "runtime_implementation",
+        "schema_change"
+      ],
+      "complexity_signals": [
+        "adl_stateful_logic",
+        "ordered_delivery"
+      ],
+      "requires_subsurface_catalog": true,
+      "subsurface_expected_categories": [
+        "event_delivery",
+        "dead_letter_queue",
+        "saga",
+        "compensation"
+      ],
+      "adl_refs": [],
+      "provider_refs": [],
+      "standard_refs": [],
+      "connector_refs": [],
+      "depends_on_surfaces": [],
+      "stop_conditions": [
+        "Do not generate execution seed matrix or ticket packs until the mandatory sub-surface catalog audit passes and receives manual review."
+      ],
+      "akti_local": {
+        "phase_id": "6a",
+        "catalog_order": 2,
+        "catalog_outcome": "split_into_services",
+        "split_axes": [
+          "adl_stateful_logic",
+          "mandatory_core_microservice"
+        ],
+        "phase_dependency_rule": "6a is the foundation phase and must not depend on later phases.",
+        "support_artifact_only": true
+      }
+    },
+    {
+      "surface_id": "surface_6a_pricing_billing_evidence",
+      "train": "phase_6a",
+      "level": "level_group_0_5",
+      "title": "Pricing, billing dimensions, and evidence controls",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_platform_v4_1/0_business_logic.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/subsurface_decomposition_guide.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/6a_core_update_foundation.md"
+      ],
+      "scope_summary": "Pricing, billing dimensions, and evidence controls is a derived broad planning surface from Spark Platform v4.1 candidate components. It exists only to support Genesis v0.5.0 sub-surface audit coverage.",
+      "non_scope": [
+        "ticket_generation",
+        "seed_matrix_generation",
+        "runtime_implementation",
+        "schema_change"
+      ],
+      "complexity_signals": [
+        "billable_capability",
+        "audit_evidence"
+      ],
+      "requires_subsurface_catalog": true,
+      "subsurface_expected_categories": [
+        "pricing",
+        "billing_dimension",
+        "evidence",
+        "budget"
+      ],
+      "adl_refs": [],
+      "provider_refs": [],
+      "standard_refs": [],
+      "connector_refs": [],
+      "depends_on_surfaces": [],
+      "stop_conditions": [
+        "Do not generate execution seed matrix or ticket packs until the mandatory sub-surface catalog audit passes and receives manual review."
+      ],
+      "akti_local": {
+        "phase_id": "6a",
+        "catalog_order": 3,
+        "catalog_outcome": "split_into_services",
+        "split_axes": [
+          "mandatory_core_microservice"
+        ],
+        "phase_dependency_rule": "6a is the foundation phase and must not depend on later phases.",
+        "support_artifact_only": true
+      }
+    },
+    {
+      "surface_id": "surface_6a_outbound_provider_governance",
+      "train": "phase_6a",
+      "level": "level_group_0_5",
+      "title": "Outbound provider governance and safety controls",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_platform_v4_1/0_business_logic.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/subsurface_decomposition_guide.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/6a_core_update_foundation.md"
+      ],
+      "scope_summary": "Outbound provider governance and safety controls is a derived broad planning surface from Spark Platform v4.1 candidate components. It exists only to support Genesis v0.5.0 sub-surface audit coverage.",
+      "non_scope": [
+        "ticket_generation",
+        "seed_matrix_generation",
+        "runtime_implementation",
+        "schema_change"
+      ],
+      "complexity_signals": [
+        "provider_governance",
+        "rate_limit"
+      ],
+      "requires_subsurface_catalog": true,
+      "subsurface_expected_categories": [
+        "outbound_gateway",
+        "opt_out",
+        "provider_circuit_breaker",
+        "rate_limit"
+      ],
+      "adl_refs": [],
+      "provider_refs": [
+        "generic_outbound_provider"
+      ],
+      "standard_refs": [],
+      "connector_refs": [],
+      "depends_on_surfaces": [],
+      "stop_conditions": [
+        "Do not generate execution seed matrix or ticket packs until the mandatory sub-surface catalog audit passes and receives manual review."
+      ],
+      "akti_local": {
+        "phase_id": "6a",
+        "catalog_order": 4,
+        "catalog_outcome": "split_into_services",
+        "split_axes": [
+          "provider",
+          "mandatory_core_microservice"
+        ],
+        "phase_dependency_rule": "6a is the foundation phase and must not depend on later phases.",
+        "support_artifact_only": true
+      }
+    },
+    {
+      "surface_id": "surface_6a_configurable_builders",
+      "train": "phase_6a",
+      "level": "level_group_0_5",
+      "title": "Configurable builders and admin primitives",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_platform_v4_1/0_business_logic.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/subsurface_decomposition_guide.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/6a_core_update_foundation.md"
+      ],
+      "scope_summary": "Configurable builders and admin primitives is a derived broad planning surface from Spark Platform v4.1 candidate components. It exists only to support Genesis v0.5.0 sub-surface audit coverage.",
+      "non_scope": [
+        "ticket_generation",
+        "seed_matrix_generation",
+        "runtime_implementation",
+        "schema_change"
+      ],
+      "complexity_signals": [
+        "toggleable_capability",
+        "builder_runtime"
+      ],
+      "requires_subsurface_catalog": true,
+      "subsurface_expected_categories": [
+        "workflow_builder",
+        "rules_engine",
+        "forms",
+        "templates"
+      ],
+      "adl_refs": [],
+      "provider_refs": [],
+      "standard_refs": [],
+      "connector_refs": [],
+      "depends_on_surfaces": [],
+      "stop_conditions": [
+        "Do not generate execution seed matrix or ticket packs until the mandatory sub-surface catalog audit passes and receives manual review."
+      ],
+      "akti_local": {
+        "phase_id": "6a",
+        "catalog_order": 5,
+        "catalog_outcome": "split_into_services",
+        "split_axes": [
+          "toggleable_billable_versioned_capability",
+          "mandatory_core_microservice"
+        ],
+        "phase_dependency_rule": "6a is the foundation phase and must not depend on later phases.",
+        "support_artifact_only": true
+      }
+    },
+    {
+      "surface_id": "surface_6a_ai_governance_metering",
+      "train": "phase_6a",
+      "level": "level_group_0_5",
+      "title": "AI governance, routing, classification, and metering",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_platform_v4_1/0_business_logic.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/subsurface_decomposition_guide.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/6a_core_update_foundation.md"
+      ],
+      "scope_summary": "AI governance, routing, classification, and metering is a derived broad planning surface from Spark Platform v4.1 candidate components. It exists only to support Genesis v0.5.0 sub-surface audit coverage.",
+      "non_scope": [
+        "ticket_generation",
+        "seed_matrix_generation",
+        "runtime_implementation",
+        "schema_change"
+      ],
+      "complexity_signals": [
+        "ai_governance",
+        "credit_metering"
+      ],
+      "requires_subsurface_catalog": true,
+      "subsurface_expected_categories": [
+        "ai_configuration",
+        "model_routing",
+        "classification",
+        "cost_metering"
+      ],
+      "adl_refs": [],
+      "provider_refs": [],
+      "standard_refs": [],
+      "connector_refs": [],
+      "depends_on_surfaces": [],
+      "stop_conditions": [
+        "Do not generate execution seed matrix or ticket packs until the mandatory sub-surface catalog audit passes and receives manual review."
+      ],
+      "akti_local": {
+        "phase_id": "6a",
+        "catalog_order": 6,
+        "catalog_outcome": "split_into_services",
+        "split_axes": [
+          "mandatory_core_microservice"
+        ],
+        "phase_dependency_rule": "6a is the foundation phase and must not depend on later phases.",
+        "support_artifact_only": true
+      }
+    },
+    {
+      "surface_id": "surface_6a_base_admin_design_shell",
+      "train": "phase_6a",
+      "level": "level_group_0_5",
+      "title": "Base admin setup and design shell",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_platform_v4_1/0_business_logic.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/subsurface_decomposition_guide.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/6a_core_update_foundation.md"
+      ],
+      "scope_summary": "Base admin setup and design shell is a derived broad planning surface from Spark Platform v4.1 candidate components. It exists only to support Genesis v0.5.0 sub-surface audit coverage.",
+      "non_scope": [
+        "ticket_generation",
+        "seed_matrix_generation",
+        "runtime_implementation",
+        "schema_change"
+      ],
+      "complexity_signals": [
+        "mandatory_core_microservice"
+      ],
+      "requires_subsurface_catalog": true,
+      "subsurface_expected_categories": [
+        "admin_setup",
+        "design_tokens",
+        "component_contracts",
+        "shell"
+      ],
+      "adl_refs": [],
+      "provider_refs": [],
+      "standard_refs": [],
+      "connector_refs": [],
+      "depends_on_surfaces": [],
+      "stop_conditions": [
+        "Do not generate execution seed matrix or ticket packs until the mandatory sub-surface catalog audit passes and receives manual review."
+      ],
+      "akti_local": {
+        "phase_id": "6a",
+        "catalog_order": 7,
+        "catalog_outcome": "split_into_services",
+        "split_axes": [
+          "mandatory_core_microservice"
+        ],
+        "phase_dependency_rule": "6a is the foundation phase and must not depend on later phases.",
+        "support_artifact_only": true
+      }
+    },
+    {
+      "surface_id": "surface_6b_product_catalogue_pricing",
+      "train": "phase_6b",
+      "level": "level_group_6_8",
+      "title": "Product catalogue and pricing services",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_platform_v4_1/0_business_logic.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/subsurface_decomposition_guide.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md"
+      ],
+      "scope_summary": "Product catalogue and pricing services is a derived broad planning surface from Spark Platform v4.1 candidate components. It exists only to support Genesis v0.5.0 sub-surface audit coverage.",
+      "non_scope": [
+        "ticket_generation",
+        "seed_matrix_generation",
+        "runtime_implementation",
+        "schema_change"
+      ],
+      "complexity_signals": [
+        "billable_capability",
+        "product_type_split"
+      ],
+      "requires_subsurface_catalog": true,
+      "subsurface_expected_categories": [
+        "product_catalogue",
+        "pricing_mode",
+        "discount",
+        "installment"
+      ],
+      "adl_refs": [],
+      "provider_refs": [],
+      "standard_refs": [],
+      "connector_refs": [],
+      "depends_on_surfaces": [],
+      "stop_conditions": [
+        "Do not generate execution seed matrix or ticket packs until the mandatory sub-surface catalog audit passes and receives manual review."
+      ],
+      "akti_local": {
+        "phase_id": "6b",
+        "catalog_order": 8,
+        "catalog_outcome": "split_into_services",
+        "split_axes": [
+          "mandatory_core_microservice"
+        ],
+        "phase_dependency_rule": "6b depends on 6a.",
+        "support_artifact_only": true
+      }
+    },
+    {
+      "surface_id": "surface_6b_lead_intake",
+      "train": "phase_6b",
+      "level": "level_group_6_8",
+      "title": "Lead intake connector family",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_platform_v4_1/0_business_logic.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/subsurface_decomposition_guide.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md"
+      ],
+      "scope_summary": "Lead intake connector family is a derived broad planning surface from Spark Platform v4.1 candidate components. It exists only to support Genesis v0.5.0 sub-surface audit coverage.",
+      "non_scope": [
+        "ticket_generation",
+        "seed_matrix_generation",
+        "runtime_implementation",
+        "schema_change"
+      ],
+      "complexity_signals": [
+        "connector_family"
+      ],
+      "requires_subsurface_catalog": true,
+      "subsurface_expected_categories": [
+        "lead_connector",
+        "unified_lead_record"
+      ],
+      "adl_refs": [],
+      "provider_refs": [
+        "Meta",
+        "TikTok",
+        "Google"
+      ],
+      "standard_refs": [],
+      "connector_refs": [
+        "meta_lead_forms",
+        "meta_whatsapp",
+        "tiktok_lead_gen",
+        "google_ads",
+        "google_business",
+        "facebook_page_forms",
+        "web_forms",
+        "manual_entry",
+        "csv_excel",
+        "api_intake",
+        "referral",
+        "whatsapp",
+        "sms",
+        "chatbot",
+        "live_chat",
+        "email",
+        "phone",
+        "walk_in"
+      ],
+      "depends_on_surfaces": [],
+      "stop_conditions": [
+        "Do not generate execution seed matrix or ticket packs until the mandatory sub-surface catalog audit passes and receives manual review."
+      ],
+      "akti_local": {
+        "phase_id": "6b",
+        "catalog_order": 9,
+        "catalog_outcome": "split_into_services",
+        "split_axes": [
+          "mandatory_core_microservice"
+        ],
+        "phase_dependency_rule": "6b depends on 6a.",
+        "support_artifact_only": true
+      }
+    },
+    {
+      "surface_id": "surface_6b_communication_channels",
+      "train": "phase_6b",
+      "level": "level_group_6_8",
+      "title": "Commerce communication channel services",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_platform_v4_1/0_business_logic.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/subsurface_decomposition_guide.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md"
+      ],
+      "scope_summary": "Commerce communication channel services is a derived broad planning surface from Spark Platform v4.1 candidate components. It exists only to support Genesis v0.5.0 sub-surface audit coverage.",
+      "non_scope": [
+        "ticket_generation",
+        "seed_matrix_generation",
+        "runtime_implementation",
+        "schema_change"
+      ],
+      "complexity_signals": [
+        "channel_split"
+      ],
+      "requires_subsurface_catalog": true,
+      "subsurface_expected_categories": [
+        "whatsapp",
+        "email",
+        "broadcast",
+        "auto_reply"
+      ],
+      "adl_refs": [],
+      "provider_refs": [
+        "whatsapp",
+        "email"
+      ],
+      "standard_refs": [],
+      "connector_refs": [],
+      "depends_on_surfaces": [],
+      "stop_conditions": [
+        "Do not generate execution seed matrix or ticket packs until the mandatory sub-surface catalog audit passes and receives manual review."
+      ],
+      "akti_local": {
+        "phase_id": "6b",
+        "catalog_order": 10,
+        "catalog_outcome": "split_into_services",
+        "split_axes": [
+          "channel"
+        ],
+        "phase_dependency_rule": "6b depends on 6a.",
+        "support_artifact_only": true
+      }
+    },
+    {
+      "surface_id": "surface_6b_payment_gateway_finance",
+      "train": "phase_6b",
+      "level": "level_group_6_8",
+      "title": "Payment gateways, allocation, refunds, and credits",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_platform_v4_1/0_business_logic.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/subsurface_decomposition_guide.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md"
+      ],
+      "scope_summary": "Payment gateways, allocation, refunds, and credits is a derived broad planning surface from Spark Platform v4.1 candidate components. It exists only to support Genesis v0.5.0 sub-surface audit coverage.",
+      "non_scope": [
+        "ticket_generation",
+        "seed_matrix_generation",
+        "runtime_implementation",
+        "schema_change"
+      ],
+      "complexity_signals": [
+        "provider_family",
+        "finance_state_machine"
+      ],
+      "requires_subsurface_catalog": true,
+      "subsurface_expected_categories": [
+        "payment_gateway",
+        "allocation",
+        "refund",
+        "credit"
+      ],
+      "adl_refs": [],
+      "provider_refs": [
+        "JazzCash",
+        "EasyPaisa",
+        "RAAST",
+        "QuickPay",
+        "Stripe",
+        "Wise"
+      ],
+      "standard_refs": [],
+      "connector_refs": [
+        "payment_gateway"
+      ],
+      "depends_on_surfaces": [],
+      "stop_conditions": [
+        "Do not generate execution seed matrix or ticket packs until the mandatory sub-surface catalog audit passes and receives manual review."
+      ],
+      "akti_local": {
+        "phase_id": "6b",
+        "catalog_order": 11,
+        "catalog_outcome": "split_into_services",
+        "split_axes": [
+          "provider",
+          "mandatory_core_microservice"
+        ],
+        "phase_dependency_rule": "6b depends on 6a.",
+        "support_artifact_only": true
+      }
+    },
+    {
+      "surface_id": "surface_6b_accounting_payroll_tax",
+      "train": "phase_6b",
+      "level": "level_group_6_8",
+      "title": "Accounting, tax, and payroll services",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_platform_v4_1/0_business_logic.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/subsurface_decomposition_guide.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md"
+      ],
+      "scope_summary": "Accounting, tax, and payroll services is a derived broad planning surface from Spark Platform v4.1 candidate components. It exists only to support Genesis v0.5.0 sub-surface audit coverage.",
+      "non_scope": [
+        "ticket_generation",
+        "seed_matrix_generation",
+        "runtime_implementation",
+        "schema_change"
+      ],
+      "complexity_signals": [
+        "finance_control"
+      ],
+      "requires_subsurface_catalog": true,
+      "subsurface_expected_categories": [
+        "ledger",
+        "period",
+        "tax",
+        "payroll"
+      ],
+      "adl_refs": [],
+      "provider_refs": [],
+      "standard_refs": [],
+      "connector_refs": [],
+      "depends_on_surfaces": [],
+      "stop_conditions": [
+        "Do not generate execution seed matrix or ticket packs until the mandatory sub-surface catalog audit passes and receives manual review."
+      ],
+      "akti_local": {
+        "phase_id": "6b",
+        "catalog_order": 12,
+        "catalog_outcome": "split_into_services",
+        "split_axes": [
+          "mandatory_core_microservice"
+        ],
+        "phase_dependency_rule": "6b depends on 6a.",
+        "support_artifact_only": true
+      }
+    },
+    {
+      "surface_id": "surface_6c_hr_attendance_commission",
+      "train": "phase_6c",
+      "level": "level_group_9_10_12",
+      "title": "HR attendance, performance, commission, and offboarding",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_platform_v4_1/0_business_logic.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/subsurface_decomposition_guide.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/6c_operations.md"
+      ],
+      "scope_summary": "HR attendance, performance, commission, and offboarding is a derived broad planning surface from Spark Platform v4.1 candidate components. It exists only to support Genesis v0.5.0 sub-surface audit coverage.",
+      "non_scope": [
+        "ticket_generation",
+        "seed_matrix_generation",
+        "runtime_implementation",
+        "schema_change"
+      ],
+      "complexity_signals": [
+        "provider_family",
+        "adl_stateful_logic"
+      ],
+      "requires_subsurface_catalog": true,
+      "subsurface_expected_categories": [
+        "attendance_method",
+        "leave",
+        "performance",
+        "commission",
+        "offboarding"
+      ],
+      "adl_refs": [],
+      "provider_refs": [
+        "ZKTeco",
+        "eSSL",
+        "Suprema",
+        "Hikvision"
+      ],
+      "standard_refs": [],
+      "connector_refs": [],
+      "depends_on_surfaces": [],
+      "stop_conditions": [
+        "Do not generate execution seed matrix or ticket packs until the mandatory sub-surface catalog audit passes and receives manual review."
+      ],
+      "akti_local": {
+        "phase_id": "6c",
+        "catalog_order": 13,
+        "catalog_outcome": "split_into_services",
+        "split_axes": [
+          "provider",
+          "adl_stateful_logic"
+        ],
+        "phase_dependency_rule": "6c depends on 6a and 6b.",
+        "support_artifact_only": true
+      }
+    },
+    {
+      "surface_id": "surface_6c_workspace_collaboration",
+      "train": "phase_6c",
+      "level": "level_group_9_10_12",
+      "title": "Workspace collaboration and productivity services",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_platform_v4_1/0_business_logic.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/subsurface_decomposition_guide.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/6c_operations.md"
+      ],
+      "scope_summary": "Workspace collaboration and productivity services is a derived broad planning surface from Spark Platform v4.1 candidate components. It exists only to support Genesis v0.5.0 sub-surface audit coverage.",
+      "non_scope": [
+        "ticket_generation",
+        "seed_matrix_generation",
+        "runtime_implementation",
+        "schema_change"
+      ],
+      "complexity_signals": [
+        "collaboration_runtime",
+        "provider_integration"
+      ],
+      "requires_subsurface_catalog": true,
+      "subsurface_expected_categories": [
+        "messaging",
+        "tasks",
+        "projects",
+        "wiki",
+        "calendar"
+      ],
+      "adl_refs": [],
+      "provider_refs": [
+        "Google Calendar",
+        "Outlook Calendar",
+        "Meet",
+        "Zoom"
+      ],
+      "standard_refs": [],
+      "connector_refs": [],
+      "depends_on_surfaces": [],
+      "stop_conditions": [
+        "Do not generate execution seed matrix or ticket packs until the mandatory sub-surface catalog audit passes and receives manual review."
+      ],
+      "akti_local": {
+        "phase_id": "6c",
+        "catalog_order": 14,
+        "catalog_outcome": "split_into_services",
+        "split_axes": [
+          "mandatory_core_microservice",
+          "provider"
+        ],
+        "phase_dependency_rule": "6c depends on 6a and 6b.",
+        "support_artifact_only": true
+      }
+    },
+    {
+      "surface_id": "surface_6c_events_registration_check_in",
+      "train": "phase_6c",
+      "level": "level_group_9_10_12",
+      "title": "Events, registration, capacity, waitlist, and check-in",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_platform_v4_1/0_business_logic.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/subsurface_decomposition_guide.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/6c_operations.md"
+      ],
+      "scope_summary": "Events, registration, capacity, waitlist, and check-in is a derived broad planning surface from Spark Platform v4.1 candidate components. It exists only to support Genesis v0.5.0 sub-surface audit coverage.",
+      "non_scope": [
+        "ticket_generation",
+        "seed_matrix_generation",
+        "runtime_implementation",
+        "schema_change"
+      ],
+      "complexity_signals": [
+        "adl_stateful_logic",
+        "event_lifecycle"
+      ],
+      "requires_subsurface_catalog": true,
+      "subsurface_expected_categories": [
+        "event_configuration",
+        "registration",
+        "capacity",
+        "waitlist",
+        "check_in"
+      ],
+      "adl_refs": [],
+      "provider_refs": [],
+      "standard_refs": [],
+      "connector_refs": [],
+      "depends_on_surfaces": [],
+      "stop_conditions": [
+        "Do not generate execution seed matrix or ticket packs until the mandatory sub-surface catalog audit passes and receives manual review."
+      ],
+      "akti_local": {
+        "phase_id": "6c",
+        "catalog_order": 15,
+        "catalog_outcome": "split_into_services",
+        "split_axes": [
+          "adl_stateful_logic",
+          "mandatory_core_microservice"
+        ],
+        "phase_dependency_rule": "6c depends on 6a and 6b.",
+        "support_artifact_only": true
+      }
+    },
+    {
+      "surface_id": "surface_6d_student_lifecycle",
+      "train": "phase_6d",
+      "level": "level_11",
+      "title": "Student lifecycle services by stage",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_platform_v4_1/0_business_logic.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/subsurface_decomposition_guide.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/6d_learning.md"
+      ],
+      "scope_summary": "Student lifecycle services by stage is a derived broad planning surface from Spark Platform v4.1 candidate components. It exists only to support Genesis v0.5.0 sub-surface audit coverage.",
+      "non_scope": [
+        "ticket_generation",
+        "seed_matrix_generation",
+        "runtime_implementation",
+        "schema_change"
+      ],
+      "complexity_signals": [
+        "lifecycle_split"
+      ],
+      "requires_subsurface_catalog": true,
+      "subsurface_expected_categories": [
+        "student_lifecycle_stage"
+      ],
+      "adl_refs": [],
+      "provider_refs": [],
+      "standard_refs": [],
+      "connector_refs": [],
+      "depends_on_surfaces": [],
+      "stop_conditions": [
+        "Do not generate execution seed matrix or ticket packs until the mandatory sub-surface catalog audit passes and receives manual review."
+      ],
+      "akti_local": {
+        "phase_id": "6d",
+        "catalog_order": 16,
+        "catalog_outcome": "split_into_services",
+        "split_axes": [
+          "mandatory_core_microservice"
+        ],
+        "phase_dependency_rule": "6d depends on 6a, 6b, and 6c, not 6e or 6f.",
+        "support_artifact_only": true
+      }
+    },
+    {
+      "surface_id": "surface_6d_learning_operations",
+      "train": "phase_6d",
+      "level": "level_11",
+      "title": "Learning operations and attendance method family",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_platform_v4_1/0_business_logic.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/subsurface_decomposition_guide.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/6d_learning.md"
+      ],
+      "scope_summary": "Learning operations and attendance method family is a derived broad planning surface from Spark Platform v4.1 candidate components. It exists only to support Genesis v0.5.0 sub-surface audit coverage.",
+      "non_scope": [
+        "ticket_generation",
+        "seed_matrix_generation",
+        "runtime_implementation",
+        "schema_change"
+      ],
+      "complexity_signals": [
+        "method_family",
+        "learning_runtime"
+      ],
+      "requires_subsurface_catalog": true,
+      "subsurface_expected_categories": [
+        "lms_attendance",
+        "assignment",
+        "submission",
+        "grading"
+      ],
+      "adl_refs": [],
+      "provider_refs": [],
+      "standard_refs": [],
+      "connector_refs": [],
+      "depends_on_surfaces": [],
+      "stop_conditions": [
+        "Do not generate execution seed matrix or ticket packs until the mandatory sub-surface catalog audit passes and receives manual review."
+      ],
+      "akti_local": {
+        "phase_id": "6d",
+        "catalog_order": 17,
+        "catalog_outcome": "split_into_services",
+        "split_axes": [
+          "mandatory_core_microservice"
+        ],
+        "phase_dependency_rule": "6d depends on 6a, 6b, and 6c, not 6e or 6f.",
+        "support_artifact_only": true
+      }
+    },
+    {
+      "surface_id": "surface_6d_assessment_content_standards",
+      "train": "phase_6d",
+      "level": "level_11",
+      "title": "Assessment, integrity, content, and learning standards",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_platform_v4_1/0_business_logic.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/subsurface_decomposition_guide.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/6d_learning.md"
+      ],
+      "scope_summary": "Assessment, integrity, content, and learning standards is a derived broad planning surface from Spark Platform v4.1 candidate components. It exists only to support Genesis v0.5.0 sub-surface audit coverage.",
+      "non_scope": [
+        "ticket_generation",
+        "seed_matrix_generation",
+        "runtime_implementation",
+        "schema_change"
+      ],
+      "complexity_signals": [
+        "standard_family",
+        "provider_family"
+      ],
+      "requires_subsurface_catalog": true,
+      "subsurface_expected_categories": [
+        "assessment",
+        "question_bank",
+        "content_standard",
+        "lrs"
+      ],
+      "adl_refs": [],
+      "provider_refs": [
+        "Turnitin",
+        "Copyleaks"
+      ],
+      "standard_refs": [
+        "SCORM 1.2",
+        "SCORM 2004",
+        "xAPI",
+        "LRS",
+        "H5P"
+      ],
+      "connector_refs": [],
+      "depends_on_surfaces": [],
+      "stop_conditions": [
+        "Do not generate execution seed matrix or ticket packs until the mandatory sub-surface catalog audit passes and receives manual review."
+      ],
+      "akti_local": {
+        "phase_id": "6d",
+        "catalog_order": 18,
+        "catalog_outcome": "split_into_services",
+        "split_axes": [
+          "standard",
+          "provider"
+        ],
+        "phase_dependency_rule": "6d depends on 6a, 6b, and 6c, not 6e or 6f.",
+        "support_artifact_only": true
+      }
+    },
+    {
+      "surface_id": "surface_6d_portals_certificates_university",
+      "train": "phase_6d",
+      "level": "level_11",
+      "title": "Role portals, certificates, and university extensions",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_platform_v4_1/0_business_logic.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/subsurface_decomposition_guide.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/6d_learning.md"
+      ],
+      "scope_summary": "Role portals, certificates, and university extensions is a derived broad planning surface from Spark Platform v4.1 candidate components. It exists only to support Genesis v0.5.0 sub-surface audit coverage.",
+      "non_scope": [
+        "ticket_generation",
+        "seed_matrix_generation",
+        "runtime_implementation",
+        "schema_change"
+      ],
+      "complexity_signals": [
+        "role_portal",
+        "credential_lifecycle"
+      ],
+      "requires_subsurface_catalog": true,
+      "subsurface_expected_categories": [
+        "portal_role",
+        "certificate",
+        "university_extension"
+      ],
+      "adl_refs": [],
+      "provider_refs": [],
+      "standard_refs": [],
+      "connector_refs": [],
+      "depends_on_surfaces": [],
+      "stop_conditions": [
+        "Do not generate execution seed matrix or ticket packs until the mandatory sub-surface catalog audit passes and receives manual review."
+      ],
+      "akti_local": {
+        "phase_id": "6d",
+        "catalog_order": 19,
+        "catalog_outcome": "split_into_services",
+        "split_axes": [
+          "role_portal",
+          "mandatory_core_microservice"
+        ],
+        "phase_dependency_rule": "6d depends on 6a, 6b, and 6c, not 6e or 6f.",
+        "support_artifact_only": true
+      }
+    },
+    {
+      "surface_id": "surface_6e_growth_campaigns",
+      "train": "phase_6e",
+      "level": "level_group_13_15",
+      "title": "Campaign channels, segmentation, ads, and attribution",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_platform_v4_1/0_business_logic.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/subsurface_decomposition_guide.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/6e_growth_surface.md"
+      ],
+      "scope_summary": "Campaign channels, segmentation, ads, and attribution is a derived broad planning surface from Spark Platform v4.1 candidate components. It exists only to support Genesis v0.5.0 sub-surface audit coverage.",
+      "non_scope": [
+        "ticket_generation",
+        "seed_matrix_generation",
+        "runtime_implementation",
+        "schema_change"
+      ],
+      "complexity_signals": [
+        "channel_split",
+        "provider_integration"
+      ],
+      "requires_subsurface_catalog": true,
+      "subsurface_expected_categories": [
+        "campaign_channel",
+        "segmentation",
+        "ads",
+        "attribution"
+      ],
+      "adl_refs": [],
+      "provider_refs": [
+        "email",
+        "WhatsApp",
+        "SMS",
+        "push",
+        "ad_account"
+      ],
+      "standard_refs": [],
+      "connector_refs": [
+        "email_campaign",
+        "whatsapp_campaign",
+        "sms_campaign",
+        "push_campaign",
+        "ad_account"
+      ],
+      "depends_on_surfaces": [],
+      "stop_conditions": [
+        "Do not generate execution seed matrix or ticket packs until the mandatory sub-surface catalog audit passes and receives manual review."
+      ],
+      "akti_local": {
+        "phase_id": "6e",
+        "catalog_order": 20,
+        "catalog_outcome": "split_into_services",
+        "split_axes": [
+          "channel",
+          "provider"
+        ],
+        "phase_dependency_rule": "6e depends on 6a through 6d.",
+        "support_artifact_only": true
+      }
+    },
+    {
+      "surface_id": "surface_6e_ecommerce_order_lifecycle",
+      "train": "phase_6e",
+      "level": "level_group_13_15",
+      "title": "E-commerce cart, checkout, order lifecycle, shipping, and returns",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_platform_v4_1/0_business_logic.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/subsurface_decomposition_guide.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/6e_growth_surface.md"
+      ],
+      "scope_summary": "E-commerce cart, checkout, order lifecycle, shipping, and returns is a derived broad planning surface from Spark Platform v4.1 candidate components. It exists only to support Genesis v0.5.0 sub-surface audit coverage.",
+      "non_scope": [
+        "ticket_generation",
+        "seed_matrix_generation",
+        "runtime_implementation",
+        "schema_change"
+      ],
+      "complexity_signals": [
+        "provider_family",
+        "adl_stateful_logic"
+      ],
+      "requires_subsurface_catalog": true,
+      "subsurface_expected_categories": [
+        "cart",
+        "checkout",
+        "order_saga",
+        "shipping_provider",
+        "returns"
+      ],
+      "adl_refs": [],
+      "provider_refs": [
+        "TCS",
+        "Leopards",
+        "M&P",
+        "DHL",
+        "FedEx",
+        "third_party_logistics"
+      ],
+      "standard_refs": [],
+      "connector_refs": [],
+      "depends_on_surfaces": [],
+      "stop_conditions": [
+        "Do not generate execution seed matrix or ticket packs until the mandatory sub-surface catalog audit passes and receives manual review."
+      ],
+      "akti_local": {
+        "phase_id": "6e",
+        "catalog_order": 21,
+        "catalog_outcome": "split_into_services",
+        "split_axes": [
+          "provider",
+          "adl_stateful_logic"
+        ],
+        "phase_dependency_rule": "6e depends on 6a through 6d.",
+        "support_artifact_only": true
+      }
+    },
+    {
+      "surface_id": "surface_6e_website_app_builder",
+      "train": "phase_6e",
+      "level": "level_group_13_15",
+      "title": "Website and app builder services",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_platform_v4_1/0_business_logic.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/subsurface_decomposition_guide.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/6e_growth_surface.md"
+      ],
+      "scope_summary": "Website and app builder services is a derived broad planning surface from Spark Platform v4.1 candidate components. It exists only to support Genesis v0.5.0 sub-surface audit coverage.",
+      "non_scope": [
+        "ticket_generation",
+        "seed_matrix_generation",
+        "runtime_implementation",
+        "schema_change"
+      ],
+      "complexity_signals": [
+        "builder_runtime",
+        "source_split"
+      ],
+      "requires_subsurface_catalog": true,
+      "subsurface_expected_categories": [
+        "editor",
+        "versioning",
+        "responsive_editing",
+        "connected_block",
+        "seo",
+        "domain",
+        "pwa"
+      ],
+      "adl_refs": [],
+      "provider_refs": [],
+      "standard_refs": [],
+      "connector_refs": [],
+      "depends_on_surfaces": [],
+      "stop_conditions": [
+        "Do not generate execution seed matrix or ticket packs until the mandatory sub-surface catalog audit passes and receives manual review."
+      ],
+      "akti_local": {
+        "phase_id": "6e",
+        "catalog_order": 22,
+        "catalog_outcome": "split_into_services",
+        "split_axes": [
+          "mandatory_core_microservice"
+        ],
+        "phase_dependency_rule": "6e depends on 6a through 6d.",
+        "support_artifact_only": true
+      }
+    },
+    {
+      "surface_id": "surface_6f_ai_business_intelligence",
+      "train": "phase_6f",
+      "level": "level_group_16_18",
+      "title": "AI, business intelligence, optimization, and privacy intelligence",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_platform_v4_1/0_business_logic.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/subsurface_decomposition_guide.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md"
+      ],
+      "scope_summary": "AI, business intelligence, optimization, and privacy intelligence is a derived broad planning surface from Spark Platform v4.1 candidate components. It exists only to support Genesis v0.5.0 sub-surface audit coverage.",
+      "non_scope": [
+        "ticket_generation",
+        "seed_matrix_generation",
+        "runtime_implementation",
+        "schema_change"
+      ],
+      "complexity_signals": [
+        "ai_runtime",
+        "privacy_boundary"
+      ],
+      "requires_subsurface_catalog": true,
+      "subsurface_expected_categories": [
+        "context_broker",
+        "consultant_qa",
+        "optimizer",
+        "prediction",
+        "differential_privacy"
+      ],
+      "adl_refs": [],
+      "provider_refs": [],
+      "standard_refs": [],
+      "connector_refs": [],
+      "depends_on_surfaces": [],
+      "stop_conditions": [
+        "Do not generate execution seed matrix or ticket packs until the mandatory sub-surface catalog audit passes and receives manual review."
+      ],
+      "akti_local": {
+        "phase_id": "6f",
+        "catalog_order": 23,
+        "catalog_outcome": "split_into_services",
+        "split_axes": [
+          "mandatory_core_microservice"
+        ],
+        "phase_dependency_rule": "6f depends on 6a through 6e.",
+        "support_artifact_only": true
+      }
+    },
+    {
+      "surface_id": "surface_6f_admin_support_onboarding",
+      "train": "phase_6f",
+      "level": "level_group_16_18",
+      "title": "Advanced admin, support, onboarding, data, docs, and community",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_platform_v4_1/0_business_logic.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/subsurface_decomposition_guide.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md"
+      ],
+      "scope_summary": "Advanced admin, support, onboarding, data, docs, and community is a derived broad planning surface from Spark Platform v4.1 candidate components. It exists only to support Genesis v0.5.0 sub-surface audit coverage.",
+      "non_scope": [
+        "ticket_generation",
+        "seed_matrix_generation",
+        "runtime_implementation",
+        "schema_change"
+      ],
+      "complexity_signals": [
+        "admin_runtime",
+        "support_lifecycle"
+      ],
+      "requires_subsurface_catalog": true,
+      "subsurface_expected_categories": [
+        "support",
+        "sla",
+        "onboarding",
+        "import",
+        "documentation",
+        "community"
+      ],
+      "adl_refs": [],
+      "provider_refs": [],
+      "standard_refs": [],
+      "connector_refs": [],
+      "depends_on_surfaces": [],
+      "stop_conditions": [
+        "Do not generate execution seed matrix or ticket packs until the mandatory sub-surface catalog audit passes and receives manual review."
+      ],
+      "akti_local": {
+        "phase_id": "6f",
+        "catalog_order": 24,
+        "catalog_outcome": "split_into_services",
+        "split_axes": [
+          "mandatory_core_microservice"
+        ],
+        "phase_dependency_rule": "6f depends on 6a through 6e.",
+        "support_artifact_only": true
+      }
+    },
+    {
+      "surface_id": "surface_6f_design_polish",
+      "train": "phase_6f",
+      "level": "level_group_16_18",
+      "title": "Design polish and advanced component refinements",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_platform_v4_1/0_business_logic.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/subsurface_decomposition_guide.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md"
+      ],
+      "scope_summary": "Design polish and advanced component refinements is a derived broad planning surface from Spark Platform v4.1 candidate components. It exists only to support Genesis v0.5.0 sub-surface audit coverage.",
+      "non_scope": [
+        "ticket_generation",
+        "seed_matrix_generation",
+        "runtime_implementation",
+        "schema_change"
+      ],
+      "complexity_signals": [
+        "design_system_refinement"
+      ],
+      "requires_subsurface_catalog": true,
+      "subsurface_expected_categories": [
+        "design_polish",
+        "advanced_component_refinement"
+      ],
+      "adl_refs": [],
+      "provider_refs": [],
+      "standard_refs": [],
+      "connector_refs": [],
+      "depends_on_surfaces": [],
+      "stop_conditions": [
+        "Do not generate execution seed matrix or ticket packs until the mandatory sub-surface catalog audit passes and receives manual review."
+      ],
+      "akti_local": {
+        "phase_id": "6f",
+        "catalog_order": 25,
+        "catalog_outcome": "split_into_services",
+        "split_axes": [
+          "mandatory_core_microservice"
+        ],
+        "phase_dependency_rule": "6f depends on 6a through 6e.",
+        "support_artifact_only": true
+      }
+    }
+  ]
+}

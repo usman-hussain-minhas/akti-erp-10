@@ -23,3 +23,16 @@ Core v0.0.2 is the next Core update space after the completed Core v0.0.1 baseli
 - Train 2 through Train 5 remain future-only and are not authorized for ticket generation by the Spark Platform Build v2 Genesis lifecycle planning package.
 - Route/API public-surface migration requires a separate compatibility plan and human approval.
 - Historical evidence remains in legacy paths unless a later approved index/copy/move PR preserves provenance.
+
+
+## Spark Platform v4.1 Sub-Surface Catalog Lifecycle Package
+
+- [Upload import report](spark_platform_v4_1_upload_import_report_v1.md)
+- [Authority decision](spark_platform_v4_1_authority_decision_v1.md)
+- [Revised lifecycle policy](spark_platform_v4_1_revised_lifecycle_policy_v1.md)
+- [Phase dependency map](spark_platform_v4_1_phase_dependency_map_v1.md)
+- [Derived surface catalog](spark_platform_v4_1_surface_catalog_derived_v1.json)
+- [Mandatory sub-surface catalog](spark_platform_v4_1_subsurface_catalog_v1.json)
+- [Sub-surface catalog audit](spark_platform_v4_1_subsurface_catalog_audit_v1.md)
+- [Lifecycle readiness report](spark_platform_v4_1_subsurface_lifecycle_readiness_report_v1.md)
+- [Imported v4.1 source docs](spark_platform_v4_1/)

@@ -1,3 +1,5 @@
+> Supersession note: Spark Platform v4.1 is the active authority for sub-surface cataloguing; this document remains historical planning context and does not authorize seed matrix, ticket generation, or execution.
+
 # Spark Platform Build v2 Human Decisions v1
 
 Status: ACCEPTED_FOR_GENESIS_LIFECYCLE_PLANNING
