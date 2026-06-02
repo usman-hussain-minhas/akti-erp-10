@@ -240,3 +240,52 @@ Current live state: 5 / 18 new split seeds require service_manifest_contract; 13
 | seed_6a_dependency_aware_recommendation_log | 6A.15 | true | configurable recommendation evidence surface | Service dependency context requires manifest traceability. |
 | seed_6a_accepted_rejected_recommendation_evidence | 6A.15 | false | decision evidence primitive | Evidence record of recommendation choices. |
 | seed_6a_activation_deactivation_intercept_wizard | 6A.15 | false | lifecycle intercept primitive | Inherits Foundry lifecycle context through activation/dependency and recommendation seeds. |
+
+## Failure Pattern Library — Phase 6A Zero-Trust Learnings
+
+1. Full 6A–6F context/source-fidelity loss
+
+   - Pattern: large context created internally valid but source-incomplete artifacts.
+   - Prevention: phase-only rebuilds, source coverage before catalog, dependency fidelity before seeds.
+
+2. Generated-artifact closed-world validation
+
+   - Pattern: audits checked present nodes but not missing source rows.
+   - Prevention: source coverage matrix with source-row count and forward traceability.
+
+3. Dependency extraction drift
+
+   - Pattern: source dependency tables were not faithfully carried into seed graph.
+   - Prevention: dependency fidelity matrix comparing phase-doc raw deps, source coverage, extraction, and seeds.
+
+4. Linear-chain dependency graph
+
+   - Pattern: seed graph was only ordering, not architecture.
+   - Prevention: semantic dependency extraction with edge basis and hard/soft/conditional/deferred types.
+
+5. Over-hardened dependency graph
+
+   - Pattern: too many hard edges without nuanced soft/conditional/deferred treatment.
+   - Prevention: optional dependency representation and hard_dependency_basis requirement.
+
+6. Component-level match masked sub-surface detail
+
+   - Pattern: source component passed while child order/manifest/ADL/root reasons were weak.
+   - Prevention: intra-component order, parent/child manifest, structured ADL refs, root reason specificity.
+
+7. Planning semantics still incomplete after structural pass
+
+   - Pattern: optional deps, split-child inheritance, Foundry bootstrap, and wrapper-ticket depth were missing from audit contract.
+   - Prevention: permanent semantic gates before ticket-pack planning.
+
+8. Report integrity drift after patching
+
+   - Pattern: JSON artifacts changed but top audit summaries remained stale.
+   - Prevention: recompute top summaries from live JSON before final merge; no contradictory current/historical states.
+
+9. Future ticket leakage risk
+
+   - Pattern: seed placeholders could be copied into tickets.
+   - Prevention: Ticket Quality Doctrine Risk Guard; exact-file planning before ticket generation; no seed placeholder as ticket field.
+
+These patterns are now preventive gates for Phase 6A ticket-pack planning and should inform Phase 6B+ lifecycle design.
