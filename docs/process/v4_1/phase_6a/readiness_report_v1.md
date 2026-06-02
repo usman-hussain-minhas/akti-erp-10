@@ -74,3 +74,82 @@ This is a learning record, not a ticket pack.
 - root seed reasons were individualized for every seed with an empty dependencies array.
 - Roots remain allowed when source-grounded; no dependency was invented solely to remove root status.
 - Generic dependency_reason boilerplate was removed from root seeds.
+
+## Failure Pattern Logged — Planning Semantics Still Incomplete After Structural Pass
+
+- The package passed source coverage, sub-surface catalog, dependency extraction, dependency fidelity, and execution seed matrix audits.
+- The artifact is much stronger than previous 6A-6F attempts.
+- However, the declared audit rules still missed four semantic perfection gaps: optional dependencies were preserved as text but not represented as soft / conditional / deferred / manual-review edges; split-child seeds did not always inherit parent source-component required dependencies or carry explicit exception rationale; Foundry bootstrap direction remained conceptually ambiguous between foundry_runtime_authority and service_manifest_contract; and 6A.12, 6A.14, and 6A.15 remained too shallow or lacked explicit merge/depth rationale.
+- The earlier review rules remain permanent: intra-component dependency ordering, parent/child manifest consistency, structured ADL refs, and root reason specificity.
+- Future ticket-pack planning must reference all these rules as lifecycle gates, not just as review history.
+
+This is a learning record, not a ticket pack.
+
+## Future Ticket-Pack Planning Gates
+
+These rules are not review history. They are permanent Phase 6A lifecycle gates for ticket-pack planning.
+
+1. intra-component dependency ordering;
+2. parent/child manifest consistency;
+3. structured ADL refs on edges where ADL is used;
+4. root seed reason specificity;
+5. optional dependency representation as soft / conditional / deferred / manual-review;
+6. split-child inheritance or parent-required-dependency exception rationale;
+7. explicit Foundry bootstrap direction;
+8. sub-surface depth sufficiency / wrapper-ticket risk check;
+9. catalog_order/seed_order sequential consistency;
+10. no stale broad sub-surface IDs after deeper split;
+11. no seed placeholder copied into ticket fields;
+12. exact-file planning before ticket generation.
+
+Ticket-pack planning must reference these gates explicitly and must stop if any are missing.
+
+## Semantic Gates Patch - Catalog Order Before/After Mapping
+
+catalog_order/seed_order sequential consistency was recalculated with the deterministic semantic gates algorithm.
+
+- Before: total sub-surfaces 63; total seeds 63.
+- After: total sub-surfaces 74; total seeds 74.
+- Orders before 6A.12 were preserved.
+- 6A.12 now occupies orders 39-44: api_key_scope_registry, idempotency_key_management, webhook_definition_registry, inbound_webhook_validation, webhook_retry_schedule, delivery_rejection_logs.
+- 6A.13 now occupies orders 45-51.
+- 6A.14 now occupies orders 52-58: search_indexing, custom_field_indexing_hook, file_metadata_registry, share_link_management, preview_generation, virus_scan_quarantine, archive_version_boundary.
+- 6A.15 now occupies orders 59-63: optimization_fact_store, projected_cost_alternative_calculator, dependency_aware_recommendation_log, accepted_rejected_recommendation_evidence, activation_deactivation_intercept_wizard.
+- 6A.16 onward shifted sequentially after order 63.
+- No catalog_order gaps or duplicates are permitted by the new validation gate.
+
+## Semantic Gates Patch - optional dependency representation
+
+optional dependency representation is now explicit for all non-empty optional_dependencies_raw rows: 6A.05, 6A.10, 6A.11, 6A.12, 6A.14, 6A.16, and 6A.17.
+
+- Representation count: 7.
+- Optional dependencies are represented as conditional_dependency, deferred_with_reason, or manual_review_required/soft semantics as appropriate.
+- No optional dependency was hardened without approved upgrade_basis.
+
+## Semantic Gates Patch - split-child inheritance trace
+
+split-child inheritance validation is now permanent.
+
+- Every split-child seed whose source component has required_dependencies_raw carries akti_local.parent_required_dependency_trace.
+- Each trace records source_required_dependency, target_seed_id, inheritance_status, anchor_seed_id, and reason.
+- Valid statuses are inherited, satisfied_by_anchor_child, and not_applicable_with_reason.
+- Direct dependency is required when inheritance_status is inherited.
+
+## Semantic Gates Patch - Foundry bootstrap direction
+
+Foundry bootstrap direction is confirmed and not re-created.
+
+- foundry_runtime_authority is the bootstrap root for the Foundry lifecycle cluster.
+- service_manifest_contract depends on foundry_runtime_authority.
+- foundry_runtime_authority does not depend on service_manifest_contract and is not activated by its own manifest contract.
+- Activatable/configurable service-like surfaces depend on service_manifest_contract for manifest traceability.
+- No duplicate reverse Foundry edge was added.
+
+## Semantic Gates Patch - wrapper-ticket depth sufficiency
+
+wrapper-ticket risk was reduced by replacing broad 6A.12, 6A.14, and 6A.15 planning IDs with source-stable split IDs.
+
+- 6A.12 split result: api_key_scope_registry, idempotency_key_management, webhook_definition_registry, inbound_webhook_validation, webhook_retry_schedule, delivery_rejection_logs.
+- 6A.14 split result: search_indexing, custom_field_indexing_hook, file_metadata_registry, share_link_management, preview_generation, virus_scan_quarantine, archive_version_boundary.
+- 6A.15 split result: optimization_fact_store, projected_cost_alternative_calculator, dependency_aware_recommendation_log, accepted_rejected_recommendation_evidence, activation_deactivation_intercept_wizard.
+- Stale broad IDs are not retained as active sub-surfaces or seeds.

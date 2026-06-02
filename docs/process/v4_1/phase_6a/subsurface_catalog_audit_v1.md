@@ -49,3 +49,22 @@ Status: SPARK_PLATFORM_V4_1_PHASE_6A_SUBSURFACE_CATALOG_AUDIT_READY_FOR_REVIEW
 - 6A.14 now records a precise false/false rationale because no child sub-surface requires manifest traceability.
 - 6A.16 now records manifest_required=true with foundry_activation_required=false because all four AI governance child sub-surfaces require manifest traceability but are not tenant-toggleable marketplace services.
 - service_manifest_contract remains the manifest traceability target for activatable/configurable child surfaces; no blanket Foundry linkage was added.
+
+## Semantic Gates Patch - Foundry bootstrap direction
+
+Foundry bootstrap direction is confirmed and not re-created.
+
+- foundry_runtime_authority is the bootstrap root for the Foundry lifecycle cluster.
+- service_manifest_contract depends on foundry_runtime_authority.
+- foundry_runtime_authority does not depend on service_manifest_contract and is not activated by its own manifest contract.
+- Activatable/configurable service-like surfaces depend on service_manifest_contract for manifest traceability.
+- No duplicate reverse Foundry edge was added.
+
+## Semantic Gates Patch - wrapper-ticket depth sufficiency
+
+wrapper-ticket risk was reduced by replacing broad 6A.12, 6A.14, and 6A.15 planning IDs with source-stable split IDs.
+
+- 6A.12 split result: api_key_scope_registry, idempotency_key_management, webhook_definition_registry, inbound_webhook_validation, webhook_retry_schedule, delivery_rejection_logs.
+- 6A.14 split result: search_indexing, custom_field_indexing_hook, file_metadata_registry, share_link_management, preview_generation, virus_scan_quarantine, archive_version_boundary.
+- 6A.15 split result: optimization_fact_store, projected_cost_alternative_calculator, dependency_aware_recommendation_log, accepted_rejected_recommendation_evidence, activation_deactivation_intercept_wizard.
+- Stale broad IDs are not retained as active sub-surfaces or seeds.

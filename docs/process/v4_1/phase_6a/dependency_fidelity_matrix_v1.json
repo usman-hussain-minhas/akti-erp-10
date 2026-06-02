@@ -19,7 +19,7 @@
       "edge_fidelity_status": "MATCH",
       "repair_required": false,
       "mismatch_reason": null,
-      "source_grounded_rationale": "Raw Phase 6A dependencies are preserved; normalized seed dependencies are derived separately."
+      "source_grounded_rationale": "Raw Phase 6A dependencies are preserved; required dependencies, optional representations, split-child traces, and planned seed dependencies are normalized separately."
     },
     {
       "source_component_id": "6A.02",
@@ -39,7 +39,7 @@
       "edge_fidelity_status": "MATCH",
       "repair_required": false,
       "mismatch_reason": null,
-      "source_grounded_rationale": "Raw Phase 6A dependencies are preserved; normalized seed dependencies are derived separately."
+      "source_grounded_rationale": "Raw Phase 6A dependencies are preserved; required dependencies, optional representations, split-child traces, and planned seed dependencies are normalized separately."
     },
     {
       "source_component_id": "6A.03",
@@ -54,7 +54,6 @@
       "planned_seed_dependencies": [
         "seed_6a_infrastructure_runtime_foundation",
         "seed_6a_svfs_object_store",
-        "seed_6a_svfs_object_store",
         "seed_6a_soft_delete"
       ],
       "phase_doc_optional_dependencies_raw": "None",
@@ -65,7 +64,7 @@
       "edge_fidelity_status": "MATCH",
       "repair_required": false,
       "mismatch_reason": null,
-      "source_grounded_rationale": "Raw Phase 6A dependencies are preserved; normalized seed dependencies are derived separately."
+      "source_grounded_rationale": "Raw Phase 6A dependencies are preserved; required dependencies, optional representations, split-child traces, and planned seed dependencies are normalized separately."
     },
     {
       "source_component_id": "6A.04",
@@ -87,7 +86,7 @@
       "edge_fidelity_status": "MATCH",
       "repair_required": false,
       "mismatch_reason": null,
-      "source_grounded_rationale": "Raw Phase 6A dependencies are preserved; normalized seed dependencies are derived separately."
+      "source_grounded_rationale": "Raw Phase 6A dependencies are preserved; required dependencies, optional representations, split-child traces, and planned seed dependencies are normalized separately."
     },
     {
       "source_component_id": "6A.05",
@@ -101,21 +100,25 @@
       ],
       "phase_doc_optional_dependencies_raw": "CRM/HR/LMS/Finance role extensions later",
       "source_coverage_optional_dependencies": "CRM/HR/LMS/Finance role extensions later",
-      "dependency_extraction_optional_edges": [],
-      "planned_seed_optional_edges": [],
+      "dependency_extraction_optional_edges": [
+        "seed_6a_person_identity_graph__to__deferred_with_reason"
+      ],
+      "planned_seed_optional_edges": [
+        "seed_6a_person_identity_graph__deferred_with_reason__deferred_with_reason"
+      ],
       "component_name_match_status": "MATCH",
       "edge_fidelity_status": "MATCH",
       "repair_required": false,
       "mismatch_reason": null,
-      "source_grounded_rationale": "Raw Phase 6A dependencies are preserved; normalized seed dependencies are derived separately."
+      "source_grounded_rationale": "Raw Phase 6A dependencies are preserved; required dependencies, optional representations, split-child traces, and planned seed dependencies are normalized separately."
     },
     {
       "source_component_id": "6A.06",
       "phase_doc_required_dependencies_raw": "6A.04, 6A.05",
       "source_coverage_required_dependencies": "6A.04, 6A.05",
       "dependency_extraction_edges": [
-        "seed_6a_access_core_gatekeeper__to__seed_6a_tenant_org_branch_session_identity",
-        "seed_6a_access_core_gatekeeper__to__seed_6a_person_identity_graph"
+        "seed_6a_access_core_gatekeeper__to__seed_6a_person_identity_graph",
+        "seed_6a_access_core_gatekeeper__to__seed_6a_tenant_org_branch_session_identity"
       ],
       "planned_seed_dependencies": [
         "seed_6a_tenant_org_branch_session_identity",
@@ -129,15 +132,15 @@
       "edge_fidelity_status": "MATCH",
       "repair_required": false,
       "mismatch_reason": null,
-      "source_grounded_rationale": "Raw Phase 6A dependencies are preserved; normalized seed dependencies are derived separately."
+      "source_grounded_rationale": "Raw Phase 6A dependencies are preserved; required dependencies, optional representations, split-child traces, and planned seed dependencies are normalized separately."
     },
     {
       "source_component_id": "6A.07",
       "phase_doc_required_dependencies_raw": "6A.04, 6A.06",
       "source_coverage_required_dependencies": "6A.04, 6A.06",
       "dependency_extraction_edges": [
-        "seed_6a_audit_log_universal_evidence_stream__to__seed_6a_tenant_org_branch_session_identity",
-        "seed_6a_audit_log_universal_evidence_stream__to__seed_6a_access_core_gatekeeper"
+        "seed_6a_audit_log_universal_evidence_stream__to__seed_6a_access_core_gatekeeper",
+        "seed_6a_audit_log_universal_evidence_stream__to__seed_6a_tenant_org_branch_session_identity"
       ],
       "planned_seed_dependencies": [
         "seed_6a_tenant_org_branch_session_identity",
@@ -151,7 +154,7 @@
       "edge_fidelity_status": "MATCH",
       "repair_required": false,
       "mismatch_reason": null,
-      "source_grounded_rationale": "Raw Phase 6A dependencies are preserved; normalized seed dependencies are derived separately."
+      "source_grounded_rationale": "Raw Phase 6A dependencies are preserved; required dependencies, optional representations, split-child traces, and planned seed dependencies are normalized separately."
     },
     {
       "source_component_id": "6A.08",
@@ -161,9 +164,9 @@
         "seed_6a_event_bus_delivery__to__seed_6a_audit_log_universal_evidence_stream",
         "seed_6a_event_bus_delivery__to__seed_6a_transactional_outbox",
         "seed_6a_dlq_admin_inspection_replay__to__seed_6a_event_bus_delivery",
-        "seed_6a_saga_orchestrator__to__seed_6a_transactional_outbox",
-        "seed_6a_saga_orchestrator__to__seed_6a_event_bus_delivery",
         "seed_6a_saga_orchestrator__to__seed_6a_dlq_admin_inspection_replay",
+        "seed_6a_saga_orchestrator__to__seed_6a_event_bus_delivery",
+        "seed_6a_saga_orchestrator__to__seed_6a_transactional_outbox",
         "seed_6a_compensation_dispatcher__to__seed_6a_saga_orchestrator",
         "seed_6a_terminal_state_handler__to__seed_6a_saga_orchestrator"
       ],
@@ -171,10 +174,7 @@
         "seed_6a_audit_log_universal_evidence_stream",
         "seed_6a_transactional_outbox",
         "seed_6a_event_bus_delivery",
-        "seed_6a_transactional_outbox",
-        "seed_6a_event_bus_delivery",
         "seed_6a_dlq_admin_inspection_replay",
-        "seed_6a_saga_orchestrator",
         "seed_6a_saga_orchestrator"
       ],
       "phase_doc_optional_dependencies_raw": "None",
@@ -185,7 +185,7 @@
       "edge_fidelity_status": "MATCH",
       "repair_required": false,
       "mismatch_reason": null,
-      "source_grounded_rationale": "Raw Phase 6A dependencies are preserved; normalized seed dependencies are derived separately."
+      "source_grounded_rationale": "Raw Phase 6A dependencies are preserved; required dependencies, optional representations, split-child traces, and planned seed dependencies are normalized separately."
     },
     {
       "source_component_id": "6A.09",
@@ -204,9 +204,6 @@
         "seed_6a_audit_log_universal_evidence_stream",
         "seed_6a_event_bus_delivery",
         "seed_6a_pricing_table_effective_dates",
-        "seed_6a_billing_dimension_measurement_registry",
-        "seed_6a_pricing_table_effective_dates",
-        "seed_6a_billing_dimension_measurement_registry",
         "seed_6a_billing_dimension_measurement_registry"
       ],
       "phase_doc_optional_dependencies_raw": "None",
@@ -217,7 +214,7 @@
       "edge_fidelity_status": "MATCH",
       "repair_required": false,
       "mismatch_reason": null,
-      "source_grounded_rationale": "Raw Phase 6A dependencies are preserved; normalized seed dependencies are derived separately."
+      "source_grounded_rationale": "Raw Phase 6A dependencies are preserved; required dependencies, optional representations, split-child traces, and planned seed dependencies are normalized separately."
     },
     {
       "source_component_id": "6A.10",
@@ -225,21 +222,21 @@
       "source_coverage_required_dependencies": "6A.06, 6A.08, 6A.09",
       "dependency_extraction_edges": [
         "seed_6a_service_manifest_contract__to__seed_6a_access_core_gatekeeper",
-        "seed_6a_service_manifest_contract__to__seed_6a_event_bus_delivery",
         "seed_6a_service_manifest_contract__to__seed_6a_billing_dimension_measurement_registry",
+        "seed_6a_service_manifest_contract__to__seed_6a_event_bus_delivery",
         "seed_6a_service_manifest_contract__to__seed_6a_foundry_runtime_authority",
         "seed_6a_manifest_validation__to__seed_6a_service_manifest_contract",
         "seed_6a_activation_dependency_resolution__to__seed_6a_manifest_validation",
+        "seed_6a_activation_dependency_resolution__to__seed_6a_service_manifest_contract",
         "seed_6a_deactivation_dependency_blocking__to__seed_6a_activation_dependency_resolution",
+        "seed_6a_deactivation_dependency_blocking__to__seed_6a_service_manifest_contract",
         "seed_6a_version_pin_and_rollback__to__seed_6a_manifest_validation",
+        "seed_6a_version_pin_and_rollback__to__seed_6a_service_manifest_contract",
         "seed_6a_capability_registration__to__seed_6a_service_manifest_contract",
         "seed_6a_pricing_reference_registration__to__seed_6a_service_manifest_contract",
         "seed_6a_event_subscription_registration__to__seed_6a_service_manifest_contract",
         "seed_6a_route_interface_registration__to__seed_6a_service_manifest_contract",
-        "seed_6a_frontend_chunk_registration__to__seed_6a_service_manifest_contract",
-        "seed_6a_activation_dependency_resolution__to__seed_6a_service_manifest_contract",
-        "seed_6a_deactivation_dependency_blocking__to__seed_6a_service_manifest_contract",
-        "seed_6a_version_pin_and_rollback__to__seed_6a_service_manifest_contract"
+        "seed_6a_frontend_chunk_registration__to__seed_6a_service_manifest_contract"
       ],
       "planned_seed_dependencies": [
         "seed_6a_access_core_gatekeeper",
@@ -248,103 +245,113 @@
         "seed_6a_foundry_runtime_authority",
         "seed_6a_service_manifest_contract",
         "seed_6a_manifest_validation",
-        "seed_6a_service_manifest_contract",
-        "seed_6a_activation_dependency_resolution",
-        "seed_6a_service_manifest_contract",
-        "seed_6a_manifest_validation",
-        "seed_6a_service_manifest_contract",
-        "seed_6a_service_manifest_contract",
-        "seed_6a_service_manifest_contract",
-        "seed_6a_service_manifest_contract",
-        "seed_6a_service_manifest_contract",
-        "seed_6a_service_manifest_contract"
+        "seed_6a_activation_dependency_resolution"
       ],
       "phase_doc_optional_dependencies_raw": "Feature flags from 6A.02",
       "source_coverage_optional_dependencies": "Feature flags from 6A.02",
-      "dependency_extraction_optional_edges": [],
-      "planned_seed_optional_edges": [],
+      "dependency_extraction_optional_edges": [
+        "seed_6a_activation_dependency_resolution__to__seed_6a_infrastructure_runtime_foundation"
+      ],
+      "planned_seed_optional_edges": [
+        "seed_6a_activation_dependency_resolution__conditional_dependency__seed_6a_infrastructure_runtime_foundation"
+      ],
       "component_name_match_status": "MATCH",
       "edge_fidelity_status": "MATCH",
       "repair_required": false,
       "mismatch_reason": null,
-      "source_grounded_rationale": "Raw Phase 6A dependencies are preserved; normalized seed dependencies are derived separately."
+      "source_grounded_rationale": "Raw Phase 6A dependencies are preserved; required dependencies, optional representations, split-child traces, and planned seed dependencies are normalized separately."
     },
     {
       "source_component_id": "6A.11",
       "phase_doc_required_dependencies_raw": "6A.05, 6A.07, 6A.08",
       "source_coverage_required_dependencies": "6A.05, 6A.07, 6A.08",
       "dependency_extraction_edges": [
-        "seed_6a_outbound_gateway_enforcement__to__seed_6a_person_identity_graph",
+        "seed_6a_global_opt_out_registry__to__seed_6a_person_identity_graph",
         "seed_6a_outbound_gateway_enforcement__to__seed_6a_audit_log_universal_evidence_stream",
         "seed_6a_outbound_gateway_enforcement__to__seed_6a_event_bus_delivery",
-        "seed_6a_global_opt_out_registry__to__seed_6a_person_identity_graph",
         "seed_6a_outbound_gateway_enforcement__to__seed_6a_global_opt_out_registry",
-        "seed_6a_provider_circuit_breaker__to__seed_6a_outbound_gateway_enforcement",
-        "seed_6a_rate_limit_enforcement__to__seed_6a_outbound_gateway_enforcement",
+        "seed_6a_outbound_gateway_enforcement__to__seed_6a_person_identity_graph",
         "seed_6a_outbound_gateway_enforcement__to__seed_6a_service_manifest_contract",
-        "seed_6a_provider_circuit_breaker__to__seed_6a_service_manifest_contract"
+        "seed_6a_provider_circuit_breaker__to__seed_6a_outbound_gateway_enforcement",
+        "seed_6a_provider_circuit_breaker__to__seed_6a_service_manifest_contract",
+        "seed_6a_rate_limit_enforcement__to__seed_6a_outbound_gateway_enforcement"
       ],
       "planned_seed_dependencies": [
         "seed_6a_person_identity_graph",
         "seed_6a_audit_log_universal_evidence_stream",
         "seed_6a_event_bus_delivery",
+        "seed_6a_service_manifest_contract",
         "seed_6a_global_opt_out_registry",
-        "seed_6a_service_manifest_contract",
-        "seed_6a_person_identity_graph",
-        "seed_6a_outbound_gateway_enforcement",
-        "seed_6a_service_manifest_contract",
         "seed_6a_outbound_gateway_enforcement"
       ],
       "phase_doc_optional_dependencies_raw": "Provider adapters later",
       "source_coverage_optional_dependencies": "Provider adapters later",
-      "dependency_extraction_optional_edges": [],
-      "planned_seed_optional_edges": [],
+      "dependency_extraction_optional_edges": [
+        "seed_6a_outbound_gateway_enforcement__to__deferred_with_reason"
+      ],
+      "planned_seed_optional_edges": [
+        "seed_6a_outbound_gateway_enforcement__deferred_with_reason__deferred_with_reason"
+      ],
       "component_name_match_status": "MATCH",
       "edge_fidelity_status": "MATCH",
       "repair_required": false,
       "mismatch_reason": null,
-      "source_grounded_rationale": "Raw Phase 6A dependencies are preserved; normalized seed dependencies are derived separately."
+      "source_grounded_rationale": "Raw Phase 6A dependencies are preserved; required dependencies, optional representations, split-child traces, and planned seed dependencies are normalized separately."
     },
     {
       "source_component_id": "6A.12",
       "phase_doc_required_dependencies_raw": "6A.06, 6A.08, 6A.09",
       "source_coverage_required_dependencies": "6A.06, 6A.08, 6A.09",
       "dependency_extraction_edges": [
-        "seed_6a_api_gateway_policy_boundary__to__seed_6a_access_core_gatekeeper",
-        "seed_6a_api_gateway_policy_boundary__to__seed_6a_event_bus_delivery",
-        "seed_6a_api_gateway_policy_boundary__to__seed_6a_billing_dimension_measurement_registry",
-        "seed_6a_webhook_management_boundary__to__seed_6a_idempotency_retry_boundary",
-        "seed_6a_api_gateway_policy_boundary__to__seed_6a_service_manifest_contract",
-        "seed_6a_webhook_management_boundary__to__seed_6a_service_manifest_contract"
+        "seed_6a_api_key_scope_registry__to__seed_6a_access_core_gatekeeper",
+        "seed_6a_api_key_scope_registry__to__seed_6a_billing_dimension_measurement_registry",
+        "seed_6a_api_key_scope_registry__to__seed_6a_event_bus_delivery",
+        "seed_6a_api_key_scope_registry__to__seed_6a_service_manifest_contract",
+        "seed_6a_idempotency_key_management__to__seed_6a_event_bus_delivery",
+        "seed_6a_webhook_definition_registry__to__seed_6a_api_key_scope_registry",
+        "seed_6a_webhook_definition_registry__to__seed_6a_service_manifest_contract",
+        "seed_6a_inbound_webhook_validation__to__seed_6a_idempotency_key_management",
+        "seed_6a_inbound_webhook_validation__to__seed_6a_service_manifest_contract",
+        "seed_6a_inbound_webhook_validation__to__seed_6a_webhook_definition_registry",
+        "seed_6a_webhook_retry_schedule__to__seed_6a_idempotency_key_management",
+        "seed_6a_webhook_retry_schedule__to__seed_6a_inbound_webhook_validation",
+        "seed_6a_delivery_rejection_logs__to__seed_6a_billing_dimension_measurement_registry",
+        "seed_6a_delivery_rejection_logs__to__seed_6a_inbound_webhook_validation"
       ],
       "planned_seed_dependencies": [
         "seed_6a_access_core_gatekeeper",
         "seed_6a_event_bus_delivery",
         "seed_6a_billing_dimension_measurement_registry",
         "seed_6a_service_manifest_contract",
-        "seed_6a_idempotency_retry_boundary",
-        "seed_6a_service_manifest_contract"
+        "seed_6a_api_key_scope_registry",
+        "seed_6a_idempotency_key_management",
+        "seed_6a_webhook_definition_registry",
+        "seed_6a_inbound_webhook_validation"
       ],
       "phase_doc_optional_dependencies_raw": "Provider-specific adapters later",
       "source_coverage_optional_dependencies": "Provider-specific adapters later",
-      "dependency_extraction_optional_edges": [],
-      "planned_seed_optional_edges": [],
+      "dependency_extraction_optional_edges": [
+        "seed_6a_webhook_definition_registry__to__deferred_with_reason"
+      ],
+      "planned_seed_optional_edges": [
+        "seed_6a_webhook_definition_registry__deferred_with_reason__deferred_with_reason"
+      ],
       "component_name_match_status": "MATCH",
       "edge_fidelity_status": "MATCH",
       "repair_required": false,
       "mismatch_reason": null,
-      "source_grounded_rationale": "Raw Phase 6A dependencies are preserved; normalized seed dependencies are derived separately."
+      "source_grounded_rationale": "Raw Phase 6A dependencies are preserved; required dependencies, optional representations, split-child traces, and planned seed dependencies are normalized separately."
     },
     {
       "source_component_id": "6A.13",
       "phase_doc_required_dependencies_raw": "6A.06, 6A.08, 6A.10",
       "source_coverage_required_dependencies": "6A.06, 6A.08, 6A.10",
       "dependency_extraction_edges": [
+        "seed_6a_visual_workflow_builder__to__seed_6a_service_manifest_contract",
+        "seed_6a_lifecycle_builder__to__seed_6a_service_manifest_contract",
         "seed_6a_rules_engine__to__seed_6a_access_core_gatekeeper",
         "seed_6a_rules_engine__to__seed_6a_event_bus_delivery",
         "seed_6a_rules_engine__to__seed_6a_service_manifest_contract",
-        "seed_6a_visual_workflow_builder__to__seed_6a_service_manifest_contract",
-        "seed_6a_lifecycle_builder__to__seed_6a_service_manifest_contract",
         "seed_6a_form_builder__to__seed_6a_service_manifest_contract",
         "seed_6a_custom_fields__to__seed_6a_service_manifest_contract",
         "seed_6a_template_library__to__seed_6a_service_manifest_contract",
@@ -352,14 +359,8 @@
       ],
       "planned_seed_dependencies": [
         "seed_6a_service_manifest_contract",
-        "seed_6a_service_manifest_contract",
         "seed_6a_access_core_gatekeeper",
-        "seed_6a_event_bus_delivery",
-        "seed_6a_service_manifest_contract",
-        "seed_6a_service_manifest_contract",
-        "seed_6a_service_manifest_contract",
-        "seed_6a_service_manifest_contract",
-        "seed_6a_service_manifest_contract"
+        "seed_6a_event_bus_delivery"
       ],
       "phase_doc_optional_dependencies_raw": "None",
       "source_coverage_optional_dependencies": "None",
@@ -369,47 +370,78 @@
       "edge_fidelity_status": "MATCH",
       "repair_required": false,
       "mismatch_reason": null,
-      "source_grounded_rationale": "Raw Phase 6A dependencies are preserved; normalized seed dependencies are derived separately."
+      "source_grounded_rationale": "Raw Phase 6A dependencies are preserved; required dependencies, optional representations, split-child traces, and planned seed dependencies are normalized separately."
     },
     {
       "source_component_id": "6A.14",
       "phase_doc_required_dependencies_raw": "6A.03, 6A.07, 6A.08",
       "source_coverage_required_dependencies": "6A.03, 6A.07, 6A.08",
       "dependency_extraction_edges": [
-        "seed_6a_search_indexing_boundary__to__seed_6a_svfs_object_store",
-        "seed_6a_search_indexing_boundary__to__seed_6a_audit_log_universal_evidence_stream",
-        "seed_6a_search_indexing_boundary__to__seed_6a_event_bus_delivery"
+        "seed_6a_search_indexing__to__seed_6a_audit_log_universal_evidence_stream",
+        "seed_6a_search_indexing__to__seed_6a_event_bus_delivery",
+        "seed_6a_search_indexing__to__seed_6a_svfs_object_store",
+        "seed_6a_custom_field_indexing_hook__to__seed_6a_search_indexing",
+        "seed_6a_file_metadata_registry__to__seed_6a_audit_log_universal_evidence_stream",
+        "seed_6a_file_metadata_registry__to__seed_6a_svfs_object_store",
+        "seed_6a_share_link_management__to__seed_6a_file_metadata_registry",
+        "seed_6a_preview_generation__to__seed_6a_file_metadata_registry",
+        "seed_6a_preview_generation__to__seed_6a_image_pipeline",
+        "seed_6a_virus_scan_quarantine__to__seed_6a_audit_log_universal_evidence_stream",
+        "seed_6a_virus_scan_quarantine__to__seed_6a_file_metadata_registry",
+        "seed_6a_archive_version_boundary__to__seed_6a_backup_engine",
+        "seed_6a_archive_version_boundary__to__seed_6a_file_metadata_registry"
       ],
       "planned_seed_dependencies": [
         "seed_6a_svfs_object_store",
         "seed_6a_audit_log_universal_evidence_stream",
-        "seed_6a_event_bus_delivery"
+        "seed_6a_event_bus_delivery",
+        "seed_6a_search_indexing",
+        "seed_6a_file_metadata_registry",
+        "seed_6a_image_pipeline",
+        "seed_6a_backup_engine"
       ],
       "phase_doc_optional_dependencies_raw": "6A.13 custom field indexing",
       "source_coverage_optional_dependencies": "6A.13 custom field indexing",
-      "dependency_extraction_optional_edges": [],
-      "planned_seed_optional_edges": [],
+      "dependency_extraction_optional_edges": [
+        "seed_6a_custom_field_indexing_hook__to__seed_6a_custom_fields"
+      ],
+      "planned_seed_optional_edges": [
+        "seed_6a_custom_field_indexing_hook__conditional_dependency__seed_6a_custom_fields"
+      ],
       "component_name_match_status": "MATCH",
       "edge_fidelity_status": "MATCH",
       "repair_required": false,
       "mismatch_reason": null,
-      "source_grounded_rationale": "Raw Phase 6A dependencies are preserved; normalized seed dependencies are derived separately."
+      "source_grounded_rationale": "Raw Phase 6A dependencies are preserved; required dependencies, optional representations, split-child traces, and planned seed dependencies are normalized separately."
     },
     {
       "source_component_id": "6A.15",
       "phase_doc_required_dependencies_raw": "6A.09, 6A.10, 6A.13",
       "source_coverage_required_dependencies": "6A.09, 6A.10, 6A.13",
       "dependency_extraction_edges": [
-        "seed_6a_optimization_request_evaluator__to__seed_6a_billing_dimension_measurement_registry",
-        "seed_6a_optimization_request_evaluator__to__seed_6a_service_manifest_contract",
-        "seed_6a_optimization_request_evaluator__to__seed_6a_rules_engine",
-        "seed_6a_projected_cost_optimization_presenter__to__seed_6a_service_manifest_contract"
+        "seed_6a_optimization_fact_store__to__seed_6a_billing_dimension_measurement_registry",
+        "seed_6a_optimization_fact_store__to__seed_6a_rules_engine",
+        "seed_6a_optimization_fact_store__to__seed_6a_service_manifest_contract",
+        "seed_6a_projected_cost_alternative_calculator__to__seed_6a_optimization_fact_store",
+        "seed_6a_projected_cost_alternative_calculator__to__seed_6a_projected_cost_calculator",
+        "seed_6a_dependency_aware_recommendation_log__to__seed_6a_optimization_fact_store",
+        "seed_6a_dependency_aware_recommendation_log__to__seed_6a_service_manifest_contract",
+        "seed_6a_accepted_rejected_recommendation_evidence__to__seed_6a_dependency_aware_recommendation_log",
+        "seed_6a_accepted_rejected_recommendation_evidence__to__seed_6a_evidence_aggregation",
+        "seed_6a_activation_deactivation_intercept_wizard__to__seed_6a_activation_dependency_resolution",
+        "seed_6a_activation_deactivation_intercept_wizard__to__seed_6a_dependency_aware_recommendation_log",
+        "seed_6a_activation_deactivation_intercept_wizard__to__seed_6a_lifecycle_builder"
       ],
       "planned_seed_dependencies": [
         "seed_6a_billing_dimension_measurement_registry",
         "seed_6a_service_manifest_contract",
         "seed_6a_rules_engine",
-        "seed_6a_service_manifest_contract"
+        "seed_6a_projected_cost_calculator",
+        "seed_6a_optimization_fact_store",
+        "seed_6a_evidence_aggregation",
+        "seed_6a_dependency_aware_recommendation_log",
+        "seed_6a_activation_dependency_resolution",
+        "seed_6a_lifecycle_builder"
       ],
       "phase_doc_optional_dependencies_raw": "None",
       "source_coverage_optional_dependencies": "None",
@@ -419,7 +451,7 @@
       "edge_fidelity_status": "MATCH",
       "repair_required": false,
       "mismatch_reason": null,
-      "source_grounded_rationale": "Raw Phase 6A dependencies are preserved; normalized seed dependencies are derived separately."
+      "source_grounded_rationale": "Raw Phase 6A dependencies are preserved; required dependencies, optional representations, split-child traces, and planned seed dependencies are normalized separately."
     },
     {
       "source_component_id": "6A.16",
@@ -438,31 +470,32 @@
         "seed_6a_access_core_gatekeeper",
         "seed_6a_audit_log_universal_evidence_stream",
         "seed_6a_billing_dimension_measurement_registry",
-        "seed_6a_service_manifest_contract",
-        "seed_6a_service_manifest_contract",
-        "seed_6a_service_manifest_contract",
         "seed_6a_service_manifest_contract"
       ],
       "phase_doc_optional_dependencies_raw": "6A.13 for AI workflow wizard",
       "source_coverage_optional_dependencies": "6A.13 for AI workflow wizard",
-      "dependency_extraction_optional_edges": [],
-      "planned_seed_optional_edges": [],
+      "dependency_extraction_optional_edges": [
+        "seed_6a_model_routing__to__seed_6a_ai_configuration_wizard_foundation"
+      ],
+      "planned_seed_optional_edges": [
+        "seed_6a_model_routing__conditional_dependency__seed_6a_ai_configuration_wizard_foundation"
+      ],
       "component_name_match_status": "MATCH",
       "edge_fidelity_status": "MATCH",
       "repair_required": false,
       "mismatch_reason": null,
-      "source_grounded_rationale": "Raw Phase 6A dependencies are preserved; normalized seed dependencies are derived separately."
+      "source_grounded_rationale": "Raw Phase 6A dependencies are preserved; required dependencies, optional representations, split-child traces, and planned seed dependencies are normalized separately."
     },
     {
       "source_component_id": "6A.17",
       "phase_doc_required_dependencies_raw": "6A.04, 6A.06, 6A.10, 6A.13, 6A.15",
       "source_coverage_required_dependencies": "6A.04, 6A.06, 6A.10, 6A.13, 6A.15",
       "dependency_extraction_edges": [
-        "seed_6a_base_admin_setup__to__seed_6a_tenant_org_branch_session_identity",
         "seed_6a_base_admin_setup__to__seed_6a_access_core_gatekeeper",
-        "seed_6a_base_admin_setup__to__seed_6a_service_manifest_contract",
+        "seed_6a_base_admin_setup__to__seed_6a_optimization_fact_store",
         "seed_6a_base_admin_setup__to__seed_6a_rules_engine",
-        "seed_6a_base_admin_setup__to__seed_6a_optimization_request_evaluator",
+        "seed_6a_base_admin_setup__to__seed_6a_service_manifest_contract",
+        "seed_6a_base_admin_setup__to__seed_6a_tenant_org_branch_session_identity",
         "seed_6a_industry_selection__to__seed_6a_service_manifest_contract",
         "seed_6a_package_selection__to__seed_6a_service_manifest_contract",
         "seed_6a_users_roles_billing_authority__to__seed_6a_service_manifest_contract"
@@ -472,36 +505,35 @@
         "seed_6a_access_core_gatekeeper",
         "seed_6a_service_manifest_contract",
         "seed_6a_rules_engine",
-        "seed_6a_optimization_request_evaluator",
-        "seed_6a_service_manifest_contract",
-        "seed_6a_service_manifest_contract",
-        "seed_6a_service_manifest_contract"
+        "seed_6a_optimization_fact_store"
       ],
       "phase_doc_optional_dependencies_raw": "6A.16 for limited AI assistance only if enabled",
       "source_coverage_optional_dependencies": "6A.16 for limited AI assistance only if enabled",
-      "dependency_extraction_optional_edges": [],
-      "planned_seed_optional_edges": [],
+      "dependency_extraction_optional_edges": [
+        "seed_6a_base_admin_setup__to__seed_6a_model_routing"
+      ],
+      "planned_seed_optional_edges": [
+        "seed_6a_base_admin_setup__conditional_dependency__seed_6a_model_routing"
+      ],
       "component_name_match_status": "MATCH",
       "edge_fidelity_status": "MATCH",
       "repair_required": false,
       "mismatch_reason": null,
-      "source_grounded_rationale": "Raw Phase 6A dependencies are preserved; normalized seed dependencies are derived separately."
+      "source_grounded_rationale": "Raw Phase 6A dependencies are preserved; required dependencies, optional representations, split-child traces, and planned seed dependencies are normalized separately."
     },
     {
       "source_component_id": "6A.18",
       "phase_doc_required_dependencies_raw": "6A.17",
       "source_coverage_required_dependencies": "6A.17",
       "dependency_extraction_edges": [
-        "seed_6a_tenant_shell__to__seed_6a_base_admin_setup",
         "seed_6a_base_design_tokens__to__seed_6a_service_manifest_contract",
         "seed_6a_core_component_contracts__to__seed_6a_service_manifest_contract",
+        "seed_6a_tenant_shell__to__seed_6a_base_admin_setup",
         "seed_6a_tenant_shell__to__seed_6a_service_manifest_contract"
       ],
       "planned_seed_dependencies": [
         "seed_6a_service_manifest_contract",
-        "seed_6a_service_manifest_contract",
-        "seed_6a_base_admin_setup",
-        "seed_6a_service_manifest_contract"
+        "seed_6a_base_admin_setup"
       ],
       "phase_doc_optional_dependencies_raw": "None",
       "source_coverage_optional_dependencies": "None",
@@ -511,7 +543,21 @@
       "edge_fidelity_status": "MATCH",
       "repair_required": false,
       "mismatch_reason": null,
-      "source_grounded_rationale": "Raw Phase 6A dependencies are preserved; normalized seed dependencies are derived separately."
+      "source_grounded_rationale": "Raw Phase 6A dependencies are preserved; required dependencies, optional representations, split-child traces, and planned seed dependencies are normalized separately."
     }
-  ]
+  ],
+  "semantic_gate_patch": {
+    "optional_dependency_representation": "PASS",
+    "split_child_inheritance_trace": "PASS",
+    "stale_broad_ids_removed": [
+      "api_key_scope_registry",
+      "webhook_definition_registry",
+      "idempotency_key_management",
+      "search_indexing",
+      "file_metadata_registry",
+      "optimization_fact_store",
+      "projected_cost_alternative_calculator"
+    ],
+    "foundry_bootstrap_verified": true
+  }
 }

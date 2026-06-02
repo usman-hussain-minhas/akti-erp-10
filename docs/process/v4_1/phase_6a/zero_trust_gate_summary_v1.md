@@ -144,3 +144,54 @@ This is a learning record, not a ticket pack.
 - Parent/child manifest consistency: parent false with child true requires child-specific rationale, and service_manifest_contract seed dependencies require source or sub-surface rationale.
 - Structured ADL refs: any edge with ADL- in reason or basis must also carry adl_refs; ADL refs are not required where no ADL was used.
 - Root reason specificity: no root seed may use generic boilerplate dependency_reason.
+
+## Failure Pattern Logged — Planning Semantics Still Incomplete After Structural Pass
+
+- The package passed source coverage, sub-surface catalog, dependency extraction, dependency fidelity, and execution seed matrix audits.
+- The artifact is much stronger than previous 6A-6F attempts.
+- However, the declared audit rules still missed four semantic perfection gaps: optional dependencies were preserved as text but not represented as soft / conditional / deferred / manual-review edges; split-child seeds did not always inherit parent source-component required dependencies or carry explicit exception rationale; Foundry bootstrap direction remained conceptually ambiguous between foundry_runtime_authority and service_manifest_contract; and 6A.12, 6A.14, and 6A.15 remained too shallow or lacked explicit merge/depth rationale.
+- The earlier review rules remain permanent: intra-component dependency ordering, parent/child manifest consistency, structured ADL refs, and root reason specificity.
+- Future ticket-pack planning must reference all these rules as lifecycle gates, not just as review history.
+
+This is a learning record, not a ticket pack.
+
+## Future Ticket-Pack Planning Gates
+
+These rules are not review history. They are permanent Phase 6A lifecycle gates for ticket-pack planning.
+
+1. intra-component dependency ordering;
+2. parent/child manifest consistency;
+3. structured ADL refs on edges where ADL is used;
+4. root seed reason specificity;
+5. optional dependency representation as soft / conditional / deferred / manual-review;
+6. split-child inheritance or parent-required-dependency exception rationale;
+7. explicit Foundry bootstrap direction;
+8. sub-surface depth sufficiency / wrapper-ticket risk check;
+9. catalog_order/seed_order sequential consistency;
+10. no stale broad sub-surface IDs after deeper split;
+11. no seed placeholder copied into ticket fields;
+12. exact-file planning before ticket generation.
+
+Ticket-pack planning must reference these gates explicitly and must stop if any are missing.
+
+## Semantic Gates Patch - Catalog Order Before/After Mapping
+
+catalog_order/seed_order sequential consistency was recalculated with the deterministic semantic gates algorithm.
+
+- Before: total sub-surfaces 63; total seeds 63.
+- After: total sub-surfaces 74; total seeds 74.
+- Orders before 6A.12 were preserved.
+- 6A.12 now occupies orders 39-44: api_key_scope_registry, idempotency_key_management, webhook_definition_registry, inbound_webhook_validation, webhook_retry_schedule, delivery_rejection_logs.
+- 6A.13 now occupies orders 45-51.
+- 6A.14 now occupies orders 52-58: search_indexing, custom_field_indexing_hook, file_metadata_registry, share_link_management, preview_generation, virus_scan_quarantine, archive_version_boundary.
+- 6A.15 now occupies orders 59-63: optimization_fact_store, projected_cost_alternative_calculator, dependency_aware_recommendation_log, accepted_rejected_recommendation_evidence, activation_deactivation_intercept_wizard.
+- 6A.16 onward shifted sequentially after order 63.
+- No catalog_order gaps or duplicates are permitted by the new validation gate.
+
+## Semantic Gates Patch - Renumbering Validation
+
+- Validate no duplicate sub-surface catalog_order values.
+- Validate no duplicate seed akti_local.catalog_order values.
+- Validate sub-surface catalog_order equals seed akti_local.catalog_order for the same subsurface_id.
+- Validate catalog_order/seed_order sequential consistency with no gaps across Phase 6A.
+- Validate intra-component dependency order, including global_opt_out_registry before outbound_gateway_enforcement and idempotency_key_management before webhook management.

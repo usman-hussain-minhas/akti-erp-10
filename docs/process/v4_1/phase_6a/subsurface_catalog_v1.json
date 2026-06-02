@@ -1052,12 +1052,12 @@
         "6A.08",
         "6A.09"
       ],
-      "manifest_required": true,
-      "foundry_activation_required": true,
+      "manifest_required": false,
+      "foundry_activation_required": false,
       "manifest_traceability_targets": [
         "service_manifest_contract"
       ],
-      "manifest_traceability_rationale": "Activatable/configurable service-like boundary traces to service_manifest_contract as the default manifest target.",
+      "manifest_traceability_rationale": "Foundry runtime authority is the bootstrap root for the Foundry lifecycle cluster; it governs service manifests and is not activated by service_manifest_contract.",
       "readiness_mode": "PREPLANNING_DRAFT",
       "ticket_generation_allowed": false,
       "expected_file_domains": [
@@ -1079,7 +1079,8 @@
       "stop_conditions": [
         "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
         "STOP if ticket generation is attempted before manual approval."
-      ]
+      ],
+      "bootstrap_role": "foundry_lifecycle_bootstrap_root"
     },
     {
       "subsurface_id": "subsurface_6a_service_manifest_contract",
@@ -1104,7 +1105,7 @@
       "manifest_traceability_targets": [
         "service_manifest_contract"
       ],
-      "manifest_traceability_rationale": "Activatable/configurable service-like boundary traces to service_manifest_contract as the default manifest target.",
+      "manifest_traceability_rationale": "Service manifest contract depends on foundry_runtime_authority and defines the manifest traceability target for activatable/configurable service-like surfaces.",
       "readiness_mode": "PREPLANNING_DRAFT",
       "ticket_generation_allowed": false,
       "expected_file_domains": [
@@ -1151,7 +1152,7 @@
       "manifest_traceability_targets": [
         "service_manifest_contract"
       ],
-      "manifest_traceability_rationale": "Activatable/configurable service-like boundary traces to service_manifest_contract as the default manifest target.",
+      "manifest_traceability_rationale": "Foundry internal lifecycle surface depends on foundry_runtime_authority and service_manifest_contract according to its lifecycle role.",
       "readiness_mode": "PREPLANNING_DRAFT",
       "ticket_generation_allowed": false,
       "expected_file_domains": [
@@ -1198,7 +1199,7 @@
       "manifest_traceability_targets": [
         "service_manifest_contract"
       ],
-      "manifest_traceability_rationale": "Activatable/configurable service-like boundary traces to service_manifest_contract as the default manifest target.",
+      "manifest_traceability_rationale": "Foundry internal lifecycle surface depends on foundry_runtime_authority and service_manifest_contract according to its lifecycle role.",
       "readiness_mode": "PREPLANNING_DRAFT",
       "ticket_generation_allowed": false,
       "expected_file_domains": [
@@ -1245,7 +1246,7 @@
       "manifest_traceability_targets": [
         "service_manifest_contract"
       ],
-      "manifest_traceability_rationale": "Activatable/configurable service-like boundary traces to service_manifest_contract as the default manifest target.",
+      "manifest_traceability_rationale": "Foundry internal lifecycle surface depends on foundry_runtime_authority and service_manifest_contract according to its lifecycle role.",
       "readiness_mode": "PREPLANNING_DRAFT",
       "ticket_generation_allowed": false,
       "expected_file_domains": [
@@ -1292,7 +1293,7 @@
       "manifest_traceability_targets": [
         "service_manifest_contract"
       ],
-      "manifest_traceability_rationale": "Activatable/configurable service-like boundary traces to service_manifest_contract as the default manifest target.",
+      "manifest_traceability_rationale": "Foundry internal lifecycle surface depends on foundry_runtime_authority and service_manifest_contract according to its lifecycle role.",
       "readiness_mode": "PREPLANNING_DRAFT",
       "ticket_generation_allowed": false,
       "expected_file_domains": [
@@ -1339,7 +1340,7 @@
       "manifest_traceability_targets": [
         "service_manifest_contract"
       ],
-      "manifest_traceability_rationale": "Activatable/configurable service-like boundary traces to service_manifest_contract as the default manifest target.",
+      "manifest_traceability_rationale": "Foundry internal lifecycle surface depends on foundry_runtime_authority and service_manifest_contract according to its lifecycle role.",
       "readiness_mode": "PREPLANNING_DRAFT",
       "ticket_generation_allowed": false,
       "expected_file_domains": [
@@ -1386,7 +1387,7 @@
       "manifest_traceability_targets": [
         "service_manifest_contract"
       ],
-      "manifest_traceability_rationale": "Activatable/configurable service-like boundary traces to service_manifest_contract as the default manifest target.",
+      "manifest_traceability_rationale": "Foundry internal lifecycle surface depends on foundry_runtime_authority and service_manifest_contract according to its lifecycle role.",
       "readiness_mode": "PREPLANNING_DRAFT",
       "ticket_generation_allowed": false,
       "expected_file_domains": [
@@ -1433,7 +1434,7 @@
       "manifest_traceability_targets": [
         "service_manifest_contract"
       ],
-      "manifest_traceability_rationale": "Activatable/configurable service-like boundary traces to service_manifest_contract as the default manifest target.",
+      "manifest_traceability_rationale": "Foundry internal lifecycle surface depends on foundry_runtime_authority and service_manifest_contract according to its lifecycle role.",
       "readiness_mode": "PREPLANNING_DRAFT",
       "ticket_generation_allowed": false,
       "expected_file_domains": [
@@ -1480,7 +1481,7 @@
       "manifest_traceability_targets": [
         "service_manifest_contract"
       ],
-      "manifest_traceability_rationale": "Activatable/configurable service-like boundary traces to service_manifest_contract as the default manifest target.",
+      "manifest_traceability_rationale": "Foundry internal lifecycle surface depends on foundry_runtime_authority and service_manifest_contract according to its lifecycle role.",
       "readiness_mode": "PREPLANNING_DRAFT",
       "ticket_generation_allowed": false,
       "expected_file_domains": [
@@ -1527,7 +1528,7 @@
       "manifest_traceability_targets": [
         "service_manifest_contract"
       ],
-      "manifest_traceability_rationale": "Activatable/configurable service-like boundary traces to service_manifest_contract as the default manifest target.",
+      "manifest_traceability_rationale": "Foundry internal lifecycle surface depends on foundry_runtime_authority and service_manifest_contract according to its lifecycle role.",
       "readiness_mode": "PREPLANNING_DRAFT",
       "ticket_generation_allowed": false,
       "expected_file_domains": [
@@ -1550,6 +1551,54 @@
         "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
         "STOP if ticket generation is attempted before manual approval."
       ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_global_opt_out_registry",
+      "title": "Global Opt Out Registry",
+      "source_component_id": "6A.11",
+      "source_component_name_exact_from_phase_doc": "Communication Gateway and Global Opt-Out",
+      "parent_surface_id": "surface_6a_communication_gateway_opt_out",
+      "phase": "6a",
+      "catalog_order": 35,
+      "subsurface_type": "core_microservice",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "core_microservice",
+      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "source_required_dependencies_raw": "6A.05, 6A.07, 6A.08",
+      "source_required_dependency_component_ids": [
+        "6A.05",
+        "6A.07",
+        "6A.08"
+      ],
+      "manifest_required": false,
+      "foundry_activation_required": false,
+      "manifest_traceability_targets": [],
+      "manifest_traceability_rationale": "Core primitive is not tenant-toggleable and does not require direct manifest traceability.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [
+        "ADL-004"
+      ],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ],
+      "catalog_order_patch_rationale": "Global opt-out registry must be established before outbound gateway enforcement can enforce opt-out; dependency direction unchanged."
     },
     {
       "subsurface_id": "subsurface_6a_outbound_gateway_enforcement",
@@ -1600,54 +1649,6 @@
         "STOP if ticket generation is attempted before manual approval."
       ],
       "catalog_order_patch_rationale": "Outbound gateway enforcement follows global opt-out registry so opt-out can be enforced; dependency direction unchanged."
-    },
-    {
-      "subsurface_id": "subsurface_6a_global_opt_out_registry",
-      "title": "Global Opt Out Registry",
-      "source_component_id": "6A.11",
-      "source_component_name_exact_from_phase_doc": "Communication Gateway and Global Opt-Out",
-      "parent_surface_id": "surface_6a_communication_gateway_opt_out",
-      "phase": "6a",
-      "catalog_order": 35,
-      "subsurface_type": "core_microservice",
-      "coverage_outcome": "split_into_subsurfaces_and_seeds",
-      "split_axis": "core_microservice",
-      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
-      "source_required_dependencies_raw": "6A.05, 6A.07, 6A.08",
-      "source_required_dependency_component_ids": [
-        "6A.05",
-        "6A.07",
-        "6A.08"
-      ],
-      "manifest_required": false,
-      "foundry_activation_required": false,
-      "manifest_traceability_targets": [],
-      "manifest_traceability_rationale": "Core primitive is not tenant-toggleable and does not require direct manifest traceability.",
-      "readiness_mode": "PREPLANNING_DRAFT",
-      "ticket_generation_allowed": false,
-      "expected_file_domains": [
-        "planning_only_domain_placeholder"
-      ],
-      "expected_concrete_path_patterns": [
-        "planning-only; exact-file paths must be regenerated later from repo truth"
-      ],
-      "forbidden_domains": [
-        "runtime",
-        "frontend implementation",
-        "backend implementation",
-        "schema",
-        "generated",
-        "package_or_lockfile",
-        "ticket_pack"
-      ],
-      "adl_refs": [
-        "ADL-004"
-      ],
-      "stop_conditions": [
-        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
-        "STOP if ticket generation is attempted before manual approval."
-      ],
-      "catalog_order_patch_rationale": "Global opt-out registry must be established before outbound gateway enforcement can enforce opt-out; dependency direction unchanged."
     },
     {
       "subsurface_id": "subsurface_6a_provider_circuit_breaker",
@@ -1746,8 +1747,8 @@
       ]
     },
     {
-      "subsurface_id": "subsurface_6a_api_gateway_policy_boundary",
-      "title": "API Gateway Policy Boundary",
+      "subsurface_id": "subsurface_6a_api_key_scope_registry",
+      "title": "API Key Scope Registry",
       "source_component_id": "6A.12",
       "source_component_name_exact_from_phase_doc": "API Gateway and Webhook Management",
       "parent_surface_id": "surface_6a_api_webhook_boundary",
@@ -1755,8 +1756,8 @@
       "catalog_order": 39,
       "subsurface_type": "provider_or_channel_boundary",
       "coverage_outcome": "split_into_subsurfaces_and_seeds",
-      "split_axis": "provider_or_channel_boundary",
-      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "split_axis": "api_security_scope",
+      "decomposition_guide_rationale": "Deepened Phase 6A.12 to reduce wrapper-ticket risk and preserve source-stable planning semantics.",
       "source_required_dependencies_raw": "6A.06, 6A.08, 6A.09",
       "source_required_dependency_component_ids": [
         "6A.06",
@@ -1768,7 +1769,7 @@
       "manifest_traceability_targets": [
         "service_manifest_contract"
       ],
-      "manifest_traceability_rationale": "Activatable/configurable service-like boundary traces to service_manifest_contract as the default manifest target.",
+      "manifest_traceability_rationale": "API key scope registry is a tenant-configurable API access registry and traces to service_manifest_contract.",
       "readiness_mode": "PREPLANNING_DRAFT",
       "ticket_generation_allowed": false,
       "expected_file_domains": [
@@ -1795,8 +1796,55 @@
       ]
     },
     {
-      "subsurface_id": "subsurface_6a_webhook_management_boundary",
-      "title": "Webhook Management Boundary",
+      "subsurface_id": "subsurface_6a_idempotency_key_management",
+      "title": "Idempotency Key Management",
+      "source_component_id": "6A.12",
+      "source_component_name_exact_from_phase_doc": "API Gateway and Webhook Management",
+      "parent_surface_id": "surface_6a_api_webhook_boundary",
+      "phase": "6a",
+      "catalog_order": 40,
+      "subsurface_type": "stateful_lifecycle_microservice",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "idempotency_retry",
+      "decomposition_guide_rationale": "Deepened Phase 6A.12 to reduce wrapper-ticket risk and preserve source-stable planning semantics.",
+      "source_required_dependencies_raw": "6A.06, 6A.08, 6A.09",
+      "source_required_dependency_component_ids": [
+        "6A.06",
+        "6A.08",
+        "6A.09"
+      ],
+      "manifest_required": false,
+      "foundry_activation_required": false,
+      "manifest_traceability_targets": [],
+      "manifest_traceability_rationale": "Idempotency key management is a core write-safety primitive and is not tenant-toggleable.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [
+        "ADL-003"
+      ],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_webhook_definition_registry",
+      "title": "Webhook Definition Registry",
       "source_component_id": "6A.12",
       "source_component_name_exact_from_phase_doc": "API Gateway and Webhook Management",
       "parent_surface_id": "surface_6a_api_webhook_boundary",
@@ -1804,8 +1852,8 @@
       "catalog_order": 41,
       "subsurface_type": "provider_or_channel_boundary",
       "coverage_outcome": "split_into_subsurfaces_and_seeds",
-      "split_axis": "provider_or_channel_boundary",
-      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "split_axis": "webhook_registry",
+      "decomposition_guide_rationale": "Deepened Phase 6A.12 to reduce wrapper-ticket risk and preserve source-stable planning semantics.",
       "source_required_dependencies_raw": "6A.06, 6A.08, 6A.09",
       "source_required_dependency_component_ids": [
         "6A.06",
@@ -1817,7 +1865,7 @@
       "manifest_traceability_targets": [
         "service_manifest_contract"
       ],
-      "manifest_traceability_rationale": "Activatable/configurable service-like boundary traces to service_manifest_contract as the default manifest target.",
+      "manifest_traceability_rationale": "Webhook definition registry is provider-facing configuration and traces to service_manifest_contract.",
       "readiness_mode": "PREPLANNING_DRAFT",
       "ticket_generation_allowed": false,
       "expected_file_domains": [
@@ -1841,21 +1889,69 @@
       "stop_conditions": [
         "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
         "STOP if ticket generation is attempted before manual approval."
-      ],
-      "catalog_order_patch_rationale": "Webhook management follows idempotency/retry boundary so provider retries can be deduplicated safely; dependency direction unchanged."
+      ]
     },
     {
-      "subsurface_id": "subsurface_6a_idempotency_retry_boundary",
-      "title": "Idempotency Retry Boundary",
+      "subsurface_id": "subsurface_6a_inbound_webhook_validation",
+      "title": "Inbound Webhook Validation",
       "source_component_id": "6A.12",
       "source_component_name_exact_from_phase_doc": "API Gateway and Webhook Management",
       "parent_surface_id": "surface_6a_api_webhook_boundary",
       "phase": "6a",
-      "catalog_order": 40,
+      "catalog_order": 42,
+      "subsurface_type": "provider_or_channel_boundary",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "webhook_validation",
+      "decomposition_guide_rationale": "Deepened Phase 6A.12 to reduce wrapper-ticket risk and preserve source-stable planning semantics.",
+      "source_required_dependencies_raw": "6A.06, 6A.08, 6A.09",
+      "source_required_dependency_component_ids": [
+        "6A.06",
+        "6A.08",
+        "6A.09"
+      ],
+      "manifest_required": true,
+      "foundry_activation_required": true,
+      "manifest_traceability_targets": [
+        "service_manifest_contract"
+      ],
+      "manifest_traceability_rationale": "Inbound webhook validation is provider-facing boundary behavior and traces to service_manifest_contract.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [
+        "ADL-003"
+      ],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_webhook_retry_schedule",
+      "title": "Webhook Retry Schedule",
+      "source_component_id": "6A.12",
+      "source_component_name_exact_from_phase_doc": "API Gateway and Webhook Management",
+      "parent_surface_id": "surface_6a_api_webhook_boundary",
+      "phase": "6a",
+      "catalog_order": 43,
       "subsurface_type": "stateful_lifecycle_microservice",
       "coverage_outcome": "split_into_subsurfaces_and_seeds",
-      "split_axis": "lifecycle",
-      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "split_axis": "retry_lifecycle",
+      "decomposition_guide_rationale": "Deepened Phase 6A.12 to reduce wrapper-ticket risk and preserve source-stable planning semantics.",
       "source_required_dependencies_raw": "6A.06, 6A.08, 6A.09",
       "source_required_dependency_component_ids": [
         "6A.06",
@@ -1865,7 +1961,7 @@
       "manifest_required": false,
       "foundry_activation_required": false,
       "manifest_traceability_targets": [],
-      "manifest_traceability_rationale": "Core primitive is not tenant-toggleable and does not require direct manifest traceability.",
+      "manifest_traceability_rationale": "Webhook retry schedule is a core retry lifecycle primitive and is not tenant-toggleable.",
       "readiness_mode": "PREPLANNING_DRAFT",
       "ticket_generation_allowed": false,
       "expected_file_domains": [
@@ -1889,8 +1985,56 @@
       "stop_conditions": [
         "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
         "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_delivery_rejection_logs",
+      "title": "Delivery Rejection Logs",
+      "source_component_id": "6A.12",
+      "source_component_name_exact_from_phase_doc": "API Gateway and Webhook Management",
+      "parent_surface_id": "surface_6a_api_webhook_boundary",
+      "phase": "6a",
+      "catalog_order": 44,
+      "subsurface_type": "provider_or_channel_boundary",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "evidence_boundary",
+      "decomposition_guide_rationale": "Deepened Phase 6A.12 to reduce wrapper-ticket risk and preserve source-stable planning semantics.",
+      "source_required_dependencies_raw": "6A.06, 6A.08, 6A.09",
+      "source_required_dependency_component_ids": [
+        "6A.06",
+        "6A.08",
+        "6A.09"
       ],
-      "catalog_order_patch_rationale": "Idempotency/retry boundary must exist before webhook management can safely deduplicate provider retries; dependency direction unchanged."
+      "manifest_required": false,
+      "foundry_activation_required": false,
+      "manifest_traceability_targets": [
+        "service_manifest_contract"
+      ],
+      "manifest_traceability_rationale": "Delivery rejection logs are evidence records for API/webhook rejection outcomes and are not independently activatable.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [
+        "ADL-003"
+      ],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
     },
     {
       "subsurface_id": "subsurface_6a_visual_workflow_builder",
@@ -1899,7 +2043,7 @@
       "source_component_name_exact_from_phase_doc": "Configuration Engine",
       "parent_surface_id": "surface_6a_configuration_engine_builders",
       "phase": "6a",
-      "catalog_order": 42,
+      "catalog_order": 45,
       "subsurface_type": "configuration_microservice",
       "coverage_outcome": "split_into_subsurfaces_and_seeds",
       "split_axis": "configuration_builder",
@@ -1946,7 +2090,7 @@
       "source_component_name_exact_from_phase_doc": "Configuration Engine",
       "parent_surface_id": "surface_6a_configuration_engine_builders",
       "phase": "6a",
-      "catalog_order": 43,
+      "catalog_order": 46,
       "subsurface_type": "configuration_microservice",
       "coverage_outcome": "split_into_subsurfaces_and_seeds",
       "split_axis": "lifecycle",
@@ -1993,7 +2137,7 @@
       "source_component_name_exact_from_phase_doc": "Configuration Engine",
       "parent_surface_id": "surface_6a_configuration_engine_builders",
       "phase": "6a",
-      "catalog_order": 44,
+      "catalog_order": 47,
       "subsurface_type": "configuration_microservice",
       "coverage_outcome": "split_into_subsurfaces_and_seeds",
       "split_axis": "configuration_builder",
@@ -2040,7 +2184,7 @@
       "source_component_name_exact_from_phase_doc": "Configuration Engine",
       "parent_surface_id": "surface_6a_configuration_engine_builders",
       "phase": "6a",
-      "catalog_order": 45,
+      "catalog_order": 48,
       "subsurface_type": "configuration_microservice",
       "coverage_outcome": "split_into_subsurfaces_and_seeds",
       "split_axis": "configuration_builder",
@@ -2087,7 +2231,7 @@
       "source_component_name_exact_from_phase_doc": "Configuration Engine",
       "parent_surface_id": "surface_6a_configuration_engine_builders",
       "phase": "6a",
-      "catalog_order": 46,
+      "catalog_order": 49,
       "subsurface_type": "configuration_microservice",
       "coverage_outcome": "split_into_subsurfaces_and_seeds",
       "split_axis": "configuration_builder",
@@ -2134,7 +2278,7 @@
       "source_component_name_exact_from_phase_doc": "Configuration Engine",
       "parent_surface_id": "surface_6a_configuration_engine_builders",
       "phase": "6a",
-      "catalog_order": 47,
+      "catalog_order": 50,
       "subsurface_type": "configuration_microservice",
       "coverage_outcome": "split_into_subsurfaces_and_seeds",
       "split_axis": "configuration_builder",
@@ -2181,7 +2325,7 @@
       "source_component_name_exact_from_phase_doc": "Configuration Engine",
       "parent_surface_id": "surface_6a_configuration_engine_builders",
       "phase": "6a",
-      "catalog_order": 48,
+      "catalog_order": 51,
       "subsurface_type": "configuration_microservice",
       "coverage_outcome": "split_into_subsurfaces_and_seeds",
       "split_axis": "core_microservice",
@@ -2222,154 +2366,332 @@
       ]
     },
     {
-      "subsurface_id": "subsurface_6a_search_indexing_boundary",
-      "title": "Search Indexing Boundary",
+      "subsurface_id": "subsurface_6a_search_indexing",
+      "title": "Search Indexing",
       "source_component_id": "6A.14",
       "source_component_name_exact_from_phase_doc": "Search and File Service Layer",
       "parent_surface_id": "surface_6a_search_file_service_layer",
-      "phase": "6a",
-      "catalog_order": 49,
-      "subsurface_type": "core_microservice",
-      "coverage_outcome": "covered_as_surface_and_seed",
-      "split_axis": "core_microservice",
-      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
-      "source_required_dependencies_raw": "6A.03, 6A.07, 6A.08",
-      "source_required_dependency_component_ids": [
-        "6A.03",
-        "6A.07",
-        "6A.08"
-      ],
-      "manifest_required": false,
-      "foundry_activation_required": false,
-      "manifest_traceability_targets": [],
-      "manifest_traceability_rationale": "Core primitive is not tenant-toggleable and does not require direct manifest traceability.",
-      "readiness_mode": "PREPLANNING_DRAFT",
-      "ticket_generation_allowed": false,
-      "expected_file_domains": [
-        "planning_only_domain_placeholder"
-      ],
-      "expected_concrete_path_patterns": [
-        "planning-only; exact-file paths must be regenerated later from repo truth"
-      ],
-      "forbidden_domains": [
-        "runtime",
-        "frontend implementation",
-        "backend implementation",
-        "schema",
-        "generated",
-        "package_or_lockfile",
-        "ticket_pack"
-      ],
-      "adl_refs": [],
-      "stop_conditions": [
-        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
-        "STOP if ticket generation is attempted before manual approval."
-      ]
-    },
-    {
-      "subsurface_id": "subsurface_6a_file_sharing_quarantine_boundary",
-      "title": "File Sharing Quarantine Boundary",
-      "source_component_id": "6A.14",
-      "source_component_name_exact_from_phase_doc": "Search and File Service Layer",
-      "parent_surface_id": "surface_6a_search_file_service_layer",
-      "phase": "6a",
-      "catalog_order": 50,
-      "subsurface_type": "core_microservice",
-      "coverage_outcome": "covered_as_surface_and_seed",
-      "split_axis": "core_microservice",
-      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
-      "source_required_dependencies_raw": "6A.03, 6A.07, 6A.08",
-      "source_required_dependency_component_ids": [
-        "6A.03",
-        "6A.07",
-        "6A.08"
-      ],
-      "manifest_required": false,
-      "foundry_activation_required": false,
-      "manifest_traceability_targets": [],
-      "manifest_traceability_rationale": "Core primitive is not tenant-toggleable and does not require direct manifest traceability.",
-      "readiness_mode": "PREPLANNING_DRAFT",
-      "ticket_generation_allowed": false,
-      "expected_file_domains": [
-        "planning_only_domain_placeholder"
-      ],
-      "expected_concrete_path_patterns": [
-        "planning-only; exact-file paths must be regenerated later from repo truth"
-      ],
-      "forbidden_domains": [
-        "runtime",
-        "frontend implementation",
-        "backend implementation",
-        "schema",
-        "generated",
-        "package_or_lockfile",
-        "ticket_pack"
-      ],
-      "adl_refs": [],
-      "stop_conditions": [
-        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
-        "STOP if ticket generation is attempted before manual approval."
-      ]
-    },
-    {
-      "subsurface_id": "subsurface_6a_optimization_request_evaluator",
-      "title": "Optimization Request Evaluator",
-      "source_component_id": "6A.15",
-      "source_component_name_exact_from_phase_doc": "Non-AI Optimization Foundation",
-      "parent_surface_id": "surface_6a_non_ai_optimization",
-      "phase": "6a",
-      "catalog_order": 51,
-      "subsurface_type": "core_microservice",
-      "coverage_outcome": "covered_as_surface_and_seed",
-      "split_axis": "core_microservice",
-      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
-      "source_required_dependencies_raw": "6A.09, 6A.10, 6A.13",
-      "source_required_dependency_component_ids": [
-        "6A.09",
-        "6A.10",
-        "6A.13"
-      ],
-      "manifest_required": true,
-      "foundry_activation_required": true,
-      "manifest_traceability_targets": [
-        "service_manifest_contract"
-      ],
-      "manifest_traceability_rationale": "Activatable/configurable service-like boundary traces to service_manifest_contract as the default manifest target.",
-      "readiness_mode": "PREPLANNING_DRAFT",
-      "ticket_generation_allowed": false,
-      "expected_file_domains": [
-        "planning_only_domain_placeholder"
-      ],
-      "expected_concrete_path_patterns": [
-        "planning-only; exact-file paths must be regenerated later from repo truth"
-      ],
-      "forbidden_domains": [
-        "runtime",
-        "frontend implementation",
-        "backend implementation",
-        "schema",
-        "generated",
-        "package_or_lockfile",
-        "ticket_pack"
-      ],
-      "adl_refs": [],
-      "stop_conditions": [
-        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
-        "STOP if ticket generation is attempted before manual approval."
-      ]
-    },
-    {
-      "subsurface_id": "subsurface_6a_projected_cost_optimization_presenter",
-      "title": "Projected Cost Optimization Presenter",
-      "source_component_id": "6A.15",
-      "source_component_name_exact_from_phase_doc": "Non-AI Optimization Foundation",
-      "parent_surface_id": "surface_6a_non_ai_optimization",
       "phase": "6a",
       "catalog_order": 52,
       "subsurface_type": "core_microservice",
-      "coverage_outcome": "covered_as_surface_and_seed",
-      "split_axis": "billing_or_evidence",
-      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "search_indexing",
+      "decomposition_guide_rationale": "Deepened Phase 6A.14 to reduce wrapper-ticket risk and preserve source-stable planning semantics.",
+      "source_required_dependencies_raw": "6A.03, 6A.07, 6A.08",
+      "source_required_dependency_component_ids": [
+        "6A.03",
+        "6A.07",
+        "6A.08"
+      ],
+      "manifest_required": false,
+      "foundry_activation_required": false,
+      "manifest_traceability_targets": [],
+      "manifest_traceability_rationale": "Search indexing is a core service-layer primitive and is not tenant-toggleable.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_custom_field_indexing_hook",
+      "title": "Custom Field Indexing Hook",
+      "source_component_id": "6A.14",
+      "source_component_name_exact_from_phase_doc": "Search and File Service Layer",
+      "parent_surface_id": "surface_6a_search_file_service_layer",
+      "phase": "6a",
+      "catalog_order": 53,
+      "subsurface_type": "core_microservice",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "custom_field_indexing",
+      "decomposition_guide_rationale": "Deepened Phase 6A.14 to reduce wrapper-ticket risk and preserve source-stable planning semantics.",
+      "source_required_dependencies_raw": "6A.03, 6A.07, 6A.08",
+      "source_required_dependency_component_ids": [
+        "6A.03",
+        "6A.07",
+        "6A.08"
+      ],
+      "manifest_required": false,
+      "foundry_activation_required": false,
+      "manifest_traceability_targets": [],
+      "manifest_traceability_rationale": "Custom field indexing hook is conditional on 6A.13 custom fields and remains a core indexing hook.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_file_metadata_registry",
+      "title": "File Metadata Registry",
+      "source_component_id": "6A.14",
+      "source_component_name_exact_from_phase_doc": "Search and File Service Layer",
+      "parent_surface_id": "surface_6a_search_file_service_layer",
+      "phase": "6a",
+      "catalog_order": 54,
+      "subsurface_type": "core_microservice",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "file_metadata",
+      "decomposition_guide_rationale": "Deepened Phase 6A.14 to reduce wrapper-ticket risk and preserve source-stable planning semantics.",
+      "source_required_dependencies_raw": "6A.03, 6A.07, 6A.08",
+      "source_required_dependency_component_ids": [
+        "6A.03",
+        "6A.07",
+        "6A.08"
+      ],
+      "manifest_required": false,
+      "foundry_activation_required": false,
+      "manifest_traceability_targets": [],
+      "manifest_traceability_rationale": "File metadata registry is a core file service registry and is not tenant-toggleable.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_share_link_management",
+      "title": "Share Link Management",
+      "source_component_id": "6A.14",
+      "source_component_name_exact_from_phase_doc": "Search and File Service Layer",
+      "parent_surface_id": "surface_6a_search_file_service_layer",
+      "phase": "6a",
+      "catalog_order": 55,
+      "subsurface_type": "core_microservice",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "share_link_lifecycle",
+      "decomposition_guide_rationale": "Deepened Phase 6A.14 to reduce wrapper-ticket risk and preserve source-stable planning semantics.",
+      "source_required_dependencies_raw": "6A.03, 6A.07, 6A.08",
+      "source_required_dependency_component_ids": [
+        "6A.03",
+        "6A.07",
+        "6A.08"
+      ],
+      "manifest_required": false,
+      "foundry_activation_required": false,
+      "manifest_traceability_targets": [],
+      "manifest_traceability_rationale": "Share link management is a core file access lifecycle surface with no independent Foundry activation.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_preview_generation",
+      "title": "Preview Generation",
+      "source_component_id": "6A.14",
+      "source_component_name_exact_from_phase_doc": "Search and File Service Layer",
+      "parent_surface_id": "surface_6a_search_file_service_layer",
+      "phase": "6a",
+      "catalog_order": 56,
+      "subsurface_type": "core_microservice",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "preview_generation",
+      "decomposition_guide_rationale": "Deepened Phase 6A.14 to reduce wrapper-ticket risk and preserve source-stable planning semantics.",
+      "source_required_dependencies_raw": "6A.03, 6A.07, 6A.08",
+      "source_required_dependency_component_ids": [
+        "6A.03",
+        "6A.07",
+        "6A.08"
+      ],
+      "manifest_required": false,
+      "foundry_activation_required": false,
+      "manifest_traceability_targets": [],
+      "manifest_traceability_rationale": "Preview generation is a core file rendering support surface and is not tenant-toggleable.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_virus_scan_quarantine",
+      "title": "Virus Scan Quarantine",
+      "source_component_id": "6A.14",
+      "source_component_name_exact_from_phase_doc": "Search and File Service Layer",
+      "parent_surface_id": "surface_6a_search_file_service_layer",
+      "phase": "6a",
+      "catalog_order": 57,
+      "subsurface_type": "core_microservice",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "quarantine_lifecycle",
+      "decomposition_guide_rationale": "Deepened Phase 6A.14 to reduce wrapper-ticket risk and preserve source-stable planning semantics.",
+      "source_required_dependencies_raw": "6A.03, 6A.07, 6A.08",
+      "source_required_dependency_component_ids": [
+        "6A.03",
+        "6A.07",
+        "6A.08"
+      ],
+      "manifest_required": false,
+      "foundry_activation_required": false,
+      "manifest_traceability_targets": [],
+      "manifest_traceability_rationale": "Virus scan quarantine is a safety lifecycle surface and is not independently activatable.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_archive_version_boundary",
+      "title": "Archive Version Boundary",
+      "source_component_id": "6A.14",
+      "source_component_name_exact_from_phase_doc": "Search and File Service Layer",
+      "parent_surface_id": "surface_6a_search_file_service_layer",
+      "phase": "6a",
+      "catalog_order": 58,
+      "subsurface_type": "core_microservice",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "archive_version_lifecycle",
+      "decomposition_guide_rationale": "Deepened Phase 6A.14 to reduce wrapper-ticket risk and preserve source-stable planning semantics.",
+      "source_required_dependencies_raw": "6A.03, 6A.07, 6A.08",
+      "source_required_dependency_component_ids": [
+        "6A.03",
+        "6A.07",
+        "6A.08"
+      ],
+      "manifest_required": false,
+      "foundry_activation_required": false,
+      "manifest_traceability_targets": [],
+      "manifest_traceability_rationale": "Archive/version boundary is a core retention/versioning safety surface and is not tenant-toggleable.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_optimization_fact_store",
+      "title": "Optimization Fact Store",
+      "source_component_id": "6A.15",
+      "source_component_name_exact_from_phase_doc": "Non-AI Optimization Foundation",
+      "parent_surface_id": "surface_6a_non_ai_optimization_foundation",
+      "phase": "6a",
+      "catalog_order": 59,
+      "subsurface_type": "core_microservice",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "optimization_fact_store",
+      "decomposition_guide_rationale": "Deepened Phase 6A.15 to reduce wrapper-ticket risk and preserve source-stable planning semantics.",
       "source_required_dependencies_raw": "6A.09, 6A.10, 6A.13",
       "source_required_dependency_component_ids": [
         "6A.09",
@@ -2381,7 +2703,195 @@
       "manifest_traceability_targets": [
         "service_manifest_contract"
       ],
-      "manifest_traceability_rationale": "Activatable/configurable service-like boundary traces to service_manifest_contract as the default manifest target.",
+      "manifest_traceability_rationale": "Optimization fact store is a configurable optimization service boundary and traces to service_manifest_contract.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_projected_cost_alternative_calculator",
+      "title": "Projected Cost Alternative Calculator",
+      "source_component_id": "6A.15",
+      "source_component_name_exact_from_phase_doc": "Non-AI Optimization Foundation",
+      "parent_surface_id": "surface_6a_non_ai_optimization_foundation",
+      "phase": "6a",
+      "catalog_order": 60,
+      "subsurface_type": "core_microservice",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "projected_cost_calculation",
+      "decomposition_guide_rationale": "Deepened Phase 6A.15 to reduce wrapper-ticket risk and preserve source-stable planning semantics.",
+      "source_required_dependencies_raw": "6A.09, 6A.10, 6A.13",
+      "source_required_dependency_component_ids": [
+        "6A.09",
+        "6A.10",
+        "6A.13"
+      ],
+      "manifest_required": true,
+      "foundry_activation_required": true,
+      "manifest_traceability_targets": [
+        "service_manifest_contract"
+      ],
+      "manifest_traceability_rationale": "Projected cost alternative calculator is a configurable cost planning surface and traces to service_manifest_contract.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_dependency_aware_recommendation_log",
+      "title": "Dependency Aware Recommendation Log",
+      "source_component_id": "6A.15",
+      "source_component_name_exact_from_phase_doc": "Non-AI Optimization Foundation",
+      "parent_surface_id": "surface_6a_non_ai_optimization_foundation",
+      "phase": "6a",
+      "catalog_order": 61,
+      "subsurface_type": "core_microservice",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "recommendation_evidence",
+      "decomposition_guide_rationale": "Deepened Phase 6A.15 to reduce wrapper-ticket risk and preserve source-stable planning semantics.",
+      "source_required_dependencies_raw": "6A.09, 6A.10, 6A.13",
+      "source_required_dependency_component_ids": [
+        "6A.09",
+        "6A.10",
+        "6A.13"
+      ],
+      "manifest_required": true,
+      "foundry_activation_required": true,
+      "manifest_traceability_targets": [
+        "service_manifest_contract"
+      ],
+      "manifest_traceability_rationale": "Dependency-aware recommendation log is a configurable recommendation evidence surface and traces to service_manifest_contract.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_accepted_rejected_recommendation_evidence",
+      "title": "Accepted Rejected Recommendation Evidence",
+      "source_component_id": "6A.15",
+      "source_component_name_exact_from_phase_doc": "Non-AI Optimization Foundation",
+      "parent_surface_id": "surface_6a_non_ai_optimization_foundation",
+      "phase": "6a",
+      "catalog_order": 62,
+      "subsurface_type": "core_microservice",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "decision_evidence",
+      "decomposition_guide_rationale": "Deepened Phase 6A.15 to reduce wrapper-ticket risk and preserve source-stable planning semantics.",
+      "source_required_dependencies_raw": "6A.09, 6A.10, 6A.13",
+      "source_required_dependency_component_ids": [
+        "6A.09",
+        "6A.10",
+        "6A.13"
+      ],
+      "manifest_required": true,
+      "foundry_activation_required": true,
+      "manifest_traceability_targets": [
+        "service_manifest_contract"
+      ],
+      "manifest_traceability_rationale": "Accepted/rejected recommendation evidence is an evidence-bearing optimization surface and traces to service_manifest_contract.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_activation_deactivation_intercept_wizard",
+      "title": "Activation Deactivation Intercept Wizard",
+      "source_component_id": "6A.15",
+      "source_component_name_exact_from_phase_doc": "Non-AI Optimization Foundation",
+      "parent_surface_id": "surface_6a_non_ai_optimization_foundation",
+      "phase": "6a",
+      "catalog_order": 63,
+      "subsurface_type": "core_microservice",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "activation_lifecycle",
+      "decomposition_guide_rationale": "Deepened Phase 6A.15 to reduce wrapper-ticket risk and preserve source-stable planning semantics.",
+      "source_required_dependencies_raw": "6A.09, 6A.10, 6A.13",
+      "source_required_dependency_component_ids": [
+        "6A.09",
+        "6A.10",
+        "6A.13"
+      ],
+      "manifest_required": true,
+      "foundry_activation_required": true,
+      "manifest_traceability_targets": [
+        "service_manifest_contract"
+      ],
+      "manifest_traceability_rationale": "Activation/deactivation intercept wizard is Foundry lifecycle-adjacent and traces to service_manifest_contract.",
       "readiness_mode": "PREPLANNING_DRAFT",
       "ticket_generation_allowed": false,
       "expected_file_domains": [
@@ -2412,7 +2922,7 @@
       "source_component_name_exact_from_phase_doc": "AI Proxy and AI Governance Foundation",
       "parent_surface_id": "surface_6a_ai_proxy_governance",
       "phase": "6a",
-      "catalog_order": 53,
+      "catalog_order": 64,
       "subsurface_type": "governance_microservice",
       "coverage_outcome": "split_into_subsurfaces_and_seeds",
       "split_axis": "core_microservice",
@@ -2459,7 +2969,7 @@
       "source_component_name_exact_from_phase_doc": "AI Proxy and AI Governance Foundation",
       "parent_surface_id": "surface_6a_ai_proxy_governance",
       "phase": "6a",
-      "catalog_order": 54,
+      "catalog_order": 65,
       "subsurface_type": "governance_microservice",
       "coverage_outcome": "split_into_subsurfaces_and_seeds",
       "split_axis": "core_microservice",
@@ -2506,7 +3016,7 @@
       "source_component_name_exact_from_phase_doc": "AI Proxy and AI Governance Foundation",
       "parent_surface_id": "surface_6a_ai_proxy_governance",
       "phase": "6a",
-      "catalog_order": 55,
+      "catalog_order": 66,
       "subsurface_type": "governance_microservice",
       "coverage_outcome": "split_into_subsurfaces_and_seeds",
       "split_axis": "billing_or_evidence",
@@ -2553,7 +3063,7 @@
       "source_component_name_exact_from_phase_doc": "AI Proxy and AI Governance Foundation",
       "parent_surface_id": "surface_6a_ai_proxy_governance",
       "phase": "6a",
-      "catalog_order": 56,
+      "catalog_order": 67,
       "subsurface_type": "core_microservice",
       "coverage_outcome": "split_into_subsurfaces_and_seeds",
       "split_axis": "billing_or_evidence",
@@ -2600,7 +3110,7 @@
       "source_component_name_exact_from_phase_doc": "Base Admin and Tenant Onboarding",
       "parent_surface_id": "surface_6a_base_admin_onboarding",
       "phase": "6a",
-      "catalog_order": 57,
+      "catalog_order": 68,
       "subsurface_type": "core_microservice",
       "coverage_outcome": "split_into_subsurfaces_and_seeds",
       "split_axis": "core_microservice",
@@ -2649,7 +3159,7 @@
       "source_component_name_exact_from_phase_doc": "Base Admin and Tenant Onboarding",
       "parent_surface_id": "surface_6a_base_admin_onboarding",
       "phase": "6a",
-      "catalog_order": 58,
+      "catalog_order": 69,
       "subsurface_type": "core_microservice",
       "coverage_outcome": "split_into_subsurfaces_and_seeds",
       "split_axis": "core_microservice",
@@ -2698,7 +3208,7 @@
       "source_component_name_exact_from_phase_doc": "Base Admin and Tenant Onboarding",
       "parent_surface_id": "surface_6a_base_admin_onboarding",
       "phase": "6a",
-      "catalog_order": 59,
+      "catalog_order": 70,
       "subsurface_type": "core_microservice",
       "coverage_outcome": "split_into_subsurfaces_and_seeds",
       "split_axis": "core_microservice",
@@ -2747,7 +3257,7 @@
       "source_component_name_exact_from_phase_doc": "Base Admin and Tenant Onboarding",
       "parent_surface_id": "surface_6a_base_admin_onboarding",
       "phase": "6a",
-      "catalog_order": 60,
+      "catalog_order": 71,
       "subsurface_type": "core_microservice",
       "coverage_outcome": "split_into_subsurfaces_and_seeds",
       "split_axis": "billing_or_evidence",
@@ -2796,7 +3306,7 @@
       "source_component_name_exact_from_phase_doc": "Base Design System and Shell",
       "parent_surface_id": "surface_6a_base_design_shell",
       "phase": "6a",
-      "catalog_order": 61,
+      "catalog_order": 72,
       "subsurface_type": "core_microservice",
       "coverage_outcome": "split_into_subsurfaces_and_seeds",
       "split_axis": "core_microservice",
@@ -2841,7 +3351,7 @@
       "source_component_name_exact_from_phase_doc": "Base Design System and Shell",
       "parent_surface_id": "surface_6a_base_design_shell",
       "phase": "6a",
-      "catalog_order": 62,
+      "catalog_order": 73,
       "subsurface_type": "core_microservice",
       "coverage_outcome": "split_into_subsurfaces_and_seeds",
       "split_axis": "manifest_activation_registration",
@@ -2886,7 +3396,7 @@
       "source_component_name_exact_from_phase_doc": "Base Design System and Shell",
       "parent_surface_id": "surface_6a_base_design_shell",
       "phase": "6a",
-      "catalog_order": 63,
+      "catalog_order": 74,
       "subsurface_type": "core_microservice",
       "coverage_outcome": "split_into_subsurfaces_and_seeds",
       "split_axis": "core_microservice",
@@ -2924,5 +3434,6 @@
         "STOP if ticket generation is attempted before manual approval."
       ]
     }
-  ]
+  ],
+  "subsurface_count": 74
 }

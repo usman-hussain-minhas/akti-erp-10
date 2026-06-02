@@ -266,7 +266,15 @@
         "Implementation is not stale by itself. Tickets become stale.",
         "Apply maximum concrete capability within the approved scope of each ticket."
       ],
-      "manual_review_required": true
+      "manual_review_required": true,
+      "optional_dependency_representation": [
+        {
+          "classification": "deferred_with_reason",
+          "source_seed_id": "seed_6a_person_identity_graph",
+          "target_seed_id": null,
+          "reason": "CRM/HR/LMS/Finance role extensions are later-phase role extensions and are deferred outside Phase 6A implementation dependencies."
+        }
+      ]
     },
     {
       "source_component_id": "6A.06",
@@ -548,8 +556,8 @@
         "seed_6a_frontend_chunk_registration"
       ],
       "manifest_required": true,
-      "foundry_activation_required": true,
-      "manifest_foundry_consistency_rationale": "Flags align for this source boundary.",
+      "foundry_activation_required": false,
+      "manifest_foundry_consistency_rationale": "Foundry bootstrap model confirmed: foundry_runtime_authority is the bootstrap root for the Foundry lifecycle cluster and is not activated by service_manifest_contract. service_manifest_contract depends on foundry_runtime_authority and is the manifest traceability target for activatable/configurable service-like surfaces.",
       "gatekeeper_required": false,
       "audit_required": true,
       "billing_or_pricing_required": true,
@@ -561,7 +569,16 @@
         "Implementation is not stale by itself. Tickets become stale.",
         "Apply maximum concrete capability within the approved scope of each ticket."
       ],
-      "manual_review_required": true
+      "manual_review_required": true,
+      "optional_dependency_representation": [
+        {
+          "classification": "conditional_dependency",
+          "source_seed_id": "seed_6a_activation_dependency_resolution",
+          "target_seed_id": "seed_6a_infrastructure_runtime_foundation",
+          "condition": "applies when Foundry activation lifecycle uses Phase 6A.02 feature-flag foundation",
+          "reason": "Feature flags from 6A.02 are conditional activation controls for Foundry lifecycle behavior."
+        }
+      ]
     },
     {
       "source_component_id": "6A.11",
@@ -622,7 +639,15 @@
         "Implementation is not stale by itself. Tickets become stale.",
         "Apply maximum concrete capability within the approved scope of each ticket."
       ],
-      "manual_review_required": true
+      "manual_review_required": true,
+      "optional_dependency_representation": [
+        {
+          "classification": "deferred_with_reason",
+          "source_seed_id": "seed_6a_outbound_gateway_enforcement",
+          "target_seed_id": null,
+          "reason": "Provider adapters are later provider-specific implementations and are not Phase 6A dependency edges."
+        }
+      ]
     },
     {
       "source_component_id": "6A.12",
@@ -650,24 +675,30 @@
         "Foundry is activation authority for tenant-toggleable services and optional micro-services.",
         "Evidence, billing, Gatekeeper, and dependency direction must remain source-faithful."
       ],
-      "decomposition_guide_rule_applied": "Applied mechanical split / merge / demote / defer review from sub-surface decomposition guide.",
+      "decomposition_guide_rule_applied": "Applied mechanical split / merge / demote / defer review from sub-surface decomposition guide. Semantic gates patch deepened this source component into source-stable sub-surfaces to reduce wrapper-ticket risk.",
       "coverage_outcome": "split_into_subsurfaces_and_seeds",
       "surface_ids": [
         "surface_6a_api_webhook_boundary"
       ],
       "subsurface_ids": [
-        "subsurface_6a_api_gateway_policy_boundary",
-        "subsurface_6a_webhook_management_boundary",
-        "subsurface_6a_idempotency_retry_boundary"
+        "subsurface_6a_api_key_scope_registry",
+        "subsurface_6a_idempotency_key_management",
+        "subsurface_6a_webhook_definition_registry",
+        "subsurface_6a_inbound_webhook_validation",
+        "subsurface_6a_webhook_retry_schedule",
+        "subsurface_6a_delivery_rejection_logs"
       ],
       "seed_ids": [
-        "seed_6a_api_gateway_policy_boundary",
-        "seed_6a_webhook_management_boundary",
-        "seed_6a_idempotency_retry_boundary"
+        "seed_6a_api_key_scope_registry",
+        "seed_6a_idempotency_key_management",
+        "seed_6a_webhook_definition_registry",
+        "seed_6a_inbound_webhook_validation",
+        "seed_6a_webhook_retry_schedule",
+        "seed_6a_delivery_rejection_logs"
       ],
       "manifest_required": false,
       "foundry_activation_required": false,
-      "manifest_foundry_consistency_rationale": "Parent 6A.12 remains a core API/webhook boundary, not a tenant-toggleable marketplace service. Child-level manifest traceability applies to subsurface_6a_webhook_management_boundary because webhook management is provider-facing and depends on service_manifest_contract; subsurface_6a_api_gateway_policy_boundary and subsurface_6a_idempotency_retry_boundary remain core boundary primitives without direct Foundry activation.",
+      "manifest_foundry_consistency_rationale": "Parent 6A.12 remains a core API/webhook boundary, not a tenant-toggleable marketplace service. Child-level manifest traceability applies to subsurface_6a_webhook_definition_registry because webhook management is provider-facing and depends on service_manifest_contract; subsurface_6a_api_key_scope_registry and subsurface_6a_idempotency_key_management remain core boundary primitives without direct Foundry activation.",
       "gatekeeper_required": true,
       "audit_required": true,
       "billing_or_pricing_required": false,
@@ -681,7 +712,15 @@
         "Implementation is not stale by itself. Tickets become stale.",
         "Apply maximum concrete capability within the approved scope of each ticket."
       ],
-      "manual_review_required": true
+      "manual_review_required": true,
+      "optional_dependency_representation": [
+        {
+          "classification": "deferred_with_reason",
+          "source_seed_id": "seed_6a_webhook_definition_registry",
+          "target_seed_id": null,
+          "reason": "Provider-specific adapters are later implementations; Phase 6A records API/webhook registries, validation, idempotency, retry, and rejection boundaries only."
+        }
+      ]
     },
     {
       "source_component_id": "6A.13",
@@ -772,18 +811,28 @@
         "Foundry is activation authority for tenant-toggleable services and optional micro-services.",
         "Evidence, billing, Gatekeeper, and dependency direction must remain source-faithful."
       ],
-      "decomposition_guide_rule_applied": "Preserved as one Phase 6A core authority boundary with source traceability.",
-      "coverage_outcome": "covered_as_surface_and_seed",
+      "decomposition_guide_rule_applied": "Preserved as one Phase 6A core authority boundary with source traceability. Semantic gates patch deepened this source component into source-stable sub-surfaces to reduce wrapper-ticket risk.",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
       "surface_ids": [
         "surface_6a_search_file_service_layer"
       ],
       "subsurface_ids": [
-        "subsurface_6a_search_indexing_boundary",
-        "subsurface_6a_file_sharing_quarantine_boundary"
+        "subsurface_6a_search_indexing",
+        "subsurface_6a_custom_field_indexing_hook",
+        "subsurface_6a_file_metadata_registry",
+        "subsurface_6a_share_link_management",
+        "subsurface_6a_preview_generation",
+        "subsurface_6a_virus_scan_quarantine",
+        "subsurface_6a_archive_version_boundary"
       ],
       "seed_ids": [
-        "seed_6a_search_indexing_boundary",
-        "seed_6a_file_sharing_quarantine_boundary"
+        "seed_6a_search_indexing",
+        "seed_6a_custom_field_indexing_hook",
+        "seed_6a_file_metadata_registry",
+        "seed_6a_share_link_management",
+        "seed_6a_preview_generation",
+        "seed_6a_virus_scan_quarantine",
+        "seed_6a_archive_version_boundary"
       ],
       "manifest_required": false,
       "foundry_activation_required": false,
@@ -799,7 +848,16 @@
         "Implementation is not stale by itself. Tickets become stale.",
         "Apply maximum concrete capability within the approved scope of each ticket."
       ],
-      "manual_review_required": true
+      "manual_review_required": true,
+      "optional_dependency_representation": [
+        {
+          "classification": "conditional_dependency",
+          "source_seed_id": "seed_6a_custom_field_indexing_hook",
+          "target_seed_id": "seed_6a_custom_fields",
+          "condition": "required when custom fields are indexed",
+          "reason": "6A.14 optional custom field indexing is conditional on 6A.13 custom_fields."
+        }
+      ]
     },
     {
       "source_component_id": "6A.15",
@@ -825,18 +883,24 @@
         "Foundry is activation authority for tenant-toggleable services and optional micro-services.",
         "Evidence, billing, Gatekeeper, and dependency direction must remain source-faithful."
       ],
-      "decomposition_guide_rule_applied": "Preserved as one Phase 6A core authority boundary with source traceability.",
-      "coverage_outcome": "covered_as_surface_and_seed",
+      "decomposition_guide_rule_applied": "Preserved as one Phase 6A core authority boundary with source traceability. Semantic gates patch deepened this source component into source-stable sub-surfaces to reduce wrapper-ticket risk.",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
       "surface_ids": [
         "surface_6a_non_ai_optimization"
       ],
       "subsurface_ids": [
-        "subsurface_6a_optimization_request_evaluator",
-        "subsurface_6a_projected_cost_optimization_presenter"
+        "subsurface_6a_optimization_fact_store",
+        "subsurface_6a_projected_cost_alternative_calculator",
+        "subsurface_6a_dependency_aware_recommendation_log",
+        "subsurface_6a_accepted_rejected_recommendation_evidence",
+        "subsurface_6a_activation_deactivation_intercept_wizard"
       ],
       "seed_ids": [
-        "seed_6a_optimization_request_evaluator",
-        "seed_6a_projected_cost_optimization_presenter"
+        "seed_6a_optimization_fact_store",
+        "seed_6a_projected_cost_alternative_calculator",
+        "seed_6a_dependency_aware_recommendation_log",
+        "seed_6a_accepted_rejected_recommendation_evidence",
+        "seed_6a_activation_deactivation_intercept_wizard"
       ],
       "manifest_required": true,
       "foundry_activation_required": true,
@@ -911,7 +975,16 @@
         "Implementation is not stale by itself. Tickets become stale.",
         "Apply maximum concrete capability within the approved scope of each ticket."
       ],
-      "manual_review_required": true
+      "manual_review_required": true,
+      "optional_dependency_representation": [
+        {
+          "classification": "conditional_dependency",
+          "source_seed_id": "seed_6a_model_routing",
+          "target_seed_id": "seed_6a_ai_configuration_wizard_foundation",
+          "condition": "required when AI workflow wizard configuration is enabled",
+          "reason": "6A.16 optional AI workflow wizard support is conditional on the 6A.13 AI configuration wizard foundation."
+        }
+      ]
     },
     {
       "source_component_id": "6A.17",
@@ -972,7 +1045,16 @@
         "Implementation is not stale by itself. Tickets become stale.",
         "Apply maximum concrete capability within the approved scope of each ticket."
       ],
-      "manual_review_required": true
+      "manual_review_required": true,
+      "optional_dependency_representation": [
+        {
+          "classification": "conditional_dependency",
+          "source_seed_id": "seed_6a_base_admin_setup",
+          "target_seed_id": "seed_6a_model_routing",
+          "condition": "required when limited AI assistance is enabled during base admin setup",
+          "reason": "6A.17 optional limited AI assistance is conditional on 6A.16 AI proxy governance."
+        }
+      ]
     },
     {
       "source_component_id": "6A.18",
