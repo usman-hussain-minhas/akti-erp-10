@@ -4,6 +4,361 @@
   "lifecycle_stop": "This artifact stops at sub-surface catalog audit and does not authorize seed matrix, ticket pack, predictive stop analysis, autonomous readiness, or execution.",
   "subsurfaces": [
     {
+      "subsurface_id": "subsurface_6a_platform_core_update_baseline",
+      "parent_surface_id": "surface_6a_platform_runtime_api_search_optimization",
+      "train": "phase_6a",
+      "level": "level_group_0_5",
+      "title": "Platform Core Update Baseline",
+      "subsurface_type": "core_microservice",
+      "source_authority": [
+        "Spark Platform v4.1 6A.01 source component",
+        "Spark Platform v4 business logic",
+        "Sub-surface decomposition guide"
+      ],
+      "scope": "Platform Core Update Baseline planning boundary for source-to-seed traceability.",
+      "non_scope": [
+        "No implementation authority.",
+        "No ticket-pack generation authority.",
+        "No runtime/schema/package mutation authority."
+      ],
+      "expected_file_domains": [
+        "domain_services",
+        "contracts",
+        "evidence"
+      ],
+      "expected_concrete_path_patterns": [
+        "exact files must be derived later from repo truth during exact-file planning"
+      ],
+      "forbidden_domains": [
+        "runtime implementation before explicit ticket approval",
+        "ticket pack generation from this PR"
+      ],
+      "api_or_contract_boundary": "Platform Core Update Baseline contract boundary must be resolved during exact-file planning.",
+      "schema_or_persistence_boundary": "Platform Core Update Baseline persistence boundary is planning-only until selected-phase repo refresh.",
+      "provider_or_standard_boundary": "No provider/standard bundling unless explicitly listed in split axes.",
+      "validation_family": "catalog_traceability_validation",
+      "evidence_expectation": "Must emit planning evidence and future runtime audit/billing evidence where applicable.",
+      "mcr_expectation": "Future ticket MCR must be concrete, executable, and exact-file scoped; this catalog entry is not an MCR.",
+      "dependencies": [],
+      "split_if": [
+        "Split if exact-file planning reveals multiple providers, standards, lifecycle stages, role portals, or independently billable/versioned capabilities."
+      ],
+      "adl_refs": [],
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "stop_conditions": [
+        "STOP if ticket generation attempts to copy this placeholder without repo-truth exact-file planning."
+      ],
+      "akti_local": {
+        "phase_id": "6a",
+        "catalog_order": 1,
+        "catalog_outcome": "keep_as_service",
+        "split_axes": [
+          "mandatory_core_microservice"
+        ],
+        "phase_dependency_rule": "6a dependency order must follow source component topology."
+      }
+    },
+    {
+      "subsurface_id": "subsurface_6a_infrastructure_runtime_foundation",
+      "parent_surface_id": "surface_6a_platform_runtime_api_search_optimization",
+      "train": "phase_6a",
+      "level": "level_group_0_5",
+      "title": "Infrastructure Runtime Foundation",
+      "subsurface_type": "core_microservice",
+      "source_authority": [
+        "Spark Platform v4.1 6A.02 source component",
+        "Spark Platform v4 business logic",
+        "Sub-surface decomposition guide"
+      ],
+      "scope": "Infrastructure Runtime Foundation planning boundary for source-to-seed traceability.",
+      "non_scope": [
+        "No implementation authority.",
+        "No ticket-pack generation authority.",
+        "No runtime/schema/package mutation authority."
+      ],
+      "expected_file_domains": [
+        "domain_services",
+        "contracts",
+        "evidence"
+      ],
+      "expected_concrete_path_patterns": [
+        "exact files must be derived later from repo truth during exact-file planning"
+      ],
+      "forbidden_domains": [
+        "runtime implementation before explicit ticket approval",
+        "ticket pack generation from this PR"
+      ],
+      "api_or_contract_boundary": "Infrastructure Runtime Foundation contract boundary must be resolved during exact-file planning.",
+      "schema_or_persistence_boundary": "Infrastructure Runtime Foundation persistence boundary is planning-only until selected-phase repo refresh.",
+      "provider_or_standard_boundary": "No provider/standard bundling unless explicitly listed in split axes.",
+      "validation_family": "catalog_traceability_validation",
+      "evidence_expectation": "Must emit planning evidence and future runtime audit/billing evidence where applicable.",
+      "mcr_expectation": "Future ticket MCR must be concrete, executable, and exact-file scoped; this catalog entry is not an MCR.",
+      "dependencies": [],
+      "split_if": [
+        "Split if exact-file planning reveals multiple providers, standards, lifecycle stages, role portals, or independently billable/versioned capabilities."
+      ],
+      "adl_refs": [],
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "stop_conditions": [
+        "STOP if ticket generation attempts to copy this placeholder without repo-truth exact-file planning."
+      ],
+      "akti_local": {
+        "phase_id": "6a",
+        "catalog_order": 2,
+        "catalog_outcome": "keep_as_service",
+        "split_axes": [
+          "toggleable_billable_versioned_capability"
+        ],
+        "phase_dependency_rule": "6a dependency order must follow source component topology."
+      }
+    },
+    {
+      "subsurface_id": "subsurface_6a_tenant_org_branch_session_identity",
+      "parent_surface_id": "surface_6a_core_identity_access_audit_foundry",
+      "train": "phase_6a",
+      "level": "level_group_0_5",
+      "title": "Tenant Organisation Branch Session Identity",
+      "subsurface_type": "core_microservice",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_platform_v4_1/6a_core_update_foundation.md#6a-04"
+      ],
+      "scope": "Tenant Organisation Branch Session Identity is a core 6A foundation sub-surface added during execution seed dependency review. It is catalog planning only and does not authorize implementation.",
+      "non_scope": [
+        "ticket_generation",
+        "runtime_change",
+        "schema_change",
+        "predictive_stop_analysis",
+        "autonomous_readiness",
+        "execution"
+      ],
+      "expected_file_domains": [
+        "apps/api",
+        "packages/contracts",
+        "codex-review"
+      ],
+      "expected_concrete_path_patterns": [
+        "apps/api/src/spark_platform/tenant_org_branch_session_identity/future_boundary.ts",
+        "packages/contracts/src/spark_platform/tenant_org_branch_session_identity_contract.ts",
+        "codex-review/core/v0_0_2/spark_platform_v4_1_execution_seed_matrix/tenant_org_branch_session_identity_future_evidence.json"
+      ],
+      "forbidden_domains": [
+        "runtime_change_in_this_pr",
+        "ticket_pack_generation_in_this_pr",
+        "prisma_schema_change_in_this_pr"
+      ],
+      "api_or_contract_boundary": "tenant_org_branch_session_identity_contract_boundary",
+      "schema_or_persistence_boundary": "tenant_org_branch_session_identity_state_boundary",
+      "provider_or_standard_boundary": "not_applicable",
+      "validation_family": "core_foundation_catalog_validation",
+      "evidence_expectation": "docs/process/core/v0_0_2/spark_platform_v4_1_subsurface_catalog_decision_update_audit_v1.md",
+      "mcr_expectation": "Tenant, organisation, branch, and session identity must be represented as a dedicated foundation sub-surface before downstream services rely on tenant/session context.",
+      "dependencies": [],
+      "split_if": [
+        "Split before ticket pack generation if another independently owned identity, access, audit, or Foundry authority boundary is discovered."
+      ],
+      "adl_refs": [],
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "stop_conditions": [
+        "Stop before ticket generation until this foundation sub-surface passes catalog and seed matrix review."
+      ],
+      "akti_local": {
+        "phase_id": "6a",
+        "catalog_order": 3,
+        "catalog_outcome": "demote_to_core_microservice",
+        "split_axes": [
+          "mandatory_core_microservice"
+        ],
+        "phase_dependency_rule": "6a is the foundation phase and must not depend on later phases.",
+        "source_section": "6A.04"
+      }
+    },
+    {
+      "subsurface_id": "subsurface_6a_person_identity_graph",
+      "parent_surface_id": "surface_6a_core_identity_access_audit_foundry",
+      "train": "phase_6a",
+      "level": "level_group_0_5",
+      "title": "Person Identity Graph",
+      "subsurface_type": "core_microservice",
+      "source_authority": [
+        "Spark Platform v4.1 6A.05 source component",
+        "Spark Platform v4 business logic",
+        "Sub-surface decomposition guide"
+      ],
+      "scope": "Person Identity Graph planning boundary for source-to-seed traceability.",
+      "non_scope": [
+        "No implementation authority.",
+        "No ticket-pack generation authority.",
+        "No runtime/schema/package mutation authority."
+      ],
+      "expected_file_domains": [
+        "domain_services",
+        "contracts",
+        "evidence"
+      ],
+      "expected_concrete_path_patterns": [
+        "exact files must be derived later from repo truth during exact-file planning"
+      ],
+      "forbidden_domains": [
+        "runtime implementation before explicit ticket approval",
+        "ticket pack generation from this PR"
+      ],
+      "api_or_contract_boundary": "Person Identity Graph contract boundary must be resolved during exact-file planning.",
+      "schema_or_persistence_boundary": "Person Identity Graph persistence boundary is planning-only until selected-phase repo refresh.",
+      "provider_or_standard_boundary": "No provider/standard bundling unless explicitly listed in split axes.",
+      "validation_family": "catalog_traceability_validation",
+      "evidence_expectation": "Must emit planning evidence and future runtime audit/billing evidence where applicable.",
+      "mcr_expectation": "Future ticket MCR must be concrete, executable, and exact-file scoped; this catalog entry is not an MCR.",
+      "dependencies": [],
+      "split_if": [
+        "Split if exact-file planning reveals multiple providers, standards, lifecycle stages, role portals, or independently billable/versioned capabilities."
+      ],
+      "adl_refs": [],
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "stop_conditions": [
+        "STOP if ticket generation attempts to copy this placeholder without repo-truth exact-file planning."
+      ],
+      "akti_local": {
+        "phase_id": "6a",
+        "catalog_order": 4,
+        "catalog_outcome": "demote_to_core_microservice",
+        "split_axes": [
+          "mandatory_core_microservice"
+        ],
+        "phase_dependency_rule": "6a dependency order must follow source component topology."
+      }
+    },
+    {
+      "subsurface_id": "subsurface_6a_access_core_gatekeeper",
+      "parent_surface_id": "surface_6a_core_identity_access_audit_foundry",
+      "train": "phase_6a",
+      "level": "level_group_0_5",
+      "title": "Access Core Gatekeeper",
+      "subsurface_type": "core_microservice",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_platform_v4_1/6a_core_update_foundation.md#6a-06"
+      ],
+      "scope": "Access Core Gatekeeper is a core 6A foundation sub-surface added during execution seed dependency review. It is catalog planning only and does not authorize implementation.",
+      "non_scope": [
+        "ticket_generation",
+        "runtime_change",
+        "schema_change",
+        "predictive_stop_analysis",
+        "autonomous_readiness",
+        "execution"
+      ],
+      "expected_file_domains": [
+        "apps/api",
+        "packages/contracts",
+        "codex-review"
+      ],
+      "expected_concrete_path_patterns": [
+        "apps/api/src/spark_platform/access_core_gatekeeper/future_boundary.ts",
+        "packages/contracts/src/spark_platform/access_core_gatekeeper_contract.ts",
+        "codex-review/core/v0_0_2/spark_platform_v4_1_execution_seed_matrix/access_core_gatekeeper_future_evidence.json"
+      ],
+      "forbidden_domains": [
+        "runtime_change_in_this_pr",
+        "ticket_pack_generation_in_this_pr",
+        "prisma_schema_change_in_this_pr"
+      ],
+      "api_or_contract_boundary": "access_core_gatekeeper_contract_boundary",
+      "schema_or_persistence_boundary": "access_core_gatekeeper_state_boundary",
+      "provider_or_standard_boundary": "not_applicable",
+      "validation_family": "core_foundation_catalog_validation",
+      "evidence_expectation": "docs/process/core/v0_0_2/spark_platform_v4_1_subsurface_catalog_decision_update_audit_v1.md",
+      "mcr_expectation": "Access core and Gatekeeper must be represented as a dedicated foundation sub-surface before protected service activation or portal access seeds are reviewed.",
+      "dependencies": [
+        "subsurface_6a_tenant_org_branch_session_identity"
+      ],
+      "split_if": [
+        "Split before ticket pack generation if another independently owned identity, access, audit, or Foundry authority boundary is discovered."
+      ],
+      "adl_refs": [],
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "stop_conditions": [
+        "Stop before ticket generation until this foundation sub-surface passes catalog and seed matrix review."
+      ],
+      "akti_local": {
+        "phase_id": "6a",
+        "catalog_order": 5,
+        "catalog_outcome": "demote_to_core_microservice",
+        "split_axes": [
+          "mandatory_core_microservice"
+        ],
+        "phase_dependency_rule": "6a is the foundation phase and must not depend on later phases.",
+        "source_section": "6A.06"
+      }
+    },
+    {
+      "subsurface_id": "subsurface_6a_audit_log_universal_evidence_stream",
+      "parent_surface_id": "surface_6a_core_identity_access_audit_foundry",
+      "train": "phase_6a",
+      "level": "level_group_0_5",
+      "title": "Audit Log Universal Evidence Stream",
+      "subsurface_type": "core_microservice",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_platform_v4_1/6a_core_update_foundation.md#6a-07"
+      ],
+      "scope": "Audit Log Universal Evidence Stream is a core 6A foundation sub-surface added during execution seed dependency review. It is catalog planning only and does not authorize implementation.",
+      "non_scope": [
+        "ticket_generation",
+        "runtime_change",
+        "schema_change",
+        "predictive_stop_analysis",
+        "autonomous_readiness",
+        "execution"
+      ],
+      "expected_file_domains": [
+        "apps/api",
+        "packages/contracts",
+        "codex-review"
+      ],
+      "expected_concrete_path_patterns": [
+        "apps/api/src/spark_platform/audit_log_universal_evidence_stream/future_boundary.ts",
+        "packages/contracts/src/spark_platform/audit_log_universal_evidence_stream_contract.ts",
+        "codex-review/core/v0_0_2/spark_platform_v4_1_execution_seed_matrix/audit_log_universal_evidence_stream_future_evidence.json"
+      ],
+      "forbidden_domains": [
+        "runtime_change_in_this_pr",
+        "ticket_pack_generation_in_this_pr",
+        "prisma_schema_change_in_this_pr"
+      ],
+      "api_or_contract_boundary": "audit_log_universal_evidence_stream_contract_boundary",
+      "schema_or_persistence_boundary": "audit_log_universal_evidence_stream_state_boundary",
+      "provider_or_standard_boundary": "not_applicable",
+      "validation_family": "core_foundation_catalog_validation",
+      "evidence_expectation": "docs/process/core/v0_0_2/spark_platform_v4_1_subsurface_catalog_decision_update_audit_v1.md",
+      "mcr_expectation": "Audit log and universal evidence stream must be represented as a dedicated foundation sub-surface before billing, support, privacy, revocation, and lifecycle evidence seeds are reviewed.",
+      "dependencies": [
+        "subsurface_6a_access_core_gatekeeper"
+      ],
+      "split_if": [
+        "Split before ticket pack generation if another independently owned identity, access, audit, or Foundry authority boundary is discovered."
+      ],
+      "adl_refs": [],
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "stop_conditions": [
+        "Stop before ticket generation until this foundation sub-surface passes catalog and seed matrix review."
+      ],
+      "akti_local": {
+        "phase_id": "6a",
+        "catalog_order": 6,
+        "catalog_outcome": "demote_to_core_microservice",
+        "split_axes": [
+          "mandatory_core_microservice"
+        ],
+        "phase_dependency_rule": "6a is the foundation phase and must not depend on later phases.",
+        "source_section": "6A.07"
+      }
+    },
+    {
       "subsurface_id": "subsurface_6a_svfs_object_store",
       "parent_surface_id": "surface_6a_storage_file_lifecycle",
       "train": "phase_6a",
@@ -56,7 +411,7 @@
       ],
       "akti_local": {
         "phase_id": "6a",
-        "catalog_order": 4,
+        "catalog_order": 7,
         "catalog_outcome": "demote_to_core_microservice",
         "split_axes": [
           "mandatory_core_microservice"
@@ -117,7 +472,7 @@
       ],
       "akti_local": {
         "phase_id": "6a",
-        "catalog_order": 5,
+        "catalog_order": 8,
         "catalog_outcome": "demote_to_core_microservice",
         "split_axes": [
           "mandatory_core_microservice"
@@ -178,7 +533,7 @@
       ],
       "akti_local": {
         "phase_id": "6a",
-        "catalog_order": 6,
+        "catalog_order": 9,
         "catalog_outcome": "demote_to_core_microservice",
         "split_axes": [
           "mandatory_core_microservice"
@@ -241,7 +596,7 @@
       ],
       "akti_local": {
         "phase_id": "6a",
-        "catalog_order": 7,
+        "catalog_order": 10,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "adl_stateful_logic",
@@ -305,13 +660,69 @@
       ],
       "akti_local": {
         "phase_id": "6a",
-        "catalog_order": 8,
+        "catalog_order": 11,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "adl_stateful_logic",
           "lifecycle"
         ],
         "phase_dependency_rule": "6a is the foundation phase and must not depend on later phases."
+      }
+    },
+    {
+      "subsurface_id": "subsurface_6a_search_file_service_layer",
+      "parent_surface_id": "surface_6a_platform_runtime_api_search_optimization",
+      "train": "phase_6a",
+      "level": "level_group_0_5",
+      "title": "Search File Service Layer",
+      "subsurface_type": "service",
+      "source_authority": [
+        "Spark Platform v4.1 6A.14 source component",
+        "Spark Platform v4 business logic",
+        "Sub-surface decomposition guide"
+      ],
+      "scope": "Search File Service Layer planning boundary for source-to-seed traceability.",
+      "non_scope": [
+        "No implementation authority.",
+        "No ticket-pack generation authority.",
+        "No runtime/schema/package mutation authority."
+      ],
+      "expected_file_domains": [
+        "domain_services",
+        "contracts",
+        "evidence"
+      ],
+      "expected_concrete_path_patterns": [
+        "exact files must be derived later from repo truth during exact-file planning"
+      ],
+      "forbidden_domains": [
+        "runtime implementation before explicit ticket approval",
+        "ticket pack generation from this PR"
+      ],
+      "api_or_contract_boundary": "Search File Service Layer contract boundary must be resolved during exact-file planning.",
+      "schema_or_persistence_boundary": "Search File Service Layer persistence boundary is planning-only until selected-phase repo refresh.",
+      "provider_or_standard_boundary": "No provider/standard bundling unless explicitly listed in split axes.",
+      "validation_family": "catalog_traceability_validation",
+      "evidence_expectation": "Must emit planning evidence and future runtime audit/billing evidence where applicable.",
+      "mcr_expectation": "Future ticket MCR must be concrete, executable, and exact-file scoped; this catalog entry is not an MCR.",
+      "dependencies": [],
+      "split_if": [
+        "Split if exact-file planning reveals multiple providers, standards, lifecycle stages, role portals, or independently billable/versioned capabilities."
+      ],
+      "adl_refs": [],
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "stop_conditions": [
+        "STOP if ticket generation attempts to copy this placeholder without repo-truth exact-file planning."
+      ],
+      "akti_local": {
+        "phase_id": "6a",
+        "catalog_order": 12,
+        "catalog_outcome": "keep_as_service",
+        "split_axes": [
+          "toggleable_billable_versioned_capability"
+        ],
+        "phase_dependency_rule": "6a dependency order must follow source component topology."
       }
     },
     {
@@ -369,7 +780,7 @@
       ],
       "akti_local": {
         "phase_id": "6a",
-        "catalog_order": 9,
+        "catalog_order": 13,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "adl_stateful_logic",
@@ -433,7 +844,7 @@
       ],
       "akti_local": {
         "phase_id": "6a",
-        "catalog_order": 10,
+        "catalog_order": 14,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "adl_stateful_logic",
@@ -497,7 +908,7 @@
       ],
       "akti_local": {
         "phase_id": "6a",
-        "catalog_order": 11,
+        "catalog_order": 15,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "adl_stateful_logic",
@@ -561,7 +972,7 @@
       ],
       "akti_local": {
         "phase_id": "6a",
-        "catalog_order": 12,
+        "catalog_order": 16,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "adl_stateful_logic",
@@ -625,7 +1036,7 @@
       ],
       "akti_local": {
         "phase_id": "6a",
-        "catalog_order": 13,
+        "catalog_order": 17,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "adl_stateful_logic",
@@ -689,7 +1100,7 @@
       ],
       "akti_local": {
         "phase_id": "6a",
-        "catalog_order": 14,
+        "catalog_order": 18,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "adl_stateful_logic",
@@ -753,7 +1164,7 @@
       ],
       "akti_local": {
         "phase_id": "6a",
-        "catalog_order": 15,
+        "catalog_order": 19,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "adl_stateful_logic",
@@ -815,7 +1226,7 @@
       ],
       "akti_local": {
         "phase_id": "6a",
-        "catalog_order": 16,
+        "catalog_order": 20,
         "catalog_outcome": "demote_to_core_microservice",
         "split_axes": [
           "mandatory_core_microservice"
@@ -876,7 +1287,7 @@
       ],
       "akti_local": {
         "phase_id": "6a",
-        "catalog_order": 17,
+        "catalog_order": 21,
         "catalog_outcome": "demote_to_core_microservice",
         "split_axes": [
           "mandatory_core_microservice"
@@ -937,7 +1348,7 @@
       ],
       "akti_local": {
         "phase_id": "6a",
-        "catalog_order": 19,
+        "catalog_order": 22,
         "catalog_outcome": "demote_to_core_microservice",
         "split_axes": [
           "mandatory_core_microservice"
@@ -998,7 +1409,7 @@
       ],
       "akti_local": {
         "phase_id": "6a",
-        "catalog_order": 20,
+        "catalog_order": 23,
         "catalog_outcome": "demote_to_core_microservice",
         "split_axes": [
           "mandatory_core_microservice"
@@ -1059,7 +1470,7 @@
       ],
       "akti_local": {
         "phase_id": "6a",
-        "catalog_order": 21,
+        "catalog_order": 24,
         "catalog_outcome": "demote_to_core_microservice",
         "split_axes": [
           "mandatory_core_microservice"
@@ -1120,12 +1531,756 @@
       ],
       "akti_local": {
         "phase_id": "6a",
-        "catalog_order": 22,
+        "catalog_order": 25,
         "catalog_outcome": "demote_to_core_microservice",
         "split_axes": [
           "mandatory_core_microservice"
         ],
         "phase_dependency_rule": "6a is the foundation phase and must not depend on later phases."
+      }
+    },
+    {
+      "subsurface_id": "subsurface_6a_foundry_runtime_authority",
+      "parent_surface_id": "surface_6a_core_identity_access_audit_foundry",
+      "train": "phase_6a",
+      "level": "level_group_0_5",
+      "title": "Foundry Runtime Authority",
+      "subsurface_type": "core_microservice",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_platform_v4_1/6a_core_update_foundation.md#6a-10"
+      ],
+      "scope": "Foundry Runtime Authority is a core 6A foundation sub-surface added during execution seed dependency review. It is catalog planning only and does not authorize implementation.",
+      "non_scope": [
+        "ticket_generation",
+        "runtime_change",
+        "schema_change",
+        "predictive_stop_analysis",
+        "autonomous_readiness",
+        "execution"
+      ],
+      "expected_file_domains": [
+        "apps/api",
+        "packages/contracts",
+        "codex-review"
+      ],
+      "expected_concrete_path_patterns": [
+        "apps/api/src/spark_platform/foundry_runtime_authority/future_boundary.ts",
+        "packages/contracts/src/spark_platform/foundry_runtime_authority_contract.ts",
+        "codex-review/core/v0_0_2/spark_platform_v4_1_execution_seed_matrix/foundry_runtime_authority_future_evidence.json"
+      ],
+      "forbidden_domains": [
+        "runtime_change_in_this_pr",
+        "ticket_pack_generation_in_this_pr",
+        "prisma_schema_change_in_this_pr"
+      ],
+      "api_or_contract_boundary": "foundry_runtime_authority_contract_boundary",
+      "schema_or_persistence_boundary": "foundry_runtime_authority_state_boundary",
+      "provider_or_standard_boundary": "not_applicable",
+      "validation_family": "core_foundation_catalog_validation",
+      "evidence_expectation": "docs/process/core/v0_0_2/spark_platform_v4_1_subsurface_catalog_decision_update_audit_v1.md",
+      "mcr_expectation": "Foundry runtime authority must be represented as a dedicated foundation sub-surface before tenant-toggleable services and optional micro-service activation dependencies are reviewed.",
+      "dependencies": [
+        "subsurface_6a_access_core_gatekeeper",
+        "subsurface_6a_event_bus_delivery",
+        "subsurface_6a_billing_dimension_registry"
+      ],
+      "split_if": [
+        "Split before ticket pack generation if another independently owned identity, access, audit, or Foundry authority boundary is discovered."
+      ],
+      "adl_refs": [],
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "stop_conditions": [
+        "Stop before ticket generation until this foundation sub-surface passes catalog and seed matrix review."
+      ],
+      "akti_local": {
+        "phase_id": "6a",
+        "catalog_order": 26,
+        "catalog_outcome": "demote_to_core_microservice",
+        "split_axes": [
+          "mandatory_core_microservice"
+        ],
+        "phase_dependency_rule": "6a is the foundation phase and must not depend on later phases.",
+        "source_section": "6A.10"
+      }
+    },
+    {
+      "subsurface_id": "subsurface_6a_service_manifest_contract",
+      "parent_surface_id": "surface_6a_foundry_manifest_lifecycle",
+      "train": "phase_6a",
+      "level": "level_group_0_5",
+      "title": "Service Manifest Contract",
+      "subsurface_type": "core_microservice",
+      "source_authority": [
+        "Spark Platform v4.1 6A.10 source component",
+        "Spark Platform v4 business logic",
+        "Sub-surface decomposition guide"
+      ],
+      "scope": "Service Manifest Contract planning boundary for source-to-seed traceability.",
+      "non_scope": [
+        "No implementation authority.",
+        "No ticket-pack generation authority.",
+        "No runtime/schema/package mutation authority."
+      ],
+      "expected_file_domains": [
+        "service_manifest",
+        "foundry_registry",
+        "dependency_graph"
+      ],
+      "expected_concrete_path_patterns": [
+        "exact files must be derived later from repo truth during exact-file planning"
+      ],
+      "forbidden_domains": [
+        "runtime implementation before explicit ticket approval",
+        "ticket pack generation from this PR"
+      ],
+      "api_or_contract_boundary": "Service Manifest Contract contract boundary must be resolved during exact-file planning.",
+      "schema_or_persistence_boundary": "Service Manifest Contract persistence boundary is planning-only until selected-phase repo refresh.",
+      "provider_or_standard_boundary": "No provider/standard bundling unless explicitly listed in split axes.",
+      "validation_family": "catalog_traceability_validation",
+      "evidence_expectation": "Must emit planning evidence and future runtime audit/billing evidence where applicable.",
+      "mcr_expectation": "Future ticket MCR must be concrete, executable, and exact-file scoped; this catalog entry is not an MCR.",
+      "dependencies": [],
+      "split_if": [
+        "Split if exact-file planning reveals multiple providers, standards, lifecycle stages, role portals, or independently billable/versioned capabilities."
+      ],
+      "adl_refs": [],
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "stop_conditions": [
+        "STOP if ticket generation attempts to copy this placeholder without repo-truth exact-file planning."
+      ],
+      "akti_local": {
+        "phase_id": "6a",
+        "catalog_order": 27,
+        "catalog_outcome": "demote_to_core_microservice",
+        "split_axes": [
+          "mandatory_core_microservice"
+        ],
+        "phase_dependency_rule": "6a dependency order must follow source component topology."
+      }
+    },
+    {
+      "subsurface_id": "subsurface_6a_manifest_validation",
+      "parent_surface_id": "surface_6a_foundry_manifest_lifecycle",
+      "train": "phase_6a",
+      "level": "level_group_0_5",
+      "title": "Manifest Validation",
+      "subsurface_type": "core_microservice",
+      "source_authority": [
+        "Spark Platform v4.1 6A.10 source component",
+        "Spark Platform v4 business logic",
+        "Sub-surface decomposition guide"
+      ],
+      "scope": "Manifest Validation planning boundary for source-to-seed traceability.",
+      "non_scope": [
+        "No implementation authority.",
+        "No ticket-pack generation authority.",
+        "No runtime/schema/package mutation authority."
+      ],
+      "expected_file_domains": [
+        "service_manifest",
+        "foundry_registry",
+        "dependency_graph"
+      ],
+      "expected_concrete_path_patterns": [
+        "exact files must be derived later from repo truth during exact-file planning"
+      ],
+      "forbidden_domains": [
+        "runtime implementation before explicit ticket approval",
+        "ticket pack generation from this PR"
+      ],
+      "api_or_contract_boundary": "Manifest Validation contract boundary must be resolved during exact-file planning.",
+      "schema_or_persistence_boundary": "Manifest Validation persistence boundary is planning-only until selected-phase repo refresh.",
+      "provider_or_standard_boundary": "No provider/standard bundling unless explicitly listed in split axes.",
+      "validation_family": "catalog_traceability_validation",
+      "evidence_expectation": "Must emit planning evidence and future runtime audit/billing evidence where applicable.",
+      "mcr_expectation": "Future ticket MCR must be concrete, executable, and exact-file scoped; this catalog entry is not an MCR.",
+      "dependencies": [],
+      "split_if": [
+        "Split if exact-file planning reveals multiple providers, standards, lifecycle stages, role portals, or independently billable/versioned capabilities."
+      ],
+      "adl_refs": [],
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "stop_conditions": [
+        "STOP if ticket generation attempts to copy this placeholder without repo-truth exact-file planning."
+      ],
+      "akti_local": {
+        "phase_id": "6a",
+        "catalog_order": 28,
+        "catalog_outcome": "demote_to_core_microservice",
+        "split_axes": [
+          "mandatory_core_microservice"
+        ],
+        "phase_dependency_rule": "6a dependency order must follow source component topology."
+      }
+    },
+    {
+      "subsurface_id": "subsurface_6a_activation_dependency_resolution",
+      "parent_surface_id": "surface_6a_foundry_manifest_lifecycle",
+      "train": "phase_6a",
+      "level": "level_group_0_5",
+      "title": "Activation Dependency Resolution",
+      "subsurface_type": "core_microservice",
+      "source_authority": [
+        "Spark Platform v4.1 6A.10 source component",
+        "Spark Platform v4 business logic",
+        "Sub-surface decomposition guide"
+      ],
+      "scope": "Activation Dependency Resolution planning boundary for source-to-seed traceability.",
+      "non_scope": [
+        "No implementation authority.",
+        "No ticket-pack generation authority.",
+        "No runtime/schema/package mutation authority."
+      ],
+      "expected_file_domains": [
+        "service_manifest",
+        "foundry_registry",
+        "dependency_graph"
+      ],
+      "expected_concrete_path_patterns": [
+        "exact files must be derived later from repo truth during exact-file planning"
+      ],
+      "forbidden_domains": [
+        "runtime implementation before explicit ticket approval",
+        "ticket pack generation from this PR"
+      ],
+      "api_or_contract_boundary": "Activation Dependency Resolution contract boundary must be resolved during exact-file planning.",
+      "schema_or_persistence_boundary": "Activation Dependency Resolution persistence boundary is planning-only until selected-phase repo refresh.",
+      "provider_or_standard_boundary": "No provider/standard bundling unless explicitly listed in split axes.",
+      "validation_family": "catalog_traceability_validation",
+      "evidence_expectation": "Must emit planning evidence and future runtime audit/billing evidence where applicable.",
+      "mcr_expectation": "Future ticket MCR must be concrete, executable, and exact-file scoped; this catalog entry is not an MCR.",
+      "dependencies": [],
+      "split_if": [
+        "Split if exact-file planning reveals multiple providers, standards, lifecycle stages, role portals, or independently billable/versioned capabilities."
+      ],
+      "adl_refs": [],
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "stop_conditions": [
+        "STOP if ticket generation attempts to copy this placeholder without repo-truth exact-file planning."
+      ],
+      "akti_local": {
+        "phase_id": "6a",
+        "catalog_order": 29,
+        "catalog_outcome": "demote_to_core_microservice",
+        "split_axes": [
+          "toggleable_billable_versioned_capability"
+        ],
+        "phase_dependency_rule": "6a dependency order must follow source component topology."
+      }
+    },
+    {
+      "subsurface_id": "subsurface_6a_deactivation_dependency_blocking",
+      "parent_surface_id": "surface_6a_foundry_manifest_lifecycle",
+      "train": "phase_6a",
+      "level": "level_group_0_5",
+      "title": "Deactivation Dependency Blocking",
+      "subsurface_type": "core_microservice",
+      "source_authority": [
+        "Spark Platform v4.1 6A.10 source component",
+        "Spark Platform v4 business logic",
+        "Sub-surface decomposition guide"
+      ],
+      "scope": "Deactivation Dependency Blocking planning boundary for source-to-seed traceability.",
+      "non_scope": [
+        "No implementation authority.",
+        "No ticket-pack generation authority.",
+        "No runtime/schema/package mutation authority."
+      ],
+      "expected_file_domains": [
+        "service_manifest",
+        "foundry_registry",
+        "dependency_graph"
+      ],
+      "expected_concrete_path_patterns": [
+        "exact files must be derived later from repo truth during exact-file planning"
+      ],
+      "forbidden_domains": [
+        "runtime implementation before explicit ticket approval",
+        "ticket pack generation from this PR"
+      ],
+      "api_or_contract_boundary": "Deactivation Dependency Blocking contract boundary must be resolved during exact-file planning.",
+      "schema_or_persistence_boundary": "Deactivation Dependency Blocking persistence boundary is planning-only until selected-phase repo refresh.",
+      "provider_or_standard_boundary": "No provider/standard bundling unless explicitly listed in split axes.",
+      "validation_family": "catalog_traceability_validation",
+      "evidence_expectation": "Must emit planning evidence and future runtime audit/billing evidence where applicable.",
+      "mcr_expectation": "Future ticket MCR must be concrete, executable, and exact-file scoped; this catalog entry is not an MCR.",
+      "dependencies": [],
+      "split_if": [
+        "Split if exact-file planning reveals multiple providers, standards, lifecycle stages, role portals, or independently billable/versioned capabilities."
+      ],
+      "adl_refs": [],
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "stop_conditions": [
+        "STOP if ticket generation attempts to copy this placeholder without repo-truth exact-file planning."
+      ],
+      "akti_local": {
+        "phase_id": "6a",
+        "catalog_order": 30,
+        "catalog_outcome": "demote_to_core_microservice",
+        "split_axes": [
+          "toggleable_billable_versioned_capability"
+        ],
+        "phase_dependency_rule": "6a dependency order must follow source component topology."
+      }
+    },
+    {
+      "subsurface_id": "subsurface_6a_version_pin_and_rollback",
+      "parent_surface_id": "surface_6a_foundry_manifest_lifecycle",
+      "train": "phase_6a",
+      "level": "level_group_0_5",
+      "title": "Version Pin And Rollback",
+      "subsurface_type": "core_microservice",
+      "source_authority": [
+        "Spark Platform v4.1 6A.10 source component",
+        "Spark Platform v4 business logic",
+        "Sub-surface decomposition guide"
+      ],
+      "scope": "Version Pin And Rollback planning boundary for source-to-seed traceability.",
+      "non_scope": [
+        "No implementation authority.",
+        "No ticket-pack generation authority.",
+        "No runtime/schema/package mutation authority."
+      ],
+      "expected_file_domains": [
+        "domain_services",
+        "contracts",
+        "evidence"
+      ],
+      "expected_concrete_path_patterns": [
+        "exact files must be derived later from repo truth during exact-file planning"
+      ],
+      "forbidden_domains": [
+        "runtime implementation before explicit ticket approval",
+        "ticket pack generation from this PR"
+      ],
+      "api_or_contract_boundary": "Version Pin And Rollback contract boundary must be resolved during exact-file planning.",
+      "schema_or_persistence_boundary": "Version Pin And Rollback persistence boundary is planning-only until selected-phase repo refresh.",
+      "provider_or_standard_boundary": "No provider/standard bundling unless explicitly listed in split axes.",
+      "validation_family": "catalog_traceability_validation",
+      "evidence_expectation": "Must emit planning evidence and future runtime audit/billing evidence where applicable.",
+      "mcr_expectation": "Future ticket MCR must be concrete, executable, and exact-file scoped; this catalog entry is not an MCR.",
+      "dependencies": [],
+      "split_if": [
+        "Split if exact-file planning reveals multiple providers, standards, lifecycle stages, role portals, or independently billable/versioned capabilities."
+      ],
+      "adl_refs": [],
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "stop_conditions": [
+        "STOP if ticket generation attempts to copy this placeholder without repo-truth exact-file planning."
+      ],
+      "akti_local": {
+        "phase_id": "6a",
+        "catalog_order": 31,
+        "catalog_outcome": "keep_as_service",
+        "split_axes": [
+          "lifecycle"
+        ],
+        "phase_dependency_rule": "6a dependency order must follow source component topology."
+      }
+    },
+    {
+      "subsurface_id": "subsurface_6a_capability_registration",
+      "parent_surface_id": "surface_6a_foundry_manifest_lifecycle",
+      "train": "phase_6a",
+      "level": "level_group_0_5",
+      "title": "Capability Registration",
+      "subsurface_type": "core_microservice",
+      "source_authority": [
+        "Spark Platform v4.1 6A.10 source component",
+        "Spark Platform v4 business logic",
+        "Sub-surface decomposition guide"
+      ],
+      "scope": "Capability Registration planning boundary for source-to-seed traceability.",
+      "non_scope": [
+        "No implementation authority.",
+        "No ticket-pack generation authority.",
+        "No runtime/schema/package mutation authority."
+      ],
+      "expected_file_domains": [
+        "domain_services",
+        "contracts",
+        "evidence"
+      ],
+      "expected_concrete_path_patterns": [
+        "exact files must be derived later from repo truth during exact-file planning"
+      ],
+      "forbidden_domains": [
+        "runtime implementation before explicit ticket approval",
+        "ticket pack generation from this PR"
+      ],
+      "api_or_contract_boundary": "Capability Registration contract boundary must be resolved during exact-file planning.",
+      "schema_or_persistence_boundary": "Capability Registration persistence boundary is planning-only until selected-phase repo refresh.",
+      "provider_or_standard_boundary": "No provider/standard bundling unless explicitly listed in split axes.",
+      "validation_family": "catalog_traceability_validation",
+      "evidence_expectation": "Must emit planning evidence and future runtime audit/billing evidence where applicable.",
+      "mcr_expectation": "Future ticket MCR must be concrete, executable, and exact-file scoped; this catalog entry is not an MCR.",
+      "dependencies": [],
+      "split_if": [
+        "Split if exact-file planning reveals multiple providers, standards, lifecycle stages, role portals, or independently billable/versioned capabilities."
+      ],
+      "adl_refs": [],
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "stop_conditions": [
+        "STOP if ticket generation attempts to copy this placeholder without repo-truth exact-file planning."
+      ],
+      "akti_local": {
+        "phase_id": "6a",
+        "catalog_order": 32,
+        "catalog_outcome": "demote_to_core_microservice",
+        "split_axes": [
+          "mandatory_core_microservice"
+        ],
+        "phase_dependency_rule": "6a dependency order must follow source component topology."
+      }
+    },
+    {
+      "subsurface_id": "subsurface_6a_pricing_reference_registration",
+      "parent_surface_id": "surface_6a_foundry_manifest_lifecycle",
+      "train": "phase_6a",
+      "level": "level_group_0_5",
+      "title": "Pricing Reference Registration",
+      "subsurface_type": "core_microservice",
+      "source_authority": [
+        "Spark Platform v4.1 6A.10 source component",
+        "Spark Platform v4 business logic",
+        "Sub-surface decomposition guide"
+      ],
+      "scope": "Pricing Reference Registration planning boundary for source-to-seed traceability.",
+      "non_scope": [
+        "No implementation authority.",
+        "No ticket-pack generation authority.",
+        "No runtime/schema/package mutation authority."
+      ],
+      "expected_file_domains": [
+        "domain_services",
+        "ledger_contracts",
+        "billing_evidence"
+      ],
+      "expected_concrete_path_patterns": [
+        "exact files must be derived later from repo truth during exact-file planning"
+      ],
+      "forbidden_domains": [
+        "runtime implementation before explicit ticket approval",
+        "ticket pack generation from this PR"
+      ],
+      "api_or_contract_boundary": "Pricing Reference Registration contract boundary must be resolved during exact-file planning.",
+      "schema_or_persistence_boundary": "Pricing Reference Registration persistence boundary is planning-only until selected-phase repo refresh.",
+      "provider_or_standard_boundary": "No provider/standard bundling unless explicitly listed in split axes.",
+      "validation_family": "catalog_traceability_validation",
+      "evidence_expectation": "Must emit planning evidence and future runtime audit/billing evidence where applicable.",
+      "mcr_expectation": "Future ticket MCR must be concrete, executable, and exact-file scoped; this catalog entry is not an MCR.",
+      "dependencies": [],
+      "split_if": [
+        "Split if exact-file planning reveals multiple providers, standards, lifecycle stages, role portals, or independently billable/versioned capabilities."
+      ],
+      "adl_refs": [],
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "stop_conditions": [
+        "STOP if ticket generation attempts to copy this placeholder without repo-truth exact-file planning."
+      ],
+      "akti_local": {
+        "phase_id": "6a",
+        "catalog_order": 33,
+        "catalog_outcome": "demote_to_core_microservice",
+        "split_axes": [
+          "mandatory_core_microservice"
+        ],
+        "phase_dependency_rule": "6a dependency order must follow source component topology."
+      }
+    },
+    {
+      "subsurface_id": "subsurface_6a_event_subscription_registration",
+      "parent_surface_id": "surface_6a_foundry_manifest_lifecycle",
+      "train": "phase_6a",
+      "level": "level_group_0_5",
+      "title": "Event Subscription Registration",
+      "subsurface_type": "core_microservice",
+      "source_authority": [
+        "Spark Platform v4.1 6A.10 source component",
+        "Spark Platform v4 business logic",
+        "Sub-surface decomposition guide"
+      ],
+      "scope": "Event Subscription Registration planning boundary for source-to-seed traceability.",
+      "non_scope": [
+        "No implementation authority.",
+        "No ticket-pack generation authority.",
+        "No runtime/schema/package mutation authority."
+      ],
+      "expected_file_domains": [
+        "domain_services",
+        "contracts",
+        "evidence"
+      ],
+      "expected_concrete_path_patterns": [
+        "exact files must be derived later from repo truth during exact-file planning"
+      ],
+      "forbidden_domains": [
+        "runtime implementation before explicit ticket approval",
+        "ticket pack generation from this PR"
+      ],
+      "api_or_contract_boundary": "Event Subscription Registration contract boundary must be resolved during exact-file planning.",
+      "schema_or_persistence_boundary": "Event Subscription Registration persistence boundary is planning-only until selected-phase repo refresh.",
+      "provider_or_standard_boundary": "No provider/standard bundling unless explicitly listed in split axes.",
+      "validation_family": "catalog_traceability_validation",
+      "evidence_expectation": "Must emit planning evidence and future runtime audit/billing evidence where applicable.",
+      "mcr_expectation": "Future ticket MCR must be concrete, executable, and exact-file scoped; this catalog entry is not an MCR.",
+      "dependencies": [],
+      "split_if": [
+        "Split if exact-file planning reveals multiple providers, standards, lifecycle stages, role portals, or independently billable/versioned capabilities."
+      ],
+      "adl_refs": [],
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "stop_conditions": [
+        "STOP if ticket generation attempts to copy this placeholder without repo-truth exact-file planning."
+      ],
+      "akti_local": {
+        "phase_id": "6a",
+        "catalog_order": 34,
+        "catalog_outcome": "demote_to_core_microservice",
+        "split_axes": [
+          "mandatory_core_microservice"
+        ],
+        "phase_dependency_rule": "6a dependency order must follow source component topology."
+      }
+    },
+    {
+      "subsurface_id": "subsurface_6a_api_gateway_webhook_management",
+      "parent_surface_id": "surface_6a_platform_runtime_api_search_optimization",
+      "train": "phase_6a",
+      "level": "level_group_0_5",
+      "title": "API Gateway Webhook Management",
+      "subsurface_type": "core_microservice",
+      "source_authority": [
+        "Spark Platform v4.1 6A.12 source component",
+        "Spark Platform v4 business logic",
+        "Sub-surface decomposition guide"
+      ],
+      "scope": "API Gateway Webhook Management planning boundary for source-to-seed traceability.",
+      "non_scope": [
+        "No implementation authority.",
+        "No ticket-pack generation authority.",
+        "No runtime/schema/package mutation authority."
+      ],
+      "expected_file_domains": [
+        "contracts",
+        "api_routes",
+        "controllers",
+        "validation"
+      ],
+      "expected_concrete_path_patterns": [
+        "exact files must be derived later from repo truth during exact-file planning"
+      ],
+      "forbidden_domains": [
+        "runtime implementation before explicit ticket approval",
+        "ticket pack generation from this PR"
+      ],
+      "api_or_contract_boundary": "API Gateway Webhook Management contract boundary must be resolved during exact-file planning.",
+      "schema_or_persistence_boundary": "API Gateway Webhook Management persistence boundary is planning-only until selected-phase repo refresh.",
+      "provider_or_standard_boundary": "No provider/standard bundling unless explicitly listed in split axes.",
+      "validation_family": "catalog_traceability_validation",
+      "evidence_expectation": "Must emit planning evidence and future runtime audit/billing evidence where applicable.",
+      "mcr_expectation": "Future ticket MCR must be concrete, executable, and exact-file scoped; this catalog entry is not an MCR.",
+      "dependencies": [],
+      "split_if": [
+        "Split if exact-file planning reveals multiple providers, standards, lifecycle stages, role portals, or independently billable/versioned capabilities."
+      ],
+      "adl_refs": [],
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "stop_conditions": [
+        "STOP if ticket generation attempts to copy this placeholder without repo-truth exact-file planning."
+      ],
+      "akti_local": {
+        "phase_id": "6a",
+        "catalog_order": 35,
+        "catalog_outcome": "keep_as_service",
+        "split_axes": [
+          "provider"
+        ],
+        "phase_dependency_rule": "6a dependency order must follow source component topology."
+      }
+    },
+    {
+      "subsurface_id": "subsurface_6a_route_interface_registration",
+      "parent_surface_id": "surface_6a_foundry_manifest_lifecycle",
+      "train": "phase_6a",
+      "level": "level_group_0_5",
+      "title": "Route Interface Registration",
+      "subsurface_type": "core_microservice",
+      "source_authority": [
+        "Spark Platform v4.1 6A.10 source component",
+        "Spark Platform v4 business logic",
+        "Sub-surface decomposition guide"
+      ],
+      "scope": "Route Interface Registration planning boundary for source-to-seed traceability.",
+      "non_scope": [
+        "No implementation authority.",
+        "No ticket-pack generation authority.",
+        "No runtime/schema/package mutation authority."
+      ],
+      "expected_file_domains": [
+        "contracts",
+        "api_routes",
+        "controllers",
+        "validation"
+      ],
+      "expected_concrete_path_patterns": [
+        "exact files must be derived later from repo truth during exact-file planning"
+      ],
+      "forbidden_domains": [
+        "runtime implementation before explicit ticket approval",
+        "ticket pack generation from this PR"
+      ],
+      "api_or_contract_boundary": "Route Interface Registration contract boundary must be resolved during exact-file planning.",
+      "schema_or_persistence_boundary": "Route Interface Registration persistence boundary is planning-only until selected-phase repo refresh.",
+      "provider_or_standard_boundary": "No provider/standard bundling unless explicitly listed in split axes.",
+      "validation_family": "catalog_traceability_validation",
+      "evidence_expectation": "Must emit planning evidence and future runtime audit/billing evidence where applicable.",
+      "mcr_expectation": "Future ticket MCR must be concrete, executable, and exact-file scoped; this catalog entry is not an MCR.",
+      "dependencies": [],
+      "split_if": [
+        "Split if exact-file planning reveals multiple providers, standards, lifecycle stages, role portals, or independently billable/versioned capabilities."
+      ],
+      "adl_refs": [],
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "stop_conditions": [
+        "STOP if ticket generation attempts to copy this placeholder without repo-truth exact-file planning."
+      ],
+      "akti_local": {
+        "phase_id": "6a",
+        "catalog_order": 36,
+        "catalog_outcome": "demote_to_core_microservice",
+        "split_axes": [
+          "mandatory_core_microservice"
+        ],
+        "phase_dependency_rule": "6a dependency order must follow source component topology."
+      }
+    },
+    {
+      "subsurface_id": "subsurface_6a_base_design_tokens_component_contracts_shell",
+      "parent_surface_id": "surface_6a_base_admin_design_shell",
+      "train": "phase_6a",
+      "level": "level_group_0_5",
+      "title": "Base Design Tokens Component Contracts Shell",
+      "subsurface_type": "core_microservice",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_platform_v4_1/0_business_logic.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/subsurface_decomposition_guide.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/6a_core_update_foundation.md"
+      ],
+      "scope": "Base Design Tokens Component Contracts Shell is an independently catalogued Spark Platform v4.1 sub-surface. It is not a ticket, seed, exact-file plan, or implementation authorization.",
+      "non_scope": [
+        "ticket_generation",
+        "execution_seed_matrix",
+        "predictive_stop_analysis",
+        "autonomous_readiness",
+        "runtime_change"
+      ],
+      "expected_file_domains": [
+        "apps/api",
+        "packages/contracts",
+        "codex-review"
+      ],
+      "expected_concrete_path_patterns": [
+        "apps/api/src/spark_platform/base_design_tokens_component_contracts_shell/future_boundary.ts",
+        "packages/contracts/src/spark_platform/base_design_tokens_component_contracts_shell_contract.ts",
+        "codex-review/core/v0_0_2/spark_platform_v4_1_subsurface_catalog/base_design_tokens_component_contracts_shell_future_evidence.json"
+      ],
+      "forbidden_domains": [
+        "prisma_schema_change_in_this_pr",
+        "package_lockfile_change_in_this_pr",
+        "generated_runtime_change_in_this_pr"
+      ],
+      "api_or_contract_boundary": "base_design_tokens_component_contracts_shell_api_or_contract_boundary",
+      "schema_or_persistence_boundary": "not_applicable_for_catalog_stage",
+      "provider_or_standard_boundary": "not_applicable",
+      "validation_family": "core_microservice_catalog_validation",
+      "evidence_expectation": "docs/process/core/v0_0_2/spark_platform_v4_1_subsurface_catalog_audit_v1.md",
+      "mcr_expectation": "Base Design Tokens Component Contracts Shell must remain independently represented before any execution seed matrix or ticket pack can be produced.",
+      "dependencies": [],
+      "split_if": [
+        "Before seed generation, split again if another provider, standard, channel, lifecycle stage, role, or toggleable billable/versioned capability is discovered inside this sub-surface."
+      ],
+      "adl_refs": [],
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "stop_conditions": [
+        "Stop if this catalog entry is used directly as an implementation ticket or execution seed without manual approval."
+      ],
+      "akti_local": {
+        "phase_id": "6a",
+        "catalog_order": 37,
+        "catalog_outcome": "demote_to_core_microservice",
+        "split_axes": [
+          "mandatory_core_microservice"
+        ],
+        "phase_dependency_rule": "6a is the foundation phase and must not depend on later phases."
+      }
+    },
+    {
+      "subsurface_id": "subsurface_6a_frontend_chunk_registration",
+      "parent_surface_id": "surface_6a_foundry_manifest_lifecycle",
+      "train": "phase_6a",
+      "level": "level_group_0_5",
+      "title": "Frontend Chunk Registration",
+      "subsurface_type": "core_microservice",
+      "source_authority": [
+        "Spark Platform v4.1 6A.10 source component",
+        "Spark Platform v4 business logic",
+        "Sub-surface decomposition guide"
+      ],
+      "scope": "Frontend Chunk Registration planning boundary for source-to-seed traceability.",
+      "non_scope": [
+        "No implementation authority.",
+        "No ticket-pack generation authority.",
+        "No runtime/schema/package mutation authority."
+      ],
+      "expected_file_domains": [
+        "frontend_contracts",
+        "component_contracts",
+        "manifest"
+      ],
+      "expected_concrete_path_patterns": [
+        "exact files must be derived later from repo truth during exact-file planning"
+      ],
+      "forbidden_domains": [
+        "runtime implementation before explicit ticket approval",
+        "ticket pack generation from this PR"
+      ],
+      "api_or_contract_boundary": "Frontend Chunk Registration contract boundary must be resolved during exact-file planning.",
+      "schema_or_persistence_boundary": "Frontend Chunk Registration persistence boundary is planning-only until selected-phase repo refresh.",
+      "provider_or_standard_boundary": "No provider/standard bundling unless explicitly listed in split axes.",
+      "validation_family": "catalog_traceability_validation",
+      "evidence_expectation": "Must emit planning evidence and future runtime audit/billing evidence where applicable.",
+      "mcr_expectation": "Future ticket MCR must be concrete, executable, and exact-file scoped; this catalog entry is not an MCR.",
+      "dependencies": [],
+      "split_if": [
+        "Split if exact-file planning reveals multiple providers, standards, lifecycle stages, role portals, or independently billable/versioned capabilities."
+      ],
+      "adl_refs": [],
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "stop_conditions": [
+        "STOP if ticket generation attempts to copy this placeholder without repo-truth exact-file planning."
+      ],
+      "akti_local": {
+        "phase_id": "6a",
+        "catalog_order": 38,
+        "catalog_outcome": "demote_to_core_microservice",
+        "split_axes": [
+          "mandatory_core_microservice"
+        ],
+        "phase_dependency_rule": "6a dependency order must follow source component topology."
       }
     },
     {
@@ -1181,7 +2336,7 @@
       ],
       "akti_local": {
         "phase_id": "6a",
-        "catalog_order": 23,
+        "catalog_order": 39,
         "catalog_outcome": "demote_to_core_microservice",
         "split_axes": [
           "mandatory_core_microservice"
@@ -1242,7 +2397,7 @@
       ],
       "akti_local": {
         "phase_id": "6a",
-        "catalog_order": 24,
+        "catalog_order": 40,
         "catalog_outcome": "demote_to_core_microservice",
         "split_axes": [
           "mandatory_core_microservice"
@@ -1303,7 +2458,7 @@
       ],
       "akti_local": {
         "phase_id": "6a",
-        "catalog_order": 25,
+        "catalog_order": 41,
         "catalog_outcome": "demote_to_core_microservice",
         "split_axes": [
           "mandatory_core_microservice"
@@ -1364,7 +2519,7 @@
       ],
       "akti_local": {
         "phase_id": "6a",
-        "catalog_order": 26,
+        "catalog_order": 42,
         "catalog_outcome": "demote_to_core_microservice",
         "split_axes": [
           "mandatory_core_microservice"
@@ -1425,7 +2580,7 @@
       ],
       "akti_local": {
         "phase_id": "6a",
-        "catalog_order": 27,
+        "catalog_order": 43,
         "catalog_outcome": "demote_to_optional_microservice",
         "split_axes": [
           "toggleable_billable_versioned_capability"
@@ -1486,7 +2641,7 @@
       ],
       "akti_local": {
         "phase_id": "6a",
-        "catalog_order": 28,
+        "catalog_order": 44,
         "catalog_outcome": "demote_to_optional_microservice",
         "split_axes": [
           "toggleable_billable_versioned_capability"
@@ -1547,7 +2702,7 @@
       ],
       "akti_local": {
         "phase_id": "6a",
-        "catalog_order": 29,
+        "catalog_order": 45,
         "catalog_outcome": "demote_to_optional_microservice",
         "split_axes": [
           "toggleable_billable_versioned_capability"
@@ -1608,7 +2763,7 @@
       ],
       "akti_local": {
         "phase_id": "6a",
-        "catalog_order": 30,
+        "catalog_order": 46,
         "catalog_outcome": "demote_to_optional_microservice",
         "split_axes": [
           "toggleable_billable_versioned_capability"
@@ -1669,7 +2824,7 @@
       ],
       "akti_local": {
         "phase_id": "6a",
-        "catalog_order": 31,
+        "catalog_order": 47,
         "catalog_outcome": "demote_to_optional_microservice",
         "split_axes": [
           "toggleable_billable_versioned_capability"
@@ -1730,12 +2885,68 @@
       ],
       "akti_local": {
         "phase_id": "6a",
-        "catalog_order": 32,
+        "catalog_order": 48,
         "catalog_outcome": "demote_to_optional_microservice",
         "split_axes": [
           "toggleable_billable_versioned_capability"
         ],
         "phase_dependency_rule": "6a is the foundation phase and must not depend on later phases."
+      }
+    },
+    {
+      "subsurface_id": "subsurface_6a_non_ai_optimization_foundation",
+      "parent_surface_id": "surface_6a_platform_runtime_api_search_optimization",
+      "train": "phase_6a",
+      "level": "level_group_0_5",
+      "title": "Non AI Optimization Foundation",
+      "subsurface_type": "service",
+      "source_authority": [
+        "Spark Platform v4.1 6A.15 source component",
+        "Spark Platform v4 business logic",
+        "Sub-surface decomposition guide"
+      ],
+      "scope": "Non AI Optimization Foundation planning boundary for source-to-seed traceability.",
+      "non_scope": [
+        "No implementation authority.",
+        "No ticket-pack generation authority.",
+        "No runtime/schema/package mutation authority."
+      ],
+      "expected_file_domains": [
+        "domain_services",
+        "contracts",
+        "evidence"
+      ],
+      "expected_concrete_path_patterns": [
+        "exact files must be derived later from repo truth during exact-file planning"
+      ],
+      "forbidden_domains": [
+        "runtime implementation before explicit ticket approval",
+        "ticket pack generation from this PR"
+      ],
+      "api_or_contract_boundary": "Non AI Optimization Foundation contract boundary must be resolved during exact-file planning.",
+      "schema_or_persistence_boundary": "Non AI Optimization Foundation persistence boundary is planning-only until selected-phase repo refresh.",
+      "provider_or_standard_boundary": "No provider/standard bundling unless explicitly listed in split axes.",
+      "validation_family": "catalog_traceability_validation",
+      "evidence_expectation": "Must emit planning evidence and future runtime audit/billing evidence where applicable.",
+      "mcr_expectation": "Future ticket MCR must be concrete, executable, and exact-file scoped; this catalog entry is not an MCR.",
+      "dependencies": [],
+      "split_if": [
+        "Split if exact-file planning reveals multiple providers, standards, lifecycle stages, role portals, or independently billable/versioned capabilities."
+      ],
+      "adl_refs": [],
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "stop_conditions": [
+        "STOP if ticket generation attempts to copy this placeholder without repo-truth exact-file planning."
+      ],
+      "akti_local": {
+        "phase_id": "6a",
+        "catalog_order": 49,
+        "catalog_outcome": "keep_as_service",
+        "split_axes": [
+          "toggleable_billable_versioned_capability"
+        ],
+        "phase_dependency_rule": "6a dependency order must follow source component topology."
       }
     },
     {
@@ -1791,7 +3002,7 @@
       ],
       "akti_local": {
         "phase_id": "6a",
-        "catalog_order": 33,
+        "catalog_order": 50,
         "catalog_outcome": "demote_to_optional_microservice",
         "split_axes": [
           "toggleable_billable_versioned_capability"
@@ -1852,7 +3063,7 @@
       ],
       "akti_local": {
         "phase_id": "6a",
-        "catalog_order": 34,
+        "catalog_order": 51,
         "catalog_outcome": "demote_to_optional_microservice",
         "split_axes": [
           "toggleable_billable_versioned_capability"
@@ -1913,7 +3124,7 @@
       ],
       "akti_local": {
         "phase_id": "6a",
-        "catalog_order": 35,
+        "catalog_order": 52,
         "catalog_outcome": "demote_to_optional_microservice",
         "split_axes": [
           "toggleable_billable_versioned_capability"
@@ -1974,7 +3185,7 @@
       ],
       "akti_local": {
         "phase_id": "6a",
-        "catalog_order": 36,
+        "catalog_order": 53,
         "catalog_outcome": "demote_to_optional_microservice",
         "split_axes": [
           "toggleable_billable_versioned_capability"
@@ -2035,7 +3246,7 @@
       ],
       "akti_local": {
         "phase_id": "6a",
-        "catalog_order": 37,
+        "catalog_order": 54,
         "catalog_outcome": "demote_to_optional_microservice",
         "split_axes": [
           "toggleable_billable_versioned_capability"
@@ -2096,68 +3307,7 @@
       ],
       "akti_local": {
         "phase_id": "6a",
-        "catalog_order": 38,
-        "catalog_outcome": "demote_to_core_microservice",
-        "split_axes": [
-          "mandatory_core_microservice"
-        ],
-        "phase_dependency_rule": "6a is the foundation phase and must not depend on later phases."
-      }
-    },
-    {
-      "subsurface_id": "subsurface_6a_base_design_tokens_component_contracts_shell",
-      "parent_surface_id": "surface_6a_base_admin_design_shell",
-      "train": "phase_6a",
-      "level": "level_group_0_5",
-      "title": "Base Design Tokens Component Contracts Shell",
-      "subsurface_type": "core_microservice",
-      "source_authority": [
-        "docs/process/core/v0_0_2/spark_platform_v4_1/0_business_logic.md",
-        "docs/process/core/v0_0_2/spark_platform_v4_1/subsurface_decomposition_guide.md",
-        "docs/process/core/v0_0_2/spark_platform_v4_1/6a_core_update_foundation.md"
-      ],
-      "scope": "Base Design Tokens Component Contracts Shell is an independently catalogued Spark Platform v4.1 sub-surface. It is not a ticket, seed, exact-file plan, or implementation authorization.",
-      "non_scope": [
-        "ticket_generation",
-        "execution_seed_matrix",
-        "predictive_stop_analysis",
-        "autonomous_readiness",
-        "runtime_change"
-      ],
-      "expected_file_domains": [
-        "apps/api",
-        "packages/contracts",
-        "codex-review"
-      ],
-      "expected_concrete_path_patterns": [
-        "apps/api/src/spark_platform/base_design_tokens_component_contracts_shell/future_boundary.ts",
-        "packages/contracts/src/spark_platform/base_design_tokens_component_contracts_shell_contract.ts",
-        "codex-review/core/v0_0_2/spark_platform_v4_1_subsurface_catalog/base_design_tokens_component_contracts_shell_future_evidence.json"
-      ],
-      "forbidden_domains": [
-        "prisma_schema_change_in_this_pr",
-        "package_lockfile_change_in_this_pr",
-        "generated_runtime_change_in_this_pr"
-      ],
-      "api_or_contract_boundary": "base_design_tokens_component_contracts_shell_api_or_contract_boundary",
-      "schema_or_persistence_boundary": "not_applicable_for_catalog_stage",
-      "provider_or_standard_boundary": "not_applicable",
-      "validation_family": "core_microservice_catalog_validation",
-      "evidence_expectation": "docs/process/core/v0_0_2/spark_platform_v4_1_subsurface_catalog_audit_v1.md",
-      "mcr_expectation": "Base Design Tokens Component Contracts Shell must remain independently represented before any execution seed matrix or ticket pack can be produced.",
-      "dependencies": [],
-      "split_if": [
-        "Before seed generation, split again if another provider, standard, channel, lifecycle stage, role, or toggleable billable/versioned capability is discovered inside this sub-surface."
-      ],
-      "adl_refs": [],
-      "readiness_mode": "PREPLANNING_DRAFT",
-      "ticket_generation_allowed": false,
-      "stop_conditions": [
-        "Stop if this catalog entry is used directly as an implementation ticket or execution seed without manual approval."
-      ],
-      "akti_local": {
-        "phase_id": "6a",
-        "catalog_order": 39,
+        "catalog_order": 55,
         "catalog_outcome": "demote_to_core_microservice",
         "split_axes": [
           "mandatory_core_microservice"
@@ -2902,6 +4052,62 @@
       }
     },
     {
+      "subsurface_id": "subsurface_6b_inventory_stock_movement",
+      "parent_surface_id": "surface_6b_inventory_crm_finance_completion",
+      "train": "phase_6b",
+      "level": "level_group_6_8",
+      "title": "Inventory Stock Movement",
+      "subsurface_type": "service",
+      "source_authority": [
+        "Spark Platform v4.1 6B.03 source component",
+        "Spark Platform v4 business logic",
+        "Sub-surface decomposition guide"
+      ],
+      "scope": "Inventory Stock Movement planning boundary for source-to-seed traceability.",
+      "non_scope": [
+        "No implementation authority.",
+        "No ticket-pack generation authority.",
+        "No runtime/schema/package mutation authority."
+      ],
+      "expected_file_domains": [
+        "domain_services",
+        "contracts",
+        "evidence"
+      ],
+      "expected_concrete_path_patterns": [
+        "exact files must be derived later from repo truth during exact-file planning"
+      ],
+      "forbidden_domains": [
+        "runtime implementation before explicit ticket approval",
+        "ticket pack generation from this PR"
+      ],
+      "api_or_contract_boundary": "Inventory Stock Movement contract boundary must be resolved during exact-file planning.",
+      "schema_or_persistence_boundary": "Inventory Stock Movement persistence boundary is planning-only until selected-phase repo refresh.",
+      "provider_or_standard_boundary": "No provider/standard bundling unless explicitly listed in split axes.",
+      "validation_family": "catalog_traceability_validation",
+      "evidence_expectation": "Must emit planning evidence and future runtime audit/billing evidence where applicable.",
+      "mcr_expectation": "Future ticket MCR must be concrete, executable, and exact-file scoped; this catalog entry is not an MCR.",
+      "dependencies": [],
+      "split_if": [
+        "Split if exact-file planning reveals multiple providers, standards, lifecycle stages, role portals, or independently billable/versioned capabilities."
+      ],
+      "adl_refs": [],
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "stop_conditions": [
+        "STOP if ticket generation attempts to copy this placeholder without repo-truth exact-file planning."
+      ],
+      "akti_local": {
+        "phase_id": "6b",
+        "catalog_order": 13,
+        "catalog_outcome": "keep_as_service",
+        "split_axes": [
+          "toggleable_billable_versioned_capability"
+        ],
+        "phase_dependency_rule": "6b dependency order must follow source component topology."
+      }
+    },
+    {
       "subsurface_id": "subsurface_6b_meta_lead_forms_connector",
       "parent_surface_id": "surface_6b_lead_intake",
       "train": "phase_6b",
@@ -2954,7 +4160,7 @@
       ],
       "akti_local": {
         "phase_id": "6b",
-        "catalog_order": 13,
+        "catalog_order": 14,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "provider"
@@ -3015,7 +4221,7 @@
       ],
       "akti_local": {
         "phase_id": "6b",
-        "catalog_order": 14,
+        "catalog_order": 15,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "provider"
@@ -3076,7 +4282,7 @@
       ],
       "akti_local": {
         "phase_id": "6b",
-        "catalog_order": 15,
+        "catalog_order": 16,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "provider"
@@ -3137,7 +4343,7 @@
       ],
       "akti_local": {
         "phase_id": "6b",
-        "catalog_order": 16,
+        "catalog_order": 17,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "provider"
@@ -3198,7 +4404,7 @@
       ],
       "akti_local": {
         "phase_id": "6b",
-        "catalog_order": 17,
+        "catalog_order": 18,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "provider"
@@ -3259,7 +4465,7 @@
       ],
       "akti_local": {
         "phase_id": "6b",
-        "catalog_order": 18,
+        "catalog_order": 19,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "provider"
@@ -3320,7 +4526,7 @@
       ],
       "akti_local": {
         "phase_id": "6b",
-        "catalog_order": 19,
+        "catalog_order": 20,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "provider"
@@ -3381,7 +4587,7 @@
       ],
       "akti_local": {
         "phase_id": "6b",
-        "catalog_order": 20,
+        "catalog_order": 21,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
@@ -3442,7 +4648,7 @@
       ],
       "akti_local": {
         "phase_id": "6b",
-        "catalog_order": 21,
+        "catalog_order": 22,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
@@ -3503,7 +4709,7 @@
       ],
       "akti_local": {
         "phase_id": "6b",
-        "catalog_order": 22,
+        "catalog_order": 23,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "provider"
@@ -3564,7 +4770,7 @@
       ],
       "akti_local": {
         "phase_id": "6b",
-        "catalog_order": 23,
+        "catalog_order": 24,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "provider"
@@ -3625,7 +4831,7 @@
       ],
       "akti_local": {
         "phase_id": "6b",
-        "catalog_order": 24,
+        "catalog_order": 25,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "provider"
@@ -3686,7 +4892,7 @@
       ],
       "akti_local": {
         "phase_id": "6b",
-        "catalog_order": 25,
+        "catalog_order": 26,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "provider"
@@ -3747,7 +4953,7 @@
       ],
       "akti_local": {
         "phase_id": "6b",
-        "catalog_order": 26,
+        "catalog_order": 27,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "provider"
@@ -3808,7 +5014,7 @@
       ],
       "akti_local": {
         "phase_id": "6b",
-        "catalog_order": 27,
+        "catalog_order": 28,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "provider"
@@ -3869,7 +5075,7 @@
       ],
       "akti_local": {
         "phase_id": "6b",
-        "catalog_order": 28,
+        "catalog_order": 29,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "provider"
@@ -3930,7 +5136,7 @@
       ],
       "akti_local": {
         "phase_id": "6b",
-        "catalog_order": 29,
+        "catalog_order": 30,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "provider"
@@ -3991,7 +5197,7 @@
       ],
       "akti_local": {
         "phase_id": "6b",
-        "catalog_order": 30,
+        "catalog_order": 31,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "provider"
@@ -4052,12 +5258,180 @@
       ],
       "akti_local": {
         "phase_id": "6b",
-        "catalog_order": 31,
+        "catalog_order": 32,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
         ],
         "phase_dependency_rule": "6b depends on 6a."
+      }
+    },
+    {
+      "subsurface_id": "subsurface_6b_crm_deduplication_identity_resolution",
+      "parent_surface_id": "surface_6b_inventory_crm_finance_completion",
+      "train": "phase_6b",
+      "level": "level_group_6_8",
+      "title": "CRM Deduplication Identity Resolution",
+      "subsurface_type": "core_microservice",
+      "source_authority": [
+        "Spark Platform v4.1 6B.05 source component",
+        "Spark Platform v4 business logic",
+        "Sub-surface decomposition guide"
+      ],
+      "scope": "CRM Deduplication Identity Resolution planning boundary for source-to-seed traceability.",
+      "non_scope": [
+        "No implementation authority.",
+        "No ticket-pack generation authority.",
+        "No runtime/schema/package mutation authority."
+      ],
+      "expected_file_domains": [
+        "domain_services",
+        "contracts",
+        "evidence"
+      ],
+      "expected_concrete_path_patterns": [
+        "exact files must be derived later from repo truth during exact-file planning"
+      ],
+      "forbidden_domains": [
+        "runtime implementation before explicit ticket approval",
+        "ticket pack generation from this PR"
+      ],
+      "api_or_contract_boundary": "CRM Deduplication Identity Resolution contract boundary must be resolved during exact-file planning.",
+      "schema_or_persistence_boundary": "CRM Deduplication Identity Resolution persistence boundary is planning-only until selected-phase repo refresh.",
+      "provider_or_standard_boundary": "No provider/standard bundling unless explicitly listed in split axes.",
+      "validation_family": "catalog_traceability_validation",
+      "evidence_expectation": "Must emit planning evidence and future runtime audit/billing evidence where applicable.",
+      "mcr_expectation": "Future ticket MCR must be concrete, executable, and exact-file scoped; this catalog entry is not an MCR.",
+      "dependencies": [],
+      "split_if": [
+        "Split if exact-file planning reveals multiple providers, standards, lifecycle stages, role portals, or independently billable/versioned capabilities."
+      ],
+      "adl_refs": [],
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "stop_conditions": [
+        "STOP if ticket generation attempts to copy this placeholder without repo-truth exact-file planning."
+      ],
+      "akti_local": {
+        "phase_id": "6b",
+        "catalog_order": 33,
+        "catalog_outcome": "demote_to_core_microservice",
+        "split_axes": [
+          "mandatory_core_microservice"
+        ],
+        "phase_dependency_rule": "6b dependency order must follow source component topology."
+      }
+    },
+    {
+      "subsurface_id": "subsurface_6b_crm_pipeline_timeline",
+      "parent_surface_id": "surface_6b_inventory_crm_finance_completion",
+      "train": "phase_6b",
+      "level": "level_group_6_8",
+      "title": "CRM Pipeline Timeline",
+      "subsurface_type": "service",
+      "source_authority": [
+        "Spark Platform v4.1 6B.06 source component",
+        "Spark Platform v4 business logic",
+        "Sub-surface decomposition guide"
+      ],
+      "scope": "CRM Pipeline Timeline planning boundary for source-to-seed traceability.",
+      "non_scope": [
+        "No implementation authority.",
+        "No ticket-pack generation authority.",
+        "No runtime/schema/package mutation authority."
+      ],
+      "expected_file_domains": [
+        "domain_services",
+        "contracts",
+        "evidence"
+      ],
+      "expected_concrete_path_patterns": [
+        "exact files must be derived later from repo truth during exact-file planning"
+      ],
+      "forbidden_domains": [
+        "runtime implementation before explicit ticket approval",
+        "ticket pack generation from this PR"
+      ],
+      "api_or_contract_boundary": "CRM Pipeline Timeline contract boundary must be resolved during exact-file planning.",
+      "schema_or_persistence_boundary": "CRM Pipeline Timeline persistence boundary is planning-only until selected-phase repo refresh.",
+      "provider_or_standard_boundary": "No provider/standard bundling unless explicitly listed in split axes.",
+      "validation_family": "catalog_traceability_validation",
+      "evidence_expectation": "Must emit planning evidence and future runtime audit/billing evidence where applicable.",
+      "mcr_expectation": "Future ticket MCR must be concrete, executable, and exact-file scoped; this catalog entry is not an MCR.",
+      "dependencies": [],
+      "split_if": [
+        "Split if exact-file planning reveals multiple providers, standards, lifecycle stages, role portals, or independently billable/versioned capabilities."
+      ],
+      "adl_refs": [],
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "stop_conditions": [
+        "STOP if ticket generation attempts to copy this placeholder without repo-truth exact-file planning."
+      ],
+      "akti_local": {
+        "phase_id": "6b",
+        "catalog_order": 34,
+        "catalog_outcome": "keep_as_service",
+        "split_axes": [
+          "toggleable_billable_versioned_capability"
+        ],
+        "phase_dependency_rule": "6b dependency order must follow source component topology."
+      }
+    },
+    {
+      "subsurface_id": "subsurface_6b_crm_scoring_follow_up_reporting",
+      "parent_surface_id": "surface_6b_inventory_crm_finance_completion",
+      "train": "phase_6b",
+      "level": "level_group_6_8",
+      "title": "CRM Scoring Follow Up Reporting",
+      "subsurface_type": "service",
+      "source_authority": [
+        "Spark Platform v4.1 6B.08 source component",
+        "Spark Platform v4 business logic",
+        "Sub-surface decomposition guide"
+      ],
+      "scope": "CRM Scoring Follow Up Reporting planning boundary for source-to-seed traceability.",
+      "non_scope": [
+        "No implementation authority.",
+        "No ticket-pack generation authority.",
+        "No runtime/schema/package mutation authority."
+      ],
+      "expected_file_domains": [
+        "domain_services",
+        "contracts",
+        "evidence"
+      ],
+      "expected_concrete_path_patterns": [
+        "exact files must be derived later from repo truth during exact-file planning"
+      ],
+      "forbidden_domains": [
+        "runtime implementation before explicit ticket approval",
+        "ticket pack generation from this PR"
+      ],
+      "api_or_contract_boundary": "CRM Scoring Follow Up Reporting contract boundary must be resolved during exact-file planning.",
+      "schema_or_persistence_boundary": "CRM Scoring Follow Up Reporting persistence boundary is planning-only until selected-phase repo refresh.",
+      "provider_or_standard_boundary": "No provider/standard bundling unless explicitly listed in split axes.",
+      "validation_family": "catalog_traceability_validation",
+      "evidence_expectation": "Must emit planning evidence and future runtime audit/billing evidence where applicable.",
+      "mcr_expectation": "Future ticket MCR must be concrete, executable, and exact-file scoped; this catalog entry is not an MCR.",
+      "dependencies": [],
+      "split_if": [
+        "Split if exact-file planning reveals multiple providers, standards, lifecycle stages, role portals, or independently billable/versioned capabilities."
+      ],
+      "adl_refs": [],
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "stop_conditions": [
+        "STOP if ticket generation attempts to copy this placeholder without repo-truth exact-file planning."
+      ],
+      "akti_local": {
+        "phase_id": "6b",
+        "catalog_order": 35,
+        "catalog_outcome": "keep_as_service",
+        "split_axes": [
+          "toggleable_billable_versioned_capability"
+        ],
+        "phase_dependency_rule": "6b dependency order must follow source component topology."
       }
     },
     {
@@ -4113,7 +5487,7 @@
       ],
       "akti_local": {
         "phase_id": "6b",
-        "catalog_order": 32,
+        "catalog_order": 36,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "channel"
@@ -4174,7 +5548,7 @@
       ],
       "akti_local": {
         "phase_id": "6b",
-        "catalog_order": 33,
+        "catalog_order": 37,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "channel"
@@ -4235,7 +5609,7 @@
       ],
       "akti_local": {
         "phase_id": "6b",
-        "catalog_order": 34,
+        "catalog_order": 38,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "channel"
@@ -4296,7 +5670,7 @@
       ],
       "akti_local": {
         "phase_id": "6b",
-        "catalog_order": 35,
+        "catalog_order": 39,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "channel"
@@ -4357,7 +5731,7 @@
       ],
       "akti_local": {
         "phase_id": "6b",
-        "catalog_order": 36,
+        "catalog_order": 40,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "channel"
@@ -4418,7 +5792,7 @@
       ],
       "akti_local": {
         "phase_id": "6b",
-        "catalog_order": 37,
+        "catalog_order": 41,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "channel"
@@ -4479,7 +5853,7 @@
       ],
       "akti_local": {
         "phase_id": "6b",
-        "catalog_order": 38,
+        "catalog_order": 42,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "channel"
@@ -4540,7 +5914,7 @@
       ],
       "akti_local": {
         "phase_id": "6b",
-        "catalog_order": 39,
+        "catalog_order": 43,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "channel"
@@ -4601,7 +5975,7 @@
       ],
       "akti_local": {
         "phase_id": "6b",
-        "catalog_order": 40,
+        "catalog_order": 44,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "provider"
@@ -4662,7 +6036,7 @@
       ],
       "akti_local": {
         "phase_id": "6b",
-        "catalog_order": 41,
+        "catalog_order": 45,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "provider"
@@ -4723,7 +6097,7 @@
       ],
       "akti_local": {
         "phase_id": "6b",
-        "catalog_order": 42,
+        "catalog_order": 46,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "provider"
@@ -4784,7 +6158,7 @@
       ],
       "akti_local": {
         "phase_id": "6b",
-        "catalog_order": 43,
+        "catalog_order": 47,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "provider"
@@ -4845,7 +6219,7 @@
       ],
       "akti_local": {
         "phase_id": "6b",
-        "catalog_order": 44,
+        "catalog_order": 48,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "provider"
@@ -4906,7 +6280,7 @@
       ],
       "akti_local": {
         "phase_id": "6b",
-        "catalog_order": 45,
+        "catalog_order": 49,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "provider"
@@ -4967,7 +6341,7 @@
       ],
       "akti_local": {
         "phase_id": "6b",
-        "catalog_order": 46,
+        "catalog_order": 50,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
@@ -5030,7 +6404,7 @@
       ],
       "akti_local": {
         "phase_id": "6b",
-        "catalog_order": 47,
+        "catalog_order": 51,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "adl_stateful_logic",
@@ -5094,7 +6468,7 @@
       ],
       "akti_local": {
         "phase_id": "6b",
-        "catalog_order": 48,
+        "catalog_order": 52,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "adl_stateful_logic",
@@ -5156,12 +6530,180 @@
       ],
       "akti_local": {
         "phase_id": "6b",
-        "catalog_order": 49,
+        "catalog_order": 53,
         "catalog_outcome": "demote_to_optional_microservice",
         "split_axes": [
           "toggleable_billable_versioned_capability"
         ],
         "phase_dependency_rule": "6b depends on 6a."
+      }
+    },
+    {
+      "subsurface_id": "subsurface_6b_finance_invoice_receivables",
+      "parent_surface_id": "surface_6b_inventory_crm_finance_completion",
+      "train": "phase_6b",
+      "level": "level_group_6_8",
+      "title": "Finance Invoice Receivables",
+      "subsurface_type": "service",
+      "source_authority": [
+        "Spark Platform v4.1 6B.09 source component",
+        "Spark Platform v4 business logic",
+        "Sub-surface decomposition guide"
+      ],
+      "scope": "Finance Invoice Receivables planning boundary for source-to-seed traceability.",
+      "non_scope": [
+        "No implementation authority.",
+        "No ticket-pack generation authority.",
+        "No runtime/schema/package mutation authority."
+      ],
+      "expected_file_domains": [
+        "domain_services",
+        "ledger_contracts",
+        "billing_evidence"
+      ],
+      "expected_concrete_path_patterns": [
+        "exact files must be derived later from repo truth during exact-file planning"
+      ],
+      "forbidden_domains": [
+        "runtime implementation before explicit ticket approval",
+        "ticket pack generation from this PR"
+      ],
+      "api_or_contract_boundary": "Finance Invoice Receivables contract boundary must be resolved during exact-file planning.",
+      "schema_or_persistence_boundary": "Finance Invoice Receivables persistence boundary is planning-only until selected-phase repo refresh.",
+      "provider_or_standard_boundary": "No provider/standard bundling unless explicitly listed in split axes.",
+      "validation_family": "catalog_traceability_validation",
+      "evidence_expectation": "Must emit planning evidence and future runtime audit/billing evidence where applicable.",
+      "mcr_expectation": "Future ticket MCR must be concrete, executable, and exact-file scoped; this catalog entry is not an MCR.",
+      "dependencies": [],
+      "split_if": [
+        "Split if exact-file planning reveals multiple providers, standards, lifecycle stages, role portals, or independently billable/versioned capabilities."
+      ],
+      "adl_refs": [],
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "stop_conditions": [
+        "STOP if ticket generation attempts to copy this placeholder without repo-truth exact-file planning."
+      ],
+      "akti_local": {
+        "phase_id": "6b",
+        "catalog_order": 54,
+        "catalog_outcome": "keep_as_service",
+        "split_axes": [
+          "toggleable_billable_versioned_capability"
+        ],
+        "phase_dependency_rule": "6b dependency order must follow source component topology."
+      }
+    },
+    {
+      "subsurface_id": "subsurface_6b_expense_purchase_vendor",
+      "parent_surface_id": "surface_6b_inventory_crm_finance_completion",
+      "train": "phase_6b",
+      "level": "level_group_6_8",
+      "title": "Expense Purchase Vendor",
+      "subsurface_type": "service",
+      "source_authority": [
+        "Spark Platform v4.1 6B.11 source component",
+        "Spark Platform v4 business logic",
+        "Sub-surface decomposition guide"
+      ],
+      "scope": "Expense Purchase Vendor planning boundary for source-to-seed traceability.",
+      "non_scope": [
+        "No implementation authority.",
+        "No ticket-pack generation authority.",
+        "No runtime/schema/package mutation authority."
+      ],
+      "expected_file_domains": [
+        "domain_services",
+        "ledger_contracts",
+        "billing_evidence"
+      ],
+      "expected_concrete_path_patterns": [
+        "exact files must be derived later from repo truth during exact-file planning"
+      ],
+      "forbidden_domains": [
+        "runtime implementation before explicit ticket approval",
+        "ticket pack generation from this PR"
+      ],
+      "api_or_contract_boundary": "Expense Purchase Vendor contract boundary must be resolved during exact-file planning.",
+      "schema_or_persistence_boundary": "Expense Purchase Vendor persistence boundary is planning-only until selected-phase repo refresh.",
+      "provider_or_standard_boundary": "No provider/standard bundling unless explicitly listed in split axes.",
+      "validation_family": "catalog_traceability_validation",
+      "evidence_expectation": "Must emit planning evidence and future runtime audit/billing evidence where applicable.",
+      "mcr_expectation": "Future ticket MCR must be concrete, executable, and exact-file scoped; this catalog entry is not an MCR.",
+      "dependencies": [],
+      "split_if": [
+        "Split if exact-file planning reveals multiple providers, standards, lifecycle stages, role portals, or independently billable/versioned capabilities."
+      ],
+      "adl_refs": [],
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "stop_conditions": [
+        "STOP if ticket generation attempts to copy this placeholder without repo-truth exact-file planning."
+      ],
+      "akti_local": {
+        "phase_id": "6b",
+        "catalog_order": 55,
+        "catalog_outcome": "keep_as_service",
+        "split_axes": [
+          "toggleable_billable_versioned_capability"
+        ],
+        "phase_dependency_rule": "6b dependency order must follow source component topology."
+      }
+    },
+    {
+      "subsurface_id": "subsurface_6b_banking_reconciliation",
+      "parent_surface_id": "surface_6b_inventory_crm_finance_completion",
+      "train": "phase_6b",
+      "level": "level_group_6_8",
+      "title": "Banking Reconciliation",
+      "subsurface_type": "service",
+      "source_authority": [
+        "Spark Platform v4.1 6B.13 source component",
+        "Spark Platform v4 business logic",
+        "Sub-surface decomposition guide"
+      ],
+      "scope": "Banking Reconciliation planning boundary for source-to-seed traceability.",
+      "non_scope": [
+        "No implementation authority.",
+        "No ticket-pack generation authority.",
+        "No runtime/schema/package mutation authority."
+      ],
+      "expected_file_domains": [
+        "domain_services",
+        "ledger_contracts",
+        "billing_evidence"
+      ],
+      "expected_concrete_path_patterns": [
+        "exact files must be derived later from repo truth during exact-file planning"
+      ],
+      "forbidden_domains": [
+        "runtime implementation before explicit ticket approval",
+        "ticket pack generation from this PR"
+      ],
+      "api_or_contract_boundary": "Banking Reconciliation contract boundary must be resolved during exact-file planning.",
+      "schema_or_persistence_boundary": "Banking Reconciliation persistence boundary is planning-only until selected-phase repo refresh.",
+      "provider_or_standard_boundary": "No provider/standard bundling unless explicitly listed in split axes.",
+      "validation_family": "catalog_traceability_validation",
+      "evidence_expectation": "Must emit planning evidence and future runtime audit/billing evidence where applicable.",
+      "mcr_expectation": "Future ticket MCR must be concrete, executable, and exact-file scoped; this catalog entry is not an MCR.",
+      "dependencies": [],
+      "split_if": [
+        "Split if exact-file planning reveals multiple providers, standards, lifecycle stages, role portals, or independently billable/versioned capabilities."
+      ],
+      "adl_refs": [],
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "stop_conditions": [
+        "STOP if ticket generation attempts to copy this placeholder without repo-truth exact-file planning."
+      ],
+      "akti_local": {
+        "phase_id": "6b",
+        "catalog_order": 56,
+        "catalog_outcome": "keep_as_service",
+        "split_axes": [
+          "provider"
+        ],
+        "phase_dependency_rule": "6b dependency order must follow source component topology."
       }
     },
     {
@@ -5217,7 +6759,7 @@
       ],
       "akti_local": {
         "phase_id": "6b",
-        "catalog_order": 50,
+        "catalog_order": 57,
         "catalog_outcome": "demote_to_core_microservice",
         "split_axes": [
           "mandatory_core_microservice"
@@ -5278,7 +6820,7 @@
       ],
       "akti_local": {
         "phase_id": "6b",
-        "catalog_order": 51,
+        "catalog_order": 58,
         "catalog_outcome": "demote_to_core_microservice",
         "split_axes": [
           "mandatory_core_microservice"
@@ -5339,12 +6881,70 @@
       ],
       "akti_local": {
         "phase_id": "6b",
-        "catalog_order": 52,
+        "catalog_order": 59,
         "catalog_outcome": "demote_to_core_microservice",
         "split_axes": [
           "mandatory_core_microservice"
         ],
         "phase_dependency_rule": "6b depends on 6a."
+      }
+    },
+    {
+      "subsurface_id": "subsurface_6b_fx_gain_loss_accounting",
+      "parent_surface_id": "surface_6b_accounting_payroll_tax",
+      "train": "phase_6b",
+      "level": "level_group_6_8",
+      "title": "FX Gain Loss Accounting",
+      "subsurface_type": "service",
+      "source_authority": [
+        "Spark Platform v4.1 6B.12 source component",
+        "Spark Platform v4 business logic",
+        "Sub-surface decomposition guide"
+      ],
+      "scope": "FX Gain Loss Accounting planning boundary for source-to-seed traceability.",
+      "non_scope": [
+        "No implementation authority.",
+        "No ticket-pack generation authority.",
+        "No runtime/schema/package mutation authority."
+      ],
+      "expected_file_domains": [
+        "domain_services",
+        "contracts",
+        "evidence"
+      ],
+      "expected_concrete_path_patterns": [
+        "exact files must be derived later from repo truth during exact-file planning"
+      ],
+      "forbidden_domains": [
+        "runtime implementation before explicit ticket approval",
+        "ticket pack generation from this PR"
+      ],
+      "api_or_contract_boundary": "FX Gain Loss Accounting contract boundary must be resolved during exact-file planning.",
+      "schema_or_persistence_boundary": "FX Gain Loss Accounting persistence boundary is planning-only until selected-phase repo refresh.",
+      "provider_or_standard_boundary": "No provider/standard bundling unless explicitly listed in split axes.",
+      "validation_family": "catalog_traceability_validation",
+      "evidence_expectation": "Must emit planning evidence and future runtime audit/billing evidence where applicable.",
+      "mcr_expectation": "Future ticket MCR must be concrete, executable, and exact-file scoped; this catalog entry is not an MCR.",
+      "dependencies": [],
+      "split_if": [
+        "Split if exact-file planning reveals multiple providers, standards, lifecycle stages, role portals, or independently billable/versioned capabilities."
+      ],
+      "adl_refs": [
+        "ADL-016"
+      ],
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "stop_conditions": [
+        "STOP if ticket generation attempts to copy this placeholder without repo-truth exact-file planning."
+      ],
+      "akti_local": {
+        "phase_id": "6b",
+        "catalog_order": 60,
+        "catalog_outcome": "keep_as_service",
+        "split_axes": [
+          "toggleable_billable_versioned_capability"
+        ],
+        "phase_dependency_rule": "6b dependency order must follow source component topology."
       }
     },
     {
@@ -5402,7 +7002,7 @@
       ],
       "akti_local": {
         "phase_id": "6b",
-        "catalog_order": 53,
+        "catalog_order": 61,
         "catalog_outcome": "demote_to_core_microservice",
         "split_axes": [
           "mandatory_core_microservice"
@@ -5463,7 +7063,7 @@
       ],
       "akti_local": {
         "phase_id": "6b",
-        "catalog_order": 54,
+        "catalog_order": 62,
         "catalog_outcome": "demote_to_core_microservice",
         "split_axes": [
           "mandatory_core_microservice"
@@ -5524,7 +7124,7 @@
       ],
       "akti_local": {
         "phase_id": "6b",
-        "catalog_order": 55,
+        "catalog_order": 63,
         "catalog_outcome": "demote_to_core_microservice",
         "split_axes": [
           "mandatory_core_microservice"
@@ -5585,7 +7185,7 @@
       ],
       "akti_local": {
         "phase_id": "6b",
-        "catalog_order": 56,
+        "catalog_order": 64,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "adl_stateful_logic",
@@ -5647,12 +7247,180 @@
       ],
       "akti_local": {
         "phase_id": "6b",
-        "catalog_order": 57,
+        "catalog_order": 65,
         "catalog_outcome": "demote_to_core_microservice",
         "split_axes": [
           "mandatory_core_microservice"
         ],
         "phase_dependency_rule": "6b depends on 6a."
+      }
+    },
+    {
+      "subsurface_id": "subsurface_6b_finance_platform_billing_ui_customer_billing_operations",
+      "parent_surface_id": "surface_6b_inventory_crm_finance_completion",
+      "train": "phase_6b",
+      "level": "level_group_6_8",
+      "title": "Finance Platform Billing Ui Customer Billing Operations",
+      "subsurface_type": "service",
+      "source_authority": [
+        "Spark Platform v4.1 6B.15 source component",
+        "Spark Platform v4 business logic",
+        "Sub-surface decomposition guide"
+      ],
+      "scope": "Finance Platform Billing Ui Customer Billing Operations planning boundary for source-to-seed traceability.",
+      "non_scope": [
+        "No implementation authority.",
+        "No ticket-pack generation authority.",
+        "No runtime/schema/package mutation authority."
+      ],
+      "expected_file_domains": [
+        "domain_services",
+        "ledger_contracts",
+        "billing_evidence"
+      ],
+      "expected_concrete_path_patterns": [
+        "exact files must be derived later from repo truth during exact-file planning"
+      ],
+      "forbidden_domains": [
+        "runtime implementation before explicit ticket approval",
+        "ticket pack generation from this PR"
+      ],
+      "api_or_contract_boundary": "Finance Platform Billing Ui Customer Billing Operations contract boundary must be resolved during exact-file planning.",
+      "schema_or_persistence_boundary": "Finance Platform Billing Ui Customer Billing Operations persistence boundary is planning-only until selected-phase repo refresh.",
+      "provider_or_standard_boundary": "No provider/standard bundling unless explicitly listed in split axes.",
+      "validation_family": "catalog_traceability_validation",
+      "evidence_expectation": "Must emit planning evidence and future runtime audit/billing evidence where applicable.",
+      "mcr_expectation": "Future ticket MCR must be concrete, executable, and exact-file scoped; this catalog entry is not an MCR.",
+      "dependencies": [],
+      "split_if": [
+        "Split if exact-file planning reveals multiple providers, standards, lifecycle stages, role portals, or independently billable/versioned capabilities."
+      ],
+      "adl_refs": [],
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "stop_conditions": [
+        "STOP if ticket generation attempts to copy this placeholder without repo-truth exact-file planning."
+      ],
+      "akti_local": {
+        "phase_id": "6b",
+        "catalog_order": 66,
+        "catalog_outcome": "keep_as_service",
+        "split_axes": [
+          "toggleable_billable_versioned_capability"
+        ],
+        "phase_dependency_rule": "6b dependency order must follow source component topology."
+      }
+    },
+    {
+      "subsurface_id": "subsurface_6c_hr_employee_records_organisation_structure",
+      "parent_surface_id": "surface_6c_hr_people_recruitment",
+      "train": "phase_6c",
+      "level": "level_group_9_10_12",
+      "title": "HR Employee Records Organisation Structure",
+      "subsurface_type": "service",
+      "source_authority": [
+        "Spark Platform v4.1 6C.01 source component",
+        "Spark Platform v4 business logic",
+        "Sub-surface decomposition guide"
+      ],
+      "scope": "HR Employee Records Organisation Structure planning boundary for source-to-seed traceability.",
+      "non_scope": [
+        "No implementation authority.",
+        "No ticket-pack generation authority.",
+        "No runtime/schema/package mutation authority."
+      ],
+      "expected_file_domains": [
+        "domain_services",
+        "contracts",
+        "evidence"
+      ],
+      "expected_concrete_path_patterns": [
+        "exact files must be derived later from repo truth during exact-file planning"
+      ],
+      "forbidden_domains": [
+        "runtime implementation before explicit ticket approval",
+        "ticket pack generation from this PR"
+      ],
+      "api_or_contract_boundary": "HR Employee Records Organisation Structure contract boundary must be resolved during exact-file planning.",
+      "schema_or_persistence_boundary": "HR Employee Records Organisation Structure persistence boundary is planning-only until selected-phase repo refresh.",
+      "provider_or_standard_boundary": "No provider/standard bundling unless explicitly listed in split axes.",
+      "validation_family": "catalog_traceability_validation",
+      "evidence_expectation": "Must emit planning evidence and future runtime audit/billing evidence where applicable.",
+      "mcr_expectation": "Future ticket MCR must be concrete, executable, and exact-file scoped; this catalog entry is not an MCR.",
+      "dependencies": [],
+      "split_if": [
+        "Split if exact-file planning reveals multiple providers, standards, lifecycle stages, role portals, or independently billable/versioned capabilities."
+      ],
+      "adl_refs": [],
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "stop_conditions": [
+        "STOP if ticket generation attempts to copy this placeholder without repo-truth exact-file planning."
+      ],
+      "akti_local": {
+        "phase_id": "6c",
+        "catalog_order": 1,
+        "catalog_outcome": "keep_as_service",
+        "split_axes": [
+          "toggleable_billable_versioned_capability"
+        ],
+        "phase_dependency_rule": "6c dependency order must follow source component topology."
+      }
+    },
+    {
+      "subsurface_id": "subsurface_6c_hr_recruitment_onboarding",
+      "parent_surface_id": "surface_6c_hr_people_recruitment",
+      "train": "phase_6c",
+      "level": "level_group_9_10_12",
+      "title": "HR Recruitment Onboarding",
+      "subsurface_type": "service",
+      "source_authority": [
+        "Spark Platform v4.1 6C.02 source component",
+        "Spark Platform v4 business logic",
+        "Sub-surface decomposition guide"
+      ],
+      "scope": "HR Recruitment Onboarding planning boundary for source-to-seed traceability.",
+      "non_scope": [
+        "No implementation authority.",
+        "No ticket-pack generation authority.",
+        "No runtime/schema/package mutation authority."
+      ],
+      "expected_file_domains": [
+        "domain_services",
+        "contracts",
+        "evidence"
+      ],
+      "expected_concrete_path_patterns": [
+        "exact files must be derived later from repo truth during exact-file planning"
+      ],
+      "forbidden_domains": [
+        "runtime implementation before explicit ticket approval",
+        "ticket pack generation from this PR"
+      ],
+      "api_or_contract_boundary": "HR Recruitment Onboarding contract boundary must be resolved during exact-file planning.",
+      "schema_or_persistence_boundary": "HR Recruitment Onboarding persistence boundary is planning-only until selected-phase repo refresh.",
+      "provider_or_standard_boundary": "No provider/standard bundling unless explicitly listed in split axes.",
+      "validation_family": "catalog_traceability_validation",
+      "evidence_expectation": "Must emit planning evidence and future runtime audit/billing evidence where applicable.",
+      "mcr_expectation": "Future ticket MCR must be concrete, executable, and exact-file scoped; this catalog entry is not an MCR.",
+      "dependencies": [],
+      "split_if": [
+        "Split if exact-file planning reveals multiple providers, standards, lifecycle stages, role portals, or independently billable/versioned capabilities."
+      ],
+      "adl_refs": [],
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "stop_conditions": [
+        "STOP if ticket generation attempts to copy this placeholder without repo-truth exact-file planning."
+      ],
+      "akti_local": {
+        "phase_id": "6c",
+        "catalog_order": 2,
+        "catalog_outcome": "keep_as_service",
+        "split_axes": [
+          "toggleable_billable_versioned_capability"
+        ],
+        "phase_dependency_rule": "6c dependency order must follow source component topology."
       }
     },
     {
@@ -5708,7 +7476,7 @@
       ],
       "akti_local": {
         "phase_id": "6c",
-        "catalog_order": 1,
+        "catalog_order": 3,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
@@ -5769,7 +7537,7 @@
       ],
       "akti_local": {
         "phase_id": "6c",
-        "catalog_order": 2,
+        "catalog_order": 4,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "provider"
@@ -5830,7 +7598,7 @@
       ],
       "akti_local": {
         "phase_id": "6c",
-        "catalog_order": 3,
+        "catalog_order": 5,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "provider"
@@ -5891,7 +7659,7 @@
       ],
       "akti_local": {
         "phase_id": "6c",
-        "catalog_order": 4,
+        "catalog_order": 6,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "provider"
@@ -5952,7 +7720,7 @@
       ],
       "akti_local": {
         "phase_id": "6c",
-        "catalog_order": 5,
+        "catalog_order": 7,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "provider"
@@ -6013,7 +7781,7 @@
       ],
       "akti_local": {
         "phase_id": "6c",
-        "catalog_order": 6,
+        "catalog_order": 8,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
@@ -6074,7 +7842,7 @@
       ],
       "akti_local": {
         "phase_id": "6c",
-        "catalog_order": 7,
+        "catalog_order": 9,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
@@ -6135,7 +7903,7 @@
       ],
       "akti_local": {
         "phase_id": "6c",
-        "catalog_order": 8,
+        "catalog_order": 10,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
@@ -6196,7 +7964,7 @@
       ],
       "akti_local": {
         "phase_id": "6c",
-        "catalog_order": 9,
+        "catalog_order": 11,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
@@ -6257,7 +8025,7 @@
       ],
       "akti_local": {
         "phase_id": "6c",
-        "catalog_order": 10,
+        "catalog_order": 12,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
@@ -6318,7 +8086,7 @@
       ],
       "akti_local": {
         "phase_id": "6c",
-        "catalog_order": 11,
+        "catalog_order": 13,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
@@ -6381,7 +8149,7 @@
       ],
       "akti_local": {
         "phase_id": "6c",
-        "catalog_order": 12,
+        "catalog_order": 14,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "adl_stateful_logic",
@@ -6445,7 +8213,7 @@
       ],
       "akti_local": {
         "phase_id": "6c",
-        "catalog_order": 13,
+        "catalog_order": 15,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "adl_stateful_logic",
@@ -6507,7 +8275,7 @@
       ],
       "akti_local": {
         "phase_id": "6c",
-        "catalog_order": 14,
+        "catalog_order": 16,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
@@ -6568,7 +8336,7 @@
       ],
       "akti_local": {
         "phase_id": "6c",
-        "catalog_order": 15,
+        "catalog_order": 17,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
@@ -6629,7 +8397,7 @@
       ],
       "akti_local": {
         "phase_id": "6c",
-        "catalog_order": 16,
+        "catalog_order": 18,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
@@ -6690,7 +8458,7 @@
       ],
       "akti_local": {
         "phase_id": "6c",
-        "catalog_order": 17,
+        "catalog_order": 19,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "adl_stateful_logic",
@@ -6752,7 +8520,7 @@
       ],
       "akti_local": {
         "phase_id": "6c",
-        "catalog_order": 18,
+        "catalog_order": 20,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
@@ -6813,7 +8581,7 @@
       ],
       "akti_local": {
         "phase_id": "6c",
-        "catalog_order": 19,
+        "catalog_order": 21,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
@@ -6874,7 +8642,7 @@
       ],
       "akti_local": {
         "phase_id": "6c",
-        "catalog_order": 20,
+        "catalog_order": 22,
         "catalog_outcome": "demote_to_optional_microservice",
         "split_axes": [
           "toggleable_billable_versioned_capability"
@@ -6935,7 +8703,7 @@
       ],
       "akti_local": {
         "phase_id": "6c",
-        "catalog_order": 21,
+        "catalog_order": 23,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
@@ -6996,7 +8764,7 @@
       ],
       "akti_local": {
         "phase_id": "6c",
-        "catalog_order": 22,
+        "catalog_order": 24,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
@@ -7057,7 +8825,7 @@
       ],
       "akti_local": {
         "phase_id": "6c",
-        "catalog_order": 23,
+        "catalog_order": 25,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
@@ -7118,7 +8886,7 @@
       ],
       "akti_local": {
         "phase_id": "6c",
-        "catalog_order": 24,
+        "catalog_order": 26,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
@@ -7179,7 +8947,7 @@
       ],
       "akti_local": {
         "phase_id": "6c",
-        "catalog_order": 25,
+        "catalog_order": 27,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
@@ -7240,7 +9008,7 @@
       ],
       "akti_local": {
         "phase_id": "6c",
-        "catalog_order": 26,
+        "catalog_order": 28,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
@@ -7301,7 +9069,7 @@
       ],
       "akti_local": {
         "phase_id": "6c",
-        "catalog_order": 27,
+        "catalog_order": 29,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
@@ -7362,7 +9130,7 @@
       ],
       "akti_local": {
         "phase_id": "6c",
-        "catalog_order": 28,
+        "catalog_order": 30,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
@@ -7423,7 +9191,7 @@
       ],
       "akti_local": {
         "phase_id": "6c",
-        "catalog_order": 29,
+        "catalog_order": 31,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
@@ -7484,7 +9252,7 @@
       ],
       "akti_local": {
         "phase_id": "6c",
-        "catalog_order": 30,
+        "catalog_order": 32,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
@@ -7545,7 +9313,7 @@
       ],
       "akti_local": {
         "phase_id": "6c",
-        "catalog_order": 31,
+        "catalog_order": 33,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
@@ -7606,7 +9374,7 @@
       ],
       "akti_local": {
         "phase_id": "6c",
-        "catalog_order": 32,
+        "catalog_order": 34,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
@@ -7667,7 +9435,7 @@
       ],
       "akti_local": {
         "phase_id": "6c",
-        "catalog_order": 33,
+        "catalog_order": 35,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
@@ -7728,7 +9496,7 @@
       ],
       "akti_local": {
         "phase_id": "6c",
-        "catalog_order": 34,
+        "catalog_order": 36,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
@@ -7789,7 +9557,7 @@
       ],
       "akti_local": {
         "phase_id": "6c",
-        "catalog_order": 35,
+        "catalog_order": 37,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
@@ -7850,7 +9618,7 @@
       ],
       "akti_local": {
         "phase_id": "6c",
-        "catalog_order": 36,
+        "catalog_order": 38,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
@@ -7913,7 +9681,7 @@
       ],
       "akti_local": {
         "phase_id": "6c",
-        "catalog_order": 37,
+        "catalog_order": 39,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "adl_stateful_logic",
@@ -7975,7 +9743,7 @@
       ],
       "akti_local": {
         "phase_id": "6c",
-        "catalog_order": 38,
+        "catalog_order": 40,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
@@ -8038,7 +9806,7 @@
       ],
       "akti_local": {
         "phase_id": "6c",
-        "catalog_order": 39,
+        "catalog_order": 41,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "adl_stateful_logic",
@@ -8100,7 +9868,7 @@
       ],
       "akti_local": {
         "phase_id": "6c",
-        "catalog_order": 40,
+        "catalog_order": 42,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
@@ -8161,7 +9929,7 @@
       ],
       "akti_local": {
         "phase_id": "6c",
-        "catalog_order": 41,
+        "catalog_order": 43,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
@@ -8222,12 +9990,68 @@
       ],
       "akti_local": {
         "phase_id": "6c",
-        "catalog_order": 42,
+        "catalog_order": 44,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
         ],
         "phase_dependency_rule": "6c depends on 6a and 6b."
+      }
+    },
+    {
+      "subsurface_id": "subsurface_6d_academic_structure_programme_catalogue",
+      "parent_surface_id": "surface_6d_academic_structure_timetable",
+      "train": "phase_6d",
+      "level": "level_11",
+      "title": "Academic Structure Programme Catalogue",
+      "subsurface_type": "service",
+      "source_authority": [
+        "Spark Platform v4.1 6D.01 source component",
+        "Spark Platform v4 business logic",
+        "Sub-surface decomposition guide"
+      ],
+      "scope": "Academic Structure Programme Catalogue planning boundary for source-to-seed traceability.",
+      "non_scope": [
+        "No implementation authority.",
+        "No ticket-pack generation authority.",
+        "No runtime/schema/package mutation authority."
+      ],
+      "expected_file_domains": [
+        "domain_services",
+        "contracts",
+        "evidence"
+      ],
+      "expected_concrete_path_patterns": [
+        "exact files must be derived later from repo truth during exact-file planning"
+      ],
+      "forbidden_domains": [
+        "runtime implementation before explicit ticket approval",
+        "ticket pack generation from this PR"
+      ],
+      "api_or_contract_boundary": "Academic Structure Programme Catalogue contract boundary must be resolved during exact-file planning.",
+      "schema_or_persistence_boundary": "Academic Structure Programme Catalogue persistence boundary is planning-only until selected-phase repo refresh.",
+      "provider_or_standard_boundary": "No provider/standard bundling unless explicitly listed in split axes.",
+      "validation_family": "catalog_traceability_validation",
+      "evidence_expectation": "Must emit planning evidence and future runtime audit/billing evidence where applicable.",
+      "mcr_expectation": "Future ticket MCR must be concrete, executable, and exact-file scoped; this catalog entry is not an MCR.",
+      "dependencies": [],
+      "split_if": [
+        "Split if exact-file planning reveals multiple providers, standards, lifecycle stages, role portals, or independently billable/versioned capabilities."
+      ],
+      "adl_refs": [],
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "stop_conditions": [
+        "STOP if ticket generation attempts to copy this placeholder without repo-truth exact-file planning."
+      ],
+      "akti_local": {
+        "phase_id": "6d",
+        "catalog_order": 1,
+        "catalog_outcome": "keep_as_service",
+        "split_axes": [
+          "toggleable_billable_versioned_capability"
+        ],
+        "phase_dependency_rule": "6d dependency order must follow source component topology."
       }
     },
     {
@@ -8283,7 +10107,7 @@
       ],
       "akti_local": {
         "phase_id": "6d",
-        "catalog_order": 1,
+        "catalog_order": 2,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "lifecycle"
@@ -8344,7 +10168,7 @@
       ],
       "akti_local": {
         "phase_id": "6d",
-        "catalog_order": 2,
+        "catalog_order": 3,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "lifecycle"
@@ -8405,7 +10229,7 @@
       ],
       "akti_local": {
         "phase_id": "6d",
-        "catalog_order": 3,
+        "catalog_order": 4,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "lifecycle"
@@ -8466,7 +10290,7 @@
       ],
       "akti_local": {
         "phase_id": "6d",
-        "catalog_order": 4,
+        "catalog_order": 5,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "lifecycle"
@@ -8527,7 +10351,7 @@
       ],
       "akti_local": {
         "phase_id": "6d",
-        "catalog_order": 5,
+        "catalog_order": 6,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "lifecycle"
@@ -8588,7 +10412,7 @@
       ],
       "akti_local": {
         "phase_id": "6d",
-        "catalog_order": 6,
+        "catalog_order": 7,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "lifecycle"
@@ -8649,12 +10473,68 @@
       ],
       "akti_local": {
         "phase_id": "6d",
-        "catalog_order": 7,
+        "catalog_order": 8,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "lifecycle"
         ],
         "phase_dependency_rule": "6d depends on 6a, 6b, and 6c, not 6e or 6f."
+      }
+    },
+    {
+      "subsurface_id": "subsurface_6d_timetable_classes_cohort_operations",
+      "parent_surface_id": "surface_6d_academic_structure_timetable",
+      "train": "phase_6d",
+      "level": "level_11",
+      "title": "Timetable Classes Cohort Operations",
+      "subsurface_type": "service",
+      "source_authority": [
+        "Spark Platform v4.1 6D.03 source component",
+        "Spark Platform v4 business logic",
+        "Sub-surface decomposition guide"
+      ],
+      "scope": "Timetable Classes Cohort Operations planning boundary for source-to-seed traceability.",
+      "non_scope": [
+        "No implementation authority.",
+        "No ticket-pack generation authority.",
+        "No runtime/schema/package mutation authority."
+      ],
+      "expected_file_domains": [
+        "domain_services",
+        "contracts",
+        "evidence"
+      ],
+      "expected_concrete_path_patterns": [
+        "exact files must be derived later from repo truth during exact-file planning"
+      ],
+      "forbidden_domains": [
+        "runtime implementation before explicit ticket approval",
+        "ticket pack generation from this PR"
+      ],
+      "api_or_contract_boundary": "Timetable Classes Cohort Operations contract boundary must be resolved during exact-file planning.",
+      "schema_or_persistence_boundary": "Timetable Classes Cohort Operations persistence boundary is planning-only until selected-phase repo refresh.",
+      "provider_or_standard_boundary": "No provider/standard bundling unless explicitly listed in split axes.",
+      "validation_family": "catalog_traceability_validation",
+      "evidence_expectation": "Must emit planning evidence and future runtime audit/billing evidence where applicable.",
+      "mcr_expectation": "Future ticket MCR must be concrete, executable, and exact-file scoped; this catalog entry is not an MCR.",
+      "dependencies": [],
+      "split_if": [
+        "Split if exact-file planning reveals multiple providers, standards, lifecycle stages, role portals, or independently billable/versioned capabilities."
+      ],
+      "adl_refs": [],
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "stop_conditions": [
+        "STOP if ticket generation attempts to copy this placeholder without repo-truth exact-file planning."
+      ],
+      "akti_local": {
+        "phase_id": "6d",
+        "catalog_order": 9,
+        "catalog_outcome": "keep_as_service",
+        "split_axes": [
+          "toggleable_billable_versioned_capability"
+        ],
+        "phase_dependency_rule": "6d dependency order must follow source component topology."
       }
     },
     {
@@ -8710,7 +10590,7 @@
       ],
       "akti_local": {
         "phase_id": "6d",
-        "catalog_order": 8,
+        "catalog_order": 10,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
@@ -8771,7 +10651,7 @@
       ],
       "akti_local": {
         "phase_id": "6d",
-        "catalog_order": 9,
+        "catalog_order": 11,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
@@ -8832,7 +10712,7 @@
       ],
       "akti_local": {
         "phase_id": "6d",
-        "catalog_order": 10,
+        "catalog_order": 12,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
@@ -8893,7 +10773,7 @@
       ],
       "akti_local": {
         "phase_id": "6d",
-        "catalog_order": 11,
+        "catalog_order": 13,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
@@ -8954,7 +10834,7 @@
       ],
       "akti_local": {
         "phase_id": "6d",
-        "catalog_order": 12,
+        "catalog_order": 14,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
@@ -9015,7 +10895,7 @@
       ],
       "akti_local": {
         "phase_id": "6d",
-        "catalog_order": 13,
+        "catalog_order": 15,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
@@ -9076,7 +10956,7 @@
       ],
       "akti_local": {
         "phase_id": "6d",
-        "catalog_order": 14,
+        "catalog_order": 16,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "lifecycle"
@@ -9137,7 +11017,7 @@
       ],
       "akti_local": {
         "phase_id": "6d",
-        "catalog_order": 15,
+        "catalog_order": 17,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "lifecycle"
@@ -9198,7 +11078,7 @@
       ],
       "akti_local": {
         "phase_id": "6d",
-        "catalog_order": 16,
+        "catalog_order": 18,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "lifecycle"
@@ -9259,7 +11139,7 @@
       ],
       "akti_local": {
         "phase_id": "6d",
-        "catalog_order": 17,
+        "catalog_order": 19,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "lifecycle"
@@ -9320,7 +11200,7 @@
       ],
       "akti_local": {
         "phase_id": "6d",
-        "catalog_order": 18,
+        "catalog_order": 20,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "lifecycle"
@@ -9381,7 +11261,7 @@
       ],
       "akti_local": {
         "phase_id": "6d",
-        "catalog_order": 19,
+        "catalog_order": 21,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "lifecycle"
@@ -9442,7 +11322,7 @@
       ],
       "akti_local": {
         "phase_id": "6d",
-        "catalog_order": 20,
+        "catalog_order": 22,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "provider"
@@ -9503,7 +11383,7 @@
       ],
       "akti_local": {
         "phase_id": "6d",
-        "catalog_order": 21,
+        "catalog_order": 23,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "provider"
@@ -9564,7 +11444,7 @@
       ],
       "akti_local": {
         "phase_id": "6d",
-        "catalog_order": 22,
+        "catalog_order": 24,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
@@ -9625,7 +11505,7 @@
       ],
       "akti_local": {
         "phase_id": "6d",
-        "catalog_order": 23,
+        "catalog_order": 25,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
@@ -9686,7 +11566,7 @@
       ],
       "akti_local": {
         "phase_id": "6d",
-        "catalog_order": 24,
+        "catalog_order": 26,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
@@ -9747,7 +11627,7 @@
       ],
       "akti_local": {
         "phase_id": "6d",
-        "catalog_order": 25,
+        "catalog_order": 27,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
@@ -9808,7 +11688,7 @@
       ],
       "akti_local": {
         "phase_id": "6d",
-        "catalog_order": 26,
+        "catalog_order": 28,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
@@ -9869,7 +11749,7 @@
       ],
       "akti_local": {
         "phase_id": "6d",
-        "catalog_order": 27,
+        "catalog_order": 29,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "lifecycle"
@@ -9930,7 +11810,7 @@
       ],
       "akti_local": {
         "phase_id": "6d",
-        "catalog_order": 28,
+        "catalog_order": 30,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "lifecycle"
@@ -9991,7 +11871,7 @@
       ],
       "akti_local": {
         "phase_id": "6d",
-        "catalog_order": 29,
+        "catalog_order": 31,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "lifecycle"
@@ -10052,7 +11932,7 @@
       ],
       "akti_local": {
         "phase_id": "6d",
-        "catalog_order": 30,
+        "catalog_order": 32,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "lifecycle"
@@ -10113,7 +11993,7 @@
       ],
       "akti_local": {
         "phase_id": "6d",
-        "catalog_order": 31,
+        "catalog_order": 33,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "lifecycle"
@@ -10174,7 +12054,7 @@
       ],
       "akti_local": {
         "phase_id": "6d",
-        "catalog_order": 32,
+        "catalog_order": 34,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "lifecycle"
@@ -10235,7 +12115,7 @@
       ],
       "akti_local": {
         "phase_id": "6d",
-        "catalog_order": 33,
+        "catalog_order": 35,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "lifecycle"
@@ -10296,7 +12176,7 @@
       ],
       "akti_local": {
         "phase_id": "6d",
-        "catalog_order": 34,
+        "catalog_order": 36,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "lifecycle"
@@ -10357,7 +12237,7 @@
       ],
       "akti_local": {
         "phase_id": "6d",
-        "catalog_order": 35,
+        "catalog_order": 37,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "lifecycle"
@@ -10418,7 +12298,7 @@
       ],
       "akti_local": {
         "phase_id": "6d",
-        "catalog_order": 36,
+        "catalog_order": 38,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
@@ -10479,7 +12359,7 @@
       ],
       "akti_local": {
         "phase_id": "6d",
-        "catalog_order": 37,
+        "catalog_order": 39,
         "catalog_outcome": "demote_to_core_microservice",
         "split_axes": [
           "standard",
@@ -10542,7 +12422,7 @@
       ],
       "akti_local": {
         "phase_id": "6d",
-        "catalog_order": 38,
+        "catalog_order": 40,
         "catalog_outcome": "demote_to_optional_microservice",
         "split_axes": [
           "standard",
@@ -10605,7 +12485,7 @@
       ],
       "akti_local": {
         "phase_id": "6d",
-        "catalog_order": 39,
+        "catalog_order": 41,
         "catalog_outcome": "demote_to_optional_microservice",
         "split_axes": [
           "standard",
@@ -10668,7 +12548,7 @@
       ],
       "akti_local": {
         "phase_id": "6d",
-        "catalog_order": 40,
+        "catalog_order": 42,
         "catalog_outcome": "demote_to_optional_microservice",
         "split_axes": [
           "standard",
@@ -10731,7 +12611,7 @@
       ],
       "akti_local": {
         "phase_id": "6d",
-        "catalog_order": 41,
+        "catalog_order": 43,
         "catalog_outcome": "demote_to_optional_microservice",
         "split_axes": [
           "standard",
@@ -10794,7 +12674,7 @@
       ],
       "akti_local": {
         "phase_id": "6d",
-        "catalog_order": 42,
+        "catalog_order": 44,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "role_portal"
@@ -10855,7 +12735,7 @@
       ],
       "akti_local": {
         "phase_id": "6d",
-        "catalog_order": 43,
+        "catalog_order": 45,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "role_portal"
@@ -10916,7 +12796,7 @@
       ],
       "akti_local": {
         "phase_id": "6d",
-        "catalog_order": 44,
+        "catalog_order": 46,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "role_portal"
@@ -10977,7 +12857,7 @@
       ],
       "akti_local": {
         "phase_id": "6d",
-        "catalog_order": 45,
+        "catalog_order": 47,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "role_portal"
@@ -11038,7 +12918,7 @@
       ],
       "akti_local": {
         "phase_id": "6d",
-        "catalog_order": 46,
+        "catalog_order": 48,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "lifecycle"
@@ -11099,7 +12979,7 @@
       ],
       "akti_local": {
         "phase_id": "6d",
-        "catalog_order": 47,
+        "catalog_order": 49,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "lifecycle"
@@ -11160,7 +13040,7 @@
       ],
       "akti_local": {
         "phase_id": "6d",
-        "catalog_order": 48,
+        "catalog_order": 50,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "lifecycle"
@@ -11221,7 +13101,7 @@
       ],
       "akti_local": {
         "phase_id": "6d",
-        "catalog_order": 49,
+        "catalog_order": 51,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "lifecycle"
@@ -11282,7 +13162,7 @@
       ],
       "akti_local": {
         "phase_id": "6d",
-        "catalog_order": 50,
+        "catalog_order": 52,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "lifecycle"
@@ -11343,7 +13223,7 @@
       ],
       "akti_local": {
         "phase_id": "6d",
-        "catalog_order": 51,
+        "catalog_order": 53,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "lifecycle"
@@ -11404,7 +13284,7 @@
       ],
       "akti_local": {
         "phase_id": "6d",
-        "catalog_order": 52,
+        "catalog_order": 54,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "lifecycle"
@@ -11465,7 +13345,7 @@
       ],
       "akti_local": {
         "phase_id": "6d",
-        "catalog_order": 53,
+        "catalog_order": 55,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "lifecycle"
@@ -11526,12 +13406,68 @@
       ],
       "akti_local": {
         "phase_id": "6d",
-        "catalog_order": 54,
+        "catalog_order": 56,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "lifecycle"
         ],
         "phase_dependency_rule": "6d depends on 6a, 6b, and 6c, not 6e or 6f."
+      }
+    },
+    {
+      "subsurface_id": "subsurface_6e_campaign_audience_suppression",
+      "parent_surface_id": "surface_6e_campaign_storefront_analytics_completion",
+      "train": "phase_6e",
+      "level": "level_group_13_15",
+      "title": "Campaign Audience Suppression",
+      "subsurface_type": "service",
+      "source_authority": [
+        "Spark Platform v4.1 6E.01 source component",
+        "Spark Platform v4 business logic",
+        "Sub-surface decomposition guide"
+      ],
+      "scope": "Campaign Audience Suppression planning boundary for source-to-seed traceability.",
+      "non_scope": [
+        "No implementation authority.",
+        "No ticket-pack generation authority.",
+        "No runtime/schema/package mutation authority."
+      ],
+      "expected_file_domains": [
+        "domain_services",
+        "contracts",
+        "evidence"
+      ],
+      "expected_concrete_path_patterns": [
+        "exact files must be derived later from repo truth during exact-file planning"
+      ],
+      "forbidden_domains": [
+        "runtime implementation before explicit ticket approval",
+        "ticket pack generation from this PR"
+      ],
+      "api_or_contract_boundary": "Campaign Audience Suppression contract boundary must be resolved during exact-file planning.",
+      "schema_or_persistence_boundary": "Campaign Audience Suppression persistence boundary is planning-only until selected-phase repo refresh.",
+      "provider_or_standard_boundary": "No provider/standard bundling unless explicitly listed in split axes.",
+      "validation_family": "catalog_traceability_validation",
+      "evidence_expectation": "Must emit planning evidence and future runtime audit/billing evidence where applicable.",
+      "mcr_expectation": "Future ticket MCR must be concrete, executable, and exact-file scoped; this catalog entry is not an MCR.",
+      "dependencies": [],
+      "split_if": [
+        "Split if exact-file planning reveals multiple providers, standards, lifecycle stages, role portals, or independently billable/versioned capabilities."
+      ],
+      "adl_refs": [],
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "stop_conditions": [
+        "STOP if ticket generation attempts to copy this placeholder without repo-truth exact-file planning."
+      ],
+      "akti_local": {
+        "phase_id": "6e",
+        "catalog_order": 1,
+        "catalog_outcome": "keep_as_service",
+        "split_axes": [
+          "toggleable_billable_versioned_capability"
+        ],
+        "phase_dependency_rule": "6e dependency order must follow source component topology."
       }
     },
     {
@@ -11587,7 +13523,7 @@
       ],
       "akti_local": {
         "phase_id": "6e",
-        "catalog_order": 1,
+        "catalog_order": 2,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "channel"
@@ -11648,7 +13584,7 @@
       ],
       "akti_local": {
         "phase_id": "6e",
-        "catalog_order": 2,
+        "catalog_order": 3,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "channel"
@@ -11709,7 +13645,7 @@
       ],
       "akti_local": {
         "phase_id": "6e",
-        "catalog_order": 3,
+        "catalog_order": 4,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "channel"
@@ -11770,7 +13706,7 @@
       ],
       "akti_local": {
         "phase_id": "6e",
-        "catalog_order": 4,
+        "catalog_order": 5,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "channel"
@@ -11831,7 +13767,7 @@
       ],
       "akti_local": {
         "phase_id": "6e",
-        "catalog_order": 5,
+        "catalog_order": 6,
         "catalog_outcome": "demote_to_optional_microservice",
         "split_axes": [
           "toggleable_billable_versioned_capability"
@@ -11892,7 +13828,7 @@
       ],
       "akti_local": {
         "phase_id": "6e",
-        "catalog_order": 6,
+        "catalog_order": 7,
         "catalog_outcome": "demote_to_optional_microservice",
         "split_axes": [
           "toggleable_billable_versioned_capability"
@@ -11953,7 +13889,7 @@
       ],
       "akti_local": {
         "phase_id": "6e",
-        "catalog_order": 7,
+        "catalog_order": 8,
         "catalog_outcome": "demote_to_optional_microservice",
         "split_axes": [
           "toggleable_billable_versioned_capability"
@@ -12014,12 +13950,124 @@
       ],
       "akti_local": {
         "phase_id": "6e",
-        "catalog_order": 8,
+        "catalog_order": 9,
         "catalog_outcome": "demote_to_optional_microservice",
         "split_axes": [
           "toggleable_billable_versioned_capability"
         ],
         "phase_dependency_rule": "6e depends on 6a through 6d."
+      }
+    },
+    {
+      "subsurface_id": "subsurface_6e_campaign_automation_analytics",
+      "parent_surface_id": "surface_6e_campaign_storefront_analytics_completion",
+      "train": "phase_6e",
+      "level": "level_group_13_15",
+      "title": "Campaign Automation Analytics",
+      "subsurface_type": "service",
+      "source_authority": [
+        "Spark Platform v4.1 6E.04 source component",
+        "Spark Platform v4 business logic",
+        "Sub-surface decomposition guide"
+      ],
+      "scope": "Campaign Automation Analytics planning boundary for source-to-seed traceability.",
+      "non_scope": [
+        "No implementation authority.",
+        "No ticket-pack generation authority.",
+        "No runtime/schema/package mutation authority."
+      ],
+      "expected_file_domains": [
+        "domain_services",
+        "contracts",
+        "evidence"
+      ],
+      "expected_concrete_path_patterns": [
+        "exact files must be derived later from repo truth during exact-file planning"
+      ],
+      "forbidden_domains": [
+        "runtime implementation before explicit ticket approval",
+        "ticket pack generation from this PR"
+      ],
+      "api_or_contract_boundary": "Campaign Automation Analytics contract boundary must be resolved during exact-file planning.",
+      "schema_or_persistence_boundary": "Campaign Automation Analytics persistence boundary is planning-only until selected-phase repo refresh.",
+      "provider_or_standard_boundary": "No provider/standard bundling unless explicitly listed in split axes.",
+      "validation_family": "catalog_traceability_validation",
+      "evidence_expectation": "Must emit planning evidence and future runtime audit/billing evidence where applicable.",
+      "mcr_expectation": "Future ticket MCR must be concrete, executable, and exact-file scoped; this catalog entry is not an MCR.",
+      "dependencies": [],
+      "split_if": [
+        "Split if exact-file planning reveals multiple providers, standards, lifecycle stages, role portals, or independently billable/versioned capabilities."
+      ],
+      "adl_refs": [],
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "stop_conditions": [
+        "STOP if ticket generation attempts to copy this placeholder without repo-truth exact-file planning."
+      ],
+      "akti_local": {
+        "phase_id": "6e",
+        "catalog_order": 10,
+        "catalog_outcome": "keep_as_service",
+        "split_axes": [
+          "toggleable_billable_versioned_capability"
+        ],
+        "phase_dependency_rule": "6e dependency order must follow source component topology."
+      }
+    },
+    {
+      "subsurface_id": "subsurface_6e_ecommerce_storefront_product_discovery",
+      "parent_surface_id": "surface_6e_campaign_storefront_analytics_completion",
+      "train": "phase_6e",
+      "level": "level_group_13_15",
+      "title": "Ecommerce Storefront Product Discovery",
+      "subsurface_type": "service",
+      "source_authority": [
+        "Spark Platform v4.1 6E.05 source component",
+        "Spark Platform v4 business logic",
+        "Sub-surface decomposition guide"
+      ],
+      "scope": "Ecommerce Storefront Product Discovery planning boundary for source-to-seed traceability.",
+      "non_scope": [
+        "No implementation authority.",
+        "No ticket-pack generation authority.",
+        "No runtime/schema/package mutation authority."
+      ],
+      "expected_file_domains": [
+        "domain_services",
+        "contracts",
+        "evidence"
+      ],
+      "expected_concrete_path_patterns": [
+        "exact files must be derived later from repo truth during exact-file planning"
+      ],
+      "forbidden_domains": [
+        "runtime implementation before explicit ticket approval",
+        "ticket pack generation from this PR"
+      ],
+      "api_or_contract_boundary": "Ecommerce Storefront Product Discovery contract boundary must be resolved during exact-file planning.",
+      "schema_or_persistence_boundary": "Ecommerce Storefront Product Discovery persistence boundary is planning-only until selected-phase repo refresh.",
+      "provider_or_standard_boundary": "No provider/standard bundling unless explicitly listed in split axes.",
+      "validation_family": "catalog_traceability_validation",
+      "evidence_expectation": "Must emit planning evidence and future runtime audit/billing evidence where applicable.",
+      "mcr_expectation": "Future ticket MCR must be concrete, executable, and exact-file scoped; this catalog entry is not an MCR.",
+      "dependencies": [],
+      "split_if": [
+        "Split if exact-file planning reveals multiple providers, standards, lifecycle stages, role portals, or independently billable/versioned capabilities."
+      ],
+      "adl_refs": [],
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "stop_conditions": [
+        "STOP if ticket generation attempts to copy this placeholder without repo-truth exact-file planning."
+      ],
+      "akti_local": {
+        "phase_id": "6e",
+        "catalog_order": 11,
+        "catalog_outcome": "keep_as_service",
+        "split_axes": [
+          "toggleable_billable_versioned_capability"
+        ],
+        "phase_dependency_rule": "6e dependency order must follow source component topology."
       }
     },
     {
@@ -12075,7 +14123,7 @@
       ],
       "akti_local": {
         "phase_id": "6e",
-        "catalog_order": 9,
+        "catalog_order": 12,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "adl_stateful_logic",
@@ -12137,7 +14185,7 @@
       ],
       "akti_local": {
         "phase_id": "6e",
-        "catalog_order": 10,
+        "catalog_order": 13,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "lifecycle"
@@ -12200,7 +14248,7 @@
       ],
       "akti_local": {
         "phase_id": "6e",
-        "catalog_order": 11,
+        "catalog_order": 14,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "adl_stateful_logic",
@@ -12262,7 +14310,7 @@
       ],
       "akti_local": {
         "phase_id": "6e",
-        "catalog_order": 12,
+        "catalog_order": 15,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "lifecycle"
@@ -12323,7 +14371,7 @@
       ],
       "akti_local": {
         "phase_id": "6e",
-        "catalog_order": 13,
+        "catalog_order": 16,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "provider"
@@ -12384,7 +14432,7 @@
       ],
       "akti_local": {
         "phase_id": "6e",
-        "catalog_order": 14,
+        "catalog_order": 17,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "provider"
@@ -12445,7 +14493,7 @@
       ],
       "akti_local": {
         "phase_id": "6e",
-        "catalog_order": 15,
+        "catalog_order": 18,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "provider"
@@ -12506,7 +14554,7 @@
       ],
       "akti_local": {
         "phase_id": "6e",
-        "catalog_order": 16,
+        "catalog_order": 19,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "provider"
@@ -12567,7 +14615,7 @@
       ],
       "akti_local": {
         "phase_id": "6e",
-        "catalog_order": 17,
+        "catalog_order": 20,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "provider"
@@ -12628,7 +14676,7 @@
       ],
       "akti_local": {
         "phase_id": "6e",
-        "catalog_order": 18,
+        "catalog_order": 21,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "provider"
@@ -12689,7 +14737,7 @@
       ],
       "akti_local": {
         "phase_id": "6e",
-        "catalog_order": 19,
+        "catalog_order": 22,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "lifecycle"
@@ -12750,12 +14798,124 @@
       ],
       "akti_local": {
         "phase_id": "6e",
-        "catalog_order": 20,
+        "catalog_order": 23,
         "catalog_outcome": "demote_to_optional_microservice",
         "split_axes": [
           "toggleable_billable_versioned_capability"
         ],
         "phase_dependency_rule": "6e depends on 6a through 6d."
+      }
+    },
+    {
+      "subsurface_id": "subsurface_6e_marketplace_ecommerce_analytics",
+      "parent_surface_id": "surface_6e_campaign_storefront_analytics_completion",
+      "train": "phase_6e",
+      "level": "level_group_13_15",
+      "title": "Marketplace Ecommerce Analytics",
+      "subsurface_type": "service",
+      "source_authority": [
+        "Spark Platform v4.1 6E.07 source component",
+        "Spark Platform v4 business logic",
+        "Sub-surface decomposition guide"
+      ],
+      "scope": "Marketplace Ecommerce Analytics planning boundary for source-to-seed traceability.",
+      "non_scope": [
+        "No implementation authority.",
+        "No ticket-pack generation authority.",
+        "No runtime/schema/package mutation authority."
+      ],
+      "expected_file_domains": [
+        "domain_services",
+        "contracts",
+        "evidence"
+      ],
+      "expected_concrete_path_patterns": [
+        "exact files must be derived later from repo truth during exact-file planning"
+      ],
+      "forbidden_domains": [
+        "runtime implementation before explicit ticket approval",
+        "ticket pack generation from this PR"
+      ],
+      "api_or_contract_boundary": "Marketplace Ecommerce Analytics contract boundary must be resolved during exact-file planning.",
+      "schema_or_persistence_boundary": "Marketplace Ecommerce Analytics persistence boundary is planning-only until selected-phase repo refresh.",
+      "provider_or_standard_boundary": "No provider/standard bundling unless explicitly listed in split axes.",
+      "validation_family": "catalog_traceability_validation",
+      "evidence_expectation": "Must emit planning evidence and future runtime audit/billing evidence where applicable.",
+      "mcr_expectation": "Future ticket MCR must be concrete, executable, and exact-file scoped; this catalog entry is not an MCR.",
+      "dependencies": [],
+      "split_if": [
+        "Split if exact-file planning reveals multiple providers, standards, lifecycle stages, role portals, or independently billable/versioned capabilities."
+      ],
+      "adl_refs": [],
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "stop_conditions": [
+        "STOP if ticket generation attempts to copy this placeholder without repo-truth exact-file planning."
+      ],
+      "akti_local": {
+        "phase_id": "6e",
+        "catalog_order": 24,
+        "catalog_outcome": "keep_as_service",
+        "split_axes": [
+          "toggleable_billable_versioned_capability"
+        ],
+        "phase_dependency_rule": "6e dependency order must follow source component topology."
+      }
+    },
+    {
+      "subsurface_id": "subsurface_6e_website_app_builder_core",
+      "parent_surface_id": "surface_6e_campaign_storefront_analytics_completion",
+      "train": "phase_6e",
+      "level": "level_group_13_15",
+      "title": "Website App Builder Core",
+      "subsurface_type": "service",
+      "source_authority": [
+        "Spark Platform v4.1 6E.08 source component",
+        "Spark Platform v4 business logic",
+        "Sub-surface decomposition guide"
+      ],
+      "scope": "Website App Builder Core planning boundary for source-to-seed traceability.",
+      "non_scope": [
+        "No implementation authority.",
+        "No ticket-pack generation authority.",
+        "No runtime/schema/package mutation authority."
+      ],
+      "expected_file_domains": [
+        "frontend_contracts",
+        "component_contracts",
+        "manifest"
+      ],
+      "expected_concrete_path_patterns": [
+        "exact files must be derived later from repo truth during exact-file planning"
+      ],
+      "forbidden_domains": [
+        "runtime implementation before explicit ticket approval",
+        "ticket pack generation from this PR"
+      ],
+      "api_or_contract_boundary": "Website App Builder Core contract boundary must be resolved during exact-file planning.",
+      "schema_or_persistence_boundary": "Website App Builder Core persistence boundary is planning-only until selected-phase repo refresh.",
+      "provider_or_standard_boundary": "No provider/standard bundling unless explicitly listed in split axes.",
+      "validation_family": "catalog_traceability_validation",
+      "evidence_expectation": "Must emit planning evidence and future runtime audit/billing evidence where applicable.",
+      "mcr_expectation": "Future ticket MCR must be concrete, executable, and exact-file scoped; this catalog entry is not an MCR.",
+      "dependencies": [],
+      "split_if": [
+        "Split if exact-file planning reveals multiple providers, standards, lifecycle stages, role portals, or independently billable/versioned capabilities."
+      ],
+      "adl_refs": [],
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "stop_conditions": [
+        "STOP if ticket generation attempts to copy this placeholder without repo-truth exact-file planning."
+      ],
+      "akti_local": {
+        "phase_id": "6e",
+        "catalog_order": 25,
+        "catalog_outcome": "keep_as_service",
+        "split_axes": [
+          "toggleable_billable_versioned_capability"
+        ],
+        "phase_dependency_rule": "6e dependency order must follow source component topology."
       }
     },
     {
@@ -12811,7 +14971,7 @@
       ],
       "akti_local": {
         "phase_id": "6e",
-        "catalog_order": 21,
+        "catalog_order": 26,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
@@ -12872,7 +15032,7 @@
       ],
       "akti_local": {
         "phase_id": "6e",
-        "catalog_order": 22,
+        "catalog_order": 27,
         "catalog_outcome": "split_into_services",
         "split_axes": [
           "lifecycle"
@@ -12933,7 +15093,7 @@
       ],
       "akti_local": {
         "phase_id": "6e",
-        "catalog_order": 23,
+        "catalog_order": 28,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
@@ -12994,7 +15154,7 @@
       ],
       "akti_local": {
         "phase_id": "6e",
-        "catalog_order": 24,
+        "catalog_order": 29,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
@@ -13055,7 +15215,7 @@
       ],
       "akti_local": {
         "phase_id": "6e",
-        "catalog_order": 25,
+        "catalog_order": 30,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
@@ -13116,7 +15276,7 @@
       ],
       "akti_local": {
         "phase_id": "6e",
-        "catalog_order": 26,
+        "catalog_order": 31,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
@@ -13177,7 +15337,7 @@
       ],
       "akti_local": {
         "phase_id": "6e",
-        "catalog_order": 27,
+        "catalog_order": 32,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
@@ -13238,7 +15398,7 @@
       ],
       "akti_local": {
         "phase_id": "6e",
-        "catalog_order": 28,
+        "catalog_order": 33,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
@@ -13299,7 +15459,7 @@
       ],
       "akti_local": {
         "phase_id": "6e",
-        "catalog_order": 29,
+        "catalog_order": 34,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
@@ -13360,7 +15520,7 @@
       ],
       "akti_local": {
         "phase_id": "6e",
-        "catalog_order": 30,
+        "catalog_order": 35,
         "catalog_outcome": "demote_to_optional_microservice",
         "split_axes": [
           "toggleable_billable_versioned_capability"
@@ -13421,7 +15581,7 @@
       ],
       "akti_local": {
         "phase_id": "6e",
-        "catalog_order": 31,
+        "catalog_order": 36,
         "catalog_outcome": "demote_to_optional_microservice",
         "split_axes": [
           "toggleable_billable_versioned_capability"
@@ -13919,6 +16079,62 @@
       }
     },
     {
+      "subsurface_id": "subsurface_6f_diagnostics_depth",
+      "parent_surface_id": "surface_6f_diagnostics_migration_depth",
+      "train": "phase_6f",
+      "level": "level_group_16_18",
+      "title": "Diagnostics Depth",
+      "subsurface_type": "service",
+      "source_authority": [
+        "Spark Platform v4.1 6F.05 source component",
+        "Spark Platform v4 business logic",
+        "Sub-surface decomposition guide"
+      ],
+      "scope": "Diagnostics Depth planning boundary for source-to-seed traceability.",
+      "non_scope": [
+        "No implementation authority.",
+        "No ticket-pack generation authority.",
+        "No runtime/schema/package mutation authority."
+      ],
+      "expected_file_domains": [
+        "domain_services",
+        "contracts",
+        "evidence"
+      ],
+      "expected_concrete_path_patterns": [
+        "exact files must be derived later from repo truth during exact-file planning"
+      ],
+      "forbidden_domains": [
+        "runtime implementation before explicit ticket approval",
+        "ticket pack generation from this PR"
+      ],
+      "api_or_contract_boundary": "Diagnostics Depth contract boundary must be resolved during exact-file planning.",
+      "schema_or_persistence_boundary": "Diagnostics Depth persistence boundary is planning-only until selected-phase repo refresh.",
+      "provider_or_standard_boundary": "No provider/standard bundling unless explicitly listed in split axes.",
+      "validation_family": "catalog_traceability_validation",
+      "evidence_expectation": "Must emit planning evidence and future runtime audit/billing evidence where applicable.",
+      "mcr_expectation": "Future ticket MCR must be concrete, executable, and exact-file scoped; this catalog entry is not an MCR.",
+      "dependencies": [],
+      "split_if": [
+        "Split if exact-file planning reveals multiple providers, standards, lifecycle stages, role portals, or independently billable/versioned capabilities."
+      ],
+      "adl_refs": [],
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "stop_conditions": [
+        "STOP if ticket generation attempts to copy this placeholder without repo-truth exact-file planning."
+      ],
+      "akti_local": {
+        "phase_id": "6f",
+        "catalog_order": 9,
+        "catalog_outcome": "keep_as_service",
+        "split_axes": [
+          "toggleable_billable_versioned_capability"
+        ],
+        "phase_dependency_rule": "6f dependency order must follow source component topology."
+      }
+    },
+    {
       "subsurface_id": "subsurface_6f_ai_concierge_onboarding",
       "parent_surface_id": "surface_6f_admin_support_onboarding",
       "train": "phase_6f",
@@ -13971,7 +16187,7 @@
       ],
       "akti_local": {
         "phase_id": "6f",
-        "catalog_order": 9,
+        "catalog_order": 10,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
@@ -14032,7 +16248,7 @@
       ],
       "akti_local": {
         "phase_id": "6f",
-        "catalog_order": 10,
+        "catalog_order": 11,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
@@ -14093,12 +16309,68 @@
       ],
       "akti_local": {
         "phase_id": "6f",
-        "catalog_order": 11,
+        "catalog_order": 12,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
         ],
         "phase_dependency_rule": "6f depends on 6a through 6e."
+      }
+    },
+    {
+      "subsurface_id": "subsurface_6f_data_migration_workbench_depth",
+      "parent_surface_id": "surface_6f_diagnostics_migration_depth",
+      "train": "phase_6f",
+      "level": "level_group_16_18",
+      "title": "Data Migration Workbench Depth",
+      "subsurface_type": "service",
+      "source_authority": [
+        "Spark Platform v4.1 6F.07 source component",
+        "Spark Platform v4 business logic",
+        "Sub-surface decomposition guide"
+      ],
+      "scope": "Data Migration Workbench Depth planning boundary for source-to-seed traceability.",
+      "non_scope": [
+        "No implementation authority.",
+        "No ticket-pack generation authority.",
+        "No runtime/schema/package mutation authority."
+      ],
+      "expected_file_domains": [
+        "domain_services",
+        "contracts",
+        "evidence"
+      ],
+      "expected_concrete_path_patterns": [
+        "exact files must be derived later from repo truth during exact-file planning"
+      ],
+      "forbidden_domains": [
+        "runtime implementation before explicit ticket approval",
+        "ticket pack generation from this PR"
+      ],
+      "api_or_contract_boundary": "Data Migration Workbench Depth contract boundary must be resolved during exact-file planning.",
+      "schema_or_persistence_boundary": "Data Migration Workbench Depth persistence boundary is planning-only until selected-phase repo refresh.",
+      "provider_or_standard_boundary": "No provider/standard bundling unless explicitly listed in split axes.",
+      "validation_family": "catalog_traceability_validation",
+      "evidence_expectation": "Must emit planning evidence and future runtime audit/billing evidence where applicable.",
+      "mcr_expectation": "Future ticket MCR must be concrete, executable, and exact-file scoped; this catalog entry is not an MCR.",
+      "dependencies": [],
+      "split_if": [
+        "Split if exact-file planning reveals multiple providers, standards, lifecycle stages, role portals, or independently billable/versioned capabilities."
+      ],
+      "adl_refs": [],
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "stop_conditions": [
+        "STOP if ticket generation attempts to copy this placeholder without repo-truth exact-file planning."
+      ],
+      "akti_local": {
+        "phase_id": "6f",
+        "catalog_order": 13,
+        "catalog_outcome": "keep_as_service",
+        "split_axes": [
+          "toggleable_billable_versioned_capability"
+        ],
+        "phase_dependency_rule": "6f dependency order must follow source component topology."
       }
     },
     {
@@ -14154,7 +16426,7 @@
       ],
       "akti_local": {
         "phase_id": "6f",
-        "catalog_order": 12,
+        "catalog_order": 14,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
@@ -14215,7 +16487,7 @@
       ],
       "akti_local": {
         "phase_id": "6f",
-        "catalog_order": 13,
+        "catalog_order": 15,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
@@ -14276,264 +16548,12 @@
       ],
       "akti_local": {
         "phase_id": "6f",
-        "catalog_order": 14,
+        "catalog_order": 16,
         "catalog_outcome": "keep_as_service",
         "split_axes": [
           "mandatory_core_microservice"
         ],
         "phase_dependency_rule": "6f depends on 6a through 6e."
-      }
-    },
-    {
-      "subsurface_id": "subsurface_6a_tenant_org_branch_session_identity",
-      "parent_surface_id": "surface_6a_core_identity_access_audit_foundry",
-      "train": "phase_6a",
-      "level": "level_group_0_5",
-      "title": "Tenant Organisation Branch Session Identity",
-      "subsurface_type": "core_microservice",
-      "source_authority": [
-        "docs/process/core/v0_0_2/spark_platform_v4_1/6a_core_update_foundation.md#6a-04"
-      ],
-      "scope": "Tenant Organisation Branch Session Identity is a core 6A foundation sub-surface added during execution seed dependency review. It is catalog planning only and does not authorize implementation.",
-      "non_scope": [
-        "ticket_generation",
-        "runtime_change",
-        "schema_change",
-        "predictive_stop_analysis",
-        "autonomous_readiness",
-        "execution"
-      ],
-      "expected_file_domains": [
-        "apps/api",
-        "packages/contracts",
-        "codex-review"
-      ],
-      "expected_concrete_path_patterns": [
-        "apps/api/src/spark_platform/tenant_org_branch_session_identity/future_boundary.ts",
-        "packages/contracts/src/spark_platform/tenant_org_branch_session_identity_contract.ts",
-        "codex-review/core/v0_0_2/spark_platform_v4_1_execution_seed_matrix/tenant_org_branch_session_identity_future_evidence.json"
-      ],
-      "forbidden_domains": [
-        "runtime_change_in_this_pr",
-        "ticket_pack_generation_in_this_pr",
-        "prisma_schema_change_in_this_pr"
-      ],
-      "api_or_contract_boundary": "tenant_org_branch_session_identity_contract_boundary",
-      "schema_or_persistence_boundary": "tenant_org_branch_session_identity_state_boundary",
-      "provider_or_standard_boundary": "not_applicable",
-      "validation_family": "core_foundation_catalog_validation",
-      "evidence_expectation": "docs/process/core/v0_0_2/spark_platform_v4_1_subsurface_catalog_decision_update_audit_v1.md",
-      "mcr_expectation": "Tenant, organisation, branch, and session identity must be represented as a dedicated foundation sub-surface before downstream services rely on tenant/session context.",
-      "dependencies": [],
-      "split_if": [
-        "Split before ticket pack generation if another independently owned identity, access, audit, or Foundry authority boundary is discovered."
-      ],
-      "adl_refs": [],
-      "readiness_mode": "PREPLANNING_DRAFT",
-      "ticket_generation_allowed": false,
-      "stop_conditions": [
-        "Stop before ticket generation until this foundation sub-surface passes catalog and seed matrix review."
-      ],
-      "akti_local": {
-        "phase_id": "6a",
-        "catalog_order": 1,
-        "catalog_outcome": "demote_to_core_microservice",
-        "split_axes": [
-          "mandatory_core_microservice"
-        ],
-        "phase_dependency_rule": "6a is the foundation phase and must not depend on later phases.",
-        "source_section": "6A.04"
-      }
-    },
-    {
-      "subsurface_id": "subsurface_6a_access_core_gatekeeper",
-      "parent_surface_id": "surface_6a_core_identity_access_audit_foundry",
-      "train": "phase_6a",
-      "level": "level_group_0_5",
-      "title": "Access Core Gatekeeper",
-      "subsurface_type": "core_microservice",
-      "source_authority": [
-        "docs/process/core/v0_0_2/spark_platform_v4_1/6a_core_update_foundation.md#6a-06"
-      ],
-      "scope": "Access Core Gatekeeper is a core 6A foundation sub-surface added during execution seed dependency review. It is catalog planning only and does not authorize implementation.",
-      "non_scope": [
-        "ticket_generation",
-        "runtime_change",
-        "schema_change",
-        "predictive_stop_analysis",
-        "autonomous_readiness",
-        "execution"
-      ],
-      "expected_file_domains": [
-        "apps/api",
-        "packages/contracts",
-        "codex-review"
-      ],
-      "expected_concrete_path_patterns": [
-        "apps/api/src/spark_platform/access_core_gatekeeper/future_boundary.ts",
-        "packages/contracts/src/spark_platform/access_core_gatekeeper_contract.ts",
-        "codex-review/core/v0_0_2/spark_platform_v4_1_execution_seed_matrix/access_core_gatekeeper_future_evidence.json"
-      ],
-      "forbidden_domains": [
-        "runtime_change_in_this_pr",
-        "ticket_pack_generation_in_this_pr",
-        "prisma_schema_change_in_this_pr"
-      ],
-      "api_or_contract_boundary": "access_core_gatekeeper_contract_boundary",
-      "schema_or_persistence_boundary": "access_core_gatekeeper_state_boundary",
-      "provider_or_standard_boundary": "not_applicable",
-      "validation_family": "core_foundation_catalog_validation",
-      "evidence_expectation": "docs/process/core/v0_0_2/spark_platform_v4_1_subsurface_catalog_decision_update_audit_v1.md",
-      "mcr_expectation": "Access core and Gatekeeper must be represented as a dedicated foundation sub-surface before protected service activation or portal access seeds are reviewed.",
-      "dependencies": [
-        "subsurface_6a_tenant_org_branch_session_identity"
-      ],
-      "split_if": [
-        "Split before ticket pack generation if another independently owned identity, access, audit, or Foundry authority boundary is discovered."
-      ],
-      "adl_refs": [],
-      "readiness_mode": "PREPLANNING_DRAFT",
-      "ticket_generation_allowed": false,
-      "stop_conditions": [
-        "Stop before ticket generation until this foundation sub-surface passes catalog and seed matrix review."
-      ],
-      "akti_local": {
-        "phase_id": "6a",
-        "catalog_order": 2,
-        "catalog_outcome": "demote_to_core_microservice",
-        "split_axes": [
-          "mandatory_core_microservice"
-        ],
-        "phase_dependency_rule": "6a is the foundation phase and must not depend on later phases.",
-        "source_section": "6A.06"
-      }
-    },
-    {
-      "subsurface_id": "subsurface_6a_audit_log_universal_evidence_stream",
-      "parent_surface_id": "surface_6a_core_identity_access_audit_foundry",
-      "train": "phase_6a",
-      "level": "level_group_0_5",
-      "title": "Audit Log Universal Evidence Stream",
-      "subsurface_type": "core_microservice",
-      "source_authority": [
-        "docs/process/core/v0_0_2/spark_platform_v4_1/6a_core_update_foundation.md#6a-07"
-      ],
-      "scope": "Audit Log Universal Evidence Stream is a core 6A foundation sub-surface added during execution seed dependency review. It is catalog planning only and does not authorize implementation.",
-      "non_scope": [
-        "ticket_generation",
-        "runtime_change",
-        "schema_change",
-        "predictive_stop_analysis",
-        "autonomous_readiness",
-        "execution"
-      ],
-      "expected_file_domains": [
-        "apps/api",
-        "packages/contracts",
-        "codex-review"
-      ],
-      "expected_concrete_path_patterns": [
-        "apps/api/src/spark_platform/audit_log_universal_evidence_stream/future_boundary.ts",
-        "packages/contracts/src/spark_platform/audit_log_universal_evidence_stream_contract.ts",
-        "codex-review/core/v0_0_2/spark_platform_v4_1_execution_seed_matrix/audit_log_universal_evidence_stream_future_evidence.json"
-      ],
-      "forbidden_domains": [
-        "runtime_change_in_this_pr",
-        "ticket_pack_generation_in_this_pr",
-        "prisma_schema_change_in_this_pr"
-      ],
-      "api_or_contract_boundary": "audit_log_universal_evidence_stream_contract_boundary",
-      "schema_or_persistence_boundary": "audit_log_universal_evidence_stream_state_boundary",
-      "provider_or_standard_boundary": "not_applicable",
-      "validation_family": "core_foundation_catalog_validation",
-      "evidence_expectation": "docs/process/core/v0_0_2/spark_platform_v4_1_subsurface_catalog_decision_update_audit_v1.md",
-      "mcr_expectation": "Audit log and universal evidence stream must be represented as a dedicated foundation sub-surface before billing, support, privacy, revocation, and lifecycle evidence seeds are reviewed.",
-      "dependencies": [
-        "subsurface_6a_access_core_gatekeeper"
-      ],
-      "split_if": [
-        "Split before ticket pack generation if another independently owned identity, access, audit, or Foundry authority boundary is discovered."
-      ],
-      "adl_refs": [],
-      "readiness_mode": "PREPLANNING_DRAFT",
-      "ticket_generation_allowed": false,
-      "stop_conditions": [
-        "Stop before ticket generation until this foundation sub-surface passes catalog and seed matrix review."
-      ],
-      "akti_local": {
-        "phase_id": "6a",
-        "catalog_order": 3,
-        "catalog_outcome": "demote_to_core_microservice",
-        "split_axes": [
-          "mandatory_core_microservice"
-        ],
-        "phase_dependency_rule": "6a is the foundation phase and must not depend on later phases.",
-        "source_section": "6A.07"
-      }
-    },
-    {
-      "subsurface_id": "subsurface_6a_foundry_runtime_authority",
-      "parent_surface_id": "surface_6a_core_identity_access_audit_foundry",
-      "train": "phase_6a",
-      "level": "level_group_0_5",
-      "title": "Foundry Runtime Authority",
-      "subsurface_type": "core_microservice",
-      "source_authority": [
-        "docs/process/core/v0_0_2/spark_platform_v4_1/6a_core_update_foundation.md#6a-10"
-      ],
-      "scope": "Foundry Runtime Authority is a core 6A foundation sub-surface added during execution seed dependency review. It is catalog planning only and does not authorize implementation.",
-      "non_scope": [
-        "ticket_generation",
-        "runtime_change",
-        "schema_change",
-        "predictive_stop_analysis",
-        "autonomous_readiness",
-        "execution"
-      ],
-      "expected_file_domains": [
-        "apps/api",
-        "packages/contracts",
-        "codex-review"
-      ],
-      "expected_concrete_path_patterns": [
-        "apps/api/src/spark_platform/foundry_runtime_authority/future_boundary.ts",
-        "packages/contracts/src/spark_platform/foundry_runtime_authority_contract.ts",
-        "codex-review/core/v0_0_2/spark_platform_v4_1_execution_seed_matrix/foundry_runtime_authority_future_evidence.json"
-      ],
-      "forbidden_domains": [
-        "runtime_change_in_this_pr",
-        "ticket_pack_generation_in_this_pr",
-        "prisma_schema_change_in_this_pr"
-      ],
-      "api_or_contract_boundary": "foundry_runtime_authority_contract_boundary",
-      "schema_or_persistence_boundary": "foundry_runtime_authority_state_boundary",
-      "provider_or_standard_boundary": "not_applicable",
-      "validation_family": "core_foundation_catalog_validation",
-      "evidence_expectation": "docs/process/core/v0_0_2/spark_platform_v4_1_subsurface_catalog_decision_update_audit_v1.md",
-      "mcr_expectation": "Foundry runtime authority must be represented as a dedicated foundation sub-surface before tenant-toggleable services and optional micro-service activation dependencies are reviewed.",
-      "dependencies": [
-        "subsurface_6a_access_core_gatekeeper",
-        "subsurface_6a_event_bus_delivery",
-        "subsurface_6a_billing_dimension_registry"
-      ],
-      "split_if": [
-        "Split before ticket pack generation if another independently owned identity, access, audit, or Foundry authority boundary is discovered."
-      ],
-      "adl_refs": [],
-      "readiness_mode": "PREPLANNING_DRAFT",
-      "ticket_generation_allowed": false,
-      "stop_conditions": [
-        "Stop before ticket generation until this foundation sub-surface passes catalog and seed matrix review."
-      ],
-      "akti_local": {
-        "phase_id": "6a",
-        "catalog_order": 18,
-        "catalog_outcome": "demote_to_core_microservice",
-        "split_axes": [
-          "mandatory_core_microservice"
-        ],
-        "phase_dependency_rule": "6a is the foundation phase and must not depend on later phases.",
-        "source_section": "6A.10"
       }
     }
   ]

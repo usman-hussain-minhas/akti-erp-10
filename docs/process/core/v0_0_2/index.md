@@ -54,3 +54,15 @@ This package creates execution-seed candidates only. It does not create ticket p
 ### PR #43 semantic dependency enrichment
 
 The execution seed matrix now includes missing 6A foundation seeds for tenant/session identity, access Gatekeeper, universal audit evidence, and Foundry runtime authority, plus semantic hard dependency edges for saga, finance, communication, access, audit, learning standards, and cross-module lifecycle relationships. This remains seed-matrix review only and does not authorize ticket pack generation or execution.
+
+## Spark Platform v4.1 Zero-Trust Source Coverage and Dependency Traceability
+
+- Source coverage matrix: spark_platform_v4_1_source_coverage_matrix_v1.json
+- Source coverage audit: spark_platform_v4_1_source_coverage_audit_v1.md
+- Dependency extraction matrix: spark_platform_v4_1_dependency_extraction_matrix_v1.json
+- Dependency extraction audit: spark_platform_v4_1_dependency_extraction_audit_v1.md
+- Updated execution seed matrix: spark_platform_v4_1_execution_seed_matrix_v1.json
+- Updated seed matrix audit: spark_platform_v4_1_execution_seed_matrix_audit_v1.md
+- Updated readiness report: spark_platform_v4_1_execution_seed_matrix_readiness_report_v1.md
+
+Boundary: this package repairs source-to-seed traceability only. It does not create ticket packs, does not run predictive stop analysis, does not run autonomous readiness, and does not execute tickets. Seed placeholders must not be copied into future tickets; future tickets must be regenerated from source authority, seed, repo truth, exact-file plan, and the AKTI ERP Ticket Quality Doctrine v1.

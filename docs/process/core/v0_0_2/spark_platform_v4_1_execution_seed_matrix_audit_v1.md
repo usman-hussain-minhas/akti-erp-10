@@ -2,73 +2,56 @@
 
 Status: SPARK_PLATFORM_V4_1_EXECUTION_SEED_MATRIX_AUDIT_READY_FOR_REVIEW
 
-## Audit summary
+## Zero-Trust Traceability Addendum
 
-- Genesis surface catalog audit: PASS; findings=0
-- Genesis sub-surface catalog audit: PASS; findings=0
-- Genesis seed matrix depth audit: PASS; findings=0
-- Local dependency validation: PASS; seeds=237
+- Source coverage matrix: docs/process/core/v0_0_2/spark_platform_v4_1_source_coverage_matrix_v1.json
+- Source coverage audit: docs/process/core/v0_0_2/spark_platform_v4_1_source_coverage_audit_v1.md
+- Dependency extraction matrix: docs/process/core/v0_0_2/spark_platform_v4_1_dependency_extraction_matrix_v1.json
+- Dependency extraction audit: docs/process/core/v0_0_2/spark_platform_v4_1_dependency_extraction_audit_v1.md
 
 ## Counts
 
-- Surface count: 26
-- Sub-surface count: 237
-- Seed count: 237
-- Added catalog entries: 4
-- Added seeds: 4
+- Source components: 69 expected / 69 actual
+- Surfaces before/after: 26 -> 33
+- Sub-surfaces before/after: 237 -> 273
+- Seeds before/after: 237 -> 273
+- Dependency edges before/after: 75 -> 996
 
-## Semantic dependency enrichment
+## Edge Distribution Before
 
-Semantic dependency enrichment was applied to replace the mostly linear ordering chain with source-grounded architectural coupling. Hard dependencies now cover saga infrastructure, finance/GL, enrollment/onboarding, communication gateway/opt-out, access Gatekeeper, audit evidence, cross-module lifecycle edges, LMS standards, Foundry activation authority, and AI/support evidence dependencies.
-
-## Edge type distribution before enrichment
-
-- conditional_dependency: 1
-- hard_dependency: 1
-- ordering_dependency: 231
-- soft_dependency: 0
-
-## Edge type distribution after enrichment
-
-- conditional_dependency: 0
 - hard_dependency: 75
-- ordering_dependency: 0
+- conditional_dependency: 0
 - soft_dependency: 0
+- ordering_dependency: 0
 
-## Foundry / Gatekeeper / Audit / Identity seeds added
+## Edge Distribution After
 
-- seed_6a_tenant_org_branch_session_identity
-- seed_6a_access_core_gatekeeper
-- seed_6a_audit_log_universal_evidence_stream
-- seed_6a_foundry_runtime_authority
+- hard_dependency: 992
+- conditional_dependency: 1
+- soft_dependency: 3
+- ordering_dependency: 0
 
-## H5P to LRS dependency change
+## Coverage Repairs
 
-H5P -> LRS changed from conditional dependency to hard dependency. Reason: H5P xAPI statement emission requires the Learning Record Store; if xAPI tracking is disabled within H5P, this dependency remains declared because the LRS is the only valid target for statement persistence.
+- Source components missing before: 27
+- Source components missing after: 0
+- Added surfaces: 7
+- Added sub-surfaces: 36
+- Added seeds: 36
 
-## Seed type distribution
+## ADL and Cross-Cutting Result
 
-- core_microservice_seed: 27
-- lifecycle_seed: 55
-- optional_microservice_seed: 35
-- provider_integration_seed: 34
-- service_seed: 86
+- ADL coverage: PASS after dependency extraction matrix application.
+- Foundry/manifest coverage: PASS after explicit manifest lifecycle seeds and edges.
+- Gatekeeper coverage: PASS after core Gatekeeper source and dependency mapping.
+- Audit/evidence coverage: PASS after universal evidence stream dependencies.
+- Billing/pricing coverage: PASS after pricing reference registration and finance edges.
 
-## 6D Learning Standards Seed Order Decision
+## Warning
 
-- Catalog order remained unchanged for the LMS standards decision entries.
-- Seed order was adjusted only where required to satisfy the LRS/xAPI/H5P dependency relationship.
-- LRS precedes xAPI in seed_order.
-- LRS precedes H5P in seed_order.
-- xAPI has a hard dependency edge to LRS.
-- H5P has a hard dependency edge to LRS.
-- This decision does not authorize ticket pack generation or execution.
+No ticket pack was generated. Seed placeholders must not be copied into tickets.
+## Source-Driven Seed Order Repairs
 
-## Remaining manual-review items
-
-- Confirm semantic dependency completeness before ticket pack generation.
-- Confirm no hidden provider, standard, channel, lifecycle, or role/portal bundle remains inside any seed.
-
-## Lifecycle boundary
-
-No ticket pack was generated. No predictive stop analysis, autonomous readiness, execution, runtime changes, schema changes, generated files, package changes, or lockfile changes were performed.
+- `seed_6b_payment_allocation` seed_order was moved before `seed_6b_installment_engine` because ADL-013 installment scheduling depends on allocation and balance computation.
+- `seed_6b_payroll_run_state_machine` seed_order was moved before `seed_6b_journal_entry_engine` because journal entries consume payroll source events.
+- Catalog coverage remains planning-only; this does not authorize ticket pack generation or execution.
