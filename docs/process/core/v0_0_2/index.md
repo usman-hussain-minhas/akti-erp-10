@@ -38,3 +38,7 @@ Spark Platform v4.1 supersedes the older Spark Platform Build v2 Train 1–5 pla
 - [Sub-surface catalog audit](spark_platform_v4_1_subsurface_catalog_audit_v1.md)
 - [Lifecycle readiness report](spark_platform_v4_1_subsurface_lifecycle_readiness_report_v1.md)
 - [Imported v4.1 source docs](spark_platform_v4_1/)
+
+## Spark Platform v4.1 Phase 6A Zero-Trust Rebuild
+
+Spark Platform v4.1 Phase 6A Zero-Trust Rebuild lives under docs/process/v4_1/phase_6a/ and is the active Phase 6A-only source coverage, sub-surface catalog, dependency extraction, dependency fidelity, and execution-seed planning package. It does not authorize ticket packs, predictive stop analysis, autonomous readiness, or execution.

@@ -1,0 +1,2924 @@
+{
+  "schema": "codex_direct_phase_6a_subsurface_catalog_v1",
+  "status": "SPARK_PLATFORM_V4_1_PHASE_6A_SUBSURFACE_CATALOG_READY_FOR_AUDIT",
+  "source_authority": [
+    "docs/process/core/v0_0_2/spark_platform_v4_1/0_business_logic.md",
+    "docs/process/core/v0_0_2/spark_platform_v4_1/6a_core_update_foundation.md",
+    "docs/process/core/v0_0_2/spark_platform_v4_1/subsurface_decomposition_guide.md",
+    "docs/doctrine/AKTI_ERP_Ticket_Quality_Doctrine_v1.md"
+  ],
+  "phase": "6a",
+  "foundry_manifest_dependency_target_rule": "Activatable/configurable service-like sub-surfaces trace to service_manifest_contract by default; foundry_runtime_authority is not the default substitute and unrelated core primitives are not blanket-linked.",
+  "subsurfaces": [
+    {
+      "subsurface_id": "subsurface_6a_platform_core_update_baseline",
+      "title": "Platform Core Update Baseline",
+      "source_component_id": "6A.01",
+      "source_component_name_exact_from_phase_doc": "Platform Core Update Baseline",
+      "parent_surface_id": "surface_6a_core_baseline_runtime",
+      "phase": "6a",
+      "catalog_order": 1,
+      "subsurface_type": "configuration_microservice",
+      "coverage_outcome": "demoted_to_core_microservice",
+      "split_axis": "configuration_builder",
+      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "source_required_dependencies_raw": "Existing approved platform baseline",
+      "source_required_dependency_component_ids": [],
+      "manifest_required": false,
+      "foundry_activation_required": false,
+      "manifest_traceability_targets": [],
+      "manifest_traceability_rationale": "Core primitive is not tenant-toggleable and does not require direct manifest traceability.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_infrastructure_runtime_foundation",
+      "title": "Infrastructure Runtime Foundation",
+      "source_component_id": "6A.02",
+      "source_component_name_exact_from_phase_doc": "Infrastructure Runtime Foundation",
+      "parent_surface_id": "surface_6a_core_baseline_runtime",
+      "phase": "6a",
+      "catalog_order": 2,
+      "subsurface_type": "core_microservice",
+      "coverage_outcome": "demoted_to_core_microservice",
+      "split_axis": "core_microservice",
+      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "source_required_dependencies_raw": "6A.01",
+      "source_required_dependency_component_ids": [
+        "6A.01"
+      ],
+      "manifest_required": false,
+      "foundry_activation_required": false,
+      "manifest_traceability_targets": [],
+      "manifest_traceability_rationale": "Core primitive is not tenant-toggleable and does not require direct manifest traceability.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_svfs_object_store",
+      "title": "SVFS Object Store",
+      "source_component_id": "6A.03",
+      "source_component_name_exact_from_phase_doc": "Storage, SVFS, Backup, and Image Pipeline",
+      "parent_surface_id": "surface_6a_storage_file_lifecycle",
+      "phase": "6a",
+      "catalog_order": 3,
+      "subsurface_type": "core_microservice",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "core_microservice",
+      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "source_required_dependencies_raw": "6A.02",
+      "source_required_dependency_component_ids": [
+        "6A.02"
+      ],
+      "manifest_required": false,
+      "foundry_activation_required": false,
+      "manifest_traceability_targets": [],
+      "manifest_traceability_rationale": "Core primitive is not tenant-toggleable and does not require direct manifest traceability.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [
+        "ADL-006"
+      ],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_backup_engine",
+      "title": "Backup Engine",
+      "source_component_id": "6A.03",
+      "source_component_name_exact_from_phase_doc": "Storage, SVFS, Backup, and Image Pipeline",
+      "parent_surface_id": "surface_6a_storage_file_lifecycle",
+      "phase": "6a",
+      "catalog_order": 4,
+      "subsurface_type": "core_microservice",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "core_microservice",
+      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "source_required_dependencies_raw": "6A.02",
+      "source_required_dependency_component_ids": [
+        "6A.02"
+      ],
+      "manifest_required": false,
+      "foundry_activation_required": false,
+      "manifest_traceability_targets": [],
+      "manifest_traceability_rationale": "Core primitive is not tenant-toggleable and does not require direct manifest traceability.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [
+        "ADL-006"
+      ],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_image_pipeline",
+      "title": "Image Pipeline",
+      "source_component_id": "6A.03",
+      "source_component_name_exact_from_phase_doc": "Storage, SVFS, Backup, and Image Pipeline",
+      "parent_surface_id": "surface_6a_storage_file_lifecycle",
+      "phase": "6a",
+      "catalog_order": 5,
+      "subsurface_type": "core_microservice",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "core_microservice",
+      "decomposition_guide_rationale": "Named or mechanically implied by decomposition guide.",
+      "source_required_dependencies_raw": "6A.02",
+      "source_required_dependency_component_ids": [
+        "6A.02"
+      ],
+      "manifest_required": false,
+      "foundry_activation_required": false,
+      "manifest_traceability_targets": [],
+      "manifest_traceability_rationale": "Core primitive is not tenant-toggleable and does not require direct manifest traceability.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [
+        "ADL-006"
+      ],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_soft_delete",
+      "title": "Soft Delete",
+      "source_component_id": "6A.03",
+      "source_component_name_exact_from_phase_doc": "Storage, SVFS, Backup, and Image Pipeline",
+      "parent_surface_id": "surface_6a_storage_file_lifecycle",
+      "phase": "6a",
+      "catalog_order": 6,
+      "subsurface_type": "stateful_lifecycle_microservice",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "lifecycle",
+      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "source_required_dependencies_raw": "6A.02",
+      "source_required_dependency_component_ids": [
+        "6A.02"
+      ],
+      "manifest_required": false,
+      "foundry_activation_required": false,
+      "manifest_traceability_targets": [],
+      "manifest_traceability_rationale": "Core primitive is not tenant-toggleable and does not require direct manifest traceability.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [
+        "ADL-006"
+      ],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_staged_deletion",
+      "title": "Staged Deletion",
+      "source_component_id": "6A.03",
+      "source_component_name_exact_from_phase_doc": "Storage, SVFS, Backup, and Image Pipeline",
+      "parent_surface_id": "surface_6a_storage_file_lifecycle",
+      "phase": "6a",
+      "catalog_order": 7,
+      "subsurface_type": "stateful_lifecycle_microservice",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "lifecycle",
+      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "source_required_dependencies_raw": "6A.02",
+      "source_required_dependency_component_ids": [
+        "6A.02"
+      ],
+      "manifest_required": false,
+      "foundry_activation_required": false,
+      "manifest_traceability_targets": [],
+      "manifest_traceability_rationale": "Core primitive is not tenant-toggleable and does not require direct manifest traceability.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [
+        "ADL-006"
+      ],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_tenant_org_branch_session_identity",
+      "title": "Tenant Org Branch Session Identity",
+      "source_component_id": "6A.04",
+      "source_component_name_exact_from_phase_doc": "Tenant, Organisation, Branch, and Session Identity",
+      "parent_surface_id": "surface_6a_identity_access_audit",
+      "phase": "6a",
+      "catalog_order": 8,
+      "subsurface_type": "core_microservice",
+      "coverage_outcome": "demoted_to_core_microservice",
+      "split_axis": "core_authority",
+      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "source_required_dependencies_raw": "6A.02, 6A.03",
+      "source_required_dependency_component_ids": [
+        "6A.02",
+        "6A.03"
+      ],
+      "manifest_required": false,
+      "foundry_activation_required": false,
+      "manifest_traceability_targets": [],
+      "manifest_traceability_rationale": "Core primitive is not tenant-toggleable and does not require direct manifest traceability.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_person_identity_graph",
+      "title": "Person Identity Graph",
+      "source_component_id": "6A.05",
+      "source_component_name_exact_from_phase_doc": "Person / Identity Graph",
+      "parent_surface_id": "surface_6a_identity_access_audit",
+      "phase": "6a",
+      "catalog_order": 9,
+      "subsurface_type": "core_microservice",
+      "coverage_outcome": "demoted_to_core_microservice",
+      "split_axis": "core_authority",
+      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "source_required_dependencies_raw": "6A.04",
+      "source_required_dependency_component_ids": [
+        "6A.04"
+      ],
+      "manifest_required": false,
+      "foundry_activation_required": false,
+      "manifest_traceability_targets": [],
+      "manifest_traceability_rationale": "Core primitive is not tenant-toggleable and does not require direct manifest traceability.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_access_core_gatekeeper",
+      "title": "Access Core Gatekeeper",
+      "source_component_id": "6A.06",
+      "source_component_name_exact_from_phase_doc": "Access Core and Gatekeeper",
+      "parent_surface_id": "surface_6a_identity_access_audit",
+      "phase": "6a",
+      "catalog_order": 10,
+      "subsurface_type": "core_microservice",
+      "coverage_outcome": "demoted_to_core_microservice",
+      "split_axis": "core_authority",
+      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "source_required_dependencies_raw": "6A.04, 6A.05",
+      "source_required_dependency_component_ids": [
+        "6A.04",
+        "6A.05"
+      ],
+      "manifest_required": false,
+      "foundry_activation_required": false,
+      "manifest_traceability_targets": [],
+      "manifest_traceability_rationale": "Core primitive is not tenant-toggleable and does not require direct manifest traceability.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_audit_log_universal_evidence_stream",
+      "title": "Audit Log Universal Evidence Stream",
+      "source_component_id": "6A.07",
+      "source_component_name_exact_from_phase_doc": "Audit Log and Universal Evidence Stream",
+      "parent_surface_id": "surface_6a_identity_access_audit",
+      "phase": "6a",
+      "catalog_order": 11,
+      "subsurface_type": "core_microservice",
+      "coverage_outcome": "demoted_to_core_microservice",
+      "split_axis": "billing_or_evidence",
+      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "source_required_dependencies_raw": "6A.04, 6A.06",
+      "source_required_dependency_component_ids": [
+        "6A.04",
+        "6A.06"
+      ],
+      "manifest_required": false,
+      "foundry_activation_required": false,
+      "manifest_traceability_targets": [],
+      "manifest_traceability_rationale": "Core primitive is not tenant-toggleable and does not require direct manifest traceability.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_transactional_outbox",
+      "title": "Transactional Outbox",
+      "source_component_id": "6A.08",
+      "source_component_name_exact_from_phase_doc": "Transactional Outbox, Event Bus, and DLQ",
+      "parent_surface_id": "surface_6a_event_outbox_saga",
+      "phase": "6a",
+      "catalog_order": 12,
+      "subsurface_type": "core_microservice",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "core_microservice",
+      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "source_required_dependencies_raw": "6A.07",
+      "source_required_dependency_component_ids": [
+        "6A.07"
+      ],
+      "manifest_required": false,
+      "foundry_activation_required": false,
+      "manifest_traceability_targets": [],
+      "manifest_traceability_rationale": "Core primitive is not tenant-toggleable and does not require direct manifest traceability.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [
+        "ADL-001",
+        "ADL-002"
+      ],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_event_bus_delivery",
+      "title": "Event Bus Delivery",
+      "source_component_id": "6A.08",
+      "source_component_name_exact_from_phase_doc": "Transactional Outbox, Event Bus, and DLQ",
+      "parent_surface_id": "surface_6a_event_outbox_saga",
+      "phase": "6a",
+      "catalog_order": 13,
+      "subsurface_type": "core_microservice",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "core_microservice",
+      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "source_required_dependencies_raw": "6A.07",
+      "source_required_dependency_component_ids": [
+        "6A.07"
+      ],
+      "manifest_required": false,
+      "foundry_activation_required": false,
+      "manifest_traceability_targets": [],
+      "manifest_traceability_rationale": "Core primitive is not tenant-toggleable and does not require direct manifest traceability.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [
+        "ADL-001",
+        "ADL-002"
+      ],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_dlq_admin_inspection_replay",
+      "title": "DLQ Admin Inspection Replay",
+      "source_component_id": "6A.08",
+      "source_component_name_exact_from_phase_doc": "Transactional Outbox, Event Bus, and DLQ",
+      "parent_surface_id": "surface_6a_event_outbox_saga",
+      "phase": "6a",
+      "catalog_order": 14,
+      "subsurface_type": "core_microservice",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "core_microservice",
+      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "source_required_dependencies_raw": "6A.07",
+      "source_required_dependency_component_ids": [
+        "6A.07"
+      ],
+      "manifest_required": false,
+      "foundry_activation_required": false,
+      "manifest_traceability_targets": [],
+      "manifest_traceability_rationale": "Core primitive is not tenant-toggleable and does not require direct manifest traceability.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [
+        "ADL-001",
+        "ADL-002"
+      ],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_saga_orchestrator",
+      "title": "Saga Orchestrator",
+      "source_component_id": "6A.08",
+      "source_component_name_exact_from_phase_doc": "Transactional Outbox, Event Bus, and DLQ",
+      "parent_surface_id": "surface_6a_event_outbox_saga",
+      "phase": "6a",
+      "catalog_order": 15,
+      "subsurface_type": "stateful_lifecycle_microservice",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "lifecycle",
+      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "source_required_dependencies_raw": "6A.07",
+      "source_required_dependency_component_ids": [
+        "6A.07"
+      ],
+      "manifest_required": false,
+      "foundry_activation_required": false,
+      "manifest_traceability_targets": [],
+      "manifest_traceability_rationale": "Core primitive is not tenant-toggleable and does not require direct manifest traceability.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [
+        "ADL-001",
+        "ADL-002"
+      ],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_compensation_dispatcher",
+      "title": "Compensation Dispatcher",
+      "source_component_id": "6A.08",
+      "source_component_name_exact_from_phase_doc": "Transactional Outbox, Event Bus, and DLQ",
+      "parent_surface_id": "surface_6a_event_outbox_saga",
+      "phase": "6a",
+      "catalog_order": 16,
+      "subsurface_type": "stateful_lifecycle_microservice",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "lifecycle",
+      "decomposition_guide_rationale": "Named or mechanically implied by decomposition guide.",
+      "source_required_dependencies_raw": "6A.07",
+      "source_required_dependency_component_ids": [
+        "6A.07"
+      ],
+      "manifest_required": false,
+      "foundry_activation_required": false,
+      "manifest_traceability_targets": [],
+      "manifest_traceability_rationale": "Core primitive is not tenant-toggleable and does not require direct manifest traceability.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [
+        "ADL-001",
+        "ADL-002"
+      ],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_terminal_state_handler",
+      "title": "Terminal State Handler",
+      "source_component_id": "6A.08",
+      "source_component_name_exact_from_phase_doc": "Transactional Outbox, Event Bus, and DLQ",
+      "parent_surface_id": "surface_6a_event_outbox_saga",
+      "phase": "6a",
+      "catalog_order": 17,
+      "subsurface_type": "stateful_lifecycle_microservice",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "lifecycle",
+      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "source_required_dependencies_raw": "6A.07",
+      "source_required_dependency_component_ids": [
+        "6A.07"
+      ],
+      "manifest_required": false,
+      "foundry_activation_required": false,
+      "manifest_traceability_targets": [],
+      "manifest_traceability_rationale": "Core primitive is not tenant-toggleable and does not require direct manifest traceability.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [
+        "ADL-001",
+        "ADL-002"
+      ],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_pricing_table_effective_dates",
+      "title": "Pricing Table Effective Dates",
+      "source_component_id": "6A.09",
+      "source_component_name_exact_from_phase_doc": "Core Billing Engine and Pricing Registry",
+      "parent_surface_id": "surface_6a_billing_pricing_evidence",
+      "phase": "6a",
+      "catalog_order": 18,
+      "subsurface_type": "core_microservice",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "billing_or_evidence",
+      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "source_required_dependencies_raw": "6A.07, 6A.08",
+      "source_required_dependency_component_ids": [
+        "6A.07",
+        "6A.08"
+      ],
+      "manifest_required": false,
+      "foundry_activation_required": false,
+      "manifest_traceability_targets": [],
+      "manifest_traceability_rationale": "Core primitive is not tenant-toggleable and does not require direct manifest traceability.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_billing_dimension_measurement_registry",
+      "title": "Billing Dimension Measurement Registry",
+      "source_component_id": "6A.09",
+      "source_component_name_exact_from_phase_doc": "Core Billing Engine and Pricing Registry",
+      "parent_surface_id": "surface_6a_billing_pricing_evidence",
+      "phase": "6a",
+      "catalog_order": 19,
+      "subsurface_type": "core_microservice",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "billing_or_evidence",
+      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "source_required_dependencies_raw": "6A.07, 6A.08",
+      "source_required_dependency_component_ids": [
+        "6A.07",
+        "6A.08"
+      ],
+      "manifest_required": false,
+      "foundry_activation_required": false,
+      "manifest_traceability_targets": [],
+      "manifest_traceability_rationale": "Core primitive is not tenant-toggleable and does not require direct manifest traceability.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_evidence_aggregation",
+      "title": "Evidence Aggregation",
+      "source_component_id": "6A.09",
+      "source_component_name_exact_from_phase_doc": "Core Billing Engine and Pricing Registry",
+      "parent_surface_id": "surface_6a_billing_pricing_evidence",
+      "phase": "6a",
+      "catalog_order": 20,
+      "subsurface_type": "core_microservice",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "billing_or_evidence",
+      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "source_required_dependencies_raw": "6A.07, 6A.08",
+      "source_required_dependency_component_ids": [
+        "6A.07",
+        "6A.08"
+      ],
+      "manifest_required": false,
+      "foundry_activation_required": false,
+      "manifest_traceability_targets": [],
+      "manifest_traceability_rationale": "Core primitive is not tenant-toggleable and does not require direct manifest traceability.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_projected_cost_calculator",
+      "title": "Projected Cost Calculator",
+      "source_component_id": "6A.09",
+      "source_component_name_exact_from_phase_doc": "Core Billing Engine and Pricing Registry",
+      "parent_surface_id": "surface_6a_billing_pricing_evidence",
+      "phase": "6a",
+      "catalog_order": 21,
+      "subsurface_type": "core_microservice",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "billing_or_evidence",
+      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "source_required_dependencies_raw": "6A.07, 6A.08",
+      "source_required_dependency_component_ids": [
+        "6A.07",
+        "6A.08"
+      ],
+      "manifest_required": false,
+      "foundry_activation_required": false,
+      "manifest_traceability_targets": [],
+      "manifest_traceability_rationale": "Core primitive is not tenant-toggleable and does not require direct manifest traceability.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_budget_caps",
+      "title": "Budget Caps",
+      "source_component_id": "6A.09",
+      "source_component_name_exact_from_phase_doc": "Core Billing Engine and Pricing Registry",
+      "parent_surface_id": "surface_6a_billing_pricing_evidence",
+      "phase": "6a",
+      "catalog_order": 22,
+      "subsurface_type": "stateful_lifecycle_microservice",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "lifecycle",
+      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "source_required_dependencies_raw": "6A.07, 6A.08",
+      "source_required_dependency_component_ids": [
+        "6A.07",
+        "6A.08"
+      ],
+      "manifest_required": false,
+      "foundry_activation_required": false,
+      "manifest_traceability_targets": [],
+      "manifest_traceability_rationale": "Core primitive is not tenant-toggleable and does not require direct manifest traceability.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_prepaid_balance",
+      "title": "Prepaid Balance",
+      "source_component_id": "6A.09",
+      "source_component_name_exact_from_phase_doc": "Core Billing Engine and Pricing Registry",
+      "parent_surface_id": "surface_6a_billing_pricing_evidence",
+      "phase": "6a",
+      "catalog_order": 23,
+      "subsurface_type": "stateful_lifecycle_microservice",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "lifecycle",
+      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "source_required_dependencies_raw": "6A.07, 6A.08",
+      "source_required_dependency_component_ids": [
+        "6A.07",
+        "6A.08"
+      ],
+      "manifest_required": false,
+      "foundry_activation_required": false,
+      "manifest_traceability_targets": [],
+      "manifest_traceability_rationale": "Core primitive is not tenant-toggleable and does not require direct manifest traceability.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_foundry_runtime_authority",
+      "title": "Foundry Runtime Authority",
+      "source_component_id": "6A.10",
+      "source_component_name_exact_from_phase_doc": "Foundry Runtime Authority",
+      "parent_surface_id": "surface_6a_foundry_manifest_activation",
+      "phase": "6a",
+      "catalog_order": 24,
+      "subsurface_type": "core_microservice",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "core_microservice",
+      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "source_required_dependencies_raw": "6A.06, 6A.08, 6A.09",
+      "source_required_dependency_component_ids": [
+        "6A.06",
+        "6A.08",
+        "6A.09"
+      ],
+      "manifest_required": true,
+      "foundry_activation_required": true,
+      "manifest_traceability_targets": [
+        "service_manifest_contract"
+      ],
+      "manifest_traceability_rationale": "Activatable/configurable service-like boundary traces to service_manifest_contract as the default manifest target.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_service_manifest_contract",
+      "title": "Service Manifest Contract",
+      "source_component_id": "6A.10",
+      "source_component_name_exact_from_phase_doc": "Foundry Runtime Authority",
+      "parent_surface_id": "surface_6a_foundry_manifest_activation",
+      "phase": "6a",
+      "catalog_order": 25,
+      "subsurface_type": "foundry_manifest_lifecycle",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "manifest_activation_registration",
+      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "source_required_dependencies_raw": "6A.06, 6A.08, 6A.09",
+      "source_required_dependency_component_ids": [
+        "6A.06",
+        "6A.08",
+        "6A.09"
+      ],
+      "manifest_required": true,
+      "foundry_activation_required": true,
+      "manifest_traceability_targets": [
+        "service_manifest_contract"
+      ],
+      "manifest_traceability_rationale": "Activatable/configurable service-like boundary traces to service_manifest_contract as the default manifest target.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_manifest_validation",
+      "title": "Manifest Validation",
+      "source_component_id": "6A.10",
+      "source_component_name_exact_from_phase_doc": "Foundry Runtime Authority",
+      "parent_surface_id": "surface_6a_foundry_manifest_activation",
+      "phase": "6a",
+      "catalog_order": 26,
+      "subsurface_type": "foundry_manifest_lifecycle",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "manifest_activation_registration",
+      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "source_required_dependencies_raw": "6A.06, 6A.08, 6A.09",
+      "source_required_dependency_component_ids": [
+        "6A.06",
+        "6A.08",
+        "6A.09"
+      ],
+      "manifest_required": true,
+      "foundry_activation_required": true,
+      "manifest_traceability_targets": [
+        "service_manifest_contract"
+      ],
+      "manifest_traceability_rationale": "Activatable/configurable service-like boundary traces to service_manifest_contract as the default manifest target.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_activation_dependency_resolution",
+      "title": "Activation Dependency Resolution",
+      "source_component_id": "6A.10",
+      "source_component_name_exact_from_phase_doc": "Foundry Runtime Authority",
+      "parent_surface_id": "surface_6a_foundry_manifest_activation",
+      "phase": "6a",
+      "catalog_order": 27,
+      "subsurface_type": "foundry_manifest_lifecycle",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "lifecycle",
+      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "source_required_dependencies_raw": "6A.06, 6A.08, 6A.09",
+      "source_required_dependency_component_ids": [
+        "6A.06",
+        "6A.08",
+        "6A.09"
+      ],
+      "manifest_required": true,
+      "foundry_activation_required": true,
+      "manifest_traceability_targets": [
+        "service_manifest_contract"
+      ],
+      "manifest_traceability_rationale": "Activatable/configurable service-like boundary traces to service_manifest_contract as the default manifest target.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_deactivation_dependency_blocking",
+      "title": "Deactivation Dependency Blocking",
+      "source_component_id": "6A.10",
+      "source_component_name_exact_from_phase_doc": "Foundry Runtime Authority",
+      "parent_surface_id": "surface_6a_foundry_manifest_activation",
+      "phase": "6a",
+      "catalog_order": 28,
+      "subsurface_type": "foundry_manifest_lifecycle",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "lifecycle",
+      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "source_required_dependencies_raw": "6A.06, 6A.08, 6A.09",
+      "source_required_dependency_component_ids": [
+        "6A.06",
+        "6A.08",
+        "6A.09"
+      ],
+      "manifest_required": true,
+      "foundry_activation_required": true,
+      "manifest_traceability_targets": [
+        "service_manifest_contract"
+      ],
+      "manifest_traceability_rationale": "Activatable/configurable service-like boundary traces to service_manifest_contract as the default manifest target.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_version_pin_and_rollback",
+      "title": "Version Pin And Rollback",
+      "source_component_id": "6A.10",
+      "source_component_name_exact_from_phase_doc": "Foundry Runtime Authority",
+      "parent_surface_id": "surface_6a_foundry_manifest_activation",
+      "phase": "6a",
+      "catalog_order": 29,
+      "subsurface_type": "foundry_manifest_lifecycle",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "lifecycle",
+      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "source_required_dependencies_raw": "6A.06, 6A.08, 6A.09",
+      "source_required_dependency_component_ids": [
+        "6A.06",
+        "6A.08",
+        "6A.09"
+      ],
+      "manifest_required": true,
+      "foundry_activation_required": true,
+      "manifest_traceability_targets": [
+        "service_manifest_contract"
+      ],
+      "manifest_traceability_rationale": "Activatable/configurable service-like boundary traces to service_manifest_contract as the default manifest target.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_capability_registration",
+      "title": "Capability Registration",
+      "source_component_id": "6A.10",
+      "source_component_name_exact_from_phase_doc": "Foundry Runtime Authority",
+      "parent_surface_id": "surface_6a_foundry_manifest_activation",
+      "phase": "6a",
+      "catalog_order": 30,
+      "subsurface_type": "foundry_manifest_lifecycle",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "manifest_activation_registration",
+      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "source_required_dependencies_raw": "6A.06, 6A.08, 6A.09",
+      "source_required_dependency_component_ids": [
+        "6A.06",
+        "6A.08",
+        "6A.09"
+      ],
+      "manifest_required": true,
+      "foundry_activation_required": true,
+      "manifest_traceability_targets": [
+        "service_manifest_contract"
+      ],
+      "manifest_traceability_rationale": "Activatable/configurable service-like boundary traces to service_manifest_contract as the default manifest target.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_pricing_reference_registration",
+      "title": "Pricing Reference Registration",
+      "source_component_id": "6A.10",
+      "source_component_name_exact_from_phase_doc": "Foundry Runtime Authority",
+      "parent_surface_id": "surface_6a_foundry_manifest_activation",
+      "phase": "6a",
+      "catalog_order": 31,
+      "subsurface_type": "foundry_manifest_lifecycle",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "manifest_activation_registration",
+      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "source_required_dependencies_raw": "6A.06, 6A.08, 6A.09",
+      "source_required_dependency_component_ids": [
+        "6A.06",
+        "6A.08",
+        "6A.09"
+      ],
+      "manifest_required": true,
+      "foundry_activation_required": true,
+      "manifest_traceability_targets": [
+        "service_manifest_contract"
+      ],
+      "manifest_traceability_rationale": "Activatable/configurable service-like boundary traces to service_manifest_contract as the default manifest target.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_event_subscription_registration",
+      "title": "Event Subscription Registration",
+      "source_component_id": "6A.10",
+      "source_component_name_exact_from_phase_doc": "Foundry Runtime Authority",
+      "parent_surface_id": "surface_6a_foundry_manifest_activation",
+      "phase": "6a",
+      "catalog_order": 32,
+      "subsurface_type": "foundry_manifest_lifecycle",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "manifest_activation_registration",
+      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "source_required_dependencies_raw": "6A.06, 6A.08, 6A.09",
+      "source_required_dependency_component_ids": [
+        "6A.06",
+        "6A.08",
+        "6A.09"
+      ],
+      "manifest_required": true,
+      "foundry_activation_required": true,
+      "manifest_traceability_targets": [
+        "service_manifest_contract"
+      ],
+      "manifest_traceability_rationale": "Activatable/configurable service-like boundary traces to service_manifest_contract as the default manifest target.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_route_interface_registration",
+      "title": "Route Interface Registration",
+      "source_component_id": "6A.10",
+      "source_component_name_exact_from_phase_doc": "Foundry Runtime Authority",
+      "parent_surface_id": "surface_6a_foundry_manifest_activation",
+      "phase": "6a",
+      "catalog_order": 33,
+      "subsurface_type": "foundry_manifest_lifecycle",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "manifest_activation_registration",
+      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "source_required_dependencies_raw": "6A.06, 6A.08, 6A.09",
+      "source_required_dependency_component_ids": [
+        "6A.06",
+        "6A.08",
+        "6A.09"
+      ],
+      "manifest_required": true,
+      "foundry_activation_required": true,
+      "manifest_traceability_targets": [
+        "service_manifest_contract"
+      ],
+      "manifest_traceability_rationale": "Activatable/configurable service-like boundary traces to service_manifest_contract as the default manifest target.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_frontend_chunk_registration",
+      "title": "Frontend Chunk Registration",
+      "source_component_id": "6A.10",
+      "source_component_name_exact_from_phase_doc": "Foundry Runtime Authority",
+      "parent_surface_id": "surface_6a_foundry_manifest_activation",
+      "phase": "6a",
+      "catalog_order": 34,
+      "subsurface_type": "foundry_manifest_lifecycle",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "manifest_activation_registration",
+      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "source_required_dependencies_raw": "6A.06, 6A.08, 6A.09",
+      "source_required_dependency_component_ids": [
+        "6A.06",
+        "6A.08",
+        "6A.09"
+      ],
+      "manifest_required": true,
+      "foundry_activation_required": true,
+      "manifest_traceability_targets": [
+        "service_manifest_contract"
+      ],
+      "manifest_traceability_rationale": "Activatable/configurable service-like boundary traces to service_manifest_contract as the default manifest target.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_outbound_gateway_enforcement",
+      "title": "Outbound Gateway Enforcement",
+      "source_component_id": "6A.11",
+      "source_component_name_exact_from_phase_doc": "Communication Gateway and Global Opt-Out",
+      "parent_surface_id": "surface_6a_communication_gateway_opt_out",
+      "phase": "6a",
+      "catalog_order": 35,
+      "subsurface_type": "provider_or_channel_boundary",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "provider_or_channel_boundary",
+      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "source_required_dependencies_raw": "6A.05, 6A.07, 6A.08",
+      "source_required_dependency_component_ids": [
+        "6A.05",
+        "6A.07",
+        "6A.08"
+      ],
+      "manifest_required": true,
+      "foundry_activation_required": true,
+      "manifest_traceability_targets": [
+        "service_manifest_contract"
+      ],
+      "manifest_traceability_rationale": "Activatable/configurable service-like boundary traces to service_manifest_contract as the default manifest target.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [
+        "ADL-004"
+      ],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_global_opt_out_registry",
+      "title": "Global Opt Out Registry",
+      "source_component_id": "6A.11",
+      "source_component_name_exact_from_phase_doc": "Communication Gateway and Global Opt-Out",
+      "parent_surface_id": "surface_6a_communication_gateway_opt_out",
+      "phase": "6a",
+      "catalog_order": 36,
+      "subsurface_type": "core_microservice",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "core_microservice",
+      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "source_required_dependencies_raw": "6A.05, 6A.07, 6A.08",
+      "source_required_dependency_component_ids": [
+        "6A.05",
+        "6A.07",
+        "6A.08"
+      ],
+      "manifest_required": false,
+      "foundry_activation_required": false,
+      "manifest_traceability_targets": [],
+      "manifest_traceability_rationale": "Core primitive is not tenant-toggleable and does not require direct manifest traceability.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [
+        "ADL-004"
+      ],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_provider_circuit_breaker",
+      "title": "Provider Circuit Breaker",
+      "source_component_id": "6A.11",
+      "source_component_name_exact_from_phase_doc": "Communication Gateway and Global Opt-Out",
+      "parent_surface_id": "surface_6a_communication_gateway_opt_out",
+      "phase": "6a",
+      "catalog_order": 37,
+      "subsurface_type": "provider_or_channel_boundary",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "provider_or_channel_boundary",
+      "decomposition_guide_rationale": "Named or mechanically implied by decomposition guide.",
+      "source_required_dependencies_raw": "6A.05, 6A.07, 6A.08",
+      "source_required_dependency_component_ids": [
+        "6A.05",
+        "6A.07",
+        "6A.08"
+      ],
+      "manifest_required": true,
+      "foundry_activation_required": true,
+      "manifest_traceability_targets": [
+        "service_manifest_contract"
+      ],
+      "manifest_traceability_rationale": "Activatable/configurable service-like boundary traces to service_manifest_contract as the default manifest target.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [
+        "ADL-004"
+      ],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_rate_limit_enforcement",
+      "title": "Rate Limit Enforcement",
+      "source_component_id": "6A.11",
+      "source_component_name_exact_from_phase_doc": "Communication Gateway and Global Opt-Out",
+      "parent_surface_id": "surface_6a_communication_gateway_opt_out",
+      "phase": "6a",
+      "catalog_order": 38,
+      "subsurface_type": "provider_or_channel_boundary",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "core_microservice",
+      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "source_required_dependencies_raw": "6A.05, 6A.07, 6A.08",
+      "source_required_dependency_component_ids": [
+        "6A.05",
+        "6A.07",
+        "6A.08"
+      ],
+      "manifest_required": false,
+      "foundry_activation_required": false,
+      "manifest_traceability_targets": [],
+      "manifest_traceability_rationale": "Core primitive is not tenant-toggleable and does not require direct manifest traceability.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [
+        "ADL-004"
+      ],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_api_gateway_policy_boundary",
+      "title": "API Gateway Policy Boundary",
+      "source_component_id": "6A.12",
+      "source_component_name_exact_from_phase_doc": "API Gateway and Webhook Management",
+      "parent_surface_id": "surface_6a_api_webhook_boundary",
+      "phase": "6a",
+      "catalog_order": 39,
+      "subsurface_type": "provider_or_channel_boundary",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "provider_or_channel_boundary",
+      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "source_required_dependencies_raw": "6A.06, 6A.08, 6A.09",
+      "source_required_dependency_component_ids": [
+        "6A.06",
+        "6A.08",
+        "6A.09"
+      ],
+      "manifest_required": true,
+      "foundry_activation_required": true,
+      "manifest_traceability_targets": [
+        "service_manifest_contract"
+      ],
+      "manifest_traceability_rationale": "Activatable/configurable service-like boundary traces to service_manifest_contract as the default manifest target.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [
+        "ADL-003"
+      ],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_webhook_management_boundary",
+      "title": "Webhook Management Boundary",
+      "source_component_id": "6A.12",
+      "source_component_name_exact_from_phase_doc": "API Gateway and Webhook Management",
+      "parent_surface_id": "surface_6a_api_webhook_boundary",
+      "phase": "6a",
+      "catalog_order": 40,
+      "subsurface_type": "provider_or_channel_boundary",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "provider_or_channel_boundary",
+      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "source_required_dependencies_raw": "6A.06, 6A.08, 6A.09",
+      "source_required_dependency_component_ids": [
+        "6A.06",
+        "6A.08",
+        "6A.09"
+      ],
+      "manifest_required": true,
+      "foundry_activation_required": true,
+      "manifest_traceability_targets": [
+        "service_manifest_contract"
+      ],
+      "manifest_traceability_rationale": "Activatable/configurable service-like boundary traces to service_manifest_contract as the default manifest target.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [
+        "ADL-003"
+      ],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_idempotency_retry_boundary",
+      "title": "Idempotency Retry Boundary",
+      "source_component_id": "6A.12",
+      "source_component_name_exact_from_phase_doc": "API Gateway and Webhook Management",
+      "parent_surface_id": "surface_6a_api_webhook_boundary",
+      "phase": "6a",
+      "catalog_order": 41,
+      "subsurface_type": "stateful_lifecycle_microservice",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "lifecycle",
+      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "source_required_dependencies_raw": "6A.06, 6A.08, 6A.09",
+      "source_required_dependency_component_ids": [
+        "6A.06",
+        "6A.08",
+        "6A.09"
+      ],
+      "manifest_required": false,
+      "foundry_activation_required": false,
+      "manifest_traceability_targets": [],
+      "manifest_traceability_rationale": "Core primitive is not tenant-toggleable and does not require direct manifest traceability.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [
+        "ADL-003"
+      ],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_visual_workflow_builder",
+      "title": "Visual Workflow Builder",
+      "source_component_id": "6A.13",
+      "source_component_name_exact_from_phase_doc": "Configuration Engine",
+      "parent_surface_id": "surface_6a_configuration_engine_builders",
+      "phase": "6a",
+      "catalog_order": 42,
+      "subsurface_type": "configuration_microservice",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "configuration_builder",
+      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "source_required_dependencies_raw": "6A.06, 6A.08, 6A.10",
+      "source_required_dependency_component_ids": [
+        "6A.06",
+        "6A.08",
+        "6A.10"
+      ],
+      "manifest_required": true,
+      "foundry_activation_required": true,
+      "manifest_traceability_targets": [
+        "service_manifest_contract"
+      ],
+      "manifest_traceability_rationale": "Activatable/configurable service-like boundary traces to service_manifest_contract as the default manifest target.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_lifecycle_builder",
+      "title": "Lifecycle Builder",
+      "source_component_id": "6A.13",
+      "source_component_name_exact_from_phase_doc": "Configuration Engine",
+      "parent_surface_id": "surface_6a_configuration_engine_builders",
+      "phase": "6a",
+      "catalog_order": 43,
+      "subsurface_type": "configuration_microservice",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "lifecycle",
+      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "source_required_dependencies_raw": "6A.06, 6A.08, 6A.10",
+      "source_required_dependency_component_ids": [
+        "6A.06",
+        "6A.08",
+        "6A.10"
+      ],
+      "manifest_required": true,
+      "foundry_activation_required": true,
+      "manifest_traceability_targets": [
+        "service_manifest_contract"
+      ],
+      "manifest_traceability_rationale": "Activatable/configurable service-like boundary traces to service_manifest_contract as the default manifest target.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_rules_engine",
+      "title": "Rules Engine",
+      "source_component_id": "6A.13",
+      "source_component_name_exact_from_phase_doc": "Configuration Engine",
+      "parent_surface_id": "surface_6a_configuration_engine_builders",
+      "phase": "6a",
+      "catalog_order": 44,
+      "subsurface_type": "configuration_microservice",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "configuration_builder",
+      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "source_required_dependencies_raw": "6A.06, 6A.08, 6A.10",
+      "source_required_dependency_component_ids": [
+        "6A.06",
+        "6A.08",
+        "6A.10"
+      ],
+      "manifest_required": true,
+      "foundry_activation_required": true,
+      "manifest_traceability_targets": [
+        "service_manifest_contract"
+      ],
+      "manifest_traceability_rationale": "Activatable/configurable service-like boundary traces to service_manifest_contract as the default manifest target.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_form_builder",
+      "title": "Form Builder",
+      "source_component_id": "6A.13",
+      "source_component_name_exact_from_phase_doc": "Configuration Engine",
+      "parent_surface_id": "surface_6a_configuration_engine_builders",
+      "phase": "6a",
+      "catalog_order": 45,
+      "subsurface_type": "configuration_microservice",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "configuration_builder",
+      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "source_required_dependencies_raw": "6A.06, 6A.08, 6A.10",
+      "source_required_dependency_component_ids": [
+        "6A.06",
+        "6A.08",
+        "6A.10"
+      ],
+      "manifest_required": true,
+      "foundry_activation_required": true,
+      "manifest_traceability_targets": [
+        "service_manifest_contract"
+      ],
+      "manifest_traceability_rationale": "Activatable/configurable service-like boundary traces to service_manifest_contract as the default manifest target.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_custom_fields",
+      "title": "Custom Fields",
+      "source_component_id": "6A.13",
+      "source_component_name_exact_from_phase_doc": "Configuration Engine",
+      "parent_surface_id": "surface_6a_configuration_engine_builders",
+      "phase": "6a",
+      "catalog_order": 46,
+      "subsurface_type": "configuration_microservice",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "configuration_builder",
+      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "source_required_dependencies_raw": "6A.06, 6A.08, 6A.10",
+      "source_required_dependency_component_ids": [
+        "6A.06",
+        "6A.08",
+        "6A.10"
+      ],
+      "manifest_required": true,
+      "foundry_activation_required": true,
+      "manifest_traceability_targets": [
+        "service_manifest_contract"
+      ],
+      "manifest_traceability_rationale": "Activatable/configurable service-like boundary traces to service_manifest_contract as the default manifest target.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_template_library",
+      "title": "Template Library",
+      "source_component_id": "6A.13",
+      "source_component_name_exact_from_phase_doc": "Configuration Engine",
+      "parent_surface_id": "surface_6a_configuration_engine_builders",
+      "phase": "6a",
+      "catalog_order": 47,
+      "subsurface_type": "configuration_microservice",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "configuration_builder",
+      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "source_required_dependencies_raw": "6A.06, 6A.08, 6A.10",
+      "source_required_dependency_component_ids": [
+        "6A.06",
+        "6A.08",
+        "6A.10"
+      ],
+      "manifest_required": true,
+      "foundry_activation_required": true,
+      "manifest_traceability_targets": [
+        "service_manifest_contract"
+      ],
+      "manifest_traceability_rationale": "Activatable/configurable service-like boundary traces to service_manifest_contract as the default manifest target.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_ai_configuration_wizard_foundation",
+      "title": "AI Configuration Wizard Foundation",
+      "source_component_id": "6A.13",
+      "source_component_name_exact_from_phase_doc": "Configuration Engine",
+      "parent_surface_id": "surface_6a_configuration_engine_builders",
+      "phase": "6a",
+      "catalog_order": 48,
+      "subsurface_type": "configuration_microservice",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "core_microservice",
+      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "source_required_dependencies_raw": "6A.06, 6A.08, 6A.10",
+      "source_required_dependency_component_ids": [
+        "6A.06",
+        "6A.08",
+        "6A.10"
+      ],
+      "manifest_required": true,
+      "foundry_activation_required": true,
+      "manifest_traceability_targets": [
+        "service_manifest_contract"
+      ],
+      "manifest_traceability_rationale": "Activatable/configurable service-like boundary traces to service_manifest_contract as the default manifest target.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_search_indexing_boundary",
+      "title": "Search Indexing Boundary",
+      "source_component_id": "6A.14",
+      "source_component_name_exact_from_phase_doc": "Search and File Service Layer",
+      "parent_surface_id": "surface_6a_search_file_service_layer",
+      "phase": "6a",
+      "catalog_order": 49,
+      "subsurface_type": "core_microservice",
+      "coverage_outcome": "covered_as_surface_and_seed",
+      "split_axis": "core_microservice",
+      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "source_required_dependencies_raw": "6A.03, 6A.07, 6A.08",
+      "source_required_dependency_component_ids": [
+        "6A.03",
+        "6A.07",
+        "6A.08"
+      ],
+      "manifest_required": false,
+      "foundry_activation_required": false,
+      "manifest_traceability_targets": [],
+      "manifest_traceability_rationale": "Core primitive is not tenant-toggleable and does not require direct manifest traceability.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_file_sharing_quarantine_boundary",
+      "title": "File Sharing Quarantine Boundary",
+      "source_component_id": "6A.14",
+      "source_component_name_exact_from_phase_doc": "Search and File Service Layer",
+      "parent_surface_id": "surface_6a_search_file_service_layer",
+      "phase": "6a",
+      "catalog_order": 50,
+      "subsurface_type": "core_microservice",
+      "coverage_outcome": "covered_as_surface_and_seed",
+      "split_axis": "core_microservice",
+      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "source_required_dependencies_raw": "6A.03, 6A.07, 6A.08",
+      "source_required_dependency_component_ids": [
+        "6A.03",
+        "6A.07",
+        "6A.08"
+      ],
+      "manifest_required": false,
+      "foundry_activation_required": false,
+      "manifest_traceability_targets": [],
+      "manifest_traceability_rationale": "Core primitive is not tenant-toggleable and does not require direct manifest traceability.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_optimization_request_evaluator",
+      "title": "Optimization Request Evaluator",
+      "source_component_id": "6A.15",
+      "source_component_name_exact_from_phase_doc": "Non-AI Optimization Foundation",
+      "parent_surface_id": "surface_6a_non_ai_optimization",
+      "phase": "6a",
+      "catalog_order": 51,
+      "subsurface_type": "core_microservice",
+      "coverage_outcome": "covered_as_surface_and_seed",
+      "split_axis": "core_microservice",
+      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "source_required_dependencies_raw": "6A.09, 6A.10, 6A.13",
+      "source_required_dependency_component_ids": [
+        "6A.09",
+        "6A.10",
+        "6A.13"
+      ],
+      "manifest_required": true,
+      "foundry_activation_required": true,
+      "manifest_traceability_targets": [
+        "service_manifest_contract"
+      ],
+      "manifest_traceability_rationale": "Activatable/configurable service-like boundary traces to service_manifest_contract as the default manifest target.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_projected_cost_optimization_presenter",
+      "title": "Projected Cost Optimization Presenter",
+      "source_component_id": "6A.15",
+      "source_component_name_exact_from_phase_doc": "Non-AI Optimization Foundation",
+      "parent_surface_id": "surface_6a_non_ai_optimization",
+      "phase": "6a",
+      "catalog_order": 52,
+      "subsurface_type": "core_microservice",
+      "coverage_outcome": "covered_as_surface_and_seed",
+      "split_axis": "billing_or_evidence",
+      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "source_required_dependencies_raw": "6A.09, 6A.10, 6A.13",
+      "source_required_dependency_component_ids": [
+        "6A.09",
+        "6A.10",
+        "6A.13"
+      ],
+      "manifest_required": true,
+      "foundry_activation_required": true,
+      "manifest_traceability_targets": [
+        "service_manifest_contract"
+      ],
+      "manifest_traceability_rationale": "Activatable/configurable service-like boundary traces to service_manifest_contract as the default manifest target.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_model_routing",
+      "title": "Model Routing",
+      "source_component_id": "6A.16",
+      "source_component_name_exact_from_phase_doc": "AI Proxy and AI Governance Foundation",
+      "parent_surface_id": "surface_6a_ai_proxy_governance",
+      "phase": "6a",
+      "catalog_order": 53,
+      "subsurface_type": "governance_microservice",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "core_microservice",
+      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "source_required_dependencies_raw": "6A.06, 6A.07, 6A.09",
+      "source_required_dependency_component_ids": [
+        "6A.06",
+        "6A.07",
+        "6A.09"
+      ],
+      "manifest_required": true,
+      "foundry_activation_required": false,
+      "manifest_traceability_targets": [
+        "service_manifest_contract"
+      ],
+      "manifest_traceability_rationale": "Activatable/configurable service-like boundary traces to service_manifest_contract as the default manifest target.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_data_classification_enforcement",
+      "title": "Data Classification Enforcement",
+      "source_component_id": "6A.16",
+      "source_component_name_exact_from_phase_doc": "AI Proxy and AI Governance Foundation",
+      "parent_surface_id": "surface_6a_ai_proxy_governance",
+      "phase": "6a",
+      "catalog_order": 54,
+      "subsurface_type": "governance_microservice",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "core_microservice",
+      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "source_required_dependencies_raw": "6A.06, 6A.07, 6A.09",
+      "source_required_dependency_component_ids": [
+        "6A.06",
+        "6A.07",
+        "6A.09"
+      ],
+      "manifest_required": true,
+      "foundry_activation_required": false,
+      "manifest_traceability_targets": [
+        "service_manifest_contract"
+      ],
+      "manifest_traceability_rationale": "Activatable/configurable service-like boundary traces to service_manifest_contract as the default manifest target.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_ai_cost_cap_enforcement",
+      "title": "AI Cost Cap Enforcement",
+      "source_component_id": "6A.16",
+      "source_component_name_exact_from_phase_doc": "AI Proxy and AI Governance Foundation",
+      "parent_surface_id": "surface_6a_ai_proxy_governance",
+      "phase": "6a",
+      "catalog_order": 55,
+      "subsurface_type": "governance_microservice",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "billing_or_evidence",
+      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "source_required_dependencies_raw": "6A.06, 6A.07, 6A.09",
+      "source_required_dependency_component_ids": [
+        "6A.06",
+        "6A.07",
+        "6A.09"
+      ],
+      "manifest_required": true,
+      "foundry_activation_required": false,
+      "manifest_traceability_targets": [
+        "service_manifest_contract"
+      ],
+      "manifest_traceability_rationale": "Activatable/configurable service-like boundary traces to service_manifest_contract as the default manifest target.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_per_query_credit_evidence_metering",
+      "title": "Per Query Credit Evidence Metering",
+      "source_component_id": "6A.16",
+      "source_component_name_exact_from_phase_doc": "AI Proxy and AI Governance Foundation",
+      "parent_surface_id": "surface_6a_ai_proxy_governance",
+      "phase": "6a",
+      "catalog_order": 56,
+      "subsurface_type": "core_microservice",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "billing_or_evidence",
+      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "source_required_dependencies_raw": "6A.06, 6A.07, 6A.09",
+      "source_required_dependency_component_ids": [
+        "6A.06",
+        "6A.07",
+        "6A.09"
+      ],
+      "manifest_required": true,
+      "foundry_activation_required": false,
+      "manifest_traceability_targets": [
+        "service_manifest_contract"
+      ],
+      "manifest_traceability_rationale": "Activatable/configurable service-like boundary traces to service_manifest_contract as the default manifest target.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_base_admin_setup",
+      "title": "Base Admin Setup",
+      "source_component_id": "6A.17",
+      "source_component_name_exact_from_phase_doc": "Base Admin and Tenant Onboarding",
+      "parent_surface_id": "surface_6a_base_admin_onboarding",
+      "phase": "6a",
+      "catalog_order": 57,
+      "subsurface_type": "core_microservice",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "core_microservice",
+      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "source_required_dependencies_raw": "6A.04, 6A.06, 6A.10, 6A.13, 6A.15",
+      "source_required_dependency_component_ids": [
+        "6A.04",
+        "6A.06",
+        "6A.10",
+        "6A.13",
+        "6A.15"
+      ],
+      "manifest_required": true,
+      "foundry_activation_required": true,
+      "manifest_traceability_targets": [
+        "service_manifest_contract"
+      ],
+      "manifest_traceability_rationale": "Activatable/configurable service-like boundary traces to service_manifest_contract as the default manifest target.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_industry_selection",
+      "title": "Industry Selection",
+      "source_component_id": "6A.17",
+      "source_component_name_exact_from_phase_doc": "Base Admin and Tenant Onboarding",
+      "parent_surface_id": "surface_6a_base_admin_onboarding",
+      "phase": "6a",
+      "catalog_order": 58,
+      "subsurface_type": "core_microservice",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "core_microservice",
+      "decomposition_guide_rationale": "Named or mechanically implied by decomposition guide.",
+      "source_required_dependencies_raw": "6A.04, 6A.06, 6A.10, 6A.13, 6A.15",
+      "source_required_dependency_component_ids": [
+        "6A.04",
+        "6A.06",
+        "6A.10",
+        "6A.13",
+        "6A.15"
+      ],
+      "manifest_required": true,
+      "foundry_activation_required": true,
+      "manifest_traceability_targets": [
+        "service_manifest_contract"
+      ],
+      "manifest_traceability_rationale": "Activatable/configurable service-like boundary traces to service_manifest_contract as the default manifest target.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_package_selection",
+      "title": "Package Selection",
+      "source_component_id": "6A.17",
+      "source_component_name_exact_from_phase_doc": "Base Admin and Tenant Onboarding",
+      "parent_surface_id": "surface_6a_base_admin_onboarding",
+      "phase": "6a",
+      "catalog_order": 59,
+      "subsurface_type": "core_microservice",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "core_microservice",
+      "decomposition_guide_rationale": "Named or mechanically implied by decomposition guide.",
+      "source_required_dependencies_raw": "6A.04, 6A.06, 6A.10, 6A.13, 6A.15",
+      "source_required_dependency_component_ids": [
+        "6A.04",
+        "6A.06",
+        "6A.10",
+        "6A.13",
+        "6A.15"
+      ],
+      "manifest_required": true,
+      "foundry_activation_required": true,
+      "manifest_traceability_targets": [
+        "service_manifest_contract"
+      ],
+      "manifest_traceability_rationale": "Activatable/configurable service-like boundary traces to service_manifest_contract as the default manifest target.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_users_roles_billing_authority",
+      "title": "Users Roles Billing Authority",
+      "source_component_id": "6A.17",
+      "source_component_name_exact_from_phase_doc": "Base Admin and Tenant Onboarding",
+      "parent_surface_id": "surface_6a_base_admin_onboarding",
+      "phase": "6a",
+      "catalog_order": 60,
+      "subsurface_type": "core_microservice",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "billing_or_evidence",
+      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "source_required_dependencies_raw": "6A.04, 6A.06, 6A.10, 6A.13, 6A.15",
+      "source_required_dependency_component_ids": [
+        "6A.04",
+        "6A.06",
+        "6A.10",
+        "6A.13",
+        "6A.15"
+      ],
+      "manifest_required": true,
+      "foundry_activation_required": true,
+      "manifest_traceability_targets": [
+        "service_manifest_contract"
+      ],
+      "manifest_traceability_rationale": "Activatable/configurable service-like boundary traces to service_manifest_contract as the default manifest target.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_base_design_tokens",
+      "title": "Base Design Tokens",
+      "source_component_id": "6A.18",
+      "source_component_name_exact_from_phase_doc": "Base Design System and Shell",
+      "parent_surface_id": "surface_6a_base_design_shell",
+      "phase": "6a",
+      "catalog_order": 61,
+      "subsurface_type": "core_microservice",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "core_microservice",
+      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "source_required_dependencies_raw": "6A.17",
+      "source_required_dependency_component_ids": [
+        "6A.17"
+      ],
+      "manifest_required": true,
+      "foundry_activation_required": true,
+      "manifest_traceability_targets": [
+        "service_manifest_contract"
+      ],
+      "manifest_traceability_rationale": "Activatable/configurable service-like boundary traces to service_manifest_contract as the default manifest target.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_core_component_contracts",
+      "title": "Core Component Contracts",
+      "source_component_id": "6A.18",
+      "source_component_name_exact_from_phase_doc": "Base Design System and Shell",
+      "parent_surface_id": "surface_6a_base_design_shell",
+      "phase": "6a",
+      "catalog_order": 62,
+      "subsurface_type": "core_microservice",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "manifest_activation_registration",
+      "decomposition_guide_rationale": "Named or mechanically implied by decomposition guide.",
+      "source_required_dependencies_raw": "6A.17",
+      "source_required_dependency_component_ids": [
+        "6A.17"
+      ],
+      "manifest_required": true,
+      "foundry_activation_required": true,
+      "manifest_traceability_targets": [
+        "service_manifest_contract"
+      ],
+      "manifest_traceability_rationale": "Activatable/configurable service-like boundary traces to service_manifest_contract as the default manifest target.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    },
+    {
+      "subsurface_id": "subsurface_6a_tenant_shell",
+      "title": "Tenant Shell",
+      "source_component_id": "6A.18",
+      "source_component_name_exact_from_phase_doc": "Base Design System and Shell",
+      "parent_surface_id": "surface_6a_base_design_shell",
+      "phase": "6a",
+      "catalog_order": 63,
+      "subsurface_type": "core_microservice",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "split_axis": "core_microservice",
+      "decomposition_guide_rationale": "Derived mechanically from Phase 6A source component boundary and decomposition-guide split axes.",
+      "source_required_dependencies_raw": "6A.17",
+      "source_required_dependency_component_ids": [
+        "6A.17"
+      ],
+      "manifest_required": true,
+      "foundry_activation_required": true,
+      "manifest_traceability_targets": [
+        "service_manifest_contract"
+      ],
+      "manifest_traceability_rationale": "Activatable/configurable service-like boundary traces to service_manifest_contract as the default manifest target.",
+      "readiness_mode": "PREPLANNING_DRAFT",
+      "ticket_generation_allowed": false,
+      "expected_file_domains": [
+        "planning_only_domain_placeholder"
+      ],
+      "expected_concrete_path_patterns": [
+        "planning-only; exact-file paths must be regenerated later from repo truth"
+      ],
+      "forbidden_domains": [
+        "runtime",
+        "frontend implementation",
+        "backend implementation",
+        "schema",
+        "generated",
+        "package_or_lockfile",
+        "ticket_pack"
+      ],
+      "adl_refs": [],
+      "stop_conditions": [
+        "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
+        "STOP if ticket generation is attempted before manual approval."
+      ]
+    }
+  ]
+}
