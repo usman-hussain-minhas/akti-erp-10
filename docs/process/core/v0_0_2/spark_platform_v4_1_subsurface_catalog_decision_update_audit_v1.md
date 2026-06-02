@@ -38,3 +38,22 @@ The five learning-standard entries were represented as standard runtime sub-surf
 ## Lifecycle boundary
 
 This catalog edit creates no seed matrix authority by itself, no ticket pack, no implementation, no predictive stop analysis, no autonomous readiness, and no execution authority.
+
+
+## PR #43 foundation and dependency enrichment update
+
+Missing 6A foundation entries were detected and added:
+
+- subsurface_6a_tenant_org_branch_session_identity
+- subsurface_6a_access_core_gatekeeper
+- subsurface_6a_audit_log_universal_evidence_stream
+- subsurface_6a_foundry_runtime_authority
+
+They were added because semantic dependency review found that downstream access, audit, Foundry, saga, finance, communication, learning, support, and AI seeds require these foundation boundaries before ticket-pack review. Source authority is 6A.04, 6A.06, 6A.07, and 6A.10 in docs/process/core/v0_0_2/spark_platform_v4_1/6a_core_update_foundation.md.
+
+Genesis catalog audit rerun results after the additions:
+
+- Surface catalog audit: PASS; findings=0
+- Sub-surface catalog audit: PASS; findings=0
+
+Ticket generation remains false everywhere and readiness_mode remains PREPLANNING_DRAFT everywhere. This update creates no ticket pack, predictive stop analysis, autonomous readiness, implementation, or execution authority.

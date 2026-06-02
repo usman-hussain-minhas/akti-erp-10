@@ -1259,6 +1259,57 @@
         "phase_dependency_rule": "6f depends on 6a through 6e.",
         "support_artifact_only": true
       }
+    },
+    {
+      "surface_id": "surface_6a_core_identity_access_audit_foundry",
+      "train": "phase_6a",
+      "level": "level_group_0_5",
+      "title": "Core identity, access, audit, and Foundry authority",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_platform_v4_1/6a_core_update_foundation.md#6a-04-tenant-organisation-branch-and-session-identity",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/6a_core_update_foundation.md#6a-06-access-core-and-gatekeeper",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/6a_core_update_foundation.md#6a-07-audit-log-and-universal-evidence-stream",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/6a_core_update_foundation.md#6a-10-foundry-runtime-authority"
+      ],
+      "scope_summary": "Derived 6A support surface for tenant identity, access gatekeeping, universal audit evidence, and Foundry runtime authority needed before seed matrix review.",
+      "non_scope": [
+        "ticket_pack_generation",
+        "runtime_implementation",
+        "schema_change",
+        "predictive_stop_analysis",
+        "autonomous_readiness"
+      ],
+      "complexity_signals": [
+        "core_identity_boundary",
+        "access_control_boundary",
+        "audit_evidence_boundary",
+        "foundry_lifecycle_boundary"
+      ],
+      "requires_subsurface_catalog": true,
+      "subsurface_expected_categories": [
+        "tenant_identity",
+        "access_gatekeeper",
+        "audit_evidence",
+        "foundry_authority"
+      ],
+      "adl_refs": [],
+      "provider_refs": [],
+      "standard_refs": [],
+      "connector_refs": [],
+      "depends_on_surfaces": [],
+      "stop_conditions": [
+        "Stop if these foundation boundaries are used to generate tickets before seed matrix audit and manual review."
+      ],
+      "akti_local": {
+        "phase_id": "6a",
+        "catalog_order": 1,
+        "catalog_outcome": "split_into_services",
+        "split_axes": [
+          "mandatory_core_microservice"
+        ],
+        "phase_dependency_rule": "6a is the foundation phase and must not depend on later phases.",
+        "support_artifact_only": true
+      }
     }
   ]
 }

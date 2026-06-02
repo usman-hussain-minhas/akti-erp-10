@@ -23,3 +23,8 @@ Status: SPARK_PLATFORM_V4_1_SEED_MATRIX_MANUAL_DECISIONS_ACCEPTED
 ## Lifecycle boundary
 
 This manual decision only prepares the execution-seed candidate matrix. It does not create a ticket pack, predictive stop analysis, autonomous readiness, or execution authority.
+
+
+## PR #43 semantic dependency enrichment decision
+
+Semantic dependency review found the first execution-seed matrix was mostly an ordering chain and lacked core 6A foundation boundaries for tenant/session identity, access Gatekeeper, universal audit evidence, and Foundry runtime authority. This patch adds those catalog/seed entries, changes H5P to a hard dependency on LRS, and enriches the matrix with source-grounded architectural dependency edges. This decision does not authorize ticket pack generation, predictive stop analysis, autonomous readiness, or execution.

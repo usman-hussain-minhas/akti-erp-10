@@ -49,3 +49,8 @@ Spark Platform v4.1 supersedes the older Spark Platform Build v2 Train 1–5 pla
 - [Execution seed matrix readiness report](spark_platform_v4_1_execution_seed_matrix_readiness_report_v1.md)
 
 This package creates execution-seed candidates only. It does not create ticket packs, run predictive stop analysis, run autonomous readiness, or execute tickets.
+
+
+### PR #43 semantic dependency enrichment
+
+The execution seed matrix now includes missing 6A foundation seeds for tenant/session identity, access Gatekeeper, universal audit evidence, and Foundry runtime authority, plus semantic hard dependency edges for saga, finance, communication, access, audit, learning standards, and cross-module lifecycle relationships. This remains seed-matrix review only and does not authorize ticket pack generation or execution.
