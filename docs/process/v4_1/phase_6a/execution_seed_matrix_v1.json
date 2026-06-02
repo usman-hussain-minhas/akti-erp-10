@@ -51,7 +51,7 @@
       "evidence_expectation": "Planning evidence only; future runtime evidence must be regenerated during exact-file ticket planning.",
       "mcr_expectation": "Planning placeholder only; future ticket MCR must be concrete and executable per Ticket Quality Doctrine.",
       "dependencies": [],
-      "dependency_reason": "No upstream Phase 6A seed dependency applies after dependency extraction.",
+      "dependency_reason": "Root because it anchors the approved platform baseline and has no Phase 6A predecessor.",
       "split_if": [
         "Split future ticket if exact-file planning reveals multiple providers, lifecycle stages, role/channel boundaries, or independent activation/billing surfaces."
       ],
@@ -64,7 +64,8 @@
       ],
       "akti_local": {
         "catalog_order": 1,
-        "dependency_edges": []
+        "dependency_edges": [],
+        "root_dependency_reason_basis": "source_specific_root_reason_after_review_patch"
       }
     },
     {
@@ -382,7 +383,7 @@
       "evidence_expectation": "Planning evidence only; future runtime evidence must be regenerated during exact-file ticket planning.",
       "mcr_expectation": "Planning placeholder only; future ticket MCR must be concrete and executable per Ticket Quality Doctrine.",
       "dependencies": [],
-      "dependency_reason": "No upstream Phase 6A seed dependency applies after dependency extraction.",
+      "dependency_reason": "Root within 6A.03 deletion lifecycle because soft delete precedes staged deletion and has no earlier deletion lifecycle seed.",
       "split_if": [
         "Split future ticket if exact-file planning reveals multiple providers, lifecycle stages, role/channel boundaries, or independent activation/billing surfaces."
       ],
@@ -397,7 +398,8 @@
       ],
       "akti_local": {
         "catalog_order": 6,
-        "dependency_edges": []
+        "dependency_edges": [],
+        "root_dependency_reason_basis": "source_specific_root_reason_after_review_patch"
       }
     },
     {
@@ -464,7 +466,10 @@
             "edge_type": "hard_dependency",
             "edge_basis": "adl_hard_rule",
             "hard_dependency_basis": "adl_hard_rule",
-            "reason": "ADL-006 deletion lifecycle separates soft delete from staged permanent deletion."
+            "reason": "ADL-006 deletion lifecycle separates soft delete from staged permanent deletion.",
+            "adl_refs": [
+              "ADL-006"
+            ]
           }
         ]
       }
@@ -802,7 +807,7 @@
       "evidence_expectation": "Planning evidence only; future runtime evidence must be regenerated during exact-file ticket planning.",
       "mcr_expectation": "Planning placeholder only; future ticket MCR must be concrete and executable per Ticket Quality Doctrine.",
       "dependencies": [],
-      "dependency_reason": "No upstream Phase 6A seed dependency applies after dependency extraction.",
+      "dependency_reason": "Root within 6A.08 split because the outbox is the durable write/event publication primitive consumed by event bus and saga surfaces.",
       "split_if": [
         "Split future ticket if exact-file planning reveals multiple providers, lifecycle stages, role/channel boundaries, or independent activation/billing surfaces."
       ],
@@ -818,7 +823,8 @@
       ],
       "akti_local": {
         "catalog_order": 12,
-        "dependency_edges": []
+        "dependency_edges": [],
+        "root_dependency_reason_basis": "source_specific_root_reason_after_review_patch"
       }
     },
     {
@@ -894,7 +900,10 @@
             "edge_type": "hard_dependency",
             "edge_basis": "adl_hard_rule",
             "hard_dependency_basis": "adl_hard_rule",
-            "reason": "ADL-001/002 event delivery is fed by transactional outbox messages."
+            "reason": "ADL-001/002 event delivery is fed by transactional outbox messages.",
+            "adl_refs": [
+              "ADL-001"
+            ]
           }
         ]
       }
@@ -1236,7 +1245,7 @@
       "evidence_expectation": "Planning evidence only; future runtime evidence must be regenerated during exact-file ticket planning.",
       "mcr_expectation": "Planning placeholder only; future ticket MCR must be concrete and executable per Ticket Quality Doctrine.",
       "dependencies": [],
-      "dependency_reason": "No upstream Phase 6A seed dependency applies after dependency extraction.",
+      "dependency_reason": "Root within 6A.09 pricing and billing split because effective-dated pricing tables establish pricing authority before billing dimension, projected-cost, budget, and prepaid balance seeds consume pricing references.",
       "split_if": [
         "Split future ticket if exact-file planning reveals multiple providers, lifecycle stages, role/channel boundaries, or independent activation/billing surfaces."
       ],
@@ -1249,7 +1258,8 @@
       ],
       "akti_local": {
         "catalog_order": 18,
-        "dependency_edges": []
+        "dependency_edges": [],
+        "root_dependency_reason_basis": "source_specific_root_reason_after_review_patch"
       }
     },
     {
@@ -1644,7 +1654,7 @@
       "evidence_expectation": "Planning evidence only; future runtime evidence must be regenerated during exact-file ticket planning.",
       "mcr_expectation": "Planning placeholder only; future ticket MCR must be concrete and executable per Ticket Quality Doctrine.",
       "dependencies": [],
-      "dependency_reason": "No upstream Phase 6A seed dependency applies after dependency extraction.",
+      "dependency_reason": "Root within 6A.10 Foundry split because runtime authority anchors manifest validation and activation lifecycle governance without a prior Foundry seed.",
       "split_if": [
         "Split future ticket if exact-file planning reveals multiple providers, lifecycle stages, role/channel boundaries, or independent activation/billing surfaces."
       ],
@@ -1657,7 +1667,8 @@
       ],
       "akti_local": {
         "catalog_order": 24,
-        "dependency_edges": []
+        "dependency_edges": [],
+        "root_dependency_reason_basis": "source_specific_root_reason_after_review_patch"
       }
     },
     {
@@ -2439,7 +2450,7 @@
         "STOP if seed placeholders are copied into tickets instead of regenerated from source authority and repo truth."
       ],
       "akti_local": {
-        "catalog_order": 35,
+        "catalog_order": 36,
         "dependency_edges": [
           {
             "target_seed_id": "seed_6a_person_identity_graph",
@@ -2467,7 +2478,10 @@
             "edge_type": "hard_dependency",
             "edge_basis": "adl_hard_rule",
             "hard_dependency_basis": "adl_hard_rule",
-            "reason": "ADL-004 requires outbound communication to enforce global opt-out."
+            "reason": "ADL-004 requires outbound communication to enforce global opt-out.",
+            "adl_refs": [
+              "ADL-004"
+            ]
           },
           {
             "target_seed_id": "seed_6a_service_manifest_contract",
@@ -2476,7 +2490,8 @@
             "hard_dependency_basis": "activation_lifecycle_required",
             "reason": "Outbound Gateway Enforcement requires manifest/registry traceability to service_manifest_contract; foundry_runtime_authority is not used as default substitute."
           }
-        ]
+        ],
+        "catalog_order_patch_rationale": "Outbound gateway enforcement follows global opt-out registry so opt-out can be enforced; dependency direction unchanged."
       }
     },
     {
@@ -2536,16 +2551,20 @@
         "STOP if seed placeholders are copied into tickets instead of regenerated from source authority and repo truth."
       ],
       "akti_local": {
-        "catalog_order": 36,
+        "catalog_order": 35,
         "dependency_edges": [
           {
             "target_seed_id": "seed_6a_person_identity_graph",
             "edge_type": "hard_dependency",
             "edge_basis": "adl_hard_rule",
             "hard_dependency_basis": "adl_hard_rule",
-            "reason": "ADL-004 opt-out is enforced at person/contact/channel scope."
+            "reason": "ADL-004 opt-out is enforced at person/contact/channel scope.",
+            "adl_refs": [
+              "ADL-004"
+            ]
           }
-        ]
+        ],
+        "catalog_order_patch_rationale": "Global opt-out registry must be established before outbound gateway enforcement can enforce opt-out; dependency direction unchanged."
       }
     },
     {
@@ -2845,7 +2864,7 @@
         "STOP if seed placeholders are copied into tickets instead of regenerated from source authority and repo truth."
       ],
       "akti_local": {
-        "catalog_order": 40,
+        "catalog_order": 41,
         "dependency_edges": [
           {
             "target_seed_id": "seed_6a_idempotency_retry_boundary",
@@ -2861,7 +2880,8 @@
             "hard_dependency_basis": "activation_lifecycle_required",
             "reason": "Webhook Management Boundary requires manifest/registry traceability to service_manifest_contract; foundry_runtime_authority is not used as default substitute."
           }
-        ]
+        ],
+        "catalog_order_patch_rationale": "Webhook management follows idempotency/retry boundary so provider retries can be deduplicated safely; dependency direction unchanged."
       }
     },
     {
@@ -2905,7 +2925,7 @@
       "evidence_expectation": "Planning evidence only; future runtime evidence must be regenerated during exact-file ticket planning.",
       "mcr_expectation": "Planning placeholder only; future ticket MCR must be concrete and executable per Ticket Quality Doctrine.",
       "dependencies": [],
-      "dependency_reason": "No upstream Phase 6A seed dependency applies after dependency extraction.",
+      "dependency_reason": "Root within 6A.12 webhook/idempotency split because idempotency/retry semantics are the primitive consumed by webhook management.",
       "split_if": [
         "Split future ticket if exact-file planning reveals multiple providers, lifecycle stages, role/channel boundaries, or independent activation/billing surfaces."
       ],
@@ -2919,8 +2939,10 @@
         "STOP if seed placeholders are copied into tickets instead of regenerated from source authority and repo truth."
       ],
       "akti_local": {
-        "catalog_order": 41,
-        "dependency_edges": []
+        "catalog_order": 40,
+        "dependency_edges": [],
+        "catalog_order_patch_rationale": "Idempotency/retry boundary must exist before webhook management can safely deduplicate provider retries; dependency direction unchanged.",
+        "root_dependency_reason_basis": "source_specific_root_reason_after_review_patch"
       }
     },
     {
@@ -3532,7 +3554,7 @@
       "evidence_expectation": "Planning evidence only; future runtime evidence must be regenerated during exact-file ticket planning.",
       "mcr_expectation": "Planning placeholder only; future ticket MCR must be concrete and executable per Ticket Quality Doctrine.",
       "dependencies": [],
-      "dependency_reason": "No upstream Phase 6A seed dependency applies after dependency extraction.",
+      "dependency_reason": "Root within 6A.14 file service split because the file sharing/quarantine safety boundary has no upstream Phase 6A seed in the dependency extraction matrix.",
       "split_if": [
         "Split future ticket if exact-file planning reveals multiple providers, lifecycle stages, role/channel boundaries, or independent activation/billing surfaces."
       ],
@@ -3545,7 +3567,8 @@
       ],
       "akti_local": {
         "catalog_order": 50,
-        "dependency_edges": []
+        "dependency_edges": [],
+        "root_dependency_reason_basis": "source_specific_root_reason_after_review_patch"
       }
     },
     {

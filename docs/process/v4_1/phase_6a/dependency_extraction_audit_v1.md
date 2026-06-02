@@ -26,3 +26,10 @@ Status: SPARK_PLATFORM_V4_1_PHASE_6A_DEPENDENCY_EXTRACTION_AUDIT_READY_FOR_REVIE
 ## Self-Heal Attempts
 
 - None. Stage reached READY without self-heal.
+
+## Review Patch - structured ADL edge references
+
+- structured ADL references are now present on dependency edges where the edge reason or basis already mentioned an ADL.
+- Reason prose is retained but no longer the only ADL traceability mechanism.
+- No new ADL dependency edge was invented solely to add ADL coverage.
+- ADL-002 was handled only where it was already present in an edge reason or basis; otherwise it was left unmodified.

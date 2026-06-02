@@ -112,3 +112,35 @@ No ticket pack was generated.
 No predictive stop analysis was run.
 No autonomous readiness was run.
 No execution was run.
+
+## Failure Pattern Logged — Component Match Masked Sub-Surface Detail
+
+- Component-level source fidelity passed, but intra-component sub-surface ordering was not fully checked.
+- Manifest/foundry consistency passed at a broad level, but parent source rows and child sub-surfaces could disagree.
+- ADL coverage existed in reason prose but was not consistently structured per edge.
+- Root seed dependency_reason fields existed but were generic and not source-specific.
+- Future audits must verify sub-surface ordering, parent/child manifest consistency, structured ADL refs, and root-specific dependency reasons.
+
+This is a learning record, not a ticket pack.
+
+## Review Patch - Intra-component Dependency Order
+
+- Intra-component dependency order validation was added to the review record.
+- Two order inversions were found: 6A.11 global opt-out before outbound gateway enforcement, and 6A.12 idempotency/retry before webhook management.
+- Two order inversions were fixed in both the sub-surface catalog and execution seed matrix.
+- No dependency direction changed.
+
+## Review Patch - Parent/Child Manifest Consistency
+
+- Parent/child manifest consistency was reviewed for 6A.11, 6A.12, 6A.14, 6A.16, 6A.17, and 6A.18.
+- 6A.11 and 6A.12 retain parent-level non-toggleable core-boundary status, with child-specific rationale for service_manifest_contract traceability.
+- 6A.14 now records a precise false/false rationale because no child sub-surface requires manifest traceability.
+- 6A.16 now records manifest_required=true with foundry_activation_required=false because all four AI governance child sub-surfaces require manifest traceability but are not tenant-toggleable marketplace services.
+- service_manifest_contract remains the manifest traceability target for activatable/configurable child surfaces; no blanket Foundry linkage was added.
+
+## Review Patch - Added Local Precision Validation
+
+- Intra-component dependency order: for dependencies sharing source_component_id, dependency catalog_order must be lower than dependent catalog_order.
+- Parent/child manifest consistency: parent false with child true requires child-specific rationale, and service_manifest_contract seed dependencies require source or sub-surface rationale.
+- Structured ADL refs: any edge with ADL- in reason or basis must also carry adl_refs; ADL refs are not required where no ADL was used.
+- Root reason specificity: no root seed may use generic boilerplate dependency_reason.

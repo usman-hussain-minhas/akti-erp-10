@@ -1558,7 +1558,7 @@
       "source_component_name_exact_from_phase_doc": "Communication Gateway and Global Opt-Out",
       "parent_surface_id": "surface_6a_communication_gateway_opt_out",
       "phase": "6a",
-      "catalog_order": 35,
+      "catalog_order": 36,
       "subsurface_type": "provider_or_channel_boundary",
       "coverage_outcome": "split_into_subsurfaces_and_seeds",
       "split_axis": "provider_or_channel_boundary",
@@ -1598,7 +1598,8 @@
       "stop_conditions": [
         "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
         "STOP if ticket generation is attempted before manual approval."
-      ]
+      ],
+      "catalog_order_patch_rationale": "Outbound gateway enforcement follows global opt-out registry so opt-out can be enforced; dependency direction unchanged."
     },
     {
       "subsurface_id": "subsurface_6a_global_opt_out_registry",
@@ -1607,7 +1608,7 @@
       "source_component_name_exact_from_phase_doc": "Communication Gateway and Global Opt-Out",
       "parent_surface_id": "surface_6a_communication_gateway_opt_out",
       "phase": "6a",
-      "catalog_order": 36,
+      "catalog_order": 35,
       "subsurface_type": "core_microservice",
       "coverage_outcome": "split_into_subsurfaces_and_seeds",
       "split_axis": "core_microservice",
@@ -1645,7 +1646,8 @@
       "stop_conditions": [
         "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
         "STOP if ticket generation is attempted before manual approval."
-      ]
+      ],
+      "catalog_order_patch_rationale": "Global opt-out registry must be established before outbound gateway enforcement can enforce opt-out; dependency direction unchanged."
     },
     {
       "subsurface_id": "subsurface_6a_provider_circuit_breaker",
@@ -1799,7 +1801,7 @@
       "source_component_name_exact_from_phase_doc": "API Gateway and Webhook Management",
       "parent_surface_id": "surface_6a_api_webhook_boundary",
       "phase": "6a",
-      "catalog_order": 40,
+      "catalog_order": 41,
       "subsurface_type": "provider_or_channel_boundary",
       "coverage_outcome": "split_into_subsurfaces_and_seeds",
       "split_axis": "provider_or_channel_boundary",
@@ -1839,7 +1841,8 @@
       "stop_conditions": [
         "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
         "STOP if ticket generation is attempted before manual approval."
-      ]
+      ],
+      "catalog_order_patch_rationale": "Webhook management follows idempotency/retry boundary so provider retries can be deduplicated safely; dependency direction unchanged."
     },
     {
       "subsurface_id": "subsurface_6a_idempotency_retry_boundary",
@@ -1848,7 +1851,7 @@
       "source_component_name_exact_from_phase_doc": "API Gateway and Webhook Management",
       "parent_surface_id": "surface_6a_api_webhook_boundary",
       "phase": "6a",
-      "catalog_order": 41,
+      "catalog_order": 40,
       "subsurface_type": "stateful_lifecycle_microservice",
       "coverage_outcome": "split_into_subsurfaces_and_seeds",
       "split_axis": "lifecycle",
@@ -1886,7 +1889,8 @@
       "stop_conditions": [
         "STOP if this planning sub-surface is copied into a ticket without exact-file planning.",
         "STOP if ticket generation is attempted before manual approval."
-      ]
+      ],
+      "catalog_order_patch_rationale": "Idempotency/retry boundary must exist before webhook management can safely deduplicate provider retries; dependency direction unchanged."
     },
     {
       "subsurface_id": "subsurface_6a_visual_workflow_builder",
