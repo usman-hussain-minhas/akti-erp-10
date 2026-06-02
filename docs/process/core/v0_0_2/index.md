@@ -38,3 +38,14 @@ Spark Platform v4.1 supersedes the older Spark Platform Build v2 Train 1–5 pla
 - [Sub-surface catalog audit](spark_platform_v4_1_subsurface_catalog_audit_v1.md)
 - [Lifecycle readiness report](spark_platform_v4_1_subsurface_lifecycle_readiness_report_v1.md)
 - [Imported v4.1 source docs](spark_platform_v4_1/)
+
+
+## Spark Platform v4.1 Execution Seed Matrix Package
+
+- [Manual seed decisions](spark_platform_v4_1_seed_matrix_manual_decisions_v1.md)
+- [Catalog decision update audit](spark_platform_v4_1_subsurface_catalog_decision_update_audit_v1.md)
+- [Execution seed matrix](spark_platform_v4_1_execution_seed_matrix_v1.json)
+- [Execution seed matrix audit](spark_platform_v4_1_execution_seed_matrix_audit_v1.md)
+- [Execution seed matrix readiness report](spark_platform_v4_1_execution_seed_matrix_readiness_report_v1.md)
+
+This package creates execution-seed candidates only. It does not create ticket packs, run predictive stop analysis, run autonomous readiness, or execute tickets.
