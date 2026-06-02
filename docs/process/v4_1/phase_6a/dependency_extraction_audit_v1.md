@@ -2,9 +2,14 @@
 
 Status: SPARK_PLATFORM_V4_1_PHASE_6A_DEPENDENCY_EXTRACTION_AUDIT_READY_FOR_REVIEW
 
+
+## Current Final State Summary
+
+- Dependency edges: 127
+- Distribution: {"hard_dependency":119,"deferred_with_reason":3,"conditional_dependency":4,"manual_review_required":1}
 ## Summary
 
-- Dependency edges: 94
+- Dependency edges: 127
 - Distribution: {"hard_dependency":93,"manual_review_required":1}
 - ADL-004 represented.
 - ADL-016 deferred_to_phase_6b_gl.
@@ -69,3 +74,7 @@ wrapper-ticket risk was reduced by replacing broad 6A.12, 6A.14, and 6A.15 plann
 - 6A.14 split result: search_indexing, custom_field_indexing_hook, file_metadata_registry, share_link_management, preview_generation, virus_scan_quarantine, archive_version_boundary.
 - 6A.15 split result: optimization_fact_store, projected_cost_alternative_calculator, dependency_aware_recommendation_log, accepted_rejected_recommendation_evidence, activation_deactivation_intercept_wizard.
 - Stale broad IDs are not retained as active sub-surfaces or seeds.
+
+## Report Integrity Patch - ADL prose/ref consistency
+
+ADL prose and structured adl_refs are consistent; no ADL edge was invented solely for coverage.

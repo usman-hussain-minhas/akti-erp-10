@@ -2,10 +2,16 @@
 
 Status: SPARK_PLATFORM_V4_1_PHASE_6A_SUBSURFACE_CATALOG_AUDIT_READY_FOR_REVIEW
 
+
+## Current Final State Summary
+
+- Sub-surfaces: 74
+- Source components: 18
+- Surfaces: 14
 ## Summary
 
 - Surfaces: 14
-- Sub-surfaces: 63
+- Sub-surfaces: 74
 - Missing required splits: 0
 - Ticket generation authorized: no
 
@@ -68,3 +74,28 @@ wrapper-ticket risk was reduced by replacing broad 6A.12, 6A.14, and 6A.15 plann
 - 6A.14 split result: search_indexing, custom_field_indexing_hook, file_metadata_registry, share_link_management, preview_generation, virus_scan_quarantine, archive_version_boundary.
 - 6A.15 split result: optimization_fact_store, projected_cost_alternative_calculator, dependency_aware_recommendation_log, accepted_rejected_recommendation_evidence, activation_deactivation_intercept_wizard.
 - Stale broad IDs are not retained as active sub-surfaces or seeds.
+
+## Semantic Gates Patch - New Split Seed Manifest Classification
+
+Current live state: 5 / 18 new split seeds require service_manifest_contract; 13 / 18 do not. This is intentional and not a validation failure.
+
+| seed_id | source_component_id | requires_service_manifest_contract | classification | rationale |
+|---|---|---:|---|---|
+| seed_6a_api_key_scope_registry | 6A.12 | true | configurable API boundary | API key scopes are tenant-configurable and need manifest traceability. |
+| seed_6a_idempotency_key_management | 6A.12 | false | internal write-safety primitive | Core idempotency primitive, not independently activatable. |
+| seed_6a_webhook_definition_registry | 6A.12 | true | provider-facing configurable registry | Webhook definitions are provider-facing configuration. |
+| seed_6a_inbound_webhook_validation | 6A.12 | true | provider-facing validation boundary | Provider traffic validation is a configurable boundary. |
+| seed_6a_webhook_retry_schedule | 6A.12 | false | internal lifecycle primitive | Retry scheduling inherits webhook context and is not independently activatable. |
+| seed_6a_delivery_rejection_logs | 6A.12 | false | evidence/logging primitive | Rejection logs are evidence records, not service activation surfaces. |
+| seed_6a_search_indexing | 6A.14 | false | core indexing primitive | Core service-layer primitive, not tenant-toggleable. |
+| seed_6a_custom_field_indexing_hook | 6A.14 | false | conditional indexing hook | Conditional on custom fields; not independently activatable. |
+| seed_6a_file_metadata_registry | 6A.14 | false | core file registry | Core file metadata primitive. |
+| seed_6a_share_link_management | 6A.14 | false | internal file lifecycle | File access lifecycle, not a Foundry service. |
+| seed_6a_preview_generation | 6A.14 | false | internal rendering support | Preview support surface, not independently activatable. |
+| seed_6a_virus_scan_quarantine | 6A.14 | false | safety/evidence lifecycle | Quarantine safety primitive. |
+| seed_6a_archive_version_boundary | 6A.14 | false | archive/version lifecycle | Retention/version boundary, not tenant-toggleable. |
+| seed_6a_optimization_fact_store | 6A.15 | true | configurable optimization service boundary | Service-aware optimization fact store requires manifest traceability. |
+| seed_6a_projected_cost_alternative_calculator | 6A.15 | false | internal calculation primitive | Depends on optimization facts and projected-cost primitives; not independently activatable. |
+| seed_6a_dependency_aware_recommendation_log | 6A.15 | true | configurable recommendation evidence surface | Service dependency context requires manifest traceability. |
+| seed_6a_accepted_rejected_recommendation_evidence | 6A.15 | false | decision evidence primitive | Evidence record of recommendation choices. |
+| seed_6a_activation_deactivation_intercept_wizard | 6A.15 | false | lifecycle intercept primitive | Inherits Foundry lifecycle context through activation/dependency and recommendation seeds. |
