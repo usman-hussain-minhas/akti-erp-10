@@ -1,0 +1,1113 @@
+{
+  "schema": "codex_direct_phase_6a_source_coverage_matrix_v1",
+  "status": "SPARK_PLATFORM_V4_1_PHASE_6A_SOURCE_COVERAGE_MATRIX_READY_FOR_AUDIT",
+  "source_authority": [
+    "docs/process/core/v0_0_2/spark_platform_v4_1/0_business_logic.md",
+    "docs/process/core/v0_0_2/spark_platform_v4_1/6a_core_update_foundation.md",
+    "docs/process/core/v0_0_2/spark_platform_v4_1/subsurface_decomposition_guide.md",
+    "docs/doctrine/AKTI_ERP_Ticket_Quality_Doctrine_v1.md"
+  ],
+  "expected_source_component_count": 18,
+  "actual_source_component_count": 18,
+  "rows": [
+    {
+      "source_component_id": "6A.01",
+      "source_component_name_exact_from_phase_doc": "Platform Core Update Baseline",
+      "source_component_type_exact_from_phase_doc": "Core platform system cluster",
+      "required_dependencies_raw": "Existing approved platform baseline",
+      "optional_dependencies_raw": "None",
+      "owned_data_or_authority_raw": "Core capability baseline, module registry baseline, tenant context baseline",
+      "emits_raw": "core.updated, baseline.normalized",
+      "consumes_raw": "None",
+      "activation_lifecycle_raw": "Not tenant-toggleable; upgrade-only",
+      "billing_evidence_raw": "Operational evidence only",
+      "normalized_required_dependency_targets": [
+        "Existing approved platform baseline"
+      ],
+      "normalized_optional_dependency_targets": [],
+      "microscopic_scope_summary": "6A.01 Platform Core Update Baseline is captured as a Phase 6A source component before any catalog, dependency, seed, or ticket artifact may consume it.",
+      "business_logic_rules_applied": [
+        "0_business_logic.md is highest authority for Phase 6A.",
+        "Services are architecture units; modules are labels only.",
+        "Foundry is activation authority for tenant-toggleable services and optional micro-services.",
+        "Evidence, billing, Gatekeeper, and dependency direction must remain source-faithful."
+      ],
+      "decomposition_guide_rule_applied": "Preserved as one Phase 6A core authority boundary with source traceability.",
+      "coverage_outcome": "demoted_to_core_microservice",
+      "surface_ids": [
+        "surface_6a_core_baseline_runtime"
+      ],
+      "subsurface_ids": [
+        "subsurface_6a_platform_core_update_baseline"
+      ],
+      "seed_ids": [
+        "seed_6a_platform_core_update_baseline"
+      ],
+      "manifest_required": false,
+      "foundry_activation_required": false,
+      "manifest_foundry_consistency_rationale": "Flags align for this source boundary.",
+      "gatekeeper_required": false,
+      "audit_required": true,
+      "billing_or_pricing_required": false,
+      "adl_refs": [],
+      "ticket_quality_risk_notes": [
+        "Seed placeholders are planning-only and must not become ticket fields.",
+        "Future tickets must regenerate exact files, validation commands, MCR, acceptance criteria, rollback notes, and split_if from source authority plus repo truth.",
+        "Tickets become stale when dependencies, decisions, exact files, validation, or MCR are missing.",
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket."
+      ],
+      "manual_review_required": true
+    },
+    {
+      "source_component_id": "6A.02",
+      "source_component_name_exact_from_phase_doc": "Infrastructure Runtime Foundation",
+      "source_component_type_exact_from_phase_doc": "Core platform system",
+      "required_dependencies_raw": "6A.01",
+      "optional_dependencies_raw": "None",
+      "owned_data_or_authority_raw": "Runtime topology configuration, feature-flag foundation, environment class metadata",
+      "emits_raw": "runtime.ready, runtime.degraded",
+      "consumes_raw": "core.updated",
+      "activation_lifecycle_raw": "Not tenant-toggleable",
+      "billing_evidence_raw": "Infrastructure usage evidence where measurable",
+      "normalized_required_dependency_targets": [
+        "6A.01"
+      ],
+      "normalized_optional_dependency_targets": [],
+      "microscopic_scope_summary": "6A.02 Infrastructure Runtime Foundation is captured as a Phase 6A source component before any catalog, dependency, seed, or ticket artifact may consume it.",
+      "business_logic_rules_applied": [
+        "0_business_logic.md is highest authority for Phase 6A.",
+        "Services are architecture units; modules are labels only.",
+        "Foundry is activation authority for tenant-toggleable services and optional micro-services.",
+        "Evidence, billing, Gatekeeper, and dependency direction must remain source-faithful."
+      ],
+      "decomposition_guide_rule_applied": "Preserved as one Phase 6A core authority boundary with source traceability.",
+      "coverage_outcome": "demoted_to_core_microservice",
+      "surface_ids": [
+        "surface_6a_core_baseline_runtime"
+      ],
+      "subsurface_ids": [
+        "subsurface_6a_infrastructure_runtime_foundation"
+      ],
+      "seed_ids": [
+        "seed_6a_infrastructure_runtime_foundation"
+      ],
+      "manifest_required": false,
+      "foundry_activation_required": false,
+      "manifest_foundry_consistency_rationale": "Flags align for this source boundary.",
+      "gatekeeper_required": false,
+      "audit_required": true,
+      "billing_or_pricing_required": false,
+      "adl_refs": [],
+      "ticket_quality_risk_notes": [
+        "Seed placeholders are planning-only and must not become ticket fields.",
+        "Future tickets must regenerate exact files, validation commands, MCR, acceptance criteria, rollback notes, and split_if from source authority plus repo truth.",
+        "Tickets become stale when dependencies, decisions, exact files, validation, or MCR are missing.",
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket."
+      ],
+      "manual_review_required": true
+    },
+    {
+      "source_component_id": "6A.03",
+      "source_component_name_exact_from_phase_doc": "Storage, SVFS, Backup, and Image Pipeline",
+      "source_component_type_exact_from_phase_doc": "Core platform system",
+      "required_dependencies_raw": "6A.02",
+      "optional_dependencies_raw": "None",
+      "owned_data_or_authority_raw": "Object metadata, content hashes, backup metadata, image variants, retention state",
+      "emits_raw": "file.stored, file.versioned, backup.completed, backup.failed",
+      "consumes_raw": "runtime.ready",
+      "activation_lifecycle_raw": "Not tenant-toggleable; service consumers use it",
+      "billing_evidence_raw": "Storage evidence, backup evidence, image processing evidence",
+      "normalized_required_dependency_targets": [
+        "6A.02"
+      ],
+      "normalized_optional_dependency_targets": [],
+      "microscopic_scope_summary": "6A.03 Storage, SVFS, Backup, and Image Pipeline is captured as a Phase 6A source component before any catalog, dependency, seed, or ticket artifact may consume it.",
+      "business_logic_rules_applied": [
+        "0_business_logic.md is highest authority for Phase 6A.",
+        "Services are architecture units; modules are labels only.",
+        "Foundry is activation authority for tenant-toggleable services and optional micro-services.",
+        "Evidence, billing, Gatekeeper, and dependency direction must remain source-faithful."
+      ],
+      "decomposition_guide_rule_applied": "Applied mechanical split / merge / demote / defer review from sub-surface decomposition guide.",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "surface_ids": [
+        "surface_6a_storage_file_lifecycle"
+      ],
+      "subsurface_ids": [
+        "subsurface_6a_svfs_object_store",
+        "subsurface_6a_backup_engine",
+        "subsurface_6a_image_pipeline",
+        "subsurface_6a_soft_delete",
+        "subsurface_6a_staged_deletion"
+      ],
+      "seed_ids": [
+        "seed_6a_svfs_object_store",
+        "seed_6a_backup_engine",
+        "seed_6a_image_pipeline",
+        "seed_6a_soft_delete",
+        "seed_6a_staged_deletion"
+      ],
+      "manifest_required": false,
+      "foundry_activation_required": false,
+      "manifest_foundry_consistency_rationale": "Flags align for this source boundary.",
+      "gatekeeper_required": false,
+      "audit_required": true,
+      "billing_or_pricing_required": false,
+      "adl_refs": [
+        "ADL-006"
+      ],
+      "ticket_quality_risk_notes": [
+        "Seed placeholders are planning-only and must not become ticket fields.",
+        "Future tickets must regenerate exact files, validation commands, MCR, acceptance criteria, rollback notes, and split_if from source authority plus repo truth.",
+        "Tickets become stale when dependencies, decisions, exact files, validation, or MCR are missing.",
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket."
+      ],
+      "manual_review_required": true
+    },
+    {
+      "source_component_id": "6A.04",
+      "source_component_name_exact_from_phase_doc": "Tenant, Organisation, Branch, and Session Identity",
+      "source_component_type_exact_from_phase_doc": "Core platform system",
+      "required_dependencies_raw": "6A.02, 6A.03",
+      "optional_dependencies_raw": "None",
+      "owned_data_or_authority_raw": "Tenant profile, organisation profile, branch hierarchy, session context, auth events",
+      "emits_raw": "identity.created, session.started, session.revoked",
+      "consumes_raw": "runtime.ready",
+      "activation_lifecycle_raw": "Not tenant-toggleable",
+      "billing_evidence_raw": "Auth/security evidence",
+      "normalized_required_dependency_targets": [
+        "6A.02",
+        "6A.03"
+      ],
+      "normalized_optional_dependency_targets": [],
+      "microscopic_scope_summary": "6A.04 Tenant, Organisation, Branch, and Session Identity is captured as a Phase 6A source component before any catalog, dependency, seed, or ticket artifact may consume it.",
+      "business_logic_rules_applied": [
+        "0_business_logic.md is highest authority for Phase 6A.",
+        "Services are architecture units; modules are labels only.",
+        "Foundry is activation authority for tenant-toggleable services and optional micro-services.",
+        "Evidence, billing, Gatekeeper, and dependency direction must remain source-faithful."
+      ],
+      "decomposition_guide_rule_applied": "Preserved as one Phase 6A core authority boundary with source traceability.",
+      "coverage_outcome": "demoted_to_core_microservice",
+      "surface_ids": [
+        "surface_6a_identity_access_audit"
+      ],
+      "subsurface_ids": [
+        "subsurface_6a_tenant_org_branch_session_identity"
+      ],
+      "seed_ids": [
+        "seed_6a_tenant_org_branch_session_identity"
+      ],
+      "manifest_required": false,
+      "foundry_activation_required": false,
+      "manifest_foundry_consistency_rationale": "Flags align for this source boundary.",
+      "gatekeeper_required": true,
+      "audit_required": true,
+      "billing_or_pricing_required": false,
+      "adl_refs": [],
+      "ticket_quality_risk_notes": [
+        "Seed placeholders are planning-only and must not become ticket fields.",
+        "Future tickets must regenerate exact files, validation commands, MCR, acceptance criteria, rollback notes, and split_if from source authority plus repo truth.",
+        "Tickets become stale when dependencies, decisions, exact files, validation, or MCR are missing.",
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket."
+      ],
+      "manual_review_required": true
+    },
+    {
+      "source_component_id": "6A.05",
+      "source_component_name_exact_from_phase_doc": "Person / Identity Graph",
+      "source_component_type_exact_from_phase_doc": "Core platform system",
+      "required_dependencies_raw": "6A.04",
+      "optional_dependencies_raw": "CRM/HR/LMS/Finance role extensions later",
+      "owned_data_or_authority_raw": "Person anchor, contact values, identity links, merge/split evidence, consent anchors",
+      "emits_raw": "person.created, identity.linked, identity.merged, consent.recorded",
+      "consumes_raw": "identity.created",
+      "activation_lifecycle_raw": "Not tenant-toggleable",
+      "billing_evidence_raw": "Universal identity evidence",
+      "normalized_required_dependency_targets": [
+        "6A.04"
+      ],
+      "normalized_optional_dependency_targets": [
+        "CRM/HR/LMS/Finance role extensions later"
+      ],
+      "microscopic_scope_summary": "6A.05 Person / Identity Graph is captured as a Phase 6A source component before any catalog, dependency, seed, or ticket artifact may consume it.",
+      "business_logic_rules_applied": [
+        "0_business_logic.md is highest authority for Phase 6A.",
+        "Services are architecture units; modules are labels only.",
+        "Foundry is activation authority for tenant-toggleable services and optional micro-services.",
+        "Evidence, billing, Gatekeeper, and dependency direction must remain source-faithful."
+      ],
+      "decomposition_guide_rule_applied": "Preserved as one Phase 6A core authority boundary with source traceability.",
+      "coverage_outcome": "demoted_to_core_microservice",
+      "surface_ids": [
+        "surface_6a_identity_access_audit"
+      ],
+      "subsurface_ids": [
+        "subsurface_6a_person_identity_graph"
+      ],
+      "seed_ids": [
+        "seed_6a_person_identity_graph"
+      ],
+      "manifest_required": false,
+      "foundry_activation_required": false,
+      "manifest_foundry_consistency_rationale": "Flags align for this source boundary.",
+      "gatekeeper_required": true,
+      "audit_required": true,
+      "billing_or_pricing_required": false,
+      "adl_refs": [],
+      "ticket_quality_risk_notes": [
+        "Seed placeholders are planning-only and must not become ticket fields.",
+        "Future tickets must regenerate exact files, validation commands, MCR, acceptance criteria, rollback notes, and split_if from source authority plus repo truth.",
+        "Tickets become stale when dependencies, decisions, exact files, validation, or MCR are missing.",
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket."
+      ],
+      "manual_review_required": true,
+      "optional_dependency_representation": [
+        {
+          "classification": "deferred_with_reason",
+          "source_seed_id": "seed_6a_person_identity_graph",
+          "target_seed_id": null,
+          "reason": "CRM/HR/LMS/Finance role extensions are later-phase role extensions and are deferred outside Phase 6A implementation dependencies."
+        }
+      ]
+    },
+    {
+      "source_component_id": "6A.06",
+      "source_component_name_exact_from_phase_doc": "Access Core and Gatekeeper",
+      "source_component_type_exact_from_phase_doc": "Core platform system",
+      "required_dependencies_raw": "6A.04, 6A.05",
+      "optional_dependencies_raw": "None",
+      "owned_data_or_authority_raw": "Capability registry, role composition, permission decisions, high-risk approvals",
+      "emits_raw": "capability.registered, gatekeeper.checked, approval.required",
+      "consumes_raw": "identity.linked",
+      "activation_lifecycle_raw": "Not tenant-toggleable",
+      "billing_evidence_raw": "Permission and approval evidence",
+      "normalized_required_dependency_targets": [
+        "6A.04",
+        "6A.05"
+      ],
+      "normalized_optional_dependency_targets": [],
+      "microscopic_scope_summary": "6A.06 Access Core and Gatekeeper is captured as a Phase 6A source component before any catalog, dependency, seed, or ticket artifact may consume it.",
+      "business_logic_rules_applied": [
+        "0_business_logic.md is highest authority for Phase 6A.",
+        "Services are architecture units; modules are labels only.",
+        "Foundry is activation authority for tenant-toggleable services and optional micro-services.",
+        "Evidence, billing, Gatekeeper, and dependency direction must remain source-faithful."
+      ],
+      "decomposition_guide_rule_applied": "Preserved as one Phase 6A core authority boundary with source traceability.",
+      "coverage_outcome": "demoted_to_core_microservice",
+      "surface_ids": [
+        "surface_6a_identity_access_audit"
+      ],
+      "subsurface_ids": [
+        "subsurface_6a_access_core_gatekeeper"
+      ],
+      "seed_ids": [
+        "seed_6a_access_core_gatekeeper"
+      ],
+      "manifest_required": false,
+      "foundry_activation_required": false,
+      "manifest_foundry_consistency_rationale": "Flags align for this source boundary.",
+      "gatekeeper_required": true,
+      "audit_required": true,
+      "billing_or_pricing_required": false,
+      "adl_refs": [],
+      "ticket_quality_risk_notes": [
+        "Seed placeholders are planning-only and must not become ticket fields.",
+        "Future tickets must regenerate exact files, validation commands, MCR, acceptance criteria, rollback notes, and split_if from source authority plus repo truth.",
+        "Tickets become stale when dependencies, decisions, exact files, validation, or MCR are missing.",
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket."
+      ],
+      "manual_review_required": true
+    },
+    {
+      "source_component_id": "6A.07",
+      "source_component_name_exact_from_phase_doc": "Audit Log and Universal Evidence Stream",
+      "source_component_type_exact_from_phase_doc": "Core platform system",
+      "required_dependencies_raw": "6A.04, 6A.06",
+      "optional_dependencies_raw": "None",
+      "owned_data_or_authority_raw": "Audit entries, hash-chain integrity, evidence event ledger",
+      "emits_raw": "audit.appended, evidence.recorded, audit.integrity_failed",
+      "consumes_raw": "gatekeeper.checked",
+      "activation_lifecycle_raw": "Not tenant-toggleable",
+      "billing_evidence_raw": "Universal audit/evidence authority",
+      "normalized_required_dependency_targets": [
+        "6A.04",
+        "6A.06"
+      ],
+      "normalized_optional_dependency_targets": [],
+      "microscopic_scope_summary": "6A.07 Audit Log and Universal Evidence Stream is captured as a Phase 6A source component before any catalog, dependency, seed, or ticket artifact may consume it.",
+      "business_logic_rules_applied": [
+        "0_business_logic.md is highest authority for Phase 6A.",
+        "Services are architecture units; modules are labels only.",
+        "Foundry is activation authority for tenant-toggleable services and optional micro-services.",
+        "Evidence, billing, Gatekeeper, and dependency direction must remain source-faithful."
+      ],
+      "decomposition_guide_rule_applied": "Preserved as one Phase 6A core authority boundary with source traceability.",
+      "coverage_outcome": "demoted_to_core_microservice",
+      "surface_ids": [
+        "surface_6a_identity_access_audit"
+      ],
+      "subsurface_ids": [
+        "subsurface_6a_audit_log_universal_evidence_stream"
+      ],
+      "seed_ids": [
+        "seed_6a_audit_log_universal_evidence_stream"
+      ],
+      "manifest_required": false,
+      "foundry_activation_required": false,
+      "manifest_foundry_consistency_rationale": "Flags align for this source boundary.",
+      "gatekeeper_required": true,
+      "audit_required": true,
+      "billing_or_pricing_required": false,
+      "adl_refs": [],
+      "ticket_quality_risk_notes": [
+        "Seed placeholders are planning-only and must not become ticket fields.",
+        "Future tickets must regenerate exact files, validation commands, MCR, acceptance criteria, rollback notes, and split_if from source authority plus repo truth.",
+        "Tickets become stale when dependencies, decisions, exact files, validation, or MCR are missing.",
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket."
+      ],
+      "manual_review_required": true
+    },
+    {
+      "source_component_id": "6A.08",
+      "source_component_name_exact_from_phase_doc": "Transactional Outbox, Event Bus, and DLQ",
+      "source_component_type_exact_from_phase_doc": "Core platform system",
+      "required_dependencies_raw": "6A.07",
+      "optional_dependencies_raw": "None",
+      "owned_data_or_authority_raw": "Outbox messages, event schemas, subscriptions, delivery attempts, DLQ records",
+      "emits_raw": "event.published, event.delivered, event.failed, dlq.alerted",
+      "consumes_raw": "audit.appended",
+      "activation_lifecycle_raw": "Not tenant-toggleable",
+      "billing_evidence_raw": "Event delivery evidence",
+      "normalized_required_dependency_targets": [
+        "6A.07"
+      ],
+      "normalized_optional_dependency_targets": [],
+      "microscopic_scope_summary": "6A.08 Transactional Outbox, Event Bus, and DLQ is captured as a Phase 6A source component before any catalog, dependency, seed, or ticket artifact may consume it.",
+      "business_logic_rules_applied": [
+        "0_business_logic.md is highest authority for Phase 6A.",
+        "Services are architecture units; modules are labels only.",
+        "Foundry is activation authority for tenant-toggleable services and optional micro-services.",
+        "Evidence, billing, Gatekeeper, and dependency direction must remain source-faithful."
+      ],
+      "decomposition_guide_rule_applied": "Applied mechanical split / merge / demote / defer review from sub-surface decomposition guide.",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "surface_ids": [
+        "surface_6a_event_outbox_saga"
+      ],
+      "subsurface_ids": [
+        "subsurface_6a_transactional_outbox",
+        "subsurface_6a_event_bus_delivery",
+        "subsurface_6a_dlq_admin_inspection_replay",
+        "subsurface_6a_saga_orchestrator",
+        "subsurface_6a_compensation_dispatcher",
+        "subsurface_6a_terminal_state_handler"
+      ],
+      "seed_ids": [
+        "seed_6a_transactional_outbox",
+        "seed_6a_event_bus_delivery",
+        "seed_6a_dlq_admin_inspection_replay",
+        "seed_6a_saga_orchestrator",
+        "seed_6a_compensation_dispatcher",
+        "seed_6a_terminal_state_handler"
+      ],
+      "manifest_required": false,
+      "foundry_activation_required": false,
+      "manifest_foundry_consistency_rationale": "Flags align for this source boundary.",
+      "gatekeeper_required": false,
+      "audit_required": true,
+      "billing_or_pricing_required": false,
+      "adl_refs": [
+        "ADL-001",
+        "ADL-002"
+      ],
+      "ticket_quality_risk_notes": [
+        "Seed placeholders are planning-only and must not become ticket fields.",
+        "Future tickets must regenerate exact files, validation commands, MCR, acceptance criteria, rollback notes, and split_if from source authority plus repo truth.",
+        "Tickets become stale when dependencies, decisions, exact files, validation, or MCR are missing.",
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket."
+      ],
+      "manual_review_required": true
+    },
+    {
+      "source_component_id": "6A.09",
+      "source_component_name_exact_from_phase_doc": "Core Billing Engine and Pricing Registry",
+      "source_component_type_exact_from_phase_doc": "Core platform system",
+      "required_dependencies_raw": "6A.07, 6A.08",
+      "optional_dependencies_raw": "None",
+      "owned_data_or_authority_raw": "Pricing references, billing dimensions, measurement registry, spend counters, budget/prepaid primitives",
+      "emits_raw": "billing.evidence_recorded, spend.aggregated, budget.blocked",
+      "consumes_raw": "evidence.recorded, event.published",
+      "activation_lifecycle_raw": "Not tenant-toggleable",
+      "billing_evidence_raw": "Billing evidence authority",
+      "normalized_required_dependency_targets": [
+        "6A.07",
+        "6A.08"
+      ],
+      "normalized_optional_dependency_targets": [],
+      "microscopic_scope_summary": "6A.09 Core Billing Engine and Pricing Registry is captured as a Phase 6A source component before any catalog, dependency, seed, or ticket artifact may consume it.",
+      "business_logic_rules_applied": [
+        "0_business_logic.md is highest authority for Phase 6A.",
+        "Services are architecture units; modules are labels only.",
+        "Foundry is activation authority for tenant-toggleable services and optional micro-services.",
+        "Evidence, billing, Gatekeeper, and dependency direction must remain source-faithful."
+      ],
+      "decomposition_guide_rule_applied": "Applied mechanical split / merge / demote / defer review from sub-surface decomposition guide.",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "surface_ids": [
+        "surface_6a_billing_pricing_evidence"
+      ],
+      "subsurface_ids": [
+        "subsurface_6a_pricing_table_effective_dates",
+        "subsurface_6a_billing_dimension_measurement_registry",
+        "subsurface_6a_evidence_aggregation",
+        "subsurface_6a_projected_cost_calculator",
+        "subsurface_6a_budget_caps",
+        "subsurface_6a_prepaid_balance"
+      ],
+      "seed_ids": [
+        "seed_6a_pricing_table_effective_dates",
+        "seed_6a_billing_dimension_measurement_registry",
+        "seed_6a_evidence_aggregation",
+        "seed_6a_projected_cost_calculator",
+        "seed_6a_budget_caps",
+        "seed_6a_prepaid_balance"
+      ],
+      "manifest_required": false,
+      "foundry_activation_required": false,
+      "manifest_foundry_consistency_rationale": "Flags align for this source boundary.",
+      "gatekeeper_required": false,
+      "audit_required": true,
+      "billing_or_pricing_required": true,
+      "adl_refs": [],
+      "ticket_quality_risk_notes": [
+        "Seed placeholders are planning-only and must not become ticket fields.",
+        "Future tickets must regenerate exact files, validation commands, MCR, acceptance criteria, rollback notes, and split_if from source authority plus repo truth.",
+        "Tickets become stale when dependencies, decisions, exact files, validation, or MCR are missing.",
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket."
+      ],
+      "manual_review_required": true
+    },
+    {
+      "source_component_id": "6A.10",
+      "source_component_name_exact_from_phase_doc": "Foundry Runtime Authority",
+      "source_component_type_exact_from_phase_doc": "Core platform system",
+      "required_dependencies_raw": "6A.06, 6A.08, 6A.09",
+      "optional_dependencies_raw": "Feature flags from 6A.02",
+      "owned_data_or_authority_raw": "Service registry, activation state, dependency graph, version pins, lifecycle state",
+      "emits_raw": "service.activated, service.deactivated, dependency.blocked, version.pinned",
+      "consumes_raw": "capability.registered, billing.evidence_recorded",
+      "activation_lifecycle_raw": "Not tenant-toggleable; controls tenant-toggleable services",
+      "billing_evidence_raw": "Activation, dependency, and billing-impact evidence",
+      "normalized_required_dependency_targets": [
+        "6A.06",
+        "6A.08",
+        "6A.09"
+      ],
+      "normalized_optional_dependency_targets": [
+        "Feature flags from 6A.02"
+      ],
+      "microscopic_scope_summary": "6A.10 Foundry Runtime Authority is captured as a Phase 6A source component before any catalog, dependency, seed, or ticket artifact may consume it.",
+      "business_logic_rules_applied": [
+        "0_business_logic.md is highest authority for Phase 6A.",
+        "Services are architecture units; modules are labels only.",
+        "Foundry is activation authority for tenant-toggleable services and optional micro-services.",
+        "Evidence, billing, Gatekeeper, and dependency direction must remain source-faithful."
+      ],
+      "decomposition_guide_rule_applied": "Applied mechanical split / merge / demote / defer review from sub-surface decomposition guide.",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "surface_ids": [
+        "surface_6a_foundry_manifest_activation"
+      ],
+      "subsurface_ids": [
+        "subsurface_6a_foundry_runtime_authority",
+        "subsurface_6a_service_manifest_contract",
+        "subsurface_6a_manifest_validation",
+        "subsurface_6a_activation_dependency_resolution",
+        "subsurface_6a_deactivation_dependency_blocking",
+        "subsurface_6a_version_pin_and_rollback",
+        "subsurface_6a_capability_registration",
+        "subsurface_6a_pricing_reference_registration",
+        "subsurface_6a_event_subscription_registration",
+        "subsurface_6a_route_interface_registration",
+        "subsurface_6a_frontend_chunk_registration"
+      ],
+      "seed_ids": [
+        "seed_6a_foundry_runtime_authority",
+        "seed_6a_service_manifest_contract",
+        "seed_6a_manifest_validation",
+        "seed_6a_activation_dependency_resolution",
+        "seed_6a_deactivation_dependency_blocking",
+        "seed_6a_version_pin_and_rollback",
+        "seed_6a_capability_registration",
+        "seed_6a_pricing_reference_registration",
+        "seed_6a_event_subscription_registration",
+        "seed_6a_route_interface_registration",
+        "seed_6a_frontend_chunk_registration"
+      ],
+      "manifest_required": true,
+      "foundry_activation_required": false,
+      "manifest_foundry_consistency_rationale": "Foundry bootstrap model confirmed: foundry_runtime_authority is the bootstrap root for the Foundry lifecycle cluster and is not activated by service_manifest_contract. service_manifest_contract depends on foundry_runtime_authority and is the manifest traceability target for activatable/configurable service-like surfaces.",
+      "gatekeeper_required": false,
+      "audit_required": true,
+      "billing_or_pricing_required": true,
+      "adl_refs": [],
+      "ticket_quality_risk_notes": [
+        "Seed placeholders are planning-only and must not become ticket fields.",
+        "Future tickets must regenerate exact files, validation commands, MCR, acceptance criteria, rollback notes, and split_if from source authority plus repo truth.",
+        "Tickets become stale when dependencies, decisions, exact files, validation, or MCR are missing.",
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket."
+      ],
+      "manual_review_required": true,
+      "optional_dependency_representation": [
+        {
+          "classification": "conditional_dependency",
+          "source_seed_id": "seed_6a_activation_dependency_resolution",
+          "target_seed_id": "seed_6a_infrastructure_runtime_foundation",
+          "condition": "applies when Foundry activation lifecycle uses Phase 6A.02 feature-flag foundation",
+          "reason": "Feature flags from 6A.02 are conditional activation controls for Foundry lifecycle behavior."
+        }
+      ]
+    },
+    {
+      "source_component_id": "6A.11",
+      "source_component_name_exact_from_phase_doc": "Communication Gateway and Global Opt-Out",
+      "source_component_type_exact_from_phase_doc": "Core platform system",
+      "required_dependencies_raw": "6A.05, 6A.07, 6A.08",
+      "optional_dependencies_raw": "Provider adapters later",
+      "owned_data_or_authority_raw": "Opt-out registry, outbound attempt log, provider route config, rate-limit evidence",
+      "emits_raw": "communication.sent, communication.blocked, optout.recorded, reoptin.recorded",
+      "consumes_raw": "person.created, evidence.recorded",
+      "activation_lifecycle_raw": "Not tenant-toggleable; channels may be configured",
+      "billing_evidence_raw": "Communication evidence; billable message evidence",
+      "normalized_required_dependency_targets": [
+        "6A.05",
+        "6A.07",
+        "6A.08"
+      ],
+      "normalized_optional_dependency_targets": [
+        "Provider adapters later"
+      ],
+      "microscopic_scope_summary": "6A.11 Communication Gateway and Global Opt-Out is captured as a Phase 6A source component before any catalog, dependency, seed, or ticket artifact may consume it.",
+      "business_logic_rules_applied": [
+        "0_business_logic.md is highest authority for Phase 6A.",
+        "Services are architecture units; modules are labels only.",
+        "Foundry is activation authority for tenant-toggleable services and optional micro-services.",
+        "Evidence, billing, Gatekeeper, and dependency direction must remain source-faithful."
+      ],
+      "decomposition_guide_rule_applied": "Applied mechanical split / merge / demote / defer review from sub-surface decomposition guide.",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "surface_ids": [
+        "surface_6a_communication_gateway_opt_out"
+      ],
+      "subsurface_ids": [
+        "subsurface_6a_outbound_gateway_enforcement",
+        "subsurface_6a_global_opt_out_registry",
+        "subsurface_6a_provider_circuit_breaker",
+        "subsurface_6a_rate_limit_enforcement"
+      ],
+      "seed_ids": [
+        "seed_6a_outbound_gateway_enforcement",
+        "seed_6a_global_opt_out_registry",
+        "seed_6a_provider_circuit_breaker",
+        "seed_6a_rate_limit_enforcement"
+      ],
+      "manifest_required": false,
+      "foundry_activation_required": false,
+      "manifest_foundry_consistency_rationale": "Parent 6A.11 remains a core communication gateway boundary, not a tenant-toggleable marketplace service. Child-level manifest traceability applies to subsurface_6a_outbound_gateway_enforcement because outbound gateway enforcement is a channel-facing enforcement surface that depends on service_manifest_contract; subsurface_6a_global_opt_out_registry, subsurface_6a_provider_circuit_breaker, and subsurface_6a_rate_limit_enforcement remain core primitives without direct Foundry activation.",
+      "gatekeeper_required": true,
+      "audit_required": true,
+      "billing_or_pricing_required": true,
+      "adl_refs": [
+        "ADL-004"
+      ],
+      "ticket_quality_risk_notes": [
+        "Seed placeholders are planning-only and must not become ticket fields.",
+        "Future tickets must regenerate exact files, validation commands, MCR, acceptance criteria, rollback notes, and split_if from source authority plus repo truth.",
+        "Tickets become stale when dependencies, decisions, exact files, validation, or MCR are missing.",
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket."
+      ],
+      "manual_review_required": true,
+      "optional_dependency_representation": [
+        {
+          "classification": "deferred_with_reason",
+          "source_seed_id": "seed_6a_outbound_gateway_enforcement",
+          "target_seed_id": null,
+          "reason": "Provider adapters are later provider-specific implementations and are not Phase 6A dependency edges."
+        }
+      ]
+    },
+    {
+      "source_component_id": "6A.12",
+      "source_component_name_exact_from_phase_doc": "API Gateway and Webhook Management",
+      "source_component_type_exact_from_phase_doc": "Core platform system",
+      "required_dependencies_raw": "6A.06, 6A.08, 6A.09",
+      "optional_dependencies_raw": "Provider-specific adapters later",
+      "owned_data_or_authority_raw": "API key scopes, webhook definitions, idempotency keys, retry logs, delivery logs",
+      "emits_raw": "api.write_accepted, webhook.received, webhook.rejected, webhook.delivered",
+      "consumes_raw": "gatekeeper.checked, event.published",
+      "activation_lifecycle_raw": "Not tenant-toggleable; tenant configs allowed",
+      "billing_evidence_raw": "API call evidence, webhook evidence",
+      "normalized_required_dependency_targets": [
+        "6A.06",
+        "6A.08",
+        "6A.09"
+      ],
+      "normalized_optional_dependency_targets": [
+        "Provider-specific adapters later"
+      ],
+      "microscopic_scope_summary": "6A.12 API Gateway and Webhook Management is captured as a Phase 6A source component before any catalog, dependency, seed, or ticket artifact may consume it.",
+      "business_logic_rules_applied": [
+        "0_business_logic.md is highest authority for Phase 6A.",
+        "Services are architecture units; modules are labels only.",
+        "Foundry is activation authority for tenant-toggleable services and optional micro-services.",
+        "Evidence, billing, Gatekeeper, and dependency direction must remain source-faithful."
+      ],
+      "decomposition_guide_rule_applied": "Applied mechanical split / merge / demote / defer review from sub-surface decomposition guide. Semantic gates patch deepened this source component into source-stable sub-surfaces to reduce wrapper-ticket risk.",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "surface_ids": [
+        "surface_6a_api_webhook_boundary"
+      ],
+      "subsurface_ids": [
+        "subsurface_6a_api_key_scope_registry",
+        "subsurface_6a_idempotency_key_management",
+        "subsurface_6a_webhook_definition_registry",
+        "subsurface_6a_inbound_webhook_validation",
+        "subsurface_6a_webhook_retry_schedule",
+        "subsurface_6a_delivery_rejection_logs"
+      ],
+      "seed_ids": [
+        "seed_6a_api_key_scope_registry",
+        "seed_6a_idempotency_key_management",
+        "seed_6a_webhook_definition_registry",
+        "seed_6a_inbound_webhook_validation",
+        "seed_6a_webhook_retry_schedule",
+        "seed_6a_delivery_rejection_logs"
+      ],
+      "manifest_required": false,
+      "foundry_activation_required": false,
+      "manifest_foundry_consistency_rationale": "Parent 6A.12 remains a core API/webhook boundary, not a tenant-toggleable marketplace service. Child-level manifest traceability applies to subsurface_6a_webhook_definition_registry because webhook management is provider-facing and depends on service_manifest_contract; subsurface_6a_api_key_scope_registry and subsurface_6a_idempotency_key_management remain core boundary primitives without direct Foundry activation.",
+      "gatekeeper_required": true,
+      "audit_required": true,
+      "billing_or_pricing_required": false,
+      "adl_refs": [
+        "ADL-003"
+      ],
+      "ticket_quality_risk_notes": [
+        "Seed placeholders are planning-only and must not become ticket fields.",
+        "Future tickets must regenerate exact files, validation commands, MCR, acceptance criteria, rollback notes, and split_if from source authority plus repo truth.",
+        "Tickets become stale when dependencies, decisions, exact files, validation, or MCR are missing.",
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket."
+      ],
+      "manual_review_required": true,
+      "optional_dependency_representation": [
+        {
+          "classification": "deferred_with_reason",
+          "source_seed_id": "seed_6a_webhook_definition_registry",
+          "target_seed_id": null,
+          "reason": "Provider-specific adapters are later implementations; Phase 6A records API/webhook registries, validation, idempotency, retry, and rejection boundaries only."
+        }
+      ]
+    },
+    {
+      "source_component_id": "6A.13",
+      "source_component_name_exact_from_phase_doc": "Configuration Engine",
+      "source_component_type_exact_from_phase_doc": "Core platform system",
+      "required_dependencies_raw": "6A.06, 6A.08, 6A.10",
+      "optional_dependencies_raw": "None",
+      "owned_data_or_authority_raw": "Custom field instances, lifecycle configs, rule configs, workflow definitions, forms, templates",
+      "emits_raw": "config.changed, workflow.activated, rule.blocked, form.submitted",
+      "consumes_raw": "service.activated, capability.registered",
+      "activation_lifecycle_raw": "Not tenant-toggleable; config surfaces tenant-facing",
+      "billing_evidence_raw": "Configuration evidence; workflow evidence",
+      "normalized_required_dependency_targets": [
+        "6A.06",
+        "6A.08",
+        "6A.10"
+      ],
+      "normalized_optional_dependency_targets": [],
+      "microscopic_scope_summary": "6A.13 Configuration Engine is captured as a Phase 6A source component before any catalog, dependency, seed, or ticket artifact may consume it.",
+      "business_logic_rules_applied": [
+        "0_business_logic.md is highest authority for Phase 6A.",
+        "Services are architecture units; modules are labels only.",
+        "Foundry is activation authority for tenant-toggleable services and optional micro-services.",
+        "Evidence, billing, Gatekeeper, and dependency direction must remain source-faithful."
+      ],
+      "decomposition_guide_rule_applied": "Applied mechanical split / merge / demote / defer review from sub-surface decomposition guide.",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "surface_ids": [
+        "surface_6a_configuration_engine_builders"
+      ],
+      "subsurface_ids": [
+        "subsurface_6a_visual_workflow_builder",
+        "subsurface_6a_lifecycle_builder",
+        "subsurface_6a_rules_engine",
+        "subsurface_6a_form_builder",
+        "subsurface_6a_custom_fields",
+        "subsurface_6a_template_library",
+        "subsurface_6a_ai_configuration_wizard_foundation"
+      ],
+      "seed_ids": [
+        "seed_6a_visual_workflow_builder",
+        "seed_6a_lifecycle_builder",
+        "seed_6a_rules_engine",
+        "seed_6a_form_builder",
+        "seed_6a_custom_fields",
+        "seed_6a_template_library",
+        "seed_6a_ai_configuration_wizard_foundation"
+      ],
+      "manifest_required": true,
+      "foundry_activation_required": true,
+      "manifest_foundry_consistency_rationale": "Flags align for this source boundary.",
+      "gatekeeper_required": true,
+      "audit_required": true,
+      "billing_or_pricing_required": false,
+      "adl_refs": [],
+      "ticket_quality_risk_notes": [
+        "Seed placeholders are planning-only and must not become ticket fields.",
+        "Future tickets must regenerate exact files, validation commands, MCR, acceptance criteria, rollback notes, and split_if from source authority plus repo truth.",
+        "Tickets become stale when dependencies, decisions, exact files, validation, or MCR are missing.",
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket."
+      ],
+      "manual_review_required": true
+    },
+    {
+      "source_component_id": "6A.14",
+      "source_component_name_exact_from_phase_doc": "Search and File Service Layer",
+      "source_component_type_exact_from_phase_doc": "Core platform system",
+      "required_dependencies_raw": "6A.03, 6A.07, 6A.08",
+      "optional_dependencies_raw": "6A.13 custom field indexing",
+      "owned_data_or_authority_raw": "Search indexes, file metadata, share links, previews, virus scan status",
+      "emits_raw": "search.indexed, file.shared, file.quarantined",
+      "consumes_raw": "file.stored, evidence.recorded",
+      "activation_lifecycle_raw": "Not tenant-toggleable; service consumers use it",
+      "billing_evidence_raw": "Storage/search usage evidence",
+      "normalized_required_dependency_targets": [
+        "6A.03",
+        "6A.07",
+        "6A.08"
+      ],
+      "normalized_optional_dependency_targets": [
+        "6A.13 custom field indexing"
+      ],
+      "microscopic_scope_summary": "6A.14 Search and File Service Layer is captured as a Phase 6A source component before any catalog, dependency, seed, or ticket artifact may consume it.",
+      "business_logic_rules_applied": [
+        "0_business_logic.md is highest authority for Phase 6A.",
+        "Services are architecture units; modules are labels only.",
+        "Foundry is activation authority for tenant-toggleable services and optional micro-services.",
+        "Evidence, billing, Gatekeeper, and dependency direction must remain source-faithful."
+      ],
+      "decomposition_guide_rule_applied": "Preserved as one Phase 6A core authority boundary with source traceability. Semantic gates patch deepened this source component into source-stable sub-surfaces to reduce wrapper-ticket risk.",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "surface_ids": [
+        "surface_6a_search_file_service_layer"
+      ],
+      "subsurface_ids": [
+        "subsurface_6a_search_indexing",
+        "subsurface_6a_custom_field_indexing_hook",
+        "subsurface_6a_file_metadata_registry",
+        "subsurface_6a_share_link_management",
+        "subsurface_6a_preview_generation",
+        "subsurface_6a_virus_scan_quarantine",
+        "subsurface_6a_archive_version_boundary"
+      ],
+      "seed_ids": [
+        "seed_6a_search_indexing",
+        "seed_6a_custom_field_indexing_hook",
+        "seed_6a_file_metadata_registry",
+        "seed_6a_share_link_management",
+        "seed_6a_preview_generation",
+        "seed_6a_virus_scan_quarantine",
+        "seed_6a_archive_version_boundary"
+      ],
+      "manifest_required": false,
+      "foundry_activation_required": false,
+      "manifest_foundry_consistency_rationale": "Parent 6A.14 remains false because search indexing and file sharing/quarantine are core service-layer primitives in this Phase 6A package; no child sub-surface is tenant-toggleable or independently activatable, and no child seed depends on service_manifest_contract.",
+      "gatekeeper_required": false,
+      "audit_required": true,
+      "billing_or_pricing_required": false,
+      "adl_refs": [],
+      "ticket_quality_risk_notes": [
+        "Seed placeholders are planning-only and must not become ticket fields.",
+        "Future tickets must regenerate exact files, validation commands, MCR, acceptance criteria, rollback notes, and split_if from source authority plus repo truth.",
+        "Tickets become stale when dependencies, decisions, exact files, validation, or MCR are missing.",
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket."
+      ],
+      "manual_review_required": true,
+      "optional_dependency_representation": [
+        {
+          "classification": "conditional_dependency",
+          "source_seed_id": "seed_6a_custom_field_indexing_hook",
+          "target_seed_id": "seed_6a_custom_fields",
+          "condition": "required when custom fields are indexed",
+          "reason": "6A.14 optional custom field indexing is conditional on 6A.13 custom_fields."
+        }
+      ]
+    },
+    {
+      "source_component_id": "6A.15",
+      "source_component_name_exact_from_phase_doc": "Non-AI Optimization Foundation",
+      "source_component_type_exact_from_phase_doc": "Core platform system",
+      "required_dependencies_raw": "6A.09, 6A.10, 6A.13",
+      "optional_dependencies_raw": "None",
+      "owned_data_or_authority_raw": "Optimization facts, cost projections, dependency-aware alternatives, recommendation logs",
+      "emits_raw": "optimization.requested, optimization.presented, optimization.accepted, optimization.rejected",
+      "consumes_raw": "spend.aggregated, service.activated",
+      "activation_lifecycle_raw": "Always available; proactive AI deferred to 6F",
+      "billing_evidence_raw": "Optimization evidence; projected cost only",
+      "normalized_required_dependency_targets": [
+        "6A.09",
+        "6A.10",
+        "6A.13"
+      ],
+      "normalized_optional_dependency_targets": [],
+      "microscopic_scope_summary": "6A.15 Non-AI Optimization Foundation is captured as a Phase 6A source component before any catalog, dependency, seed, or ticket artifact may consume it.",
+      "business_logic_rules_applied": [
+        "0_business_logic.md is highest authority for Phase 6A.",
+        "Services are architecture units; modules are labels only.",
+        "Foundry is activation authority for tenant-toggleable services and optional micro-services.",
+        "Evidence, billing, Gatekeeper, and dependency direction must remain source-faithful."
+      ],
+      "decomposition_guide_rule_applied": "Preserved as one Phase 6A core authority boundary with source traceability. Semantic gates patch deepened this source component into source-stable sub-surfaces to reduce wrapper-ticket risk.",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "surface_ids": [
+        "surface_6a_non_ai_optimization"
+      ],
+      "subsurface_ids": [
+        "subsurface_6a_optimization_fact_store",
+        "subsurface_6a_projected_cost_alternative_calculator",
+        "subsurface_6a_dependency_aware_recommendation_log",
+        "subsurface_6a_accepted_rejected_recommendation_evidence",
+        "subsurface_6a_activation_deactivation_intercept_wizard"
+      ],
+      "seed_ids": [
+        "seed_6a_optimization_fact_store",
+        "seed_6a_projected_cost_alternative_calculator",
+        "seed_6a_dependency_aware_recommendation_log",
+        "seed_6a_accepted_rejected_recommendation_evidence",
+        "seed_6a_activation_deactivation_intercept_wizard"
+      ],
+      "manifest_required": true,
+      "foundry_activation_required": true,
+      "manifest_foundry_consistency_rationale": "Flags align for this source boundary.",
+      "gatekeeper_required": true,
+      "audit_required": true,
+      "billing_or_pricing_required": true,
+      "adl_refs": [],
+      "ticket_quality_risk_notes": [
+        "Seed placeholders are planning-only and must not become ticket fields.",
+        "Future tickets must regenerate exact files, validation commands, MCR, acceptance criteria, rollback notes, and split_if from source authority plus repo truth.",
+        "Tickets become stale when dependencies, decisions, exact files, validation, or MCR are missing.",
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket."
+      ],
+      "manual_review_required": true
+    },
+    {
+      "source_component_id": "6A.16",
+      "source_component_name_exact_from_phase_doc": "AI Proxy and AI Governance Foundation",
+      "source_component_type_exact_from_phase_doc": "Core platform system",
+      "required_dependencies_raw": "6A.06, 6A.07, 6A.09",
+      "optional_dependencies_raw": "6A.13 for AI workflow wizard",
+      "owned_data_or_authority_raw": "AI request classifications, model routing policy, AI cost cap, prohibited data rules",
+      "emits_raw": "ai.requested, ai.blocked, ai.cost_recorded",
+      "consumes_raw": "gatekeeper.checked, billing.evidence_recorded",
+      "activation_lifecycle_raw": "Not tenant-toggleable as core; tenant AI features governed",
+      "billing_evidence_raw": "AI usage evidence; AI cost evidence",
+      "normalized_required_dependency_targets": [
+        "6A.06",
+        "6A.07",
+        "6A.09"
+      ],
+      "normalized_optional_dependency_targets": [
+        "6A.13 for AI workflow wizard"
+      ],
+      "microscopic_scope_summary": "6A.16 AI Proxy and AI Governance Foundation is captured as a Phase 6A source component before any catalog, dependency, seed, or ticket artifact may consume it.",
+      "business_logic_rules_applied": [
+        "0_business_logic.md is highest authority for Phase 6A.",
+        "Services are architecture units; modules are labels only.",
+        "Foundry is activation authority for tenant-toggleable services and optional micro-services.",
+        "Evidence, billing, Gatekeeper, and dependency direction must remain source-faithful."
+      ],
+      "decomposition_guide_rule_applied": "Applied mechanical split / merge / demote / defer review from sub-surface decomposition guide.",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "surface_ids": [
+        "surface_6a_ai_proxy_governance"
+      ],
+      "subsurface_ids": [
+        "subsurface_6a_model_routing",
+        "subsurface_6a_data_classification_enforcement",
+        "subsurface_6a_ai_cost_cap_enforcement",
+        "subsurface_6a_per_query_credit_evidence_metering"
+      ],
+      "seed_ids": [
+        "seed_6a_model_routing",
+        "seed_6a_data_classification_enforcement",
+        "seed_6a_ai_cost_cap_enforcement",
+        "seed_6a_per_query_credit_evidence_metering"
+      ],
+      "manifest_required": true,
+      "foundry_activation_required": false,
+      "manifest_foundry_consistency_rationale": "Parent 6A.16 sets manifest_required=true because model routing, data classification enforcement, AI cost-cap enforcement, and per-query credit/evidence metering all require service_manifest_contract traceability. foundry_activation_required remains false because these are AI governance controls, not tenant-toggleable marketplace services.",
+      "gatekeeper_required": true,
+      "audit_required": true,
+      "billing_or_pricing_required": true,
+      "adl_refs": [],
+      "ticket_quality_risk_notes": [
+        "Seed placeholders are planning-only and must not become ticket fields.",
+        "Future tickets must regenerate exact files, validation commands, MCR, acceptance criteria, rollback notes, and split_if from source authority plus repo truth.",
+        "Tickets become stale when dependencies, decisions, exact files, validation, or MCR are missing.",
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket."
+      ],
+      "manual_review_required": true,
+      "optional_dependency_representation": [
+        {
+          "classification": "conditional_dependency",
+          "source_seed_id": "seed_6a_model_routing",
+          "target_seed_id": "seed_6a_ai_configuration_wizard_foundation",
+          "condition": "required when AI workflow wizard configuration is enabled",
+          "reason": "6A.16 optional AI workflow wizard support is conditional on the 6A.13 AI configuration wizard foundation."
+        }
+      ]
+    },
+    {
+      "source_component_id": "6A.17",
+      "source_component_name_exact_from_phase_doc": "Base Admin and Tenant Onboarding",
+      "source_component_type_exact_from_phase_doc": "Core platform UI/system",
+      "required_dependencies_raw": "6A.04, 6A.06, 6A.10, 6A.13, 6A.15",
+      "optional_dependencies_raw": "6A.16 for limited AI assistance only if enabled",
+      "owned_data_or_authority_raw": "Tenant setup, industry selection, package selection, users, roles, billing authority, basic settings",
+      "emits_raw": "tenant.configured, package.selected, user.invited",
+      "consumes_raw": "service.activated, config.changed",
+      "activation_lifecycle_raw": "Tenant-facing admin; not a business module",
+      "billing_evidence_raw": "Admin action evidence; projected cost views",
+      "normalized_required_dependency_targets": [
+        "6A.04",
+        "6A.06",
+        "6A.10",
+        "6A.13",
+        "6A.15"
+      ],
+      "normalized_optional_dependency_targets": [
+        "6A.16 for limited AI assistance only if enabled"
+      ],
+      "microscopic_scope_summary": "6A.17 Base Admin and Tenant Onboarding is captured as a Phase 6A source component before any catalog, dependency, seed, or ticket artifact may consume it.",
+      "business_logic_rules_applied": [
+        "0_business_logic.md is highest authority for Phase 6A.",
+        "Services are architecture units; modules are labels only.",
+        "Foundry is activation authority for tenant-toggleable services and optional micro-services.",
+        "Evidence, billing, Gatekeeper, and dependency direction must remain source-faithful."
+      ],
+      "decomposition_guide_rule_applied": "Applied mechanical split / merge / demote / defer review from sub-surface decomposition guide.",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "surface_ids": [
+        "surface_6a_base_admin_onboarding"
+      ],
+      "subsurface_ids": [
+        "subsurface_6a_base_admin_setup",
+        "subsurface_6a_industry_selection",
+        "subsurface_6a_package_selection",
+        "subsurface_6a_users_roles_billing_authority"
+      ],
+      "seed_ids": [
+        "seed_6a_base_admin_setup",
+        "seed_6a_industry_selection",
+        "seed_6a_package_selection",
+        "seed_6a_users_roles_billing_authority"
+      ],
+      "manifest_required": true,
+      "foundry_activation_required": true,
+      "manifest_foundry_consistency_rationale": "Flags align for this source boundary.",
+      "gatekeeper_required": true,
+      "audit_required": true,
+      "billing_or_pricing_required": true,
+      "adl_refs": [],
+      "ticket_quality_risk_notes": [
+        "Seed placeholders are planning-only and must not become ticket fields.",
+        "Future tickets must regenerate exact files, validation commands, MCR, acceptance criteria, rollback notes, and split_if from source authority plus repo truth.",
+        "Tickets become stale when dependencies, decisions, exact files, validation, or MCR are missing.",
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket."
+      ],
+      "manual_review_required": true,
+      "optional_dependency_representation": [
+        {
+          "classification": "conditional_dependency",
+          "source_seed_id": "seed_6a_base_admin_setup",
+          "target_seed_id": "seed_6a_model_routing",
+          "condition": "required when limited AI assistance is enabled during base admin setup",
+          "reason": "6A.17 optional limited AI assistance is conditional on 6A.16 AI proxy governance."
+        }
+      ]
+    },
+    {
+      "source_component_id": "6A.18",
+      "source_component_name_exact_from_phase_doc": "Base Design System and Shell",
+      "source_component_type_exact_from_phase_doc": "Core platform UI system",
+      "required_dependencies_raw": "6A.17",
+      "optional_dependencies_raw": "None",
+      "owned_data_or_authority_raw": "Design tokens, base components, navigation shell, loading/empty/error patterns",
+      "emits_raw": "ui.contract.registered, shell.ready",
+      "consumes_raw": "tenant.configured",
+      "activation_lifecycle_raw": "Not tenant-toggleable",
+      "billing_evidence_raw": "No direct billing; UI evidence only if instrumented",
+      "normalized_required_dependency_targets": [
+        "6A.17"
+      ],
+      "normalized_optional_dependency_targets": [],
+      "microscopic_scope_summary": "6A.18 Base Design System and Shell is captured as a Phase 6A source component before any catalog, dependency, seed, or ticket artifact may consume it.",
+      "business_logic_rules_applied": [
+        "0_business_logic.md is highest authority for Phase 6A.",
+        "Services are architecture units; modules are labels only.",
+        "Foundry is activation authority for tenant-toggleable services and optional micro-services.",
+        "Evidence, billing, Gatekeeper, and dependency direction must remain source-faithful."
+      ],
+      "decomposition_guide_rule_applied": "Applied mechanical split / merge / demote / defer review from sub-surface decomposition guide.",
+      "coverage_outcome": "split_into_subsurfaces_and_seeds",
+      "surface_ids": [
+        "surface_6a_base_design_shell"
+      ],
+      "subsurface_ids": [
+        "subsurface_6a_base_design_tokens",
+        "subsurface_6a_core_component_contracts",
+        "subsurface_6a_tenant_shell"
+      ],
+      "seed_ids": [
+        "seed_6a_base_design_tokens",
+        "seed_6a_core_component_contracts",
+        "seed_6a_tenant_shell"
+      ],
+      "manifest_required": true,
+      "foundry_activation_required": true,
+      "manifest_foundry_consistency_rationale": "Flags align for this source boundary.",
+      "gatekeeper_required": true,
+      "audit_required": true,
+      "billing_or_pricing_required": true,
+      "adl_refs": [],
+      "ticket_quality_risk_notes": [
+        "Seed placeholders are planning-only and must not become ticket fields.",
+        "Future tickets must regenerate exact files, validation commands, MCR, acceptance criteria, rollback notes, and split_if from source authority plus repo truth.",
+        "Tickets become stale when dependencies, decisions, exact files, validation, or MCR are missing.",
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket."
+      ],
+      "manual_review_required": true
+    }
+  ]
+}

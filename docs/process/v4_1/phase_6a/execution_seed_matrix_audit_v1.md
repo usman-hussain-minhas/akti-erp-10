@@ -1,0 +1,156 @@
+# Spark Platform v4.1 Phase 6A Execution Seed Matrix Audit v1
+
+Status: SPARK_PLATFORM_V4_1_PHASE_6A_EXECUTION_SEED_MATRIX_AUDIT_READY_FOR_REVIEW
+
+
+## Current Final State Summary
+
+- Seeds: 74
+- Root seeds: 5
+- Dependency edges referenced from extraction matrix: 127
+## Summary
+
+- Seeds: 74
+- Every seed is planning-only.
+- ticket_pack_generation_allowed=false everywhere.
+- Seed placeholders are marked as planning-only.
+
+## Checks
+
+- PASS: every seed maps to a valid sub-surface
+- PASS: every sub-surface has a seed
+- PASS: every dependency resolves
+- PASS: no forward dependency
+- PASS: no illegal same-phase dependency
+- PASS: every required dependency from dependency extraction appears
+- PASS: every hard dependency basis survives into seed metadata
+- PASS: service_manifest_contract is manifest traceability target where required
+- PASS: no seed authorizes ticket pack generation
+
+## Self-Heal Attempts
+
+- None. Stage reached READY without self-heal.
+
+## Intra-component dependency order validation
+
+- Intra-component dependency order validation was added to the review record.
+- Two order inversions were found: 6A.11 global opt-out before outbound gateway enforcement, and 6A.12 idempotency/retry before webhook management.
+- Two order inversions were fixed in both the sub-surface catalog and execution seed matrix.
+- No dependency direction changed.
+
+## Review Patch - structured ADL edge references
+
+- structured ADL references are now present on dependency edges where the edge reason or basis already mentioned an ADL.
+- Reason prose is retained but no longer the only ADL traceability mechanism.
+- No new ADL dependency edge was invented solely to add ADL coverage.
+- ADL-002 was handled only where it was already present in an edge reason or basis; otherwise it was left unmodified.
+
+## Review Patch - root seed reasons individualized
+
+- root seed reasons were individualized for every seed with an empty dependencies array.
+- Roots remain allowed when source-grounded; no dependency was invented solely to remove root status.
+- Generic dependency_reason boilerplate was removed from root seeds.
+
+## Review Patch - Added Local Precision Validation
+
+- Intra-component dependency order: for dependencies sharing source_component_id, dependency catalog_order must be lower than dependent catalog_order.
+- Parent/child manifest consistency: parent false with child true requires child-specific rationale, and service_manifest_contract seed dependencies require source or sub-surface rationale.
+- Structured ADL refs: any edge with ADL- in reason or basis must also carry adl_refs; ADL refs are not required where no ADL was used.
+- Root reason specificity: no root seed may use generic boilerplate dependency_reason.
+
+## Semantic Gates Patch - Catalog Order Before/After Mapping
+
+catalog_order/seed_order sequential consistency was recalculated with the deterministic semantic gates algorithm.
+
+- Before: total sub-surfaces 63; total seeds 63.
+- After: total sub-surfaces 74; total seeds 74.
+- Orders before 6A.12 were preserved.
+- 6A.12 now occupies orders 39-44: api_key_scope_registry, idempotency_key_management, webhook_definition_registry, inbound_webhook_validation, webhook_retry_schedule, delivery_rejection_logs.
+- 6A.13 now occupies orders 45-51.
+- 6A.14 now occupies orders 52-58: search_indexing, custom_field_indexing_hook, file_metadata_registry, share_link_management, preview_generation, virus_scan_quarantine, archive_version_boundary.
+- 6A.15 now occupies orders 59-63: optimization_fact_store, projected_cost_alternative_calculator, dependency_aware_recommendation_log, accepted_rejected_recommendation_evidence, activation_deactivation_intercept_wizard.
+- 6A.16 onward shifted sequentially after order 63.
+- No catalog_order gaps or duplicates are permitted by the new validation gate.
+
+## Semantic Gates Patch - optional dependency representation
+
+optional dependency representation is now explicit for all non-empty optional_dependencies_raw rows: 6A.05, 6A.10, 6A.11, 6A.12, 6A.14, 6A.16, and 6A.17.
+
+- Representation count: 7.
+- Optional dependencies are represented as conditional_dependency, deferred_with_reason, or manual_review_required/soft semantics as appropriate.
+- No optional dependency was hardened without approved upgrade_basis.
+
+## Semantic Gates Patch - split-child inheritance trace
+
+split-child inheritance validation is now permanent.
+
+- Every split-child seed whose source component has required_dependencies_raw carries akti_local.parent_required_dependency_trace.
+- Each trace records source_required_dependency, target_seed_id, inheritance_status, anchor_seed_id, and reason.
+- Valid statuses are inherited, satisfied_by_anchor_child, and not_applicable_with_reason.
+- Direct dependency is required when inheritance_status is inherited.
+
+## Semantic Gates Patch - Foundry bootstrap direction
+
+Foundry bootstrap direction is confirmed and not re-created.
+
+- foundry_runtime_authority is the bootstrap root for the Foundry lifecycle cluster.
+- service_manifest_contract depends on foundry_runtime_authority.
+- foundry_runtime_authority does not depend on service_manifest_contract and is not activated by its own manifest contract.
+- Activatable/configurable service-like surfaces depend on service_manifest_contract for manifest traceability.
+- No duplicate reverse Foundry edge was added.
+
+## Semantic Gates Patch - wrapper-ticket depth sufficiency
+
+wrapper-ticket risk was reduced by replacing broad 6A.12, 6A.14, and 6A.15 planning IDs with source-stable split IDs.
+
+- 6A.12 split result: api_key_scope_registry, idempotency_key_management, webhook_definition_registry, inbound_webhook_validation, webhook_retry_schedule, delivery_rejection_logs.
+- 6A.14 split result: search_indexing, custom_field_indexing_hook, file_metadata_registry, share_link_management, preview_generation, virus_scan_quarantine, archive_version_boundary.
+- 6A.15 split result: optimization_fact_store, projected_cost_alternative_calculator, dependency_aware_recommendation_log, accepted_rejected_recommendation_evidence, activation_deactivation_intercept_wizard.
+- Stale broad IDs are not retained as active sub-surfaces or seeds.
+
+## Semantic Gates Patch - Renumbering Validation
+
+- Validate no duplicate sub-surface catalog_order values.
+- Validate no duplicate seed akti_local.catalog_order values.
+- Validate sub-surface catalog_order equals seed akti_local.catalog_order for the same subsurface_id.
+- Validate catalog_order/seed_order sequential consistency with no gaps across Phase 6A.
+- Validate intra-component dependency order, including global_opt_out_registry before outbound_gateway_enforcement and idempotency_key_management before webhook management.
+
+## Semantic Gates Patch - Root Seed Count Change
+
+- Root seed count changed from 7 to 5 after deeper 6A.12 and 6A.14 splits.
+- The prior broad root seeds were removed as active broad seeds: seed_6a_idempotency_retry_boundary and seed_6a_file_sharing_quarantine_boundary.
+- Their responsibilities are preserved by deeper source-stable split successors: seed_6a_idempotency_key_management for 6A.12 and the 6A.14 search/file split successors, including seed_6a_search_indexing and file-service successors.
+- The root count change is expected and source coverage remains preserved.
+- No dependency was removed solely to reduce roots.
+- No broad stale root seed remains active.
+- Current root seeds: seed_6a_platform_core_update_baseline, seed_6a_soft_delete, seed_6a_transactional_outbox, seed_6a_pricing_table_effective_dates, seed_6a_foundry_runtime_authority.
+
+## Semantic Gates Patch - New Split Seed Manifest Classification
+
+Current live state: 5 / 18 new split seeds require service_manifest_contract; 13 / 18 do not. This is intentional and not a validation failure.
+
+| seed_id | source_component_id | requires_service_manifest_contract | classification | rationale |
+|---|---|---:|---|---|
+| seed_6a_api_key_scope_registry | 6A.12 | true | configurable API boundary | API key scopes are tenant-configurable and need manifest traceability. |
+| seed_6a_idempotency_key_management | 6A.12 | false | internal write-safety primitive | Core idempotency primitive, not independently activatable. |
+| seed_6a_webhook_definition_registry | 6A.12 | true | provider-facing configurable registry | Webhook definitions are provider-facing configuration. |
+| seed_6a_inbound_webhook_validation | 6A.12 | true | provider-facing validation boundary | Provider traffic validation is a configurable boundary. |
+| seed_6a_webhook_retry_schedule | 6A.12 | false | internal lifecycle primitive | Retry scheduling inherits webhook context and is not independently activatable. |
+| seed_6a_delivery_rejection_logs | 6A.12 | false | evidence/logging primitive | Rejection logs are evidence records, not service activation surfaces. |
+| seed_6a_search_indexing | 6A.14 | false | core indexing primitive | Core service-layer primitive, not tenant-toggleable. |
+| seed_6a_custom_field_indexing_hook | 6A.14 | false | conditional indexing hook | Conditional on custom fields; not independently activatable. |
+| seed_6a_file_metadata_registry | 6A.14 | false | core file registry | Core file metadata primitive. |
+| seed_6a_share_link_management | 6A.14 | false | internal file lifecycle | File access lifecycle, not a Foundry service. |
+| seed_6a_preview_generation | 6A.14 | false | internal rendering support | Preview support surface, not independently activatable. |
+| seed_6a_virus_scan_quarantine | 6A.14 | false | safety/evidence lifecycle | Quarantine safety primitive. |
+| seed_6a_archive_version_boundary | 6A.14 | false | archive/version lifecycle | Retention/version boundary, not tenant-toggleable. |
+| seed_6a_optimization_fact_store | 6A.15 | true | configurable optimization service boundary | Service-aware optimization fact store requires manifest traceability. |
+| seed_6a_projected_cost_alternative_calculator | 6A.15 | false | internal calculation primitive | Depends on optimization facts and projected-cost primitives; not independently activatable. |
+| seed_6a_dependency_aware_recommendation_log | 6A.15 | true | configurable recommendation evidence surface | Service dependency context requires manifest traceability. |
+| seed_6a_accepted_rejected_recommendation_evidence | 6A.15 | false | decision evidence primitive | Evidence record of recommendation choices. |
+| seed_6a_activation_deactivation_intercept_wizard | 6A.15 | false | lifecycle intercept primitive | Inherits Foundry lifecycle context through activation/dependency and recommendation seeds. |
+
+## Report Integrity Patch - ADL prose/ref consistency
+
+ADL prose and structured adl_refs are consistent; no ADL edge was invented solely for coverage.
