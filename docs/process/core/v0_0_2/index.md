@@ -20,6 +20,8 @@ Core v0.0.2 is the next Core update space after the completed Core v0.0.1 baseli
 - Core v0.0.2 does not start Phase 6.
 - Spark Platform Build v2 Genesis lifecycle planning does not create tickets, seed matrix, product implementation, deployment, production secret access, or Train 2+ ticket generation authorization.
 - Train 1 Levels 1–4 is the first execution-train candidate only after approved Train 1 control outputs, audited ticket pack, and readiness review.
+
+Spark Platform v4.1 supersedes the older Spark Platform Build v2 Train 1–5 planning model for sub-surface cataloguing and execution sequencing. The Train 1–5 boundary text in this index and in the older Build v2 documents is historical context only and does not authorize seed matrix, ticket generation, execution, or the old Train-1-first execution path. Active sequencing authority is the Phase 6A–6F model in the v4.1 phase dependency map.
 - Train 2 through Train 5 remain future-only and are not authorized for ticket generation by the Spark Platform Build v2 Genesis lifecycle planning package.
 - Route/API public-surface migration requires a separate compatibility plan and human approval.
 - Historical evidence remains in legacy paths unless a later approved index/copy/move PR preserves provenance.
