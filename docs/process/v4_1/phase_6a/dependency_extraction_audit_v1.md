@@ -4,17 +4,17 @@ Status: SPARK_PLATFORM_V4_1_PHASE_6A_DEPENDENCY_EXTRACTION_AUDIT_READY_FOR_REVIE
 
 
 ## Current Final State Summary
+- Extraction edges: 130
+- Extraction edge distribution: {"hard_dependency":122,"deferred_with_reason":3,"conditional_dependency":4,"manual_review_required":1}
+- Seed dependency reference counts are reported in execution_seed_matrix_audit_v1.md and are not mixed with extraction edge counts.
+- ADL prose/ref mismatches: 0
+- Status: PASS, mechanical summary drift corrected.
 
-- Dependency edges: 127
-- Distribution: {"hard_dependency":119,"deferred_with_reason":3,"conditional_dependency":4,"manual_review_required":1}
 ## Summary
-
-- Dependency edges: 127
-- Distribution: {"hard_dependency":93,"manual_review_required":1}
-- ADL-004 represented.
-- ADL-016 deferred_to_phase_6b_gl.
-- Consumes/emits hard-dependency discipline enforced.
-- service_manifest_contract is the default manifest target for activatable/configurable service-like surfaces.
+- Extraction edges: 130
+- Extraction edge distribution: {"hard_dependency":122,"deferred_with_reason":3,"conditional_dependency":4,"manual_review_required":1}
+- Added three activation_lifecycle_required service_manifest_contract extraction edges for manifest_required=true 6A.15 child seeds.
+- Removed stale distribution {"hard_dependency":93,"manual_review_required":1} from summary reporting.
 
 ## Checks
 
@@ -78,3 +78,9 @@ wrapper-ticket risk was reduced by replacing broad 6A.12, 6A.14, and 6A.15 plann
 ## Report Integrity Patch - ADL prose/ref consistency
 
 ADL prose and structured adl_refs are consistent; no ADL edge was invented solely for coverage.
+
+## Final Mechanical Patch - Manifest Traceability Audit Drift
+- Manifest-required 6A.15 child seeds now directly depend on seed_6a_service_manifest_contract where sub-surface manifest_required=true requires Foundry traceability.
+- manifest_required=false sub-surfaces now have empty manifest_traceability_targets unless a documented exception exists; current exception count: 0.
+- ADL prose/ref mismatches: 0; no ADL edge was invented solely for coverage.
+- Extraction edges: 130; top-level seed dependency references: 122.
