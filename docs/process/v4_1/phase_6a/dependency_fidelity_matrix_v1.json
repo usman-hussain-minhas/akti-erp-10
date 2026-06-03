@@ -430,7 +430,10 @@
         "seed_6a_accepted_rejected_recommendation_evidence__to__seed_6a_evidence_aggregation",
         "seed_6a_activation_deactivation_intercept_wizard__to__seed_6a_activation_dependency_resolution",
         "seed_6a_activation_deactivation_intercept_wizard__to__seed_6a_dependency_aware_recommendation_log",
-        "seed_6a_activation_deactivation_intercept_wizard__to__seed_6a_lifecycle_builder"
+        "seed_6a_activation_deactivation_intercept_wizard__to__seed_6a_lifecycle_builder",
+        "seed_6a_projected_cost_alternative_calculator__to__seed_6a_service_manifest_contract",
+        "seed_6a_accepted_rejected_recommendation_evidence__to__seed_6a_service_manifest_contract",
+        "seed_6a_activation_deactivation_intercept_wizard__to__seed_6a_service_manifest_contract"
       ],
       "planned_seed_dependencies": [
         "seed_6a_billing_dimension_measurement_registry",
@@ -451,7 +454,7 @@
       "edge_fidelity_status": "MATCH",
       "repair_required": false,
       "mismatch_reason": null,
-      "source_grounded_rationale": "Raw Phase 6A dependencies are preserved; required dependencies, optional representations, split-child traces, and planned seed dependencies are normalized separately."
+      "source_grounded_rationale": "Raw Phase 6A dependencies are preserved; final mechanical patch adds direct activation_lifecycle_required service_manifest_contract edges for manifest_required=true 6A.15 child seeds while keeping extraction and seed dependency counts distinct."
     },
     {
       "source_component_id": "6A.16",
@@ -558,6 +561,15 @@
       "optimization_fact_store",
       "projected_cost_alternative_calculator"
     ],
-    "foundry_bootstrap_verified": true
+    "foundry_bootstrap_verified": true,
+    "final_manifest_traceability_mechanical_patch": {
+      "status": "applied",
+      "added_extraction_edges": [
+        "seed_6a_projected_cost_alternative_calculator__to__seed_6a_service_manifest_contract",
+        "seed_6a_accepted_rejected_recommendation_evidence__to__seed_6a_service_manifest_contract",
+        "seed_6a_activation_deactivation_intercept_wizard__to__seed_6a_service_manifest_contract"
+      ],
+      "rationale": "Three manifest_required=true 6A.15 child seeds now directly depend on service_manifest_contract for Foundry traceability."
+    }
   }
 }
