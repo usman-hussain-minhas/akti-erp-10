@@ -30,3 +30,14 @@ Status: SPARK_PLATFORM_V4_1_PHASE_6A_SOURCE_COVERAGE_AUDIT_READY_FOR_REVIEW
 - 6A.14 now records a precise false/false rationale because no child sub-surface requires manifest traceability.
 - 6A.16 now records manifest_required=true with foundry_activation_required=false because all four AI governance child sub-surfaces require manifest traceability but are not tenant-toggleable marketplace services.
 - service_manifest_contract remains the manifest traceability target for activatable/configurable child surfaces; no blanket Foundry linkage was added.
+
+## Final Mechanical Patch - Source Coverage Manifest Rationale
+- Generic "Flags align for this source boundary." rationale count: 0.
+- Parent source rows now explain parent/child manifest and Foundry activation semantics.
+- Manifest-required parent rows identify why child-level service_manifest_contract traceability is required.
+
+## Final Mechanical Patch - Manifest Traceability Audit Drift
+- Manifest-required 6A.15 child seeds now directly depend on seed_6a_service_manifest_contract where sub-surface manifest_required=true requires Foundry traceability.
+- manifest_required=false sub-surfaces now have empty manifest_traceability_targets unless a documented exception exists; current exception count: 0.
+- ADL prose/ref mismatches: 0; no ADL edge was invented solely for coverage.
+- Extraction edges: 130; top-level seed dependency references: 122.

@@ -4,10 +4,12 @@ Status: SPARK_PLATFORM_V4_1_PHASE_6A_SUBSURFACE_CATALOG_AUDIT_READY_FOR_REVIEW
 
 
 ## Current Final State Summary
-
-- Sub-surfaces: 74
 - Source components: 18
-- Surfaces: 14
+- Sub-surfaces: 74
+- manifest_required=false sub-surfaces with non-empty manifest_traceability_targets: 0
+- No bootstrap/runtime authority is falsely modeled as activated by its own manifest contract.
+- Status: PASS, manifest boolean/target drift corrected.
+
 ## Summary
 
 - Surfaces: 14
@@ -77,7 +79,7 @@ wrapper-ticket risk was reduced by replacing broad 6A.12, 6A.14, and 6A.15 plann
 
 ## Semantic Gates Patch - New Split Seed Manifest Classification
 
-Current live state: 5 / 18 new split seeds require service_manifest_contract; 13 / 18 do not. This is intentional and not a validation failure.
+Current live state: 8 / 18 new split seeds directly require service_manifest_contract; 10 / 18 do not. service_manifest_contract itself remains a bootstrap/self-trace exception and does not depend on itself.
 
 | seed_id | source_component_id | requires_service_manifest_contract | classification | rationale |
 |---|---|---:|---|---|
@@ -95,7 +97,13 @@ Current live state: 5 / 18 new split seeds require service_manifest_contract; 13
 | seed_6a_virus_scan_quarantine | 6A.14 | false | safety/evidence lifecycle | Quarantine safety primitive. |
 | seed_6a_archive_version_boundary | 6A.14 | false | archive/version lifecycle | Retention/version boundary, not tenant-toggleable. |
 | seed_6a_optimization_fact_store | 6A.15 | true | configurable optimization service boundary | Service-aware optimization fact store requires manifest traceability. |
-| seed_6a_projected_cost_alternative_calculator | 6A.15 | false | internal calculation primitive | Depends on optimization facts and projected-cost primitives; not independently activatable. |
+| seed_6a_projected_cost_alternative_calculator | 6A.15 | true | configurable projected-cost alternative surface | Sub-surface manifest_required=true and Foundry traceability requires service_manifest_contract. |
 | seed_6a_dependency_aware_recommendation_log | 6A.15 | true | configurable recommendation evidence surface | Service dependency context requires manifest traceability. |
-| seed_6a_accepted_rejected_recommendation_evidence | 6A.15 | false | decision evidence primitive | Evidence record of recommendation choices. |
-| seed_6a_activation_deactivation_intercept_wizard | 6A.15 | false | lifecycle intercept primitive | Inherits Foundry lifecycle context through activation/dependency and recommendation seeds. |
+| seed_6a_accepted_rejected_recommendation_evidence | 6A.15 | true | evidence-bearing optimization surface | Sub-surface manifest_required=true and Foundry traceability requires service_manifest_contract. |
+| seed_6a_activation_deactivation_intercept_wizard | 6A.15 | true | Foundry lifecycle-adjacent intercept surface | Sub-surface manifest_required=true and Foundry traceability requires service_manifest_contract. |
+
+## Final Mechanical Patch - Manifest Traceability Audit Drift
+- Manifest-required 6A.15 child seeds now directly depend on seed_6a_service_manifest_contract where sub-surface manifest_required=true requires Foundry traceability.
+- manifest_required=false sub-surfaces now have empty manifest_traceability_targets unless a documented exception exists; current exception count: 0.
+- ADL prose/ref mismatches: 0; no ADL edge was invented solely for coverage.
+- Extraction edges: 130; top-level seed dependency references: 122.

@@ -688,18 +688,6 @@
             "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6a_core_update_foundation.md#6A.05",
             "edge_status": "applied",
             "adl_refs": []
-          },
-          {
-            "seed_id": null,
-            "type": "deferred_with_reason",
-            "edge_basis": "phase_doc_optional",
-            "hard_dependency_basis": null,
-            "upgrade_basis": null,
-            "condition": null,
-            "reason": "CRM/HR/LMS/Finance role extensions are later-phase role extensions and are deferred outside Phase 6A implementation dependencies.",
-            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6a_core_update_foundation.md",
-            "edge_status": "deferred_with_reason",
-            "adl_refs": []
           }
         ]
       }
@@ -1022,7 +1010,8 @@
             "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/subsurface_decomposition_guide.md#6A.08",
             "edge_status": "applied",
             "adl_refs": [
-              "ADL-001"
+              "ADL-001",
+              "ADL-002"
             ]
           }
         ],
@@ -2311,18 +2300,6 @@
             "source_authority_reference": "0_business_logic.md sections 5 and 6",
             "edge_status": "applied",
             "adl_refs": []
-          },
-          {
-            "seed_id": "seed_6a_infrastructure_runtime_foundation",
-            "type": "conditional_dependency",
-            "edge_basis": "phase_doc_optional",
-            "hard_dependency_basis": null,
-            "upgrade_basis": null,
-            "condition": "applies when Foundry activation lifecycle uses Phase 6A.02 feature-flag foundation",
-            "reason": "Feature flags from 6A.02 are conditional activation controls for Foundry lifecycle behavior.",
-            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6a_core_update_foundation.md",
-            "edge_status": "applied",
-            "adl_refs": []
           }
         ],
         "parent_required_dependency_trace": [
@@ -3250,18 +3227,6 @@
             "source_authority_reference": "0_business_logic.md sections 5 and 6",
             "edge_status": "applied",
             "adl_refs": []
-          },
-          {
-            "seed_id": null,
-            "type": "deferred_with_reason",
-            "edge_basis": "phase_doc_optional",
-            "hard_dependency_basis": null,
-            "upgrade_basis": null,
-            "condition": null,
-            "reason": "Provider adapters are later provider-specific implementations and are not Phase 6A dependency edges.",
-            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6a_core_update_foundation.md",
-            "edge_status": "deferred_with_reason",
-            "adl_refs": []
           }
         ],
         "catalog_order_patch_rationale": "Outbound gateway enforcement follows global opt-out registry so opt-out can be enforced; dependency direction unchanged.",
@@ -3805,18 +3770,6 @@
             "reason": "Webhook definition registry is provider-facing configuration and traces to service_manifest_contract.",
             "source_authority_reference": "0_business_logic.md sections 5 and 6",
             "edge_status": "applied",
-            "adl_refs": []
-          },
-          {
-            "seed_id": null,
-            "type": "deferred_with_reason",
-            "edge_basis": "phase_doc_optional",
-            "hard_dependency_basis": null,
-            "upgrade_basis": null,
-            "condition": null,
-            "reason": "Provider-specific adapters are later implementations; Phase 6A records API/webhook registries, validation, idempotency, retry, and rejection boundaries only.",
-            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6a_core_update_foundation.md",
-            "edge_status": "deferred_with_reason",
             "adl_refs": []
           }
         ],
@@ -5059,18 +5012,6 @@
             "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6a_core_update_foundation.md",
             "edge_status": "applied",
             "adl_refs": []
-          },
-          {
-            "seed_id": "seed_6a_custom_fields",
-            "type": "conditional_dependency",
-            "edge_basis": "phase_doc_optional",
-            "hard_dependency_basis": null,
-            "upgrade_basis": null,
-            "condition": "required when custom fields are indexed",
-            "reason": "6A.14 optional custom field indexing is conditional on 6A.13 custom_fields.",
-            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6a_core_update_foundation.md",
-            "edge_status": "applied",
-            "adl_refs": []
           }
         ],
         "wrapper_ticket_risk_status": "reduced_by_semantic_deepening",
@@ -5788,7 +5729,8 @@
       "mcr_expectation": "Planning placeholder only; future ticket MCR must be concrete and executable per Ticket Quality Doctrine.",
       "dependencies": [
         "seed_6a_projected_cost_calculator",
-        "seed_6a_optimization_fact_store"
+        "seed_6a_optimization_fact_store",
+        "seed_6a_service_manifest_contract"
       ],
       "dependency_reason": "Dependencies generated from dependency_extraction_matrix_v1.json and carry edge basis metadata, including parent-required traces and optional/deferred semantics where applicable.",
       "split_if": [
@@ -5827,6 +5769,18 @@
             "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6a_core_update_foundation.md",
             "edge_status": "applied",
             "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6a_service_manifest_contract",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "activation_lifecycle_required",
+            "hard_dependency_basis": "activation_lifecycle_required",
+            "upgrade_basis": null,
+            "reason": "Sub-surface manifest_required=true and Foundry traceability requires service_manifest_contract.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/0_business_logic.md",
+            "edge_status": "applied",
+            "adl_refs": []
           }
         ],
         "wrapper_ticket_risk_status": "reduced_by_semantic_deepening",
@@ -5844,9 +5798,9 @@
           {
             "source_required_dependency": "6A.10",
             "target_seed_id": "seed_6a_service_manifest_contract",
-            "inheritance_status": "satisfied_by_anchor_child",
-            "anchor_seed_id": "seed_6a_optimization_fact_store",
-            "reason": "Parent source dependency 6A.10 applies through anchor child seed_6a_optimization_fact_store; seed_6a_projected_cost_alternative_calculator remains split-specific to avoid blind dependency fan-out."
+            "inheritance_status": "inherited",
+            "anchor_seed_id": null,
+            "reason": "Parent source dependency 6A.10 now applies directly because this manifest_required=true sub-surface requires service_manifest_contract traceability."
           },
           {
             "source_required_dependency": "6A.13",
@@ -6004,7 +5958,8 @@
       "mcr_expectation": "Planning placeholder only; future ticket MCR must be concrete and executable per Ticket Quality Doctrine.",
       "dependencies": [
         "seed_6a_evidence_aggregation",
-        "seed_6a_dependency_aware_recommendation_log"
+        "seed_6a_dependency_aware_recommendation_log",
+        "seed_6a_service_manifest_contract"
       ],
       "dependency_reason": "Dependencies generated from dependency_extraction_matrix_v1.json and carry edge basis metadata, including parent-required traces and optional/deferred semantics where applicable.",
       "split_if": [
@@ -6043,6 +5998,18 @@
             "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6a_core_update_foundation.md",
             "edge_status": "applied",
             "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6a_service_manifest_contract",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "activation_lifecycle_required",
+            "hard_dependency_basis": "activation_lifecycle_required",
+            "upgrade_basis": null,
+            "reason": "Sub-surface manifest_required=true and Foundry traceability requires service_manifest_contract.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/0_business_logic.md",
+            "edge_status": "applied",
+            "adl_refs": []
           }
         ],
         "wrapper_ticket_risk_status": "reduced_by_semantic_deepening",
@@ -6060,9 +6027,9 @@
           {
             "source_required_dependency": "6A.10",
             "target_seed_id": "seed_6a_service_manifest_contract",
-            "inheritance_status": "satisfied_by_anchor_child",
-            "anchor_seed_id": "seed_6a_optimization_fact_store",
-            "reason": "Parent source dependency 6A.10 applies through anchor child seed_6a_optimization_fact_store; seed_6a_accepted_rejected_recommendation_evidence remains split-specific to avoid blind dependency fan-out."
+            "inheritance_status": "inherited",
+            "anchor_seed_id": null,
+            "reason": "Parent source dependency 6A.10 now applies directly because this manifest_required=true sub-surface requires service_manifest_contract traceability."
           },
           {
             "source_required_dependency": "6A.13",
@@ -6113,7 +6080,8 @@
       "dependencies": [
         "seed_6a_activation_dependency_resolution",
         "seed_6a_lifecycle_builder",
-        "seed_6a_dependency_aware_recommendation_log"
+        "seed_6a_dependency_aware_recommendation_log",
+        "seed_6a_service_manifest_contract"
       ],
       "dependency_reason": "Dependencies generated from dependency_extraction_matrix_v1.json and carry edge basis metadata, including parent-required traces and optional/deferred semantics where applicable.",
       "split_if": [
@@ -6164,6 +6132,18 @@
             "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6a_core_update_foundation.md",
             "edge_status": "applied",
             "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6a_service_manifest_contract",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "activation_lifecycle_required",
+            "hard_dependency_basis": "activation_lifecycle_required",
+            "upgrade_basis": null,
+            "reason": "Sub-surface manifest_required=true and Foundry traceability requires service_manifest_contract.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/0_business_logic.md",
+            "edge_status": "applied",
+            "adl_refs": []
           }
         ],
         "wrapper_ticket_risk_status": "reduced_by_semantic_deepening",
@@ -6181,9 +6161,9 @@
           {
             "source_required_dependency": "6A.10",
             "target_seed_id": "seed_6a_service_manifest_contract",
-            "inheritance_status": "satisfied_by_anchor_child",
-            "anchor_seed_id": "seed_6a_optimization_fact_store",
-            "reason": "Parent source dependency 6A.10 applies through anchor child seed_6a_optimization_fact_store; seed_6a_activation_deactivation_intercept_wizard remains split-specific to avoid blind dependency fan-out."
+            "inheritance_status": "inherited",
+            "anchor_seed_id": null,
+            "reason": "Parent source dependency 6A.10 now applies directly because this manifest_required=true sub-surface requires service_manifest_contract traceability."
           },
           {
             "source_required_dependency": "6A.13",
@@ -6296,18 +6276,6 @@
             "upgrade_basis": null,
             "reason": "Model Routing requires manifest/registry traceability to service_manifest_contract; foundry_runtime_authority is not used as default substitute.",
             "source_authority_reference": "0_business_logic.md sections 5 and 6",
-            "edge_status": "applied",
-            "adl_refs": []
-          },
-          {
-            "seed_id": "seed_6a_ai_configuration_wizard_foundation",
-            "type": "conditional_dependency",
-            "edge_basis": "phase_doc_optional",
-            "hard_dependency_basis": null,
-            "upgrade_basis": null,
-            "condition": "required when AI workflow wizard configuration is enabled",
-            "reason": "6A.16 optional AI workflow wizard support is conditional on the 6A.13 AI configuration wizard foundation.",
-            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6a_core_update_foundation.md",
             "edge_status": "applied",
             "adl_refs": []
           }
@@ -6732,18 +6700,6 @@
             "upgrade_basis": null,
             "condition": null,
             "reason": "6A.17 requires 6A.15; base admin setup consumes the optimization fact store for projected setup/cost guidance.",
-            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6a_core_update_foundation.md",
-            "edge_status": "applied",
-            "adl_refs": []
-          },
-          {
-            "seed_id": "seed_6a_model_routing",
-            "type": "conditional_dependency",
-            "edge_basis": "phase_doc_optional",
-            "hard_dependency_basis": null,
-            "upgrade_basis": null,
-            "condition": "required when limited AI assistance is enabled during base admin setup",
-            "reason": "6A.17 optional limited AI assistance is conditional on 6A.16 AI proxy governance.",
             "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6a_core_update_foundation.md",
             "edge_status": "applied",
             "adl_refs": []

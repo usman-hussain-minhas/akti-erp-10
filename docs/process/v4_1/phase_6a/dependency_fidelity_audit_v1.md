@@ -81,3 +81,14 @@ wrapper-ticket risk was reduced by replacing broad 6A.12, 6A.14, and 6A.15 plann
 - 6A.14 split result: search_indexing, custom_field_indexing_hook, file_metadata_registry, share_link_management, preview_generation, virus_scan_quarantine, archive_version_boundary.
 - 6A.15 split result: optimization_fact_store, projected_cost_alternative_calculator, dependency_aware_recommendation_log, accepted_rejected_recommendation_evidence, activation_deactivation_intercept_wizard.
 - Stale broad IDs are not retained as active sub-surfaces or seeds.
+
+## Final Mechanical Patch - Dependency Fidelity Count Separation
+- 6A.15 dependency fidelity now includes the three added activation_lifecycle_required service_manifest_contract extraction edges.
+- Extraction edges: 130; extraction edge distribution: {"hard_dependency":122,"deferred_with_reason":3,"conditional_dependency":4,"manual_review_required":1}.
+- Top-level seed dependency references: 122; reported separately from extraction edge counts.
+
+## Final Mechanical Patch - Manifest Traceability Audit Drift
+- Manifest-required 6A.15 child seeds now directly depend on seed_6a_service_manifest_contract where sub-surface manifest_required=true requires Foundry traceability.
+- manifest_required=false sub-surfaces now have empty manifest_traceability_targets unless a documented exception exists; current exception count: 0.
+- ADL prose/ref mismatches: 0; no ADL edge was invented solely for coverage.
+- Extraction edges: 130; top-level seed dependency references: 122.
