@@ -1,0 +1,121 @@
+{
+  "schema": "spark_platform_v4_1_surface_catalog_v1",
+  "status": "READY",
+  "phase": "6f",
+  "source_authority": [
+    "AGENTS.md",
+    "docs/doctrine/AKTI_ERP_Ticket_Quality_Doctrine_v1.md",
+    "docs/process/core/v0_0_2/spark_platform_v4_1/0_business_logic.md",
+    "docs/process/core/v0_0_2/spark_platform_v4_1/subsurface_decomposition_guide.md",
+    "docs/process/v4_1/phase_6a",
+    "docs/process/v4_1/phase_zero_trust_mechanical_audit_v1.md",
+    "scripts/quality/check_phase_zero_trust_mechanical_audit.mjs",
+    "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md"
+  ],
+  "surfaces": [
+    {
+      "surface_id": "surface_6f_01_ai_context_broker_and_evidence_readiness_layer",
+      "source_component_id": "6F.01",
+      "name": "AI Context Broker and Evidence Readiness Layer",
+      "surface_type": "Candidate intelligence service",
+      "required_dependencies_raw": "6A.16, 6A.07, 6A.09, 6B, 6C, 6D, 6E",
+      "optional_dependencies_raw": "None",
+      "decomposition_result": "split_into_subsurfaces",
+      "decomposition_rationale": "Split per provider, channel, standard, lifecycle, role, ADL, toggleability, billing, evidence, or versioning axis from the sub-surface decomposition guide.",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "surface_id": "surface_6f_02_ai_business_consultant",
+      "source_component_id": "6F.02",
+      "name": "AI Business Consultant",
+      "surface_type": "Candidate tenant service",
+      "required_dependencies_raw": "6F.01, 6A.16, 6A.06",
+      "optional_dependencies_raw": "None",
+      "decomposition_result": "split_into_subsurfaces",
+      "decomposition_rationale": "Split per provider, channel, standard, lifecycle, role, ADL, toggleability, billing, evidence, or versioning axis from the sub-surface decomposition guide.",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "surface_id": "surface_6f_03_proactive_ai_optimization_intelligence",
+      "source_component_id": "6F.03",
+      "name": "Proactive AI Optimization Intelligence",
+      "surface_type": "Candidate optional AI micro-service",
+      "required_dependencies_raw": "6F.02, 6A.15",
+      "optional_dependencies_raw": "None",
+      "decomposition_result": "split_into_subsurfaces",
+      "decomposition_rationale": "Split per provider, channel, standard, lifecycle, role, ADL, toggleability, billing, evidence, or versioning axis from the sub-surface decomposition guide.",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "surface_id": "surface_6f_04_prediction_after_action_review_and_collective_intelligence",
+      "source_component_id": "6F.04",
+      "name": "Prediction, After-Action Review, and Collective Intelligence",
+      "surface_type": "Candidate optional service cluster",
+      "required_dependencies_raw": "6F.02, 6F.03",
+      "optional_dependencies_raw": "Opt-in cohort intelligence settings",
+      "decomposition_result": "split_into_subsurfaces",
+      "decomposition_rationale": "Split per provider, channel, standard, lifecycle, role, ADL, toggleability, billing, evidence, or versioning axis from the sub-surface decomposition guide.",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "surface_id": "surface_6f_05_advanced_admin_support_and_diagnostics",
+      "source_component_id": "6F.05",
+      "name": "Advanced Admin, Support, and Diagnostics",
+      "surface_type": "Candidate Super Admin/Tenant Admin service cluster",
+      "required_dependencies_raw": "6A.17, 6C.05, 6E.08",
+      "optional_dependencies_raw": "6F.02 AI assist",
+      "decomposition_result": "split_into_subsurfaces",
+      "decomposition_rationale": "Split per provider, channel, standard, lifecycle, role, ADL, toggleability, billing, evidence, or versioning axis from the sub-surface decomposition guide.",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "surface_id": "surface_6f_06_ai_concierge_and_advanced_onboarding",
+      "source_component_id": "6F.06",
+      "name": "AI Concierge and Advanced Onboarding",
+      "surface_type": "Candidate tenant onboarding service",
+      "required_dependencies_raw": "6A.17, 6F.02, 6E.08",
+      "optional_dependencies_raw": "6E.05 demo store data if active",
+      "decomposition_result": "split_into_subsurfaces",
+      "decomposition_rationale": "Split per provider, channel, standard, lifecycle, role, ADL, toggleability, billing, evidence, or versioning axis from the sub-surface decomposition guide.",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "surface_id": "surface_6f_07_documentation_community_training_and_data_migration_workbench",
+      "source_component_id": "6F.07",
+      "name": "Documentation, Community, Training, and Data Migration Workbench",
+      "surface_type": "Candidate admin/support service",
+      "required_dependencies_raw": "6F.05, 6A.14, 6A.13",
+      "optional_dependencies_raw": "6F.02 AI help",
+      "decomposition_result": "split_into_subsurfaces",
+      "decomposition_rationale": "Split per provider, channel, standard, lifecycle, role, ADL, toggleability, billing, evidence, or versioning axis from the sub-surface decomposition guide.",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "surface_id": "surface_6f_08_advanced_design_polish_and_experience_quality_system",
+      "source_component_id": "6F.08",
+      "name": "Advanced Design Polish and Experience Quality System",
+      "surface_type": "Candidate UI/system layer",
+      "required_dependencies_raw": "6A.18, 6E.08, 6F.05",
+      "optional_dependencies_raw": "6F.02 for AI-assisted UX hints",
+      "decomposition_result": "split_into_subsurfaces",
+      "decomposition_rationale": "Split per provider, channel, standard, lifecycle, role, ADL, toggleability, billing, evidence, or versioning axis from the sub-surface decomposition guide.",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    }
+  ]
+}
