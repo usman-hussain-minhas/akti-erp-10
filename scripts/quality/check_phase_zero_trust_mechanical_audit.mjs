@@ -32,8 +32,13 @@ const ALLOWED_HARD_DEPENDENCY_BASIS = new Set([
   'manual_decision'
 ]);
 
+function printAndExit(status, output, code) {
+  console.log(JSON.stringify(output, null, 2));
+  process.exit(code);
+}
+
 function usageError(message) {
-  const out = {
+  printAndExit('ERROR', {
     phase: null,
     phase_root: null,
     counts: {},
@@ -41,17 +46,17 @@ function usageError(message) {
     assertions: [],
     overall: 'ERROR',
     error: { type: 'usage', message }
-  };
-  console.log(JSON.stringify(out, null, 2));
-  process.exit(2);
+  }, 2);
 }
 
 function parseArgs(argv) {
-  const args = { json: false, strict: false };
+  const args = { json: false, strict: false, externalPhaseRoots: [] };
   for (let i = 0; i < argv.length; i += 1) {
     const arg = argv[i];
     if (arg === '--phase-root') args.phaseRoot = argv[++i];
     else if (arg === '--phase') args.phase = argv[++i];
+    else if (arg === '--external-phase-root') args.externalPhaseRoots.push(argv[++i]);
+    else if (arg === '--manifest-seed-id') args.manifestSeedId = argv[++i];
     else if (arg === '--json') args.json = true;
     else if (arg === '--strict') args.strict = true;
     else usageError(`Unknown argument: ${arg}`);
@@ -65,14 +70,15 @@ const args = parseArgs(process.argv.slice(2));
 const phaseRoot = path.resolve(process.cwd(), args.phaseRoot);
 const phase = String(args.phase).toLowerCase();
 const phaseLabel = phase.toUpperCase();
-const serviceManifestSeedId = `seed_${phase}_service_manifest_contract`;
+const manifestSeedId = args.manifestSeedId || `seed_${phase}_service_manifest_contract`;
+const externalPhaseRoots = args.externalPhaseRoots.map(root => path.resolve(process.cwd(), root));
 
 function filePath(name) {
   return path.join(phaseRoot, name);
 }
 
 function errorExit(type, message, details = {}) {
-  const out = {
+  printAndExit('ERROR', {
     phase,
     phase_root: phaseRoot,
     counts: {},
@@ -80,9 +86,7 @@ function errorExit(type, message, details = {}) {
     assertions: [],
     overall: 'ERROR',
     error: { type, message, ...details }
-  };
-  console.log(JSON.stringify(out, null, 2));
-  process.exit(2);
+  }, 2);
 }
 
 for (const file of REQUIRED_FILES) {
@@ -95,11 +99,27 @@ function readText(file) {
   return fs.readFileSync(filePath(file), 'utf8');
 }
 
+function readExternalText(root, file) {
+  return fs.readFileSync(path.join(root, file), 'utf8');
+}
+
 function readJson(file) {
   try {
     return JSON.parse(readText(file));
   } catch (error) {
     errorExit('json_parse', `Failed to parse JSON file: ${file}`, { file, cause: error.message });
+  }
+}
+
+function readExternalJson(root, file) {
+  const fullPath = path.join(root, file);
+  if (!fs.existsSync(fullPath)) {
+    errorExit('missing_external_file', `External phase root is missing required file: ${file}`, { phase_root: root, file });
+  }
+  try {
+    return JSON.parse(readExternalText(root, file));
+  } catch (error) {
+    errorExit('json_parse', `Failed to parse external JSON file: ${file}`, { phase_root: root, file, cause: error.message });
   }
 }
 
@@ -122,6 +142,18 @@ const sourceRows = arrayField(sourceCoverage, ['rows', 'source_components', 'com
 const subsurfaces = arrayField(subsurfaceCatalog, ['subsurfaces', 'sub_surfaces', 'rows']);
 const extractionEdges = arrayField(dependencyExtraction, ['edges', 'dependency_edges', 'rows']);
 const seeds = arrayField(executionSeedMatrix, ['seeds', 'execution_seeds', 'rows']);
+
+const externalSeedById = new Map();
+const externalSeedCountByRoot = {};
+for (const externalRoot of externalPhaseRoots) {
+  const externalMatrix = readExternalJson(externalRoot, 'execution_seed_matrix_v1.json');
+  const externalSeeds = arrayField(externalMatrix, ['seeds', 'execution_seeds', 'rows']);
+  externalSeedCountByRoot[externalRoot] = externalSeeds.length;
+  for (const seed of externalSeeds) {
+    if (!seed?.seed_id) continue;
+    if (!externalSeedById.has(seed.seed_id)) externalSeedById.set(seed.seed_id, { seed, phase_root: externalRoot });
+  }
+}
 
 const seedById = new Map(seeds.map(seed => [seed.seed_id, seed]));
 const seedIds = new Set(seeds.map(seed => seed.seed_id));
@@ -150,6 +182,12 @@ function equalSets(a, b) {
   for (const value of a) if (!b.has(value)) return false;
   return true;
 }
+function resolvesSeed(seedId) {
+  return seedById.has(seedId) || externalSeedById.has(seedId);
+}
+function isExternalSeed(seedId) {
+  return !seedById.has(seedId) && externalSeedById.has(seedId);
+}
 function extractionDistribution() {
   return extractionEdges.reduce((acc, edge) => {
     const type = edgeType(edge) || 'unknown';
@@ -159,6 +197,18 @@ function extractionDistribution() {
 }
 function seedDependencyReferenceCount() {
   return seeds.reduce((total, seed) => total + (seed.dependencies || []).length, 0);
+}
+function externalDependencyReferenceCount() {
+  return seeds.reduce((total, seed) => total + (seed.dependencies || []).filter(isExternalSeed).length, 0);
+}
+function unresolvedTopLevelDependencies() {
+  const unresolved = [];
+  for (const seed of seeds) {
+    for (const dependency of seed.dependencies || []) {
+      if (!resolvesSeed(dependency)) unresolved.push({ seed_id: seed.seed_id, dependency });
+    }
+  }
+  return unresolved;
 }
 function adlRefsInText(text) {
   const refs = [];
@@ -209,27 +259,43 @@ function sourceRowHasRequiredDependencies(row) {
     .map(subsurface => ({ subsurface_id: subsurface.subsurface_id, manifest_traceability_targets: subsurface.manifest_traceability_targets }));
   failures.length ? fail('A3', failures) : pass('A3', 'Every manifest_required=false sub-surface has empty manifest_traceability_targets.');
 }
+const manifestRequiredSatisfaction = { local: 0, external: 0, missing: 0, not_required: 0 };
 {
   const failures = [];
   for (const seed of seeds) {
-    if (seed.seed_id === serviceManifestSeedId) continue;
     const subsurface = subsurfaceById.get(seed.subsurface_id);
-    if (subsurface?.manifest_required === true && !(seed.dependencies || []).includes(serviceManifestSeedId)) {
-      failures.push({ seed_id: seed.seed_id, subsurface_id: seed.subsurface_id, required_dependency: serviceManifestSeedId });
+    if (subsurface?.manifest_required !== true) {
+      manifestRequiredSatisfaction.not_required += 1;
+      continue;
+    }
+    if (seed.seed_id === manifestSeedId) {
+      if (seedById.has(manifestSeedId)) manifestRequiredSatisfaction.local += 1;
+      else if (externalSeedById.has(manifestSeedId)) manifestRequiredSatisfaction.external += 1;
+      else manifestRequiredSatisfaction.missing += 1;
+      continue;
+    }
+    if ((seed.dependencies || []).includes(manifestSeedId) && seedById.has(manifestSeedId)) manifestRequiredSatisfaction.local += 1;
+    else if ((seed.dependencies || []).includes(manifestSeedId) && externalSeedById.has(manifestSeedId)) manifestRequiredSatisfaction.external += 1;
+    else {
+      manifestRequiredSatisfaction.missing += 1;
+      failures.push({ seed_id: seed.seed_id, subsurface_id: seed.subsurface_id, required_dependency: manifestSeedId, manifest_seed_resolves: resolvesSeed(manifestSeedId) });
     }
   }
-  failures.length ? fail('A4', failures) : pass('A4', `Every manifest_required=true seed depends on ${serviceManifestSeedId}, except ${serviceManifestSeedId} itself.`);
+  failures.length ? fail('A4', failures) : pass('A4', `Every manifest_required=true seed is satisfied by manifest seed ${manifestSeedId}.`);
 }
 
 // Category B - Dependency chain integrity.
 {
   const failures = [];
+  const unresolved = unresolvedTopLevelDependencies();
+  if (unresolved.length) failures.push({ unresolved_dependencies: unresolved });
   const visiting = new Set();
   const visited = new Set();
   const stack = [];
   function dfs(seedId) {
+    if (externalSeedById.has(seedId) && !seedById.has(seedId)) return;
     if (visiting.has(seedId)) {
-      failures.push(stack.concat(seedId).join(' -> '));
+      failures.push({ cycle: stack.concat(seedId).join(' -> ') });
       return;
     }
     if (visited.has(seedId)) return;
@@ -238,13 +304,14 @@ function sourceRowHasRequiredDependencies(row) {
     const seed = seedById.get(seedId);
     for (const dependency of seed?.dependencies || []) {
       if (seedById.has(dependency)) dfs(dependency);
+      else if (externalSeedById.has(dependency)) continue;
     }
     stack.pop();
     visiting.delete(seedId);
     visited.add(seedId);
   }
   for (const seed of seeds) dfs(seed.seed_id);
-  failures.length ? fail('B1', failures) : pass('B1', 'DFS cycle detection found no seed dependency cycles.');
+  failures.length ? fail('B1', failures) : pass('B1', 'DFS cycle detection found no local seed dependency cycles; external seeds are terminal resolved nodes.');
 }
 {
   const extractionHardPairs = new Set(
@@ -256,8 +323,21 @@ function sourceRowHasRequiredDependencies(row) {
   for (const seed of seeds) for (const dependency of seed.dependencies || []) seedDependencyPairs.add(`${seed.seed_id}->${dependency}`);
   const extractionNotInSeeds = [...extractionHardPairs].filter(pair => !seedDependencyPairs.has(pair));
   const seedNotInExtraction = [...seedDependencyPairs].filter(pair => !extractionHardPairs.has(pair));
-  const failures = { extraction_hard_edges_not_in_seed_dependencies: extractionNotInSeeds, seed_dependencies_not_in_extraction_hard_edges: seedNotInExtraction };
-  extractionNotInSeeds.length || seedNotInExtraction.length ? fail('B2', failures) : pass('B2', 'Extraction hard edges and top-level seed dependencies match bidirectionally.');
+  const unresolvedHardEdgeTargets = extractionEdges
+    .filter(edge => edgeType(edge) === 'hard_dependency' && edge.target_seed_id && !resolvesSeed(edge.target_seed_id))
+    .map(edge => ({ dependency_edge_id: edge.dependency_edge_id, target_seed_id: edge.target_seed_id }));
+  const unresolvedHardEdgeSources = extractionEdges
+    .filter(edge => edgeType(edge) === 'hard_dependency' && edge.source_seed_id && !seedById.has(edge.source_seed_id))
+    .map(edge => ({ dependency_edge_id: edge.dependency_edge_id, source_seed_id: edge.source_seed_id }));
+  const failures = {
+    extraction_hard_edges_not_in_seed_dependencies: extractionNotInSeeds,
+    seed_dependencies_not_in_extraction_hard_edges: seedNotInExtraction,
+    unresolved_hard_edge_targets: unresolvedHardEdgeTargets,
+    unresolved_or_nonlocal_hard_edge_sources: unresolvedHardEdgeSources
+  };
+  extractionNotInSeeds.length || seedNotInExtraction.length || unresolvedHardEdgeTargets.length || unresolvedHardEdgeSources.length
+    ? fail('B2', failures)
+    : pass('B2', 'Extraction hard edges and top-level seed dependencies match bidirectionally; hard targets may resolve locally or externally.');
 }
 {
   const failures = [];
@@ -410,6 +490,7 @@ const categoryStatus = {
   E: assertions.filter(assertion => assertion.id.startsWith('E')).every(assertion => assertion.status === 'PASS') ? 'PASS' : 'FAIL'
 };
 const overall = Object.values(categoryStatus).every(status => status === 'PASS') ? 'PASS' : 'FAIL';
+const unresolvedDependencies = unresolvedTopLevelDependencies();
 const summary = {
   phase,
   phase_root: phaseRoot,
@@ -417,6 +498,10 @@ const summary = {
     source_components: sourceRows.length,
     subsurfaces: subsurfaces.length,
     seeds: seeds.length,
+    local_seed_count: seeds.length,
+    external_seed_count_by_root: externalSeedCountByRoot,
+    external_dependency_reference_count: externalDependencyReferenceCount(),
+    unresolved_external_dependency_count: unresolvedDependencies.length,
     extraction_edges: extractionEdges.length,
     extraction_edge_distribution: extractionDistribution(),
     seed_dependency_references: seedDependencyReferenceCount(),
@@ -425,6 +510,9 @@ const summary = {
     manifest_required_false_empty_targets: subsurfaces.filter(subsurface => subsurface.manifest_required === false && (subsurface.manifest_traceability_targets || []).length === 0).length,
     manifest_required_false_with_targets: subsurfaces.filter(subsurface => subsurface.manifest_required === false && (subsurface.manifest_traceability_targets || []).length > 0).length
   },
+  manifest_seed_id: manifestSeedId,
+  manifest_required_satisfaction: manifestRequiredSatisfaction,
+  unresolved_external_dependencies: unresolvedDependencies,
   category_status: categoryStatus,
   assertions,
   overall

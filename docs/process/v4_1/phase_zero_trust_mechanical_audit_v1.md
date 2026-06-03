@@ -89,6 +89,57 @@ Category E - Inheritance trace completeness:
 - Split-child seeds with parent required dependencies must include `akti_local.parent_required_dependency_trace`.
 - Inherited traces must point to real top-level dependencies, anchor-child traces must resolve to existing seeds, and every trace must include a reason.
 
+## External Phase Dependency Context
+
+Phase 6B-6F lifecycle artifacts may depend on finalized Phase 6A seed IDs. Examples include service manifest, Gatekeeper, audit, outbox, event bus, saga, opt-out, and outbound gateway seeds. These dependencies must resolve against supplied external phase roots rather than forcing every later phase to invent a fake local service manifest seed.
+
+Use repeatable external phase roots:
+
+```bash
+--external-phase-root docs/process/v4_1/phase_6a
+```
+
+Use `--manifest-seed-id` when a later phase must satisfy manifest traceability through finalized Phase 6A:
+
+```bash
+--manifest-seed-id seed_6a_service_manifest_contract
+```
+
+For Phase 6B:
+
+```bash
+node scripts/quality/check_phase_zero_trust_mechanical_audit.mjs \
+  --phase-root docs/process/v4_1/phase_6b \
+  --phase 6b \
+  --external-phase-root docs/process/v4_1/phase_6a \
+  --manifest-seed-id seed_6a_service_manifest_contract \
+  --json
+```
+
+For Phase 6F:
+
+```bash
+node scripts/quality/check_phase_zero_trust_mechanical_audit.mjs \
+  --phase-root docs/process/v4_1/phase_6f \
+  --phase 6f \
+  --external-phase-root docs/process/v4_1/phase_6a \
+  --external-phase-root docs/process/v4_1/phase_6b \
+  --external-phase-root docs/process/v4_1/phase_6c \
+  --external-phase-root docs/process/v4_1/phase_6d \
+  --external-phase-root docs/process/v4_1/phase_6e \
+  --manifest-seed-id seed_6a_service_manifest_contract \
+  --json
+```
+
+Rules:
+
+- 6B-6F must use finalized Phase 6A service manifest, Gatekeeper, audit, outbox, event bus, saga, opt-out, and outbound gateway seeds where applicable.
+- The script must not force fake local manifest seeds such as `seed_6b_service_manifest_contract`, `seed_6c_service_manifest_contract`, `seed_6d_service_manifest_contract`, `seed_6e_service_manifest_contract`, or `seed_6f_service_manifest_contract` when finalized Phase 6A manifest authority is supplied.
+- External dependencies are allowed only when they resolve in supplied external phase roots.
+- Unknown external dependencies are blockers.
+- External seeds are treated as terminal resolved nodes for current-phase DFS cycle detection.
+- This script is still a mechanical validation gate only. It is not a ticket generator and does not authorize predictive stop analysis, autonomous readiness, execution prompts, or ticket execution.
+
 ## Mandatory Future Lifecycle Gate
 
 Every future Phase 6B-6F lifecycle must run this script after each execution seed matrix is created and before readiness is considered final.
