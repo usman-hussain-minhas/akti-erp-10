@@ -1,21 +1,39 @@
-# Spark Platform v4.1 6B Source Coverage Audit v1
+# Phase 6B Source Coverage Audit v1
 
-Status: SPARK_PLATFORM_V4_1_PHASE_6B_SOURCE_COVERAGE_AUDIT_READY_FOR_REVIEW
+Status: READY
 
-## Summary
+## Current Final State Summary
 
-- Source components: 15 / 15
-- Coverage gaps: 0
-- Source table fields preserved.
-- Manifest and Foundry traceability rationale recorded.
+Source components: 15
+Sub-surfaces: 102
+Seeds: 102
+Dependency edges: 473
+Extraction edges: 473
+Extraction edge distribution: hard_dependency=465 / deferred_with_reason=0 / conditional_dependency=0 / manual_review_required=8
+Top-level seed dependency references: 465
+Root seeds: 0
+Current root seeds: []
+
+
+Source components: 15
+Sub-surfaces: 102
+Seeds: 102
+Dependency edges: 473
+Extraction edges: 473
+Extraction edge distribution: hard_dependency=465 / deferred_with_reason=0 / conditional_dependency=0 / manual_review_required=8
+Top-level seed dependency references: 465
+Root seed count: 0
+Current root seeds: []
 
 ## Checks
 
-- PASS: source component count verified from live source doc.
-- PASS: required and optional dependency fields preserved.
-- PASS: emits, consumes, activation/lifecycle, and billing/evidence fields preserved.
-- PASS: ticket generation remains forbidden.
+- expected_source_rows: 15
+- actual_source_rows: 15
+- missing_source_rows: []
+- extra_source_rows: []
+- raw source fields preserved: PASS
+- ticket_generation_allowed true count: 0
+- ticket_pack_generation_allowed true count: 0
+- execution_authorized true count: 0
 
-## Self-Heal Attempts
-
-- None. Stage reached READY without self-heal.
+Result: READY

@@ -1,19 +1,32 @@
-# Spark Platform v4.1 6B Dependency Fidelity Audit v1
+# Phase 6B Dependency Fidelity Audit v1
 
-Status: SPARK_PLATFORM_V4_1_PHASE_6B_DEPENDENCY_FIDELITY_AUDIT_READY_FOR_REVIEW
+Status: READY
 
-## Summary
+## Current Final State Summary
 
-- Source components checked: 15
-- Dependency fidelity blockers: 0
-- Dependency fidelity result: READY
+Source components: 15
+Sub-surfaces: 102
+Seeds: 102
+Dependency edges: 473
+Extraction edges: 473
+Extraction edge distribution: hard_dependency=465 / deferred_with_reason=0 / conditional_dependency=0 / manual_review_required=8
+Top-level seed dependency references: 465
+Root seeds: 0
+Current root seeds: []
 
-## Checks
 
-- PASS: source required dependencies are represented as hard dependencies.
-- PASS: optional dependencies are preserved as non-hard edges.
-- PASS: dependency order follows phase and component topology.
+Source components: 15
+Sub-surfaces: 102
+Seeds: 102
+Dependency edges: 473
+Extraction edges: 473
+Extraction edge distribution: hard_dependency=465 / deferred_with_reason=0 / conditional_dependency=0 / manual_review_required=8
+Top-level seed dependency references: 465
+Root seed count: 0
+Current root seeds: []
 
-## Self-Heal Attempts
-
-- None. Stage reached READY without self-heal.
+Four-way comparison rows: 15
+Self-attestation rows: 0
+edge_fidelity_status MATCH rows: 15
+repair_required true rows: 0
+Result: READY

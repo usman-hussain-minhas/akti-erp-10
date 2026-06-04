@@ -1,19 +1,33 @@
-# Spark Platform v4.1 6B Surface Catalog Audit v1
+# Phase 6B Surface Catalog Audit v1
 
-Status: SPARK_PLATFORM_V4_1_PHASE_6B_SURFACE_CATALOG_AUDIT_READY_FOR_REVIEW
+Status: READY
 
-## Summary
+## Current Final State Summary
 
-- Source components: 15
-- Surfaces: 15
-- Surface catalog result: READY
+Source components: 15
+Sub-surfaces: 102
+Seeds: 102
+Dependency edges: 473
+Extraction edges: 473
+Extraction edge distribution: hard_dependency=465 / deferred_with_reason=0 / conditional_dependency=0 / manual_review_required=8
+Top-level seed dependency references: 465
+Root seeds: 0
+Current root seeds: []
 
-## Checks
 
-- PASS: each source component has one parent surface.
-- PASS: no ticket generation or execution authority was introduced.
-- PASS: surface rows preserve required and optional dependency raw text.
+Source components: 15
+Sub-surfaces: 102
+Seeds: 102
+Dependency edges: 473
+Extraction edges: 473
+Extraction edge distribution: hard_dependency=465 / deferred_with_reason=0 / conditional_dependency=0 / manual_review_required=8
+Top-level seed dependency references: 465
+Root seed count: 0
+Current root seeds: []
 
-## Self-Heal Attempts
+Surface count: 15
+Catalog order gapless: PASS
+Source rows mapped to surfaces: PASS
+No ticket generation authorized: PASS
 
-- None. Stage reached READY without self-heal.
+Result: READY
