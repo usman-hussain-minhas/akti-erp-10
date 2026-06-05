@@ -1,0 +1,51 @@
+{
+  "schema": "akti_spark_phase_6b_executable_ticket_dependency_graph.v1",
+  "version": "v17",
+  "status": "PASS_ACYCLIC_SCHEMA_CONTROL_GRAPH",
+  "node_count": 4,
+  "edge_count": 3,
+  "cycle_count": 0,
+  "nodes": [
+    {
+      "ticket_id": "P6B-SCHEMA-001",
+      "title": "Create Phase 6B commerce schema model contract for final approval",
+      "ticketability_status": "EXECUTABLE_REVIEW_READY",
+      "type": "schema_control_decision_ticket"
+    },
+    {
+      "ticket_id": "P6B-SCHEMA-002",
+      "title": "Implement approved Phase 6B Prisma schema baseline and registry metadata",
+      "ticketability_status": "BLOCKED_PENDING_P6B_SCHEMA_001_APPROVAL",
+      "type": "schema_implementation_ticket_candidate"
+    },
+    {
+      "ticket_id": "P6B-SCHEMA-003",
+      "title": "Regenerate Phase 6B contract and NestJS runtime ownership from approved schema baseline",
+      "ticketability_status": "BLOCKED_PENDING_P6B_SCHEMA_002",
+      "type": "schema_runtime_alignment_ticket_candidate"
+    },
+    {
+      "ticket_id": "P6B-SCHEMA-004",
+      "title": "Regenerate Phase 6B capability implementation tickets after schema baseline",
+      "ticketability_status": "BLOCKED_PENDING_P6B_SCHEMA_003",
+      "type": "ticket_pack_regeneration_gate"
+    }
+  ],
+  "edges": [
+    {
+      "from_ticket_id": "P6B-SCHEMA-002",
+      "to_dependency_ticket_id": "P6B-SCHEMA-001",
+      "edge_type": "requires_before_execution"
+    },
+    {
+      "from_ticket_id": "P6B-SCHEMA-003",
+      "to_dependency_ticket_id": "P6B-SCHEMA-002",
+      "edge_type": "requires_before_execution"
+    },
+    {
+      "from_ticket_id": "P6B-SCHEMA-004",
+      "to_dependency_ticket_id": "P6B-SCHEMA-003",
+      "edge_type": "requires_before_execution"
+    }
+  ]
+}
