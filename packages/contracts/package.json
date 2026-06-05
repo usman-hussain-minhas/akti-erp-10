@@ -60,7 +60,8 @@
   },
   "scripts": {
     "build": "pnpm exec tsc -p tsconfig.build.json",
-    "contracts:validate": "node scripts/validate-contracts.mjs"
+    "contracts:validate": "node scripts/validate-contracts.mjs && pnpm exec tsx scripts/validate_phase_6b_contracts.mjs",
+    "contracts:validate:phase-6b": "pnpm exec tsx scripts/validate_phase_6b_contracts.mjs"
   },
   "dependencies": {
     "zod": "^4.1.12"

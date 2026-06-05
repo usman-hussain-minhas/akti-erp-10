@@ -1,0 +1,2937 @@
+{
+  "schema": "akti_spark_phase_6b_runtime_scaffold_discovery_matrix.v1",
+  "status": "PHASE_6B_V13_RUNTIME_SCAFFOLD_DISCOVERY_READY_FOR_REVIEW",
+  "phase": "6b",
+  "source_version": "v12_production_ticket_planning_draft",
+  "row_count": 103,
+  "status_distribution": {
+    "SCAFFOLD_TICKET_REQUIRED": 103
+  },
+  "ticket_generation_allowed": false,
+  "ticket_pack_generation_allowed": false,
+  "execution_authorized": false,
+  "repo_pattern_summary": {
+    "contracts": {
+      "existing_contract_examples": [
+        "packages/contracts/lead-desk-core.contract.ts",
+        "packages/contracts/engagement-gateway-lite.contract.ts",
+        "packages/contracts/module-manifest.schema.ts"
+      ],
+      "existing_manifest_examples": [
+        "packages/contracts/lead-desk-core.module-manifest.contract.ts",
+        "packages/contracts/engagement-gateway-lite.module-manifest.contract.ts",
+        "packages/contracts/access-core.module-manifest.contract.ts"
+      ],
+      "phase_6b_contracts_found": [],
+      "phase_6b_manifests_found": []
+    },
+    "api": {
+      "existing_nestjs_examples": [
+        "apps/api/src/lead-desk/lead-desk.controller.ts",
+        "apps/api/src/lead-desk/lead-desk.service.ts",
+        "apps/api/src/configuration/configuration.module.ts"
+      ],
+      "platform_dependency_examples": [
+        "apps/api/src/access-core/access-core.service.ts",
+        "apps/api/src/gatekeeper/gatekeeper-preflight.service.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts",
+        "apps/api/src/engagement-gateway/engagement-gateway.service.ts",
+        "apps/api/src/communication/communication.service.ts"
+      ],
+      "phase_6b_api_modules_found": []
+    },
+    "phase_6b_prisma_models_found": [],
+    "lead_related_prisma_models_found": [
+      "LeadRecord",
+      "LeadStatusHistory",
+      "LeadAssignmentHistory"
+    ]
+  },
+  "rows": [
+    {
+      "discovery_id": "rt_scaffold_6b_v13_001_seed_6b_01_product_record_authority",
+      "seed_id": "seed_6b_01_product_record_authority",
+      "source_component_id": "6B.01",
+      "candidate_ticket_id": "p6b_v12_001_seed_6b_01_product_record_authority",
+      "capability_name": "6B product record authority",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/product_catalogue.contract.ts",
+        "packages/contracts/phase-6b/product_catalogue.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/product_catalogue/product_catalogue.module.ts",
+        "apps/api/src/phase-6b/product_catalogue/product_catalogue.service.ts",
+        "apps/api/src/phase-6b/product_catalogue/product_catalogue.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_002_seed_6b_01_category_taxonomy",
+      "seed_id": "seed_6b_01_category_taxonomy",
+      "source_component_id": "6B.01",
+      "candidate_ticket_id": "p6b_v12_002_seed_6b_01_category_taxonomy",
+      "capability_name": "6B category taxonomy",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/product_catalogue.contract.ts",
+        "packages/contracts/phase-6b/product_catalogue.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/product_catalogue/product_catalogue.module.ts",
+        "apps/api/src/phase-6b/product_catalogue/product_catalogue.service.ts",
+        "apps/api/src/phase-6b/product_catalogue/product_catalogue.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_003_seed_6b_01_product_media_history",
+      "seed_id": "seed_6b_01_product_media_history",
+      "source_component_id": "6B.01",
+      "candidate_ticket_id": "p6b_v12_003_seed_6b_01_product_media_history",
+      "capability_name": "6B product media history",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/product_catalogue.contract.ts",
+        "packages/contracts/phase-6b/product_catalogue.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/product_catalogue/product_catalogue.module.ts",
+        "apps/api/src/phase-6b/product_catalogue/product_catalogue.service.ts",
+        "apps/api/src/phase-6b/product_catalogue/product_catalogue.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_004_seed_6b_01_product_status_archive_policy",
+      "seed_id": "seed_6b_01_product_status_archive_policy",
+      "source_component_id": "6B.01",
+      "candidate_ticket_id": "p6b_v12_004_seed_6b_01_product_status_archive_policy",
+      "capability_name": "6B product status archive policy",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/product_catalogue.contract.ts",
+        "packages/contracts/phase-6b/product_catalogue.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/product_catalogue/product_catalogue.module.ts",
+        "apps/api/src/phase-6b/product_catalogue/product_catalogue.service.ts",
+        "apps/api/src/phase-6b/product_catalogue/product_catalogue.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_005_seed_6b_02_fixed_pricing_model",
+      "seed_id": "seed_6b_02_fixed_pricing_model",
+      "source_component_id": "6B.02",
+      "candidate_ticket_id": "p6b_v12_005_seed_6b_02_fixed_pricing_model",
+      "capability_name": "6B fixed pricing model",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/product_pricing.contract.ts",
+        "packages/contracts/phase-6b/product_pricing.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/product_pricing/product_pricing.module.ts",
+        "apps/api/src/phase-6b/product_pricing/product_pricing.service.ts",
+        "apps/api/src/phase-6b/product_pricing/product_pricing.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_006_seed_6b_02_tiered_pricing_model",
+      "seed_id": "seed_6b_02_tiered_pricing_model",
+      "source_component_id": "6B.02",
+      "candidate_ticket_id": "p6b_v12_006_seed_6b_02_tiered_pricing_model",
+      "capability_name": "6B tiered pricing model",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/product_pricing.contract.ts",
+        "packages/contracts/phase-6b/product_pricing.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/product_pricing/product_pricing.module.ts",
+        "apps/api/src/phase-6b/product_pricing/product_pricing.service.ts",
+        "apps/api/src/phase-6b/product_pricing/product_pricing.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_007_seed_6b_02_volume_pricing_model",
+      "seed_id": "seed_6b_02_volume_pricing_model",
+      "source_component_id": "6B.02",
+      "candidate_ticket_id": "p6b_v12_007_seed_6b_02_volume_pricing_model",
+      "capability_name": "6B volume pricing model",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/product_pricing.contract.ts",
+        "packages/contracts/phase-6b/product_pricing.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/product_pricing/product_pricing.module.ts",
+        "apps/api/src/phase-6b/product_pricing/product_pricing.service.ts",
+        "apps/api/src/phase-6b/product_pricing/product_pricing.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_008_seed_6b_02_per_unit_pricing_model",
+      "seed_id": "seed_6b_02_per_unit_pricing_model",
+      "source_component_id": "6B.02",
+      "candidate_ticket_id": "p6b_v12_008_seed_6b_02_per_unit_pricing_model",
+      "capability_name": "6B per unit pricing model",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/product_pricing.contract.ts",
+        "packages/contracts/phase-6b/product_pricing.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/product_pricing/product_pricing.module.ts",
+        "apps/api/src/phase-6b/product_pricing/product_pricing.service.ts",
+        "apps/api/src/phase-6b/product_pricing/product_pricing.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_009_seed_6b_02_per_hour_pricing_model",
+      "seed_id": "seed_6b_02_per_hour_pricing_model",
+      "source_component_id": "6B.02",
+      "candidate_ticket_id": "p6b_v12_009_seed_6b_02_per_hour_pricing_model",
+      "capability_name": "6B per hour pricing model",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/product_pricing.contract.ts",
+        "packages/contracts/phase-6b/product_pricing.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/product_pricing/product_pricing.module.ts",
+        "apps/api/src/phase-6b/product_pricing/product_pricing.service.ts",
+        "apps/api/src/phase-6b/product_pricing/product_pricing.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_010_seed_6b_02_per_period_pricing_model",
+      "seed_id": "seed_6b_02_per_period_pricing_model",
+      "source_component_id": "6B.02",
+      "candidate_ticket_id": "p6b_v12_010_seed_6b_02_per_period_pricing_model",
+      "capability_name": "6B per period pricing model",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/product_pricing.contract.ts",
+        "packages/contracts/phase-6b/product_pricing.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/product_pricing/product_pricing.module.ts",
+        "apps/api/src/phase-6b/product_pricing/product_pricing.service.ts",
+        "apps/api/src/phase-6b/product_pricing/product_pricing.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_011_seed_6b_02_early_bird_pricing_deadline",
+      "seed_id": "seed_6b_02_early_bird_pricing_deadline",
+      "source_component_id": "6B.02",
+      "candidate_ticket_id": "p6b_v12_011_seed_6b_02_early_bird_pricing_deadline",
+      "capability_name": "6B early bird pricing deadline",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/product_pricing.contract.ts",
+        "packages/contracts/phase-6b/product_pricing.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/product_pricing/product_pricing.module.ts",
+        "apps/api/src/phase-6b/product_pricing/product_pricing.service.ts",
+        "apps/api/src/phase-6b/product_pricing/product_pricing.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_012_seed_6b_02_scholarship_discount_approval",
+      "seed_id": "seed_6b_02_scholarship_discount_approval",
+      "source_component_id": "6B.02",
+      "candidate_ticket_id": "p6b_v12_012_seed_6b_02_scholarship_discount_approval",
+      "capability_name": "6B scholarship discount approval",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/product_pricing.contract.ts",
+        "packages/contracts/phase-6b/product_pricing.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/product_pricing/product_pricing.module.ts",
+        "apps/api/src/phase-6b/product_pricing/product_pricing.service.ts",
+        "apps/api/src/phase-6b/product_pricing/product_pricing.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_013_seed_6b_02_installment_plan_engine",
+      "seed_id": "seed_6b_02_installment_plan_engine",
+      "source_component_id": "6B.02",
+      "candidate_ticket_id": "p6b_v12_013_seed_6b_02_installment_plan_engine",
+      "capability_name": "6B installment plan engine",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/product_pricing.contract.ts",
+        "packages/contracts/phase-6b/product_pricing.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/product_pricing/product_pricing.module.ts",
+        "apps/api/src/phase-6b/product_pricing/product_pricing.service.ts",
+        "apps/api/src/phase-6b/product_pricing/product_pricing.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_014_seed_6b_02_bundle_package_composition",
+      "seed_id": "seed_6b_02_bundle_package_composition",
+      "source_component_id": "6B.02",
+      "candidate_ticket_id": "p6b_v12_014_seed_6b_02_bundle_package_composition",
+      "capability_name": "6B bundle package composition",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/product_pricing.contract.ts",
+        "packages/contracts/phase-6b/product_pricing.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/product_pricing/product_pricing.module.ts",
+        "apps/api/src/phase-6b/product_pricing/product_pricing.service.ts",
+        "apps/api/src/phase-6b/product_pricing/product_pricing.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_015_seed_6b_02_discount_stacking_engine",
+      "seed_id": "seed_6b_02_discount_stacking_engine",
+      "source_component_id": "6B.02",
+      "candidate_ticket_id": "p6b_v12_015_seed_6b_02_discount_stacking_engine",
+      "capability_name": "6B discount stacking engine",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/product_pricing.contract.ts",
+        "packages/contracts/phase-6b/product_pricing.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/product_pricing/product_pricing.module.ts",
+        "apps/api/src/phase-6b/product_pricing/product_pricing.service.ts",
+        "apps/api/src/phase-6b/product_pricing/product_pricing.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_016_seed_6b_02_product_price_history_effective_dates",
+      "seed_id": "seed_6b_02_product_price_history_effective_dates",
+      "source_component_id": "6B.02",
+      "candidate_ticket_id": "p6b_v12_016_seed_6b_02_product_price_history_effective_dates",
+      "capability_name": "6B product price history effective dates",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/product_pricing.contract.ts",
+        "packages/contracts/phase-6b/product_pricing.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/product_pricing/product_pricing.module.ts",
+        "apps/api/src/phase-6b/product_pricing/product_pricing.service.ts",
+        "apps/api/src/phase-6b/product_pricing/product_pricing.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_017_seed_6b_03_stock_level_location_authority",
+      "seed_id": "seed_6b_03_stock_level_location_authority",
+      "source_component_id": "6B.03",
+      "candidate_ticket_id": "p6b_v12_017_seed_6b_03_stock_level_location_authority",
+      "capability_name": "6B stock level location authority",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/inventory_stock.contract.ts",
+        "packages/contracts/phase-6b/inventory_stock.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/inventory_stock/inventory_stock.module.ts",
+        "apps/api/src/phase-6b/inventory_stock/inventory_stock.service.ts",
+        "apps/api/src/phase-6b/inventory_stock/inventory_stock.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_018_seed_6b_03_lot_and_serial_tracking",
+      "seed_id": "seed_6b_03_lot_and_serial_tracking",
+      "source_component_id": "6B.03",
+      "candidate_ticket_id": "p6b_v12_018_seed_6b_03_lot_and_serial_tracking",
+      "capability_name": "6B lot and serial tracking",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/inventory_stock.contract.ts",
+        "packages/contracts/phase-6b/inventory_stock.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/inventory_stock/inventory_stock.module.ts",
+        "apps/api/src/phase-6b/inventory_stock/inventory_stock.service.ts",
+        "apps/api/src/phase-6b/inventory_stock/inventory_stock.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_019_seed_6b_03_stock_movement_ledger",
+      "seed_id": "seed_6b_03_stock_movement_ledger",
+      "source_component_id": "6B.03",
+      "candidate_ticket_id": "p6b_v12_019_seed_6b_03_stock_movement_ledger",
+      "capability_name": "6B stock movement ledger",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/inventory_stock.contract.ts",
+        "packages/contracts/phase-6b/inventory_stock.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/inventory_stock/inventory_stock.module.ts",
+        "apps/api/src/phase-6b/inventory_stock/inventory_stock.service.ts",
+        "apps/api/src/phase-6b/inventory_stock/inventory_stock.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_020_seed_6b_03_purchase_stock_evidence",
+      "seed_id": "seed_6b_03_purchase_stock_evidence",
+      "source_component_id": "6B.03",
+      "candidate_ticket_id": "p6b_v12_020_seed_6b_03_purchase_stock_evidence",
+      "capability_name": "6B purchase stock evidence",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/inventory_stock.contract.ts",
+        "packages/contracts/phase-6b/inventory_stock.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/inventory_stock/inventory_stock.module.ts",
+        "apps/api/src/phase-6b/inventory_stock/inventory_stock.service.ts",
+        "apps/api/src/phase-6b/inventory_stock/inventory_stock.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_021_seed_6b_03_non_inventory_business_policy",
+      "seed_id": "seed_6b_03_non_inventory_business_policy",
+      "source_component_id": "6B.03",
+      "candidate_ticket_id": "p6b_v12_021_seed_6b_03_non_inventory_business_policy",
+      "capability_name": "6B non inventory business policy",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/inventory_stock.contract.ts",
+        "packages/contracts/phase-6b/inventory_stock.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/inventory_stock/inventory_stock.module.ts",
+        "apps/api/src/phase-6b/inventory_stock/inventory_stock.service.ts",
+        "apps/api/src/phase-6b/inventory_stock/inventory_stock.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_022_seed_6b_04_unified_lead_record_authority",
+      "seed_id": "seed_6b_04_unified_lead_record_authority",
+      "source_component_id": "6B.04",
+      "candidate_ticket_id": "p6b_v12_022_seed_6b_04_unified_lead_record_authority",
+      "capability_name": "6B unified lead record authority",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "Existing Lead Desk/CRM-adjacent runtime files exist, but v13 cannot treat them as exact Phase 6B CRM Lead Intake ownership without a scaffold/contract alignment ticket.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/crm_lead_intake.contract.ts",
+        "packages/contracts/phase-6b/crm_lead_intake.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/crm_lead_intake/crm_lead_intake.module.ts",
+        "apps/api/src/phase-6b/crm_lead_intake/crm_lead_intake.service.ts",
+        "apps/api/src/phase-6b/crm_lead_intake/crm_lead_intake.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_023_seed_6b_04_meta_lead_forms_connector",
+      "seed_id": "seed_6b_04_meta_lead_forms_connector",
+      "source_component_id": "6B.04",
+      "candidate_ticket_id": "p6b_v12_023_seed_6b_04_meta_lead_forms_connector",
+      "capability_name": "6B meta lead forms connector",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "Existing Lead Desk/CRM-adjacent runtime files exist, but v13 cannot treat them as exact Phase 6B CRM Lead Intake ownership without a scaffold/contract alignment ticket.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/crm_lead_intake.contract.ts",
+        "packages/contracts/phase-6b/crm_lead_intake.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/crm_lead_intake/crm_lead_intake.module.ts",
+        "apps/api/src/phase-6b/crm_lead_intake/crm_lead_intake.service.ts",
+        "apps/api/src/phase-6b/crm_lead_intake/crm_lead_intake.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_024_seed_6b_04_meta_whatsapp_intake_connector",
+      "seed_id": "seed_6b_04_meta_whatsapp_intake_connector",
+      "source_component_id": "6B.04",
+      "candidate_ticket_id": "p6b_v12_024_seed_6b_04_meta_whatsapp_intake_connector",
+      "capability_name": "6B meta whatsapp intake connector",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "Existing Lead Desk/CRM-adjacent runtime files exist, but v13 cannot treat them as exact Phase 6B CRM Lead Intake ownership without a scaffold/contract alignment ticket.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/crm_lead_intake.contract.ts",
+        "packages/contracts/phase-6b/crm_lead_intake.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/crm_lead_intake/crm_lead_intake.module.ts",
+        "apps/api/src/phase-6b/crm_lead_intake/crm_lead_intake.service.ts",
+        "apps/api/src/phase-6b/crm_lead_intake/crm_lead_intake.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_025_seed_6b_04_tiktok_lead_gen_connector",
+      "seed_id": "seed_6b_04_tiktok_lead_gen_connector",
+      "source_component_id": "6B.04",
+      "candidate_ticket_id": "p6b_v12_025_seed_6b_04_tiktok_lead_gen_connector",
+      "capability_name": "6B tiktok lead gen connector",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "Existing Lead Desk/CRM-adjacent runtime files exist, but v13 cannot treat them as exact Phase 6B CRM Lead Intake ownership without a scaffold/contract alignment ticket.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/crm_lead_intake.contract.ts",
+        "packages/contracts/phase-6b/crm_lead_intake.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/crm_lead_intake/crm_lead_intake.module.ts",
+        "apps/api/src/phase-6b/crm_lead_intake/crm_lead_intake.service.ts",
+        "apps/api/src/phase-6b/crm_lead_intake/crm_lead_intake.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_026_seed_6b_04_google_ads_connector",
+      "seed_id": "seed_6b_04_google_ads_connector",
+      "source_component_id": "6B.04",
+      "candidate_ticket_id": "p6b_v12_026_seed_6b_04_google_ads_connector",
+      "capability_name": "6B google ads connector",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "Existing Lead Desk/CRM-adjacent runtime files exist, but v13 cannot treat them as exact Phase 6B CRM Lead Intake ownership without a scaffold/contract alignment ticket.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/crm_lead_intake.contract.ts",
+        "packages/contracts/phase-6b/crm_lead_intake.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/crm_lead_intake/crm_lead_intake.module.ts",
+        "apps/api/src/phase-6b/crm_lead_intake/crm_lead_intake.service.ts",
+        "apps/api/src/phase-6b/crm_lead_intake/crm_lead_intake.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_027_seed_6b_04_google_business_connector",
+      "seed_id": "seed_6b_04_google_business_connector",
+      "source_component_id": "6B.04",
+      "candidate_ticket_id": "p6b_v12_027_seed_6b_04_google_business_connector",
+      "capability_name": "6B google business connector",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "Existing Lead Desk/CRM-adjacent runtime files exist, but v13 cannot treat them as exact Phase 6B CRM Lead Intake ownership without a scaffold/contract alignment ticket.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/crm_lead_intake.contract.ts",
+        "packages/contracts/phase-6b/crm_lead_intake.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/crm_lead_intake/crm_lead_intake.module.ts",
+        "apps/api/src/phase-6b/crm_lead_intake/crm_lead_intake.service.ts",
+        "apps/api/src/phase-6b/crm_lead_intake/crm_lead_intake.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_028_seed_6b_04_facebook_page_forms_connector",
+      "seed_id": "seed_6b_04_facebook_page_forms_connector",
+      "source_component_id": "6B.04",
+      "candidate_ticket_id": "p6b_v12_028_seed_6b_04_facebook_page_forms_connector",
+      "capability_name": "6B facebook page forms connector",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "Existing Lead Desk/CRM-adjacent runtime files exist, but v13 cannot treat them as exact Phase 6B CRM Lead Intake ownership without a scaffold/contract alignment ticket.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/crm_lead_intake.contract.ts",
+        "packages/contracts/phase-6b/crm_lead_intake.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/crm_lead_intake/crm_lead_intake.module.ts",
+        "apps/api/src/phase-6b/crm_lead_intake/crm_lead_intake.service.ts",
+        "apps/api/src/phase-6b/crm_lead_intake/crm_lead_intake.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_029_seed_6b_04_web_form_intake_connector",
+      "seed_id": "seed_6b_04_web_form_intake_connector",
+      "source_component_id": "6B.04",
+      "candidate_ticket_id": "p6b_v12_029_seed_6b_04_web_form_intake_connector",
+      "capability_name": "6B web form intake connector",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "Existing Lead Desk/CRM-adjacent runtime files exist, but v13 cannot treat them as exact Phase 6B CRM Lead Intake ownership without a scaffold/contract alignment ticket.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/crm_lead_intake.contract.ts",
+        "packages/contracts/phase-6b/crm_lead_intake.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/crm_lead_intake/crm_lead_intake.module.ts",
+        "apps/api/src/phase-6b/crm_lead_intake/crm_lead_intake.service.ts",
+        "apps/api/src/phase-6b/crm_lead_intake/crm_lead_intake.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_030_seed_6b_04_manual_lead_entry",
+      "seed_id": "seed_6b_04_manual_lead_entry",
+      "source_component_id": "6B.04",
+      "candidate_ticket_id": "p6b_v12_030_seed_6b_04_manual_lead_entry",
+      "capability_name": "6B manual lead entry",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "Existing Lead Desk/CRM-adjacent runtime files exist, but v13 cannot treat them as exact Phase 6B CRM Lead Intake ownership without a scaffold/contract alignment ticket.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/crm_lead_intake.contract.ts",
+        "packages/contracts/phase-6b/crm_lead_intake.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/crm_lead_intake/crm_lead_intake.module.ts",
+        "apps/api/src/phase-6b/crm_lead_intake/crm_lead_intake.service.ts",
+        "apps/api/src/phase-6b/crm_lead_intake/crm_lead_intake.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_031_seed_6b_04_csv_excel_import",
+      "seed_id": "seed_6b_04_csv_excel_import",
+      "source_component_id": "6B.04",
+      "candidate_ticket_id": "p6b_v12_031_seed_6b_04_csv_excel_import",
+      "capability_name": "6B csv excel import",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "Existing Lead Desk/CRM-adjacent runtime files exist, but v13 cannot treat them as exact Phase 6B CRM Lead Intake ownership without a scaffold/contract alignment ticket.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/crm_lead_intake.contract.ts",
+        "packages/contracts/phase-6b/crm_lead_intake.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/crm_lead_intake/crm_lead_intake.module.ts",
+        "apps/api/src/phase-6b/crm_lead_intake/crm_lead_intake.service.ts",
+        "apps/api/src/phase-6b/crm_lead_intake/crm_lead_intake.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_032_seed_6b_04_api_lead_intake",
+      "seed_id": "seed_6b_04_api_lead_intake",
+      "source_component_id": "6B.04",
+      "candidate_ticket_id": "p6b_v12_032_seed_6b_04_api_lead_intake",
+      "capability_name": "6B api lead intake",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "Existing Lead Desk/CRM-adjacent runtime files exist, but v13 cannot treat them as exact Phase 6B CRM Lead Intake ownership without a scaffold/contract alignment ticket.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/crm_lead_intake.contract.ts",
+        "packages/contracts/phase-6b/crm_lead_intake.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/crm_lead_intake/crm_lead_intake.module.ts",
+        "apps/api/src/phase-6b/crm_lead_intake/crm_lead_intake.service.ts",
+        "apps/api/src/phase-6b/crm_lead_intake/crm_lead_intake.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_033_seed_6b_04_referral_intake",
+      "seed_id": "seed_6b_04_referral_intake",
+      "source_component_id": "6B.04",
+      "candidate_ticket_id": "p6b_v12_033_seed_6b_04_referral_intake",
+      "capability_name": "6B referral intake",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "Existing Lead Desk/CRM-adjacent runtime files exist, but v13 cannot treat them as exact Phase 6B CRM Lead Intake ownership without a scaffold/contract alignment ticket.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/crm_lead_intake.contract.ts",
+        "packages/contracts/phase-6b/crm_lead_intake.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/crm_lead_intake/crm_lead_intake.module.ts",
+        "apps/api/src/phase-6b/crm_lead_intake/crm_lead_intake.service.ts",
+        "apps/api/src/phase-6b/crm_lead_intake/crm_lead_intake.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_034_seed_6b_04_inbound_whatsapp_intake",
+      "seed_id": "seed_6b_04_inbound_whatsapp_intake",
+      "source_component_id": "6B.04",
+      "candidate_ticket_id": "p6b_v12_034_seed_6b_04_inbound_whatsapp_intake",
+      "capability_name": "6B inbound whatsapp intake",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "Existing Lead Desk/CRM-adjacent runtime files exist, but v13 cannot treat them as exact Phase 6B CRM Lead Intake ownership without a scaffold/contract alignment ticket.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/crm_lead_intake.contract.ts",
+        "packages/contracts/phase-6b/crm_lead_intake.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/crm_lead_intake/crm_lead_intake.module.ts",
+        "apps/api/src/phase-6b/crm_lead_intake/crm_lead_intake.service.ts",
+        "apps/api/src/phase-6b/crm_lead_intake/crm_lead_intake.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_035_seed_6b_04_inbound_sms_intake",
+      "seed_id": "seed_6b_04_inbound_sms_intake",
+      "source_component_id": "6B.04",
+      "candidate_ticket_id": "p6b_v12_035_seed_6b_04_inbound_sms_intake",
+      "capability_name": "6B inbound sms intake",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "Existing Lead Desk/CRM-adjacent runtime files exist, but v13 cannot treat them as exact Phase 6B CRM Lead Intake ownership without a scaffold/contract alignment ticket.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/crm_lead_intake.contract.ts",
+        "packages/contracts/phase-6b/crm_lead_intake.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/crm_lead_intake/crm_lead_intake.module.ts",
+        "apps/api/src/phase-6b/crm_lead_intake/crm_lead_intake.service.ts",
+        "apps/api/src/phase-6b/crm_lead_intake/crm_lead_intake.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_036_seed_6b_04_chatbot_intake",
+      "seed_id": "seed_6b_04_chatbot_intake",
+      "source_component_id": "6B.04",
+      "candidate_ticket_id": "p6b_v12_036_seed_6b_04_chatbot_intake",
+      "capability_name": "6B chatbot intake",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "Existing Lead Desk/CRM-adjacent runtime files exist, but v13 cannot treat them as exact Phase 6B CRM Lead Intake ownership without a scaffold/contract alignment ticket.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/crm_lead_intake.contract.ts",
+        "packages/contracts/phase-6b/crm_lead_intake.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/crm_lead_intake/crm_lead_intake.module.ts",
+        "apps/api/src/phase-6b/crm_lead_intake/crm_lead_intake.service.ts",
+        "apps/api/src/phase-6b/crm_lead_intake/crm_lead_intake.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_037_seed_6b_04_live_chat_intake",
+      "seed_id": "seed_6b_04_live_chat_intake",
+      "source_component_id": "6B.04",
+      "candidate_ticket_id": "p6b_v12_037_seed_6b_04_live_chat_intake",
+      "capability_name": "6B live chat intake",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "Existing Lead Desk/CRM-adjacent runtime files exist, but v13 cannot treat them as exact Phase 6B CRM Lead Intake ownership without a scaffold/contract alignment ticket.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/crm_lead_intake.contract.ts",
+        "packages/contracts/phase-6b/crm_lead_intake.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/crm_lead_intake/crm_lead_intake.module.ts",
+        "apps/api/src/phase-6b/crm_lead_intake/crm_lead_intake.service.ts",
+        "apps/api/src/phase-6b/crm_lead_intake/crm_lead_intake.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_038_seed_6b_04_email_intake",
+      "seed_id": "seed_6b_04_email_intake",
+      "source_component_id": "6B.04",
+      "candidate_ticket_id": "p6b_v12_038_seed_6b_04_email_intake",
+      "capability_name": "6B email intake",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "Existing Lead Desk/CRM-adjacent runtime files exist, but v13 cannot treat them as exact Phase 6B CRM Lead Intake ownership without a scaffold/contract alignment ticket.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/crm_lead_intake.contract.ts",
+        "packages/contracts/phase-6b/crm_lead_intake.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/crm_lead_intake/crm_lead_intake.module.ts",
+        "apps/api/src/phase-6b/crm_lead_intake/crm_lead_intake.service.ts",
+        "apps/api/src/phase-6b/crm_lead_intake/crm_lead_intake.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_039_seed_6b_04_phone_intake",
+      "seed_id": "seed_6b_04_phone_intake",
+      "source_component_id": "6B.04",
+      "candidate_ticket_id": "p6b_v12_039_seed_6b_04_phone_intake",
+      "capability_name": "6B phone intake",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "Existing Lead Desk/CRM-adjacent runtime files exist, but v13 cannot treat them as exact Phase 6B CRM Lead Intake ownership without a scaffold/contract alignment ticket.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/crm_lead_intake.contract.ts",
+        "packages/contracts/phase-6b/crm_lead_intake.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/crm_lead_intake/crm_lead_intake.module.ts",
+        "apps/api/src/phase-6b/crm_lead_intake/crm_lead_intake.service.ts",
+        "apps/api/src/phase-6b/crm_lead_intake/crm_lead_intake.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_040_seed_6b_04_walk_in_intake",
+      "seed_id": "seed_6b_04_walk_in_intake",
+      "source_component_id": "6B.04",
+      "candidate_ticket_id": "p6b_v12_040_seed_6b_04_walk_in_intake",
+      "capability_name": "6B walk in intake",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "Existing Lead Desk/CRM-adjacent runtime files exist, but v13 cannot treat them as exact Phase 6B CRM Lead Intake ownership without a scaffold/contract alignment ticket.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/crm_lead_intake.contract.ts",
+        "packages/contracts/phase-6b/crm_lead_intake.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/crm_lead_intake/crm_lead_intake.module.ts",
+        "apps/api/src/phase-6b/crm_lead_intake/crm_lead_intake.service.ts",
+        "apps/api/src/phase-6b/crm_lead_intake/crm_lead_intake.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_041_seed_6b_05_match_candidate_generation",
+      "seed_id": "seed_6b_05_match_candidate_generation",
+      "source_component_id": "6B.05",
+      "candidate_ticket_id": "p6b_v12_041_seed_6b_05_match_candidate_generation",
+      "capability_name": "6B match candidate generation",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/crm_deduplication.contract.ts",
+        "packages/contracts/phase-6b/crm_deduplication.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/crm_deduplication/crm_deduplication.module.ts",
+        "apps/api/src/phase-6b/crm_deduplication/crm_deduplication.service.ts",
+        "apps/api/src/phase-6b/crm_deduplication/crm_deduplication.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_042_seed_6b_05_merge_decision_record",
+      "seed_id": "seed_6b_05_merge_decision_record",
+      "source_component_id": "6B.05",
+      "candidate_ticket_id": "p6b_v12_042_seed_6b_05_merge_decision_record",
+      "capability_name": "6B merge decision record",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/crm_deduplication.contract.ts",
+        "packages/contracts/phase-6b/crm_deduplication.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/crm_deduplication/crm_deduplication.module.ts",
+        "apps/api/src/phase-6b/crm_deduplication/crm_deduplication.service.ts",
+        "apps/api/src/phase-6b/crm_deduplication/crm_deduplication.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_043_seed_6b_05_identity_resolution_linking",
+      "seed_id": "seed_6b_05_identity_resolution_linking",
+      "source_component_id": "6B.05",
+      "candidate_ticket_id": "p6b_v12_043_seed_6b_05_identity_resolution_linking",
+      "capability_name": "6B identity resolution linking",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/crm_deduplication.contract.ts",
+        "packages/contracts/phase-6b/crm_deduplication.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/crm_deduplication/crm_deduplication.module.ts",
+        "apps/api/src/phase-6b/crm_deduplication/crm_deduplication.service.ts",
+        "apps/api/src/phase-6b/crm_deduplication/crm_deduplication.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_044_seed_6b_05_duplicate_evidence_log",
+      "seed_id": "seed_6b_05_duplicate_evidence_log",
+      "source_component_id": "6B.05",
+      "candidate_ticket_id": "p6b_v12_044_seed_6b_05_duplicate_evidence_log",
+      "capability_name": "6B duplicate evidence log",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/crm_deduplication.contract.ts",
+        "packages/contracts/phase-6b/crm_deduplication.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/crm_deduplication/crm_deduplication.module.ts",
+        "apps/api/src/phase-6b/crm_deduplication/crm_deduplication.service.ts",
+        "apps/api/src/phase-6b/crm_deduplication/crm_deduplication.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_045_seed_6b_06_pipeline_stage_model",
+      "seed_id": "seed_6b_06_pipeline_stage_model",
+      "source_component_id": "6B.06",
+      "candidate_ticket_id": "p6b_v12_045_seed_6b_06_pipeline_stage_model",
+      "capability_name": "6B pipeline stage model",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/crm_pipeline.contract.ts",
+        "packages/contracts/phase-6b/crm_pipeline.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/crm_pipeline/crm_pipeline.module.ts",
+        "apps/api/src/phase-6b/crm_pipeline/crm_pipeline.service.ts",
+        "apps/api/src/phase-6b/crm_pipeline/crm_pipeline.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_046_seed_6b_06_crm_activity_timeline",
+      "seed_id": "seed_6b_06_crm_activity_timeline",
+      "source_component_id": "6B.06",
+      "candidate_ticket_id": "p6b_v12_046_seed_6b_06_crm_activity_timeline",
+      "capability_name": "6B crm activity timeline",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/crm_pipeline.contract.ts",
+        "packages/contracts/phase-6b/crm_pipeline.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/crm_pipeline/crm_pipeline.module.ts",
+        "apps/api/src/phase-6b/crm_pipeline/crm_pipeline.service.ts",
+        "apps/api/src/phase-6b/crm_pipeline/crm_pipeline.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_047_seed_6b_06_internal_notes_comments",
+      "seed_id": "seed_6b_06_internal_notes_comments",
+      "source_component_id": "6B.06",
+      "candidate_ticket_id": "p6b_v12_047_seed_6b_06_internal_notes_comments",
+      "capability_name": "6B internal notes comments",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/crm_pipeline.contract.ts",
+        "packages/contracts/phase-6b/crm_pipeline.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/crm_pipeline/crm_pipeline.module.ts",
+        "apps/api/src/phase-6b/crm_pipeline/crm_pipeline.service.ts",
+        "apps/api/src/phase-6b/crm_pipeline/crm_pipeline.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_048_seed_6b_06_stage_history_audit",
+      "seed_id": "seed_6b_06_stage_history_audit",
+      "source_component_id": "6B.06",
+      "candidate_ticket_id": "p6b_v12_048_seed_6b_06_stage_history_audit",
+      "capability_name": "6B stage history audit",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/crm_pipeline.contract.ts",
+        "packages/contracts/phase-6b/crm_pipeline.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/crm_pipeline/crm_pipeline.module.ts",
+        "apps/api/src/phase-6b/crm_pipeline/crm_pipeline.service.ts",
+        "apps/api/src/phase-6b/crm_pipeline/crm_pipeline.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_049_seed_6b_06_expected_value_pricing_bridge",
+      "seed_id": "seed_6b_06_expected_value_pricing_bridge",
+      "source_component_id": "6B.06",
+      "candidate_ticket_id": "p6b_v12_049_seed_6b_06_expected_value_pricing_bridge",
+      "capability_name": "6B expected value pricing bridge",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/crm_pipeline.contract.ts",
+        "packages/contracts/phase-6b/crm_pipeline.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/crm_pipeline/crm_pipeline.module.ts",
+        "apps/api/src/phase-6b/crm_pipeline/crm_pipeline.service.ts",
+        "apps/api/src/phase-6b/crm_pipeline/crm_pipeline.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_050_seed_6b_07_whatsapp_template_management",
+      "seed_id": "seed_6b_07_whatsapp_template_management",
+      "source_component_id": "6B.07",
+      "candidate_ticket_id": "p6b_v12_050_seed_6b_07_whatsapp_template_management",
+      "capability_name": "6B whatsapp template management",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "Engagement/communication platform services exist, but CRM Communication Engines require Phase 6B channel-specific contracts/manifests and ownership before executable tickets.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/crm_communication.contract.ts",
+        "packages/contracts/phase-6b/crm_communication.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/crm_communication/crm_communication.module.ts",
+        "apps/api/src/phase-6b/crm_communication/crm_communication.service.ts",
+        "apps/api/src/phase-6b/crm_communication/crm_communication.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_051_seed_6b_07_whatsapp_inbound_routing",
+      "seed_id": "seed_6b_07_whatsapp_inbound_routing",
+      "source_component_id": "6B.07",
+      "candidate_ticket_id": "p6b_v12_051_seed_6b_07_whatsapp_inbound_routing",
+      "capability_name": "6B whatsapp inbound routing",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "Engagement/communication platform services exist, but CRM Communication Engines require Phase 6B channel-specific contracts/manifests and ownership before executable tickets.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/crm_communication.contract.ts",
+        "packages/contracts/phase-6b/crm_communication.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/crm_communication/crm_communication.module.ts",
+        "apps/api/src/phase-6b/crm_communication/crm_communication.service.ts",
+        "apps/api/src/phase-6b/crm_communication/crm_communication.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_052_seed_6b_07_whatsapp_outbound_window",
+      "seed_id": "seed_6b_07_whatsapp_outbound_window",
+      "source_component_id": "6B.07",
+      "candidate_ticket_id": "p6b_v12_052_seed_6b_07_whatsapp_outbound_window",
+      "capability_name": "6B whatsapp outbound window",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "Engagement/communication platform services exist, but CRM Communication Engines require Phase 6B channel-specific contracts/manifests and ownership before executable tickets.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/crm_communication.contract.ts",
+        "packages/contracts/phase-6b/crm_communication.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/crm_communication/crm_communication.module.ts",
+        "apps/api/src/phase-6b/crm_communication/crm_communication.service.ts",
+        "apps/api/src/phase-6b/crm_communication/crm_communication.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_053_seed_6b_07_whatsapp_broadcast_compliance",
+      "seed_id": "seed_6b_07_whatsapp_broadcast_compliance",
+      "source_component_id": "6B.07",
+      "candidate_ticket_id": "p6b_v12_053_seed_6b_07_whatsapp_broadcast_compliance",
+      "capability_name": "6B whatsapp broadcast compliance",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "Engagement/communication platform services exist, but CRM Communication Engines require Phase 6B channel-specific contracts/manifests and ownership before executable tickets.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/crm_communication.contract.ts",
+        "packages/contracts/phase-6b/crm_communication.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/crm_communication/crm_communication.module.ts",
+        "apps/api/src/phase-6b/crm_communication/crm_communication.service.ts",
+        "apps/api/src/phase-6b/crm_communication/crm_communication.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_054_seed_6b_07_whatsapp_auto_reply_keywords",
+      "seed_id": "seed_6b_07_whatsapp_auto_reply_keywords",
+      "source_component_id": "6B.07",
+      "candidate_ticket_id": "p6b_v12_054_seed_6b_07_whatsapp_auto_reply_keywords",
+      "capability_name": "6B whatsapp auto reply keywords",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "Engagement/communication platform services exist, but CRM Communication Engines require Phase 6B channel-specific contracts/manifests and ownership before executable tickets.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/crm_communication.contract.ts",
+        "packages/contracts/phase-6b/crm_communication.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/crm_communication/crm_communication.module.ts",
+        "apps/api/src/phase-6b/crm_communication/crm_communication.service.ts",
+        "apps/api/src/phase-6b/crm_communication/crm_communication.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_055_seed_6b_07_email_connected_inbox",
+      "seed_id": "seed_6b_07_email_connected_inbox",
+      "source_component_id": "6B.07",
+      "candidate_ticket_id": "p6b_v12_055_seed_6b_07_email_connected_inbox",
+      "capability_name": "6B email connected inbox",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "Engagement/communication platform services exist, but CRM Communication Engines require Phase 6B channel-specific contracts/manifests and ownership before executable tickets.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/crm_communication.contract.ts",
+        "packages/contracts/phase-6b/crm_communication.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/crm_communication/crm_communication.module.ts",
+        "apps/api/src/phase-6b/crm_communication/crm_communication.service.ts",
+        "apps/api/src/phase-6b/crm_communication/crm_communication.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_056_seed_6b_07_email_transactional_domain",
+      "seed_id": "seed_6b_07_email_transactional_domain",
+      "source_component_id": "6B.07",
+      "candidate_ticket_id": "p6b_v12_056_seed_6b_07_email_transactional_domain",
+      "capability_name": "6B email transactional domain",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "Engagement/communication platform services exist, but CRM Communication Engines require Phase 6B channel-specific contracts/manifests and ownership before executable tickets.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/crm_communication.contract.ts",
+        "packages/contracts/phase-6b/crm_communication.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/crm_communication/crm_communication.module.ts",
+        "apps/api/src/phase-6b/crm_communication/crm_communication.service.ts",
+        "apps/api/src/phase-6b/crm_communication/crm_communication.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_057_seed_6b_07_email_sequences",
+      "seed_id": "seed_6b_07_email_sequences",
+      "source_component_id": "6B.07",
+      "candidate_ticket_id": "p6b_v12_057_seed_6b_07_email_sequences",
+      "capability_name": "6B email sequences",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "Engagement/communication platform services exist, but CRM Communication Engines require Phase 6B channel-specific contracts/manifests and ownership before executable tickets.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/crm_communication.contract.ts",
+        "packages/contracts/phase-6b/crm_communication.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/crm_communication/crm_communication.module.ts",
+        "apps/api/src/phase-6b/crm_communication/crm_communication.service.ts",
+        "apps/api/src/phase-6b/crm_communication/crm_communication.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_058_seed_6b_07_email_shared_inbox",
+      "seed_id": "seed_6b_07_email_shared_inbox",
+      "source_component_id": "6B.07",
+      "candidate_ticket_id": "p6b_v12_058_seed_6b_07_email_shared_inbox",
+      "capability_name": "6B email shared inbox",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "Engagement/communication platform services exist, but CRM Communication Engines require Phase 6B channel-specific contracts/manifests and ownership before executable tickets.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/crm_communication.contract.ts",
+        "packages/contracts/phase-6b/crm_communication.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/crm_communication/crm_communication.module.ts",
+        "apps/api/src/phase-6b/crm_communication/crm_communication.service.ts",
+        "apps/api/src/phase-6b/crm_communication/crm_communication.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_059_seed_6b_07_communication_attempt_evidence",
+      "seed_id": "seed_6b_07_communication_attempt_evidence",
+      "source_component_id": "6B.07",
+      "candidate_ticket_id": "p6b_v12_059_seed_6b_07_communication_attempt_evidence",
+      "capability_name": "6B communication attempt evidence",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "Engagement/communication platform services exist, but CRM Communication Engines require Phase 6B channel-specific contracts/manifests and ownership before executable tickets.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/crm_communication.contract.ts",
+        "packages/contracts/phase-6b/crm_communication.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/crm_communication/crm_communication.module.ts",
+        "apps/api/src/phase-6b/crm_communication/crm_communication.service.ts",
+        "apps/api/src/phase-6b/crm_communication/crm_communication.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_060_seed_6b_08_lead_scoring_engine",
+      "seed_id": "seed_6b_08_lead_scoring_engine",
+      "source_component_id": "6B.08",
+      "candidate_ticket_id": "p6b_v12_060_seed_6b_08_lead_scoring_engine",
+      "capability_name": "6B lead scoring engine",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/crm_scoring_reporting.contract.ts",
+        "packages/contracts/phase-6b/crm_scoring_reporting.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/crm_scoring_reporting/crm_scoring_reporting.module.ts",
+        "apps/api/src/phase-6b/crm_scoring_reporting/crm_scoring_reporting.service.ts",
+        "apps/api/src/phase-6b/crm_scoring_reporting/crm_scoring_reporting.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_061_seed_6b_08_follow_up_task_cadence",
+      "seed_id": "seed_6b_08_follow_up_task_cadence",
+      "source_component_id": "6B.08",
+      "candidate_ticket_id": "p6b_v12_061_seed_6b_08_follow_up_task_cadence",
+      "capability_name": "6B follow up task cadence",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/crm_scoring_reporting.contract.ts",
+        "packages/contracts/phase-6b/crm_scoring_reporting.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/crm_scoring_reporting/crm_scoring_reporting.module.ts",
+        "apps/api/src/phase-6b/crm_scoring_reporting/crm_scoring_reporting.service.ts",
+        "apps/api/src/phase-6b/crm_scoring_reporting/crm_scoring_reporting.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_062_seed_6b_08_crm_reporting_definitions",
+      "seed_id": "seed_6b_08_crm_reporting_definitions",
+      "source_component_id": "6B.08",
+      "candidate_ticket_id": "p6b_v12_062_seed_6b_08_crm_reporting_definitions",
+      "capability_name": "6B crm reporting definitions",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/crm_scoring_reporting.contract.ts",
+        "packages/contracts/phase-6b/crm_scoring_reporting.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/crm_scoring_reporting/crm_scoring_reporting.module.ts",
+        "apps/api/src/phase-6b/crm_scoring_reporting/crm_scoring_reporting.service.ts",
+        "apps/api/src/phase-6b/crm_scoring_reporting/crm_scoring_reporting.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_063_seed_6b_08_crm_compliance_views",
+      "seed_id": "seed_6b_08_crm_compliance_views",
+      "source_component_id": "6B.08",
+      "candidate_ticket_id": "p6b_v12_063_seed_6b_08_crm_compliance_views",
+      "capability_name": "6B crm compliance views",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/crm_scoring_reporting.contract.ts",
+        "packages/contracts/phase-6b/crm_scoring_reporting.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/crm_scoring_reporting/crm_scoring_reporting.module.ts",
+        "apps/api/src/phase-6b/crm_scoring_reporting/crm_scoring_reporting.service.ts",
+        "apps/api/src/phase-6b/crm_scoring_reporting/crm_scoring_reporting.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_064_seed_6b_09_invoice_record_authority",
+      "seed_id": "seed_6b_09_invoice_record_authority",
+      "source_component_id": "6B.09",
+      "candidate_ticket_id": "p6b_v12_064_seed_6b_09_invoice_record_authority",
+      "capability_name": "6B invoice record authority",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/finance_invoice_receivables.contract.ts",
+        "packages/contracts/phase-6b/finance_invoice_receivables.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/finance_invoice_receivables/finance_invoice_receivables.module.ts",
+        "apps/api/src/phase-6b/finance_invoice_receivables/finance_invoice_receivables.service.ts",
+        "apps/api/src/phase-6b/finance_invoice_receivables/finance_invoice_receivables.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_065_seed_6b_09_invoice_lifecycle_types",
+      "seed_id": "seed_6b_09_invoice_lifecycle_types",
+      "source_component_id": "6B.09",
+      "candidate_ticket_id": "p6b_v12_065_seed_6b_09_invoice_lifecycle_types",
+      "capability_name": "6B invoice lifecycle types",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/finance_invoice_receivables.contract.ts",
+        "packages/contracts/phase-6b/finance_invoice_receivables.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/finance_invoice_receivables/finance_invoice_receivables.module.ts",
+        "apps/api/src/phase-6b/finance_invoice_receivables/finance_invoice_receivables.service.ts",
+        "apps/api/src/phase-6b/finance_invoice_receivables/finance_invoice_receivables.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_066_seed_6b_09_receivable_balance_computation",
+      "seed_id": "seed_6b_09_receivable_balance_computation",
+      "source_component_id": "6B.09",
+      "candidate_ticket_id": "p6b_v12_066_seed_6b_09_receivable_balance_computation",
+      "capability_name": "6B receivable balance computation",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/finance_invoice_receivables.contract.ts",
+        "packages/contracts/phase-6b/finance_invoice_receivables.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/finance_invoice_receivables/finance_invoice_receivables.module.ts",
+        "apps/api/src/phase-6b/finance_invoice_receivables/finance_invoice_receivables.service.ts",
+        "apps/api/src/phase-6b/finance_invoice_receivables/finance_invoice_receivables.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_067_seed_6b_09_fbr_invoice_format",
+      "seed_id": "seed_6b_09_fbr_invoice_format",
+      "source_component_id": "6B.09",
+      "candidate_ticket_id": "p6b_v12_067_seed_6b_09_fbr_invoice_format",
+      "capability_name": "6B fbr invoice format",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/finance_invoice_receivables.contract.ts",
+        "packages/contracts/phase-6b/finance_invoice_receivables.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/finance_invoice_receivables/finance_invoice_receivables.module.ts",
+        "apps/api/src/phase-6b/finance_invoice_receivables/finance_invoice_receivables.service.ts",
+        "apps/api/src/phase-6b/finance_invoice_receivables/finance_invoice_receivables.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_068_seed_6b_09_aging_and_overdue_management",
+      "seed_id": "seed_6b_09_aging_and_overdue_management",
+      "source_component_id": "6B.09",
+      "candidate_ticket_id": "p6b_v12_068_seed_6b_09_aging_and_overdue_management",
+      "capability_name": "6B aging and overdue management",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/finance_invoice_receivables.contract.ts",
+        "packages/contracts/phase-6b/finance_invoice_receivables.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/finance_invoice_receivables/finance_invoice_receivables.module.ts",
+        "apps/api/src/phase-6b/finance_invoice_receivables/finance_invoice_receivables.service.ts",
+        "apps/api/src/phase-6b/finance_invoice_receivables/finance_invoice_receivables.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_069_seed_6b_10_jazzcash_gateway",
+      "seed_id": "seed_6b_10_jazzcash_gateway",
+      "source_component_id": "6B.10",
+      "candidate_ticket_id": "p6b_v12_069_seed_6b_10_jazzcash_gateway",
+      "capability_name": "6B jazzcash gateway",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/payment_collection_topup.contract.ts",
+        "packages/contracts/phase-6b/payment_collection_topup.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/payment_collection_topup/payment_collection_topup.module.ts",
+        "apps/api/src/phase-6b/payment_collection_topup/payment_collection_topup.service.ts",
+        "apps/api/src/phase-6b/payment_collection_topup/payment_collection_topup.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_070_seed_6b_10_easypaisa_gateway",
+      "seed_id": "seed_6b_10_easypaisa_gateway",
+      "source_component_id": "6B.10",
+      "candidate_ticket_id": "p6b_v12_070_seed_6b_10_easypaisa_gateway",
+      "capability_name": "6B easypaisa gateway",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/payment_collection_topup.contract.ts",
+        "packages/contracts/phase-6b/payment_collection_topup.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/payment_collection_topup/payment_collection_topup.module.ts",
+        "apps/api/src/phase-6b/payment_collection_topup/payment_collection_topup.service.ts",
+        "apps/api/src/phase-6b/payment_collection_topup/payment_collection_topup.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_071_seed_6b_10_raast_gateway",
+      "seed_id": "seed_6b_10_raast_gateway",
+      "source_component_id": "6B.10",
+      "candidate_ticket_id": "p6b_v12_071_seed_6b_10_raast_gateway",
+      "capability_name": "6B raast gateway",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/payment_collection_topup.contract.ts",
+        "packages/contracts/phase-6b/payment_collection_topup.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/payment_collection_topup/payment_collection_topup.module.ts",
+        "apps/api/src/phase-6b/payment_collection_topup/payment_collection_topup.service.ts",
+        "apps/api/src/phase-6b/payment_collection_topup/payment_collection_topup.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_072_seed_6b_10_quickpay_shadow_account_gateway",
+      "seed_id": "seed_6b_10_quickpay_shadow_account_gateway",
+      "source_component_id": "6B.10",
+      "candidate_ticket_id": "p6b_v12_072_seed_6b_10_quickpay_shadow_account_gateway",
+      "capability_name": "6B quickpay shadow account gateway",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/payment_collection_topup.contract.ts",
+        "packages/contracts/phase-6b/payment_collection_topup.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/payment_collection_topup/payment_collection_topup.module.ts",
+        "apps/api/src/phase-6b/payment_collection_topup/payment_collection_topup.service.ts",
+        "apps/api/src/phase-6b/payment_collection_topup/payment_collection_topup.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_073_seed_6b_10_stripe_gateway_3ds",
+      "seed_id": "seed_6b_10_stripe_gateway_3ds",
+      "source_component_id": "6B.10",
+      "candidate_ticket_id": "p6b_v12_073_seed_6b_10_stripe_gateway_3ds",
+      "capability_name": "6B stripe gateway 3ds",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/payment_collection_topup.contract.ts",
+        "packages/contracts/phase-6b/payment_collection_topup.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/payment_collection_topup/payment_collection_topup.module.ts",
+        "apps/api/src/phase-6b/payment_collection_topup/payment_collection_topup.service.ts",
+        "apps/api/src/phase-6b/payment_collection_topup/payment_collection_topup.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_074_seed_6b_10_wise_gateway",
+      "seed_id": "seed_6b_10_wise_gateway",
+      "source_component_id": "6B.10",
+      "candidate_ticket_id": "p6b_v12_074_seed_6b_10_wise_gateway",
+      "capability_name": "6B wise gateway",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/payment_collection_topup.contract.ts",
+        "packages/contracts/phase-6b/payment_collection_topup.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/payment_collection_topup/payment_collection_topup.module.ts",
+        "apps/api/src/phase-6b/payment_collection_topup/payment_collection_topup.service.ts",
+        "apps/api/src/phase-6b/payment_collection_topup/payment_collection_topup.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_075_seed_6b_10_manual_reconciliation_path",
+      "seed_id": "seed_6b_10_manual_reconciliation_path",
+      "source_component_id": "6B.10",
+      "candidate_ticket_id": "p6b_v12_075_seed_6b_10_manual_reconciliation_path",
+      "capability_name": "6B manual reconciliation path",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/payment_collection_topup.contract.ts",
+        "packages/contracts/phase-6b/payment_collection_topup.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/payment_collection_topup/payment_collection_topup.module.ts",
+        "apps/api/src/phase-6b/payment_collection_topup/payment_collection_topup.service.ts",
+        "apps/api/src/phase-6b/payment_collection_topup/payment_collection_topup.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_076_seed_6b_10_payment_allocation_balance",
+      "seed_id": "seed_6b_10_payment_allocation_balance",
+      "source_component_id": "6B.10",
+      "candidate_ticket_id": "p6b_v12_076_seed_6b_10_payment_allocation_balance",
+      "capability_name": "6B payment allocation balance",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/payment_collection_topup.contract.ts",
+        "packages/contracts/phase-6b/payment_collection_topup.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/payment_collection_topup/payment_collection_topup.module.ts",
+        "apps/api/src/phase-6b/payment_collection_topup/payment_collection_topup.service.ts",
+        "apps/api/src/phase-6b/payment_collection_topup/payment_collection_topup.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_077_seed_6b_10_refund_to_original_method",
+      "seed_id": "seed_6b_10_refund_to_original_method",
+      "source_component_id": "6B.10",
+      "candidate_ticket_id": "p6b_v12_077_seed_6b_10_refund_to_original_method",
+      "capability_name": "6B refund to original method",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/payment_collection_topup.contract.ts",
+        "packages/contracts/phase-6b/payment_collection_topup.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/payment_collection_topup/payment_collection_topup.module.ts",
+        "apps/api/src/phase-6b/payment_collection_topup/payment_collection_topup.service.ts",
+        "apps/api/src/phase-6b/payment_collection_topup/payment_collection_topup.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_078_seed_6b_10_top_up_prepaid_credit",
+      "seed_id": "seed_6b_10_top_up_prepaid_credit",
+      "source_component_id": "6B.10",
+      "candidate_ticket_id": "p6b_v12_078_seed_6b_10_top_up_prepaid_credit",
+      "capability_name": "6B top up prepaid credit",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/payment_collection_topup.contract.ts",
+        "packages/contracts/phase-6b/payment_collection_topup.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/payment_collection_topup/payment_collection_topup.module.ts",
+        "apps/api/src/phase-6b/payment_collection_topup/payment_collection_topup.service.ts",
+        "apps/api/src/phase-6b/payment_collection_topup/payment_collection_topup.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_079_seed_6b_11_expense_record_authority",
+      "seed_id": "seed_6b_11_expense_record_authority",
+      "source_component_id": "6B.11",
+      "candidate_ticket_id": "p6b_v12_079_seed_6b_11_expense_record_authority",
+      "capability_name": "6B expense record authority",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/expense_purchase_vendor.contract.ts",
+        "packages/contracts/phase-6b/expense_purchase_vendor.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/expense_purchase_vendor/expense_purchase_vendor.module.ts",
+        "apps/api/src/phase-6b/expense_purchase_vendor/expense_purchase_vendor.service.ts",
+        "apps/api/src/phase-6b/expense_purchase_vendor/expense_purchase_vendor.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_080_seed_6b_11_expense_approval_workflow",
+      "seed_id": "seed_6b_11_expense_approval_workflow",
+      "source_component_id": "6B.11",
+      "candidate_ticket_id": "p6b_v12_080_seed_6b_11_expense_approval_workflow",
+      "capability_name": "6B expense approval workflow",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/expense_purchase_vendor.contract.ts",
+        "packages/contracts/phase-6b/expense_purchase_vendor.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/expense_purchase_vendor/expense_purchase_vendor.module.ts",
+        "apps/api/src/phase-6b/expense_purchase_vendor/expense_purchase_vendor.service.ts",
+        "apps/api/src/phase-6b/expense_purchase_vendor/expense_purchase_vendor.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_081_seed_6b_11_vendor_record_authority",
+      "seed_id": "seed_6b_11_vendor_record_authority",
+      "source_component_id": "6B.11",
+      "candidate_ticket_id": "p6b_v12_081_seed_6b_11_vendor_record_authority",
+      "capability_name": "6B vendor record authority",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/expense_purchase_vendor.contract.ts",
+        "packages/contracts/phase-6b/expense_purchase_vendor.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/expense_purchase_vendor/expense_purchase_vendor.module.ts",
+        "apps/api/src/phase-6b/expense_purchase_vendor/expense_purchase_vendor.service.ts",
+        "apps/api/src/phase-6b/expense_purchase_vendor/expense_purchase_vendor.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_082_seed_6b_11_purchase_order_authority",
+      "seed_id": "seed_6b_11_purchase_order_authority",
+      "source_component_id": "6B.11",
+      "candidate_ticket_id": "p6b_v12_082_seed_6b_11_purchase_order_authority",
+      "capability_name": "6B purchase order authority",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/expense_purchase_vendor.contract.ts",
+        "packages/contracts/phase-6b/expense_purchase_vendor.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/expense_purchase_vendor/expense_purchase_vendor.module.ts",
+        "apps/api/src/phase-6b/expense_purchase_vendor/expense_purchase_vendor.service.ts",
+        "apps/api/src/phase-6b/expense_purchase_vendor/expense_purchase_vendor.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_083_seed_6b_11_three_way_match_evidence",
+      "seed_id": "seed_6b_11_three_way_match_evidence",
+      "source_component_id": "6B.11",
+      "candidate_ticket_id": "p6b_v12_083_seed_6b_11_three_way_match_evidence",
+      "capability_name": "6B three way match evidence",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/expense_purchase_vendor.contract.ts",
+        "packages/contracts/phase-6b/expense_purchase_vendor.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/expense_purchase_vendor/expense_purchase_vendor.module.ts",
+        "apps/api/src/phase-6b/expense_purchase_vendor/expense_purchase_vendor.service.ts",
+        "apps/api/src/phase-6b/expense_purchase_vendor/expense_purchase_vendor.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_084_seed_6b_12_chart_of_accounts",
+      "seed_id": "seed_6b_12_chart_of_accounts",
+      "source_component_id": "6B.12",
+      "candidate_ticket_id": "p6b_v12_084_seed_6b_12_chart_of_accounts",
+      "capability_name": "6B chart of accounts",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/general_ledger_accounting.contract.ts",
+        "packages/contracts/phase-6b/general_ledger_accounting.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/general_ledger_accounting/general_ledger_accounting.module.ts",
+        "apps/api/src/phase-6b/general_ledger_accounting/general_ledger_accounting.service.ts",
+        "apps/api/src/phase-6b/general_ledger_accounting/general_ledger_accounting.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_085_seed_6b_12_journal_entry_engine",
+      "seed_id": "seed_6b_12_journal_entry_engine",
+      "source_component_id": "6B.12",
+      "candidate_ticket_id": "p6b_v12_085_seed_6b_12_journal_entry_engine",
+      "capability_name": "6B journal entry engine",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/general_ledger_accounting.contract.ts",
+        "packages/contracts/phase-6b/general_ledger_accounting.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/general_ledger_accounting/general_ledger_accounting.module.ts",
+        "apps/api/src/phase-6b/general_ledger_accounting/general_ledger_accounting.service.ts",
+        "apps/api/src/phase-6b/general_ledger_accounting/general_ledger_accounting.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_086_seed_6b_12_period_close_management",
+      "seed_id": "seed_6b_12_period_close_management",
+      "source_component_id": "6B.12",
+      "candidate_ticket_id": "p6b_v12_086_seed_6b_12_period_close_management",
+      "capability_name": "6B period close management",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/general_ledger_accounting.contract.ts",
+        "packages/contracts/phase-6b/general_ledger_accounting.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/general_ledger_accounting/general_ledger_accounting.module.ts",
+        "apps/api/src/phase-6b/general_ledger_accounting/general_ledger_accounting.service.ts",
+        "apps/api/src/phase-6b/general_ledger_accounting/general_ledger_accounting.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_087_seed_6b_12_tax_mapping_reporting",
+      "seed_id": "seed_6b_12_tax_mapping_reporting",
+      "source_component_id": "6B.12",
+      "candidate_ticket_id": "p6b_v12_087_seed_6b_12_tax_mapping_reporting",
+      "capability_name": "6B tax mapping reporting",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/general_ledger_accounting.contract.ts",
+        "packages/contracts/phase-6b/general_ledger_accounting.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/general_ledger_accounting/general_ledger_accounting.module.ts",
+        "apps/api/src/phase-6b/general_ledger_accounting/general_ledger_accounting.service.ts",
+        "apps/api/src/phase-6b/general_ledger_accounting/general_ledger_accounting.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_088_seed_6b_12_fx_gain_loss_accounting",
+      "seed_id": "seed_6b_12_fx_gain_loss_accounting",
+      "source_component_id": "6B.12",
+      "candidate_ticket_id": "p6b_v12_088_seed_6b_12_fx_gain_loss_accounting",
+      "capability_name": "6B fx gain loss accounting",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/general_ledger_accounting.contract.ts",
+        "packages/contracts/phase-6b/general_ledger_accounting.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/general_ledger_accounting/general_ledger_accounting.module.ts",
+        "apps/api/src/phase-6b/general_ledger_accounting/general_ledger_accounting.service.ts",
+        "apps/api/src/phase-6b/general_ledger_accounting/general_ledger_accounting.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_089_seed_6b_12_financial_reporting_pack",
+      "seed_id": "seed_6b_12_financial_reporting_pack",
+      "source_component_id": "6B.12",
+      "candidate_ticket_id": "p6b_v12_089_seed_6b_12_financial_reporting_pack",
+      "capability_name": "6B financial reporting pack",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/general_ledger_accounting.contract.ts",
+        "packages/contracts/phase-6b/general_ledger_accounting.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/general_ledger_accounting/general_ledger_accounting.module.ts",
+        "apps/api/src/phase-6b/general_ledger_accounting/general_ledger_accounting.service.ts",
+        "apps/api/src/phase-6b/general_ledger_accounting/general_ledger_accounting.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_090_seed_6b_13_bank_statement_import",
+      "seed_id": "seed_6b_13_bank_statement_import",
+      "source_component_id": "6B.13",
+      "candidate_ticket_id": "p6b_v12_090_seed_6b_13_bank_statement_import",
+      "capability_name": "6B bank statement import",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/banking_reconciliation.contract.ts",
+        "packages/contracts/phase-6b/banking_reconciliation.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/banking_reconciliation/banking_reconciliation.module.ts",
+        "apps/api/src/phase-6b/banking_reconciliation/banking_reconciliation.service.ts",
+        "apps/api/src/phase-6b/banking_reconciliation/banking_reconciliation.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_091_seed_6b_13_reconciliation_matching",
+      "seed_id": "seed_6b_13_reconciliation_matching",
+      "source_component_id": "6B.13",
+      "candidate_ticket_id": "p6b_v12_091_seed_6b_13_reconciliation_matching",
+      "capability_name": "6B reconciliation matching",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/banking_reconciliation.contract.ts",
+        "packages/contracts/phase-6b/banking_reconciliation.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/banking_reconciliation/banking_reconciliation.module.ts",
+        "apps/api/src/phase-6b/banking_reconciliation/banking_reconciliation.service.ts",
+        "apps/api/src/phase-6b/banking_reconciliation/banking_reconciliation.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_092_seed_6b_13_reconciliation_exception_queue",
+      "seed_id": "seed_6b_13_reconciliation_exception_queue",
+      "source_component_id": "6B.13",
+      "candidate_ticket_id": "p6b_v12_092_seed_6b_13_reconciliation_exception_queue",
+      "capability_name": "6B reconciliation exception queue",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/banking_reconciliation.contract.ts",
+        "packages/contracts/phase-6b/banking_reconciliation.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/banking_reconciliation/banking_reconciliation.module.ts",
+        "apps/api/src/phase-6b/banking_reconciliation/banking_reconciliation.service.ts",
+        "apps/api/src/phase-6b/banking_reconciliation/banking_reconciliation.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_093_seed_6b_13_banking_evidence_export",
+      "seed_id": "seed_6b_13_banking_evidence_export",
+      "source_component_id": "6B.13",
+      "candidate_ticket_id": "p6b_v12_093_seed_6b_13_banking_evidence_export",
+      "capability_name": "6B banking evidence export",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/banking_reconciliation.contract.ts",
+        "packages/contracts/phase-6b/banking_reconciliation.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/banking_reconciliation/banking_reconciliation.module.ts",
+        "apps/api/src/phase-6b/banking_reconciliation/banking_reconciliation.service.ts",
+        "apps/api/src/phase-6b/banking_reconciliation/banking_reconciliation.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_094_seed_6b_14_payroll_tax_slab_calculator",
+      "seed_id": "seed_6b_14_payroll_tax_slab_calculator",
+      "source_component_id": "6B.14",
+      "candidate_ticket_id": "p6b_v12_094_seed_6b_14_payroll_tax_slab_calculator",
+      "capability_name": "6B payroll tax slab calculator",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/finance_payroll_foundation.contract.ts",
+        "packages/contracts/phase-6b/finance_payroll_foundation.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/finance_payroll_foundation/finance_payroll_foundation.module.ts",
+        "apps/api/src/phase-6b/finance_payroll_foundation/finance_payroll_foundation.service.ts",
+        "apps/api/src/phase-6b/finance_payroll_foundation/finance_payroll_foundation.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_095_seed_6b_14_allowance_deduction_formula",
+      "seed_id": "seed_6b_14_allowance_deduction_formula",
+      "source_component_id": "6B.14",
+      "candidate_ticket_id": "p6b_v12_095_seed_6b_14_allowance_deduction_formula",
+      "capability_name": "6B allowance deduction formula",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/finance_payroll_foundation.contract.ts",
+        "packages/contracts/phase-6b/finance_payroll_foundation.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/finance_payroll_foundation/finance_payroll_foundation.module.ts",
+        "apps/api/src/phase-6b/finance_payroll_foundation/finance_payroll_foundation.service.ts",
+        "apps/api/src/phase-6b/finance_payroll_foundation/finance_payroll_foundation.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_096_seed_6b_14_payroll_run_state_machine",
+      "seed_id": "seed_6b_14_payroll_run_state_machine",
+      "source_component_id": "6B.14",
+      "candidate_ticket_id": "p6b_v12_096_seed_6b_14_payroll_run_state_machine",
+      "capability_name": "6B payroll run state machine",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/finance_payroll_foundation.contract.ts",
+        "packages/contracts/phase-6b/finance_payroll_foundation.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/finance_payroll_foundation/finance_payroll_foundation.module.ts",
+        "apps/api/src/phase-6b/finance_payroll_foundation/finance_payroll_foundation.service.ts",
+        "apps/api/src/phase-6b/finance_payroll_foundation/finance_payroll_foundation.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_097_seed_6b_14_payroll_disbursement_file_export",
+      "seed_id": "seed_6b_14_payroll_disbursement_file_export",
+      "source_component_id": "6B.14",
+      "candidate_ticket_id": "p6b_v12_097_seed_6b_14_payroll_disbursement_file_export",
+      "capability_name": "6B payroll disbursement file export",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/finance_payroll_foundation.contract.ts",
+        "packages/contracts/phase-6b/finance_payroll_foundation.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/finance_payroll_foundation/finance_payroll_foundation.module.ts",
+        "apps/api/src/phase-6b/finance_payroll_foundation/finance_payroll_foundation.service.ts",
+        "apps/api/src/phase-6b/finance_payroll_foundation/finance_payroll_foundation.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_098_seed_6b_14_hr_event_feed_boundary",
+      "seed_id": "seed_6b_14_hr_event_feed_boundary",
+      "source_component_id": "6B.14",
+      "candidate_ticket_id": "p6b_v12_098_seed_6b_14_hr_event_feed_boundary",
+      "capability_name": "6B hr event feed boundary",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/finance_payroll_foundation.contract.ts",
+        "packages/contracts/phase-6b/finance_payroll_foundation.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/finance_payroll_foundation/finance_payroll_foundation.module.ts",
+        "apps/api/src/phase-6b/finance_payroll_foundation/finance_payroll_foundation.service.ts",
+        "apps/api/src/phase-6b/finance_payroll_foundation/finance_payroll_foundation.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_099_seed_6b_15_customer_billing_operations",
+      "seed_id": "seed_6b_15_customer_billing_operations",
+      "source_component_id": "6B.15",
+      "candidate_ticket_id": "p6b_v12_099_seed_6b_15_customer_billing_operations",
+      "capability_name": "6B customer billing operations",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/finance_billing_operations.contract.ts",
+        "packages/contracts/phase-6b/finance_billing_operations.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/finance_billing_operations/finance_billing_operations.module.ts",
+        "apps/api/src/phase-6b/finance_billing_operations/finance_billing_operations.service.ts",
+        "apps/api/src/phase-6b/finance_billing_operations/finance_billing_operations.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_100_seed_6b_15_platform_invoice_generation",
+      "seed_id": "seed_6b_15_platform_invoice_generation",
+      "source_component_id": "6B.15",
+      "candidate_ticket_id": "p6b_v12_100_seed_6b_15_platform_invoice_generation",
+      "capability_name": "6B platform invoice generation",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/finance_billing_operations.contract.ts",
+        "packages/contracts/phase-6b/finance_billing_operations.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/finance_billing_operations/finance_billing_operations.module.ts",
+        "apps/api/src/phase-6b/finance_billing_operations/finance_billing_operations.service.ts",
+        "apps/api/src/phase-6b/finance_billing_operations/finance_billing_operations.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_101_seed_6b_15_billing_proration_engine",
+      "seed_id": "seed_6b_15_billing_proration_engine",
+      "source_component_id": "6B.15",
+      "candidate_ticket_id": "p6b_v12_101_seed_6b_15_billing_proration_engine",
+      "capability_name": "6B billing proration engine",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/finance_billing_operations.contract.ts",
+        "packages/contracts/phase-6b/finance_billing_operations.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/finance_billing_operations/finance_billing_operations.module.ts",
+        "apps/api/src/phase-6b/finance_billing_operations/finance_billing_operations.service.ts",
+        "apps/api/src/phase-6b/finance_billing_operations/finance_billing_operations.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_102_seed_6b_15_retention_and_dunning_rules",
+      "seed_id": "seed_6b_15_retention_and_dunning_rules",
+      "source_component_id": "6B.15",
+      "candidate_ticket_id": "p6b_v12_102_seed_6b_15_retention_and_dunning_rules",
+      "capability_name": "6B retention and dunning rules",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/finance_billing_operations.contract.ts",
+        "packages/contracts/phase-6b/finance_billing_operations.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/finance_billing_operations/finance_billing_operations.module.ts",
+        "apps/api/src/phase-6b/finance_billing_operations/finance_billing_operations.service.ts",
+        "apps/api/src/phase-6b/finance_billing_operations/finance_billing_operations.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "discovery_id": "rt_scaffold_6b_v13_103_seed_6b_15_billing_support_interface",
+      "seed_id": "seed_6b_15_billing_support_interface",
+      "source_component_id": "6B.15",
+      "candidate_ticket_id": "p6b_v12_103_seed_6b_15_billing_support_interface",
+      "capability_name": "6B billing support interface",
+      "discovery_status": "SCAFFOLD_TICKET_REQUIRED",
+      "exact_runtime_surface_found": false,
+      "reason": "No approved Phase 6B commerce-specific runtime module/contract/manifest/prisma ownership was found for this seed.",
+      "existing_repo_patterns_relevant": [
+        "packages/contracts/module-manifest.schema.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/module-registry/module-registry.service.ts"
+      ],
+      "existing_runtime_paths_found": [],
+      "proposed_future_scaffold_paths": [
+        "packages/contracts/phase-6b/finance_billing_operations.contract.ts",
+        "packages/contracts/phase-6b/finance_billing_operations.module-manifest.contract.ts",
+        "apps/api/src/phase-6b/finance_billing_operations/finance_billing_operations.module.ts",
+        "apps/api/src/phase-6b/finance_billing_operations/finance_billing_operations.service.ts",
+        "apps/api/src/phase-6b/finance_billing_operations/finance_billing_operations.service.test.ts"
+      ],
+      "future_scaffold_ticket_required": true,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    }
+  ]
+}

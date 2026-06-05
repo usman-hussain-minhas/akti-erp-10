@@ -1,0 +1,73 @@
+{
+  "artifact": "phase_6b_scaffold_control_gate_report_v1",
+  "phase": "6b",
+  "source_ticket_id": "P6B-SCAF-005",
+  "status": "PHASE_6B_SCAFFOLD_CONTROL_GATE_VALIDATED",
+  "scaffold_control_ticket_count": 5,
+  "completed_ticket_ids": [
+    "P6B-SCAF-001",
+    "P6B-SCAF-002",
+    "P6B-SCAF-003",
+    "P6B-SCAF-004",
+    "P6B-SCAF-005"
+  ],
+  "capability_implementation_ticket_count": 0,
+  "capability_implementation_authorized": false,
+  "ticket_generation_allowed": false,
+  "ticket_pack_generation_allowed": false,
+  "execution_authorized": false,
+  "schema_change_authorized": false,
+  "migration_authorized": false,
+  "runtime_business_capability_authorized": false,
+  "validation_commands": [
+    {
+      "command": "node scripts/quality/check_phase_6b_scaffold_control.mjs",
+      "expected_result": "PASS"
+    },
+    {
+      "command": "pnpm contracts:validate",
+      "expected_result": "PASS"
+    },
+    {
+      "command": "pnpm --filter @akti/api typecheck",
+      "expected_result": "PASS"
+    }
+  ],
+  "gate_assertions": [
+    {
+      "assertion": "Phase 6B contract and manifest scaffold definitions exist for all 15 components.",
+      "status": "PASS"
+    },
+    {
+      "assertion": "Phase 6B Prisma ownership decision artifact exists without schema or migration changes.",
+      "status": "PASS"
+    },
+    {
+      "assertion": "Phase 6B NestJS module boundaries expose metadata-only scaffold surfaces.",
+      "status": "PASS"
+    },
+    {
+      "assertion": "Scaffold-control validation wiring exists.",
+      "status": "PASS"
+    },
+    {
+      "assertion": "No Phase 6B capability implementation ticket is authorized.",
+      "status": "PASS"
+    }
+  ],
+  "final_status": "PHASE_6B_SCAFFOLD_CONTROL_GATE_VALIDATED",
+  "validation_results": [
+    {
+      "command": "node scripts/quality/check_phase_6b_scaffold_control.mjs",
+      "status": "PASS"
+    },
+    {
+      "command": "pnpm contracts:validate",
+      "status": "PASS"
+    },
+    {
+      "command": "pnpm --filter @akti/api typecheck",
+      "status": "PASS"
+    }
+  ]
+}
