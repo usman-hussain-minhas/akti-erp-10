@@ -1,0 +1,727 @@
+{
+  "schema": "akti_spark_phase_6b_scaffold_control_ticket_pack.v1",
+  "status": "PHASE_6B_V14_SCAFFOLD_CONTROL_TICKET_PACK_READY_FOR_REVIEW",
+  "phase": "6b",
+  "ticket_pack_type": "scaffold_control_only",
+  "capability_implementation_ticket_pack": false,
+  "ticket_generation_allowed": false,
+  "ticket_pack_generation_allowed": false,
+  "execution_authorized": false,
+  "doctrine_enforcement_lines": [
+    "Implementation is not stale by itself. Tickets become stale.",
+    "Apply maximum concrete capability within the approved scope of each ticket."
+  ],
+  "ticket_count": 5,
+  "ticket_ids": [
+    "P6B-SCAF-001",
+    "P6B-SCAF-002",
+    "P6B-SCAF-003",
+    "P6B-SCAF-004",
+    "P6B-SCAF-005"
+  ],
+  "required_ticket_fields": [
+    "ticket_id",
+    "title",
+    "type",
+    "priority",
+    "objective",
+    "scope",
+    "non_scope",
+    "source_files_to_inspect",
+    "files_expected_to_change",
+    "files_forbidden_to_change",
+    "required_outputs",
+    "evidence_artifacts",
+    "tests_required",
+    "validation_commands",
+    "stop_conditions",
+    "acceptance_criteria",
+    "dependencies",
+    "commit_message",
+    "rollback_notes",
+    "exact_file_plan_required",
+    "broad_globs_are_inspection_hints_only",
+    "conditional_replan_required",
+    "stale_ticket_risk_notes",
+    "runtime_consistency_chain",
+    "minimum_concrete_requirement",
+    "split_if",
+    "requires_human_approval_if",
+    "failure_classification"
+  ],
+  "tickets": [
+    {
+      "type": "scaffold_control",
+      "priority": "P1",
+      "source_files_to_inspect": [
+        "docs/process/v4_1/phase_6b/v14/runtime_scaffold_discovery_matrix_v1.json",
+        "docs/process/v4_1/phase_6b/v14/contract_manifest_gap_register_v1.json",
+        "docs/process/v4_1/phase_6b/v14/prisma_ownership_discovery_v1.json",
+        "docs/process/v4_1/phase_6b/v14/nestjs_boundary_discovery_v1.json",
+        "docs/process/v4_1/phase_6b/v14/test_validation_command_matrix_v1.json",
+        "docs/doctrine/AKTI_ERP_Ticket_Quality_Doctrine_v1.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/0_business_logic.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md"
+      ],
+      "files_forbidden_to_change": [
+        "Any Phase 6B capability behavior implementation beyond scaffold/control scope.",
+        "Any production adapter credential or external provider integration.",
+        "Any UI screen implementation without approved screen contract.",
+        "Any Prisma migration unless explicitly named in the active scaffold ticket.",
+        "Any file outside the ticket files_expected_to_change."
+      ],
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Required if current HEAD differs, exact files already exist, validation commands are unavailable, or scope requires a business capability decision.",
+      "stale_ticket_risk_notes": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket.",
+        "This scaffold-control ticket must be regenerated from current HEAD before execution.",
+        "Do not implement Phase 6B business capability behavior in scaffold-control tickets.",
+        "Package script ownership is intentionally delegated to P6B-SCAF-004 so contract/manifest scaffold definitions do not overlap validation-command wiring."
+      ],
+      "split_if": [
+        "Split if the ticket owns more than one architectural decision.",
+        "Split if the ticket creates more than one runtime subsystem.",
+        "Split if the ticket mixes policy interpretation with runtime implementation.",
+        "Split if the ticket mixes backend, frontend, database, and CI without a contract boundary.",
+        "Split if schema/contracts and runtime code change without a narrow reason.",
+        "Split if validation ladders are unrelated.",
+        "Split if file ownership overlaps another ticket.",
+        "Split if review would require unrelated context switching.",
+        "Split if dependencies are hidden behind vague wording.",
+        "Split if Codex would need to invent decisions during execution."
+      ],
+      "requires_human_approval_if": [
+        "Any file outside files_expected_to_change is needed.",
+        "A business capability behavior decision is required.",
+        "A Prisma migration is needed but not explicitly authorized.",
+        "A screen/API/event/permission boundary is not source-grounded."
+      ],
+      "failure_classification": [
+        "stale_ticket_prevention",
+        "scaffold_control",
+        "exact_file_plan_required"
+      ],
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "ticket_id": "P6B-SCAF-001",
+      "title": "Create Phase 6B contract and manifest scaffold definitions",
+      "objective": "Add source-grounded Phase 6B contract and manifest scaffold files for all 15 Phase 6B components without implementing capability runtime behavior.",
+      "scope": [
+        "Create Phase 6B contract and module-manifest scaffold definitions for the 15 source components using v11/v13 lifecycle classifications.",
+        "Add a contracts validation script for Phase 6B scaffold shape only."
+      ],
+      "non_scope": [
+        "No Prisma schema changes.",
+        "No NestJS module implementation.",
+        "No capability behavior, API routes, provider integration, or UI screens."
+      ],
+      "files_expected_to_change": [
+        "packages/contracts/phase-6b/product_catalogue.contract.ts",
+        "packages/contracts/phase-6b/product_pricing.contract.ts",
+        "packages/contracts/phase-6b/inventory_stock.contract.ts",
+        "packages/contracts/phase-6b/crm_lead_intake.contract.ts",
+        "packages/contracts/phase-6b/crm_deduplication.contract.ts",
+        "packages/contracts/phase-6b/crm_pipeline.contract.ts",
+        "packages/contracts/phase-6b/crm_communication.contract.ts",
+        "packages/contracts/phase-6b/crm_scoring_reporting.contract.ts",
+        "packages/contracts/phase-6b/finance_invoice_receivables.contract.ts",
+        "packages/contracts/phase-6b/payment_collection_topup.contract.ts",
+        "packages/contracts/phase-6b/expense_purchase_vendor.contract.ts",
+        "packages/contracts/phase-6b/general_ledger_accounting.contract.ts",
+        "packages/contracts/phase-6b/banking_reconciliation.contract.ts",
+        "packages/contracts/phase-6b/finance_payroll_foundation.contract.ts",
+        "packages/contracts/phase-6b/finance_billing_operations.contract.ts",
+        "packages/contracts/phase-6b/product_catalogue.module-manifest.contract.ts",
+        "packages/contracts/phase-6b/product_pricing.module-manifest.contract.ts",
+        "packages/contracts/phase-6b/inventory_stock.module-manifest.contract.ts",
+        "packages/contracts/phase-6b/crm_lead_intake.module-manifest.contract.ts",
+        "packages/contracts/phase-6b/crm_deduplication.module-manifest.contract.ts",
+        "packages/contracts/phase-6b/crm_pipeline.module-manifest.contract.ts",
+        "packages/contracts/phase-6b/crm_communication.module-manifest.contract.ts",
+        "packages/contracts/phase-6b/crm_scoring_reporting.module-manifest.contract.ts",
+        "packages/contracts/phase-6b/finance_invoice_receivables.module-manifest.contract.ts",
+        "packages/contracts/phase-6b/payment_collection_topup.module-manifest.contract.ts",
+        "packages/contracts/phase-6b/expense_purchase_vendor.module-manifest.contract.ts",
+        "packages/contracts/phase-6b/general_ledger_accounting.module-manifest.contract.ts",
+        "packages/contracts/phase-6b/banking_reconciliation.module-manifest.contract.ts",
+        "packages/contracts/phase-6b/finance_payroll_foundation.module-manifest.contract.ts",
+        "packages/contracts/phase-6b/finance_billing_operations.module-manifest.contract.ts",
+        "packages/contracts/scripts/validate-phase-6b-contracts.mjs"
+      ],
+      "required_outputs": [
+        "Phase 6B contract scaffold files parse and expose lifecycle-safe metadata only.",
+        "Phase 6B module-manifest scaffold files declare manifest keys, dependencies, billability/evidence metadata, and no runtime implementation."
+      ],
+      "evidence_artifacts": [
+        "packages/contracts/scripts/validate-phase-6b-contracts.mjs output"
+      ],
+      "tests_required": [
+        "Phase 6B contract/manifest scaffold validation covers all 15 components and rejects missing source authority, dependency, manifest, and ticket-generation flags."
+      ],
+      "validation_commands": [
+        "pnpm --filter @akti/contracts build",
+        "pnpm --filter @akti/contracts contracts:validate",
+        "pnpm contracts:validate"
+      ],
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime / Foundry / module installer / business modules / production auth / deployment / secrets / destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change.",
+        "Stop if contract files would encode business behavior beyond scaffold metadata.",
+        "Stop if module manifest schema must change and no approved schema ticket exists."
+      ],
+      "acceptance_criteria": [
+        "All Phase 6B contract/manifest scaffold files exist and validate.",
+        "No Phase 6B capability implementation code is created.",
+        "Ticket generation flags remain false."
+      ],
+      "dependencies": [],
+      "commit_message": "contracts: add Phase 6B contract and manifest scaffolds",
+      "rollback_notes": "Remove only the Phase 6B contract/manifest scaffold files and validator wiring added by this ticket.",
+      "runtime_consistency_chain": {
+        "source": "v14 scaffold-control ticket pack",
+        "scaffold_layer": "contracts_and_manifests",
+        "component_count": 15
+      },
+      "minimum_concrete_requirement": "`pnpm contracts:validate` passes and proves all 15 Phase 6B contract/manifest scaffold definitions are present with ticket_generation_allowed=false.",
+      "ticket_family": "contract_and_manifest_scaffold_definitions",
+      "capability_implementation_authorized": false
+    },
+    {
+      "type": "decision_control",
+      "priority": "P1",
+      "source_files_to_inspect": [
+        "docs/process/v4_1/phase_6b/v14/runtime_scaffold_discovery_matrix_v1.json",
+        "docs/process/v4_1/phase_6b/v14/contract_manifest_gap_register_v1.json",
+        "docs/process/v4_1/phase_6b/v14/prisma_ownership_discovery_v1.json",
+        "docs/process/v4_1/phase_6b/v14/nestjs_boundary_discovery_v1.json",
+        "docs/process/v4_1/phase_6b/v14/test_validation_command_matrix_v1.json",
+        "docs/doctrine/AKTI_ERP_Ticket_Quality_Doctrine_v1.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/0_business_logic.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md"
+      ],
+      "files_forbidden_to_change": [
+        "Any Phase 6B capability behavior implementation beyond scaffold/control scope.",
+        "Any production adapter credential or external provider integration.",
+        "Any UI screen implementation without approved screen contract.",
+        "Any Prisma migration unless explicitly named in the active scaffold ticket.",
+        "Any file outside the ticket files_expected_to_change."
+      ],
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Required if current HEAD differs, exact files already exist, validation commands are unavailable, or scope requires a business capability decision.",
+      "stale_ticket_risk_notes": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket.",
+        "This scaffold-control ticket must be regenerated from current HEAD before execution.",
+        "Do not implement Phase 6B business capability behavior in scaffold-control tickets."
+      ],
+      "split_if": [
+        "Split if the ticket owns more than one architectural decision.",
+        "Split if the ticket creates more than one runtime subsystem.",
+        "Split if the ticket mixes policy interpretation with runtime implementation.",
+        "Split if the ticket mixes backend, frontend, database, and CI without a contract boundary.",
+        "Split if schema/contracts and runtime code change without a narrow reason.",
+        "Split if validation ladders are unrelated.",
+        "Split if file ownership overlaps another ticket.",
+        "Split if review would require unrelated context switching.",
+        "Split if dependencies are hidden behind vague wording.",
+        "Split if Codex would need to invent decisions during execution."
+      ],
+      "requires_human_approval_if": [
+        "Any file outside files_expected_to_change is needed.",
+        "A business capability behavior decision is required.",
+        "A Prisma migration is needed but not explicitly authorized.",
+        "A screen/API/event/permission boundary is not source-grounded."
+      ],
+      "failure_classification": [
+        "stale_ticket_prevention",
+        "scaffold_control",
+        "exact_file_plan_required"
+      ],
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "ticket_id": "P6B-SCAF-002",
+      "title": "Record Phase 6B Prisma ownership and migration decision plan",
+      "objective": "Create the Prisma ownership and migration-decision artifact required before any Phase 6B schema or migration ticket can be written.",
+      "scope": [
+        "Map Phase 6B owned-data authorities to proposed Prisma model ownership groups.",
+        "Decide whether each group requires schema, metadata-only ownership, or deferred future integration."
+      ],
+      "non_scope": [
+        "No prisma/schema.prisma edits.",
+        "No migration files.",
+        "No generated registry update.",
+        "No runtime code."
+      ],
+      "files_expected_to_change": [
+        "docs/process/v4_1/phase_6b/scaffold_control/phase_6b_prisma_ownership_decision_v1.md",
+        "docs/process/v4_1/phase_6b/scaffold_control/phase_6b_prisma_ownership_decision_v1.json"
+      ],
+      "required_outputs": [
+        "Machine-readable Prisma ownership decision artifact with model groups, migration requirement status, and stop conditions."
+      ],
+      "evidence_artifacts": [
+        "docs/process/v4_1/phase_6b/scaffold_control/phase_6b_prisma_ownership_decision_v1.json"
+      ],
+      "tests_required": [
+        "Decision artifact validates against v14 Prisma ownership discovery rows and names no migration as authorized unless explicitly approved."
+      ],
+      "validation_commands": [
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime / Foundry / module installer / business modules / production auth / deployment / secrets / destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change.",
+        "Stop if schema changes are required to complete the decision artifact.",
+        "Stop if an ownership group cannot be resolved from source authority."
+      ],
+      "acceptance_criteria": [
+        "Every Phase 6B owned-data authority has an ownership decision status.",
+        "No Prisma migration is created.",
+        "Future schema tickets can reference this artifact without inventing ownership."
+      ],
+      "dependencies": [
+        "P6B-SCAF-001"
+      ],
+      "commit_message": "docs: record Phase 6B Prisma ownership decision plan",
+      "rollback_notes": "Remove only the Prisma ownership decision artifacts created by this ticket.",
+      "runtime_consistency_chain": {
+        "source": "v14 scaffold-control ticket pack",
+        "scaffold_layer": "prisma_ownership_decision",
+        "migration_authorized": false
+      },
+      "minimum_concrete_requirement": "Named artifact `phase_6b_prisma_ownership_decision_v1.json` covers all 15 Phase 6B components and `pnpm exec prisma validate --schema prisma/schema.prisma` still passes without schema changes.",
+      "decision_options": [
+        "schema_required",
+        "metadata_only_ownership",
+        "deferred_future_integration"
+      ],
+      "selection_criteria": [
+        "source owned-data authority",
+        "tenant isolation requirement",
+        "dependency order",
+        "migration authorization"
+      ],
+      "decision_output_path": "docs/process/v4_1/phase_6b/scaffold_control/phase_6b_prisma_ownership_decision_v1.json",
+      "ticket_family": "prisma_ownership_and_migration_decision_planning",
+      "capability_implementation_authorized": false
+    },
+    {
+      "type": "scaffold_control",
+      "priority": "P1",
+      "source_files_to_inspect": [
+        "docs/process/v4_1/phase_6b/v14/runtime_scaffold_discovery_matrix_v1.json",
+        "docs/process/v4_1/phase_6b/v14/contract_manifest_gap_register_v1.json",
+        "docs/process/v4_1/phase_6b/v14/prisma_ownership_discovery_v1.json",
+        "docs/process/v4_1/phase_6b/v14/nestjs_boundary_discovery_v1.json",
+        "docs/process/v4_1/phase_6b/v14/test_validation_command_matrix_v1.json",
+        "docs/doctrine/AKTI_ERP_Ticket_Quality_Doctrine_v1.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/0_business_logic.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md"
+      ],
+      "files_forbidden_to_change": [
+        "Any Phase 6B capability behavior implementation beyond scaffold/control scope.",
+        "Any production adapter credential or external provider integration.",
+        "Any UI screen implementation without approved screen contract.",
+        "Any Prisma migration unless explicitly named in the active scaffold ticket.",
+        "Any file outside the ticket files_expected_to_change."
+      ],
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Required if current HEAD differs, exact files already exist, validation commands are unavailable, or scope requires a business capability decision.",
+      "stale_ticket_risk_notes": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket.",
+        "This scaffold-control ticket must be regenerated from current HEAD before execution.",
+        "Do not implement Phase 6B business capability behavior in scaffold-control tickets."
+      ],
+      "split_if": [
+        "Split if the ticket owns more than one architectural decision.",
+        "Split if the ticket creates more than one runtime subsystem.",
+        "Split if the ticket mixes policy interpretation with runtime implementation.",
+        "Split if the ticket mixes backend, frontend, database, and CI without a contract boundary.",
+        "Split if schema/contracts and runtime code change without a narrow reason.",
+        "Split if validation ladders are unrelated.",
+        "Split if file ownership overlaps another ticket.",
+        "Split if review would require unrelated context switching.",
+        "Split if dependencies are hidden behind vague wording.",
+        "Split if Codex would need to invent decisions during execution."
+      ],
+      "requires_human_approval_if": [
+        "Any file outside files_expected_to_change is needed.",
+        "A business capability behavior decision is required.",
+        "A Prisma migration is needed but not explicitly authorized.",
+        "A screen/API/event/permission boundary is not source-grounded."
+      ],
+      "failure_classification": [
+        "stale_ticket_prevention",
+        "scaffold_control",
+        "exact_file_plan_required"
+      ],
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "ticket_id": "P6B-SCAF-003",
+      "title": "Create Phase 6B NestJS module boundary scaffolds",
+      "objective": "Create compile-safe NestJS module/controller/service scaffold boundaries for Phase 6B components, with no business behavior implementation.",
+      "scope": [
+        "Create Phase 6B NestJS module folders and boundary files for all 15 source components.",
+        "Wire only scaffold-level imports necessary for typecheck, without routes that expose business behavior."
+      ],
+      "non_scope": [
+        "No Prisma writes.",
+        "No business methods beyond scaffold health/metadata proof if approved by contracts.",
+        "No provider calls.",
+        "No frontend."
+      ],
+      "files_expected_to_change": [
+        "apps/api/src/phase-6b/product_catalogue/product_catalogue.module.ts",
+        "apps/api/src/phase-6b/product_catalogue/product_catalogue.controller.ts",
+        "apps/api/src/phase-6b/product_catalogue/product_catalogue.service.ts",
+        "apps/api/src/phase-6b/product_catalogue/product_catalogue.service.test.ts",
+        "apps/api/src/phase-6b/product_pricing/product_pricing.module.ts",
+        "apps/api/src/phase-6b/product_pricing/product_pricing.controller.ts",
+        "apps/api/src/phase-6b/product_pricing/product_pricing.service.ts",
+        "apps/api/src/phase-6b/product_pricing/product_pricing.service.test.ts",
+        "apps/api/src/phase-6b/inventory_stock/inventory_stock.module.ts",
+        "apps/api/src/phase-6b/inventory_stock/inventory_stock.controller.ts",
+        "apps/api/src/phase-6b/inventory_stock/inventory_stock.service.ts",
+        "apps/api/src/phase-6b/inventory_stock/inventory_stock.service.test.ts",
+        "apps/api/src/phase-6b/crm_lead_intake/crm_lead_intake.module.ts",
+        "apps/api/src/phase-6b/crm_lead_intake/crm_lead_intake.controller.ts",
+        "apps/api/src/phase-6b/crm_lead_intake/crm_lead_intake.service.ts",
+        "apps/api/src/phase-6b/crm_lead_intake/crm_lead_intake.service.test.ts",
+        "apps/api/src/phase-6b/crm_deduplication/crm_deduplication.module.ts",
+        "apps/api/src/phase-6b/crm_deduplication/crm_deduplication.controller.ts",
+        "apps/api/src/phase-6b/crm_deduplication/crm_deduplication.service.ts",
+        "apps/api/src/phase-6b/crm_deduplication/crm_deduplication.service.test.ts",
+        "apps/api/src/phase-6b/crm_pipeline/crm_pipeline.module.ts",
+        "apps/api/src/phase-6b/crm_pipeline/crm_pipeline.controller.ts",
+        "apps/api/src/phase-6b/crm_pipeline/crm_pipeline.service.ts",
+        "apps/api/src/phase-6b/crm_pipeline/crm_pipeline.service.test.ts",
+        "apps/api/src/phase-6b/crm_communication/crm_communication.module.ts",
+        "apps/api/src/phase-6b/crm_communication/crm_communication.controller.ts",
+        "apps/api/src/phase-6b/crm_communication/crm_communication.service.ts",
+        "apps/api/src/phase-6b/crm_communication/crm_communication.service.test.ts",
+        "apps/api/src/phase-6b/crm_scoring_reporting/crm_scoring_reporting.module.ts",
+        "apps/api/src/phase-6b/crm_scoring_reporting/crm_scoring_reporting.controller.ts",
+        "apps/api/src/phase-6b/crm_scoring_reporting/crm_scoring_reporting.service.ts",
+        "apps/api/src/phase-6b/crm_scoring_reporting/crm_scoring_reporting.service.test.ts",
+        "apps/api/src/phase-6b/finance_invoice_receivables/finance_invoice_receivables.module.ts",
+        "apps/api/src/phase-6b/finance_invoice_receivables/finance_invoice_receivables.controller.ts",
+        "apps/api/src/phase-6b/finance_invoice_receivables/finance_invoice_receivables.service.ts",
+        "apps/api/src/phase-6b/finance_invoice_receivables/finance_invoice_receivables.service.test.ts",
+        "apps/api/src/phase-6b/payment_collection_topup/payment_collection_topup.module.ts",
+        "apps/api/src/phase-6b/payment_collection_topup/payment_collection_topup.controller.ts",
+        "apps/api/src/phase-6b/payment_collection_topup/payment_collection_topup.service.ts",
+        "apps/api/src/phase-6b/payment_collection_topup/payment_collection_topup.service.test.ts",
+        "apps/api/src/phase-6b/expense_purchase_vendor/expense_purchase_vendor.module.ts",
+        "apps/api/src/phase-6b/expense_purchase_vendor/expense_purchase_vendor.controller.ts",
+        "apps/api/src/phase-6b/expense_purchase_vendor/expense_purchase_vendor.service.ts",
+        "apps/api/src/phase-6b/expense_purchase_vendor/expense_purchase_vendor.service.test.ts",
+        "apps/api/src/phase-6b/general_ledger_accounting/general_ledger_accounting.module.ts",
+        "apps/api/src/phase-6b/general_ledger_accounting/general_ledger_accounting.controller.ts",
+        "apps/api/src/phase-6b/general_ledger_accounting/general_ledger_accounting.service.ts",
+        "apps/api/src/phase-6b/general_ledger_accounting/general_ledger_accounting.service.test.ts",
+        "apps/api/src/phase-6b/banking_reconciliation/banking_reconciliation.module.ts",
+        "apps/api/src/phase-6b/banking_reconciliation/banking_reconciliation.controller.ts",
+        "apps/api/src/phase-6b/banking_reconciliation/banking_reconciliation.service.ts",
+        "apps/api/src/phase-6b/banking_reconciliation/banking_reconciliation.service.test.ts",
+        "apps/api/src/phase-6b/finance_payroll_foundation/finance_payroll_foundation.module.ts",
+        "apps/api/src/phase-6b/finance_payroll_foundation/finance_payroll_foundation.controller.ts",
+        "apps/api/src/phase-6b/finance_payroll_foundation/finance_payroll_foundation.service.ts",
+        "apps/api/src/phase-6b/finance_payroll_foundation/finance_payroll_foundation.service.test.ts",
+        "apps/api/src/phase-6b/finance_billing_operations/finance_billing_operations.module.ts",
+        "apps/api/src/phase-6b/finance_billing_operations/finance_billing_operations.controller.ts",
+        "apps/api/src/phase-6b/finance_billing_operations/finance_billing_operations.service.ts",
+        "apps/api/src/phase-6b/finance_billing_operations/finance_billing_operations.service.test.ts",
+        "apps/api/src/phase-6b/phase-6b.module.ts",
+        "apps/api/src/app.module.ts"
+      ],
+      "required_outputs": [
+        "Compile-safe Phase 6B API scaffold boundary with no capability behavior."
+      ],
+      "evidence_artifacts": [
+        "apps/api/src/phase-6b/phase-6b.module.ts",
+        "apps/api/src/phase-6b/** scaffold tests"
+      ],
+      "tests_required": [
+        "Each scaffold service test proves the boundary exists, exposes metadata only, and does not perform business behavior."
+      ],
+      "validation_commands": [
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build"
+      ],
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime / Foundry / module installer / business modules / production auth / deployment / secrets / destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change.",
+        "Stop if scaffolding requires Prisma schema changes not authorized by P6B-SCAF-002.",
+        "Stop if any business capability behavior is needed to make tests pass."
+      ],
+      "acceptance_criteria": [
+        "API typecheck and tests pass.",
+        "Phase 6B module boundaries exist but do not implement capability behavior.",
+        "No capability ticket is generated."
+      ],
+      "dependencies": [
+        "P6B-SCAF-001",
+        "P6B-SCAF-002"
+      ],
+      "commit_message": "api: add Phase 6B NestJS boundary scaffolds",
+      "rollback_notes": "Remove only Phase 6B API scaffold files and app-module import added by this ticket.",
+      "runtime_consistency_chain": {
+        "source": "v14 scaffold-control ticket pack",
+        "scaffold_layer": "nestjs_boundaries",
+        "component_count": 15
+      },
+      "minimum_concrete_requirement": "`pnpm --filter @akti/api typecheck` and scaffold tests pass while Phase 6B services expose metadata-only boundaries and no capability behavior.",
+      "ticket_family": "nestjs_module_controller_service_scaffold_boundaries",
+      "capability_implementation_authorized": false
+    },
+    {
+      "type": "scaffold_control",
+      "priority": "P1",
+      "source_files_to_inspect": [
+        "docs/process/v4_1/phase_6b/v14/runtime_scaffold_discovery_matrix_v1.json",
+        "docs/process/v4_1/phase_6b/v14/contract_manifest_gap_register_v1.json",
+        "docs/process/v4_1/phase_6b/v14/prisma_ownership_discovery_v1.json",
+        "docs/process/v4_1/phase_6b/v14/nestjs_boundary_discovery_v1.json",
+        "docs/process/v4_1/phase_6b/v14/test_validation_command_matrix_v1.json",
+        "docs/doctrine/AKTI_ERP_Ticket_Quality_Doctrine_v1.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/0_business_logic.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md"
+      ],
+      "files_forbidden_to_change": [
+        "Any Phase 6B capability behavior implementation beyond scaffold/control scope.",
+        "Any production adapter credential or external provider integration.",
+        "Any UI screen implementation without approved screen contract.",
+        "Any Prisma migration unless explicitly named in the active scaffold ticket.",
+        "Any file outside the ticket files_expected_to_change."
+      ],
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Required if current HEAD differs, exact files already exist, validation commands are unavailable, or scope requires a business capability decision.",
+      "stale_ticket_risk_notes": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket.",
+        "This scaffold-control ticket must be regenerated from current HEAD before execution.",
+        "Do not implement Phase 6B business capability behavior in scaffold-control tickets.",
+        "Owns validation command/package script wiring, including packages/contracts/package.json, to prevent stale duplicate ownership in P6B-SCAF-001."
+      ],
+      "split_if": [
+        "Split if the ticket owns more than one architectural decision.",
+        "Split if the ticket creates more than one runtime subsystem.",
+        "Split if the ticket mixes policy interpretation with runtime implementation.",
+        "Split if the ticket mixes backend, frontend, database, and CI without a contract boundary.",
+        "Split if schema/contracts and runtime code change without a narrow reason.",
+        "Split if validation ladders are unrelated.",
+        "Split if file ownership overlaps another ticket.",
+        "Split if review would require unrelated context switching.",
+        "Split if dependencies are hidden behind vague wording.",
+        "Split if Codex would need to invent decisions during execution."
+      ],
+      "requires_human_approval_if": [
+        "Any file outside files_expected_to_change is needed.",
+        "A business capability behavior decision is required.",
+        "A Prisma migration is needed but not explicitly authorized.",
+        "A screen/API/event/permission boundary is not source-grounded."
+      ],
+      "failure_classification": [
+        "stale_ticket_prevention",
+        "scaffold_control",
+        "exact_file_plan_required"
+      ],
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "ticket_id": "P6B-SCAF-004",
+      "title": "Add Phase 6B scaffold validation command wiring",
+      "objective": "Add validation wiring that proves Phase 6B scaffold contracts, manifests, Prisma ownership decisions, and NestJS boundaries remain aligned before capability tickets are generated.",
+      "scope": [
+        "Create scaffold validation script and package script wiring.",
+        "Validate all Phase 6B scaffold layers without executing business capability behavior."
+      ],
+      "non_scope": [
+        "No contracts or API scaffold files owned here except validation references.",
+        "No schema migration.",
+        "No capability implementation."
+      ],
+      "files_expected_to_change": [
+        "scripts/quality/check_phase_6b_scaffold_control.mjs",
+        "package.json",
+        "apps/api/package.json",
+        "packages/contracts/package.json"
+      ],
+      "required_outputs": [
+        "Reusable Phase 6B scaffold-control validation command."
+      ],
+      "evidence_artifacts": [
+        "scripts/quality/check_phase_6b_scaffold_control.mjs"
+      ],
+      "tests_required": [
+        "Validation script fails if contract/manifest/API scaffold rows drift from v14 scaffold-control expectations."
+      ],
+      "validation_commands": [
+        "node scripts/quality/check_phase_6b_scaffold_control.mjs",
+        "pnpm lint",
+        "pnpm typecheck"
+      ],
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime / Foundry / module installer / business modules / production auth / deployment / secrets / destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change.",
+        "Stop if validation requires codegen or runtime behavior.",
+        "Stop if script would mutate tracked files."
+      ],
+      "acceptance_criteria": [
+        "Scaffold-control validation command passes.",
+        "Validation command reports contract, manifest, Prisma decision, API scaffold, and ticket-generation false counts."
+      ],
+      "dependencies": [
+        "P6B-SCAF-001",
+        "P6B-SCAF-002",
+        "P6B-SCAF-003"
+      ],
+      "commit_message": "scripts: add Phase 6B scaffold-control validation",
+      "rollback_notes": "Remove scaffold-control validation script and package script entries added by this ticket.",
+      "runtime_consistency_chain": {
+        "source": "v14 scaffold-control ticket pack",
+        "scaffold_layer": "validation_wiring"
+      },
+      "minimum_concrete_requirement": "`node scripts/quality/check_phase_6b_scaffold_control.mjs` passes and reports no capability implementation tickets authorized.",
+      "ticket_family": "validation_and_test_command_wiring",
+      "capability_implementation_authorized": false
+    },
+    {
+      "type": "gate_control",
+      "priority": "P1",
+      "source_files_to_inspect": [
+        "docs/process/v4_1/phase_6b/v14/runtime_scaffold_discovery_matrix_v1.json",
+        "docs/process/v4_1/phase_6b/v14/contract_manifest_gap_register_v1.json",
+        "docs/process/v4_1/phase_6b/v14/prisma_ownership_discovery_v1.json",
+        "docs/process/v4_1/phase_6b/v14/nestjs_boundary_discovery_v1.json",
+        "docs/process/v4_1/phase_6b/v14/test_validation_command_matrix_v1.json",
+        "docs/doctrine/AKTI_ERP_Ticket_Quality_Doctrine_v1.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/0_business_logic.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md"
+      ],
+      "files_forbidden_to_change": [
+        "Any Phase 6B capability behavior implementation beyond scaffold/control scope.",
+        "Any production adapter credential or external provider integration.",
+        "Any UI screen implementation without approved screen contract.",
+        "Any Prisma migration unless explicitly named in the active scaffold ticket.",
+        "Any file outside the ticket files_expected_to_change."
+      ],
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Required if current HEAD differs, exact files already exist, validation commands are unavailable, or scope requires a business capability decision.",
+      "stale_ticket_risk_notes": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket.",
+        "This scaffold-control ticket must be regenerated from current HEAD before execution.",
+        "Do not implement Phase 6B business capability behavior in scaffold-control tickets."
+      ],
+      "split_if": [
+        "Split if the ticket owns more than one architectural decision.",
+        "Split if the ticket creates more than one runtime subsystem.",
+        "Split if the ticket mixes policy interpretation with runtime implementation.",
+        "Split if the ticket mixes backend, frontend, database, and CI without a contract boundary.",
+        "Split if schema/contracts and runtime code change without a narrow reason.",
+        "Split if validation ladders are unrelated.",
+        "Split if file ownership overlaps another ticket.",
+        "Split if review would require unrelated context switching.",
+        "Split if dependencies are hidden behind vague wording.",
+        "Split if Codex would need to invent decisions during execution."
+      ],
+      "requires_human_approval_if": [
+        "Any file outside files_expected_to_change is needed.",
+        "A business capability behavior decision is required.",
+        "A Prisma migration is needed but not explicitly authorized.",
+        "A screen/API/event/permission boundary is not source-grounded."
+      ],
+      "failure_classification": [
+        "stale_ticket_prevention",
+        "scaffold_control",
+        "exact_file_plan_required"
+      ],
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "ticket_id": "P6B-SCAF-005",
+      "title": "Gate Phase 6B scaffold-control completion before capability ticketing",
+      "objective": "Prove scaffold-control tickets completed without creating Phase 6B capability implementation tickets or enabling ticket generation.",
+      "scope": [
+        "Run scaffold-control validation and produce gate evidence.",
+        "Confirm no capability implementation ticket pack exists yet."
+      ],
+      "non_scope": [
+        "No runtime file creation.",
+        "No schema change.",
+        "No implementation tickets."
+      ],
+      "files_expected_to_change": [
+        "docs/process/v4_1/phase_6b/scaffold_control/phase_6b_scaffold_control_gate_report_v1.md",
+        "docs/process/v4_1/phase_6b/scaffold_control/phase_6b_scaffold_control_gate_report_v1.json"
+      ],
+      "required_outputs": [
+        "Gate report showing scaffold-control readiness and implementation ticket generation remains blocked."
+      ],
+      "evidence_artifacts": [
+        "docs/process/v4_1/phase_6b/scaffold_control/phase_6b_scaffold_control_gate_report_v1.json"
+      ],
+      "tests_required": [
+        "Gate evidence includes command outputs or unavailable-command explanations for scaffold-control validation."
+      ],
+      "validation_commands": [
+        "node scripts/quality/check_phase_6b_scaffold_control.mjs",
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck"
+      ],
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime / Foundry / module installer / business modules / production auth / deployment / secrets / destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change.",
+        "Stop if any Phase 6B capability implementation ticket is present.",
+        "Stop if ticket_generation_allowed becomes true."
+      ],
+      "acceptance_criteria": [
+        "Gate report says scaffold-control complete or lists blockers.",
+        "Capability implementation ticket generation remains false."
+      ],
+      "dependencies": [
+        "P6B-SCAF-004"
+      ],
+      "commit_message": "docs: add Phase 6B scaffold-control gate evidence",
+      "rollback_notes": "Remove only scaffold-control gate report artifacts.",
+      "runtime_consistency_chain": {
+        "source": "v14 scaffold-control ticket pack",
+        "scaffold_layer": "gate",
+        "capability_ticket_generation_allowed": false
+      },
+      "minimum_concrete_requirement": "Gate report artifact confirms scaffold-control validation passed and capability implementation ticket generation remains false.",
+      "ticket_family": "capability_implementation_absence_gate",
+      "capability_implementation_authorized": false
+    }
+  ],
+  "exact_file_ownership_overlap_count": 0,
+  "final_status": "PHASE_6B_V14_SCAFFOLD_CONTROL_TICKET_PACK_READY_FOR_REVIEW"
+}
