@@ -44,26 +44,26 @@ function requireText(path, expected) {
 }
 
 for (const component of components) {
-  requireFile(`packages/contracts/phase-6b/${component}.contract.ts`);
-  requireFile(`packages/contracts/phase-6b/${component}.module-manifest.contract.ts`);
-  requireFile(`apps/api/src/phase-6b/${component}/${component}.module.ts`);
-  requireFile(`apps/api/src/phase-6b/${component}/${component}.controller.ts`);
-  requireFile(`apps/api/src/phase-6b/${component}/${component}.service.ts`);
-  requireFile(`apps/api/src/phase-6b/${component}/${component}.service.test.ts`);
-  requireText(`apps/api/src/phase-6b/${component}/${component}.service.ts`, "capability_implementation_authorized: false");
-  requireText(`apps/api/src/phase-6b/${component}/${component}.service.ts`, "ticket_generation_allowed: false");
+  requireFile(`packages/contracts/phase_6b/${component}.contract.ts`);
+  requireFile(`packages/contracts/phase_6b/${component}.module_manifest.contract.ts`);
+  requireFile(`apps/api/src/phase_6b/${component}/${component}.module.ts`);
+  requireFile(`apps/api/src/phase_6b/${component}/${component}.controller.ts`);
+  requireFile(`apps/api/src/phase_6b/${component}/${component}.service.ts`);
+  requireFile(`apps/api/src/phase_6b/${component}/${component}.service.test.ts`);
+  requireText(`apps/api/src/phase_6b/${component}/${component}.service.ts`, "capability_implementation_authorized: false");
+  requireText(`apps/api/src/phase_6b/${component}/${component}.service.ts`, "ticket_generation_allowed: false");
 
-  const serviceSource = existsSync(join(repoRoot, `apps/api/src/phase-6b/${component}/${component}.service.ts`))
-    ? readFileSync(join(repoRoot, `apps/api/src/phase-6b/${component}/${component}.service.ts`), "utf8")
+  const serviceSource = existsSync(join(repoRoot, `apps/api/src/phase_6b/${component}/${component}.service.ts`))
+    ? readFileSync(join(repoRoot, `apps/api/src/phase_6b/${component}/${component}.service.ts`), "utf8")
     : "";
   if (serviceSource.includes("PrismaService") || serviceSource.includes("@prisma/client")) {
     failures.push(`${component} scaffold service must not depend on Prisma`);
   }
 }
 
-requireFile("packages/contracts/scripts/validate-phase-6b-contracts.mjs");
+requireFile("packages/contracts/scripts/validate_phase_6b_contracts.mjs");
 requireFile("docs/process/v4_1/phase_6b/scaffold_control/phase_6b_prisma_ownership_decision_v1.json");
-requireFile("apps/api/src/phase-6b/phase-6b.module.ts");
+requireFile("apps/api/src/phase_6b/phase_6b.module.ts");
 requireText("apps/api/src/app.module.ts", "Phase6BModule");
 
 const rootPackage = readJson("package.json");
@@ -74,11 +74,11 @@ if (rootPackage.scripts?.["phase6b:scaffold:check"] !== "node scripts/quality/ch
   failures.push("Root package must expose phase6b:scaffold:check");
 }
 
-if (!contractsPackage.scripts?.["contracts:validate"]?.includes("validate-phase-6b-contracts.mjs")) {
-  failures.push("@akti/contracts contracts:validate must run validate-phase-6b-contracts.mjs");
+if (!contractsPackage.scripts?.["contracts:validate"]?.includes("validate_phase_6b_contracts.mjs")) {
+  failures.push("@akti/contracts contracts:validate must run validate_phase_6b_contracts.mjs");
 }
 
-if (!apiPackage.scripts?.["test:phase-6b-scaffold"]?.includes("src/phase-6b")) {
+if (!apiPackage.scripts?.["test:phase-6b-scaffold"]?.includes("src/phase_6b")) {
   failures.push("@akti/api must expose test:phase-6b-scaffold for Phase 6B metadata-only tests");
 }
 

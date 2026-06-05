@@ -7,7 +7,7 @@ import { safeParseModuleManifest } from "../module-manifest.schema.ts";
 
 const scriptDir = dirname(fileURLToPath(import.meta.url));
 const contractsRoot = resolve(scriptDir, "..");
-const phase6bRoot = resolve(contractsRoot, "phase-6b");
+const phase6bRoot = resolve(contractsRoot, "phase_6b");
 
 const EXPECTED_COMPONENTS = [
   ["6B.01", "product_catalogue", "phase-6b.product-catalogue"],
@@ -35,7 +35,7 @@ async function loadModule(path) {
 
 for (const [sourceComponentId, fileStem, moduleKey] of EXPECTED_COMPONENTS) {
   const contractPath = resolve(phase6bRoot, `${fileStem}.contract.ts`);
-  const manifestPath = resolve(phase6bRoot, `${fileStem}.module-manifest.contract.ts`);
+  const manifestPath = resolve(phase6bRoot, `${fileStem}.module_manifest.contract.ts`);
 
   if (!existsSync(contractPath)) {
     failures.push(`Missing Phase 6B contract scaffold: ${fileStem}.contract.ts`);
@@ -43,7 +43,7 @@ for (const [sourceComponentId, fileStem, moduleKey] of EXPECTED_COMPONENTS) {
   }
 
   if (!existsSync(manifestPath)) {
-    failures.push(`Missing Phase 6B module-manifest scaffold: ${fileStem}.module-manifest.contract.ts`);
+    failures.push(`Missing Phase 6B module_manifest scaffold: ${fileStem}.module_manifest.contract.ts`);
     continue;
   }
 

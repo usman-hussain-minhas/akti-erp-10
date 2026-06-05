@@ -27,7 +27,7 @@ import { NotificationsService } from './notifications/notifications.service';
 import { OrganizationSetupController } from './organization-setup/organization-setup.controller';
 import { OrganizationSetupService } from './organization-setup/organization-setup.service';
 import { PlatformHealthController } from './platform-health/platform-health.controller';
-import { Phase6BModule } from './phase-6b/phase-6b.module';
+import { Phase6BModule } from './phase_6b/phase_6b.module';
 import { AuditLogService } from './platform-observability/audit-log.service';
 import { EventOutboxService } from './platform-observability/event-outbox.service';
 import { PrismaService } from './prisma/prisma.service';
