@@ -156,15 +156,13 @@
       "candidate_seed_id": "seed_6b_02_fixed_pricing_model",
       "decomposition_axis": "source_grounded_subsurface",
       "source_text_basis": "Owned data: Product prices, effective dates, installment plans, package/bundle definitions; activation/lifecycle: Tenant-toggleable only through Product service; pricing immutable in invoices once issued; billing/evidence: Pricing evidence; projection source for product sales",
-      "subsurface_type": "tenant_service",
-      "seed_type": "tenant_service",
-      "manifest_required": true,
-      "foundry_activation_required": true,
-      "manifest_traceability_targets": [
-        "service_manifest_contract"
-      ],
-      "manifest_classification_rationale": "fixed pricing model remains manifest-required because the Phase 6B source component presents it as a service-like tenant or business capability rather than an internal primitive.",
-      "activation_classification_rationale": "fixed pricing model follows the parent component service lifecycle unless explicitly classified otherwise.",
+      "subsurface_type": "configuration_extension",
+      "seed_type": "configuration_extension",
+      "manifest_required": false,
+      "foundry_activation_required": false,
+      "manifest_traceability_targets": [],
+      "manifest_classification_rationale": "Pricing variants are configuration extensions under the pricing capability, not independent service-manifest boundaries, pending manual confirmation.",
+      "activation_classification_rationale": "Configuration pricing variants are not independently activated through Foundry while manual confirmation is pending.",
       "billing_or_evidence_classification": "billing_or_finance_runtime_boundary",
       "adl_refs": [],
       "adl_scope_status": "not_applicable_with_reason: no Phase 6B source-grounded ADL attaches to this candidate sub-surface",
@@ -175,10 +173,10 @@
       "semantic_dependency_targets": [],
       "parent_dependency_inheritance_status": "inherited",
       "parent_dependency_inheritance_rationale": "Product Pricing and Package Service raw dependency text is preserved and mapped to source-grounded seed targets for fixed pricing model.",
-      "manual_review_required": false,
-      "manual_review_reason": null,
+      "manual_review_required": true,
+      "manual_review_reason": "Pricing model family reclassification requires explicit human confirmation before ticket-pack planning; v3 keeps the non-manifest configuration-extension model but does not mark it final for execution.",
       "ticket_staleness_risk": "controlled_by_semantic_derivation_and_exact_file_planning_gate",
-      "final_derivation_status": "READY"
+      "final_derivation_status": "READY_WITH_MANUAL_REVIEW_REQUIRED"
     },
     {
       "source_component_id": "6B.02",
@@ -187,15 +185,13 @@
       "candidate_seed_id": "seed_6b_02_tiered_pricing_model",
       "decomposition_axis": "source_grounded_subsurface",
       "source_text_basis": "Owned data: Product prices, effective dates, installment plans, package/bundle definitions; activation/lifecycle: Tenant-toggleable only through Product service; pricing immutable in invoices once issued; billing/evidence: Pricing evidence; projection source for product sales",
-      "subsurface_type": "tenant_service",
-      "seed_type": "tenant_service",
-      "manifest_required": true,
-      "foundry_activation_required": true,
-      "manifest_traceability_targets": [
-        "service_manifest_contract"
-      ],
-      "manifest_classification_rationale": "tiered pricing model remains manifest-required because the Phase 6B source component presents it as a service-like tenant or business capability rather than an internal primitive.",
-      "activation_classification_rationale": "tiered pricing model follows the parent component service lifecycle unless explicitly classified otherwise.",
+      "subsurface_type": "configuration_extension",
+      "seed_type": "configuration_extension",
+      "manifest_required": false,
+      "foundry_activation_required": false,
+      "manifest_traceability_targets": [],
+      "manifest_classification_rationale": "Pricing variants are configuration extensions under the pricing capability, not independent service-manifest boundaries, pending manual confirmation.",
+      "activation_classification_rationale": "Configuration pricing variants are not independently activated through Foundry while manual confirmation is pending.",
       "billing_or_evidence_classification": "billing_or_finance_runtime_boundary",
       "adl_refs": [],
       "adl_scope_status": "not_applicable_with_reason: no Phase 6B source-grounded ADL attaches to this candidate sub-surface",
@@ -206,10 +202,10 @@
       "semantic_dependency_targets": [],
       "parent_dependency_inheritance_status": "inherited",
       "parent_dependency_inheritance_rationale": "Product Pricing and Package Service raw dependency text is preserved and mapped to source-grounded seed targets for tiered pricing model.",
-      "manual_review_required": false,
-      "manual_review_reason": null,
+      "manual_review_required": true,
+      "manual_review_reason": "Pricing model family reclassification requires explicit human confirmation before ticket-pack planning; v3 keeps the non-manifest configuration-extension model but does not mark it final for execution.",
       "ticket_staleness_risk": "controlled_by_semantic_derivation_and_exact_file_planning_gate",
-      "final_derivation_status": "READY"
+      "final_derivation_status": "READY_WITH_MANUAL_REVIEW_REQUIRED"
     },
     {
       "source_component_id": "6B.02",
@@ -218,15 +214,13 @@
       "candidate_seed_id": "seed_6b_02_volume_pricing_model",
       "decomposition_axis": "source_grounded_subsurface",
       "source_text_basis": "Owned data: Product prices, effective dates, installment plans, package/bundle definitions; activation/lifecycle: Tenant-toggleable only through Product service; pricing immutable in invoices once issued; billing/evidence: Pricing evidence; projection source for product sales",
-      "subsurface_type": "tenant_service",
-      "seed_type": "tenant_service",
-      "manifest_required": true,
-      "foundry_activation_required": true,
-      "manifest_traceability_targets": [
-        "service_manifest_contract"
-      ],
-      "manifest_classification_rationale": "volume pricing model remains manifest-required because the Phase 6B source component presents it as a service-like tenant or business capability rather than an internal primitive.",
-      "activation_classification_rationale": "volume pricing model follows the parent component service lifecycle unless explicitly classified otherwise.",
+      "subsurface_type": "configuration_extension",
+      "seed_type": "configuration_extension",
+      "manifest_required": false,
+      "foundry_activation_required": false,
+      "manifest_traceability_targets": [],
+      "manifest_classification_rationale": "Pricing variants are configuration extensions under the pricing capability, not independent service-manifest boundaries, pending manual confirmation.",
+      "activation_classification_rationale": "Configuration pricing variants are not independently activated through Foundry while manual confirmation is pending.",
       "billing_or_evidence_classification": "billing_or_finance_runtime_boundary",
       "adl_refs": [],
       "adl_scope_status": "not_applicable_with_reason: no Phase 6B source-grounded ADL attaches to this candidate sub-surface",
@@ -237,10 +231,10 @@
       "semantic_dependency_targets": [],
       "parent_dependency_inheritance_status": "inherited",
       "parent_dependency_inheritance_rationale": "Product Pricing and Package Service raw dependency text is preserved and mapped to source-grounded seed targets for volume pricing model.",
-      "manual_review_required": false,
-      "manual_review_reason": null,
+      "manual_review_required": true,
+      "manual_review_reason": "Pricing model family reclassification requires explicit human confirmation before ticket-pack planning; v3 keeps the non-manifest configuration-extension model but does not mark it final for execution.",
       "ticket_staleness_risk": "controlled_by_semantic_derivation_and_exact_file_planning_gate",
-      "final_derivation_status": "READY"
+      "final_derivation_status": "READY_WITH_MANUAL_REVIEW_REQUIRED"
     },
     {
       "source_component_id": "6B.02",
@@ -249,15 +243,13 @@
       "candidate_seed_id": "seed_6b_02_per_unit_pricing_model",
       "decomposition_axis": "source_grounded_subsurface",
       "source_text_basis": "Owned data: Product prices, effective dates, installment plans, package/bundle definitions; activation/lifecycle: Tenant-toggleable only through Product service; pricing immutable in invoices once issued; billing/evidence: Pricing evidence; projection source for product sales",
-      "subsurface_type": "tenant_service",
-      "seed_type": "tenant_service",
-      "manifest_required": true,
-      "foundry_activation_required": true,
-      "manifest_traceability_targets": [
-        "service_manifest_contract"
-      ],
-      "manifest_classification_rationale": "per unit pricing model remains manifest-required because the Phase 6B source component presents it as a service-like tenant or business capability rather than an internal primitive.",
-      "activation_classification_rationale": "per unit pricing model follows the parent component service lifecycle unless explicitly classified otherwise.",
+      "subsurface_type": "configuration_extension",
+      "seed_type": "configuration_extension",
+      "manifest_required": false,
+      "foundry_activation_required": false,
+      "manifest_traceability_targets": [],
+      "manifest_classification_rationale": "Pricing variants are configuration extensions under the pricing capability, not independent service-manifest boundaries, pending manual confirmation.",
+      "activation_classification_rationale": "Configuration pricing variants are not independently activated through Foundry while manual confirmation is pending.",
       "billing_or_evidence_classification": "billing_or_finance_runtime_boundary",
       "adl_refs": [],
       "adl_scope_status": "not_applicable_with_reason: no Phase 6B source-grounded ADL attaches to this candidate sub-surface",
@@ -268,10 +260,10 @@
       "semantic_dependency_targets": [],
       "parent_dependency_inheritance_status": "inherited",
       "parent_dependency_inheritance_rationale": "Product Pricing and Package Service raw dependency text is preserved and mapped to source-grounded seed targets for per unit pricing model.",
-      "manual_review_required": false,
-      "manual_review_reason": null,
+      "manual_review_required": true,
+      "manual_review_reason": "Pricing model family reclassification requires explicit human confirmation before ticket-pack planning; v3 keeps the non-manifest configuration-extension model but does not mark it final for execution.",
       "ticket_staleness_risk": "controlled_by_semantic_derivation_and_exact_file_planning_gate",
-      "final_derivation_status": "READY"
+      "final_derivation_status": "READY_WITH_MANUAL_REVIEW_REQUIRED"
     },
     {
       "source_component_id": "6B.02",
@@ -280,15 +272,13 @@
       "candidate_seed_id": "seed_6b_02_per_hour_pricing_model",
       "decomposition_axis": "source_grounded_subsurface",
       "source_text_basis": "Owned data: Product prices, effective dates, installment plans, package/bundle definitions; activation/lifecycle: Tenant-toggleable only through Product service; pricing immutable in invoices once issued; billing/evidence: Pricing evidence; projection source for product sales",
-      "subsurface_type": "tenant_service",
-      "seed_type": "tenant_service",
-      "manifest_required": true,
-      "foundry_activation_required": true,
-      "manifest_traceability_targets": [
-        "service_manifest_contract"
-      ],
-      "manifest_classification_rationale": "per hour pricing model remains manifest-required because the Phase 6B source component presents it as a service-like tenant or business capability rather than an internal primitive.",
-      "activation_classification_rationale": "per hour pricing model follows the parent component service lifecycle unless explicitly classified otherwise.",
+      "subsurface_type": "configuration_extension",
+      "seed_type": "configuration_extension",
+      "manifest_required": false,
+      "foundry_activation_required": false,
+      "manifest_traceability_targets": [],
+      "manifest_classification_rationale": "Pricing variants are configuration extensions under the pricing capability, not independent service-manifest boundaries, pending manual confirmation.",
+      "activation_classification_rationale": "Configuration pricing variants are not independently activated through Foundry while manual confirmation is pending.",
       "billing_or_evidence_classification": "billing_or_finance_runtime_boundary",
       "adl_refs": [],
       "adl_scope_status": "not_applicable_with_reason: no Phase 6B source-grounded ADL attaches to this candidate sub-surface",
@@ -299,10 +289,10 @@
       "semantic_dependency_targets": [],
       "parent_dependency_inheritance_status": "inherited",
       "parent_dependency_inheritance_rationale": "Product Pricing and Package Service raw dependency text is preserved and mapped to source-grounded seed targets for per hour pricing model.",
-      "manual_review_required": false,
-      "manual_review_reason": null,
+      "manual_review_required": true,
+      "manual_review_reason": "Pricing model family reclassification requires explicit human confirmation before ticket-pack planning; v3 keeps the non-manifest configuration-extension model but does not mark it final for execution.",
       "ticket_staleness_risk": "controlled_by_semantic_derivation_and_exact_file_planning_gate",
-      "final_derivation_status": "READY"
+      "final_derivation_status": "READY_WITH_MANUAL_REVIEW_REQUIRED"
     },
     {
       "source_component_id": "6B.02",
@@ -311,15 +301,13 @@
       "candidate_seed_id": "seed_6b_02_per_period_pricing_model",
       "decomposition_axis": "source_grounded_subsurface",
       "source_text_basis": "Owned data: Product prices, effective dates, installment plans, package/bundle definitions; activation/lifecycle: Tenant-toggleable only through Product service; pricing immutable in invoices once issued; billing/evidence: Pricing evidence; projection source for product sales",
-      "subsurface_type": "tenant_service",
-      "seed_type": "tenant_service",
-      "manifest_required": true,
-      "foundry_activation_required": true,
-      "manifest_traceability_targets": [
-        "service_manifest_contract"
-      ],
-      "manifest_classification_rationale": "per period pricing model remains manifest-required because the Phase 6B source component presents it as a service-like tenant or business capability rather than an internal primitive.",
-      "activation_classification_rationale": "per period pricing model follows the parent component service lifecycle unless explicitly classified otherwise.",
+      "subsurface_type": "configuration_extension",
+      "seed_type": "configuration_extension",
+      "manifest_required": false,
+      "foundry_activation_required": false,
+      "manifest_traceability_targets": [],
+      "manifest_classification_rationale": "Pricing variants are configuration extensions under the pricing capability, not independent service-manifest boundaries, pending manual confirmation.",
+      "activation_classification_rationale": "Configuration pricing variants are not independently activated through Foundry while manual confirmation is pending.",
       "billing_or_evidence_classification": "billing_or_finance_runtime_boundary",
       "adl_refs": [],
       "adl_scope_status": "not_applicable_with_reason: no Phase 6B source-grounded ADL attaches to this candidate sub-surface",
@@ -330,10 +318,10 @@
       "semantic_dependency_targets": [],
       "parent_dependency_inheritance_status": "inherited",
       "parent_dependency_inheritance_rationale": "Product Pricing and Package Service raw dependency text is preserved and mapped to source-grounded seed targets for per period pricing model.",
-      "manual_review_required": false,
-      "manual_review_reason": null,
+      "manual_review_required": true,
+      "manual_review_reason": "Pricing model family reclassification requires explicit human confirmation before ticket-pack planning; v3 keeps the non-manifest configuration-extension model but does not mark it final for execution.",
       "ticket_staleness_risk": "controlled_by_semantic_derivation_and_exact_file_planning_gate",
-      "final_derivation_status": "READY"
+      "final_derivation_status": "READY_WITH_MANUAL_REVIEW_REQUIRED"
     },
     {
       "source_component_id": "6B.02",
@@ -342,15 +330,13 @@
       "candidate_seed_id": "seed_6b_02_early_bird_pricing_deadline",
       "decomposition_axis": "source_grounded_subsurface",
       "source_text_basis": "Owned data: Product prices, effective dates, installment plans, package/bundle definitions; activation/lifecycle: Tenant-toggleable only through Product service; pricing immutable in invoices once issued; billing/evidence: Pricing evidence; projection source for product sales",
-      "subsurface_type": "tenant_service",
-      "seed_type": "tenant_service",
-      "manifest_required": true,
-      "foundry_activation_required": true,
-      "manifest_traceability_targets": [
-        "service_manifest_contract"
-      ],
-      "manifest_classification_rationale": "early bird pricing deadline remains manifest-required because the Phase 6B source component presents it as a service-like tenant or business capability rather than an internal primitive.",
-      "activation_classification_rationale": "early bird pricing deadline follows the parent component service lifecycle unless explicitly classified otherwise.",
+      "subsurface_type": "configuration_extension",
+      "seed_type": "configuration_extension",
+      "manifest_required": false,
+      "foundry_activation_required": false,
+      "manifest_traceability_targets": [],
+      "manifest_classification_rationale": "Pricing variants are configuration extensions under the pricing capability, not independent service-manifest boundaries, pending manual confirmation.",
+      "activation_classification_rationale": "Configuration pricing variants are not independently activated through Foundry while manual confirmation is pending.",
       "billing_or_evidence_classification": "billing_or_finance_runtime_boundary",
       "adl_refs": [],
       "adl_scope_status": "not_applicable_with_reason: no Phase 6B source-grounded ADL attaches to this candidate sub-surface",
@@ -361,10 +347,10 @@
       "semantic_dependency_targets": [],
       "parent_dependency_inheritance_status": "inherited",
       "parent_dependency_inheritance_rationale": "Product Pricing and Package Service raw dependency text is preserved and mapped to source-grounded seed targets for early bird pricing deadline.",
-      "manual_review_required": false,
-      "manual_review_reason": null,
+      "manual_review_required": true,
+      "manual_review_reason": "Pricing model family reclassification requires explicit human confirmation before ticket-pack planning; v3 keeps the non-manifest configuration-extension model but does not mark it final for execution.",
       "ticket_staleness_risk": "controlled_by_semantic_derivation_and_exact_file_planning_gate",
-      "final_derivation_status": "READY"
+      "final_derivation_status": "READY_WITH_MANUAL_REVIEW_REQUIRED"
     },
     {
       "source_component_id": "6B.02",
@@ -441,15 +427,13 @@
       "candidate_seed_id": "seed_6b_02_bundle_package_composition",
       "decomposition_axis": "source_grounded_subsurface",
       "source_text_basis": "Owned data: Product prices, effective dates, installment plans, package/bundle definitions; activation/lifecycle: Tenant-toggleable only through Product service; pricing immutable in invoices once issued; billing/evidence: Pricing evidence; projection source for product sales",
-      "subsurface_type": "tenant_service",
-      "seed_type": "tenant_service",
-      "manifest_required": true,
-      "foundry_activation_required": true,
-      "manifest_traceability_targets": [
-        "service_manifest_contract"
-      ],
-      "manifest_classification_rationale": "bundle package composition remains manifest-required because the Phase 6B source component presents it as a service-like tenant or business capability rather than an internal primitive.",
-      "activation_classification_rationale": "bundle package composition follows the parent component service lifecycle unless explicitly classified otherwise.",
+      "subsurface_type": "configuration_extension",
+      "seed_type": "configuration_extension",
+      "manifest_required": false,
+      "foundry_activation_required": false,
+      "manifest_traceability_targets": [],
+      "manifest_classification_rationale": "Pricing variants are configuration extensions under the pricing capability, not independent service-manifest boundaries, pending manual confirmation.",
+      "activation_classification_rationale": "Configuration pricing variants are not independently activated through Foundry while manual confirmation is pending.",
       "billing_or_evidence_classification": "billing_or_finance_runtime_boundary",
       "adl_refs": [],
       "adl_scope_status": "not_applicable_with_reason: no Phase 6B source-grounded ADL attaches to this candidate sub-surface",
@@ -460,10 +444,10 @@
       "semantic_dependency_targets": [],
       "parent_dependency_inheritance_status": "inherited",
       "parent_dependency_inheritance_rationale": "Product Pricing and Package Service raw dependency text is preserved and mapped to source-grounded seed targets for bundle package composition.",
-      "manual_review_required": false,
-      "manual_review_reason": null,
+      "manual_review_required": true,
+      "manual_review_reason": "Pricing model family reclassification requires explicit human confirmation before ticket-pack planning; v3 keeps the non-manifest configuration-extension model but does not mark it final for execution.",
       "ticket_staleness_risk": "controlled_by_semantic_derivation_and_exact_file_planning_gate",
-      "final_derivation_status": "READY"
+      "final_derivation_status": "READY_WITH_MANUAL_REVIEW_REQUIRED"
     },
     {
       "source_component_id": "6B.02",
@@ -702,10 +686,8 @@
       "manifest_classification_rationale": "meta lead forms connector remains manifest-required because the Phase 6B source component presents it as a service-like tenant or business capability rather than an internal primitive.",
       "activation_classification_rationale": "meta lead forms connector follows the parent component service lifecycle unless explicitly classified otherwise.",
       "billing_or_evidence_classification": "service_boundary",
-      "adl_refs": [
-        "ADL-021"
-      ],
-      "adl_scope_status": "source_grounded_adl_represented",
+      "adl_refs": [],
+      "adl_scope_status": "satisfied_by_anchor_child: ADL-021 immutable lead-source semantics are anchored by seed_6b_04_unified_lead_record_authority.",
       "edge_basis_candidates": [
         "adl_hard_rule",
         "billing_or_evidence_required",
@@ -737,7 +719,7 @@
       "activation_classification_rationale": "meta whatsapp intake connector follows the parent component service lifecycle unless explicitly classified otherwise.",
       "billing_or_evidence_classification": "service_boundary",
       "adl_refs": [],
-      "adl_scope_status": "not_applicable_with_reason: no Phase 6B source-grounded ADL attaches to this candidate sub-surface",
+      "adl_scope_status": "satisfied_by_anchor_child: ADL-021 immutable lead-source semantics are anchored by seed_6b_04_unified_lead_record_authority.",
       "edge_basis_candidates": [
         "activation_lifecycle_required",
         "phase_doc_required"
@@ -767,10 +749,8 @@
       "manifest_classification_rationale": "tiktok lead gen connector remains manifest-required because the Phase 6B source component presents it as a service-like tenant or business capability rather than an internal primitive.",
       "activation_classification_rationale": "tiktok lead gen connector follows the parent component service lifecycle unless explicitly classified otherwise.",
       "billing_or_evidence_classification": "service_boundary",
-      "adl_refs": [
-        "ADL-021"
-      ],
-      "adl_scope_status": "source_grounded_adl_represented",
+      "adl_refs": [],
+      "adl_scope_status": "satisfied_by_anchor_child: ADL-021 immutable lead-source semantics are anchored by seed_6b_04_unified_lead_record_authority.",
       "edge_basis_candidates": [
         "adl_hard_rule",
         "billing_or_evidence_required",
@@ -802,7 +782,7 @@
       "activation_classification_rationale": "google ads connector follows the parent component service lifecycle unless explicitly classified otherwise.",
       "billing_or_evidence_classification": "service_boundary",
       "adl_refs": [],
-      "adl_scope_status": "not_applicable_with_reason: no Phase 6B source-grounded ADL attaches to this candidate sub-surface",
+      "adl_scope_status": "satisfied_by_anchor_child: ADL-021 immutable lead-source semantics are anchored by seed_6b_04_unified_lead_record_authority.",
       "edge_basis_candidates": [
         "activation_lifecycle_required",
         "phase_doc_required"
@@ -833,7 +813,7 @@
       "activation_classification_rationale": "google business connector follows the parent component service lifecycle unless explicitly classified otherwise.",
       "billing_or_evidence_classification": "service_boundary",
       "adl_refs": [],
-      "adl_scope_status": "not_applicable_with_reason: no Phase 6B source-grounded ADL attaches to this candidate sub-surface",
+      "adl_scope_status": "satisfied_by_anchor_child: ADL-021 immutable lead-source semantics are anchored by seed_6b_04_unified_lead_record_authority.",
       "edge_basis_candidates": [
         "activation_lifecycle_required",
         "phase_doc_required"
@@ -864,7 +844,7 @@
       "activation_classification_rationale": "facebook page forms connector follows the parent component service lifecycle unless explicitly classified otherwise.",
       "billing_or_evidence_classification": "service_boundary",
       "adl_refs": [],
-      "adl_scope_status": "not_applicable_with_reason: no Phase 6B source-grounded ADL attaches to this candidate sub-surface",
+      "adl_scope_status": "satisfied_by_anchor_child: ADL-021 immutable lead-source semantics are anchored by seed_6b_04_unified_lead_record_authority.",
       "edge_basis_candidates": [
         "activation_lifecycle_required",
         "phase_doc_required"
@@ -895,7 +875,7 @@
       "activation_classification_rationale": "web form intake connector follows the parent component service lifecycle unless explicitly classified otherwise.",
       "billing_or_evidence_classification": "service_boundary",
       "adl_refs": [],
-      "adl_scope_status": "not_applicable_with_reason: no Phase 6B source-grounded ADL attaches to this candidate sub-surface",
+      "adl_scope_status": "satisfied_by_anchor_child: ADL-021 immutable lead-source semantics are anchored by seed_6b_04_unified_lead_record_authority.",
       "edge_basis_candidates": [
         "activation_lifecycle_required",
         "phase_doc_required"
@@ -925,10 +905,8 @@
       "manifest_classification_rationale": "manual lead entry remains manifest-required because the Phase 6B source component presents it as a service-like tenant or business capability rather than an internal primitive.",
       "activation_classification_rationale": "manual lead entry follows the parent component service lifecycle unless explicitly classified otherwise.",
       "billing_or_evidence_classification": "service_boundary",
-      "adl_refs": [
-        "ADL-021"
-      ],
-      "adl_scope_status": "source_grounded_adl_represented",
+      "adl_refs": [],
+      "adl_scope_status": "satisfied_by_anchor_child: ADL-021 immutable lead-source semantics are anchored by seed_6b_04_unified_lead_record_authority.",
       "edge_basis_candidates": [
         "adl_hard_rule",
         "billing_or_evidence_required",
@@ -960,7 +938,7 @@
       "activation_classification_rationale": "csv excel import follows the parent component service lifecycle unless explicitly classified otherwise.",
       "billing_or_evidence_classification": "service_boundary",
       "adl_refs": [],
-      "adl_scope_status": "not_applicable_with_reason: no Phase 6B source-grounded ADL attaches to this candidate sub-surface",
+      "adl_scope_status": "satisfied_by_anchor_child: ADL-021 immutable lead-source semantics are anchored by seed_6b_04_unified_lead_record_authority.",
       "edge_basis_candidates": [
         "activation_lifecycle_required",
         "phase_doc_required"
@@ -990,10 +968,8 @@
       "manifest_classification_rationale": "api lead intake remains manifest-required because the Phase 6B source component presents it as a service-like tenant or business capability rather than an internal primitive.",
       "activation_classification_rationale": "api lead intake follows the parent component service lifecycle unless explicitly classified otherwise.",
       "billing_or_evidence_classification": "service_boundary",
-      "adl_refs": [
-        "ADL-021"
-      ],
-      "adl_scope_status": "source_grounded_adl_represented",
+      "adl_refs": [],
+      "adl_scope_status": "satisfied_by_anchor_child: ADL-021 immutable lead-source semantics are anchored by seed_6b_04_unified_lead_record_authority.",
       "edge_basis_candidates": [
         "adl_hard_rule",
         "billing_or_evidence_required",
@@ -1025,7 +1001,7 @@
       "activation_classification_rationale": "referral intake follows the parent component service lifecycle unless explicitly classified otherwise.",
       "billing_or_evidence_classification": "service_boundary",
       "adl_refs": [],
-      "adl_scope_status": "not_applicable_with_reason: no Phase 6B source-grounded ADL attaches to this candidate sub-surface",
+      "adl_scope_status": "satisfied_by_anchor_child: ADL-021 immutable lead-source semantics are anchored by seed_6b_04_unified_lead_record_authority.",
       "edge_basis_candidates": [
         "activation_lifecycle_required",
         "phase_doc_required"
@@ -1056,7 +1032,7 @@
       "activation_classification_rationale": "inbound whatsapp intake follows the parent component service lifecycle unless explicitly classified otherwise.",
       "billing_or_evidence_classification": "service_boundary",
       "adl_refs": [],
-      "adl_scope_status": "not_applicable_with_reason: no Phase 6B source-grounded ADL attaches to this candidate sub-surface",
+      "adl_scope_status": "satisfied_by_anchor_child: ADL-021 immutable lead-source semantics are anchored by seed_6b_04_unified_lead_record_authority.",
       "edge_basis_candidates": [
         "activation_lifecycle_required",
         "phase_doc_required"
@@ -1087,7 +1063,7 @@
       "activation_classification_rationale": "inbound sms intake follows the parent component service lifecycle unless explicitly classified otherwise.",
       "billing_or_evidence_classification": "service_boundary",
       "adl_refs": [],
-      "adl_scope_status": "not_applicable_with_reason: no Phase 6B source-grounded ADL attaches to this candidate sub-surface",
+      "adl_scope_status": "satisfied_by_anchor_child: ADL-021 immutable lead-source semantics are anchored by seed_6b_04_unified_lead_record_authority.",
       "edge_basis_candidates": [
         "activation_lifecycle_required",
         "phase_doc_required"
@@ -1118,7 +1094,7 @@
       "activation_classification_rationale": "chatbot intake follows the parent component service lifecycle unless explicitly classified otherwise.",
       "billing_or_evidence_classification": "service_boundary",
       "adl_refs": [],
-      "adl_scope_status": "not_applicable_with_reason: no Phase 6B source-grounded ADL attaches to this candidate sub-surface",
+      "adl_scope_status": "satisfied_by_anchor_child: ADL-021 immutable lead-source semantics are anchored by seed_6b_04_unified_lead_record_authority.",
       "edge_basis_candidates": [
         "activation_lifecycle_required",
         "phase_doc_required"
@@ -1149,7 +1125,7 @@
       "activation_classification_rationale": "live chat intake follows the parent component service lifecycle unless explicitly classified otherwise.",
       "billing_or_evidence_classification": "service_boundary",
       "adl_refs": [],
-      "adl_scope_status": "not_applicable_with_reason: no Phase 6B source-grounded ADL attaches to this candidate sub-surface",
+      "adl_scope_status": "satisfied_by_anchor_child: ADL-021 immutable lead-source semantics are anchored by seed_6b_04_unified_lead_record_authority.",
       "edge_basis_candidates": [
         "activation_lifecycle_required",
         "phase_doc_required"
@@ -1180,7 +1156,7 @@
       "activation_classification_rationale": "email intake follows the parent component service lifecycle unless explicitly classified otherwise.",
       "billing_or_evidence_classification": "service_boundary",
       "adl_refs": [],
-      "adl_scope_status": "not_applicable_with_reason: no Phase 6B source-grounded ADL attaches to this candidate sub-surface",
+      "adl_scope_status": "satisfied_by_anchor_child: ADL-021 immutable lead-source semantics are anchored by seed_6b_04_unified_lead_record_authority.",
       "edge_basis_candidates": [
         "activation_lifecycle_required",
         "phase_doc_required"
@@ -1211,7 +1187,7 @@
       "activation_classification_rationale": "phone intake follows the parent component service lifecycle unless explicitly classified otherwise.",
       "billing_or_evidence_classification": "service_boundary",
       "adl_refs": [],
-      "adl_scope_status": "not_applicable_with_reason: no Phase 6B source-grounded ADL attaches to this candidate sub-surface",
+      "adl_scope_status": "satisfied_by_anchor_child: ADL-021 immutable lead-source semantics are anchored by seed_6b_04_unified_lead_record_authority.",
       "edge_basis_candidates": [
         "activation_lifecycle_required",
         "phase_doc_required"
@@ -1242,7 +1218,7 @@
       "activation_classification_rationale": "walk in intake follows the parent component service lifecycle unless explicitly classified otherwise.",
       "billing_or_evidence_classification": "service_boundary",
       "adl_refs": [],
-      "adl_scope_status": "not_applicable_with_reason: no Phase 6B source-grounded ADL attaches to this candidate sub-surface",
+      "adl_scope_status": "satisfied_by_anchor_child: ADL-021 immutable lead-source semantics are anchored by seed_6b_04_unified_lead_record_authority.",
       "edge_basis_candidates": [
         "activation_lifecycle_required",
         "phase_doc_required"
@@ -1535,29 +1511,34 @@
       "candidate_seed_id": "seed_6b_07_whatsapp_template_management",
       "decomposition_axis": "source_grounded_subsurface",
       "source_text_basis": "Owned data: WhatsApp/email conversation metadata, templates, sequence enrollment, send attempts; activation/lifecycle: Optional per channel; gateway enforcement mandatory; billing/evidence: Message usage evidence; billable communication evidence",
-      "subsurface_type": "tenant_service",
-      "seed_type": "tenant_service",
+      "subsurface_type": "optional_microservice",
+      "seed_type": "optional_microservice",
       "manifest_required": true,
       "foundry_activation_required": true,
       "manifest_traceability_targets": [
         "service_manifest_contract"
       ],
-      "manifest_classification_rationale": "whatsapp template management remains manifest-required because the Phase 6B source component presents it as a service-like tenant or business capability rather than an internal primitive.",
-      "activation_classification_rationale": "whatsapp template management follows the parent component service lifecycle unless explicitly classified otherwise.",
+      "manifest_classification_rationale": "6B.07 source/decomposition guidance treats CRM communication channel engines as optional micro-services split by channel because each channel is independently configurable, toggleable, and potentially billable. Manifest traceability remains required for channel governance.",
+      "activation_classification_rationale": "6B.07 source/decomposition guidance treats CRM communication channel engines as optional micro-services split by channel because each channel is independently configurable, toggleable, and potentially billable. Foundry activation remains source-grounded for channel-level enablement.",
       "billing_or_evidence_classification": "service_boundary",
-      "adl_refs": [],
-      "adl_scope_status": "not_applicable_with_reason: no Phase 6B source-grounded ADL attaches to this candidate sub-surface",
+      "adl_refs": [
+        "ADL-004"
+      ],
+      "adl_scope_status": "source_grounded_adl_represented_as_dependency_on_phase_6a_outbound_gateway_enforcement",
       "edge_basis_candidates": [
         "activation_lifecycle_required",
         "phase_doc_required"
       ],
-      "semantic_dependency_targets": [],
+      "semantic_dependency_targets": [
+        "seed_6a_outbound_gateway_enforcement"
+      ],
       "parent_dependency_inheritance_status": "inherited",
       "parent_dependency_inheritance_rationale": "CRM Communication Engines raw dependency text is preserved and mapped to source-grounded seed targets for whatsapp template management.",
       "manual_review_required": false,
       "manual_review_reason": null,
-      "ticket_staleness_risk": "controlled_by_semantic_derivation_and_exact_file_planning_gate",
-      "final_derivation_status": "READY"
+      "ticket_staleness_risk": "controlled_by_optional_microservice_channel_classification_and_exact_file_planning_gate",
+      "final_derivation_status": "READY",
+      "seed_type_classification_rationale": "6B.07 source/decomposition guidance treats CRM communication channel engines as optional micro-services split by channel because each channel is independently configurable, toggleable, and potentially billable."
     },
     {
       "source_component_id": "6B.07",
@@ -1566,15 +1547,15 @@
       "candidate_seed_id": "seed_6b_07_whatsapp_inbound_routing",
       "decomposition_axis": "source_grounded_subsurface",
       "source_text_basis": "Owned data: WhatsApp/email conversation metadata, templates, sequence enrollment, send attempts; activation/lifecycle: Optional per channel; gateway enforcement mandatory; billing/evidence: Message usage evidence; billable communication evidence",
-      "subsurface_type": "tenant_service",
-      "seed_type": "tenant_service",
+      "subsurface_type": "optional_microservice",
+      "seed_type": "optional_microservice",
       "manifest_required": true,
       "foundry_activation_required": true,
       "manifest_traceability_targets": [
         "service_manifest_contract"
       ],
-      "manifest_classification_rationale": "whatsapp inbound routing remains manifest-required because the Phase 6B source component presents it as a service-like tenant or business capability rather than an internal primitive.",
-      "activation_classification_rationale": "whatsapp inbound routing follows the parent component service lifecycle unless explicitly classified otherwise.",
+      "manifest_classification_rationale": "6B.07 source/decomposition guidance treats CRM communication channel engines as optional micro-services split by channel because each channel is independently configurable, toggleable, and potentially billable. Manifest traceability remains required for channel governance.",
+      "activation_classification_rationale": "6B.07 source/decomposition guidance treats CRM communication channel engines as optional micro-services split by channel because each channel is independently configurable, toggleable, and potentially billable. Foundry activation remains source-grounded for channel-level enablement.",
       "billing_or_evidence_classification": "service_boundary",
       "adl_refs": [],
       "adl_scope_status": "not_applicable_with_reason: no Phase 6B source-grounded ADL attaches to this candidate sub-surface",
@@ -1587,8 +1568,9 @@
       "parent_dependency_inheritance_rationale": "CRM Communication Engines raw dependency text is preserved and mapped to source-grounded seed targets for whatsapp inbound routing.",
       "manual_review_required": false,
       "manual_review_reason": null,
-      "ticket_staleness_risk": "controlled_by_semantic_derivation_and_exact_file_planning_gate",
-      "final_derivation_status": "READY"
+      "ticket_staleness_risk": "controlled_by_optional_microservice_channel_classification_and_exact_file_planning_gate",
+      "final_derivation_status": "READY",
+      "seed_type_classification_rationale": "6B.07 source/decomposition guidance treats CRM communication channel engines as optional micro-services split by channel because each channel is independently configurable, toggleable, and potentially billable."
     },
     {
       "source_component_id": "6B.07",
@@ -1597,29 +1579,34 @@
       "candidate_seed_id": "seed_6b_07_whatsapp_outbound_window",
       "decomposition_axis": "source_grounded_subsurface",
       "source_text_basis": "Owned data: WhatsApp/email conversation metadata, templates, sequence enrollment, send attempts; activation/lifecycle: Optional per channel; gateway enforcement mandatory; billing/evidence: Message usage evidence; billable communication evidence",
-      "subsurface_type": "tenant_service",
-      "seed_type": "tenant_service",
+      "subsurface_type": "optional_microservice",
+      "seed_type": "optional_microservice",
       "manifest_required": true,
       "foundry_activation_required": true,
       "manifest_traceability_targets": [
         "service_manifest_contract"
       ],
-      "manifest_classification_rationale": "whatsapp outbound window remains manifest-required because the Phase 6B source component presents it as a service-like tenant or business capability rather than an internal primitive.",
-      "activation_classification_rationale": "whatsapp outbound window follows the parent component service lifecycle unless explicitly classified otherwise.",
+      "manifest_classification_rationale": "6B.07 source/decomposition guidance treats CRM communication channel engines as optional micro-services split by channel because each channel is independently configurable, toggleable, and potentially billable. Manifest traceability remains required for channel governance.",
+      "activation_classification_rationale": "6B.07 source/decomposition guidance treats CRM communication channel engines as optional micro-services split by channel because each channel is independently configurable, toggleable, and potentially billable. Foundry activation remains source-grounded for channel-level enablement.",
       "billing_or_evidence_classification": "service_boundary",
-      "adl_refs": [],
-      "adl_scope_status": "not_applicable_with_reason: no Phase 6B source-grounded ADL attaches to this candidate sub-surface",
+      "adl_refs": [
+        "ADL-004"
+      ],
+      "adl_scope_status": "source_grounded_adl_represented_as_dependency_on_phase_6a_outbound_gateway_enforcement",
       "edge_basis_candidates": [
         "activation_lifecycle_required",
         "phase_doc_required"
       ],
-      "semantic_dependency_targets": [],
+      "semantic_dependency_targets": [
+        "seed_6a_outbound_gateway_enforcement"
+      ],
       "parent_dependency_inheritance_status": "inherited",
       "parent_dependency_inheritance_rationale": "CRM Communication Engines raw dependency text is preserved and mapped to source-grounded seed targets for whatsapp outbound window.",
       "manual_review_required": false,
       "manual_review_reason": null,
-      "ticket_staleness_risk": "controlled_by_semantic_derivation_and_exact_file_planning_gate",
-      "final_derivation_status": "READY"
+      "ticket_staleness_risk": "controlled_by_optional_microservice_channel_classification_and_exact_file_planning_gate",
+      "final_derivation_status": "READY",
+      "seed_type_classification_rationale": "6B.07 source/decomposition guidance treats CRM communication channel engines as optional micro-services split by channel because each channel is independently configurable, toggleable, and potentially billable."
     },
     {
       "source_component_id": "6B.07",
@@ -1628,29 +1615,34 @@
       "candidate_seed_id": "seed_6b_07_whatsapp_broadcast_compliance",
       "decomposition_axis": "source_grounded_subsurface",
       "source_text_basis": "Owned data: WhatsApp/email conversation metadata, templates, sequence enrollment, send attempts; activation/lifecycle: Optional per channel; gateway enforcement mandatory; billing/evidence: Message usage evidence; billable communication evidence",
-      "subsurface_type": "tenant_service",
-      "seed_type": "tenant_service",
+      "subsurface_type": "optional_microservice",
+      "seed_type": "optional_microservice",
       "manifest_required": true,
       "foundry_activation_required": true,
       "manifest_traceability_targets": [
         "service_manifest_contract"
       ],
-      "manifest_classification_rationale": "whatsapp broadcast compliance remains manifest-required because the Phase 6B source component presents it as a service-like tenant or business capability rather than an internal primitive.",
-      "activation_classification_rationale": "whatsapp broadcast compliance follows the parent component service lifecycle unless explicitly classified otherwise.",
+      "manifest_classification_rationale": "6B.07 source/decomposition guidance treats CRM communication channel engines as optional micro-services split by channel because each channel is independently configurable, toggleable, and potentially billable. Manifest traceability remains required for channel governance.",
+      "activation_classification_rationale": "6B.07 source/decomposition guidance treats CRM communication channel engines as optional micro-services split by channel because each channel is independently configurable, toggleable, and potentially billable. Foundry activation remains source-grounded for channel-level enablement.",
       "billing_or_evidence_classification": "service_boundary",
-      "adl_refs": [],
-      "adl_scope_status": "not_applicable_with_reason: no Phase 6B source-grounded ADL attaches to this candidate sub-surface",
+      "adl_refs": [
+        "ADL-004"
+      ],
+      "adl_scope_status": "source_grounded_adl_represented_as_dependency_on_phase_6a_outbound_gateway_enforcement",
       "edge_basis_candidates": [
         "activation_lifecycle_required",
         "phase_doc_required"
       ],
-      "semantic_dependency_targets": [],
+      "semantic_dependency_targets": [
+        "seed_6a_outbound_gateway_enforcement"
+      ],
       "parent_dependency_inheritance_status": "inherited",
       "parent_dependency_inheritance_rationale": "CRM Communication Engines raw dependency text is preserved and mapped to source-grounded seed targets for whatsapp broadcast compliance.",
       "manual_review_required": false,
       "manual_review_reason": null,
-      "ticket_staleness_risk": "controlled_by_semantic_derivation_and_exact_file_planning_gate",
-      "final_derivation_status": "READY"
+      "ticket_staleness_risk": "controlled_by_optional_microservice_channel_classification_and_exact_file_planning_gate",
+      "final_derivation_status": "READY",
+      "seed_type_classification_rationale": "6B.07 source/decomposition guidance treats CRM communication channel engines as optional micro-services split by channel because each channel is independently configurable, toggleable, and potentially billable."
     },
     {
       "source_component_id": "6B.07",
@@ -1659,29 +1651,34 @@
       "candidate_seed_id": "seed_6b_07_whatsapp_auto_reply_keywords",
       "decomposition_axis": "source_grounded_subsurface",
       "source_text_basis": "Owned data: WhatsApp/email conversation metadata, templates, sequence enrollment, send attempts; activation/lifecycle: Optional per channel; gateway enforcement mandatory; billing/evidence: Message usage evidence; billable communication evidence",
-      "subsurface_type": "tenant_service",
-      "seed_type": "tenant_service",
+      "subsurface_type": "optional_microservice",
+      "seed_type": "optional_microservice",
       "manifest_required": true,
       "foundry_activation_required": true,
       "manifest_traceability_targets": [
         "service_manifest_contract"
       ],
-      "manifest_classification_rationale": "whatsapp auto reply keywords remains manifest-required because the Phase 6B source component presents it as a service-like tenant or business capability rather than an internal primitive.",
-      "activation_classification_rationale": "whatsapp auto reply keywords follows the parent component service lifecycle unless explicitly classified otherwise.",
+      "manifest_classification_rationale": "6B.07 source/decomposition guidance treats CRM communication channel engines as optional micro-services split by channel because each channel is independently configurable, toggleable, and potentially billable. Manifest traceability remains required for channel governance.",
+      "activation_classification_rationale": "6B.07 source/decomposition guidance treats CRM communication channel engines as optional micro-services split by channel because each channel is independently configurable, toggleable, and potentially billable. Foundry activation remains source-grounded for channel-level enablement.",
       "billing_or_evidence_classification": "service_boundary",
-      "adl_refs": [],
-      "adl_scope_status": "not_applicable_with_reason: no Phase 6B source-grounded ADL attaches to this candidate sub-surface",
+      "adl_refs": [
+        "ADL-004"
+      ],
+      "adl_scope_status": "source_grounded_adl_represented_as_dependency_on_phase_6a_outbound_gateway_enforcement",
       "edge_basis_candidates": [
         "activation_lifecycle_required",
         "phase_doc_required"
       ],
-      "semantic_dependency_targets": [],
+      "semantic_dependency_targets": [
+        "seed_6a_outbound_gateway_enforcement"
+      ],
       "parent_dependency_inheritance_status": "inherited",
       "parent_dependency_inheritance_rationale": "CRM Communication Engines raw dependency text is preserved and mapped to source-grounded seed targets for whatsapp auto reply keywords.",
       "manual_review_required": false,
       "manual_review_reason": null,
-      "ticket_staleness_risk": "controlled_by_semantic_derivation_and_exact_file_planning_gate",
-      "final_derivation_status": "READY"
+      "ticket_staleness_risk": "controlled_by_optional_microservice_channel_classification_and_exact_file_planning_gate",
+      "final_derivation_status": "READY",
+      "seed_type_classification_rationale": "6B.07 source/decomposition guidance treats CRM communication channel engines as optional micro-services split by channel because each channel is independently configurable, toggleable, and potentially billable."
     },
     {
       "source_component_id": "6B.07",
@@ -1690,15 +1687,15 @@
       "candidate_seed_id": "seed_6b_07_email_connected_inbox",
       "decomposition_axis": "source_grounded_subsurface",
       "source_text_basis": "Owned data: WhatsApp/email conversation metadata, templates, sequence enrollment, send attempts; activation/lifecycle: Optional per channel; gateway enforcement mandatory; billing/evidence: Message usage evidence; billable communication evidence",
-      "subsurface_type": "tenant_service",
-      "seed_type": "tenant_service",
+      "subsurface_type": "optional_microservice",
+      "seed_type": "optional_microservice",
       "manifest_required": true,
       "foundry_activation_required": true,
       "manifest_traceability_targets": [
         "service_manifest_contract"
       ],
-      "manifest_classification_rationale": "email connected inbox remains manifest-required because the Phase 6B source component presents it as a service-like tenant or business capability rather than an internal primitive.",
-      "activation_classification_rationale": "email connected inbox follows the parent component service lifecycle unless explicitly classified otherwise.",
+      "manifest_classification_rationale": "6B.07 source/decomposition guidance treats CRM communication channel engines as optional micro-services split by channel because each channel is independently configurable, toggleable, and potentially billable. Manifest traceability remains required for channel governance.",
+      "activation_classification_rationale": "6B.07 source/decomposition guidance treats CRM communication channel engines as optional micro-services split by channel because each channel is independently configurable, toggleable, and potentially billable. Foundry activation remains source-grounded for channel-level enablement.",
       "billing_or_evidence_classification": "service_boundary",
       "adl_refs": [],
       "adl_scope_status": "not_applicable_with_reason: no Phase 6B source-grounded ADL attaches to this candidate sub-surface",
@@ -1711,8 +1708,9 @@
       "parent_dependency_inheritance_rationale": "CRM Communication Engines raw dependency text is preserved and mapped to source-grounded seed targets for email connected inbox.",
       "manual_review_required": false,
       "manual_review_reason": null,
-      "ticket_staleness_risk": "controlled_by_semantic_derivation_and_exact_file_planning_gate",
-      "final_derivation_status": "READY"
+      "ticket_staleness_risk": "controlled_by_optional_microservice_channel_classification_and_exact_file_planning_gate",
+      "final_derivation_status": "READY",
+      "seed_type_classification_rationale": "6B.07 source/decomposition guidance treats CRM communication channel engines as optional micro-services split by channel because each channel is independently configurable, toggleable, and potentially billable."
     },
     {
       "source_component_id": "6B.07",
@@ -1721,29 +1719,34 @@
       "candidate_seed_id": "seed_6b_07_email_transactional_domain",
       "decomposition_axis": "source_grounded_subsurface",
       "source_text_basis": "Owned data: WhatsApp/email conversation metadata, templates, sequence enrollment, send attempts; activation/lifecycle: Optional per channel; gateway enforcement mandatory; billing/evidence: Message usage evidence; billable communication evidence",
-      "subsurface_type": "tenant_service",
-      "seed_type": "tenant_service",
+      "subsurface_type": "optional_microservice",
+      "seed_type": "optional_microservice",
       "manifest_required": true,
       "foundry_activation_required": true,
       "manifest_traceability_targets": [
         "service_manifest_contract"
       ],
-      "manifest_classification_rationale": "email transactional domain remains manifest-required because the Phase 6B source component presents it as a service-like tenant or business capability rather than an internal primitive.",
-      "activation_classification_rationale": "email transactional domain follows the parent component service lifecycle unless explicitly classified otherwise.",
+      "manifest_classification_rationale": "6B.07 source/decomposition guidance treats CRM communication channel engines as optional micro-services split by channel because each channel is independently configurable, toggleable, and potentially billable. Manifest traceability remains required for channel governance.",
+      "activation_classification_rationale": "6B.07 source/decomposition guidance treats CRM communication channel engines as optional micro-services split by channel because each channel is independently configurable, toggleable, and potentially billable. Foundry activation remains source-grounded for channel-level enablement.",
       "billing_or_evidence_classification": "service_boundary",
-      "adl_refs": [],
-      "adl_scope_status": "not_applicable_with_reason: no Phase 6B source-grounded ADL attaches to this candidate sub-surface",
+      "adl_refs": [
+        "ADL-004"
+      ],
+      "adl_scope_status": "source_grounded_adl_represented_as_dependency_on_phase_6a_outbound_gateway_enforcement",
       "edge_basis_candidates": [
         "activation_lifecycle_required",
         "phase_doc_required"
       ],
-      "semantic_dependency_targets": [],
+      "semantic_dependency_targets": [
+        "seed_6a_outbound_gateway_enforcement"
+      ],
       "parent_dependency_inheritance_status": "inherited",
       "parent_dependency_inheritance_rationale": "CRM Communication Engines raw dependency text is preserved and mapped to source-grounded seed targets for email transactional domain.",
       "manual_review_required": false,
       "manual_review_reason": null,
-      "ticket_staleness_risk": "controlled_by_semantic_derivation_and_exact_file_planning_gate",
-      "final_derivation_status": "READY"
+      "ticket_staleness_risk": "controlled_by_optional_microservice_channel_classification_and_exact_file_planning_gate",
+      "final_derivation_status": "READY",
+      "seed_type_classification_rationale": "6B.07 source/decomposition guidance treats CRM communication channel engines as optional micro-services split by channel because each channel is independently configurable, toggleable, and potentially billable."
     },
     {
       "source_component_id": "6B.07",
@@ -1752,32 +1755,35 @@
       "candidate_seed_id": "seed_6b_07_email_sequences",
       "decomposition_axis": "source_grounded_subsurface",
       "source_text_basis": "Owned data: WhatsApp/email conversation metadata, templates, sequence enrollment, send attempts; activation/lifecycle: Optional per channel; gateway enforcement mandatory; billing/evidence: Message usage evidence; billable communication evidence",
-      "subsurface_type": "tenant_service",
-      "seed_type": "tenant_service",
+      "subsurface_type": "optional_microservice",
+      "seed_type": "optional_microservice",
       "manifest_required": true,
       "foundry_activation_required": true,
       "manifest_traceability_targets": [
         "service_manifest_contract"
       ],
-      "manifest_classification_rationale": "email sequences remains manifest-required because the Phase 6B source component presents it as a service-like tenant or business capability rather than an internal primitive.",
-      "activation_classification_rationale": "email sequences follows the parent component service lifecycle unless explicitly classified otherwise.",
+      "manifest_classification_rationale": "6B.07 source/decomposition guidance treats CRM communication channel engines as optional micro-services split by channel because each channel is independently configurable, toggleable, and potentially billable. Manifest traceability remains required for channel governance.",
+      "activation_classification_rationale": "6B.07 source/decomposition guidance treats CRM communication channel engines as optional micro-services split by channel because each channel is independently configurable, toggleable, and potentially billable. Foundry activation remains source-grounded for channel-level enablement.",
       "billing_or_evidence_classification": "service_boundary",
       "adl_refs": [
         "ADL-004"
       ],
-      "adl_scope_status": "source_grounded_adl_represented",
+      "adl_scope_status": "source_grounded_adl_represented_as_dependency_on_phase_6a_outbound_gateway_enforcement",
       "edge_basis_candidates": [
         "adl_hard_rule",
         "billing_or_evidence_required",
         "phase_doc_required"
       ],
-      "semantic_dependency_targets": [],
+      "semantic_dependency_targets": [
+        "seed_6a_outbound_gateway_enforcement"
+      ],
       "parent_dependency_inheritance_status": "inherited",
       "parent_dependency_inheritance_rationale": "CRM Communication Engines raw dependency text is preserved and mapped to source-grounded seed targets for email sequences.",
       "manual_review_required": false,
       "manual_review_reason": null,
-      "ticket_staleness_risk": "controlled_by_semantic_derivation_and_exact_file_planning_gate",
-      "final_derivation_status": "READY"
+      "ticket_staleness_risk": "controlled_by_optional_microservice_channel_classification_and_exact_file_planning_gate",
+      "final_derivation_status": "READY",
+      "seed_type_classification_rationale": "6B.07 source/decomposition guidance treats CRM communication channel engines as optional micro-services split by channel because each channel is independently configurable, toggleable, and potentially billable."
     },
     {
       "source_component_id": "6B.07",
@@ -1786,29 +1792,34 @@
       "candidate_seed_id": "seed_6b_07_email_shared_inbox",
       "decomposition_axis": "source_grounded_subsurface",
       "source_text_basis": "Owned data: WhatsApp/email conversation metadata, templates, sequence enrollment, send attempts; activation/lifecycle: Optional per channel; gateway enforcement mandatory; billing/evidence: Message usage evidence; billable communication evidence",
-      "subsurface_type": "tenant_service",
-      "seed_type": "tenant_service",
+      "subsurface_type": "optional_microservice",
+      "seed_type": "optional_microservice",
       "manifest_required": true,
       "foundry_activation_required": true,
       "manifest_traceability_targets": [
         "service_manifest_contract"
       ],
-      "manifest_classification_rationale": "email shared inbox remains manifest-required because the Phase 6B source component presents it as a service-like tenant or business capability rather than an internal primitive.",
-      "activation_classification_rationale": "email shared inbox follows the parent component service lifecycle unless explicitly classified otherwise.",
+      "manifest_classification_rationale": "6B.07 source/decomposition guidance treats CRM communication channel engines as optional micro-services split by channel because each channel is independently configurable, toggleable, and potentially billable. Manifest traceability remains required for channel governance.",
+      "activation_classification_rationale": "6B.07 source/decomposition guidance treats CRM communication channel engines as optional micro-services split by channel because each channel is independently configurable, toggleable, and potentially billable. Foundry activation remains source-grounded for channel-level enablement.",
       "billing_or_evidence_classification": "service_boundary",
-      "adl_refs": [],
-      "adl_scope_status": "not_applicable_with_reason: no Phase 6B source-grounded ADL attaches to this candidate sub-surface",
+      "adl_refs": [
+        "ADL-004"
+      ],
+      "adl_scope_status": "source_grounded_adl_represented_as_dependency_on_phase_6a_outbound_gateway_enforcement",
       "edge_basis_candidates": [
         "activation_lifecycle_required",
         "phase_doc_required"
       ],
-      "semantic_dependency_targets": [],
+      "semantic_dependency_targets": [
+        "seed_6a_outbound_gateway_enforcement"
+      ],
       "parent_dependency_inheritance_status": "inherited",
       "parent_dependency_inheritance_rationale": "CRM Communication Engines raw dependency text is preserved and mapped to source-grounded seed targets for email shared inbox.",
       "manual_review_required": false,
       "manual_review_reason": null,
-      "ticket_staleness_risk": "controlled_by_semantic_derivation_and_exact_file_planning_gate",
-      "final_derivation_status": "READY"
+      "ticket_staleness_risk": "controlled_by_optional_microservice_channel_classification_and_exact_file_planning_gate",
+      "final_derivation_status": "READY",
+      "seed_type_classification_rationale": "6B.07 source/decomposition guidance treats CRM communication channel engines as optional micro-services split by channel because each channel is independently configurable, toggleable, and potentially billable."
     },
     {
       "source_component_id": "6B.07",
