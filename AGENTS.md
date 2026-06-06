@@ -50,6 +50,8 @@ Lifecycle `PASS`, `READY`, or zero-trust audit success is not executable ticket 
 
 Ticket-pack planning reveals blockers; it must not resolve them by changing real code, schema, runtime, generated, package, lockfile, migration, contract, registry, frontend, backend, or validation-script files. Missing repo truth requires a separate control implementation PR before ticket promotion.
 
+Every branch and PR must have one role: planning, control implementation, capability implementation, review, or documentation correction. A mixed ticket-planning plus implementation PR is not valid planning or execution authority even when CI is green; quarantine, split, or replace it before using it as source truth.
+
 ---
 
 ## Required Stack
@@ -179,6 +181,7 @@ Final. Do not revisit:
 * Use Plan Mode for schema, auth, permission, RLS, payment, certification, WhatsApp, frontend screen, module-boundary, Gatekeeper, Foundry, migration, and cross-module data tasks.
 * Implement only from an approved plan unless the task is a tiny typo fix or single-file text edit with no architecture impact.
 * Keep work ticket-sized: one ticket, one branch or worktree, one outcome.
+* Keep branch and PR role pure: docs-only ticket planning must not include schema/runtime/code/control implementation, and implementation/control PRs must not claim ticket-pack readiness unless separately regenerated from accepted repo truth.
 * Use worktrees only for bounded parallel tasks with non-overlapping files.
 * Do not run multiple agents on overlapping architecture, schema, contract, registry, manifest, Access Core, Gatekeeper, Foundry, migration, or module-boundary files.
 * Future autonomous runs use stable contract plus flexible runtime: control docs define scope, queue, ticket boundaries, validation ladder, artifact policy, hard gates, and final stop behavior; progress comes from git history, journals, artifacts, optional run-state files, and ordered queue position.

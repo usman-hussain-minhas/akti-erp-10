@@ -1,11 +1,11 @@
 {
   "document": {
     "title": "AKTI ERP Failure Prevention & Codex Operating Doctrine",
-    "version": "1.0",
-    "status": "post_phase_2_closure_updated",
+    "version": "1.1",
+    "status": "post_phase_6b_ticketability_correction",
     "created_on": "2026-05-22",
     "owner": "AKTI leadership / Usman Minhas until formally delegated",
-    "purpose": "Prevent AKTI ERP from repeating ARI, AKTI OS, plugin, and ERP IV failure patterns by forcing planning discipline, source-of-truth hierarchy, Codex operating rules, CI enforcement, and delivery-first behavior. This revision preserves the original doctrine and adds post-Phase-2 autonomous-run lessons.",
+    "purpose": "Prevent AKTI ERP from repeating ARI, AKTI OS, plugin, and ERP IV failure patterns by forcing planning discipline, source-of-truth hierarchy, Codex operating rules, CI enforcement, and delivery-first behavior. This revision preserves the original doctrine and adds post-Phase-2 autonomous-run lessons. Version 1.1 adds the Phase 6B ticketability correction: planning PRs must not create missing repo truth by changing code, schema, runtime, generated, package, contract, registry, migration, frontend, backend, or validation-script files.",
     "placement_recommendation": [
       "Save this JSON as docs/doctrine/akti-erp-failure-prevention-codex-operating-doctrine.v1.json",
       "Summarize the operational rules into AGENTS.md",
@@ -24,7 +24,11 @@
       "Frontend screens were left undefined, so UX became generic and practically useless",
       "The urgent WhatsApp/Meta ad-spend problem was repeatedly pushed behind broad foundation work",
       "AI/chat outputs were treated as architecture authority instead of being recorded in controlled repo files",
-      "Evidence packs and SoT-style documentation created a false sense of progress"
+      "Evidence packs and SoT-style documentation created a false sense of progress",
+      "Lifecycle PASS, READY, or zero-trust audit success was mistaken for executable ticket readiness",
+      "Ticket-pack planning resolved blockers by modifying real repo truth instead of marking candidates blocked or creating a separate control implementation track",
+      "Green CI was mistaken for scope approval when a PR mixed planning artifacts with schema, scaffold, runtime, generated, package, or validation-script changes",
+      "Mixed planning plus implementation PRs created false progress by making tickets appear executable only because the planning branch changed the base truth"
     ],
     "root_causes": [
       "No source-of-truth conflict hierarchy",
@@ -34,7 +38,11 @@
       "No CI-enforced architecture contracts",
       "No screen contracts before frontend implementation",
       "No protected timeline for the first business-critical module",
-      "Too much premature declaration of future phases"
+      "Too much premature declaration of future phases",
+      "No branch/PR role-purity rule separating docs-only ticket planning from schema/runtime/control implementation",
+      "No explicit planning-contamination stop condition when ticket-pack planning needed real repo truth that did not exist",
+      "No hard rule that missing exact files, runtime MCR, schema/API boundary, validation command, or source authority must produce a blocked ticket instead of optimistic promotion",
+      "CI was treated as sufficient evidence even when the diff violated the approved planning or implementation scope"
     ]
   },
   "frozen_inputs": {
@@ -85,11 +93,26 @@
     },
     {
       "rank": 6,
-      "source": "docs/blueprints",
-      "authority": "Planning direction and scope context only"
+      "source": "active phase control docs, process docs, policies, standards, tests, and validation evidence",
+      "authority": "Active execution contract for the phase, bounded by higher structural sources"
     },
     {
       "rank": 7,
+      "source": "docs/doctrine/AKTI_ERP_Failure_Prevention_Codex_Operating_Doctrine_v1.json",
+      "authority": "Root Codex and failure-prevention operating doctrine"
+    },
+    {
+      "rank": 8,
+      "source": "docs/doctrine/AKTI_ERP_Ticket_Quality_Doctrine_v1.md",
+      "authority": "Specialized ticket-writing doctrine extending this operating doctrine"
+    },
+    {
+      "rank": 9,
+      "source": "docs/blueprints and roadmap references",
+      "authority": "Planning direction and scope context only"
+    },
+    {
+      "rank": 10,
       "source": "chat history",
       "authority": "Drafting and reasoning support only; never final authority"
     }
@@ -110,6 +133,7 @@
     "must_not_do": [
       "Do not maintain an entity-registry.ts file manually in parallel with Prisma",
       "Do not declare Phase 6 entities in detail before Phase 5 reality informs Phase 6 design",
+      "Do not create future-phase Prisma or entity baselines inside ticket-pack planning PRs; create a separate schema-control implementation PR when repo truth is missing",
       "Do not treat entity registry as a runtime module unless a separate manifest, API, tables, and purpose are explicitly approved"
     ],
     "generated_metadata_fields": [
@@ -197,6 +221,26 @@
       "required_correction": "Done means working code, validation, CI, and acceptance behavior."
     },
     {
+      "anti_pattern": "Lifecycle evidence as ticket readiness",
+      "symptom": "SCM, TDM, DEM, ESM, DFM, blocker registry, or zero-trust reports pass and the phase is treated as implementation-ticket ready without exact files, runtime MCR, validation, dependencies, and blockers checked against current repo HEAD",
+      "required_correction": "Treat lifecycle evidence as compiler input for ticket writing. Promote tickets only after ticketability, ownership, dependency, runtime-MCR, validation, blocker, and freshness gates pass."
+    },
+    {
+      "anti_pattern": "Ticket planning as implementation",
+      "symptom": "A ticket-pack planning branch changes schema, runtime, contracts, generated registry, packages, scripts, migrations, frontend, backend, or validation wiring to make blocked tickets appear executable",
+      "required_correction": "Stop the planning pass. Mark candidates blocked and create a separate schema-control, scaffold-control, decision-control, or validation-control implementation PR."
+    },
+    {
+      "anti_pattern": "Green CI as scope approval",
+      "symptom": "A PR passes CI but contains files outside the approved role of the branch or ticket",
+      "required_correction": "Quarantine or split the PR. CI proves technical checks, not scope legitimacy."
+    },
+    {
+      "anti_pattern": "Mixed-scope PR as progress",
+      "symptom": "A single PR contains ticket-pack planning artifacts plus implementation infrastructure and is treated as one clean deliverable",
+      "required_correction": "Preserve the evidence if useful, but do not merge as final authority. Split into docs-only planning and clearly labeled implementation/control PRs."
+    },
+    {
       "anti_pattern": "Premature total platform declaration",
       "symptom": "Phase 5/6 entities are fully specified before Phase 1/2 are built",
       "required_correction": "Keep future modules as placeholders until phase-specific planning."
@@ -215,6 +259,21 @@
       "Single-file text edits with no architecture impact",
       "Previously approved implementation plan"
     ],
+    "branch_pr_role_purity": {
+      "rule": "Every branch and PR must have one role: planning, control implementation, capability implementation, review, or documentation correction.",
+      "planning_pr_rule": "Ticket-pack planning PRs are docs/process artifacts only and must not modify code, schema, runtime, generated, package, contract, registry, migration, frontend, backend, or validation-script files.",
+      "implementation_pr_rule": "Schema, scaffold, runtime, contract, generated, package, migration, validation, frontend, or backend changes require a separate implementation or control PR with explicit scope.",
+      "ci_rule": "CI success never overrides the approved role of the branch or PR."
+    },
+    "ticket_pack_planning_policy": {
+      "rule": "Ticket-pack planning reveals blockers; it does not resolve blockers by changing repo truth.",
+      "missing_repo_truth_output": "If schema, runtime, contract, validation, manifest, generated registry, permission, API, service boundary, screen contract, ADL interpretation, or business logic is missing, produce blocked candidates or a separate control implementation plan.",
+      "promotion_rule": "A ticket may become executable-review-ready only from repo truth already present on the accepted base branch or accepted dependency PR."
+    },
+    "mixed_scope_pr_policy": {
+      "rule": "A mixed planning plus implementation diff is a scope failure even when CI is green.",
+      "required_action": "Quarantine, split, or replace the PR before using it as planning or execution authority."
+    },
     "plan_mode_prompt_required_outputs": [
       "Files inspected",
       "Current architecture understanding",
@@ -307,7 +366,9 @@
         "Never create new UI patterns when packages/ui has a component",
         "Never leave TODOs in production code",
         "Never claim done without validation commands",
-        "Never produce documentation instead of working code unless the ticket is explicitly documentation"
+        "Never produce documentation instead of working code unless the ticket is explicitly documentation",
+        "Never let ticket-pack planning resolve blockers by changing code, schema, runtime, contracts, generated artifacts, package files, migrations, frontend, backend, registry outputs, or validation scripts",
+        "Never treat a green mixed-scope PR as valid planning or execution authority"
       ],
       "done_means": [
         "Code implemented",
@@ -320,7 +381,7 @@
     }
   },
   "standard_codex_prompts": {
-    "plan_mode_prompt": "We are in Plan Mode. Do not modify files yet. Task: [one specific task]. Context: read AGENTS.md, /docs/adr/*, /packages/contracts/*, /prisma/schema.prisma, and only relevant module files. Required output: files inspected, current architecture understanding, step-by-step implementation plan, risks/assumptions, exact files to change, validation commands, acceptance criteria, and what will not be changed. Do not write code until I approve the plan.",
+    "plan_mode_prompt": "We are in Plan Mode. Do not modify files yet. Task: [one specific task]. Declare whether this is planning, control implementation, capability implementation, review, or documentation correction. Context: read AGENTS.md, /docs/adr/*, /packages/contracts/*, /prisma/schema.prisma, and only relevant module files. Required output: files inspected, current architecture understanding, step-by-step implementation plan, risks/assumptions, exact files to change, files forbidden to change, validation commands, acceptance criteria, and what will not be changed. If ticket-pack planning discovers missing repo truth, mark the candidate blocked or propose a separate control implementation PR; do not plan to mutate real repo truth inside the planning PR. Do not write code until I approve the plan.",
     "implementation_prompt": "Implement the approved plan only. Do not expand scope. Do not create new architecture decisions. Do not hardcode organization, campus, role, group, user, or AKTI-only assumptions. Do not bypass Access Core, Registry, Gatekeeper, RLS, or contracts. Do not leave TODO placeholders. Run the agreed validation commands. Provide a short completion note only.",
     "review_prompt": "Review this diff aggressively against AGENTS.md, ADRs, contracts, Prisma schema, RLS rules, permission checks, Gatekeeper usage, frontend usability, and scope control. Do not modify files. Return prioritized findings with severity, affected files, and recommended fix.",
     "screen_contract_prompt": "Create a screen contract before implementation. Include route, purpose, primary users, required capabilities, primary CTA, secondary actions, API/data source, table columns, filters, search fields, form fields, validation, empty/loading/error states, mobile behavior, audit hooks, and what must not happen."
@@ -570,7 +631,9 @@
       "The issue belongs in a Zod contract",
       "The issue belongs in a test",
       "The issue is for a future phase",
-      "The discussion is repeating"
+      "The discussion is repeating",
+      "Ticket-pack planning would require code, schema, runtime, generated, package, contract, registry, migration, frontend, backend, or validation-script changes to make tickets executable",
+      "A PR diff mixes docs-only planning artifacts with implementation or control infrastructure"
     ],
     "continue_planning_when": [
       "Wrong decision would cause rework",
@@ -584,6 +647,7 @@
   },
   "no_evidence_theater_rule": {
     "statement": "Evidence is not delivery. Documentation is not delivery. Peer review is not delivery. Architecture is not delivery. A working, tested, merged feature is delivery.",
+    "ticketability_clarification": "Lifecycle evidence is not executable ticket readiness. A ticket pack is executable-review-ready only after exact-file, runtime-MCR, dependency, validation, blocker, ownership, and freshness gates pass against current repo HEAD. Evidence that repo truth is missing is a blocker, not permission to create that truth inside the planning PR.",
     "allowed_evidence": [
       "Short implementation note",
       "Test output",
@@ -724,6 +788,21 @@
       "runtime route limiting",
       "browser-rendered frontend tests"
     ]
+  },
+  "post_phase_6b_doctrine_update": {
+    "revision_note": "Phase 6B ticketability correction. Filename remains v1; document version advances to 1.1 to record the planning/implementation separation lesson.",
+    "incident": "Phase 6B ticket-pack planning reached a state where capability tickets were blocked by missing schema and runtime baseline. The planning flow then created schema, scaffold, generated, contract, package, validation, and runtime-adjacent changes to make tickets appear executable.",
+    "root_cause": "Lifecycle artifact correctness and CI success were treated as sufficient ticket readiness. The branch and PR role boundary between docs-only planning and implementation/control work was not explicit enough.",
+    "zero_trust_verdict": "The real-code changes may be explainable as schema-control implementation, but they must not be merged as part of a ticket-planning PR or used to claim that the original planning pack was executable-ready.",
+    "required_correction": [
+      "Planning PRs may create docs/process readiness artifacts only",
+      "Missing repo truth must produce blocked ticket candidates or a separate schema-control, scaffold-control, decision-control, or validation-control implementation PR",
+      "Control implementation PRs may change schema, contracts, manifests, generated registry, package scripts, validation scripts, and runtime scaffolds only when explicitly scoped",
+      "A post-control ticket-pack planning PR must regenerate executable tickets from the accepted base after the control implementation PR is reviewed and accepted",
+      "Mixed-scope PRs must be quarantined, split, or replaced even when CI is green"
+    ],
+    "phase_6b_recovery_rule": "Treat the last docs-valid planning checkpoint as planning evidence. Treat later schema/scaffold/runtime changes as a separate implementation-control candidate, not as clean ticket-planning authority, unless split and reviewed under a dedicated implementation PR.",
+    "future_phase_rule": "No Phase 6A, Phase 6B, or later ticket-pack planning may promote executable tickets by modifying real repo truth in the same planning branch."
   },
   "final_guardrail": "If the next output is another broad blueprint instead of AGENTS.md, ADRs, contracts, or small-ticket code, the project is repeating the old failure pattern."
 }

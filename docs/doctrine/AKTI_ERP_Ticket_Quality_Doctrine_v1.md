@@ -19,8 +19,7 @@
 These are not guidelines. They are axioms.
 Every ticket that contradicts them is wrong by definition.
 Axiom 1: Implementation is not stale by itself. Tickets become stale.
-Axiom 2: Each ticket must contain maximum concrete implementation
-within its approved scope.
+Axiom 2: Apply maximum concrete capability within the approved scope of each ticket.
 
 The failure pattern in AI-assisted development is not autonomous execution
 running too long. It is tickets that are stale, shallow, vague, overlapping,
@@ -96,6 +95,24 @@ implementation plan or PR.
 A ticket may not become executable-review-ready because the planning pass
 changed repo truth. Repo truth must already exist on the accepted base branch
 or in an accepted dependency PR before promotion.
+
+## Branch and PR Role Purity
+
+Every branch and PR must have one role: planning, control implementation,
+capability implementation, review, or documentation correction.
+
+Ticket-pack planning PRs are docs/process artifacts only. They must not change
+code, schema, runtime, generated artifacts, package files, contracts, registry
+outputs, migrations, frontend, backend, or validation scripts to make tickets
+appear executable.
+
+Schema-control, scaffold-control, decision-control, validation-control, and
+runtime implementation work must happen in separate implementation/control PRs
+with explicit scope and validation.
+
+Green CI does not approve a mixed-scope PR. If a PR contains ticket-pack
+planning plus implementation/control changes, quarantine, split, or replace it
+before treating it as planning or execution authority.
 
 ---
 
