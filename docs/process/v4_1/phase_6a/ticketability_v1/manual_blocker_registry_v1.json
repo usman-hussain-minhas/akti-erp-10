@@ -1,0 +1,35 @@
+{
+  "phase": "6a",
+  "source_phase_root": "docs/process/v4_1/phase_6a",
+  "doctrine_enforcement_lines": [
+    "Implementation is not stale by itself. Tickets become stale.",
+    "Apply maximum concrete capability within the approved scope of each ticket."
+  ],
+  "ticket_generation_allowed": false,
+  "ticket_pack_generation_allowed": false,
+  "execution_authorized": false,
+  "artifact_id": "phase_6a_manual_blocker_registry_v1",
+  "blocker_registry_status": "BLOCKERS_PRESENT",
+  "blocker_count": 1,
+  "blockers": [
+    {
+      "blocker_id": "P6A-MANUAL-001",
+      "blocker_type": "manual_review_dependency",
+      "source_component_id": "not_phase_6a_scope",
+      "source_seed_id": null,
+      "target_seed_id": null,
+      "affected_artifact": "dependency_extraction_matrix_v1.json",
+      "affected_field": "edge_type",
+      "current_value": "manual_review_required",
+      "reason": "ADL-016 belongs to Phase 6B General Ledger / FX gain-loss accounting and must not be represented as a Phase 6A sub-surface or seed.",
+      "required_human_decision": "Confirm whether this manual-review dependency should block ticket generation, be converted to a hard/conditional/deferred dependency, or remain outside executable ticket scope.",
+      "decision_token_required": true,
+      "current_conservative_handling": "All Phase 6A executable-ticket promotion remains blocked until the manual-review dependency is resolved or excluded by explicit decision.",
+      "downstream_files_blocked": [
+        "docs/process/v4_1/phase_6a/ticketability_v1/phase_6a_executable_ticket_pack_v1.json"
+      ],
+      "ticket_pack_impact": "Executable ticket pack is not generated in this pass.",
+      "final_status": "BLOCKING_EXECUTABLE_TICKET_PROMOTION"
+    }
+  ]
+}
