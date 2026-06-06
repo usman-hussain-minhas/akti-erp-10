@@ -1,0 +1,54 @@
+{
+  "schema": "akti_spark_phase_6b_decision_source_cross_check.v1",
+  "status": "PHASE_6B_V11_DECISIONS_APPLIED_READY_FOR_TICKET_PACK_PLANNING_REVIEW",
+  "phase": "6b",
+  "result": "PASS_SOURCE_COMPATIBLE_WITH_HUMAN_DECISIONS",
+  "checks": [
+    {
+      "decision_family": "pricing_variants_configuration_extension",
+      "result": "PASS",
+      "source_basis": [
+        "6B.02 tenant-toggleable only through Product service",
+        "0_business_logic core micro-services/configuration boundaries"
+      ],
+      "applied_rule": "Eight pricing variants remain configuration_extension, manifest=false, foundry=false."
+    },
+    {
+      "decision_family": "pricing_authority_structural_add",
+      "result": "PASS",
+      "source_basis": [
+        "6B.02 maintains product price histories with effective dates",
+        "0_business_logic price changes use effective date ranges"
+      ],
+      "applied_rule": "seed_6b_02_product_price_history_effective_dates added as canonical 6B.02 pricing authority and distinguished from 6A pricing-table primitive."
+    },
+    {
+      "decision_family": "communication_send_semantics",
+      "result": "PASS",
+      "source_basis": [
+        "6B.07 optional per channel; gateway enforcement mandatory",
+        "No module may bypass Communication Gateway"
+      ],
+      "applied_rule": "Receive/setup surfaces do not carry ADL-004; email_shared_inbox is accepted human send surface and carries outbound gateway ADL-004."
+    },
+    {
+      "decision_family": "payment_api_key_scope",
+      "result": "PASS",
+      "source_basis": [
+        "6B.10 payment callbacks use provider event/transaction identity",
+        "Provider callbacks/top-ups/refunds use provider scope; allocation/manual reconciliation are downstream/manual surfaces"
+      ],
+      "applied_rule": "Provider/API surfaces consume API-key scope; allocation balance and manual reconciliation do not."
+    },
+    {
+      "decision_family": "phase_doc_required_final_basis",
+      "result": "PASS",
+      "source_basis": [
+        "User v11 instruction: phase_doc_required may remain raw provenance only, never final hard basis"
+      ],
+      "applied_rule": "All final hard edges with phase_doc_required were reclassified to business_logic_hard_rule with source-grounded rationale."
+    }
+  ],
+  "ticket_generation_allowed": false,
+  "ticket_pack_generation_allowed": false
+}

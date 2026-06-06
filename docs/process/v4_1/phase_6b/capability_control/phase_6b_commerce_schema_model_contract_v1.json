@@ -1,0 +1,319 @@
+{
+  "artifact_id": "phase_6b_commerce_schema_model_contract_v1",
+  "artifact_status": "P6B_SCHEMA_001_APPROVED_SCHEMA_BASELINE_INPUT",
+  "source_phase": "6B",
+  "source_files": [
+    "docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+    "docs/process/core/v0_0_2/spark_platform_v4_1/0_business_logic.md"
+  ],
+  "control_ticket_id": "P6B-SCHEMA-001",
+  "purpose": "Define the Phase 6B commerce schema model contract before Prisma implementation, without authorizing business capability behavior.",
+  "model_count": 47,
+  "seed_coverage_count": 103,
+  "component_count": 15,
+  "common_model_policy": {
+    "tenant_scope": "Every Phase 6B table is tenant scoped through organization_id unless a later accepted ADR says otherwise.",
+    "organization_relation": "Every model must relate to Organization using organization_id.",
+    "required_indexes": [
+      "@@unique([organization_id, id])",
+      "@@index([organization_id])"
+    ],
+    "audit_policy": "Entity registry metadata must mark audit_required=true for every Phase 6B model.",
+    "rls_policy": "Entity registry metadata must mark tenant_scoped=true, organization_id_required=true, and rls_required=true for every Phase 6B model.",
+    "capability_behavior_policy": "No pricing engine, payment gateway behavior, communication send behavior, inventory movement logic, GL posting logic, payroll calculation, or UI workflow is authorized by this contract.",
+    "json_payload_policy": "payload_json and evidence_json fields are baseline capture surfaces; future capability tickets may harden typed fields only after source-grounded implementation review."
+  },
+  "component_model_groups": [
+    {
+      "source_component_id": "6B.01",
+      "source_component_name": "Product Catalogue",
+      "module_key": "phase-6b.product-catalogue",
+      "source_authority": [
+        "6b_commerce_core.md#6B.01",
+        "0_business_logic.md#commerce-and-finance-core"
+      ],
+      "owned_data_summary": "Products, categories, product media, product status, and product history.",
+      "models": [
+        "Phase6BProduct",
+        "Phase6BProductCategory",
+        "Phase6BProductMedia",
+        "Phase6BProductHistory"
+      ],
+      "seed_coverage_count": 6
+    },
+    {
+      "source_component_id": "6B.02",
+      "source_component_name": "Pricing and Package Service",
+      "module_key": "phase-6b.product-pricing",
+      "source_authority": [
+        "6b_commerce_core.md#6B.02",
+        "0_business_logic.md#pricing-and-commercial-rules"
+      ],
+      "owned_data_summary": "Product price histories, effective dates, package and bundle definitions, and pricing configuration extensions controlled through Product service.",
+      "models": [
+        "Phase6BProductPriceHistory",
+        "Phase6BPackageDefinition",
+        "Phase6BDiscountRule"
+      ],
+      "seed_coverage_count": 8
+    },
+    {
+      "source_component_id": "6B.03",
+      "source_component_name": "Inventory Stock Control",
+      "module_key": "phase-6b.inventory-stock",
+      "source_authority": [
+        "6b_commerce_core.md#6B.03"
+      ],
+      "owned_data_summary": "Stock locations, lots/serials, stock levels, stock movements, and evidence references.",
+      "models": [
+        "Phase6BInventoryLocation",
+        "Phase6BStockItem",
+        "Phase6BStockMovement"
+      ],
+      "seed_coverage_count": 6
+    },
+    {
+      "source_component_id": "6B.04",
+      "source_component_name": "CRM Lead Intake",
+      "module_key": "phase-6b.crm-lead-intake",
+      "source_authority": [
+        "6b_commerce_core.md#6B.04"
+      ],
+      "owned_data_summary": "Lead sources, intake mappings, consent basis, and intake evidence.",
+      "models": [
+        "Phase6BLeadSource",
+        "Phase6BLeadEvidence"
+      ],
+      "seed_coverage_count": 6
+    },
+    {
+      "source_component_id": "6B.05",
+      "source_component_name": "CRM Deduplication",
+      "module_key": "phase-6b.crm-deduplication",
+      "source_authority": [
+        "6b_commerce_core.md#6B.05"
+      ],
+      "owned_data_summary": "Duplicate match candidates, merge records, and duplicate decisions.",
+      "models": [
+        "Phase6BLeadMatchCandidate",
+        "Phase6BLeadMergeRecord"
+      ],
+      "seed_coverage_count": 7
+    },
+    {
+      "source_component_id": "6B.06",
+      "source_component_name": "CRM Pipeline",
+      "module_key": "phase-6b.crm-pipeline",
+      "source_authority": [
+        "6b_commerce_core.md#6B.06"
+      ],
+      "owned_data_summary": "Pipeline stages, activities, notes, timeline entries, and stage history.",
+      "models": [
+        "Phase6BPipelineStage",
+        "Phase6BPipelineTimelineEntry"
+      ],
+      "seed_coverage_count": 7
+    },
+    {
+      "source_component_id": "6B.07",
+      "source_component_name": "Communication",
+      "module_key": "phase-6b.crm-communication",
+      "source_authority": [
+        "6b_commerce_core.md#6B.07",
+        "0_business_logic.md#communication-governance"
+      ],
+      "owned_data_summary": "Templates, sequence enrollments, conversation metadata, and send-attempt evidence with gateway enforcement for send attempts.",
+      "models": [
+        "Phase6BCommunicationTemplate",
+        "Phase6BCommunicationAttempt",
+        "Phase6BCommunicationSequenceEnrollment"
+      ],
+      "seed_coverage_count": 10
+    },
+    {
+      "source_component_id": "6B.08",
+      "source_component_name": "Lead Scoring and Reporting",
+      "module_key": "phase-6b.crm-scoring-reporting",
+      "source_authority": [
+        "6b_commerce_core.md#6B.08"
+      ],
+      "owned_data_summary": "Lead scores, follow-up tasks, reporting definitions, and compliance views.",
+      "models": [
+        "Phase6BLeadScore",
+        "Phase6BFollowUpTask"
+      ],
+      "seed_coverage_count": 6
+    },
+    {
+      "source_component_id": "6B.09",
+      "source_component_name": "Invoice and Receivables",
+      "module_key": "phase-6b.finance-invoice-receivables",
+      "source_authority": [
+        "6b_commerce_core.md#6B.09"
+      ],
+      "owned_data_summary": "Invoices, invoice lines, receivables, payment terms, and credit/debit notes.",
+      "models": [
+        "Phase6BInvoice",
+        "Phase6BInvoiceLine",
+        "Phase6BReceivable",
+        "Phase6BCreditDebitNote"
+      ],
+      "seed_coverage_count": 8
+    },
+    {
+      "source_component_id": "6B.10",
+      "source_component_name": "Payment Collection and Top-Up",
+      "module_key": "phase-6b.payment-collection-topup",
+      "source_authority": [
+        "6b_commerce_core.md#6B.10",
+        "0_business_logic.md#payment-and-reconciliation"
+      ],
+      "owned_data_summary": "Payments, allocations, receipts, top-ups, provider references, callbacks, and reconciliation candidates.",
+      "models": [
+        "Phase6BPayment",
+        "Phase6BPaymentAllocation",
+        "Phase6BReceipt",
+        "Phase6BTopUp",
+        "Phase6BReconciliationCandidate"
+      ],
+      "seed_coverage_count": 10
+    },
+    {
+      "source_component_id": "6B.11",
+      "source_component_name": "Expense, Purchase, and Vendor",
+      "module_key": "phase-6b.expense-purchase-vendor",
+      "source_authority": [
+        "6b_commerce_core.md#6B.11"
+      ],
+      "owned_data_summary": "Vendors, expenses, purchase orders, approvals, receipts, and purchase evidence.",
+      "models": [
+        "Phase6BVendor",
+        "Phase6BExpense",
+        "Phase6BPurchaseOrder",
+        "Phase6BPurchaseReceipt"
+      ],
+      "seed_coverage_count": 7
+    },
+    {
+      "source_component_id": "6B.12",
+      "source_component_name": "General Ledger Accounting",
+      "module_key": "phase-6b.general-ledger-accounting",
+      "source_authority": [
+        "6b_commerce_core.md#6B.12"
+      ],
+      "owned_data_summary": "Chart of accounts, journal entries, accounting periods, and tax mappings.",
+      "models": [
+        "Phase6BChartOfAccount",
+        "Phase6BJournalEntry",
+        "Phase6BJournalEntryLine",
+        "Phase6BAccountingPeriod",
+        "Phase6BTaxMapping"
+      ],
+      "seed_coverage_count": 6
+    },
+    {
+      "source_component_id": "6B.13",
+      "source_component_name": "Banking Reconciliation",
+      "module_key": "phase-6b.banking-reconciliation",
+      "source_authority": [
+        "6b_commerce_core.md#6B.13"
+      ],
+      "owned_data_summary": "Bank accounts, imported transactions, matches, and reconciliation statements.",
+      "models": [
+        "Phase6BBankAccount",
+        "Phase6BBankTransaction",
+        "Phase6BReconciliationStatement"
+      ],
+      "seed_coverage_count": 5
+    },
+    {
+      "source_component_id": "6B.14",
+      "source_component_name": "Payroll Foundation",
+      "module_key": "phase-6b.finance-payroll-foundation",
+      "source_authority": [
+        "6b_commerce_core.md#6B.14"
+      ],
+      "owned_data_summary": "Payees, payroll batches, payout records, deductions, and allowance formulas.",
+      "models": [
+        "Phase6BPayee",
+        "Phase6BPayrollBatch",
+        "Phase6BPayrollPayout"
+      ],
+      "seed_coverage_count": 5
+    },
+    {
+      "source_component_id": "6B.15",
+      "source_component_name": "Billing UI and Operations",
+      "module_key": "phase-6b.finance-billing-operations",
+      "source_authority": [
+        "6b_commerce_core.md#6B.15"
+      ],
+      "owned_data_summary": "Tenant billing views, balance displays, budget caps, receipts, and service spend views.",
+      "models": [
+        "Phase6BBillingOperation",
+        "Phase6BBudgetCap"
+      ],
+      "seed_coverage_count": 6
+    }
+  ],
+  "all_model_names": [
+    "Phase6BProduct",
+    "Phase6BProductCategory",
+    "Phase6BProductMedia",
+    "Phase6BProductHistory",
+    "Phase6BProductPriceHistory",
+    "Phase6BPackageDefinition",
+    "Phase6BDiscountRule",
+    "Phase6BInventoryLocation",
+    "Phase6BStockItem",
+    "Phase6BStockMovement",
+    "Phase6BLeadSource",
+    "Phase6BLeadEvidence",
+    "Phase6BLeadMatchCandidate",
+    "Phase6BLeadMergeRecord",
+    "Phase6BPipelineStage",
+    "Phase6BPipelineTimelineEntry",
+    "Phase6BCommunicationTemplate",
+    "Phase6BCommunicationAttempt",
+    "Phase6BCommunicationSequenceEnrollment",
+    "Phase6BLeadScore",
+    "Phase6BFollowUpTask",
+    "Phase6BInvoice",
+    "Phase6BInvoiceLine",
+    "Phase6BReceivable",
+    "Phase6BCreditDebitNote",
+    "Phase6BPayment",
+    "Phase6BPaymentAllocation",
+    "Phase6BReceipt",
+    "Phase6BTopUp",
+    "Phase6BReconciliationCandidate",
+    "Phase6BVendor",
+    "Phase6BExpense",
+    "Phase6BPurchaseOrder",
+    "Phase6BPurchaseReceipt",
+    "Phase6BChartOfAccount",
+    "Phase6BJournalEntry",
+    "Phase6BJournalEntryLine",
+    "Phase6BAccountingPeriod",
+    "Phase6BTaxMapping",
+    "Phase6BBankAccount",
+    "Phase6BBankTransaction",
+    "Phase6BReconciliationStatement",
+    "Phase6BPayee",
+    "Phase6BPayrollBatch",
+    "Phase6BPayrollPayout",
+    "Phase6BBillingOperation",
+    "Phase6BBudgetCap"
+  ],
+  "schema_implementation_authorized_for_ticket": "P6B-SCHEMA-002",
+  "capability_implementation_authorized": false,
+  "ticket_generation_allowed": false,
+  "ticket_pack_generation_allowed": false,
+  "execution_authorized": false,
+  "validation_expectations": [
+    "Prisma schema changes must be additive Phase 6B tenant-scoped baseline models only.",
+    "Migration SQL must be generated from the approved model contract and reviewed before capability tickets execute.",
+    "Registry metadata must include every model in all_model_names.",
+    "No Phase 6B capability ticket may become executable solely because this contract exists; v18 must recompute exact runtime grounding after P6B-SCHEMA-002 and P6B-SCHEMA-003."
+  ]
+}
