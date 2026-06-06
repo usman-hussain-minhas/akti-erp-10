@@ -1,0 +1,199 @@
+{
+  "schema": "akti_spark_phase_6b_prisma_schema_baseline_decision.v1",
+  "version": "v19",
+  "status": "BASELINE_DISCOVERY_COMPLETE_SCHEMA_IMPLEMENTATION_NOT_AUTHORIZED",
+  "source_version": "v18",
+  "source_pr": 49,
+  "current_prisma": {
+    "schema_path": "prisma/schema.prisma",
+    "model_count": 26,
+    "models": [
+      "Organization",
+      "OrganizationDomain",
+      "UnitType",
+      "OrganizationUnit",
+      "OrganizationUnitClosure",
+      "User",
+      "EngagementGatewayRequest",
+      "Group",
+      "UserGroup",
+      "Capability",
+      "GroupCapability",
+      "AuditLog",
+      "GatekeeperDecisionRecord",
+      "EventOutbox",
+      "ReadModelEntry",
+      "ReadModelCursor",
+      "WorkflowDefinition",
+      "WorkflowInstance",
+      "WorkflowStepInstance",
+      "FileDocumentMetadata",
+      "ModuleRegistryEntry",
+      "ModuleLifecycleEvent",
+      "OrganizationSetting",
+      "LeadRecord",
+      "LeadStatusHistory",
+      "LeadAssignmentHistory"
+    ],
+    "phase_6b_complete_commerce_domain_model_baseline_present": false,
+    "phase_6b_existing_partial_models": [
+      "LeadRecord",
+      "LeadStatusHistory",
+      "LeadAssignmentHistory"
+    ]
+  },
+  "existing_phase_6b_scaffolds": {
+    "component_count": 15,
+    "contracts_present": 15,
+    "module_manifest_contracts_present": 15,
+    "nestjs_modules_present": 15,
+    "controllers_present": 15,
+    "services_present": 15,
+    "service_tests_present": 15,
+    "service_files_are_metadata_only": true,
+    "service_files_use_prisma": false,
+    "component_files": {
+      "product_catalogue": {
+        "contract": "packages/contracts/phase_6b/product_catalogue.contract.ts",
+        "manifest_contract": "packages/contracts/phase_6b/product_catalogue.module_manifest.contract.ts",
+        "nestjs_module": "apps/api/src/phase_6b/product_catalogue/product_catalogue.module.ts",
+        "controller": "apps/api/src/phase_6b/product_catalogue/product_catalogue.controller.ts",
+        "service": "apps/api/src/phase_6b/product_catalogue/product_catalogue.service.ts",
+        "service_test": "apps/api/src/phase_6b/product_catalogue/product_catalogue.service.test.ts"
+      },
+      "product_pricing": {
+        "contract": "packages/contracts/phase_6b/product_pricing.contract.ts",
+        "manifest_contract": "packages/contracts/phase_6b/product_pricing.module_manifest.contract.ts",
+        "nestjs_module": "apps/api/src/phase_6b/product_pricing/product_pricing.module.ts",
+        "controller": "apps/api/src/phase_6b/product_pricing/product_pricing.controller.ts",
+        "service": "apps/api/src/phase_6b/product_pricing/product_pricing.service.ts",
+        "service_test": "apps/api/src/phase_6b/product_pricing/product_pricing.service.test.ts"
+      },
+      "inventory_stock": {
+        "contract": "packages/contracts/phase_6b/inventory_stock.contract.ts",
+        "manifest_contract": "packages/contracts/phase_6b/inventory_stock.module_manifest.contract.ts",
+        "nestjs_module": "apps/api/src/phase_6b/inventory_stock/inventory_stock.module.ts",
+        "controller": "apps/api/src/phase_6b/inventory_stock/inventory_stock.controller.ts",
+        "service": "apps/api/src/phase_6b/inventory_stock/inventory_stock.service.ts",
+        "service_test": "apps/api/src/phase_6b/inventory_stock/inventory_stock.service.test.ts"
+      },
+      "crm_lead_intake": {
+        "contract": "packages/contracts/phase_6b/crm_lead_intake.contract.ts",
+        "manifest_contract": "packages/contracts/phase_6b/crm_lead_intake.module_manifest.contract.ts",
+        "nestjs_module": "apps/api/src/phase_6b/crm_lead_intake/crm_lead_intake.module.ts",
+        "controller": "apps/api/src/phase_6b/crm_lead_intake/crm_lead_intake.controller.ts",
+        "service": "apps/api/src/phase_6b/crm_lead_intake/crm_lead_intake.service.ts",
+        "service_test": "apps/api/src/phase_6b/crm_lead_intake/crm_lead_intake.service.test.ts"
+      },
+      "crm_deduplication": {
+        "contract": "packages/contracts/phase_6b/crm_deduplication.contract.ts",
+        "manifest_contract": "packages/contracts/phase_6b/crm_deduplication.module_manifest.contract.ts",
+        "nestjs_module": "apps/api/src/phase_6b/crm_deduplication/crm_deduplication.module.ts",
+        "controller": "apps/api/src/phase_6b/crm_deduplication/crm_deduplication.controller.ts",
+        "service": "apps/api/src/phase_6b/crm_deduplication/crm_deduplication.service.ts",
+        "service_test": "apps/api/src/phase_6b/crm_deduplication/crm_deduplication.service.test.ts"
+      },
+      "crm_pipeline": {
+        "contract": "packages/contracts/phase_6b/crm_pipeline.contract.ts",
+        "manifest_contract": "packages/contracts/phase_6b/crm_pipeline.module_manifest.contract.ts",
+        "nestjs_module": "apps/api/src/phase_6b/crm_pipeline/crm_pipeline.module.ts",
+        "controller": "apps/api/src/phase_6b/crm_pipeline/crm_pipeline.controller.ts",
+        "service": "apps/api/src/phase_6b/crm_pipeline/crm_pipeline.service.ts",
+        "service_test": "apps/api/src/phase_6b/crm_pipeline/crm_pipeline.service.test.ts"
+      },
+      "crm_communication": {
+        "contract": "packages/contracts/phase_6b/crm_communication.contract.ts",
+        "manifest_contract": "packages/contracts/phase_6b/crm_communication.module_manifest.contract.ts",
+        "nestjs_module": "apps/api/src/phase_6b/crm_communication/crm_communication.module.ts",
+        "controller": "apps/api/src/phase_6b/crm_communication/crm_communication.controller.ts",
+        "service": "apps/api/src/phase_6b/crm_communication/crm_communication.service.ts",
+        "service_test": "apps/api/src/phase_6b/crm_communication/crm_communication.service.test.ts"
+      },
+      "crm_scoring_reporting": {
+        "contract": "packages/contracts/phase_6b/crm_scoring_reporting.contract.ts",
+        "manifest_contract": "packages/contracts/phase_6b/crm_scoring_reporting.module_manifest.contract.ts",
+        "nestjs_module": "apps/api/src/phase_6b/crm_scoring_reporting/crm_scoring_reporting.module.ts",
+        "controller": "apps/api/src/phase_6b/crm_scoring_reporting/crm_scoring_reporting.controller.ts",
+        "service": "apps/api/src/phase_6b/crm_scoring_reporting/crm_scoring_reporting.service.ts",
+        "service_test": "apps/api/src/phase_6b/crm_scoring_reporting/crm_scoring_reporting.service.test.ts"
+      },
+      "finance_invoice_receivables": {
+        "contract": "packages/contracts/phase_6b/finance_invoice_receivables.contract.ts",
+        "manifest_contract": "packages/contracts/phase_6b/finance_invoice_receivables.module_manifest.contract.ts",
+        "nestjs_module": "apps/api/src/phase_6b/finance_invoice_receivables/finance_invoice_receivables.module.ts",
+        "controller": "apps/api/src/phase_6b/finance_invoice_receivables/finance_invoice_receivables.controller.ts",
+        "service": "apps/api/src/phase_6b/finance_invoice_receivables/finance_invoice_receivables.service.ts",
+        "service_test": "apps/api/src/phase_6b/finance_invoice_receivables/finance_invoice_receivables.service.test.ts"
+      },
+      "payment_collection_topup": {
+        "contract": "packages/contracts/phase_6b/payment_collection_topup.contract.ts",
+        "manifest_contract": "packages/contracts/phase_6b/payment_collection_topup.module_manifest.contract.ts",
+        "nestjs_module": "apps/api/src/phase_6b/payment_collection_topup/payment_collection_topup.module.ts",
+        "controller": "apps/api/src/phase_6b/payment_collection_topup/payment_collection_topup.controller.ts",
+        "service": "apps/api/src/phase_6b/payment_collection_topup/payment_collection_topup.service.ts",
+        "service_test": "apps/api/src/phase_6b/payment_collection_topup/payment_collection_topup.service.test.ts"
+      },
+      "expense_purchase_vendor": {
+        "contract": "packages/contracts/phase_6b/expense_purchase_vendor.contract.ts",
+        "manifest_contract": "packages/contracts/phase_6b/expense_purchase_vendor.module_manifest.contract.ts",
+        "nestjs_module": "apps/api/src/phase_6b/expense_purchase_vendor/expense_purchase_vendor.module.ts",
+        "controller": "apps/api/src/phase_6b/expense_purchase_vendor/expense_purchase_vendor.controller.ts",
+        "service": "apps/api/src/phase_6b/expense_purchase_vendor/expense_purchase_vendor.service.ts",
+        "service_test": "apps/api/src/phase_6b/expense_purchase_vendor/expense_purchase_vendor.service.test.ts"
+      },
+      "general_ledger_accounting": {
+        "contract": "packages/contracts/phase_6b/general_ledger_accounting.contract.ts",
+        "manifest_contract": "packages/contracts/phase_6b/general_ledger_accounting.module_manifest.contract.ts",
+        "nestjs_module": "apps/api/src/phase_6b/general_ledger_accounting/general_ledger_accounting.module.ts",
+        "controller": "apps/api/src/phase_6b/general_ledger_accounting/general_ledger_accounting.controller.ts",
+        "service": "apps/api/src/phase_6b/general_ledger_accounting/general_ledger_accounting.service.ts",
+        "service_test": "apps/api/src/phase_6b/general_ledger_accounting/general_ledger_accounting.service.test.ts"
+      },
+      "banking_reconciliation": {
+        "contract": "packages/contracts/phase_6b/banking_reconciliation.contract.ts",
+        "manifest_contract": "packages/contracts/phase_6b/banking_reconciliation.module_manifest.contract.ts",
+        "nestjs_module": "apps/api/src/phase_6b/banking_reconciliation/banking_reconciliation.module.ts",
+        "controller": "apps/api/src/phase_6b/banking_reconciliation/banking_reconciliation.controller.ts",
+        "service": "apps/api/src/phase_6b/banking_reconciliation/banking_reconciliation.service.ts",
+        "service_test": "apps/api/src/phase_6b/banking_reconciliation/banking_reconciliation.service.test.ts"
+      },
+      "finance_payroll_foundation": {
+        "contract": "packages/contracts/phase_6b/finance_payroll_foundation.contract.ts",
+        "manifest_contract": "packages/contracts/phase_6b/finance_payroll_foundation.module_manifest.contract.ts",
+        "nestjs_module": "apps/api/src/phase_6b/finance_payroll_foundation/finance_payroll_foundation.module.ts",
+        "controller": "apps/api/src/phase_6b/finance_payroll_foundation/finance_payroll_foundation.controller.ts",
+        "service": "apps/api/src/phase_6b/finance_payroll_foundation/finance_payroll_foundation.service.ts",
+        "service_test": "apps/api/src/phase_6b/finance_payroll_foundation/finance_payroll_foundation.service.test.ts"
+      },
+      "finance_billing_operations": {
+        "contract": "packages/contracts/phase_6b/finance_billing_operations.contract.ts",
+        "manifest_contract": "packages/contracts/phase_6b/finance_billing_operations.module_manifest.contract.ts",
+        "nestjs_module": "apps/api/src/phase_6b/finance_billing_operations/finance_billing_operations.module.ts",
+        "controller": "apps/api/src/phase_6b/finance_billing_operations/finance_billing_operations.controller.ts",
+        "service": "apps/api/src/phase_6b/finance_billing_operations/finance_billing_operations.service.ts",
+        "service_test": "apps/api/src/phase_6b/finance_billing_operations/finance_billing_operations.service.test.ts"
+      }
+    }
+  },
+  "validation_commands_available": [
+    "pnpm exec prisma validate --schema prisma/schema.prisma",
+    "pnpm registry:check",
+    "pnpm --filter @akti/contracts contracts:validate",
+    "pnpm --filter @akti/api test:phase-6b-scaffold",
+    "node scripts/quality/check_phase_6b_scaffold_control.mjs"
+  ],
+  "decision": {
+    "p6b_cap_000": "EXECUTABLE_REVIEW_READY_CONTROL_TICKET",
+    "p6b_cap_001_to_p6b_cap_015": "BLOCKED_PENDING_P6B_CAP_000_SCHEMA_RUNTIME_BASELINE",
+    "p6b_cap_016": "REVIEW_GATE_ONLY",
+    "ticket_generation_allowed": false,
+    "execution_authorized": false
+  },
+  "blocking_reason_for_capability_tickets": "Capabilities require schema/API/runtime behavior that is not fully represented in current Prisma source-of-truth. Existing Phase 6B contract and NestJS files are safe scaffolds, not complete business implementation surfaces.",
+  "self_audit": {
+    "schema_or_business_logic_invented": false,
+    "runtime_files_modified": false,
+    "prisma_modified": false,
+    "capability_execution_authorized": false
+  }
+}

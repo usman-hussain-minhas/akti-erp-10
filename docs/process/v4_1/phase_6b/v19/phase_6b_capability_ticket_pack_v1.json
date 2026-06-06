@@ -1,0 +1,3421 @@
+{
+  "schema": "akti_spark_phase_6b_capability_ticket_pack.v1",
+  "phase": "6b",
+  "source_version": "v19_post_schema_scaffold_control",
+  "target_version": "v18_v4_lifecycle_application",
+  "source_pr": {
+    "number": 49,
+    "head_sha": "27874514103e8999b94b23346e1c7f67a4b4af96",
+    "merge_state_status": "CLEAN",
+    "status_check": "phase3-security-validation SUCCESS"
+  },
+  "source_head_sha": "75c42d596f63df311f65d4b400ed7453366481c7",
+  "status": "PHASE_6B_V19_EXECUTABLE_CAPABILITY_TICKET_PACK_READY_FOR_FINAL_REVIEW",
+  "doctrine_enforcement_lines": [
+    "Implementation is not stale by itself. Tickets become stale.",
+    "Apply maximum concrete capability within the approved scope of each ticket."
+  ],
+  "ticket_count": 17,
+  "source_seed_count": 103,
+  "mapped_seed_count": 103,
+  "unmapped_seed_count": 0,
+  "executable_ticket_count": 0,
+  "blocked_or_review_only_ticket_count": 17,
+  "ticket_generation_allowed": false,
+  "ticket_pack_generation_allowed": false,
+  "execution_authorized": false,
+  "tickets": [
+    {
+      "ticket_id": "P6B-CAP-000",
+      "title": "Produce Phase 6B schema/runtime baseline decision artifacts before capability execution",
+      "type": "schema_runtime_baseline_control_ticket",
+      "priority": "P0",
+      "doctrine_enforcement_lines": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket."
+      ],
+      "ticketability_status": "COMPLETED_BASELINE_DISCOVERY",
+      "execution_authorized": false,
+      "ticket_generation_allowed": false,
+      "objective": "Create the Phase 6B schema/runtime baseline decision artifacts that map all 103 seeds to current Prisma coverage, approved scaffold surfaces, missing schema decisions, validation gates, and the exact approval boundary before any capability implementation ticket can run.",
+      "scope": [
+        "Record current Prisma model coverage and Phase 6B schema gaps without editing prisma/schema.prisma.",
+        "Map every Phase 6B component to existing contract, manifest, NestJS module, controller, service, and test scaffold paths.",
+        "Define which schema/model decisions must be approved before P6B-CAP-001 through P6B-CAP-015 can execute.",
+        "Keep capability implementation ticket generation and execution disabled until final review approves the baseline."
+      ],
+      "non_scope": [
+        "No Prisma schema mutation.",
+        "No migration creation.",
+        "No Phase 6B business capability implementation.",
+        "No frontend screen, provider adapter, payment behavior, pricing engine, communication send logic, or GL posting runtime."
+      ],
+      "source_files_to_inspect": [
+        "prisma/schema.prisma",
+        "packages/contracts/phase_6b/**",
+        "apps/api/src/phase_6b/**",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/0_business_logic.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+        "docs/process/v4_1/phase_6b/v16/phase_6b_prisma_schema_baseline_decision_v1.json"
+      ],
+      "files_expected_to_change": [
+        "docs/process/v4_1/phase_6b/capability_control/phase_6b_prisma_schema_baseline_decision_v1.json",
+        "docs/process/v4_1/phase_6b/capability_control/phase_6b_prisma_schema_baseline_decision_v1.md",
+        "docs/process/v4_1/phase_6b/capability_control/phase_6b_runtime_file_grounding_matrix_v1.json"
+      ],
+      "files_forbidden_to_change": [
+        "prisma/schema.prisma",
+        "prisma/migrations/**",
+        "packages/contracts/**",
+        "apps/api/src/**",
+        "apps/web/**",
+        "package.json",
+        "pnpm-lock.yaml"
+      ],
+      "required_outputs": [
+        "Approved data model baseline artifact.",
+        "Tenant isolation/index/RLS metadata plan.",
+        "Prisma validation evidence."
+      ],
+      "evidence_artifacts": [
+        "phase_6b_prisma_data_model_baseline_v1.json",
+        "Prisma validation command output."
+      ],
+      "tests_required": [
+        "Prisma validate.",
+        "Migration diff review.",
+        "Registry drift check."
+      ],
+      "validation_commands": [
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check",
+        "node scripts/quality/check_phase_6b_scaffold_control.mjs",
+        "git diff --check"
+      ],
+      "stop_conditions": [
+        "Stop if any schema model or field would need to be invented from lifecycle docs alone.",
+        "Stop if a capability ticket asks to implement runtime behavior before the baseline approval exists.",
+        "Stop if exact file ownership would overlap another active ticket.",
+        "Stop if any ticket-generation or execution flag becomes true without final review approval."
+      ],
+      "acceptance_criteria": [
+        "Baseline artifacts name current Prisma models and explicitly state that complete Phase 6B commerce-domain schema is not yet implemented.",
+        "All 103 Phase 6B seeds are mapped to schema decision groups or existing scaffold surfaces.",
+        "P6B-CAP-001 through P6B-CAP-015 remain blocked until the baseline is reviewed and approved.",
+        "No runtime, Prisma, migration, contract, NestJS, frontend, package, lockfile, or generated file is changed by this ticket."
+      ],
+      "dependencies": [],
+      "commit_message": "docs: add Phase 6B schema runtime baseline decision artifacts",
+      "rollback_notes": "Revert only the data-model baseline artifacts/schema changes from this ticket; do not revert scaffold-control commits.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Required if migration path or schema ownership cannot be exact before execution.",
+      "stale_ticket_risk_notes": [
+        "This ticket is intentionally blocked until human review because schema baseline spans all Phase 6B persistent data."
+      ],
+      "runtime_consistency_chain": [
+        "Phase 6B source authority -> current Prisma model coverage -> existing Phase 6B scaffold files -> missing schema decision groups -> blocked/promoted ticket statuses."
+      ],
+      "minimum_concrete_requirement": "The baseline decision artifacts explicitly map 103/103 Phase 6B seeds to current Prisma coverage, existing scaffold files, missing schema decision groups, and validation gates; `pnpm exec prisma validate --schema prisma/schema.prisma` and `pnpm registry:check` remain the required downstream proof commands before capability execution.",
+      "split_if": [
+        "A reviewer determines schema baseline cannot be reviewed as one commit.",
+        "A component requires a separate ADR before schema ownership."
+      ],
+      "requires_human_approval_if": [
+        "Any new Prisma model, enum, relation, unique, RLS metadata, or migration is introduced."
+      ],
+      "failure_classification": "schema_runtime_baseline_control_failure",
+      "final_human_review_required": true,
+      "doctrine_enforcement": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket."
+      ],
+      "promotion_audit": {
+        "promotion_status": "EXECUTABLE_REVIEW_READY",
+        "why_safe": "The ticket is a control/baseline artifact ticket with exact docs-only outputs and explicit forbidden runtime/schema paths.",
+        "why_capabilities_still_blocked": "Existing Phase 6B runtime files are metadata-only scaffolds and current Prisma lacks complete commerce-domain entity coverage."
+      },
+      "completion_evidence": [
+        "docs/process/v4_1/phase_6b/capability_control/phase_6b_prisma_schema_baseline_decision_v1.json",
+        "docs/process/v4_1/phase_6b/capability_control/phase_6b_runtime_file_grounding_matrix_v1.json"
+      ],
+      "ticket_pack_generation_allowed": false
+    },
+    {
+      "ticket_id": "P6B-CAP-001",
+      "title": "Implement Phase 6B Product Catalogue Service capability surface",
+      "type": "capability_implementation_ticket_candidate",
+      "priority": "P1",
+      "doctrine_enforcement_lines": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket."
+      ],
+      "ticketability_status": "EXECUTABLE_REVIEW_READY",
+      "execution_authorized": false,
+      "ticket_generation_allowed": false,
+      "source_component_id": "6B.01",
+      "source_component_name": "Product Catalogue Service",
+      "source_seed_ids": [
+        "seed_6b_01_product_record_authority",
+        "seed_6b_01_category_taxonomy",
+        "seed_6b_01_product_media_history",
+        "seed_6b_01_product_status_archive_policy"
+      ],
+      "source_seed_count": 4,
+      "objective": "Convert the metadata-only Product Catalogue Service scaffold into the reviewed Phase 6B capability surface for its 4 source-grounded seeds, after schema and route behavior are approved.",
+      "scope": {
+        "component_key": "product_catalogue",
+        "seed_ids": [
+          "seed_6b_01_product_record_authority",
+          "seed_6b_01_category_taxonomy",
+          "seed_6b_01_product_media_history",
+          "seed_6b_01_product_status_archive_policy"
+        ],
+        "seed_capabilities": [
+          "6B product record authority",
+          "6B category taxonomy",
+          "6B product media history",
+          "6B product status archive policy"
+        ],
+        "owned_data_authority_raw": "Products, categories, product media, product status, product history",
+        "activation_lifecycle_raw": "Foundry-managed service; archive over delete",
+        "emits_raw": "product.created, product.updated, product.archived",
+        "consumes_raw": "service.activated"
+      },
+      "non_scope": [
+        "No Prisma schema edits; depends on P6B-CAP-000.",
+        "No frontend screen.",
+        "No external provider credential.",
+        "No unrelated Phase 6B component behavior."
+      ],
+      "source_files_to_inspect": [
+        "docs/process/core/v0_0_2/spark_platform_v4_1/0_business_logic.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+        "docs/process/v4_1/phase_6b/v15/capability_traceability_matrix_v1.json",
+        "docs/process/v4_1/phase_6b/v15/runtime_scaffold_discovery_matrix_v1.json",
+        "docs/process/v4_1/phase_6b/scaffold_control/phase_6b_scaffold_control_gate_report_v1.json",
+        "packages/contracts/phase_6b/product_catalogue.contract.ts",
+        "packages/contracts/phase_6b/product_catalogue.module_manifest.contract.ts",
+        "apps/api/src/phase_6b/product_catalogue/product_catalogue.controller.ts",
+        "apps/api/src/phase_6b/product_catalogue/product_catalogue.service.ts",
+        "apps/api/src/phase_6b/product_catalogue/product_catalogue.service.test.ts"
+      ],
+      "files_expected_to_change": [
+        "packages/contracts/phase_6b/product_catalogue.contract.ts",
+        "packages/contracts/phase_6b/product_catalogue.module_manifest.contract.ts",
+        "apps/api/src/phase_6b/product_catalogue/product_catalogue.controller.ts",
+        "apps/api/src/phase_6b/product_catalogue/product_catalogue.service.ts",
+        "apps/api/src/phase_6b/product_catalogue/product_catalogue.service.test.ts"
+      ],
+      "files_forbidden_to_change": [
+        "Any file outside files_expected_to_change for the active ticket.",
+        "Any frontend screen or route without a separately approved screen contract.",
+        "Any production external adapter credential or provider integration.",
+        "Any ticket-generation flag set to true before human review approval.",
+        "Any schema, permission, event, API, or ADL interpretation not grounded in committed source authority.",
+        "prisma/schema.prisma",
+        "prisma/migrations/**"
+      ],
+      "required_outputs": [
+        "Product Catalogue Service contract behavior updated from scaffold metadata to reviewed schemas.",
+        "Product Catalogue Service service/controller tests cover approved runtime MCR.",
+        "No ticket-generation or execution flags enabled."
+      ],
+      "evidence_artifacts": [
+        "product_catalogue.service.test.ts output",
+        "contracts validation output",
+        "API typecheck/test output"
+      ],
+      "tests_required": [
+        "apps/api/src/phase_6b/product_catalogue/product_catalogue.service.test.ts",
+        "contract validator coverage for component schemas if schemas are changed"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm exec tsx apps/api/src/phase_6b/product_catalogue/product_catalogue.service.test.ts",
+        "pnpm --filter @akti/api typecheck"
+      ],
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime / Foundry / module installer / business modules / production auth / deployment / secrets / destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change.",
+        "Stop if any unresolved Phase 6B source ambiguity requires Codex to invent a business rule.",
+        "Stop if implementation requires changing Prisma schema without the P6B-CAP-000 baseline.",
+        "Stop if approved route/API behavior is missing."
+      ],
+      "acceptance_criteria": [
+        "All 4 source seeds are represented by observable runtime behavior or explicitly tested non-runtime handling.",
+        "Tests prove tenant isolation assumptions from the approved schema baseline.",
+        "No capability behavior remains scaffold-only for covered seeds."
+      ],
+      "dependencies": [
+        "P6B-CAP-000"
+      ],
+      "commit_message": "docs: implement Phase 6B product_catalogue capability surface",
+      "rollback_notes": "Revert only product_catalogue contract/API files from this ticket and preserve scaffold-control gate artifacts.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Required if exact runtime behavior requires additional files, schema ownership, screen contracts, provider adapters, or source decisions not listed here.",
+      "stale_ticket_risk_notes": [
+        "Current ticket is not executable until schema baseline and ticket-pack review approve it.",
+        "Component-level grouping prevents seed-level tickets from overlapping the same service/contract files."
+      ],
+      "runtime_consistency_chain": [
+        "source authority",
+        "v15 ticket pack",
+        "Phase 6B contract scaffold",
+        "Phase 6B API scaffold",
+        "schema baseline",
+        "component tests"
+      ],
+      "minimum_concrete_requirement": "After review approval, `product_catalogue.service.test.ts` and `pnpm --filter @akti/api typecheck` prove reviewed runtime behavior for all seeds in 6B.01; completion must be proven by the named runtime test and typecheck result.",
+      "split_if": [
+        "A seed requires a separate runtime subsystem with non-overlapping files.",
+        "A provider/channel/financial lifecycle path needs separate validation ladder.",
+        "Reviewer cannot evaluate the component as one commit."
+      ],
+      "requires_human_approval_if": [
+        "Any schema, route shape, permission, ADL enforcement behavior, provider callback semantics, or business rule is not explicit in committed source.",
+        "The ticket would create or infer Prisma models, fields, relations, permissions, DTOs, API routes, events, ADL semantics, or business rules not already approved by the P6B-CAP-000 baseline."
+      ],
+      "failure_classification": "capability_ticket_blocked_by_schema_or_source_authority",
+      "final_human_review_required": true,
+      "doctrine_enforcement": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket."
+      ],
+      "blocked_by_ticket_ids": [
+        "P6B-CAP-000"
+      ],
+      "blocked_reason": null,
+      "promotion_audit": {
+        "promotion_status": "BLOCKED_NOT_EXECUTABLE",
+        "blocking_gate": "P6B-CAP-000",
+        "schema_baseline_required": true,
+        "runtime_scaffold_found": true,
+        "runtime_behavior_found": false,
+        "current_safe_handling": "Keep review-only until Phase 6B schema/runtime baseline is approved."
+      },
+      "ticket_pack_generation_allowed": false,
+      "status_reason": null,
+      "completed_control_dependencies": [
+        "P6B-REGISTRY-001",
+        "P6B-SCHEMA-001",
+        "P6B-SCHEMA-002",
+        "P6B-SCHEMA-003"
+      ],
+      "control_prerequisites_satisfied_on_main": true,
+      "final_user_approval_required": true
+    },
+    {
+      "ticket_id": "P6B-CAP-002",
+      "title": "Implement Phase 6B Product Pricing and Package Service capability surface",
+      "type": "capability_implementation_ticket_candidate",
+      "priority": "P1",
+      "doctrine_enforcement_lines": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket."
+      ],
+      "ticketability_status": "EXECUTABLE_REVIEW_READY",
+      "execution_authorized": false,
+      "ticket_generation_allowed": false,
+      "source_component_id": "6B.02",
+      "source_component_name": "Product Pricing and Package Service",
+      "source_seed_ids": [
+        "seed_6b_02_fixed_pricing_model",
+        "seed_6b_02_tiered_pricing_model",
+        "seed_6b_02_volume_pricing_model",
+        "seed_6b_02_per_unit_pricing_model",
+        "seed_6b_02_per_hour_pricing_model",
+        "seed_6b_02_per_period_pricing_model",
+        "seed_6b_02_early_bird_pricing_deadline",
+        "seed_6b_02_scholarship_discount_approval",
+        "seed_6b_02_installment_plan_engine",
+        "seed_6b_02_bundle_package_composition",
+        "seed_6b_02_discount_stacking_engine",
+        "seed_6b_02_product_price_history_effective_dates"
+      ],
+      "source_seed_count": 12,
+      "objective": "Convert the metadata-only Product Pricing and Package Service scaffold into the reviewed Phase 6B capability surface for its 12 source-grounded seeds, after schema and route behavior are approved.",
+      "scope": {
+        "component_key": "product_pricing",
+        "seed_ids": [
+          "seed_6b_02_fixed_pricing_model",
+          "seed_6b_02_tiered_pricing_model",
+          "seed_6b_02_volume_pricing_model",
+          "seed_6b_02_per_unit_pricing_model",
+          "seed_6b_02_per_hour_pricing_model",
+          "seed_6b_02_per_period_pricing_model",
+          "seed_6b_02_early_bird_pricing_deadline",
+          "seed_6b_02_scholarship_discount_approval",
+          "seed_6b_02_installment_plan_engine",
+          "seed_6b_02_bundle_package_composition",
+          "seed_6b_02_discount_stacking_engine",
+          "seed_6b_02_product_price_history_effective_dates"
+        ],
+        "seed_capabilities": [
+          "6B fixed pricing model",
+          "6B tiered pricing model",
+          "6B volume pricing model",
+          "6B per unit pricing model",
+          "6B per hour pricing model",
+          "6B per period pricing model",
+          "6B early bird pricing deadline",
+          "6B scholarship discount approval",
+          "6B installment plan engine",
+          "6B bundle package composition",
+          "6B discount stacking engine",
+          "6B product price history effective dates"
+        ],
+        "owned_data_authority_raw": "Product prices, effective dates, installment plans, package/bundle definitions",
+        "activation_lifecycle_raw": "Tenant-toggleable only through Product service; pricing immutable in invoices once issued",
+        "emits_raw": "product_price.changed, package.created",
+        "consumes_raw": "product.created"
+      },
+      "non_scope": [
+        "No Prisma schema edits; depends on P6B-CAP-000.",
+        "No frontend screen.",
+        "No external provider credential.",
+        "No unrelated Phase 6B component behavior."
+      ],
+      "source_files_to_inspect": [
+        "docs/process/core/v0_0_2/spark_platform_v4_1/0_business_logic.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+        "docs/process/v4_1/phase_6b/v15/capability_traceability_matrix_v1.json",
+        "docs/process/v4_1/phase_6b/v15/runtime_scaffold_discovery_matrix_v1.json",
+        "docs/process/v4_1/phase_6b/scaffold_control/phase_6b_scaffold_control_gate_report_v1.json",
+        "packages/contracts/phase_6b/product_pricing.contract.ts",
+        "packages/contracts/phase_6b/product_pricing.module_manifest.contract.ts",
+        "apps/api/src/phase_6b/product_pricing/product_pricing.controller.ts",
+        "apps/api/src/phase_6b/product_pricing/product_pricing.service.ts",
+        "apps/api/src/phase_6b/product_pricing/product_pricing.service.test.ts"
+      ],
+      "files_expected_to_change": [
+        "packages/contracts/phase_6b/product_pricing.contract.ts",
+        "packages/contracts/phase_6b/product_pricing.module_manifest.contract.ts",
+        "apps/api/src/phase_6b/product_pricing/product_pricing.controller.ts",
+        "apps/api/src/phase_6b/product_pricing/product_pricing.service.ts",
+        "apps/api/src/phase_6b/product_pricing/product_pricing.service.test.ts"
+      ],
+      "files_forbidden_to_change": [
+        "Any file outside files_expected_to_change for the active ticket.",
+        "Any frontend screen or route without a separately approved screen contract.",
+        "Any production external adapter credential or provider integration.",
+        "Any ticket-generation flag set to true before human review approval.",
+        "Any schema, permission, event, API, or ADL interpretation not grounded in committed source authority.",
+        "prisma/schema.prisma",
+        "prisma/migrations/**"
+      ],
+      "required_outputs": [
+        "Product Pricing and Package Service contract behavior updated from scaffold metadata to reviewed schemas.",
+        "Product Pricing and Package Service service/controller tests cover approved runtime MCR.",
+        "No ticket-generation or execution flags enabled."
+      ],
+      "evidence_artifacts": [
+        "product_pricing.service.test.ts output",
+        "contracts validation output",
+        "API typecheck/test output"
+      ],
+      "tests_required": [
+        "apps/api/src/phase_6b/product_pricing/product_pricing.service.test.ts",
+        "contract validator coverage for component schemas if schemas are changed"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm exec tsx apps/api/src/phase_6b/product_pricing/product_pricing.service.test.ts",
+        "pnpm --filter @akti/api typecheck"
+      ],
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime / Foundry / module installer / business modules / production auth / deployment / secrets / destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change.",
+        "Stop if any unresolved Phase 6B source ambiguity requires Codex to invent a business rule.",
+        "Stop if implementation requires changing Prisma schema without the P6B-CAP-000 baseline.",
+        "Stop if approved route/API behavior is missing."
+      ],
+      "acceptance_criteria": [
+        "All 12 source seeds are represented by observable runtime behavior or explicitly tested non-runtime handling.",
+        "Tests prove tenant isolation assumptions from the approved schema baseline.",
+        "No capability behavior remains scaffold-only for covered seeds."
+      ],
+      "dependencies": [
+        "P6B-CAP-000",
+        "P6B-CAP-001"
+      ],
+      "commit_message": "docs: implement Phase 6B product_pricing capability surface",
+      "rollback_notes": "Revert only product_pricing contract/API files from this ticket and preserve scaffold-control gate artifacts.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Required if exact runtime behavior requires additional files, schema ownership, screen contracts, provider adapters, or source decisions not listed here.",
+      "stale_ticket_risk_notes": [
+        "Current ticket is not executable until schema baseline and ticket-pack review approve it.",
+        "Component-level grouping prevents seed-level tickets from overlapping the same service/contract files."
+      ],
+      "runtime_consistency_chain": [
+        "source authority",
+        "v15 ticket pack",
+        "Phase 6B contract scaffold",
+        "Phase 6B API scaffold",
+        "schema baseline",
+        "component tests"
+      ],
+      "minimum_concrete_requirement": "After review approval, `product_pricing.service.test.ts` and `pnpm --filter @akti/api typecheck` prove reviewed runtime behavior for all seeds in 6B.02; completion must be proven by the named runtime test and typecheck result.",
+      "split_if": [
+        "A seed requires a separate runtime subsystem with non-overlapping files.",
+        "A provider/channel/financial lifecycle path needs separate validation ladder.",
+        "Reviewer cannot evaluate the component as one commit."
+      ],
+      "requires_human_approval_if": [
+        "Any schema, route shape, permission, ADL enforcement behavior, provider callback semantics, or business rule is not explicit in committed source.",
+        "The ticket would create or infer Prisma models, fields, relations, permissions, DTOs, API routes, events, ADL semantics, or business rules not already approved by the P6B-CAP-000 baseline."
+      ],
+      "failure_classification": "capability_ticket_blocked_by_schema_or_source_authority",
+      "final_human_review_required": true,
+      "doctrine_enforcement": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket."
+      ],
+      "blocked_by_ticket_ids": [
+        "P6B-CAP-000"
+      ],
+      "blocked_reason": null,
+      "promotion_audit": {
+        "promotion_status": "BLOCKED_NOT_EXECUTABLE",
+        "blocking_gate": "P6B-CAP-000",
+        "schema_baseline_required": true,
+        "runtime_scaffold_found": true,
+        "runtime_behavior_found": false,
+        "current_safe_handling": "Keep review-only until Phase 6B schema/runtime baseline is approved."
+      },
+      "ticket_pack_generation_allowed": false,
+      "status_reason": null,
+      "completed_control_dependencies": [
+        "P6B-REGISTRY-001",
+        "P6B-SCHEMA-001",
+        "P6B-SCHEMA-002",
+        "P6B-SCHEMA-003"
+      ],
+      "control_prerequisites_satisfied_on_main": true,
+      "final_user_approval_required": true
+    },
+    {
+      "ticket_id": "P6B-CAP-003",
+      "title": "Implement Phase 6B Inventory and Stock Movement Service capability surface",
+      "type": "capability_implementation_ticket_candidate",
+      "priority": "P1",
+      "doctrine_enforcement_lines": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket."
+      ],
+      "ticketability_status": "EXECUTABLE_REVIEW_READY",
+      "execution_authorized": false,
+      "ticket_generation_allowed": false,
+      "source_component_id": "6B.03",
+      "source_component_name": "Inventory and Stock Movement Service",
+      "source_seed_ids": [
+        "seed_6b_03_stock_level_location_authority",
+        "seed_6b_03_lot_and_serial_tracking",
+        "seed_6b_03_stock_movement_ledger",
+        "seed_6b_03_purchase_stock_evidence",
+        "seed_6b_03_non_inventory_business_policy"
+      ],
+      "source_seed_count": 5,
+      "objective": "Convert the metadata-only Inventory and Stock Movement Service scaffold into the reviewed Phase 6B capability surface for its 5 source-grounded seeds, after schema and route behavior are approved.",
+      "scope": {
+        "component_key": "inventory_stock",
+        "seed_ids": [
+          "seed_6b_03_stock_level_location_authority",
+          "seed_6b_03_lot_and_serial_tracking",
+          "seed_6b_03_stock_movement_ledger",
+          "seed_6b_03_purchase_stock_evidence",
+          "seed_6b_03_non_inventory_business_policy"
+        ],
+        "seed_capabilities": [
+          "6B stock level location authority",
+          "6B lot and serial tracking",
+          "6B stock movement ledger",
+          "6B purchase stock evidence",
+          "6B non inventory business policy"
+        ],
+        "owned_data_authority_raw": "Stock levels, locations, lots, serials, movements, purchase stock evidence",
+        "activation_lifecycle_raw": "Optional for non-inventory businesses; required for retail/e-commerce packages",
+        "emits_raw": "stock.reserved, stock.moved, stock.adjusted",
+        "consumes_raw": "product.created"
+      },
+      "non_scope": [
+        "No Prisma schema edits; depends on P6B-CAP-000.",
+        "No frontend screen.",
+        "No external provider credential.",
+        "No unrelated Phase 6B component behavior."
+      ],
+      "source_files_to_inspect": [
+        "docs/process/core/v0_0_2/spark_platform_v4_1/0_business_logic.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+        "docs/process/v4_1/phase_6b/v15/capability_traceability_matrix_v1.json",
+        "docs/process/v4_1/phase_6b/v15/runtime_scaffold_discovery_matrix_v1.json",
+        "docs/process/v4_1/phase_6b/scaffold_control/phase_6b_scaffold_control_gate_report_v1.json",
+        "packages/contracts/phase_6b/inventory_stock.contract.ts",
+        "packages/contracts/phase_6b/inventory_stock.module_manifest.contract.ts",
+        "apps/api/src/phase_6b/inventory_stock/inventory_stock.controller.ts",
+        "apps/api/src/phase_6b/inventory_stock/inventory_stock.service.ts",
+        "apps/api/src/phase_6b/inventory_stock/inventory_stock.service.test.ts"
+      ],
+      "files_expected_to_change": [
+        "packages/contracts/phase_6b/inventory_stock.contract.ts",
+        "packages/contracts/phase_6b/inventory_stock.module_manifest.contract.ts",
+        "apps/api/src/phase_6b/inventory_stock/inventory_stock.controller.ts",
+        "apps/api/src/phase_6b/inventory_stock/inventory_stock.service.ts",
+        "apps/api/src/phase_6b/inventory_stock/inventory_stock.service.test.ts"
+      ],
+      "files_forbidden_to_change": [
+        "Any file outside files_expected_to_change for the active ticket.",
+        "Any frontend screen or route without a separately approved screen contract.",
+        "Any production external adapter credential or provider integration.",
+        "Any ticket-generation flag set to true before human review approval.",
+        "Any schema, permission, event, API, or ADL interpretation not grounded in committed source authority.",
+        "prisma/schema.prisma",
+        "prisma/migrations/**"
+      ],
+      "required_outputs": [
+        "Inventory and Stock Movement Service contract behavior updated from scaffold metadata to reviewed schemas.",
+        "Inventory and Stock Movement Service service/controller tests cover approved runtime MCR.",
+        "No ticket-generation or execution flags enabled."
+      ],
+      "evidence_artifacts": [
+        "inventory_stock.service.test.ts output",
+        "contracts validation output",
+        "API typecheck/test output"
+      ],
+      "tests_required": [
+        "apps/api/src/phase_6b/inventory_stock/inventory_stock.service.test.ts",
+        "contract validator coverage for component schemas if schemas are changed"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm exec tsx apps/api/src/phase_6b/inventory_stock/inventory_stock.service.test.ts",
+        "pnpm --filter @akti/api typecheck"
+      ],
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime / Foundry / module installer / business modules / production auth / deployment / secrets / destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change.",
+        "Stop if any unresolved Phase 6B source ambiguity requires Codex to invent a business rule.",
+        "Stop if implementation requires changing Prisma schema without the P6B-CAP-000 baseline.",
+        "Stop if approved route/API behavior is missing."
+      ],
+      "acceptance_criteria": [
+        "All 5 source seeds are represented by observable runtime behavior or explicitly tested non-runtime handling.",
+        "Tests prove tenant isolation assumptions from the approved schema baseline.",
+        "No capability behavior remains scaffold-only for covered seeds."
+      ],
+      "dependencies": [
+        "P6B-CAP-000",
+        "P6B-CAP-001",
+        "P6B-CAP-002"
+      ],
+      "commit_message": "docs: implement Phase 6B inventory_stock capability surface",
+      "rollback_notes": "Revert only inventory_stock contract/API files from this ticket and preserve scaffold-control gate artifacts.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Required if exact runtime behavior requires additional files, schema ownership, screen contracts, provider adapters, or source decisions not listed here.",
+      "stale_ticket_risk_notes": [
+        "Current ticket is not executable until schema baseline and ticket-pack review approve it.",
+        "Component-level grouping prevents seed-level tickets from overlapping the same service/contract files."
+      ],
+      "runtime_consistency_chain": [
+        "source authority",
+        "v15 ticket pack",
+        "Phase 6B contract scaffold",
+        "Phase 6B API scaffold",
+        "schema baseline",
+        "component tests"
+      ],
+      "minimum_concrete_requirement": "After review approval, `inventory_stock.service.test.ts` and `pnpm --filter @akti/api typecheck` prove reviewed runtime behavior for all seeds in 6B.03; completion must be proven by the named runtime test and typecheck result.",
+      "split_if": [
+        "A seed requires a separate runtime subsystem with non-overlapping files.",
+        "A provider/channel/financial lifecycle path needs separate validation ladder.",
+        "Reviewer cannot evaluate the component as one commit."
+      ],
+      "requires_human_approval_if": [
+        "Any schema, route shape, permission, ADL enforcement behavior, provider callback semantics, or business rule is not explicit in committed source.",
+        "The ticket would create or infer Prisma models, fields, relations, permissions, DTOs, API routes, events, ADL semantics, or business rules not already approved by the P6B-CAP-000 baseline."
+      ],
+      "failure_classification": "capability_ticket_blocked_by_schema_or_source_authority",
+      "final_human_review_required": true,
+      "doctrine_enforcement": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket."
+      ],
+      "blocked_by_ticket_ids": [
+        "P6B-CAP-000"
+      ],
+      "blocked_reason": null,
+      "promotion_audit": {
+        "promotion_status": "BLOCKED_NOT_EXECUTABLE",
+        "blocking_gate": "P6B-CAP-000",
+        "schema_baseline_required": true,
+        "runtime_scaffold_found": true,
+        "runtime_behavior_found": false,
+        "current_safe_handling": "Keep review-only until Phase 6B schema/runtime baseline is approved."
+      },
+      "ticket_pack_generation_allowed": false,
+      "status_reason": null,
+      "completed_control_dependencies": [
+        "P6B-REGISTRY-001",
+        "P6B-SCHEMA-001",
+        "P6B-SCHEMA-002",
+        "P6B-SCHEMA-003"
+      ],
+      "control_prerequisites_satisfied_on_main": true,
+      "final_user_approval_required": true
+    },
+    {
+      "ticket_id": "P6B-CAP-004",
+      "title": "Implement Phase 6B CRM Lead Intake Service capability surface",
+      "type": "capability_implementation_ticket_candidate",
+      "priority": "P2",
+      "doctrine_enforcement_lines": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket."
+      ],
+      "ticketability_status": "EXECUTABLE_REVIEW_READY",
+      "execution_authorized": false,
+      "ticket_generation_allowed": false,
+      "source_component_id": "6B.04",
+      "source_component_name": "CRM Lead Intake Service",
+      "source_seed_ids": [
+        "seed_6b_04_unified_lead_record_authority",
+        "seed_6b_04_meta_lead_forms_connector",
+        "seed_6b_04_meta_whatsapp_intake_connector",
+        "seed_6b_04_tiktok_lead_gen_connector",
+        "seed_6b_04_google_ads_connector",
+        "seed_6b_04_google_business_connector",
+        "seed_6b_04_facebook_page_forms_connector",
+        "seed_6b_04_web_form_intake_connector",
+        "seed_6b_04_manual_lead_entry",
+        "seed_6b_04_csv_excel_import",
+        "seed_6b_04_api_lead_intake",
+        "seed_6b_04_referral_intake",
+        "seed_6b_04_inbound_whatsapp_intake",
+        "seed_6b_04_inbound_sms_intake",
+        "seed_6b_04_chatbot_intake",
+        "seed_6b_04_live_chat_intake",
+        "seed_6b_04_email_intake",
+        "seed_6b_04_phone_intake",
+        "seed_6b_04_walk_in_intake"
+      ],
+      "source_seed_count": 19,
+      "objective": "Convert the metadata-only CRM Lead Intake Service scaffold into the reviewed Phase 6B capability surface for its 19 source-grounded seeds, after schema and route behavior are approved.",
+      "scope": {
+        "component_key": "crm_lead_intake",
+        "seed_ids": [
+          "seed_6b_04_unified_lead_record_authority",
+          "seed_6b_04_meta_lead_forms_connector",
+          "seed_6b_04_meta_whatsapp_intake_connector",
+          "seed_6b_04_tiktok_lead_gen_connector",
+          "seed_6b_04_google_ads_connector",
+          "seed_6b_04_google_business_connector",
+          "seed_6b_04_facebook_page_forms_connector",
+          "seed_6b_04_web_form_intake_connector",
+          "seed_6b_04_manual_lead_entry",
+          "seed_6b_04_csv_excel_import",
+          "seed_6b_04_api_lead_intake",
+          "seed_6b_04_referral_intake",
+          "seed_6b_04_inbound_whatsapp_intake",
+          "seed_6b_04_inbound_sms_intake",
+          "seed_6b_04_chatbot_intake",
+          "seed_6b_04_live_chat_intake",
+          "seed_6b_04_email_intake",
+          "seed_6b_04_phone_intake",
+          "seed_6b_04_walk_in_intake"
+        ],
+        "seed_capabilities": [
+          "6B unified lead record authority",
+          "6B meta lead forms connector",
+          "6B meta whatsapp intake connector",
+          "6B tiktok lead gen connector",
+          "6B google ads connector",
+          "6B google business connector",
+          "6B facebook page forms connector",
+          "6B web form intake connector",
+          "6B manual lead entry",
+          "6B csv excel import",
+          "6B api lead intake",
+          "6B referral intake",
+          "6B inbound whatsapp intake",
+          "6B inbound sms intake",
+          "6B chatbot intake",
+          "6B live chat intake",
+          "6B email intake",
+          "6B phone intake",
+          "6B walk in intake"
+        ],
+        "owned_data_authority_raw": "Leads, sources, intake mappings, consent basis, assignment state",
+        "activation_lifecycle_raw": "Foundry-managed; no direct provider messaging",
+        "emits_raw": "lead.created, lead.source_recorded, lead.assigned",
+        "consumes_raw": "person.created, form.submitted, webhook.received"
+      },
+      "non_scope": [
+        "No Prisma schema edits; depends on P6B-CAP-000.",
+        "No frontend screen.",
+        "No external provider credential.",
+        "No unrelated Phase 6B component behavior."
+      ],
+      "source_files_to_inspect": [
+        "docs/process/core/v0_0_2/spark_platform_v4_1/0_business_logic.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+        "docs/process/v4_1/phase_6b/v15/capability_traceability_matrix_v1.json",
+        "docs/process/v4_1/phase_6b/v15/runtime_scaffold_discovery_matrix_v1.json",
+        "docs/process/v4_1/phase_6b/scaffold_control/phase_6b_scaffold_control_gate_report_v1.json",
+        "packages/contracts/phase_6b/crm_lead_intake.contract.ts",
+        "packages/contracts/phase_6b/crm_lead_intake.module_manifest.contract.ts",
+        "apps/api/src/phase_6b/crm_lead_intake/crm_lead_intake.controller.ts",
+        "apps/api/src/phase_6b/crm_lead_intake/crm_lead_intake.service.ts",
+        "apps/api/src/phase_6b/crm_lead_intake/crm_lead_intake.service.test.ts"
+      ],
+      "files_expected_to_change": [
+        "packages/contracts/phase_6b/crm_lead_intake.contract.ts",
+        "packages/contracts/phase_6b/crm_lead_intake.module_manifest.contract.ts",
+        "apps/api/src/phase_6b/crm_lead_intake/crm_lead_intake.controller.ts",
+        "apps/api/src/phase_6b/crm_lead_intake/crm_lead_intake.service.ts",
+        "apps/api/src/phase_6b/crm_lead_intake/crm_lead_intake.service.test.ts"
+      ],
+      "files_forbidden_to_change": [
+        "Any file outside files_expected_to_change for the active ticket.",
+        "Any frontend screen or route without a separately approved screen contract.",
+        "Any production external adapter credential or provider integration.",
+        "Any ticket-generation flag set to true before human review approval.",
+        "Any schema, permission, event, API, or ADL interpretation not grounded in committed source authority.",
+        "prisma/schema.prisma",
+        "prisma/migrations/**"
+      ],
+      "required_outputs": [
+        "CRM Lead Intake Service contract behavior updated from scaffold metadata to reviewed schemas.",
+        "CRM Lead Intake Service service/controller tests cover approved runtime MCR.",
+        "No ticket-generation or execution flags enabled."
+      ],
+      "evidence_artifacts": [
+        "crm_lead_intake.service.test.ts output",
+        "contracts validation output",
+        "API typecheck/test output"
+      ],
+      "tests_required": [
+        "apps/api/src/phase_6b/crm_lead_intake/crm_lead_intake.service.test.ts",
+        "contract validator coverage for component schemas if schemas are changed"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm exec tsx apps/api/src/phase_6b/crm_lead_intake/crm_lead_intake.service.test.ts",
+        "pnpm --filter @akti/api typecheck"
+      ],
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime / Foundry / module installer / business modules / production auth / deployment / secrets / destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change.",
+        "Stop if any unresolved Phase 6B source ambiguity requires Codex to invent a business rule.",
+        "Stop if implementation requires changing Prisma schema without the P6B-CAP-000 baseline.",
+        "Stop if approved route/API behavior is missing."
+      ],
+      "acceptance_criteria": [
+        "All 19 source seeds are represented by observable runtime behavior or explicitly tested non-runtime handling.",
+        "Tests prove tenant isolation assumptions from the approved schema baseline.",
+        "No capability behavior remains scaffold-only for covered seeds."
+      ],
+      "dependencies": [
+        "P6B-CAP-000",
+        "P6B-CAP-001"
+      ],
+      "commit_message": "docs: implement Phase 6B crm_lead_intake capability surface",
+      "rollback_notes": "Revert only crm_lead_intake contract/API files from this ticket and preserve scaffold-control gate artifacts.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Required if exact runtime behavior requires additional files, schema ownership, screen contracts, provider adapters, or source decisions not listed here.",
+      "stale_ticket_risk_notes": [
+        "Current ticket is not executable until schema baseline and ticket-pack review approve it.",
+        "Component-level grouping prevents seed-level tickets from overlapping the same service/contract files."
+      ],
+      "runtime_consistency_chain": [
+        "source authority",
+        "v15 ticket pack",
+        "Phase 6B contract scaffold",
+        "Phase 6B API scaffold",
+        "schema baseline",
+        "component tests"
+      ],
+      "minimum_concrete_requirement": "After review approval, `crm_lead_intake.service.test.ts` and `pnpm --filter @akti/api typecheck` prove reviewed runtime behavior for all seeds in 6B.04; completion must be proven by the named runtime test and typecheck result.",
+      "split_if": [
+        "A seed requires a separate runtime subsystem with non-overlapping files.",
+        "A provider/channel/financial lifecycle path needs separate validation ladder.",
+        "Reviewer cannot evaluate the component as one commit."
+      ],
+      "requires_human_approval_if": [
+        "Any schema, route shape, permission, ADL enforcement behavior, provider callback semantics, or business rule is not explicit in committed source.",
+        "The ticket would create or infer Prisma models, fields, relations, permissions, DTOs, API routes, events, ADL semantics, or business rules not already approved by the P6B-CAP-000 baseline."
+      ],
+      "failure_classification": "capability_ticket_blocked_by_schema_or_source_authority",
+      "final_human_review_required": true,
+      "doctrine_enforcement": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket."
+      ],
+      "blocked_by_ticket_ids": [
+        "P6B-CAP-000"
+      ],
+      "blocked_reason": null,
+      "promotion_audit": {
+        "promotion_status": "BLOCKED_NOT_EXECUTABLE",
+        "blocking_gate": "P6B-CAP-000",
+        "schema_baseline_required": true,
+        "runtime_scaffold_found": true,
+        "runtime_behavior_found": false,
+        "current_safe_handling": "Keep review-only until Phase 6B schema/runtime baseline is approved."
+      },
+      "ticket_pack_generation_allowed": false,
+      "status_reason": null,
+      "completed_control_dependencies": [
+        "P6B-REGISTRY-001",
+        "P6B-SCHEMA-001",
+        "P6B-SCHEMA-002",
+        "P6B-SCHEMA-003"
+      ],
+      "control_prerequisites_satisfied_on_main": true,
+      "final_user_approval_required": true
+    },
+    {
+      "ticket_id": "P6B-CAP-005",
+      "title": "Implement Phase 6B CRM Deduplication and Identity Resolution Micro-service capability surface",
+      "type": "capability_implementation_ticket_candidate",
+      "priority": "P2",
+      "doctrine_enforcement_lines": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket."
+      ],
+      "ticketability_status": "EXECUTABLE_REVIEW_READY",
+      "execution_authorized": false,
+      "ticket_generation_allowed": false,
+      "source_component_id": "6B.05",
+      "source_component_name": "CRM Deduplication and Identity Resolution Micro-service",
+      "source_seed_ids": [
+        "seed_6b_05_match_candidate_generation",
+        "seed_6b_05_merge_decision_record",
+        "seed_6b_05_identity_resolution_linking",
+        "seed_6b_05_duplicate_evidence_log"
+      ],
+      "source_seed_count": 4,
+      "objective": "Convert the metadata-only CRM Deduplication and Identity Resolution Micro-service scaffold into the reviewed Phase 6B capability surface for its 4 source-grounded seeds, after schema and route behavior are approved.",
+      "scope": {
+        "component_key": "crm_deduplication",
+        "seed_ids": [
+          "seed_6b_05_match_candidate_generation",
+          "seed_6b_05_merge_decision_record",
+          "seed_6b_05_identity_resolution_linking",
+          "seed_6b_05_duplicate_evidence_log"
+        ],
+        "seed_capabilities": [
+          "6B match candidate generation",
+          "6B merge decision record",
+          "6B identity resolution linking",
+          "6B duplicate evidence log"
+        ],
+        "owned_data_authority_raw": "Lead/contact match candidates, merge records, duplicate decisions",
+        "activation_lifecycle_raw": "Core to CRM; not separately toggleable",
+        "emits_raw": "lead.merged, duplicate.detected",
+        "consumes_raw": "lead.created, identity.linked"
+      },
+      "non_scope": [
+        "No Prisma schema edits; depends on P6B-CAP-000.",
+        "No frontend screen.",
+        "No external provider credential.",
+        "No unrelated Phase 6B component behavior."
+      ],
+      "source_files_to_inspect": [
+        "docs/process/core/v0_0_2/spark_platform_v4_1/0_business_logic.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+        "docs/process/v4_1/phase_6b/v15/capability_traceability_matrix_v1.json",
+        "docs/process/v4_1/phase_6b/v15/runtime_scaffold_discovery_matrix_v1.json",
+        "docs/process/v4_1/phase_6b/scaffold_control/phase_6b_scaffold_control_gate_report_v1.json",
+        "packages/contracts/phase_6b/crm_deduplication.contract.ts",
+        "packages/contracts/phase_6b/crm_deduplication.module_manifest.contract.ts",
+        "apps/api/src/phase_6b/crm_deduplication/crm_deduplication.controller.ts",
+        "apps/api/src/phase_6b/crm_deduplication/crm_deduplication.service.ts",
+        "apps/api/src/phase_6b/crm_deduplication/crm_deduplication.service.test.ts"
+      ],
+      "files_expected_to_change": [
+        "packages/contracts/phase_6b/crm_deduplication.contract.ts",
+        "packages/contracts/phase_6b/crm_deduplication.module_manifest.contract.ts",
+        "apps/api/src/phase_6b/crm_deduplication/crm_deduplication.controller.ts",
+        "apps/api/src/phase_6b/crm_deduplication/crm_deduplication.service.ts",
+        "apps/api/src/phase_6b/crm_deduplication/crm_deduplication.service.test.ts"
+      ],
+      "files_forbidden_to_change": [
+        "Any file outside files_expected_to_change for the active ticket.",
+        "Any frontend screen or route without a separately approved screen contract.",
+        "Any production external adapter credential or provider integration.",
+        "Any ticket-generation flag set to true before human review approval.",
+        "Any schema, permission, event, API, or ADL interpretation not grounded in committed source authority.",
+        "prisma/schema.prisma",
+        "prisma/migrations/**"
+      ],
+      "required_outputs": [
+        "CRM Deduplication and Identity Resolution Micro-service contract behavior updated from scaffold metadata to reviewed schemas.",
+        "CRM Deduplication and Identity Resolution Micro-service service/controller tests cover approved runtime MCR.",
+        "No ticket-generation or execution flags enabled."
+      ],
+      "evidence_artifacts": [
+        "crm_deduplication.service.test.ts output",
+        "contracts validation output",
+        "API typecheck/test output"
+      ],
+      "tests_required": [
+        "apps/api/src/phase_6b/crm_deduplication/crm_deduplication.service.test.ts",
+        "contract validator coverage for component schemas if schemas are changed"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm exec tsx apps/api/src/phase_6b/crm_deduplication/crm_deduplication.service.test.ts",
+        "pnpm --filter @akti/api typecheck"
+      ],
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime / Foundry / module installer / business modules / production auth / deployment / secrets / destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change.",
+        "Stop if any unresolved Phase 6B source ambiguity requires Codex to invent a business rule.",
+        "Stop if implementation requires changing Prisma schema without the P6B-CAP-000 baseline.",
+        "Stop if approved route/API behavior is missing."
+      ],
+      "acceptance_criteria": [
+        "All 4 source seeds are represented by observable runtime behavior or explicitly tested non-runtime handling.",
+        "Tests prove tenant isolation assumptions from the approved schema baseline.",
+        "No capability behavior remains scaffold-only for covered seeds."
+      ],
+      "dependencies": [
+        "P6B-CAP-000",
+        "P6B-CAP-004"
+      ],
+      "commit_message": "docs: implement Phase 6B crm_deduplication capability surface",
+      "rollback_notes": "Revert only crm_deduplication contract/API files from this ticket and preserve scaffold-control gate artifacts.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Required if exact runtime behavior requires additional files, schema ownership, screen contracts, provider adapters, or source decisions not listed here.",
+      "stale_ticket_risk_notes": [
+        "Current ticket is not executable until schema baseline and ticket-pack review approve it.",
+        "Component-level grouping prevents seed-level tickets from overlapping the same service/contract files."
+      ],
+      "runtime_consistency_chain": [
+        "source authority",
+        "v15 ticket pack",
+        "Phase 6B contract scaffold",
+        "Phase 6B API scaffold",
+        "schema baseline",
+        "component tests"
+      ],
+      "minimum_concrete_requirement": "After review approval, `crm_deduplication.service.test.ts` and `pnpm --filter @akti/api typecheck` prove reviewed runtime behavior for all seeds in 6B.05; completion must be proven by the named runtime test and typecheck result.",
+      "split_if": [
+        "A seed requires a separate runtime subsystem with non-overlapping files.",
+        "A provider/channel/financial lifecycle path needs separate validation ladder.",
+        "Reviewer cannot evaluate the component as one commit."
+      ],
+      "requires_human_approval_if": [
+        "Any schema, route shape, permission, ADL enforcement behavior, provider callback semantics, or business rule is not explicit in committed source.",
+        "The ticket would create or infer Prisma models, fields, relations, permissions, DTOs, API routes, events, ADL semantics, or business rules not already approved by the P6B-CAP-000 baseline."
+      ],
+      "failure_classification": "capability_ticket_blocked_by_schema_or_source_authority",
+      "final_human_review_required": true,
+      "doctrine_enforcement": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket."
+      ],
+      "blocked_by_ticket_ids": [
+        "P6B-CAP-000"
+      ],
+      "blocked_reason": null,
+      "promotion_audit": {
+        "promotion_status": "BLOCKED_NOT_EXECUTABLE",
+        "blocking_gate": "P6B-CAP-000",
+        "schema_baseline_required": true,
+        "runtime_scaffold_found": true,
+        "runtime_behavior_found": false,
+        "current_safe_handling": "Keep review-only until Phase 6B schema/runtime baseline is approved."
+      },
+      "ticket_pack_generation_allowed": false,
+      "status_reason": null,
+      "completed_control_dependencies": [
+        "P6B-REGISTRY-001",
+        "P6B-SCHEMA-001",
+        "P6B-SCHEMA-002",
+        "P6B-SCHEMA-003"
+      ],
+      "control_prerequisites_satisfied_on_main": true,
+      "final_user_approval_required": true
+    },
+    {
+      "ticket_id": "P6B-CAP-006",
+      "title": "Implement Phase 6B CRM Pipeline and Timeline Service capability surface",
+      "type": "capability_implementation_ticket_candidate",
+      "priority": "P2",
+      "doctrine_enforcement_lines": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket."
+      ],
+      "ticketability_status": "EXECUTABLE_REVIEW_READY",
+      "execution_authorized": false,
+      "ticket_generation_allowed": false,
+      "source_component_id": "6B.06",
+      "source_component_name": "CRM Pipeline and Timeline Service",
+      "source_seed_ids": [
+        "seed_6b_06_pipeline_stage_model",
+        "seed_6b_06_crm_activity_timeline",
+        "seed_6b_06_internal_notes_comments",
+        "seed_6b_06_stage_history_audit",
+        "seed_6b_06_expected_value_pricing_bridge"
+      ],
+      "source_seed_count": 5,
+      "objective": "Convert the metadata-only CRM Pipeline and Timeline Service scaffold into the reviewed Phase 6B capability surface for its 5 source-grounded seeds, after schema and route behavior are approved.",
+      "scope": {
+        "component_key": "crm_pipeline",
+        "seed_ids": [
+          "seed_6b_06_pipeline_stage_model",
+          "seed_6b_06_crm_activity_timeline",
+          "seed_6b_06_internal_notes_comments",
+          "seed_6b_06_stage_history_audit",
+          "seed_6b_06_expected_value_pricing_bridge"
+        ],
+        "seed_capabilities": [
+          "6B pipeline stage model",
+          "6B crm activity timeline",
+          "6B internal notes comments",
+          "6B stage history audit",
+          "6B expected value pricing bridge"
+        ],
+        "owned_data_authority_raw": "Pipeline stages, activities, notes, timeline entries, stage history",
+        "activation_lifecycle_raw": "Foundry-managed; lifecycle configured",
+        "emits_raw": "pipeline.stage_changed, crm.timeline_appended",
+        "consumes_raw": "lead.created, config.changed"
+      },
+      "non_scope": [
+        "No Prisma schema edits; depends on P6B-CAP-000.",
+        "No frontend screen.",
+        "No external provider credential.",
+        "No unrelated Phase 6B component behavior."
+      ],
+      "source_files_to_inspect": [
+        "docs/process/core/v0_0_2/spark_platform_v4_1/0_business_logic.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+        "docs/process/v4_1/phase_6b/v15/capability_traceability_matrix_v1.json",
+        "docs/process/v4_1/phase_6b/v15/runtime_scaffold_discovery_matrix_v1.json",
+        "docs/process/v4_1/phase_6b/scaffold_control/phase_6b_scaffold_control_gate_report_v1.json",
+        "packages/contracts/phase_6b/crm_pipeline.contract.ts",
+        "packages/contracts/phase_6b/crm_pipeline.module_manifest.contract.ts",
+        "apps/api/src/phase_6b/crm_pipeline/crm_pipeline.controller.ts",
+        "apps/api/src/phase_6b/crm_pipeline/crm_pipeline.service.ts",
+        "apps/api/src/phase_6b/crm_pipeline/crm_pipeline.service.test.ts"
+      ],
+      "files_expected_to_change": [
+        "packages/contracts/phase_6b/crm_pipeline.contract.ts",
+        "packages/contracts/phase_6b/crm_pipeline.module_manifest.contract.ts",
+        "apps/api/src/phase_6b/crm_pipeline/crm_pipeline.controller.ts",
+        "apps/api/src/phase_6b/crm_pipeline/crm_pipeline.service.ts",
+        "apps/api/src/phase_6b/crm_pipeline/crm_pipeline.service.test.ts"
+      ],
+      "files_forbidden_to_change": [
+        "Any file outside files_expected_to_change for the active ticket.",
+        "Any frontend screen or route without a separately approved screen contract.",
+        "Any production external adapter credential or provider integration.",
+        "Any ticket-generation flag set to true before human review approval.",
+        "Any schema, permission, event, API, or ADL interpretation not grounded in committed source authority.",
+        "prisma/schema.prisma",
+        "prisma/migrations/**"
+      ],
+      "required_outputs": [
+        "CRM Pipeline and Timeline Service contract behavior updated from scaffold metadata to reviewed schemas.",
+        "CRM Pipeline and Timeline Service service/controller tests cover approved runtime MCR.",
+        "No ticket-generation or execution flags enabled."
+      ],
+      "evidence_artifacts": [
+        "crm_pipeline.service.test.ts output",
+        "contracts validation output",
+        "API typecheck/test output"
+      ],
+      "tests_required": [
+        "apps/api/src/phase_6b/crm_pipeline/crm_pipeline.service.test.ts",
+        "contract validator coverage for component schemas if schemas are changed"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm exec tsx apps/api/src/phase_6b/crm_pipeline/crm_pipeline.service.test.ts",
+        "pnpm --filter @akti/api typecheck"
+      ],
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime / Foundry / module installer / business modules / production auth / deployment / secrets / destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change.",
+        "Stop if any unresolved Phase 6B source ambiguity requires Codex to invent a business rule.",
+        "Stop if implementation requires changing Prisma schema without the P6B-CAP-000 baseline.",
+        "Stop if approved route/API behavior is missing."
+      ],
+      "acceptance_criteria": [
+        "All 5 source seeds are represented by observable runtime behavior or explicitly tested non-runtime handling.",
+        "Tests prove tenant isolation assumptions from the approved schema baseline.",
+        "No capability behavior remains scaffold-only for covered seeds."
+      ],
+      "dependencies": [
+        "P6B-CAP-000",
+        "P6B-CAP-004",
+        "P6B-CAP-005"
+      ],
+      "commit_message": "docs: implement Phase 6B crm_pipeline capability surface",
+      "rollback_notes": "Revert only crm_pipeline contract/API files from this ticket and preserve scaffold-control gate artifacts.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Required if exact runtime behavior requires additional files, schema ownership, screen contracts, provider adapters, or source decisions not listed here.",
+      "stale_ticket_risk_notes": [
+        "Current ticket is not executable until schema baseline and ticket-pack review approve it.",
+        "Component-level grouping prevents seed-level tickets from overlapping the same service/contract files."
+      ],
+      "runtime_consistency_chain": [
+        "source authority",
+        "v15 ticket pack",
+        "Phase 6B contract scaffold",
+        "Phase 6B API scaffold",
+        "schema baseline",
+        "component tests"
+      ],
+      "minimum_concrete_requirement": "After review approval, `crm_pipeline.service.test.ts` and `pnpm --filter @akti/api typecheck` prove reviewed runtime behavior for all seeds in 6B.06; completion must be proven by the named runtime test and typecheck result.",
+      "split_if": [
+        "A seed requires a separate runtime subsystem with non-overlapping files.",
+        "A provider/channel/financial lifecycle path needs separate validation ladder.",
+        "Reviewer cannot evaluate the component as one commit."
+      ],
+      "requires_human_approval_if": [
+        "Any schema, route shape, permission, ADL enforcement behavior, provider callback semantics, or business rule is not explicit in committed source.",
+        "The ticket would create or infer Prisma models, fields, relations, permissions, DTOs, API routes, events, ADL semantics, or business rules not already approved by the P6B-CAP-000 baseline."
+      ],
+      "failure_classification": "capability_ticket_blocked_by_schema_or_source_authority",
+      "final_human_review_required": true,
+      "doctrine_enforcement": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket."
+      ],
+      "blocked_by_ticket_ids": [
+        "P6B-CAP-000"
+      ],
+      "blocked_reason": null,
+      "promotion_audit": {
+        "promotion_status": "BLOCKED_NOT_EXECUTABLE",
+        "blocking_gate": "P6B-CAP-000",
+        "schema_baseline_required": true,
+        "runtime_scaffold_found": true,
+        "runtime_behavior_found": false,
+        "current_safe_handling": "Keep review-only until Phase 6B schema/runtime baseline is approved."
+      },
+      "ticket_pack_generation_allowed": false,
+      "status_reason": null,
+      "completed_control_dependencies": [
+        "P6B-REGISTRY-001",
+        "P6B-SCHEMA-001",
+        "P6B-SCHEMA-002",
+        "P6B-SCHEMA-003"
+      ],
+      "control_prerequisites_satisfied_on_main": true,
+      "final_user_approval_required": true
+    },
+    {
+      "ticket_id": "P6B-CAP-007",
+      "title": "Implement Phase 6B CRM Communication Engines capability surface",
+      "type": "capability_implementation_ticket_candidate",
+      "priority": "P2",
+      "doctrine_enforcement_lines": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket."
+      ],
+      "ticketability_status": "EXECUTABLE_REVIEW_READY",
+      "execution_authorized": false,
+      "ticket_generation_allowed": false,
+      "source_component_id": "6B.07",
+      "source_component_name": "CRM Communication Engines",
+      "source_seed_ids": [
+        "seed_6b_07_whatsapp_template_management",
+        "seed_6b_07_whatsapp_inbound_routing",
+        "seed_6b_07_whatsapp_outbound_window",
+        "seed_6b_07_whatsapp_broadcast_compliance",
+        "seed_6b_07_whatsapp_auto_reply_keywords",
+        "seed_6b_07_email_connected_inbox",
+        "seed_6b_07_email_transactional_domain",
+        "seed_6b_07_email_sequences",
+        "seed_6b_07_email_shared_inbox",
+        "seed_6b_07_communication_attempt_evidence"
+      ],
+      "source_seed_count": 10,
+      "objective": "Convert the metadata-only CRM Communication Engines scaffold into the reviewed Phase 6B capability surface for its 10 source-grounded seeds, after schema and route behavior are approved.",
+      "scope": {
+        "component_key": "crm_communication",
+        "seed_ids": [
+          "seed_6b_07_whatsapp_template_management",
+          "seed_6b_07_whatsapp_inbound_routing",
+          "seed_6b_07_whatsapp_outbound_window",
+          "seed_6b_07_whatsapp_broadcast_compliance",
+          "seed_6b_07_whatsapp_auto_reply_keywords",
+          "seed_6b_07_email_connected_inbox",
+          "seed_6b_07_email_transactional_domain",
+          "seed_6b_07_email_sequences",
+          "seed_6b_07_email_shared_inbox",
+          "seed_6b_07_communication_attempt_evidence"
+        ],
+        "seed_capabilities": [
+          "6B whatsapp template management",
+          "6B whatsapp inbound routing",
+          "6B whatsapp outbound window",
+          "6B whatsapp broadcast compliance",
+          "6B whatsapp auto reply keywords",
+          "6B email connected inbox",
+          "6B email transactional domain",
+          "6B email sequences",
+          "6B email shared inbox",
+          "6B communication attempt evidence"
+        ],
+        "owned_data_authority_raw": "WhatsApp/email conversation metadata, templates, sequence enrollment, send attempts",
+        "activation_lifecycle_raw": "Optional per channel; gateway enforcement mandatory",
+        "emits_raw": "crm.message_requested, sequence.enrolled, reply.received",
+        "consumes_raw": "communication.sent, communication.blocked"
+      },
+      "non_scope": [
+        "No Prisma schema edits; depends on P6B-CAP-000.",
+        "No frontend screen.",
+        "No external provider credential.",
+        "No unrelated Phase 6B component behavior."
+      ],
+      "source_files_to_inspect": [
+        "docs/process/core/v0_0_2/spark_platform_v4_1/0_business_logic.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+        "docs/process/v4_1/phase_6b/v15/capability_traceability_matrix_v1.json",
+        "docs/process/v4_1/phase_6b/v15/runtime_scaffold_discovery_matrix_v1.json",
+        "docs/process/v4_1/phase_6b/scaffold_control/phase_6b_scaffold_control_gate_report_v1.json",
+        "packages/contracts/phase_6b/crm_communication.contract.ts",
+        "packages/contracts/phase_6b/crm_communication.module_manifest.contract.ts",
+        "apps/api/src/phase_6b/crm_communication/crm_communication.controller.ts",
+        "apps/api/src/phase_6b/crm_communication/crm_communication.service.ts",
+        "apps/api/src/phase_6b/crm_communication/crm_communication.service.test.ts"
+      ],
+      "files_expected_to_change": [
+        "packages/contracts/phase_6b/crm_communication.contract.ts",
+        "packages/contracts/phase_6b/crm_communication.module_manifest.contract.ts",
+        "apps/api/src/phase_6b/crm_communication/crm_communication.controller.ts",
+        "apps/api/src/phase_6b/crm_communication/crm_communication.service.ts",
+        "apps/api/src/phase_6b/crm_communication/crm_communication.service.test.ts"
+      ],
+      "files_forbidden_to_change": [
+        "Any file outside files_expected_to_change for the active ticket.",
+        "Any frontend screen or route without a separately approved screen contract.",
+        "Any production external adapter credential or provider integration.",
+        "Any ticket-generation flag set to true before human review approval.",
+        "Any schema, permission, event, API, or ADL interpretation not grounded in committed source authority.",
+        "prisma/schema.prisma",
+        "prisma/migrations/**"
+      ],
+      "required_outputs": [
+        "CRM Communication Engines contract behavior updated from scaffold metadata to reviewed schemas.",
+        "CRM Communication Engines service/controller tests cover approved runtime MCR.",
+        "No ticket-generation or execution flags enabled."
+      ],
+      "evidence_artifacts": [
+        "crm_communication.service.test.ts output",
+        "contracts validation output",
+        "API typecheck/test output"
+      ],
+      "tests_required": [
+        "apps/api/src/phase_6b/crm_communication/crm_communication.service.test.ts",
+        "contract validator coverage for component schemas if schemas are changed"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm exec tsx apps/api/src/phase_6b/crm_communication/crm_communication.service.test.ts",
+        "pnpm --filter @akti/api typecheck"
+      ],
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime / Foundry / module installer / business modules / production auth / deployment / secrets / destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change.",
+        "Stop if any unresolved Phase 6B source ambiguity requires Codex to invent a business rule.",
+        "Stop if implementation requires changing Prisma schema without the P6B-CAP-000 baseline.",
+        "Stop if approved route/API behavior is missing."
+      ],
+      "acceptance_criteria": [
+        "All 10 source seeds are represented by observable runtime behavior or explicitly tested non-runtime handling.",
+        "Tests prove tenant isolation assumptions from the approved schema baseline.",
+        "No capability behavior remains scaffold-only for covered seeds."
+      ],
+      "dependencies": [
+        "P6B-CAP-000",
+        "P6B-CAP-006"
+      ],
+      "commit_message": "docs: implement Phase 6B crm_communication capability surface",
+      "rollback_notes": "Revert only crm_communication contract/API files from this ticket and preserve scaffold-control gate artifacts.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Required if exact runtime behavior requires additional files, schema ownership, screen contracts, provider adapters, or source decisions not listed here.",
+      "stale_ticket_risk_notes": [
+        "Current ticket is not executable until schema baseline and ticket-pack review approve it.",
+        "Component-level grouping prevents seed-level tickets from overlapping the same service/contract files."
+      ],
+      "runtime_consistency_chain": [
+        "source authority",
+        "v15 ticket pack",
+        "Phase 6B contract scaffold",
+        "Phase 6B API scaffold",
+        "schema baseline",
+        "component tests"
+      ],
+      "minimum_concrete_requirement": "After review approval, `crm_communication.service.test.ts` and `pnpm --filter @akti/api typecheck` prove reviewed runtime behavior for all seeds in 6B.07; completion must be proven by the named runtime test and typecheck result.",
+      "split_if": [
+        "A seed requires a separate runtime subsystem with non-overlapping files.",
+        "A provider/channel/financial lifecycle path needs separate validation ladder.",
+        "Reviewer cannot evaluate the component as one commit."
+      ],
+      "requires_human_approval_if": [
+        "Any schema, route shape, permission, ADL enforcement behavior, provider callback semantics, or business rule is not explicit in committed source.",
+        "The ticket would create or infer Prisma models, fields, relations, permissions, DTOs, API routes, events, ADL semantics, or business rules not already approved by the P6B-CAP-000 baseline."
+      ],
+      "failure_classification": "capability_ticket_blocked_by_schema_or_source_authority",
+      "final_human_review_required": true,
+      "doctrine_enforcement": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket."
+      ],
+      "blocked_by_ticket_ids": [
+        "P6B-CAP-000"
+      ],
+      "blocked_reason": null,
+      "promotion_audit": {
+        "promotion_status": "BLOCKED_NOT_EXECUTABLE",
+        "blocking_gate": "P6B-CAP-000",
+        "schema_baseline_required": true,
+        "runtime_scaffold_found": true,
+        "runtime_behavior_found": false,
+        "current_safe_handling": "Keep review-only until Phase 6B schema/runtime baseline is approved."
+      },
+      "ticket_pack_generation_allowed": false,
+      "status_reason": null,
+      "completed_control_dependencies": [
+        "P6B-REGISTRY-001",
+        "P6B-SCHEMA-001",
+        "P6B-SCHEMA-002",
+        "P6B-SCHEMA-003"
+      ],
+      "control_prerequisites_satisfied_on_main": true,
+      "final_user_approval_required": true
+    },
+    {
+      "ticket_id": "P6B-CAP-008",
+      "title": "Implement Phase 6B CRM Scoring, Follow-Up, and Reporting Service capability surface",
+      "type": "capability_implementation_ticket_candidate",
+      "priority": "P2",
+      "doctrine_enforcement_lines": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket."
+      ],
+      "ticketability_status": "EXECUTABLE_REVIEW_READY",
+      "execution_authorized": false,
+      "ticket_generation_allowed": false,
+      "source_component_id": "6B.08",
+      "source_component_name": "CRM Scoring, Follow-Up, and Reporting Service",
+      "source_seed_ids": [
+        "seed_6b_08_lead_scoring_engine",
+        "seed_6b_08_follow_up_task_cadence",
+        "seed_6b_08_crm_reporting_definitions",
+        "seed_6b_08_crm_compliance_views"
+      ],
+      "source_seed_count": 4,
+      "objective": "Convert the metadata-only CRM Scoring, Follow-Up, and Reporting Service scaffold into the reviewed Phase 6B capability surface for its 4 source-grounded seeds, after schema and route behavior are approved.",
+      "scope": {
+        "component_key": "crm_scoring_reporting",
+        "seed_ids": [
+          "seed_6b_08_lead_scoring_engine",
+          "seed_6b_08_follow_up_task_cadence",
+          "seed_6b_08_crm_reporting_definitions",
+          "seed_6b_08_crm_compliance_views"
+        ],
+        "seed_capabilities": [
+          "6B lead scoring engine",
+          "6B follow up task cadence",
+          "6B crm reporting definitions",
+          "6B crm compliance views"
+        ],
+        "owned_data_authority_raw": "Lead scores, follow-up tasks, reporting definitions, compliance views",
+        "activation_lifecycle_raw": "Foundry-managed; scoring rules configurable",
+        "emits_raw": "lead.score_changed, followup.created, crm.report_generated",
+        "consumes_raw": "crm.timeline_appended, communication.sent"
+      },
+      "non_scope": [
+        "No Prisma schema edits; depends on P6B-CAP-000.",
+        "No frontend screen.",
+        "No external provider credential.",
+        "No unrelated Phase 6B component behavior."
+      ],
+      "source_files_to_inspect": [
+        "docs/process/core/v0_0_2/spark_platform_v4_1/0_business_logic.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+        "docs/process/v4_1/phase_6b/v15/capability_traceability_matrix_v1.json",
+        "docs/process/v4_1/phase_6b/v15/runtime_scaffold_discovery_matrix_v1.json",
+        "docs/process/v4_1/phase_6b/scaffold_control/phase_6b_scaffold_control_gate_report_v1.json",
+        "packages/contracts/phase_6b/crm_scoring_reporting.contract.ts",
+        "packages/contracts/phase_6b/crm_scoring_reporting.module_manifest.contract.ts",
+        "apps/api/src/phase_6b/crm_scoring_reporting/crm_scoring_reporting.controller.ts",
+        "apps/api/src/phase_6b/crm_scoring_reporting/crm_scoring_reporting.service.ts",
+        "apps/api/src/phase_6b/crm_scoring_reporting/crm_scoring_reporting.service.test.ts"
+      ],
+      "files_expected_to_change": [
+        "packages/contracts/phase_6b/crm_scoring_reporting.contract.ts",
+        "packages/contracts/phase_6b/crm_scoring_reporting.module_manifest.contract.ts",
+        "apps/api/src/phase_6b/crm_scoring_reporting/crm_scoring_reporting.controller.ts",
+        "apps/api/src/phase_6b/crm_scoring_reporting/crm_scoring_reporting.service.ts",
+        "apps/api/src/phase_6b/crm_scoring_reporting/crm_scoring_reporting.service.test.ts"
+      ],
+      "files_forbidden_to_change": [
+        "Any file outside files_expected_to_change for the active ticket.",
+        "Any frontend screen or route without a separately approved screen contract.",
+        "Any production external adapter credential or provider integration.",
+        "Any ticket-generation flag set to true before human review approval.",
+        "Any schema, permission, event, API, or ADL interpretation not grounded in committed source authority.",
+        "prisma/schema.prisma",
+        "prisma/migrations/**"
+      ],
+      "required_outputs": [
+        "CRM Scoring, Follow-Up, and Reporting Service contract behavior updated from scaffold metadata to reviewed schemas.",
+        "CRM Scoring, Follow-Up, and Reporting Service service/controller tests cover approved runtime MCR.",
+        "No ticket-generation or execution flags enabled."
+      ],
+      "evidence_artifacts": [
+        "crm_scoring_reporting.service.test.ts output",
+        "contracts validation output",
+        "API typecheck/test output"
+      ],
+      "tests_required": [
+        "apps/api/src/phase_6b/crm_scoring_reporting/crm_scoring_reporting.service.test.ts",
+        "contract validator coverage for component schemas if schemas are changed"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm exec tsx apps/api/src/phase_6b/crm_scoring_reporting/crm_scoring_reporting.service.test.ts",
+        "pnpm --filter @akti/api typecheck"
+      ],
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime / Foundry / module installer / business modules / production auth / deployment / secrets / destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change.",
+        "Stop if any unresolved Phase 6B source ambiguity requires Codex to invent a business rule.",
+        "Stop if implementation requires changing Prisma schema without the P6B-CAP-000 baseline.",
+        "Stop if approved route/API behavior is missing."
+      ],
+      "acceptance_criteria": [
+        "All 4 source seeds are represented by observable runtime behavior or explicitly tested non-runtime handling.",
+        "Tests prove tenant isolation assumptions from the approved schema baseline.",
+        "No capability behavior remains scaffold-only for covered seeds."
+      ],
+      "dependencies": [
+        "P6B-CAP-000",
+        "P6B-CAP-006",
+        "P6B-CAP-007"
+      ],
+      "commit_message": "docs: implement Phase 6B crm_scoring_reporting capability surface",
+      "rollback_notes": "Revert only crm_scoring_reporting contract/API files from this ticket and preserve scaffold-control gate artifacts.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Required if exact runtime behavior requires additional files, schema ownership, screen contracts, provider adapters, or source decisions not listed here.",
+      "stale_ticket_risk_notes": [
+        "Current ticket is not executable until schema baseline and ticket-pack review approve it.",
+        "Component-level grouping prevents seed-level tickets from overlapping the same service/contract files."
+      ],
+      "runtime_consistency_chain": [
+        "source authority",
+        "v15 ticket pack",
+        "Phase 6B contract scaffold",
+        "Phase 6B API scaffold",
+        "schema baseline",
+        "component tests"
+      ],
+      "minimum_concrete_requirement": "After review approval, `crm_scoring_reporting.service.test.ts` and `pnpm --filter @akti/api typecheck` prove reviewed runtime behavior for all seeds in 6B.08; completion must be proven by the named runtime test and typecheck result.",
+      "split_if": [
+        "A seed requires a separate runtime subsystem with non-overlapping files.",
+        "A provider/channel/financial lifecycle path needs separate validation ladder.",
+        "Reviewer cannot evaluate the component as one commit."
+      ],
+      "requires_human_approval_if": [
+        "Any schema, route shape, permission, ADL enforcement behavior, provider callback semantics, or business rule is not explicit in committed source.",
+        "The ticket would create or infer Prisma models, fields, relations, permissions, DTOs, API routes, events, ADL semantics, or business rules not already approved by the P6B-CAP-000 baseline."
+      ],
+      "failure_classification": "capability_ticket_blocked_by_schema_or_source_authority",
+      "final_human_review_required": true,
+      "doctrine_enforcement": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket."
+      ],
+      "blocked_by_ticket_ids": [
+        "P6B-CAP-000"
+      ],
+      "blocked_reason": null,
+      "promotion_audit": {
+        "promotion_status": "BLOCKED_NOT_EXECUTABLE",
+        "blocking_gate": "P6B-CAP-000",
+        "schema_baseline_required": true,
+        "runtime_scaffold_found": true,
+        "runtime_behavior_found": false,
+        "current_safe_handling": "Keep review-only until Phase 6B schema/runtime baseline is approved."
+      },
+      "ticket_pack_generation_allowed": false,
+      "status_reason": null,
+      "completed_control_dependencies": [
+        "P6B-REGISTRY-001",
+        "P6B-SCHEMA-001",
+        "P6B-SCHEMA-002",
+        "P6B-SCHEMA-003"
+      ],
+      "control_prerequisites_satisfied_on_main": true,
+      "final_user_approval_required": true
+    },
+    {
+      "ticket_id": "P6B-CAP-009",
+      "title": "Implement Phase 6B Finance Invoice and Receivables Service capability surface",
+      "type": "capability_implementation_ticket_candidate",
+      "priority": "P2",
+      "doctrine_enforcement_lines": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket."
+      ],
+      "ticketability_status": "EXECUTABLE_REVIEW_READY",
+      "execution_authorized": false,
+      "ticket_generation_allowed": false,
+      "source_component_id": "6B.09",
+      "source_component_name": "Finance Invoice and Receivables Service",
+      "source_seed_ids": [
+        "seed_6b_09_invoice_record_authority",
+        "seed_6b_09_invoice_lifecycle_types",
+        "seed_6b_09_receivable_balance_computation",
+        "seed_6b_09_fbr_invoice_format",
+        "seed_6b_09_aging_and_overdue_management"
+      ],
+      "source_seed_count": 5,
+      "objective": "Convert the metadata-only Finance Invoice and Receivables Service scaffold into the reviewed Phase 6B capability surface for its 5 source-grounded seeds, after schema and route behavior are approved.",
+      "scope": {
+        "component_key": "finance_invoice_receivables",
+        "seed_ids": [
+          "seed_6b_09_invoice_record_authority",
+          "seed_6b_09_invoice_lifecycle_types",
+          "seed_6b_09_receivable_balance_computation",
+          "seed_6b_09_fbr_invoice_format",
+          "seed_6b_09_aging_and_overdue_management"
+        ],
+        "seed_capabilities": [
+          "6B invoice record authority",
+          "6B invoice lifecycle types",
+          "6B receivable balance computation",
+          "6B fbr invoice format",
+          "6B aging and overdue management"
+        ],
+        "owned_data_authority_raw": "Invoices, invoice lines, receivables, credit/debit notes, payment terms",
+        "activation_lifecycle_raw": "Foundry-managed; invoices immutable after issue",
+        "emits_raw": "invoice.issued, invoice.voided, credit_note.issued",
+        "consumes_raw": "product_price.changed, pipeline.stage_changed"
+      },
+      "non_scope": [
+        "No Prisma schema edits; depends on P6B-CAP-000.",
+        "No frontend screen.",
+        "No external provider credential.",
+        "No unrelated Phase 6B component behavior."
+      ],
+      "source_files_to_inspect": [
+        "docs/process/core/v0_0_2/spark_platform_v4_1/0_business_logic.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+        "docs/process/v4_1/phase_6b/v15/capability_traceability_matrix_v1.json",
+        "docs/process/v4_1/phase_6b/v15/runtime_scaffold_discovery_matrix_v1.json",
+        "docs/process/v4_1/phase_6b/scaffold_control/phase_6b_scaffold_control_gate_report_v1.json",
+        "packages/contracts/phase_6b/finance_invoice_receivables.contract.ts",
+        "packages/contracts/phase_6b/finance_invoice_receivables.module_manifest.contract.ts",
+        "apps/api/src/phase_6b/finance_invoice_receivables/finance_invoice_receivables.controller.ts",
+        "apps/api/src/phase_6b/finance_invoice_receivables/finance_invoice_receivables.service.ts",
+        "apps/api/src/phase_6b/finance_invoice_receivables/finance_invoice_receivables.service.test.ts"
+      ],
+      "files_expected_to_change": [
+        "packages/contracts/phase_6b/finance_invoice_receivables.contract.ts",
+        "packages/contracts/phase_6b/finance_invoice_receivables.module_manifest.contract.ts",
+        "apps/api/src/phase_6b/finance_invoice_receivables/finance_invoice_receivables.controller.ts",
+        "apps/api/src/phase_6b/finance_invoice_receivables/finance_invoice_receivables.service.ts",
+        "apps/api/src/phase_6b/finance_invoice_receivables/finance_invoice_receivables.service.test.ts"
+      ],
+      "files_forbidden_to_change": [
+        "Any file outside files_expected_to_change for the active ticket.",
+        "Any frontend screen or route without a separately approved screen contract.",
+        "Any production external adapter credential or provider integration.",
+        "Any ticket-generation flag set to true before human review approval.",
+        "Any schema, permission, event, API, or ADL interpretation not grounded in committed source authority.",
+        "prisma/schema.prisma",
+        "prisma/migrations/**"
+      ],
+      "required_outputs": [
+        "Finance Invoice and Receivables Service contract behavior updated from scaffold metadata to reviewed schemas.",
+        "Finance Invoice and Receivables Service service/controller tests cover approved runtime MCR.",
+        "No ticket-generation or execution flags enabled."
+      ],
+      "evidence_artifacts": [
+        "finance_invoice_receivables.service.test.ts output",
+        "contracts validation output",
+        "API typecheck/test output"
+      ],
+      "tests_required": [
+        "apps/api/src/phase_6b/finance_invoice_receivables/finance_invoice_receivables.service.test.ts",
+        "contract validator coverage for component schemas if schemas are changed"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm exec tsx apps/api/src/phase_6b/finance_invoice_receivables/finance_invoice_receivables.service.test.ts",
+        "pnpm --filter @akti/api typecheck"
+      ],
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime / Foundry / module installer / business modules / production auth / deployment / secrets / destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change.",
+        "Stop if any unresolved Phase 6B source ambiguity requires Codex to invent a business rule.",
+        "Stop if implementation requires changing Prisma schema without the P6B-CAP-000 baseline.",
+        "Stop if approved route/API behavior is missing."
+      ],
+      "acceptance_criteria": [
+        "All 5 source seeds are represented by observable runtime behavior or explicitly tested non-runtime handling.",
+        "Tests prove tenant isolation assumptions from the approved schema baseline.",
+        "No capability behavior remains scaffold-only for covered seeds."
+      ],
+      "dependencies": [
+        "P6B-CAP-000",
+        "P6B-CAP-001",
+        "P6B-CAP-002",
+        "P6B-CAP-006"
+      ],
+      "commit_message": "docs: implement Phase 6B finance_invoice_receivables capability surface",
+      "rollback_notes": "Revert only finance_invoice_receivables contract/API files from this ticket and preserve scaffold-control gate artifacts.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Required if exact runtime behavior requires additional files, schema ownership, screen contracts, provider adapters, or source decisions not listed here.",
+      "stale_ticket_risk_notes": [
+        "Current ticket is not executable until schema baseline and ticket-pack review approve it.",
+        "Component-level grouping prevents seed-level tickets from overlapping the same service/contract files."
+      ],
+      "runtime_consistency_chain": [
+        "source authority",
+        "v15 ticket pack",
+        "Phase 6B contract scaffold",
+        "Phase 6B API scaffold",
+        "schema baseline",
+        "component tests"
+      ],
+      "minimum_concrete_requirement": "After review approval, `finance_invoice_receivables.service.test.ts` and `pnpm --filter @akti/api typecheck` prove reviewed runtime behavior for all seeds in 6B.09; completion must be proven by the named runtime test and typecheck result.",
+      "split_if": [
+        "A seed requires a separate runtime subsystem with non-overlapping files.",
+        "A provider/channel/financial lifecycle path needs separate validation ladder.",
+        "Reviewer cannot evaluate the component as one commit."
+      ],
+      "requires_human_approval_if": [
+        "Any schema, route shape, permission, ADL enforcement behavior, provider callback semantics, or business rule is not explicit in committed source.",
+        "The ticket would create or infer Prisma models, fields, relations, permissions, DTOs, API routes, events, ADL semantics, or business rules not already approved by the P6B-CAP-000 baseline."
+      ],
+      "failure_classification": "capability_ticket_blocked_by_schema_or_source_authority",
+      "final_human_review_required": true,
+      "doctrine_enforcement": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket."
+      ],
+      "blocked_by_ticket_ids": [
+        "P6B-CAP-000"
+      ],
+      "blocked_reason": null,
+      "promotion_audit": {
+        "promotion_status": "BLOCKED_NOT_EXECUTABLE",
+        "blocking_gate": "P6B-CAP-000",
+        "schema_baseline_required": true,
+        "runtime_scaffold_found": true,
+        "runtime_behavior_found": false,
+        "current_safe_handling": "Keep review-only until Phase 6B schema/runtime baseline is approved."
+      },
+      "ticket_pack_generation_allowed": false,
+      "status_reason": null,
+      "completed_control_dependencies": [
+        "P6B-REGISTRY-001",
+        "P6B-SCHEMA-001",
+        "P6B-SCHEMA-002",
+        "P6B-SCHEMA-003"
+      ],
+      "control_prerequisites_satisfied_on_main": true,
+      "final_user_approval_required": true
+    },
+    {
+      "ticket_id": "P6B-CAP-010",
+      "title": "Implement Phase 6B Payment, Collection, and Top-Up Service capability surface",
+      "type": "capability_implementation_ticket_candidate",
+      "priority": "P2",
+      "doctrine_enforcement_lines": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket."
+      ],
+      "ticketability_status": "EXECUTABLE_REVIEW_READY",
+      "execution_authorized": false,
+      "ticket_generation_allowed": false,
+      "source_component_id": "6B.10",
+      "source_component_name": "Payment, Collection, and Top-Up Service",
+      "source_seed_ids": [
+        "seed_6b_10_jazzcash_gateway",
+        "seed_6b_10_easypaisa_gateway",
+        "seed_6b_10_raast_gateway",
+        "seed_6b_10_quickpay_shadow_account_gateway",
+        "seed_6b_10_stripe_gateway_3ds",
+        "seed_6b_10_wise_gateway",
+        "seed_6b_10_manual_reconciliation_path",
+        "seed_6b_10_payment_allocation_balance",
+        "seed_6b_10_refund_to_original_method",
+        "seed_6b_10_top_up_prepaid_credit"
+      ],
+      "source_seed_count": 10,
+      "objective": "Convert the metadata-only Payment, Collection, and Top-Up Service scaffold into the reviewed Phase 6B capability surface for its 10 source-grounded seeds, after schema and route behavior are approved.",
+      "scope": {
+        "component_key": "payment_collection_topup",
+        "seed_ids": [
+          "seed_6b_10_jazzcash_gateway",
+          "seed_6b_10_easypaisa_gateway",
+          "seed_6b_10_raast_gateway",
+          "seed_6b_10_quickpay_shadow_account_gateway",
+          "seed_6b_10_stripe_gateway_3ds",
+          "seed_6b_10_wise_gateway",
+          "seed_6b_10_manual_reconciliation_path",
+          "seed_6b_10_payment_allocation_balance",
+          "seed_6b_10_refund_to_original_method",
+          "seed_6b_10_top_up_prepaid_credit"
+        ],
+        "seed_capabilities": [
+          "6B jazzcash gateway",
+          "6B easypaisa gateway",
+          "6B raast gateway",
+          "6B quickpay shadow account gateway",
+          "6B stripe gateway 3ds",
+          "6B wise gateway",
+          "6B manual reconciliation path",
+          "6B payment allocation balance",
+          "6B refund to original method",
+          "6B top up prepaid credit"
+        ],
+        "owned_data_authority_raw": "Payments, allocations, receipts, top-ups, provider references, reconciliation candidates",
+        "activation_lifecycle_raw": "Foundry-managed; provider failures degrade gracefully",
+        "emits_raw": "payment.recorded, payment.verified, topup.received, receipt.issued",
+        "consumes_raw": "invoice.issued, webhook.received"
+      },
+      "non_scope": [
+        "No Prisma schema edits; depends on P6B-CAP-000.",
+        "No frontend screen.",
+        "No external provider credential.",
+        "No unrelated Phase 6B component behavior."
+      ],
+      "source_files_to_inspect": [
+        "docs/process/core/v0_0_2/spark_platform_v4_1/0_business_logic.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+        "docs/process/v4_1/phase_6b/v15/capability_traceability_matrix_v1.json",
+        "docs/process/v4_1/phase_6b/v15/runtime_scaffold_discovery_matrix_v1.json",
+        "docs/process/v4_1/phase_6b/scaffold_control/phase_6b_scaffold_control_gate_report_v1.json",
+        "packages/contracts/phase_6b/payment_collection_topup.contract.ts",
+        "packages/contracts/phase_6b/payment_collection_topup.module_manifest.contract.ts",
+        "apps/api/src/phase_6b/payment_collection_topup/payment_collection_topup.controller.ts",
+        "apps/api/src/phase_6b/payment_collection_topup/payment_collection_topup.service.ts",
+        "apps/api/src/phase_6b/payment_collection_topup/payment_collection_topup.service.test.ts"
+      ],
+      "files_expected_to_change": [
+        "packages/contracts/phase_6b/payment_collection_topup.contract.ts",
+        "packages/contracts/phase_6b/payment_collection_topup.module_manifest.contract.ts",
+        "apps/api/src/phase_6b/payment_collection_topup/payment_collection_topup.controller.ts",
+        "apps/api/src/phase_6b/payment_collection_topup/payment_collection_topup.service.ts",
+        "apps/api/src/phase_6b/payment_collection_topup/payment_collection_topup.service.test.ts"
+      ],
+      "files_forbidden_to_change": [
+        "Any file outside files_expected_to_change for the active ticket.",
+        "Any frontend screen or route without a separately approved screen contract.",
+        "Any production external adapter credential or provider integration.",
+        "Any ticket-generation flag set to true before human review approval.",
+        "Any schema, permission, event, API, or ADL interpretation not grounded in committed source authority.",
+        "prisma/schema.prisma",
+        "prisma/migrations/**"
+      ],
+      "required_outputs": [
+        "Payment, Collection, and Top-Up Service contract behavior updated from scaffold metadata to reviewed schemas.",
+        "Payment, Collection, and Top-Up Service service/controller tests cover approved runtime MCR.",
+        "No ticket-generation or execution flags enabled."
+      ],
+      "evidence_artifacts": [
+        "payment_collection_topup.service.test.ts output",
+        "contracts validation output",
+        "API typecheck/test output"
+      ],
+      "tests_required": [
+        "apps/api/src/phase_6b/payment_collection_topup/payment_collection_topup.service.test.ts",
+        "contract validator coverage for component schemas if schemas are changed"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm exec tsx apps/api/src/phase_6b/payment_collection_topup/payment_collection_topup.service.test.ts",
+        "pnpm --filter @akti/api typecheck"
+      ],
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime / Foundry / module installer / business modules / production auth / deployment / secrets / destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change.",
+        "Stop if any unresolved Phase 6B source ambiguity requires Codex to invent a business rule.",
+        "Stop if implementation requires changing Prisma schema without the P6B-CAP-000 baseline.",
+        "Stop if approved route/API behavior is missing."
+      ],
+      "acceptance_criteria": [
+        "All 10 source seeds are represented by observable runtime behavior or explicitly tested non-runtime handling.",
+        "Tests prove tenant isolation assumptions from the approved schema baseline.",
+        "No capability behavior remains scaffold-only for covered seeds."
+      ],
+      "dependencies": [
+        "P6B-CAP-000",
+        "P6B-CAP-009"
+      ],
+      "commit_message": "docs: implement Phase 6B payment_collection_topup capability surface",
+      "rollback_notes": "Revert only payment_collection_topup contract/API files from this ticket and preserve scaffold-control gate artifacts.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Required if exact runtime behavior requires additional files, schema ownership, screen contracts, provider adapters, or source decisions not listed here.",
+      "stale_ticket_risk_notes": [
+        "Current ticket is not executable until schema baseline and ticket-pack review approve it.",
+        "Component-level grouping prevents seed-level tickets from overlapping the same service/contract files."
+      ],
+      "runtime_consistency_chain": [
+        "source authority",
+        "v15 ticket pack",
+        "Phase 6B contract scaffold",
+        "Phase 6B API scaffold",
+        "schema baseline",
+        "component tests"
+      ],
+      "minimum_concrete_requirement": "After review approval, `payment_collection_topup.service.test.ts` and `pnpm --filter @akti/api typecheck` prove reviewed runtime behavior for all seeds in 6B.10; completion must be proven by the named runtime test and typecheck result.",
+      "split_if": [
+        "A seed requires a separate runtime subsystem with non-overlapping files.",
+        "A provider/channel/financial lifecycle path needs separate validation ladder.",
+        "Reviewer cannot evaluate the component as one commit."
+      ],
+      "requires_human_approval_if": [
+        "Any schema, route shape, permission, ADL enforcement behavior, provider callback semantics, or business rule is not explicit in committed source.",
+        "The ticket would create or infer Prisma models, fields, relations, permissions, DTOs, API routes, events, ADL semantics, or business rules not already approved by the P6B-CAP-000 baseline."
+      ],
+      "failure_classification": "capability_ticket_blocked_by_schema_or_source_authority",
+      "final_human_review_required": true,
+      "doctrine_enforcement": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket."
+      ],
+      "blocked_by_ticket_ids": [
+        "P6B-CAP-000"
+      ],
+      "blocked_reason": null,
+      "promotion_audit": {
+        "promotion_status": "BLOCKED_NOT_EXECUTABLE",
+        "blocking_gate": "P6B-CAP-000",
+        "schema_baseline_required": true,
+        "runtime_scaffold_found": true,
+        "runtime_behavior_found": false,
+        "current_safe_handling": "Keep review-only until Phase 6B schema/runtime baseline is approved."
+      },
+      "ticket_pack_generation_allowed": false,
+      "status_reason": null,
+      "completed_control_dependencies": [
+        "P6B-REGISTRY-001",
+        "P6B-SCHEMA-001",
+        "P6B-SCHEMA-002",
+        "P6B-SCHEMA-003"
+      ],
+      "control_prerequisites_satisfied_on_main": true,
+      "final_user_approval_required": true
+    },
+    {
+      "ticket_id": "P6B-CAP-011",
+      "title": "Implement Phase 6B Expense, Purchase, and Vendor Service capability surface",
+      "type": "capability_implementation_ticket_candidate",
+      "priority": "P2",
+      "doctrine_enforcement_lines": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket."
+      ],
+      "ticketability_status": "EXECUTABLE_REVIEW_READY",
+      "execution_authorized": false,
+      "ticket_generation_allowed": false,
+      "source_component_id": "6B.11",
+      "source_component_name": "Expense, Purchase, and Vendor Service",
+      "source_seed_ids": [
+        "seed_6b_11_expense_record_authority",
+        "seed_6b_11_expense_approval_workflow",
+        "seed_6b_11_vendor_record_authority",
+        "seed_6b_11_purchase_order_authority",
+        "seed_6b_11_three_way_match_evidence"
+      ],
+      "source_seed_count": 5,
+      "objective": "Convert the metadata-only Expense, Purchase, and Vendor Service scaffold into the reviewed Phase 6B capability surface for its 5 source-grounded seeds, after schema and route behavior are approved.",
+      "scope": {
+        "component_key": "expense_purchase_vendor",
+        "seed_ids": [
+          "seed_6b_11_expense_record_authority",
+          "seed_6b_11_expense_approval_workflow",
+          "seed_6b_11_vendor_record_authority",
+          "seed_6b_11_purchase_order_authority",
+          "seed_6b_11_three_way_match_evidence"
+        ],
+        "seed_capabilities": [
+          "6B expense record authority",
+          "6B expense approval workflow",
+          "6B vendor record authority",
+          "6B purchase order authority",
+          "6B three way match evidence"
+        ],
+        "owned_data_authority_raw": "Vendors, expenses, purchase orders, approvals, receipts",
+        "activation_lifecycle_raw": "Foundry-managed; approvals capability-gated",
+        "emits_raw": "expense.created, po.approved, vendor.updated",
+        "consumes_raw": "payment.verified, rule.blocked"
+      },
+      "non_scope": [
+        "No Prisma schema edits; depends on P6B-CAP-000.",
+        "No frontend screen.",
+        "No external provider credential.",
+        "No unrelated Phase 6B component behavior."
+      ],
+      "source_files_to_inspect": [
+        "docs/process/core/v0_0_2/spark_platform_v4_1/0_business_logic.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+        "docs/process/v4_1/phase_6b/v15/capability_traceability_matrix_v1.json",
+        "docs/process/v4_1/phase_6b/v15/runtime_scaffold_discovery_matrix_v1.json",
+        "docs/process/v4_1/phase_6b/scaffold_control/phase_6b_scaffold_control_gate_report_v1.json",
+        "packages/contracts/phase_6b/expense_purchase_vendor.contract.ts",
+        "packages/contracts/phase_6b/expense_purchase_vendor.module_manifest.contract.ts",
+        "apps/api/src/phase_6b/expense_purchase_vendor/expense_purchase_vendor.controller.ts",
+        "apps/api/src/phase_6b/expense_purchase_vendor/expense_purchase_vendor.service.ts",
+        "apps/api/src/phase_6b/expense_purchase_vendor/expense_purchase_vendor.service.test.ts"
+      ],
+      "files_expected_to_change": [
+        "packages/contracts/phase_6b/expense_purchase_vendor.contract.ts",
+        "packages/contracts/phase_6b/expense_purchase_vendor.module_manifest.contract.ts",
+        "apps/api/src/phase_6b/expense_purchase_vendor/expense_purchase_vendor.controller.ts",
+        "apps/api/src/phase_6b/expense_purchase_vendor/expense_purchase_vendor.service.ts",
+        "apps/api/src/phase_6b/expense_purchase_vendor/expense_purchase_vendor.service.test.ts"
+      ],
+      "files_forbidden_to_change": [
+        "Any file outside files_expected_to_change for the active ticket.",
+        "Any frontend screen or route without a separately approved screen contract.",
+        "Any production external adapter credential or provider integration.",
+        "Any ticket-generation flag set to true before human review approval.",
+        "Any schema, permission, event, API, or ADL interpretation not grounded in committed source authority.",
+        "prisma/schema.prisma",
+        "prisma/migrations/**"
+      ],
+      "required_outputs": [
+        "Expense, Purchase, and Vendor Service contract behavior updated from scaffold metadata to reviewed schemas.",
+        "Expense, Purchase, and Vendor Service service/controller tests cover approved runtime MCR.",
+        "No ticket-generation or execution flags enabled."
+      ],
+      "evidence_artifacts": [
+        "expense_purchase_vendor.service.test.ts output",
+        "contracts validation output",
+        "API typecheck/test output"
+      ],
+      "tests_required": [
+        "apps/api/src/phase_6b/expense_purchase_vendor/expense_purchase_vendor.service.test.ts",
+        "contract validator coverage for component schemas if schemas are changed"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm exec tsx apps/api/src/phase_6b/expense_purchase_vendor/expense_purchase_vendor.service.test.ts",
+        "pnpm --filter @akti/api typecheck"
+      ],
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime / Foundry / module installer / business modules / production auth / deployment / secrets / destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change.",
+        "Stop if any unresolved Phase 6B source ambiguity requires Codex to invent a business rule.",
+        "Stop if implementation requires changing Prisma schema without the P6B-CAP-000 baseline.",
+        "Stop if approved route/API behavior is missing."
+      ],
+      "acceptance_criteria": [
+        "All 5 source seeds are represented by observable runtime behavior or explicitly tested non-runtime handling.",
+        "Tests prove tenant isolation assumptions from the approved schema baseline.",
+        "No capability behavior remains scaffold-only for covered seeds."
+      ],
+      "dependencies": [
+        "P6B-CAP-000",
+        "P6B-CAP-010"
+      ],
+      "commit_message": "docs: implement Phase 6B expense_purchase_vendor capability surface",
+      "rollback_notes": "Revert only expense_purchase_vendor contract/API files from this ticket and preserve scaffold-control gate artifacts.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Required if exact runtime behavior requires additional files, schema ownership, screen contracts, provider adapters, or source decisions not listed here.",
+      "stale_ticket_risk_notes": [
+        "Current ticket is not executable until schema baseline and ticket-pack review approve it.",
+        "Component-level grouping prevents seed-level tickets from overlapping the same service/contract files."
+      ],
+      "runtime_consistency_chain": [
+        "source authority",
+        "v15 ticket pack",
+        "Phase 6B contract scaffold",
+        "Phase 6B API scaffold",
+        "schema baseline",
+        "component tests"
+      ],
+      "minimum_concrete_requirement": "After review approval, `expense_purchase_vendor.service.test.ts` and `pnpm --filter @akti/api typecheck` prove reviewed runtime behavior for all seeds in 6B.11; completion must be proven by the named runtime test and typecheck result.",
+      "split_if": [
+        "A seed requires a separate runtime subsystem with non-overlapping files.",
+        "A provider/channel/financial lifecycle path needs separate validation ladder.",
+        "Reviewer cannot evaluate the component as one commit."
+      ],
+      "requires_human_approval_if": [
+        "Any schema, route shape, permission, ADL enforcement behavior, provider callback semantics, or business rule is not explicit in committed source.",
+        "The ticket would create or infer Prisma models, fields, relations, permissions, DTOs, API routes, events, ADL semantics, or business rules not already approved by the P6B-CAP-000 baseline."
+      ],
+      "failure_classification": "capability_ticket_blocked_by_schema_or_source_authority",
+      "final_human_review_required": true,
+      "doctrine_enforcement": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket."
+      ],
+      "blocked_by_ticket_ids": [
+        "P6B-CAP-000"
+      ],
+      "blocked_reason": null,
+      "promotion_audit": {
+        "promotion_status": "BLOCKED_NOT_EXECUTABLE",
+        "blocking_gate": "P6B-CAP-000",
+        "schema_baseline_required": true,
+        "runtime_scaffold_found": true,
+        "runtime_behavior_found": false,
+        "current_safe_handling": "Keep review-only until Phase 6B schema/runtime baseline is approved."
+      },
+      "ticket_pack_generation_allowed": false,
+      "status_reason": null,
+      "completed_control_dependencies": [
+        "P6B-REGISTRY-001",
+        "P6B-SCHEMA-001",
+        "P6B-SCHEMA-002",
+        "P6B-SCHEMA-003"
+      ],
+      "control_prerequisites_satisfied_on_main": true,
+      "final_user_approval_required": true
+    },
+    {
+      "ticket_id": "P6B-CAP-012",
+      "title": "Implement Phase 6B General Ledger and Accounting Service capability surface",
+      "type": "capability_implementation_ticket_candidate",
+      "priority": "P2",
+      "doctrine_enforcement_lines": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket."
+      ],
+      "ticketability_status": "EXECUTABLE_REVIEW_READY",
+      "execution_authorized": false,
+      "ticket_generation_allowed": false,
+      "source_component_id": "6B.12",
+      "source_component_name": "General Ledger and Accounting Service",
+      "source_seed_ids": [
+        "seed_6b_12_chart_of_accounts",
+        "seed_6b_12_journal_entry_engine",
+        "seed_6b_12_period_close_management",
+        "seed_6b_12_tax_mapping_reporting",
+        "seed_6b_12_fx_gain_loss_accounting",
+        "seed_6b_12_financial_reporting_pack"
+      ],
+      "source_seed_count": 6,
+      "objective": "Convert the metadata-only General Ledger and Accounting Service scaffold into the reviewed Phase 6B capability surface for its 6 source-grounded seeds, after schema and route behavior are approved.",
+      "scope": {
+        "component_key": "general_ledger_accounting",
+        "seed_ids": [
+          "seed_6b_12_chart_of_accounts",
+          "seed_6b_12_journal_entry_engine",
+          "seed_6b_12_period_close_management",
+          "seed_6b_12_tax_mapping_reporting",
+          "seed_6b_12_fx_gain_loss_accounting",
+          "seed_6b_12_financial_reporting_pack"
+        ],
+        "seed_capabilities": [
+          "6B chart of accounts",
+          "6B journal entry engine",
+          "6B period close management",
+          "6B tax mapping reporting",
+          "6B fx gain loss accounting",
+          "6B financial reporting pack"
+        ],
+        "owned_data_authority_raw": "Chart of accounts, journal entries, periods, tax mappings",
+        "activation_lifecycle_raw": "Foundry-managed; accounting periods protected",
+        "emits_raw": "journal.posted, period.closed, tax_report.generated",
+        "consumes_raw": "invoice.issued, payment.verified, expense.created"
+      },
+      "non_scope": [
+        "No Prisma schema edits; depends on P6B-CAP-000.",
+        "No frontend screen.",
+        "No external provider credential.",
+        "No unrelated Phase 6B component behavior."
+      ],
+      "source_files_to_inspect": [
+        "docs/process/core/v0_0_2/spark_platform_v4_1/0_business_logic.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+        "docs/process/v4_1/phase_6b/v15/capability_traceability_matrix_v1.json",
+        "docs/process/v4_1/phase_6b/v15/runtime_scaffold_discovery_matrix_v1.json",
+        "docs/process/v4_1/phase_6b/scaffold_control/phase_6b_scaffold_control_gate_report_v1.json",
+        "packages/contracts/phase_6b/general_ledger_accounting.contract.ts",
+        "packages/contracts/phase_6b/general_ledger_accounting.module_manifest.contract.ts",
+        "apps/api/src/phase_6b/general_ledger_accounting/general_ledger_accounting.controller.ts",
+        "apps/api/src/phase_6b/general_ledger_accounting/general_ledger_accounting.service.ts",
+        "apps/api/src/phase_6b/general_ledger_accounting/general_ledger_accounting.service.test.ts"
+      ],
+      "files_expected_to_change": [
+        "packages/contracts/phase_6b/general_ledger_accounting.contract.ts",
+        "packages/contracts/phase_6b/general_ledger_accounting.module_manifest.contract.ts",
+        "apps/api/src/phase_6b/general_ledger_accounting/general_ledger_accounting.controller.ts",
+        "apps/api/src/phase_6b/general_ledger_accounting/general_ledger_accounting.service.ts",
+        "apps/api/src/phase_6b/general_ledger_accounting/general_ledger_accounting.service.test.ts"
+      ],
+      "files_forbidden_to_change": [
+        "Any file outside files_expected_to_change for the active ticket.",
+        "Any frontend screen or route without a separately approved screen contract.",
+        "Any production external adapter credential or provider integration.",
+        "Any ticket-generation flag set to true before human review approval.",
+        "Any schema, permission, event, API, or ADL interpretation not grounded in committed source authority.",
+        "prisma/schema.prisma",
+        "prisma/migrations/**"
+      ],
+      "required_outputs": [
+        "General Ledger and Accounting Service contract behavior updated from scaffold metadata to reviewed schemas.",
+        "General Ledger and Accounting Service service/controller tests cover approved runtime MCR.",
+        "No ticket-generation or execution flags enabled."
+      ],
+      "evidence_artifacts": [
+        "general_ledger_accounting.service.test.ts output",
+        "contracts validation output",
+        "API typecheck/test output"
+      ],
+      "tests_required": [
+        "apps/api/src/phase_6b/general_ledger_accounting/general_ledger_accounting.service.test.ts",
+        "contract validator coverage for component schemas if schemas are changed"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm exec tsx apps/api/src/phase_6b/general_ledger_accounting/general_ledger_accounting.service.test.ts",
+        "pnpm --filter @akti/api typecheck"
+      ],
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime / Foundry / module installer / business modules / production auth / deployment / secrets / destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change.",
+        "Stop if any unresolved Phase 6B source ambiguity requires Codex to invent a business rule.",
+        "Stop if implementation requires changing Prisma schema without the P6B-CAP-000 baseline.",
+        "Stop if approved route/API behavior is missing."
+      ],
+      "acceptance_criteria": [
+        "All 6 source seeds are represented by observable runtime behavior or explicitly tested non-runtime handling.",
+        "Tests prove tenant isolation assumptions from the approved schema baseline.",
+        "No capability behavior remains scaffold-only for covered seeds."
+      ],
+      "dependencies": [
+        "P6B-CAP-000",
+        "P6B-CAP-009",
+        "P6B-CAP-010",
+        "P6B-CAP-011"
+      ],
+      "commit_message": "docs: implement Phase 6B general_ledger_accounting capability surface",
+      "rollback_notes": "Revert only general_ledger_accounting contract/API files from this ticket and preserve scaffold-control gate artifacts.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Required if exact runtime behavior requires additional files, schema ownership, screen contracts, provider adapters, or source decisions not listed here.",
+      "stale_ticket_risk_notes": [
+        "Current ticket is not executable until schema baseline and ticket-pack review approve it.",
+        "Component-level grouping prevents seed-level tickets from overlapping the same service/contract files."
+      ],
+      "runtime_consistency_chain": [
+        "source authority",
+        "v15 ticket pack",
+        "Phase 6B contract scaffold",
+        "Phase 6B API scaffold",
+        "schema baseline",
+        "component tests"
+      ],
+      "minimum_concrete_requirement": "After review approval, `general_ledger_accounting.service.test.ts` and `pnpm --filter @akti/api typecheck` prove reviewed runtime behavior for all seeds in 6B.12; completion must be proven by the named runtime test and typecheck result.",
+      "split_if": [
+        "A seed requires a separate runtime subsystem with non-overlapping files.",
+        "A provider/channel/financial lifecycle path needs separate validation ladder.",
+        "Reviewer cannot evaluate the component as one commit."
+      ],
+      "requires_human_approval_if": [
+        "Any schema, route shape, permission, ADL enforcement behavior, provider callback semantics, or business rule is not explicit in committed source.",
+        "The ticket would create or infer Prisma models, fields, relations, permissions, DTOs, API routes, events, ADL semantics, or business rules not already approved by the P6B-CAP-000 baseline."
+      ],
+      "failure_classification": "capability_ticket_blocked_by_schema_or_source_authority",
+      "final_human_review_required": true,
+      "doctrine_enforcement": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket."
+      ],
+      "blocked_by_ticket_ids": [
+        "P6B-CAP-000"
+      ],
+      "blocked_reason": null,
+      "promotion_audit": {
+        "promotion_status": "BLOCKED_NOT_EXECUTABLE",
+        "blocking_gate": "P6B-CAP-000",
+        "schema_baseline_required": true,
+        "runtime_scaffold_found": true,
+        "runtime_behavior_found": false,
+        "current_safe_handling": "Keep review-only until Phase 6B schema/runtime baseline is approved."
+      },
+      "ticket_pack_generation_allowed": false,
+      "status_reason": null,
+      "completed_control_dependencies": [
+        "P6B-REGISTRY-001",
+        "P6B-SCHEMA-001",
+        "P6B-SCHEMA-002",
+        "P6B-SCHEMA-003"
+      ],
+      "control_prerequisites_satisfied_on_main": true,
+      "final_user_approval_required": true
+    },
+    {
+      "ticket_id": "P6B-CAP-013",
+      "title": "Implement Phase 6B Banking and Reconciliation Service capability surface",
+      "type": "capability_implementation_ticket_candidate",
+      "priority": "P2",
+      "doctrine_enforcement_lines": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket."
+      ],
+      "ticketability_status": "EXECUTABLE_REVIEW_READY",
+      "execution_authorized": false,
+      "ticket_generation_allowed": false,
+      "source_component_id": "6B.13",
+      "source_component_name": "Banking and Reconciliation Service",
+      "source_seed_ids": [
+        "seed_6b_13_bank_statement_import",
+        "seed_6b_13_reconciliation_matching",
+        "seed_6b_13_reconciliation_exception_queue",
+        "seed_6b_13_banking_evidence_export"
+      ],
+      "source_seed_count": 4,
+      "objective": "Convert the metadata-only Banking and Reconciliation Service scaffold into the reviewed Phase 6B capability surface for its 4 source-grounded seeds, after schema and route behavior are approved.",
+      "scope": {
+        "component_key": "banking_reconciliation",
+        "seed_ids": [
+          "seed_6b_13_bank_statement_import",
+          "seed_6b_13_reconciliation_matching",
+          "seed_6b_13_reconciliation_exception_queue",
+          "seed_6b_13_banking_evidence_export"
+        ],
+        "seed_capabilities": [
+          "6B bank statement import",
+          "6B reconciliation matching",
+          "6B reconciliation exception queue",
+          "6B banking evidence export"
+        ],
+        "owned_data_authority_raw": "Bank accounts, imported transactions, matches, reconciliation statements",
+        "activation_lifecycle_raw": "Optional unless package requires it",
+        "emits_raw": "bank_tx.imported, reconciliation.completed",
+        "consumes_raw": "payment.verified, webhook.received"
+      },
+      "non_scope": [
+        "No Prisma schema edits; depends on P6B-CAP-000.",
+        "No frontend screen.",
+        "No external provider credential.",
+        "No unrelated Phase 6B component behavior."
+      ],
+      "source_files_to_inspect": [
+        "docs/process/core/v0_0_2/spark_platform_v4_1/0_business_logic.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+        "docs/process/v4_1/phase_6b/v15/capability_traceability_matrix_v1.json",
+        "docs/process/v4_1/phase_6b/v15/runtime_scaffold_discovery_matrix_v1.json",
+        "docs/process/v4_1/phase_6b/scaffold_control/phase_6b_scaffold_control_gate_report_v1.json",
+        "packages/contracts/phase_6b/banking_reconciliation.contract.ts",
+        "packages/contracts/phase_6b/banking_reconciliation.module_manifest.contract.ts",
+        "apps/api/src/phase_6b/banking_reconciliation/banking_reconciliation.controller.ts",
+        "apps/api/src/phase_6b/banking_reconciliation/banking_reconciliation.service.ts",
+        "apps/api/src/phase_6b/banking_reconciliation/banking_reconciliation.service.test.ts"
+      ],
+      "files_expected_to_change": [
+        "packages/contracts/phase_6b/banking_reconciliation.contract.ts",
+        "packages/contracts/phase_6b/banking_reconciliation.module_manifest.contract.ts",
+        "apps/api/src/phase_6b/banking_reconciliation/banking_reconciliation.controller.ts",
+        "apps/api/src/phase_6b/banking_reconciliation/banking_reconciliation.service.ts",
+        "apps/api/src/phase_6b/banking_reconciliation/banking_reconciliation.service.test.ts"
+      ],
+      "files_forbidden_to_change": [
+        "Any file outside files_expected_to_change for the active ticket.",
+        "Any frontend screen or route without a separately approved screen contract.",
+        "Any production external adapter credential or provider integration.",
+        "Any ticket-generation flag set to true before human review approval.",
+        "Any schema, permission, event, API, or ADL interpretation not grounded in committed source authority.",
+        "prisma/schema.prisma",
+        "prisma/migrations/**"
+      ],
+      "required_outputs": [
+        "Banking and Reconciliation Service contract behavior updated from scaffold metadata to reviewed schemas.",
+        "Banking and Reconciliation Service service/controller tests cover approved runtime MCR.",
+        "No ticket-generation or execution flags enabled."
+      ],
+      "evidence_artifacts": [
+        "banking_reconciliation.service.test.ts output",
+        "contracts validation output",
+        "API typecheck/test output"
+      ],
+      "tests_required": [
+        "apps/api/src/phase_6b/banking_reconciliation/banking_reconciliation.service.test.ts",
+        "contract validator coverage for component schemas if schemas are changed"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm exec tsx apps/api/src/phase_6b/banking_reconciliation/banking_reconciliation.service.test.ts",
+        "pnpm --filter @akti/api typecheck"
+      ],
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime / Foundry / module installer / business modules / production auth / deployment / secrets / destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change.",
+        "Stop if any unresolved Phase 6B source ambiguity requires Codex to invent a business rule.",
+        "Stop if implementation requires changing Prisma schema without the P6B-CAP-000 baseline.",
+        "Stop if approved route/API behavior is missing."
+      ],
+      "acceptance_criteria": [
+        "All 4 source seeds are represented by observable runtime behavior or explicitly tested non-runtime handling.",
+        "Tests prove tenant isolation assumptions from the approved schema baseline.",
+        "No capability behavior remains scaffold-only for covered seeds."
+      ],
+      "dependencies": [
+        "P6B-CAP-000",
+        "P6B-CAP-010",
+        "P6B-CAP-012"
+      ],
+      "commit_message": "docs: implement Phase 6B banking_reconciliation capability surface",
+      "rollback_notes": "Revert only banking_reconciliation contract/API files from this ticket and preserve scaffold-control gate artifacts.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Required if exact runtime behavior requires additional files, schema ownership, screen contracts, provider adapters, or source decisions not listed here.",
+      "stale_ticket_risk_notes": [
+        "Current ticket is not executable until schema baseline and ticket-pack review approve it.",
+        "Component-level grouping prevents seed-level tickets from overlapping the same service/contract files."
+      ],
+      "runtime_consistency_chain": [
+        "source authority",
+        "v15 ticket pack",
+        "Phase 6B contract scaffold",
+        "Phase 6B API scaffold",
+        "schema baseline",
+        "component tests"
+      ],
+      "minimum_concrete_requirement": "After review approval, `banking_reconciliation.service.test.ts` and `pnpm --filter @akti/api typecheck` prove reviewed runtime behavior for all seeds in 6B.13; completion must be proven by the named runtime test and typecheck result.",
+      "split_if": [
+        "A seed requires a separate runtime subsystem with non-overlapping files.",
+        "A provider/channel/financial lifecycle path needs separate validation ladder.",
+        "Reviewer cannot evaluate the component as one commit."
+      ],
+      "requires_human_approval_if": [
+        "Any schema, route shape, permission, ADL enforcement behavior, provider callback semantics, or business rule is not explicit in committed source.",
+        "The ticket would create or infer Prisma models, fields, relations, permissions, DTOs, API routes, events, ADL semantics, or business rules not already approved by the P6B-CAP-000 baseline."
+      ],
+      "failure_classification": "capability_ticket_blocked_by_schema_or_source_authority",
+      "final_human_review_required": true,
+      "doctrine_enforcement": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket."
+      ],
+      "blocked_by_ticket_ids": [
+        "P6B-CAP-000"
+      ],
+      "blocked_reason": null,
+      "promotion_audit": {
+        "promotion_status": "BLOCKED_NOT_EXECUTABLE",
+        "blocking_gate": "P6B-CAP-000",
+        "schema_baseline_required": true,
+        "runtime_scaffold_found": true,
+        "runtime_behavior_found": false,
+        "current_safe_handling": "Keep review-only until Phase 6B schema/runtime baseline is approved."
+      },
+      "ticket_pack_generation_allowed": false,
+      "status_reason": null,
+      "completed_control_dependencies": [
+        "P6B-REGISTRY-001",
+        "P6B-SCHEMA-001",
+        "P6B-SCHEMA-002",
+        "P6B-SCHEMA-003"
+      ],
+      "control_prerequisites_satisfied_on_main": true,
+      "final_user_approval_required": true
+    },
+    {
+      "ticket_id": "P6B-CAP-014",
+      "title": "Implement Phase 6B Finance Payroll Foundation capability surface",
+      "type": "capability_implementation_ticket_candidate",
+      "priority": "P2",
+      "doctrine_enforcement_lines": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket."
+      ],
+      "ticketability_status": "EXECUTABLE_REVIEW_READY",
+      "execution_authorized": false,
+      "ticket_generation_allowed": false,
+      "source_component_id": "6B.14",
+      "source_component_name": "Finance Payroll Foundation",
+      "source_seed_ids": [
+        "seed_6b_14_payroll_tax_slab_calculator",
+        "seed_6b_14_allowance_deduction_formula",
+        "seed_6b_14_payroll_run_state_machine",
+        "seed_6b_14_payroll_disbursement_file_export",
+        "seed_6b_14_hr_event_feed_boundary"
+      ],
+      "source_seed_count": 5,
+      "objective": "Convert the metadata-only Finance Payroll Foundation scaffold into the reviewed Phase 6B capability surface for its 5 source-grounded seeds, after schema and route behavior are approved.",
+      "scope": {
+        "component_key": "finance_payroll_foundation",
+        "seed_ids": [
+          "seed_6b_14_payroll_tax_slab_calculator",
+          "seed_6b_14_allowance_deduction_formula",
+          "seed_6b_14_payroll_run_state_machine",
+          "seed_6b_14_payroll_disbursement_file_export",
+          "seed_6b_14_hr_event_feed_boundary"
+        ],
+        "seed_capabilities": [
+          "6B payroll tax slab calculator",
+          "6B allowance deduction formula",
+          "6B payroll run state machine",
+          "6B payroll disbursement file export",
+          "6B hr event feed boundary"
+        ],
+        "owned_data_authority_raw": "Payees, payroll batches, payout records, deductions/allowance formulas as finance data",
+        "activation_lifecycle_raw": "Foundry-managed; HR data dependency is future event integration, not forward build dependency",
+        "emits_raw": "payroll.calculated, payroll.approved, payroll.disbursed",
+        "consumes_raw": "journal.posted, payment.verified"
+      },
+      "non_scope": [
+        "No Prisma schema edits; depends on P6B-CAP-000.",
+        "No frontend screen.",
+        "No external provider credential.",
+        "No unrelated Phase 6B component behavior."
+      ],
+      "source_files_to_inspect": [
+        "docs/process/core/v0_0_2/spark_platform_v4_1/0_business_logic.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+        "docs/process/v4_1/phase_6b/v15/capability_traceability_matrix_v1.json",
+        "docs/process/v4_1/phase_6b/v15/runtime_scaffold_discovery_matrix_v1.json",
+        "docs/process/v4_1/phase_6b/scaffold_control/phase_6b_scaffold_control_gate_report_v1.json",
+        "packages/contracts/phase_6b/finance_payroll_foundation.contract.ts",
+        "packages/contracts/phase_6b/finance_payroll_foundation.module_manifest.contract.ts",
+        "apps/api/src/phase_6b/finance_payroll_foundation/finance_payroll_foundation.controller.ts",
+        "apps/api/src/phase_6b/finance_payroll_foundation/finance_payroll_foundation.service.ts",
+        "apps/api/src/phase_6b/finance_payroll_foundation/finance_payroll_foundation.service.test.ts"
+      ],
+      "files_expected_to_change": [
+        "packages/contracts/phase_6b/finance_payroll_foundation.contract.ts",
+        "packages/contracts/phase_6b/finance_payroll_foundation.module_manifest.contract.ts",
+        "apps/api/src/phase_6b/finance_payroll_foundation/finance_payroll_foundation.controller.ts",
+        "apps/api/src/phase_6b/finance_payroll_foundation/finance_payroll_foundation.service.ts",
+        "apps/api/src/phase_6b/finance_payroll_foundation/finance_payroll_foundation.service.test.ts"
+      ],
+      "files_forbidden_to_change": [
+        "Any file outside files_expected_to_change for the active ticket.",
+        "Any frontend screen or route without a separately approved screen contract.",
+        "Any production external adapter credential or provider integration.",
+        "Any ticket-generation flag set to true before human review approval.",
+        "Any schema, permission, event, API, or ADL interpretation not grounded in committed source authority.",
+        "prisma/schema.prisma",
+        "prisma/migrations/**"
+      ],
+      "required_outputs": [
+        "Finance Payroll Foundation contract behavior updated from scaffold metadata to reviewed schemas.",
+        "Finance Payroll Foundation service/controller tests cover approved runtime MCR.",
+        "No ticket-generation or execution flags enabled."
+      ],
+      "evidence_artifacts": [
+        "finance_payroll_foundation.service.test.ts output",
+        "contracts validation output",
+        "API typecheck/test output"
+      ],
+      "tests_required": [
+        "apps/api/src/phase_6b/finance_payroll_foundation/finance_payroll_foundation.service.test.ts",
+        "contract validator coverage for component schemas if schemas are changed"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm exec tsx apps/api/src/phase_6b/finance_payroll_foundation/finance_payroll_foundation.service.test.ts",
+        "pnpm --filter @akti/api typecheck"
+      ],
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime / Foundry / module installer / business modules / production auth / deployment / secrets / destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change.",
+        "Stop if any unresolved Phase 6B source ambiguity requires Codex to invent a business rule.",
+        "Stop if implementation requires changing Prisma schema without the P6B-CAP-000 baseline.",
+        "Stop if approved route/API behavior is missing."
+      ],
+      "acceptance_criteria": [
+        "All 5 source seeds are represented by observable runtime behavior or explicitly tested non-runtime handling.",
+        "Tests prove tenant isolation assumptions from the approved schema baseline.",
+        "No capability behavior remains scaffold-only for covered seeds."
+      ],
+      "dependencies": [
+        "P6B-CAP-000",
+        "P6B-CAP-010",
+        "P6B-CAP-012"
+      ],
+      "commit_message": "docs: implement Phase 6B finance_payroll_foundation capability surface",
+      "rollback_notes": "Revert only finance_payroll_foundation contract/API files from this ticket and preserve scaffold-control gate artifacts.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Required if exact runtime behavior requires additional files, schema ownership, screen contracts, provider adapters, or source decisions not listed here.",
+      "stale_ticket_risk_notes": [
+        "Current ticket is not executable until schema baseline and ticket-pack review approve it.",
+        "Component-level grouping prevents seed-level tickets from overlapping the same service/contract files."
+      ],
+      "runtime_consistency_chain": [
+        "source authority",
+        "v15 ticket pack",
+        "Phase 6B contract scaffold",
+        "Phase 6B API scaffold",
+        "schema baseline",
+        "component tests"
+      ],
+      "minimum_concrete_requirement": "After review approval, `finance_payroll_foundation.service.test.ts` and `pnpm --filter @akti/api typecheck` prove reviewed runtime behavior for all seeds in 6B.14; completion must be proven by the named runtime test and typecheck result.",
+      "split_if": [
+        "A seed requires a separate runtime subsystem with non-overlapping files.",
+        "A provider/channel/financial lifecycle path needs separate validation ladder.",
+        "Reviewer cannot evaluate the component as one commit."
+      ],
+      "requires_human_approval_if": [
+        "Any schema, route shape, permission, ADL enforcement behavior, provider callback semantics, or business rule is not explicit in committed source.",
+        "The ticket would create or infer Prisma models, fields, relations, permissions, DTOs, API routes, events, ADL semantics, or business rules not already approved by the P6B-CAP-000 baseline."
+      ],
+      "failure_classification": "capability_ticket_blocked_by_schema_or_source_authority",
+      "final_human_review_required": true,
+      "doctrine_enforcement": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket."
+      ],
+      "blocked_by_ticket_ids": [
+        "P6B-CAP-000"
+      ],
+      "blocked_reason": null,
+      "promotion_audit": {
+        "promotion_status": "BLOCKED_NOT_EXECUTABLE",
+        "blocking_gate": "P6B-CAP-000",
+        "schema_baseline_required": true,
+        "runtime_scaffold_found": true,
+        "runtime_behavior_found": false,
+        "current_safe_handling": "Keep review-only until Phase 6B schema/runtime baseline is approved."
+      },
+      "ticket_pack_generation_allowed": false,
+      "status_reason": null,
+      "completed_control_dependencies": [
+        "P6B-REGISTRY-001",
+        "P6B-SCHEMA-001",
+        "P6B-SCHEMA-002",
+        "P6B-SCHEMA-003"
+      ],
+      "control_prerequisites_satisfied_on_main": true,
+      "final_user_approval_required": true
+    },
+    {
+      "ticket_id": "P6B-CAP-015",
+      "title": "Implement Phase 6B Finance Platform Billing UI and Customer Billing Operations capability surface",
+      "type": "capability_implementation_ticket_candidate",
+      "priority": "P2",
+      "doctrine_enforcement_lines": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket."
+      ],
+      "ticketability_status": "EXECUTABLE_REVIEW_READY",
+      "execution_authorized": false,
+      "ticket_generation_allowed": false,
+      "source_component_id": "6B.15",
+      "source_component_name": "Finance Platform Billing UI and Customer Billing Operations",
+      "source_seed_ids": [
+        "seed_6b_15_customer_billing_operations",
+        "seed_6b_15_platform_invoice_generation",
+        "seed_6b_15_billing_proration_engine",
+        "seed_6b_15_retention_and_dunning_rules",
+        "seed_6b_15_billing_support_interface"
+      ],
+      "source_seed_count": 5,
+      "objective": "Convert the metadata-only Finance Platform Billing UI and Customer Billing Operations scaffold into the reviewed Phase 6B capability surface for its 5 source-grounded seeds, after schema and route behavior are approved.",
+      "scope": {
+        "component_key": "finance_billing_operations",
+        "seed_ids": [
+          "seed_6b_15_customer_billing_operations",
+          "seed_6b_15_platform_invoice_generation",
+          "seed_6b_15_billing_proration_engine",
+          "seed_6b_15_retention_and_dunning_rules",
+          "seed_6b_15_billing_support_interface"
+        ],
+        "seed_capabilities": [
+          "6B customer billing operations",
+          "6B platform invoice generation",
+          "6B billing proration engine",
+          "6B retention and dunning rules",
+          "6B billing support interface"
+        ],
+        "owned_data_authority_raw": "Tenant billing view, balance display, budget cap controls, receipts, service spend views",
+        "activation_lifecycle_raw": "Tenant-facing; core billing engine remains 6A authority",
+        "emits_raw": "budget.updated, cap.overridden, billing_view.opened",
+        "consumes_raw": "spend.aggregated, topup.received"
+      },
+      "non_scope": [
+        "No Prisma schema edits; depends on P6B-CAP-000.",
+        "No frontend screen.",
+        "No external provider credential.",
+        "No unrelated Phase 6B component behavior."
+      ],
+      "source_files_to_inspect": [
+        "docs/process/core/v0_0_2/spark_platform_v4_1/0_business_logic.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+        "docs/process/v4_1/phase_6b/v15/capability_traceability_matrix_v1.json",
+        "docs/process/v4_1/phase_6b/v15/runtime_scaffold_discovery_matrix_v1.json",
+        "docs/process/v4_1/phase_6b/scaffold_control/phase_6b_scaffold_control_gate_report_v1.json",
+        "packages/contracts/phase_6b/finance_billing_operations.contract.ts",
+        "packages/contracts/phase_6b/finance_billing_operations.module_manifest.contract.ts",
+        "apps/api/src/phase_6b/finance_billing_operations/finance_billing_operations.controller.ts",
+        "apps/api/src/phase_6b/finance_billing_operations/finance_billing_operations.service.ts",
+        "apps/api/src/phase_6b/finance_billing_operations/finance_billing_operations.service.test.ts"
+      ],
+      "files_expected_to_change": [
+        "packages/contracts/phase_6b/finance_billing_operations.contract.ts",
+        "packages/contracts/phase_6b/finance_billing_operations.module_manifest.contract.ts",
+        "apps/api/src/phase_6b/finance_billing_operations/finance_billing_operations.controller.ts",
+        "apps/api/src/phase_6b/finance_billing_operations/finance_billing_operations.service.ts",
+        "apps/api/src/phase_6b/finance_billing_operations/finance_billing_operations.service.test.ts"
+      ],
+      "files_forbidden_to_change": [
+        "Any file outside files_expected_to_change for the active ticket.",
+        "Any frontend screen or route without a separately approved screen contract.",
+        "Any production external adapter credential or provider integration.",
+        "Any ticket-generation flag set to true before human review approval.",
+        "Any schema, permission, event, API, or ADL interpretation not grounded in committed source authority.",
+        "prisma/schema.prisma",
+        "prisma/migrations/**"
+      ],
+      "required_outputs": [
+        "Finance Platform Billing UI and Customer Billing Operations contract behavior updated from scaffold metadata to reviewed schemas.",
+        "Finance Platform Billing UI and Customer Billing Operations service/controller tests cover approved runtime MCR.",
+        "No ticket-generation or execution flags enabled."
+      ],
+      "evidence_artifacts": [
+        "finance_billing_operations.service.test.ts output",
+        "contracts validation output",
+        "API typecheck/test output"
+      ],
+      "tests_required": [
+        "apps/api/src/phase_6b/finance_billing_operations/finance_billing_operations.service.test.ts",
+        "contract validator coverage for component schemas if schemas are changed"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm exec tsx apps/api/src/phase_6b/finance_billing_operations/finance_billing_operations.service.test.ts",
+        "pnpm --filter @akti/api typecheck"
+      ],
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime / Foundry / module installer / business modules / production auth / deployment / secrets / destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change.",
+        "Stop if any unresolved Phase 6B source ambiguity requires Codex to invent a business rule.",
+        "Stop if implementation requires changing Prisma schema without the P6B-CAP-000 baseline.",
+        "Stop if approved route/API behavior is missing."
+      ],
+      "acceptance_criteria": [
+        "All 5 source seeds are represented by observable runtime behavior or explicitly tested non-runtime handling.",
+        "Tests prove tenant isolation assumptions from the approved schema baseline.",
+        "No capability behavior remains scaffold-only for covered seeds."
+      ],
+      "dependencies": [
+        "P6B-CAP-000",
+        "P6B-CAP-010",
+        "P6B-CAP-012"
+      ],
+      "commit_message": "docs: implement Phase 6B finance_billing_operations capability surface",
+      "rollback_notes": "Revert only finance_billing_operations contract/API files from this ticket and preserve scaffold-control gate artifacts.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Required if exact runtime behavior requires additional files, schema ownership, screen contracts, provider adapters, or source decisions not listed here.",
+      "stale_ticket_risk_notes": [
+        "Current ticket is not executable until schema baseline and ticket-pack review approve it.",
+        "Component-level grouping prevents seed-level tickets from overlapping the same service/contract files."
+      ],
+      "runtime_consistency_chain": [
+        "source authority",
+        "v15 ticket pack",
+        "Phase 6B contract scaffold",
+        "Phase 6B API scaffold",
+        "schema baseline",
+        "component tests"
+      ],
+      "minimum_concrete_requirement": "After review approval, `finance_billing_operations.service.test.ts` and `pnpm --filter @akti/api typecheck` prove reviewed runtime behavior for all seeds in 6B.15; completion must be proven by the named runtime test and typecheck result.",
+      "split_if": [
+        "A seed requires a separate runtime subsystem with non-overlapping files.",
+        "A provider/channel/financial lifecycle path needs separate validation ladder.",
+        "Reviewer cannot evaluate the component as one commit."
+      ],
+      "requires_human_approval_if": [
+        "Any schema, route shape, permission, ADL enforcement behavior, provider callback semantics, or business rule is not explicit in committed source.",
+        "The ticket would create or infer Prisma models, fields, relations, permissions, DTOs, API routes, events, ADL semantics, or business rules not already approved by the P6B-CAP-000 baseline."
+      ],
+      "failure_classification": "capability_ticket_blocked_by_schema_or_source_authority",
+      "final_human_review_required": true,
+      "doctrine_enforcement": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket."
+      ],
+      "blocked_by_ticket_ids": [
+        "P6B-CAP-000"
+      ],
+      "blocked_reason": null,
+      "promotion_audit": {
+        "promotion_status": "BLOCKED_NOT_EXECUTABLE",
+        "blocking_gate": "P6B-CAP-000",
+        "schema_baseline_required": true,
+        "runtime_scaffold_found": true,
+        "runtime_behavior_found": false,
+        "current_safe_handling": "Keep review-only until Phase 6B schema/runtime baseline is approved."
+      },
+      "ticket_pack_generation_allowed": false,
+      "status_reason": null,
+      "completed_control_dependencies": [
+        "P6B-REGISTRY-001",
+        "P6B-SCHEMA-001",
+        "P6B-SCHEMA-002",
+        "P6B-SCHEMA-003"
+      ],
+      "control_prerequisites_satisfied_on_main": true,
+      "final_user_approval_required": true
+    },
+    {
+      "ticket_id": "P6B-CAP-016",
+      "title": "Gate Phase 6B capability ticket pack before execution authorization",
+      "type": "capability_ticket_pack_gate",
+      "priority": "P0",
+      "doctrine_enforcement_lines": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket."
+      ],
+      "ticketability_status": "FINAL_REVIEW_GATE_READY",
+      "execution_authorized": false,
+      "ticket_generation_allowed": false,
+      "objective": "Validate that the Phase 6B capability ticket pack has complete coverage, no stale exact-file ownership, no hidden blockers, and no execution authorization before human approval.",
+      "scope": {
+        "covered_ticket_ids": [
+          "P6B-CAP-000",
+          "P6B-CAP-001",
+          "P6B-CAP-002",
+          "P6B-CAP-003",
+          "P6B-CAP-004",
+          "P6B-CAP-005",
+          "P6B-CAP-006",
+          "P6B-CAP-007",
+          "P6B-CAP-008",
+          "P6B-CAP-009",
+          "P6B-CAP-010",
+          "P6B-CAP-011",
+          "P6B-CAP-012",
+          "P6B-CAP-013",
+          "P6B-CAP-014",
+          "P6B-CAP-015"
+        ],
+        "covered_seed_count": 103
+      },
+      "non_scope": [
+        "No business capability implementation.",
+        "No schema or migration implementation."
+      ],
+      "source_files_to_inspect": [
+        "docs/process/core/v0_0_2/spark_platform_v4_1/0_business_logic.md",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+        "docs/process/v4_1/phase_6b/v15/capability_traceability_matrix_v1.json",
+        "docs/process/v4_1/phase_6b/v15/runtime_scaffold_discovery_matrix_v1.json",
+        "docs/process/v4_1/phase_6b/scaffold_control/phase_6b_scaffold_control_gate_report_v1.json",
+        "docs/process/v4_1/phase_6b/v15/phase_6b_capability_ticket_pack_v1.json"
+      ],
+      "files_expected_to_change": [
+        "docs/process/v4_1/phase_6b/capability_control/phase_6b_capability_ticket_pack_gate_report_v1.json",
+        "docs/process/v4_1/phase_6b/capability_control/phase_6b_capability_ticket_pack_gate_report_v1.md"
+      ],
+      "files_forbidden_to_change": [
+        "Any file outside files_expected_to_change for the active ticket.",
+        "Any frontend screen or route without a separately approved screen contract.",
+        "Any production external adapter credential or provider integration.",
+        "Any ticket-generation flag set to true before human review approval.",
+        "Any schema, permission, event, API, or ADL interpretation not grounded in committed source authority.",
+        "apps/api/src/phase_6b/**",
+        "packages/contracts/phase_6b/**",
+        "prisma/schema.prisma"
+      ],
+      "required_outputs": [
+        "Capability ticket pack gate report.",
+        "Coverage and no-overlap evidence."
+      ],
+      "evidence_artifacts": [
+        "phase_6b_capability_ticket_pack_gate_report_v1.json"
+      ],
+      "tests_required": [
+        "Ticket pack JSON validation.",
+        "No-overlap audit.",
+        "Dependency graph acyclic audit."
+      ],
+      "validation_commands": [
+        "node scripts/quality/check_phase_6b_scaffold_control.mjs",
+        "node scripts/quality/check_lower_snake_case_paths.mjs",
+        "git diff --check"
+      ],
+      "stop_conditions": [
+        "Stop if exact-file plan reveals work requires files_forbidden_to_change.",
+        "Stop if the ticket cannot be completed without making an architectural decision not present in any committed source document.",
+        "Stop if validation fails after 3 bounded repair attempts.",
+        "Stop if work drifts into runtime / Foundry / module installer / business modules / production auth / deployment / secrets / destructive migrations without explicit ticket authority.",
+        "Stop if a Prisma schema migration is required but not authorized in files_expected_to_change.",
+        "Stop if any unresolved Phase 6B source ambiguity requires Codex to invent a business rule.",
+        "Stop if any future ticket authorizes execution before human review."
+      ],
+      "acceptance_criteria": [
+        "All 103 seeds are mapped.",
+        "No executable ticket overlaps exact-file ownership.",
+        "Ticket generation remains false."
+      ],
+      "dependencies": [
+        "P6B-CAP-000",
+        "P6B-CAP-001",
+        "P6B-CAP-002",
+        "P6B-CAP-003",
+        "P6B-CAP-004",
+        "P6B-CAP-005",
+        "P6B-CAP-006",
+        "P6B-CAP-007",
+        "P6B-CAP-008",
+        "P6B-CAP-009",
+        "P6B-CAP-010",
+        "P6B-CAP-011",
+        "P6B-CAP-012",
+        "P6B-CAP-013",
+        "P6B-CAP-014",
+        "P6B-CAP-015"
+      ],
+      "commit_message": "docs: gate Phase 6B capability ticket pack",
+      "rollback_notes": "Revert only gate report artifacts if validation criteria change.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": "Required if ticket pack review changes execution authorization or split decisions.",
+      "stale_ticket_risk_notes": [
+        "Gate must run after every ticket-pack revision."
+      ],
+      "runtime_consistency_chain": [
+        "v15 ticket pack",
+        "coverage audit",
+        "dependency graph",
+        "human review approval"
+      ],
+      "minimum_concrete_requirement": "Gate report proves 103/103 seed coverage, zero executable exact-file overlaps, acyclic dependencies, and ticket_generation_allowed=false.",
+      "split_if": [
+        "Gate finds multiple unrelated failures requiring separate repair tickets."
+      ],
+      "requires_human_approval_if": [
+        "Any ticket moves from blocked/review-only to executable."
+      ],
+      "failure_classification": "ticket_pack_gate_failure",
+      "final_human_review_required": true,
+      "doctrine_enforcement": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket."
+      ],
+      "promotion_audit": {
+        "promotion_status": "REVIEW_GATE_ONLY",
+        "why_not_executable": "This gate can only run after P6B-CAP-000 and all promoted capability tickets pass final review."
+      },
+      "ticket_pack_generation_allowed": false,
+      "blocked_reason": null,
+      "completed_control_dependencies": [
+        "P6B-REGISTRY-001",
+        "P6B-SCHEMA-001",
+        "P6B-SCHEMA-002",
+        "P6B-SCHEMA-003"
+      ],
+      "final_user_approval_required": true
+    }
+  ],
+  "seed_to_ticket_map": [
+    {
+      "seed_id": "seed_6b_01_category_taxonomy",
+      "ticket_id": "P6B-CAP-001"
+    },
+    {
+      "seed_id": "seed_6b_01_product_media_history",
+      "ticket_id": "P6B-CAP-001"
+    },
+    {
+      "seed_id": "seed_6b_01_product_record_authority",
+      "ticket_id": "P6B-CAP-001"
+    },
+    {
+      "seed_id": "seed_6b_01_product_status_archive_policy",
+      "ticket_id": "P6B-CAP-001"
+    },
+    {
+      "seed_id": "seed_6b_02_bundle_package_composition",
+      "ticket_id": "P6B-CAP-002"
+    },
+    {
+      "seed_id": "seed_6b_02_discount_stacking_engine",
+      "ticket_id": "P6B-CAP-002"
+    },
+    {
+      "seed_id": "seed_6b_02_early_bird_pricing_deadline",
+      "ticket_id": "P6B-CAP-002"
+    },
+    {
+      "seed_id": "seed_6b_02_fixed_pricing_model",
+      "ticket_id": "P6B-CAP-002"
+    },
+    {
+      "seed_id": "seed_6b_02_installment_plan_engine",
+      "ticket_id": "P6B-CAP-002"
+    },
+    {
+      "seed_id": "seed_6b_02_per_hour_pricing_model",
+      "ticket_id": "P6B-CAP-002"
+    },
+    {
+      "seed_id": "seed_6b_02_per_period_pricing_model",
+      "ticket_id": "P6B-CAP-002"
+    },
+    {
+      "seed_id": "seed_6b_02_per_unit_pricing_model",
+      "ticket_id": "P6B-CAP-002"
+    },
+    {
+      "seed_id": "seed_6b_02_product_price_history_effective_dates",
+      "ticket_id": "P6B-CAP-002"
+    },
+    {
+      "seed_id": "seed_6b_02_scholarship_discount_approval",
+      "ticket_id": "P6B-CAP-002"
+    },
+    {
+      "seed_id": "seed_6b_02_tiered_pricing_model",
+      "ticket_id": "P6B-CAP-002"
+    },
+    {
+      "seed_id": "seed_6b_02_volume_pricing_model",
+      "ticket_id": "P6B-CAP-002"
+    },
+    {
+      "seed_id": "seed_6b_03_lot_and_serial_tracking",
+      "ticket_id": "P6B-CAP-003"
+    },
+    {
+      "seed_id": "seed_6b_03_non_inventory_business_policy",
+      "ticket_id": "P6B-CAP-003"
+    },
+    {
+      "seed_id": "seed_6b_03_purchase_stock_evidence",
+      "ticket_id": "P6B-CAP-003"
+    },
+    {
+      "seed_id": "seed_6b_03_stock_level_location_authority",
+      "ticket_id": "P6B-CAP-003"
+    },
+    {
+      "seed_id": "seed_6b_03_stock_movement_ledger",
+      "ticket_id": "P6B-CAP-003"
+    },
+    {
+      "seed_id": "seed_6b_04_api_lead_intake",
+      "ticket_id": "P6B-CAP-004"
+    },
+    {
+      "seed_id": "seed_6b_04_chatbot_intake",
+      "ticket_id": "P6B-CAP-004"
+    },
+    {
+      "seed_id": "seed_6b_04_csv_excel_import",
+      "ticket_id": "P6B-CAP-004"
+    },
+    {
+      "seed_id": "seed_6b_04_email_intake",
+      "ticket_id": "P6B-CAP-004"
+    },
+    {
+      "seed_id": "seed_6b_04_facebook_page_forms_connector",
+      "ticket_id": "P6B-CAP-004"
+    },
+    {
+      "seed_id": "seed_6b_04_google_ads_connector",
+      "ticket_id": "P6B-CAP-004"
+    },
+    {
+      "seed_id": "seed_6b_04_google_business_connector",
+      "ticket_id": "P6B-CAP-004"
+    },
+    {
+      "seed_id": "seed_6b_04_inbound_sms_intake",
+      "ticket_id": "P6B-CAP-004"
+    },
+    {
+      "seed_id": "seed_6b_04_inbound_whatsapp_intake",
+      "ticket_id": "P6B-CAP-004"
+    },
+    {
+      "seed_id": "seed_6b_04_live_chat_intake",
+      "ticket_id": "P6B-CAP-004"
+    },
+    {
+      "seed_id": "seed_6b_04_manual_lead_entry",
+      "ticket_id": "P6B-CAP-004"
+    },
+    {
+      "seed_id": "seed_6b_04_meta_lead_forms_connector",
+      "ticket_id": "P6B-CAP-004"
+    },
+    {
+      "seed_id": "seed_6b_04_meta_whatsapp_intake_connector",
+      "ticket_id": "P6B-CAP-004"
+    },
+    {
+      "seed_id": "seed_6b_04_phone_intake",
+      "ticket_id": "P6B-CAP-004"
+    },
+    {
+      "seed_id": "seed_6b_04_referral_intake",
+      "ticket_id": "P6B-CAP-004"
+    },
+    {
+      "seed_id": "seed_6b_04_tiktok_lead_gen_connector",
+      "ticket_id": "P6B-CAP-004"
+    },
+    {
+      "seed_id": "seed_6b_04_unified_lead_record_authority",
+      "ticket_id": "P6B-CAP-004"
+    },
+    {
+      "seed_id": "seed_6b_04_walk_in_intake",
+      "ticket_id": "P6B-CAP-004"
+    },
+    {
+      "seed_id": "seed_6b_04_web_form_intake_connector",
+      "ticket_id": "P6B-CAP-004"
+    },
+    {
+      "seed_id": "seed_6b_05_duplicate_evidence_log",
+      "ticket_id": "P6B-CAP-005"
+    },
+    {
+      "seed_id": "seed_6b_05_identity_resolution_linking",
+      "ticket_id": "P6B-CAP-005"
+    },
+    {
+      "seed_id": "seed_6b_05_match_candidate_generation",
+      "ticket_id": "P6B-CAP-005"
+    },
+    {
+      "seed_id": "seed_6b_05_merge_decision_record",
+      "ticket_id": "P6B-CAP-005"
+    },
+    {
+      "seed_id": "seed_6b_06_crm_activity_timeline",
+      "ticket_id": "P6B-CAP-006"
+    },
+    {
+      "seed_id": "seed_6b_06_expected_value_pricing_bridge",
+      "ticket_id": "P6B-CAP-006"
+    },
+    {
+      "seed_id": "seed_6b_06_internal_notes_comments",
+      "ticket_id": "P6B-CAP-006"
+    },
+    {
+      "seed_id": "seed_6b_06_pipeline_stage_model",
+      "ticket_id": "P6B-CAP-006"
+    },
+    {
+      "seed_id": "seed_6b_06_stage_history_audit",
+      "ticket_id": "P6B-CAP-006"
+    },
+    {
+      "seed_id": "seed_6b_07_communication_attempt_evidence",
+      "ticket_id": "P6B-CAP-007"
+    },
+    {
+      "seed_id": "seed_6b_07_email_connected_inbox",
+      "ticket_id": "P6B-CAP-007"
+    },
+    {
+      "seed_id": "seed_6b_07_email_sequences",
+      "ticket_id": "P6B-CAP-007"
+    },
+    {
+      "seed_id": "seed_6b_07_email_shared_inbox",
+      "ticket_id": "P6B-CAP-007"
+    },
+    {
+      "seed_id": "seed_6b_07_email_transactional_domain",
+      "ticket_id": "P6B-CAP-007"
+    },
+    {
+      "seed_id": "seed_6b_07_whatsapp_auto_reply_keywords",
+      "ticket_id": "P6B-CAP-007"
+    },
+    {
+      "seed_id": "seed_6b_07_whatsapp_broadcast_compliance",
+      "ticket_id": "P6B-CAP-007"
+    },
+    {
+      "seed_id": "seed_6b_07_whatsapp_inbound_routing",
+      "ticket_id": "P6B-CAP-007"
+    },
+    {
+      "seed_id": "seed_6b_07_whatsapp_outbound_window",
+      "ticket_id": "P6B-CAP-007"
+    },
+    {
+      "seed_id": "seed_6b_07_whatsapp_template_management",
+      "ticket_id": "P6B-CAP-007"
+    },
+    {
+      "seed_id": "seed_6b_08_crm_compliance_views",
+      "ticket_id": "P6B-CAP-008"
+    },
+    {
+      "seed_id": "seed_6b_08_crm_reporting_definitions",
+      "ticket_id": "P6B-CAP-008"
+    },
+    {
+      "seed_id": "seed_6b_08_follow_up_task_cadence",
+      "ticket_id": "P6B-CAP-008"
+    },
+    {
+      "seed_id": "seed_6b_08_lead_scoring_engine",
+      "ticket_id": "P6B-CAP-008"
+    },
+    {
+      "seed_id": "seed_6b_09_aging_and_overdue_management",
+      "ticket_id": "P6B-CAP-009"
+    },
+    {
+      "seed_id": "seed_6b_09_fbr_invoice_format",
+      "ticket_id": "P6B-CAP-009"
+    },
+    {
+      "seed_id": "seed_6b_09_invoice_lifecycle_types",
+      "ticket_id": "P6B-CAP-009"
+    },
+    {
+      "seed_id": "seed_6b_09_invoice_record_authority",
+      "ticket_id": "P6B-CAP-009"
+    },
+    {
+      "seed_id": "seed_6b_09_receivable_balance_computation",
+      "ticket_id": "P6B-CAP-009"
+    },
+    {
+      "seed_id": "seed_6b_10_easypaisa_gateway",
+      "ticket_id": "P6B-CAP-010"
+    },
+    {
+      "seed_id": "seed_6b_10_jazzcash_gateway",
+      "ticket_id": "P6B-CAP-010"
+    },
+    {
+      "seed_id": "seed_6b_10_manual_reconciliation_path",
+      "ticket_id": "P6B-CAP-010"
+    },
+    {
+      "seed_id": "seed_6b_10_payment_allocation_balance",
+      "ticket_id": "P6B-CAP-010"
+    },
+    {
+      "seed_id": "seed_6b_10_quickpay_shadow_account_gateway",
+      "ticket_id": "P6B-CAP-010"
+    },
+    {
+      "seed_id": "seed_6b_10_raast_gateway",
+      "ticket_id": "P6B-CAP-010"
+    },
+    {
+      "seed_id": "seed_6b_10_refund_to_original_method",
+      "ticket_id": "P6B-CAP-010"
+    },
+    {
+      "seed_id": "seed_6b_10_stripe_gateway_3ds",
+      "ticket_id": "P6B-CAP-010"
+    },
+    {
+      "seed_id": "seed_6b_10_top_up_prepaid_credit",
+      "ticket_id": "P6B-CAP-010"
+    },
+    {
+      "seed_id": "seed_6b_10_wise_gateway",
+      "ticket_id": "P6B-CAP-010"
+    },
+    {
+      "seed_id": "seed_6b_11_expense_approval_workflow",
+      "ticket_id": "P6B-CAP-011"
+    },
+    {
+      "seed_id": "seed_6b_11_expense_record_authority",
+      "ticket_id": "P6B-CAP-011"
+    },
+    {
+      "seed_id": "seed_6b_11_purchase_order_authority",
+      "ticket_id": "P6B-CAP-011"
+    },
+    {
+      "seed_id": "seed_6b_11_three_way_match_evidence",
+      "ticket_id": "P6B-CAP-011"
+    },
+    {
+      "seed_id": "seed_6b_11_vendor_record_authority",
+      "ticket_id": "P6B-CAP-011"
+    },
+    {
+      "seed_id": "seed_6b_12_chart_of_accounts",
+      "ticket_id": "P6B-CAP-012"
+    },
+    {
+      "seed_id": "seed_6b_12_financial_reporting_pack",
+      "ticket_id": "P6B-CAP-012"
+    },
+    {
+      "seed_id": "seed_6b_12_fx_gain_loss_accounting",
+      "ticket_id": "P6B-CAP-012"
+    },
+    {
+      "seed_id": "seed_6b_12_journal_entry_engine",
+      "ticket_id": "P6B-CAP-012"
+    },
+    {
+      "seed_id": "seed_6b_12_period_close_management",
+      "ticket_id": "P6B-CAP-012"
+    },
+    {
+      "seed_id": "seed_6b_12_tax_mapping_reporting",
+      "ticket_id": "P6B-CAP-012"
+    },
+    {
+      "seed_id": "seed_6b_13_bank_statement_import",
+      "ticket_id": "P6B-CAP-013"
+    },
+    {
+      "seed_id": "seed_6b_13_banking_evidence_export",
+      "ticket_id": "P6B-CAP-013"
+    },
+    {
+      "seed_id": "seed_6b_13_reconciliation_exception_queue",
+      "ticket_id": "P6B-CAP-013"
+    },
+    {
+      "seed_id": "seed_6b_13_reconciliation_matching",
+      "ticket_id": "P6B-CAP-013"
+    },
+    {
+      "seed_id": "seed_6b_14_allowance_deduction_formula",
+      "ticket_id": "P6B-CAP-014"
+    },
+    {
+      "seed_id": "seed_6b_14_hr_event_feed_boundary",
+      "ticket_id": "P6B-CAP-014"
+    },
+    {
+      "seed_id": "seed_6b_14_payroll_disbursement_file_export",
+      "ticket_id": "P6B-CAP-014"
+    },
+    {
+      "seed_id": "seed_6b_14_payroll_run_state_machine",
+      "ticket_id": "P6B-CAP-014"
+    },
+    {
+      "seed_id": "seed_6b_14_payroll_tax_slab_calculator",
+      "ticket_id": "P6B-CAP-014"
+    },
+    {
+      "seed_id": "seed_6b_15_billing_proration_engine",
+      "ticket_id": "P6B-CAP-015"
+    },
+    {
+      "seed_id": "seed_6b_15_billing_support_interface",
+      "ticket_id": "P6B-CAP-015"
+    },
+    {
+      "seed_id": "seed_6b_15_customer_billing_operations",
+      "ticket_id": "P6B-CAP-015"
+    },
+    {
+      "seed_id": "seed_6b_15_platform_invoice_generation",
+      "ticket_id": "P6B-CAP-015"
+    },
+    {
+      "seed_id": "seed_6b_15_retention_and_dunning_rules",
+      "ticket_id": "P6B-CAP-015"
+    }
+  ],
+  "version": "v19",
+  "executable_capability_ticket_count": 15,
+  "executable_review_ready_ticket_ids": [
+    "P6B-CAP-000"
+  ],
+  "blocked_capability_ticket_count": 0,
+  "blocked_capability_ticket_ids": [
+    "P6B-CAP-001",
+    "P6B-CAP-002",
+    "P6B-CAP-003",
+    "P6B-CAP-004",
+    "P6B-CAP-005",
+    "P6B-CAP-006",
+    "P6B-CAP-007",
+    "P6B-CAP-008",
+    "P6B-CAP-009",
+    "P6B-CAP-010",
+    "P6B-CAP-011",
+    "P6B-CAP-012",
+    "P6B-CAP-013",
+    "P6B-CAP-014",
+    "P6B-CAP-015"
+  ],
+  "review_gate_ticket_ids": [
+    "P6B-CAP-016"
+  ],
+  "final_review_required_before_execution": true,
+  "v16_grounding_summary": "P6B-CAP-000 is executable-review-ready as a schema/runtime baseline control ticket. Capability implementation tickets remain blocked because current Phase 6B runtime scaffolds are metadata-only and the current Prisma schema does not contain a complete Phase 6B commerce-domain entity baseline.",
+  "p6b_cap_000_outcome": "COMPLETED_BASELINE_DISCOVERY_SCHEMA_RUNTIME_BASELINE_INCOMPLETE",
+  "completed_control_ticket_count": 1,
+  "schema_control_ticket_pack": "phase_6b_schema_control_ticket_pack_v1.json",
+  "executable_review_ready_ticket_count": 15,
+  "review_gate_ticket_count": 1,
+  "completed_control_dependencies": [
+    "P6B-REGISTRY-001",
+    "P6B-SCHEMA-001",
+    "P6B-SCHEMA-002",
+    "P6B-SCHEMA-003"
+  ]
+}

@@ -1,0 +1,303 @@
+{
+  "schema": "akti_spark_phase_6b_executable_ticket_dependency_graph.v1",
+  "version": "v19",
+  "status": "PASS_ACYCLIC_EXECUTABLE_CAPABILITY_GRAPH",
+  "node_count": 16,
+  "edge_count": 39,
+  "cycle_count": 0,
+  "nodes": [
+    {
+      "ticket_id": "P6B-CAP-001",
+      "title": "Implement Phase 6B Product Catalogue Service capability surface",
+      "ticketability_status": "EXECUTABLE_REVIEW_READY",
+      "type": "capability_implementation_ticket_candidate"
+    },
+    {
+      "ticket_id": "P6B-CAP-002",
+      "title": "Implement Phase 6B Product Pricing and Package Service capability surface",
+      "ticketability_status": "EXECUTABLE_REVIEW_READY",
+      "type": "capability_implementation_ticket_candidate"
+    },
+    {
+      "ticket_id": "P6B-CAP-003",
+      "title": "Implement Phase 6B Inventory and Stock Movement Service capability surface",
+      "ticketability_status": "EXECUTABLE_REVIEW_READY",
+      "type": "capability_implementation_ticket_candidate"
+    },
+    {
+      "ticket_id": "P6B-CAP-004",
+      "title": "Implement Phase 6B CRM Lead Intake Service capability surface",
+      "ticketability_status": "EXECUTABLE_REVIEW_READY",
+      "type": "capability_implementation_ticket_candidate"
+    },
+    {
+      "ticket_id": "P6B-CAP-005",
+      "title": "Implement Phase 6B CRM Deduplication and Identity Resolution Micro-service capability surface",
+      "ticketability_status": "EXECUTABLE_REVIEW_READY",
+      "type": "capability_implementation_ticket_candidate"
+    },
+    {
+      "ticket_id": "P6B-CAP-006",
+      "title": "Implement Phase 6B CRM Pipeline and Timeline Service capability surface",
+      "ticketability_status": "EXECUTABLE_REVIEW_READY",
+      "type": "capability_implementation_ticket_candidate"
+    },
+    {
+      "ticket_id": "P6B-CAP-007",
+      "title": "Implement Phase 6B CRM Communication Engines capability surface",
+      "ticketability_status": "EXECUTABLE_REVIEW_READY",
+      "type": "capability_implementation_ticket_candidate"
+    },
+    {
+      "ticket_id": "P6B-CAP-008",
+      "title": "Implement Phase 6B CRM Scoring, Follow-Up, and Reporting Service capability surface",
+      "ticketability_status": "EXECUTABLE_REVIEW_READY",
+      "type": "capability_implementation_ticket_candidate"
+    },
+    {
+      "ticket_id": "P6B-CAP-009",
+      "title": "Implement Phase 6B Finance Invoice and Receivables Service capability surface",
+      "ticketability_status": "EXECUTABLE_REVIEW_READY",
+      "type": "capability_implementation_ticket_candidate"
+    },
+    {
+      "ticket_id": "P6B-CAP-010",
+      "title": "Implement Phase 6B Payment, Collection, and Top-Up Service capability surface",
+      "ticketability_status": "EXECUTABLE_REVIEW_READY",
+      "type": "capability_implementation_ticket_candidate"
+    },
+    {
+      "ticket_id": "P6B-CAP-011",
+      "title": "Implement Phase 6B Expense, Purchase, and Vendor Service capability surface",
+      "ticketability_status": "EXECUTABLE_REVIEW_READY",
+      "type": "capability_implementation_ticket_candidate"
+    },
+    {
+      "ticket_id": "P6B-CAP-012",
+      "title": "Implement Phase 6B General Ledger and Accounting Service capability surface",
+      "ticketability_status": "EXECUTABLE_REVIEW_READY",
+      "type": "capability_implementation_ticket_candidate"
+    },
+    {
+      "ticket_id": "P6B-CAP-013",
+      "title": "Implement Phase 6B Banking and Reconciliation Service capability surface",
+      "ticketability_status": "EXECUTABLE_REVIEW_READY",
+      "type": "capability_implementation_ticket_candidate"
+    },
+    {
+      "ticket_id": "P6B-CAP-014",
+      "title": "Implement Phase 6B Finance Payroll Foundation capability surface",
+      "ticketability_status": "EXECUTABLE_REVIEW_READY",
+      "type": "capability_implementation_ticket_candidate"
+    },
+    {
+      "ticket_id": "P6B-CAP-015",
+      "title": "Implement Phase 6B Finance Platform Billing UI and Customer Billing Operations capability surface",
+      "ticketability_status": "EXECUTABLE_REVIEW_READY",
+      "type": "capability_implementation_ticket_candidate"
+    },
+    {
+      "ticket_id": "P6B-CAP-016",
+      "title": "Gate Phase 6B capability ticket pack before execution authorization",
+      "ticketability_status": "FINAL_REVIEW_GATE_READY",
+      "type": "capability_ticket_pack_gate"
+    }
+  ],
+  "edges": [
+    {
+      "from_ticket_id": "P6B-CAP-002",
+      "to_dependency_ticket_id": "P6B-CAP-001",
+      "edge_type": "requires_before_execution"
+    },
+    {
+      "from_ticket_id": "P6B-CAP-003",
+      "to_dependency_ticket_id": "P6B-CAP-001",
+      "edge_type": "requires_before_execution"
+    },
+    {
+      "from_ticket_id": "P6B-CAP-003",
+      "to_dependency_ticket_id": "P6B-CAP-002",
+      "edge_type": "requires_before_execution"
+    },
+    {
+      "from_ticket_id": "P6B-CAP-004",
+      "to_dependency_ticket_id": "P6B-CAP-001",
+      "edge_type": "requires_before_execution"
+    },
+    {
+      "from_ticket_id": "P6B-CAP-005",
+      "to_dependency_ticket_id": "P6B-CAP-004",
+      "edge_type": "requires_before_execution"
+    },
+    {
+      "from_ticket_id": "P6B-CAP-006",
+      "to_dependency_ticket_id": "P6B-CAP-004",
+      "edge_type": "requires_before_execution"
+    },
+    {
+      "from_ticket_id": "P6B-CAP-006",
+      "to_dependency_ticket_id": "P6B-CAP-005",
+      "edge_type": "requires_before_execution"
+    },
+    {
+      "from_ticket_id": "P6B-CAP-007",
+      "to_dependency_ticket_id": "P6B-CAP-006",
+      "edge_type": "requires_before_execution"
+    },
+    {
+      "from_ticket_id": "P6B-CAP-008",
+      "to_dependency_ticket_id": "P6B-CAP-006",
+      "edge_type": "requires_before_execution"
+    },
+    {
+      "from_ticket_id": "P6B-CAP-008",
+      "to_dependency_ticket_id": "P6B-CAP-007",
+      "edge_type": "requires_before_execution"
+    },
+    {
+      "from_ticket_id": "P6B-CAP-009",
+      "to_dependency_ticket_id": "P6B-CAP-001",
+      "edge_type": "requires_before_execution"
+    },
+    {
+      "from_ticket_id": "P6B-CAP-009",
+      "to_dependency_ticket_id": "P6B-CAP-002",
+      "edge_type": "requires_before_execution"
+    },
+    {
+      "from_ticket_id": "P6B-CAP-009",
+      "to_dependency_ticket_id": "P6B-CAP-006",
+      "edge_type": "requires_before_execution"
+    },
+    {
+      "from_ticket_id": "P6B-CAP-010",
+      "to_dependency_ticket_id": "P6B-CAP-009",
+      "edge_type": "requires_before_execution"
+    },
+    {
+      "from_ticket_id": "P6B-CAP-011",
+      "to_dependency_ticket_id": "P6B-CAP-010",
+      "edge_type": "requires_before_execution"
+    },
+    {
+      "from_ticket_id": "P6B-CAP-012",
+      "to_dependency_ticket_id": "P6B-CAP-009",
+      "edge_type": "requires_before_execution"
+    },
+    {
+      "from_ticket_id": "P6B-CAP-012",
+      "to_dependency_ticket_id": "P6B-CAP-010",
+      "edge_type": "requires_before_execution"
+    },
+    {
+      "from_ticket_id": "P6B-CAP-012",
+      "to_dependency_ticket_id": "P6B-CAP-011",
+      "edge_type": "requires_before_execution"
+    },
+    {
+      "from_ticket_id": "P6B-CAP-013",
+      "to_dependency_ticket_id": "P6B-CAP-010",
+      "edge_type": "requires_before_execution"
+    },
+    {
+      "from_ticket_id": "P6B-CAP-013",
+      "to_dependency_ticket_id": "P6B-CAP-012",
+      "edge_type": "requires_before_execution"
+    },
+    {
+      "from_ticket_id": "P6B-CAP-014",
+      "to_dependency_ticket_id": "P6B-CAP-010",
+      "edge_type": "requires_before_execution"
+    },
+    {
+      "from_ticket_id": "P6B-CAP-014",
+      "to_dependency_ticket_id": "P6B-CAP-012",
+      "edge_type": "requires_before_execution"
+    },
+    {
+      "from_ticket_id": "P6B-CAP-015",
+      "to_dependency_ticket_id": "P6B-CAP-010",
+      "edge_type": "requires_before_execution"
+    },
+    {
+      "from_ticket_id": "P6B-CAP-015",
+      "to_dependency_ticket_id": "P6B-CAP-012",
+      "edge_type": "requires_before_execution"
+    },
+    {
+      "from_ticket_id": "P6B-CAP-016",
+      "to_dependency_ticket_id": "P6B-CAP-001",
+      "edge_type": "requires_before_execution"
+    },
+    {
+      "from_ticket_id": "P6B-CAP-016",
+      "to_dependency_ticket_id": "P6B-CAP-002",
+      "edge_type": "requires_before_execution"
+    },
+    {
+      "from_ticket_id": "P6B-CAP-016",
+      "to_dependency_ticket_id": "P6B-CAP-003",
+      "edge_type": "requires_before_execution"
+    },
+    {
+      "from_ticket_id": "P6B-CAP-016",
+      "to_dependency_ticket_id": "P6B-CAP-004",
+      "edge_type": "requires_before_execution"
+    },
+    {
+      "from_ticket_id": "P6B-CAP-016",
+      "to_dependency_ticket_id": "P6B-CAP-005",
+      "edge_type": "requires_before_execution"
+    },
+    {
+      "from_ticket_id": "P6B-CAP-016",
+      "to_dependency_ticket_id": "P6B-CAP-006",
+      "edge_type": "requires_before_execution"
+    },
+    {
+      "from_ticket_id": "P6B-CAP-016",
+      "to_dependency_ticket_id": "P6B-CAP-007",
+      "edge_type": "requires_before_execution"
+    },
+    {
+      "from_ticket_id": "P6B-CAP-016",
+      "to_dependency_ticket_id": "P6B-CAP-008",
+      "edge_type": "requires_before_execution"
+    },
+    {
+      "from_ticket_id": "P6B-CAP-016",
+      "to_dependency_ticket_id": "P6B-CAP-009",
+      "edge_type": "requires_before_execution"
+    },
+    {
+      "from_ticket_id": "P6B-CAP-016",
+      "to_dependency_ticket_id": "P6B-CAP-010",
+      "edge_type": "requires_before_execution"
+    },
+    {
+      "from_ticket_id": "P6B-CAP-016",
+      "to_dependency_ticket_id": "P6B-CAP-011",
+      "edge_type": "requires_before_execution"
+    },
+    {
+      "from_ticket_id": "P6B-CAP-016",
+      "to_dependency_ticket_id": "P6B-CAP-012",
+      "edge_type": "requires_before_execution"
+    },
+    {
+      "from_ticket_id": "P6B-CAP-016",
+      "to_dependency_ticket_id": "P6B-CAP-013",
+      "edge_type": "requires_before_execution"
+    },
+    {
+      "from_ticket_id": "P6B-CAP-016",
+      "to_dependency_ticket_id": "P6B-CAP-014",
+      "edge_type": "requires_before_execution"
+    },
+    {
+      "from_ticket_id": "P6B-CAP-016",
+      "to_dependency_ticket_id": "P6B-CAP-015",
+      "edge_type": "requires_before_execution"
+    }
+  ]
+}
