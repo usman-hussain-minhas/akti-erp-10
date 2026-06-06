@@ -1,9 +1,16 @@
 # AKTI ERP Ticket Quality Doctrine v1
 
 **Status:** Authoritative
-**Version:** 1.0
+**Version:** 1.1
 **Owner:** Platform Architecture
 **Applies to:** Every ticket pack, every phase, every Codex session
+
+---
+
+## Changelog
+
+- v1.1: Adds the Phase 6B v1-v18 ticketability correction. Lifecycle evidence is compiler input for ticket writing, not ticket readiness by itself. Ticket-pack planning must not modify real code, schema, runtime, generated artifacts, package files, or validation scripts to unblock tickets.
+- v1.0: Initial authoritative ticket quality doctrine.
 
 ---
 
@@ -19,6 +26,139 @@ The failure pattern in AI-assisted development is not autonomous execution
 running too long. It is tickets that are stale, shallow, vague, overlapping,
 unsafe, or non-predictive. A 200-ticket queue with precise tickets executes
 more reliably than a 20-ticket queue with vague ones.
+
+---
+
+## Lifecycle Evidence Is Compiler Input, Not Ticket Readiness
+
+Lifecycle documentation, source coverage matrices, dependency maps, execution
+seed matrices, fidelity matrices, blocker registries, and zero-trust reports
+are evidence layers for ticket writing. They are not the finish line.
+
+Mechanical PASS, semantic PASS, READY, or READY_FOR_REVIEW does not mean a
+phase is ready for implementation tickets. A phase becomes ticket-ready only
+when a ticket pack can answer this harder question:
+
+Can a developer execute this ticket at current repo HEAD without inventing
+scope, decisions, files, validation, architecture, service boundaries,
+permissions, schema, APIs, ADL behavior, or business rules?
+
+Production ticket readiness requires all of the following:
+
+- exact file ownership;
+- runtime behavior to implement;
+- observable minimum concrete requirement;
+- validation commands;
+- dependency tickets;
+- blocker references;
+- stop conditions;
+- stale-ticket risk notes;
+- current repo HEAD freshness.
+
+Documentation proves readiness. Tickets drive implementation. If tickets are
+vague, implementation will become stale again.
+
+---
+
+## Ticket-Pack Planning Must Not Implement Blockers
+
+Ticket-pack planning reveals blockers. It must not resolve blockers by changing
+real repo truth inside the planning pass.
+
+A ticket-pack planning PR may create docs-only readiness artifacts, blocker
+registries, ticketability matrices, quality gates, stale-ticket audits, and
+ticket-pack drafts.
+
+A ticket-pack planning PR must not modify:
+
+- `apps/**`;
+- `packages/**`;
+- `prisma/**`;
+- `generated/**`;
+- `scripts/**`;
+- package files;
+- lockfiles;
+- migrations;
+- frontend files;
+- backend files;
+- runtime code;
+- schema files;
+- contract files;
+- registry outputs.
+
+If missing schema, contracts, manifests, runtime scaffolds, generated registry,
+validation scripts, permissions, API boundaries, service boundaries, screen
+contracts, or business decisions block implementation tickets, the planning
+pass must mark the affected candidates blocked and create a separate
+schema-control, scaffold-control, decision-control, or validation-control
+implementation plan or PR.
+
+A ticket may not become executable-review-ready because the planning pass
+changed repo truth. Repo truth must already exist on the accepted base branch
+or in an accepted dependency PR before promotion.
+
+---
+
+## Five Production Ticket Gates
+
+Every production implementation ticket pack must pass these gates before any
+ticket is considered executable-review-ready.
+
+1. Decision closure.
+   All human decisions, blocker registry entries, architecture choices, service
+   boundaries, permissions, schema/API questions, ADL interpretations, and
+   business rules are resolved with committed source authority or remain
+   explicitly blocked.
+
+2. Ticketability matrix.
+   Each candidate maps source authority, exact runtime surface, expected files,
+   dependency tickets, blockers, runtime behavior, MCR, validation commands,
+   and stop conditions against current repo HEAD.
+
+3. Ticket generation by runtime capability slice.
+   Tickets are generated around executable runtime capability ownership, not
+   lifecycle row count, artifact count, seed count, or queue-size anxiety.
+
+4. Ticket quality audit.
+   Fail any ticket with vague scope, hidden decisions, unresolved dependencies,
+   documentation-only MCR, overlapping file ownership, weak validation, or
+   missing stop conditions.
+
+5. Freshness check at execution time.
+   Re-check the ticket against current repo HEAD immediately before execution.
+   If files moved, dependencies changed, blockers changed, validation changed,
+   or repo truth changed, refresh the ticket before implementation. If the
+   refresh requires a decision, stop for human review.
+
+---
+
+## Blocked Means Blocked
+
+Any unresolved blocker prevents executable-ticket promotion.
+
+This includes:
+
+- unresolved human decision;
+- missing exact file ownership;
+- missing runtime MCR;
+- missing validation command;
+- missing schema/API/service boundary;
+- missing permission or manifest authority;
+- missing source authority;
+- hidden architecture or business decision;
+- ambiguous ADL behavior;
+- stale repo reference;
+- dependency ticket not accepted;
+- control implementation required but not yet merged.
+
+The correct output is a blocked ticket candidate, blocker registry entry,
+decision-control ticket, schema-control ticket, scaffold-control ticket, or
+validation-control ticket. The wrong output is optimistic implementation-ticket
+generation.
+
+Blocker identity is first-class. Every blocked candidate must reference blocker
+IDs or explicit missing repo truth. No manual-review state may hide inside a
+READY status.
 
 ---
 
@@ -140,6 +280,39 @@ failure_classification
 
 Decision/ADR tickets must also include:
 decision_options, selection_criteria, decision_output_path
+
+## Required Production Ticket Structure
+
+For production-grade implementation tickets, the required fields above must
+also be expressed in an execution-friendly structure containing:
+
+ticket_id, title, objective, source_authority_chain, approved_scope, non_scope,
+exact_files_expected_to_change, files_forbidden_to_change, dependency_tickets,
+blocker_registry_references, runtime_behavior_to_implement,
+maximum_concrete_capability_statement, minimum_concrete_requirement,
+validation_commands, expected_validation_evidence, stale_ticket_risk_notes,
+stop_conditions, requires_human_approval_if, handoff_notes
+
+These fields do not replace the existing required fields. They clarify the
+minimum production-ticket shape needed to prevent vague, stale, or invented
+implementation.
+
+## Forbidden Ticket Language
+
+Executable implementation scope must not contain vague instruction phrases.
+Fail the ticket if implementation scope, MCR, validation, or acceptance criteria
+use phrases such as:
+
+- "wire as needed";
+- "relevant service";
+- "appropriate validation";
+- "future implementation";
+- "documented";
+- "integrate where needed";
+- "use existing patterns" without naming exact files or patterns.
+
+These phrases may appear only in blocker notes or stale-risk notes where they
+describe why a candidate is not executable yet.
 
 ---
 
