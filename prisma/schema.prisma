@@ -63,6 +63,53 @@ model Organization {
   lead_assignment_history   LeadAssignmentHistory[]
 
   @@index([status])
+  phase6bProducts Phase6BProduct[]
+  phase6bProductCategorys Phase6BProductCategory[]
+  phase6bProductMedias Phase6BProductMedia[]
+  phase6bProductHistorys Phase6BProductHistory[]
+  phase6bProductPriceHistorys Phase6BProductPriceHistory[]
+  phase6bPackageDefinitions Phase6BPackageDefinition[]
+  phase6bDiscountRules Phase6BDiscountRule[]
+  phase6bInventoryLocations Phase6BInventoryLocation[]
+  phase6bStockItems Phase6BStockItem[]
+  phase6bStockMovements Phase6BStockMovement[]
+  phase6bLeadSources Phase6BLeadSource[]
+  phase6bLeadEvidences Phase6BLeadEvidence[]
+  phase6bLeadMatchCandidates Phase6BLeadMatchCandidate[]
+  phase6bLeadMergeRecords Phase6BLeadMergeRecord[]
+  phase6bPipelineStages Phase6BPipelineStage[]
+  phase6bPipelineTimelineEntrys Phase6BPipelineTimelineEntry[]
+  phase6bCommunicationTemplates Phase6BCommunicationTemplate[]
+  phase6bCommunicationAttempts Phase6BCommunicationAttempt[]
+  phase6bCommunicationSequenceEnrollments Phase6BCommunicationSequenceEnrollment[]
+  phase6bLeadScores Phase6BLeadScore[]
+  phase6bFollowUpTasks Phase6BFollowUpTask[]
+  phase6bInvoices Phase6BInvoice[]
+  phase6bInvoiceLines Phase6BInvoiceLine[]
+  phase6bReceivables Phase6BReceivable[]
+  phase6bCreditDebitNotes Phase6BCreditDebitNote[]
+  phase6bPayments Phase6BPayment[]
+  phase6bPaymentAllocations Phase6BPaymentAllocation[]
+  phase6bReceipts Phase6BReceipt[]
+  phase6bTopUps Phase6BTopUp[]
+  phase6bReconciliationCandidates Phase6BReconciliationCandidate[]
+  phase6bVendors Phase6BVendor[]
+  phase6bExpenses Phase6BExpense[]
+  phase6bPurchaseOrders Phase6BPurchaseOrder[]
+  phase6bPurchaseReceipts Phase6BPurchaseReceipt[]
+  phase6bChartOfAccounts Phase6BChartOfAccount[]
+  phase6bJournalEntrys Phase6BJournalEntry[]
+  phase6bJournalEntryLines Phase6BJournalEntryLine[]
+  phase6bAccountingPeriods Phase6BAccountingPeriod[]
+  phase6bTaxMappings Phase6BTaxMapping[]
+  phase6bBankAccounts Phase6BBankAccount[]
+  phase6bBankTransactions Phase6BBankTransaction[]
+  phase6bReconciliationStatements Phase6BReconciliationStatement[]
+  phase6bPayees Phase6BPayee[]
+  phase6bPayrollBatchs Phase6BPayrollBatch[]
+  phase6bPayrollPayouts Phase6BPayrollPayout[]
+  phase6bBillingOperations Phase6BBillingOperation[]
+  phase6bBudgetCaps Phase6BBudgetCap[]
 }
 
 model OrganizationDomain {
@@ -570,6 +617,14 @@ model LeadRecord {
   @@index([organization_id, organization_unit_id, status, created_at])
   @@index([organization_id, assigned_user_id, created_at])
   @@index([organization_id, organization_unit_id, assigned_user_id, created_at])
+  phase6bLeadEvidences Phase6BLeadEvidence[] @relation("Phase6BLeadEvidence_LeadRecord")
+  phase6bLeadMatchCandidates Phase6BLeadMatchCandidate[] @relation("Phase6BLeadMatchCandidate_LeadRecord")
+  phase6bLeadMergeRecords Phase6BLeadMergeRecord[] @relation("Phase6BLeadMergeRecord_LeadRecord")
+  phase6bPipelineTimelineEntrys Phase6BPipelineTimelineEntry[] @relation("Phase6BPipelineTimelineEntry_LeadRecord")
+  phase6bCommunicationAttempts Phase6BCommunicationAttempt[] @relation("Phase6BCommunicationAttempt_LeadRecord")
+  phase6bCommunicationSequenceEnrollments Phase6BCommunicationSequenceEnrollment[] @relation("Phase6BCommunicationSequenceEnrollment_LeadRecord")
+  phase6bLeadScores Phase6BLeadScore[] @relation("Phase6BLeadScore_LeadRecord")
+  phase6bFollowUpTasks Phase6BFollowUpTask[] @relation("Phase6BFollowUpTask_LeadRecord")
 }
 
 model LeadStatusHistory {
@@ -605,4 +660,806 @@ model LeadAssignmentHistory {
   @@index([organization_id, lead_id, changed_at])
   @@index([organization_id, actor_user_id, changed_at])
   @@index([organization_id, assigned_user_id, changed_at])
+}
+
+
+// Phase 6B schema-control baseline.
+// Additive relation skeletons only; no capability behavior is authorized here.
+
+model Phase6BProduct {
+  id String @id @default(cuid())
+  organization_id String
+  source_seed_id String
+  control_metadata Json
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  organization Organization @relation(fields: [organization_id], references: [id])
+  phase6bProductMedias Phase6BProductMedia[] @relation("Phase6BProductMedia_Product")
+  phase6bProductHistorys Phase6BProductHistory[] @relation("Phase6BProductHistory_Product")
+  phase6bProductPriceHistorys Phase6BProductPriceHistory[] @relation("Phase6BProductPriceHistory_Product")
+  phase6bStockItems Phase6BStockItem[] @relation("Phase6BStockItem_Product")
+  phase6bInvoiceLines Phase6BInvoiceLine[] @relation("Phase6BInvoiceLine_Product")
+
+  @@unique([organization_id, id])
+  @@index([organization_id])
+  @@index([organization_id, source_seed_id])
+}
+
+model Phase6BProductCategory {
+  id String @id @default(cuid())
+  organization_id String
+  source_seed_id String
+  control_metadata Json
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  organization Organization @relation(fields: [organization_id], references: [id])
+
+  @@unique([organization_id, id])
+  @@index([organization_id])
+  @@index([organization_id, source_seed_id])
+}
+
+model Phase6BProductMedia {
+  id String @id @default(cuid())
+  organization_id String
+  source_seed_id String
+  product_id String?
+  control_metadata Json
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  organization Organization @relation(fields: [organization_id], references: [id])
+  product Phase6BProduct? @relation("Phase6BProductMedia_Product", fields: [organization_id, product_id], references: [organization_id, id])
+
+  @@unique([organization_id, id])
+  @@index([organization_id])
+  @@index([organization_id, source_seed_id])
+  @@index([organization_id, product_id])
+}
+
+model Phase6BProductHistory {
+  id String @id @default(cuid())
+  organization_id String
+  source_seed_id String
+  product_id String?
+  control_metadata Json
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  organization Organization @relation(fields: [organization_id], references: [id])
+  product Phase6BProduct? @relation("Phase6BProductHistory_Product", fields: [organization_id, product_id], references: [organization_id, id])
+
+  @@unique([organization_id, id])
+  @@index([organization_id])
+  @@index([organization_id, source_seed_id])
+  @@index([organization_id, product_id])
+}
+
+model Phase6BProductPriceHistory {
+  id String @id @default(cuid())
+  organization_id String
+  source_seed_id String
+  product_id String?
+  control_metadata Json
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  organization Organization @relation(fields: [organization_id], references: [id])
+  product Phase6BProduct? @relation("Phase6BProductPriceHistory_Product", fields: [organization_id, product_id], references: [organization_id, id])
+  phase6bInvoiceLines Phase6BInvoiceLine[] @relation("Phase6BInvoiceLine_PriceHistory")
+
+  @@unique([organization_id, id])
+  @@index([organization_id])
+  @@index([organization_id, source_seed_id])
+  @@index([organization_id, product_id])
+}
+
+model Phase6BPackageDefinition {
+  id String @id @default(cuid())
+  organization_id String
+  source_seed_id String
+  control_metadata Json
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  organization Organization @relation(fields: [organization_id], references: [id])
+
+  @@unique([organization_id, id])
+  @@index([organization_id])
+  @@index([organization_id, source_seed_id])
+}
+
+model Phase6BDiscountRule {
+  id String @id @default(cuid())
+  organization_id String
+  source_seed_id String
+  control_metadata Json
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  organization Organization @relation(fields: [organization_id], references: [id])
+
+  @@unique([organization_id, id])
+  @@index([organization_id])
+  @@index([organization_id, source_seed_id])
+}
+
+model Phase6BInventoryLocation {
+  id String @id @default(cuid())
+  organization_id String
+  source_seed_id String
+  control_metadata Json
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  organization Organization @relation(fields: [organization_id], references: [id])
+  phase6bStockMovements Phase6BStockMovement[] @relation("Phase6BStockMovement_InventoryLocation")
+
+  @@unique([organization_id, id])
+  @@index([organization_id])
+  @@index([organization_id, source_seed_id])
+}
+
+model Phase6BStockItem {
+  id String @id @default(cuid())
+  organization_id String
+  source_seed_id String
+  product_id String?
+  control_metadata Json
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  organization Organization @relation(fields: [organization_id], references: [id])
+  product Phase6BProduct? @relation("Phase6BStockItem_Product", fields: [organization_id, product_id], references: [organization_id, id])
+  phase6bStockMovements Phase6BStockMovement[] @relation("Phase6BStockMovement_StockItem")
+
+  @@unique([organization_id, id])
+  @@index([organization_id])
+  @@index([organization_id, source_seed_id])
+  @@index([organization_id, product_id])
+}
+
+model Phase6BStockMovement {
+  id String @id @default(cuid())
+  organization_id String
+  source_seed_id String
+  stock_item_id String?
+  inventory_location_id String?
+  control_metadata Json
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  organization Organization @relation(fields: [organization_id], references: [id])
+  stock_item Phase6BStockItem? @relation("Phase6BStockMovement_StockItem", fields: [organization_id, stock_item_id], references: [organization_id, id])
+  inventory_location Phase6BInventoryLocation? @relation("Phase6BStockMovement_InventoryLocation", fields: [organization_id, inventory_location_id], references: [organization_id, id])
+
+  @@unique([organization_id, id])
+  @@index([organization_id])
+  @@index([organization_id, source_seed_id])
+  @@index([organization_id, stock_item_id])
+  @@index([organization_id, inventory_location_id])
+}
+
+model Phase6BLeadSource {
+  id String @id @default(cuid())
+  organization_id String
+  source_seed_id String
+  control_metadata Json
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  organization Organization @relation(fields: [organization_id], references: [id])
+
+  @@unique([organization_id, id])
+  @@index([organization_id])
+  @@index([organization_id, source_seed_id])
+}
+
+model Phase6BLeadEvidence {
+  id String @id @default(cuid())
+  organization_id String
+  source_seed_id String
+  lead_id String?
+  control_metadata Json
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  organization Organization @relation(fields: [organization_id], references: [id])
+  lead LeadRecord? @relation("Phase6BLeadEvidence_LeadRecord", fields: [organization_id, lead_id], references: [organization_id, id])
+
+  @@unique([organization_id, id])
+  @@index([organization_id])
+  @@index([organization_id, source_seed_id])
+  @@index([organization_id, lead_id])
+}
+
+model Phase6BLeadMatchCandidate {
+  id String @id @default(cuid())
+  organization_id String
+  source_seed_id String
+  lead_id String?
+  control_metadata Json
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  organization Organization @relation(fields: [organization_id], references: [id])
+  lead LeadRecord? @relation("Phase6BLeadMatchCandidate_LeadRecord", fields: [organization_id, lead_id], references: [organization_id, id])
+
+  @@unique([organization_id, id])
+  @@index([organization_id])
+  @@index([organization_id, source_seed_id])
+  @@index([organization_id, lead_id])
+}
+
+model Phase6BLeadMergeRecord {
+  id String @id @default(cuid())
+  organization_id String
+  source_seed_id String
+  lead_id String?
+  control_metadata Json
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  organization Organization @relation(fields: [organization_id], references: [id])
+  lead LeadRecord? @relation("Phase6BLeadMergeRecord_LeadRecord", fields: [organization_id, lead_id], references: [organization_id, id])
+
+  @@unique([organization_id, id])
+  @@index([organization_id])
+  @@index([organization_id, source_seed_id])
+  @@index([organization_id, lead_id])
+}
+
+model Phase6BPipelineStage {
+  id String @id @default(cuid())
+  organization_id String
+  source_seed_id String
+  control_metadata Json
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  organization Organization @relation(fields: [organization_id], references: [id])
+
+  @@unique([organization_id, id])
+  @@index([organization_id])
+  @@index([organization_id, source_seed_id])
+}
+
+model Phase6BPipelineTimelineEntry {
+  id String @id @default(cuid())
+  organization_id String
+  source_seed_id String
+  lead_id String?
+  control_metadata Json
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  organization Organization @relation(fields: [organization_id], references: [id])
+  lead LeadRecord? @relation("Phase6BPipelineTimelineEntry_LeadRecord", fields: [organization_id, lead_id], references: [organization_id, id])
+
+  @@unique([organization_id, id])
+  @@index([organization_id])
+  @@index([organization_id, source_seed_id])
+  @@index([organization_id, lead_id])
+}
+
+model Phase6BCommunicationTemplate {
+  id String @id @default(cuid())
+  organization_id String
+  source_seed_id String
+  control_metadata Json
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  organization Organization @relation(fields: [organization_id], references: [id])
+  phase6bCommunicationAttempts Phase6BCommunicationAttempt[] @relation("Phase6BCommunicationAttempt_Template")
+
+  @@unique([organization_id, id])
+  @@index([organization_id])
+  @@index([organization_id, source_seed_id])
+}
+
+model Phase6BCommunicationAttempt {
+  id String @id @default(cuid())
+  organization_id String
+  source_seed_id String
+  lead_id String?
+  template_id String?
+  sequence_enrollment_id String?
+  control_metadata Json
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  organization Organization @relation(fields: [organization_id], references: [id])
+  lead LeadRecord? @relation("Phase6BCommunicationAttempt_LeadRecord", fields: [organization_id, lead_id], references: [organization_id, id])
+  template Phase6BCommunicationTemplate? @relation("Phase6BCommunicationAttempt_Template", fields: [organization_id, template_id], references: [organization_id, id])
+  sequence_enrollment Phase6BCommunicationSequenceEnrollment? @relation("Phase6BCommunicationAttempt_SequenceEnrollment", fields: [organization_id, sequence_enrollment_id], references: [organization_id, id])
+
+  @@unique([organization_id, id])
+  @@index([organization_id])
+  @@index([organization_id, source_seed_id])
+  @@index([organization_id, lead_id])
+  @@index([organization_id, template_id])
+  @@index([organization_id, sequence_enrollment_id])
+}
+
+model Phase6BCommunicationSequenceEnrollment {
+  id String @id @default(cuid())
+  organization_id String
+  source_seed_id String
+  lead_id String?
+  control_metadata Json
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  organization Organization @relation(fields: [organization_id], references: [id])
+  lead LeadRecord? @relation("Phase6BCommunicationSequenceEnrollment_LeadRecord", fields: [organization_id, lead_id], references: [organization_id, id])
+  phase6bCommunicationAttempts Phase6BCommunicationAttempt[] @relation("Phase6BCommunicationAttempt_SequenceEnrollment")
+
+  @@unique([organization_id, id])
+  @@index([organization_id])
+  @@index([organization_id, source_seed_id])
+  @@index([organization_id, lead_id])
+}
+
+model Phase6BLeadScore {
+  id String @id @default(cuid())
+  organization_id String
+  source_seed_id String
+  lead_id String?
+  control_metadata Json
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  organization Organization @relation(fields: [organization_id], references: [id])
+  lead LeadRecord? @relation("Phase6BLeadScore_LeadRecord", fields: [organization_id, lead_id], references: [organization_id, id])
+
+  @@unique([organization_id, id])
+  @@index([organization_id])
+  @@index([organization_id, source_seed_id])
+  @@index([organization_id, lead_id])
+}
+
+model Phase6BFollowUpTask {
+  id String @id @default(cuid())
+  organization_id String
+  source_seed_id String
+  lead_id String?
+  control_metadata Json
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  organization Organization @relation(fields: [organization_id], references: [id])
+  lead LeadRecord? @relation("Phase6BFollowUpTask_LeadRecord", fields: [organization_id, lead_id], references: [organization_id, id])
+
+  @@unique([organization_id, id])
+  @@index([organization_id])
+  @@index([organization_id, source_seed_id])
+  @@index([organization_id, lead_id])
+}
+
+model Phase6BInvoice {
+  id String @id @default(cuid())
+  organization_id String
+  source_seed_id String
+  control_metadata Json
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  organization Organization @relation(fields: [organization_id], references: [id])
+  phase6bInvoiceLines Phase6BInvoiceLine[] @relation("Phase6BInvoiceLine_Invoice")
+  phase6bReceivables Phase6BReceivable[] @relation("Phase6BReceivable_Invoice")
+  phase6bCreditDebitNotes Phase6BCreditDebitNote[] @relation("Phase6BCreditDebitNote_Invoice")
+  phase6bPaymentAllocations Phase6BPaymentAllocation[] @relation("Phase6BPaymentAllocation_Invoice")
+
+  @@unique([organization_id, id])
+  @@index([organization_id])
+  @@index([organization_id, source_seed_id])
+}
+
+model Phase6BInvoiceLine {
+  id String @id @default(cuid())
+  organization_id String
+  source_seed_id String
+  invoice_id String?
+  product_id String?
+  price_history_id String?
+  control_metadata Json
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  organization Organization @relation(fields: [organization_id], references: [id])
+  invoice Phase6BInvoice? @relation("Phase6BInvoiceLine_Invoice", fields: [organization_id, invoice_id], references: [organization_id, id])
+  product Phase6BProduct? @relation("Phase6BInvoiceLine_Product", fields: [organization_id, product_id], references: [organization_id, id])
+  price_history Phase6BProductPriceHistory? @relation("Phase6BInvoiceLine_PriceHistory", fields: [organization_id, price_history_id], references: [organization_id, id])
+
+  @@unique([organization_id, id])
+  @@index([organization_id])
+  @@index([organization_id, source_seed_id])
+  @@index([organization_id, invoice_id])
+  @@index([organization_id, product_id])
+  @@index([organization_id, price_history_id])
+}
+
+model Phase6BReceivable {
+  id String @id @default(cuid())
+  organization_id String
+  source_seed_id String
+  invoice_id String?
+  control_metadata Json
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  organization Organization @relation(fields: [organization_id], references: [id])
+  invoice Phase6BInvoice? @relation("Phase6BReceivable_Invoice", fields: [organization_id, invoice_id], references: [organization_id, id])
+  phase6bPaymentAllocations Phase6BPaymentAllocation[] @relation("Phase6BPaymentAllocation_Receivable")
+
+  @@unique([organization_id, id])
+  @@index([organization_id])
+  @@index([organization_id, source_seed_id])
+  @@index([organization_id, invoice_id])
+}
+
+model Phase6BCreditDebitNote {
+  id String @id @default(cuid())
+  organization_id String
+  source_seed_id String
+  invoice_id String?
+  control_metadata Json
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  organization Organization @relation(fields: [organization_id], references: [id])
+  invoice Phase6BInvoice? @relation("Phase6BCreditDebitNote_Invoice", fields: [organization_id, invoice_id], references: [organization_id, id])
+
+  @@unique([organization_id, id])
+  @@index([organization_id])
+  @@index([organization_id, source_seed_id])
+  @@index([organization_id, invoice_id])
+}
+
+model Phase6BPayment {
+  id String @id @default(cuid())
+  organization_id String
+  source_seed_id String
+  control_metadata Json
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  organization Organization @relation(fields: [organization_id], references: [id])
+  phase6bPaymentAllocations Phase6BPaymentAllocation[] @relation("Phase6BPaymentAllocation_Payment")
+  phase6bReceipts Phase6BReceipt[] @relation("Phase6BReceipt_Payment")
+  phase6bTopUps Phase6BTopUp[] @relation("Phase6BTopUp_Payment")
+  phase6bReconciliationCandidates Phase6BReconciliationCandidate[] @relation("Phase6BReconciliationCandidate_Payment")
+
+  @@unique([organization_id, id])
+  @@index([organization_id])
+  @@index([organization_id, source_seed_id])
+}
+
+model Phase6BPaymentAllocation {
+  id String @id @default(cuid())
+  organization_id String
+  source_seed_id String
+  payment_id String?
+  invoice_id String?
+  receivable_id String?
+  control_metadata Json
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  organization Organization @relation(fields: [organization_id], references: [id])
+  payment Phase6BPayment? @relation("Phase6BPaymentAllocation_Payment", fields: [organization_id, payment_id], references: [organization_id, id])
+  invoice Phase6BInvoice? @relation("Phase6BPaymentAllocation_Invoice", fields: [organization_id, invoice_id], references: [organization_id, id])
+  receivable Phase6BReceivable? @relation("Phase6BPaymentAllocation_Receivable", fields: [organization_id, receivable_id], references: [organization_id, id])
+
+  @@unique([organization_id, id])
+  @@index([organization_id])
+  @@index([organization_id, source_seed_id])
+  @@index([organization_id, payment_id])
+  @@index([organization_id, invoice_id])
+  @@index([organization_id, receivable_id])
+}
+
+model Phase6BReceipt {
+  id String @id @default(cuid())
+  organization_id String
+  source_seed_id String
+  payment_id String?
+  control_metadata Json
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  organization Organization @relation(fields: [organization_id], references: [id])
+  payment Phase6BPayment? @relation("Phase6BReceipt_Payment", fields: [organization_id, payment_id], references: [organization_id, id])
+
+  @@unique([organization_id, id])
+  @@index([organization_id])
+  @@index([organization_id, source_seed_id])
+  @@index([organization_id, payment_id])
+}
+
+model Phase6BTopUp {
+  id String @id @default(cuid())
+  organization_id String
+  source_seed_id String
+  payment_id String?
+  control_metadata Json
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  organization Organization @relation(fields: [organization_id], references: [id])
+  payment Phase6BPayment? @relation("Phase6BTopUp_Payment", fields: [organization_id, payment_id], references: [organization_id, id])
+
+  @@unique([organization_id, id])
+  @@index([organization_id])
+  @@index([organization_id, source_seed_id])
+  @@index([organization_id, payment_id])
+}
+
+model Phase6BReconciliationCandidate {
+  id String @id @default(cuid())
+  organization_id String
+  source_seed_id String
+  payment_id String?
+  bank_transaction_id String?
+  control_metadata Json
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  organization Organization @relation(fields: [organization_id], references: [id])
+  payment Phase6BPayment? @relation("Phase6BReconciliationCandidate_Payment", fields: [organization_id, payment_id], references: [organization_id, id])
+  bank_transaction Phase6BBankTransaction? @relation("Phase6BReconciliationCandidate_BankTransaction", fields: [organization_id, bank_transaction_id], references: [organization_id, id])
+
+  @@unique([organization_id, id])
+  @@index([organization_id])
+  @@index([organization_id, source_seed_id])
+  @@index([organization_id, payment_id])
+  @@index([organization_id, bank_transaction_id])
+}
+
+model Phase6BVendor {
+  id String @id @default(cuid())
+  organization_id String
+  source_seed_id String
+  control_metadata Json
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  organization Organization @relation(fields: [organization_id], references: [id])
+  phase6bExpenses Phase6BExpense[] @relation("Phase6BExpense_Vendor")
+  phase6bPurchaseOrders Phase6BPurchaseOrder[] @relation("Phase6BPurchaseOrder_Vendor")
+
+  @@unique([organization_id, id])
+  @@index([organization_id])
+  @@index([organization_id, source_seed_id])
+}
+
+model Phase6BExpense {
+  id String @id @default(cuid())
+  organization_id String
+  source_seed_id String
+  vendor_id String?
+  control_metadata Json
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  organization Organization @relation(fields: [organization_id], references: [id])
+  vendor Phase6BVendor? @relation("Phase6BExpense_Vendor", fields: [organization_id, vendor_id], references: [organization_id, id])
+
+  @@unique([organization_id, id])
+  @@index([organization_id])
+  @@index([organization_id, source_seed_id])
+  @@index([organization_id, vendor_id])
+}
+
+model Phase6BPurchaseOrder {
+  id String @id @default(cuid())
+  organization_id String
+  source_seed_id String
+  vendor_id String?
+  control_metadata Json
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  organization Organization @relation(fields: [organization_id], references: [id])
+  vendor Phase6BVendor? @relation("Phase6BPurchaseOrder_Vendor", fields: [organization_id, vendor_id], references: [organization_id, id])
+  phase6bPurchaseReceipts Phase6BPurchaseReceipt[] @relation("Phase6BPurchaseReceipt_PurchaseOrder")
+
+  @@unique([organization_id, id])
+  @@index([organization_id])
+  @@index([organization_id, source_seed_id])
+  @@index([organization_id, vendor_id])
+}
+
+model Phase6BPurchaseReceipt {
+  id String @id @default(cuid())
+  organization_id String
+  source_seed_id String
+  purchase_order_id String?
+  control_metadata Json
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  organization Organization @relation(fields: [organization_id], references: [id])
+  purchase_order Phase6BPurchaseOrder? @relation("Phase6BPurchaseReceipt_PurchaseOrder", fields: [organization_id, purchase_order_id], references: [organization_id, id])
+
+  @@unique([organization_id, id])
+  @@index([organization_id])
+  @@index([organization_id, source_seed_id])
+  @@index([organization_id, purchase_order_id])
+}
+
+model Phase6BChartOfAccount {
+  id String @id @default(cuid())
+  organization_id String
+  source_seed_id String
+  control_metadata Json
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  organization Organization @relation(fields: [organization_id], references: [id])
+  phase6bJournalEntryLines Phase6BJournalEntryLine[] @relation("Phase6BJournalEntryLine_ChartOfAccount")
+
+  @@unique([organization_id, id])
+  @@index([organization_id])
+  @@index([organization_id, source_seed_id])
+}
+
+model Phase6BJournalEntry {
+  id String @id @default(cuid())
+  organization_id String
+  source_seed_id String
+  control_metadata Json
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  organization Organization @relation(fields: [organization_id], references: [id])
+  phase6bJournalEntryLines Phase6BJournalEntryLine[] @relation("Phase6BJournalEntryLine_JournalEntry")
+
+  @@unique([organization_id, id])
+  @@index([organization_id])
+  @@index([organization_id, source_seed_id])
+}
+
+model Phase6BJournalEntryLine {
+  id String @id @default(cuid())
+  organization_id String
+  source_seed_id String
+  journal_entry_id String?
+  chart_of_account_id String?
+  control_metadata Json
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  organization Organization @relation(fields: [organization_id], references: [id])
+  journal_entry Phase6BJournalEntry? @relation("Phase6BJournalEntryLine_JournalEntry", fields: [organization_id, journal_entry_id], references: [organization_id, id])
+  chart_of_account Phase6BChartOfAccount? @relation("Phase6BJournalEntryLine_ChartOfAccount", fields: [organization_id, chart_of_account_id], references: [organization_id, id])
+
+  @@unique([organization_id, id])
+  @@index([organization_id])
+  @@index([organization_id, source_seed_id])
+  @@index([organization_id, journal_entry_id])
+  @@index([organization_id, chart_of_account_id])
+}
+
+model Phase6BAccountingPeriod {
+  id String @id @default(cuid())
+  organization_id String
+  source_seed_id String
+  control_metadata Json
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  organization Organization @relation(fields: [organization_id], references: [id])
+
+  @@unique([organization_id, id])
+  @@index([organization_id])
+  @@index([organization_id, source_seed_id])
+}
+
+model Phase6BTaxMapping {
+  id String @id @default(cuid())
+  organization_id String
+  source_seed_id String
+  control_metadata Json
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  organization Organization @relation(fields: [organization_id], references: [id])
+
+  @@unique([organization_id, id])
+  @@index([organization_id])
+  @@index([organization_id, source_seed_id])
+}
+
+model Phase6BBankAccount {
+  id String @id @default(cuid())
+  organization_id String
+  source_seed_id String
+  control_metadata Json
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  organization Organization @relation(fields: [organization_id], references: [id])
+  phase6bBankTransactions Phase6BBankTransaction[] @relation("Phase6BBankTransaction_BankAccount")
+  phase6bReconciliationStatements Phase6BReconciliationStatement[] @relation("Phase6BReconciliationStatement_BankAccount")
+
+  @@unique([organization_id, id])
+  @@index([organization_id])
+  @@index([organization_id, source_seed_id])
+}
+
+model Phase6BBankTransaction {
+  id String @id @default(cuid())
+  organization_id String
+  source_seed_id String
+  bank_account_id String?
+  control_metadata Json
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  organization Organization @relation(fields: [organization_id], references: [id])
+  bank_account Phase6BBankAccount? @relation("Phase6BBankTransaction_BankAccount", fields: [organization_id, bank_account_id], references: [organization_id, id])
+  phase6bReconciliationCandidates Phase6BReconciliationCandidate[] @relation("Phase6BReconciliationCandidate_BankTransaction")
+
+  @@unique([organization_id, id])
+  @@index([organization_id])
+  @@index([organization_id, source_seed_id])
+  @@index([organization_id, bank_account_id])
+}
+
+model Phase6BReconciliationStatement {
+  id String @id @default(cuid())
+  organization_id String
+  source_seed_id String
+  bank_account_id String?
+  control_metadata Json
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  organization Organization @relation(fields: [organization_id], references: [id])
+  bank_account Phase6BBankAccount? @relation("Phase6BReconciliationStatement_BankAccount", fields: [organization_id, bank_account_id], references: [organization_id, id])
+
+  @@unique([organization_id, id])
+  @@index([organization_id])
+  @@index([organization_id, source_seed_id])
+  @@index([organization_id, bank_account_id])
+}
+
+model Phase6BPayee {
+  id String @id @default(cuid())
+  organization_id String
+  source_seed_id String
+  control_metadata Json
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  organization Organization @relation(fields: [organization_id], references: [id])
+  phase6bPayrollPayouts Phase6BPayrollPayout[] @relation("Phase6BPayrollPayout_Payee")
+
+  @@unique([organization_id, id])
+  @@index([organization_id])
+  @@index([organization_id, source_seed_id])
+}
+
+model Phase6BPayrollBatch {
+  id String @id @default(cuid())
+  organization_id String
+  source_seed_id String
+  control_metadata Json
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  organization Organization @relation(fields: [organization_id], references: [id])
+  phase6bPayrollPayouts Phase6BPayrollPayout[] @relation("Phase6BPayrollPayout_PayrollBatch")
+
+  @@unique([organization_id, id])
+  @@index([organization_id])
+  @@index([organization_id, source_seed_id])
+}
+
+model Phase6BPayrollPayout {
+  id String @id @default(cuid())
+  organization_id String
+  source_seed_id String
+  payroll_batch_id String?
+  payee_id String?
+  control_metadata Json
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  organization Organization @relation(fields: [organization_id], references: [id])
+  payroll_batch Phase6BPayrollBatch? @relation("Phase6BPayrollPayout_PayrollBatch", fields: [organization_id, payroll_batch_id], references: [organization_id, id])
+  payee Phase6BPayee? @relation("Phase6BPayrollPayout_Payee", fields: [organization_id, payee_id], references: [organization_id, id])
+
+  @@unique([organization_id, id])
+  @@index([organization_id])
+  @@index([organization_id, source_seed_id])
+  @@index([organization_id, payroll_batch_id])
+  @@index([organization_id, payee_id])
+}
+
+model Phase6BBillingOperation {
+  id String @id @default(cuid())
+  organization_id String
+  source_seed_id String
+  control_metadata Json
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  organization Organization @relation(fields: [organization_id], references: [id])
+
+  @@unique([organization_id, id])
+  @@index([organization_id])
+  @@index([organization_id, source_seed_id])
+}
+
+model Phase6BBudgetCap {
+  id String @id @default(cuid())
+  organization_id String
+  source_seed_id String
+  control_metadata Json
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  organization Organization @relation(fields: [organization_id], references: [id])
+
+  @@unique([organization_id, id])
+  @@index([organization_id])
+  @@index([organization_id, source_seed_id])
 }
