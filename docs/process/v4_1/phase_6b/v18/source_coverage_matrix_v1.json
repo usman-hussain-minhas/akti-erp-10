@@ -1,0 +1,925 @@
+{
+  "schema": "phase_6b_source_coverage_matrix_v1_semantic_repair",
+  "status": "PHASE_6B_V11_DECISIONS_APPLIED_READY_FOR_TICKET_PACK_PLANNING_REVIEW",
+  "phase": "6b",
+  "source_authority": [
+    "AGENTS.md",
+    "docs/doctrine/AKTI_ERP_Ticket_Quality_Doctrine_v1.md",
+    "docs/process/core/v0_0_2/spark_platform_v4_1/0_business_logic.md",
+    "docs/process/core/v0_0_2/spark_platform_v4_1/subsurface_decomposition_guide.md",
+    "docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+    "docs/process/v4_1/phase_6a/source_coverage_matrix_v1.json",
+    "docs/process/v4_1/phase_6a/subsurface_catalog_v1.json",
+    "docs/process/v4_1/phase_6a/execution_seed_matrix_v1.json",
+    "scripts/quality/check_phase_zero_trust_mechanical_audit.mjs",
+    "docs/process/v4_1/phase_zero_trust_mechanical_audit_v1.md"
+  ],
+  "expected_source_component_count": 15,
+  "actual_source_component_count": 15,
+  "source_components": [
+    {
+      "source_component_id": "6B.01",
+      "source_component_name": "Product Catalogue Service",
+      "component": "Product Catalogue Service",
+      "component_type": "Candidate tenant service",
+      "required_dependencies_raw": "6A.03, 6A.05, 6A.06, 6A.10, 6A.13, 6A.18",
+      "optional_dependencies_raw": "None",
+      "owned_data_authority_raw": "Products, categories, product media, product status, product history",
+      "emits_raw": "product.created, product.updated, product.archived",
+      "consumes_raw": "service.activated",
+      "activation_lifecycle_raw": "Foundry-managed service; archive over delete",
+      "billing_evidence_raw": "Product record evidence; optional per-record pricing",
+      "billing_evidence_impact_raw": "Product record evidence; optional per-record pricing",
+      "normalized_required_dependency_targets": [
+        "seed_6a_svfs_object_store",
+        "seed_6a_person_identity_graph",
+        "seed_6a_access_core_gatekeeper",
+        "seed_6a_visual_workflow_builder",
+        "seed_6a_base_design_tokens"
+      ],
+      "normalized_optional_dependency_targets": [],
+      "surface_ids": [
+        "surface_6b_01_product_catalogue_service"
+      ],
+      "subsurface_ids": [
+        "subsurface_6b_01_product_record_authority",
+        "subsurface_6b_01_category_taxonomy",
+        "subsurface_6b_01_product_media_history",
+        "subsurface_6b_01_product_status_archive_policy"
+      ],
+      "seed_ids": [
+        "seed_6b_01_product_record_authority",
+        "seed_6b_01_category_taxonomy",
+        "seed_6b_01_product_media_history",
+        "seed_6b_01_product_status_archive_policy"
+      ],
+      "adl_refs": [],
+      "microscopic_scope_summary": "Products, categories, product media, product status, product history",
+      "business_logic_rules_applied": [
+        "forward_dependency_order",
+        "service_manifest_traceability",
+        "ticket_quality_doctrine_no_ticket_authorization"
+      ],
+      "decomposition_guide_rule_applied": "Sub-surfaces split by provider, channel, lifecycle, evidence, finance, configuration, and service-boundary axes where source text indicates separate behavior.",
+      "ticket_quality_risk_notes": "Seed placeholders are not ticket fields; future tickets must regenerate exact files, MCR, validation, and acceptance from repo truth.",
+      "coverage_result": "READY",
+      "surface_catalog_required": true,
+      "manifest_required": true,
+      "foundry_activation_required": true,
+      "manifest_foundry_consistency_rationale": "Parent source row summarizes child classifications; manifest/foundry semantics are proven per semantic derivation row, not defaulted uniformly.",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "source_component_id": "6B.02",
+      "source_component_name": "Product Pricing and Package Service",
+      "component": "Product Pricing and Package Service",
+      "component_type": "Candidate service/micro-service cluster",
+      "required_dependencies_raw": "6B.01, 6A.09, 6A.15",
+      "optional_dependencies_raw": "None",
+      "owned_data_authority_raw": "Product prices, effective dates, installment plans, package/bundle definitions",
+      "emits_raw": "product_price.changed, package.created",
+      "consumes_raw": "product.created",
+      "activation_lifecycle_raw": "Tenant-toggleable only through Product service; pricing immutable in invoices once issued",
+      "billing_evidence_raw": "Pricing evidence; projection source for product sales",
+      "billing_evidence_impact_raw": "Pricing evidence; projection source for product sales",
+      "normalized_required_dependency_targets": [
+        "seed_6b_01_product_record_authority",
+        "seed_6a_pricing_table_effective_dates",
+        "seed_6a_optimization_fact_store"
+      ],
+      "normalized_optional_dependency_targets": [],
+      "surface_ids": [
+        "surface_6b_02_product_pricing_and_package_service"
+      ],
+      "subsurface_ids": [
+        "subsurface_6b_02_fixed_pricing_model",
+        "subsurface_6b_02_tiered_pricing_model",
+        "subsurface_6b_02_volume_pricing_model",
+        "subsurface_6b_02_per_unit_pricing_model",
+        "subsurface_6b_02_per_hour_pricing_model",
+        "subsurface_6b_02_per_period_pricing_model",
+        "subsurface_6b_02_early_bird_pricing_deadline",
+        "subsurface_6b_02_scholarship_discount_approval",
+        "subsurface_6b_02_installment_plan_engine",
+        "subsurface_6b_02_bundle_package_composition",
+        "subsurface_6b_02_discount_stacking_engine",
+        "subsurface_6b_02_product_price_history_effective_dates"
+      ],
+      "seed_ids": [
+        "seed_6b_02_fixed_pricing_model",
+        "seed_6b_02_tiered_pricing_model",
+        "seed_6b_02_volume_pricing_model",
+        "seed_6b_02_per_unit_pricing_model",
+        "seed_6b_02_per_hour_pricing_model",
+        "seed_6b_02_per_period_pricing_model",
+        "seed_6b_02_early_bird_pricing_deadline",
+        "seed_6b_02_scholarship_discount_approval",
+        "seed_6b_02_installment_plan_engine",
+        "seed_6b_02_bundle_package_composition",
+        "seed_6b_02_discount_stacking_engine",
+        "seed_6b_02_product_price_history_effective_dates"
+      ],
+      "adl_refs": [
+        "ADL-015",
+        "ADL-013"
+      ],
+      "microscopic_scope_summary": "Product prices, effective dates, installment plans, package/bundle definitions",
+      "business_logic_rules_applied": [
+        "forward_dependency_order",
+        "service_manifest_traceability",
+        "ticket_quality_doctrine_no_ticket_authorization",
+        "v11_pricing_authority_structural_add_product_price_history_effective_dates"
+      ],
+      "decomposition_guide_rule_applied": "Sub-surfaces split by provider, channel, lifecycle, evidence, finance, configuration, and service-boundary axes where source text indicates separate behavior.",
+      "ticket_quality_risk_notes": "Seed placeholders are not ticket fields; future tickets must regenerate exact files, MCR, validation, and acceptance from repo truth.",
+      "coverage_result": "READY",
+      "surface_catalog_required": true,
+      "manifest_required": true,
+      "foundry_activation_required": true,
+      "manifest_foundry_consistency_rationale": "Parent source row summarizes child classifications; manifest/foundry semantics are proven per semantic derivation row, not defaulted uniformly.",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "source_component_id": "6B.03",
+      "source_component_name": "Inventory and Stock Movement Service",
+      "component": "Inventory and Stock Movement Service",
+      "component_type": "Candidate optional/core service depending business type",
+      "required_dependencies_raw": "6B.01, 6B.02",
+      "optional_dependencies_raw": "Storage/file evidence from 6A.14",
+      "owned_data_authority_raw": "Stock levels, locations, lots, serials, movements, purchase stock evidence",
+      "emits_raw": "stock.reserved, stock.moved, stock.adjusted",
+      "consumes_raw": "product.created",
+      "activation_lifecycle_raw": "Optional for non-inventory businesses; required for retail/e-commerce packages",
+      "billing_evidence_raw": "Stock movement evidence; storage/record evidence",
+      "billing_evidence_impact_raw": "Stock movement evidence; storage/record evidence",
+      "normalized_required_dependency_targets": [
+        "seed_6b_01_product_record_authority",
+        "seed_6b_02_product_price_history_effective_dates"
+      ],
+      "normalized_optional_dependency_targets": [
+        "represented_as_soft_conditional_deferred_or_manual_review_edges"
+      ],
+      "surface_ids": [
+        "surface_6b_03_inventory_and_stock_movement_service"
+      ],
+      "subsurface_ids": [
+        "subsurface_6b_03_stock_level_location_authority",
+        "subsurface_6b_03_lot_and_serial_tracking",
+        "subsurface_6b_03_stock_movement_ledger",
+        "subsurface_6b_03_purchase_stock_evidence",
+        "subsurface_6b_03_non_inventory_business_policy"
+      ],
+      "seed_ids": [
+        "seed_6b_03_stock_level_location_authority",
+        "seed_6b_03_lot_and_serial_tracking",
+        "seed_6b_03_stock_movement_ledger",
+        "seed_6b_03_purchase_stock_evidence",
+        "seed_6b_03_non_inventory_business_policy"
+      ],
+      "adl_refs": [],
+      "microscopic_scope_summary": "Stock levels, locations, lots, serials, movements, purchase stock evidence",
+      "business_logic_rules_applied": [
+        "forward_dependency_order",
+        "service_manifest_traceability",
+        "ticket_quality_doctrine_no_ticket_authorization"
+      ],
+      "decomposition_guide_rule_applied": "Sub-surfaces split by provider, channel, lifecycle, evidence, finance, configuration, and service-boundary axes where source text indicates separate behavior.",
+      "ticket_quality_risk_notes": "Seed placeholders are not ticket fields; future tickets must regenerate exact files, MCR, validation, and acceptance from repo truth.",
+      "coverage_result": "READY",
+      "surface_catalog_required": true,
+      "manifest_required": true,
+      "foundry_activation_required": true,
+      "manifest_foundry_consistency_rationale": "Parent source row summarizes child classifications; manifest/foundry semantics are proven per semantic derivation row, not defaulted uniformly.",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "source_component_id": "6B.04",
+      "source_component_name": "CRM Lead Intake Service",
+      "component": "CRM Lead Intake Service",
+      "component_type": "Candidate tenant service",
+      "required_dependencies_raw": "6A.05, 6A.06, 6A.10, 6A.11, 6A.12, 6A.13, 6B.01",
+      "optional_dependencies_raw": "None",
+      "owned_data_authority_raw": "Leads, sources, intake mappings, consent basis, assignment state",
+      "emits_raw": "lead.created, lead.source_recorded, lead.assigned",
+      "consumes_raw": "person.created, form.submitted, webhook.received",
+      "activation_lifecycle_raw": "Foundry-managed; no direct provider messaging",
+      "billing_evidence_raw": "Lead/record evidence; source analytics",
+      "billing_evidence_impact_raw": "Lead/record evidence; source analytics",
+      "normalized_required_dependency_targets": [
+        "seed_6a_person_identity_graph",
+        "seed_6a_access_core_gatekeeper",
+        "seed_6a_api_key_scope_registry",
+        "seed_6a_visual_workflow_builder",
+        "seed_6b_01_product_record_authority"
+      ],
+      "normalized_optional_dependency_targets": [
+        "seed_6a_global_opt_out_registry_conditional_opt_out_awareness"
+      ],
+      "surface_ids": [
+        "surface_6b_04_crm_lead_intake_service"
+      ],
+      "subsurface_ids": [
+        "subsurface_6b_04_unified_lead_record_authority",
+        "subsurface_6b_04_meta_lead_forms_connector",
+        "subsurface_6b_04_meta_whatsapp_intake_connector",
+        "subsurface_6b_04_tiktok_lead_gen_connector",
+        "subsurface_6b_04_google_ads_connector",
+        "subsurface_6b_04_google_business_connector",
+        "subsurface_6b_04_facebook_page_forms_connector",
+        "subsurface_6b_04_web_form_intake_connector",
+        "subsurface_6b_04_manual_lead_entry",
+        "subsurface_6b_04_csv_excel_import",
+        "subsurface_6b_04_api_lead_intake",
+        "subsurface_6b_04_referral_intake",
+        "subsurface_6b_04_inbound_whatsapp_intake",
+        "subsurface_6b_04_inbound_sms_intake",
+        "subsurface_6b_04_chatbot_intake",
+        "subsurface_6b_04_live_chat_intake",
+        "subsurface_6b_04_email_intake",
+        "subsurface_6b_04_phone_intake",
+        "subsurface_6b_04_walk_in_intake"
+      ],
+      "seed_ids": [
+        "seed_6b_04_unified_lead_record_authority",
+        "seed_6b_04_meta_lead_forms_connector",
+        "seed_6b_04_meta_whatsapp_intake_connector",
+        "seed_6b_04_tiktok_lead_gen_connector",
+        "seed_6b_04_google_ads_connector",
+        "seed_6b_04_google_business_connector",
+        "seed_6b_04_facebook_page_forms_connector",
+        "seed_6b_04_web_form_intake_connector",
+        "seed_6b_04_manual_lead_entry",
+        "seed_6b_04_csv_excel_import",
+        "seed_6b_04_api_lead_intake",
+        "seed_6b_04_referral_intake",
+        "seed_6b_04_inbound_whatsapp_intake",
+        "seed_6b_04_inbound_sms_intake",
+        "seed_6b_04_chatbot_intake",
+        "seed_6b_04_live_chat_intake",
+        "seed_6b_04_email_intake",
+        "seed_6b_04_phone_intake",
+        "seed_6b_04_walk_in_intake"
+      ],
+      "adl_refs": [
+        "ADL-021"
+      ],
+      "microscopic_scope_summary": "Leads, sources, intake mappings, consent basis, assignment state",
+      "business_logic_rules_applied": [
+        "forward_dependency_order",
+        "service_manifest_traceability",
+        "ticket_quality_doctrine_no_ticket_authorization",
+        "phase_6b_v18_v4_configurable_opt_out_doctrine"
+      ],
+      "decomposition_guide_rule_applied": "Sub-surfaces split by provider, channel, lifecycle, evidence, finance, configuration, and service-boundary axes where source text indicates separate behavior.",
+      "ticket_quality_risk_notes": "Seed placeholders are not ticket fields; future tickets must regenerate exact files, MCR, validation, and acceptance from repo truth. v18 note: parent-level global opt-out is not inherited as a hard dependency for every child; send-specific hard opt-out enforcement is represented on outbound send surfaces, while lead-capture/non-send/evidence opt-out awareness is conditional.",
+      "coverage_result": "READY",
+      "surface_catalog_required": true,
+      "manifest_required": true,
+      "foundry_activation_required": true,
+      "manifest_foundry_consistency_rationale": "Parent source row summarizes child classifications; manifest/foundry semantics are proven per semantic derivation row, not defaulted uniformly.",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "source_component_id": "6B.05",
+      "source_component_name": "CRM Deduplication and Identity Resolution Micro-service",
+      "component": "CRM Deduplication and Identity Resolution Micro-service",
+      "component_type": "Candidate core micro-service of CRM",
+      "required_dependencies_raw": "6B.04, 6A.05",
+      "optional_dependencies_raw": "None",
+      "owned_data_authority_raw": "Lead/contact match candidates, merge records, duplicate decisions",
+      "emits_raw": "lead.merged, duplicate.detected",
+      "consumes_raw": "lead.created, identity.linked",
+      "activation_lifecycle_raw": "Core to CRM; not separately toggleable",
+      "billing_evidence_raw": "Dedup evidence",
+      "billing_evidence_impact_raw": "Dedup evidence",
+      "normalized_required_dependency_targets": [
+        "seed_6b_04_unified_lead_record_authority",
+        "seed_6a_person_identity_graph"
+      ],
+      "normalized_optional_dependency_targets": [],
+      "surface_ids": [
+        "surface_6b_05_crm_deduplication_and_identity_resolution_micro_service"
+      ],
+      "subsurface_ids": [
+        "subsurface_6b_05_match_candidate_generation",
+        "subsurface_6b_05_merge_decision_record",
+        "subsurface_6b_05_identity_resolution_linking",
+        "subsurface_6b_05_duplicate_evidence_log"
+      ],
+      "seed_ids": [
+        "seed_6b_05_match_candidate_generation",
+        "seed_6b_05_merge_decision_record",
+        "seed_6b_05_identity_resolution_linking",
+        "seed_6b_05_duplicate_evidence_log"
+      ],
+      "adl_refs": [],
+      "microscopic_scope_summary": "Lead/contact match candidates, merge records, duplicate decisions",
+      "business_logic_rules_applied": [
+        "forward_dependency_order",
+        "service_manifest_traceability",
+        "ticket_quality_doctrine_no_ticket_authorization"
+      ],
+      "decomposition_guide_rule_applied": "Sub-surfaces split by provider, channel, lifecycle, evidence, finance, configuration, and service-boundary axes where source text indicates separate behavior.",
+      "ticket_quality_risk_notes": "Seed placeholders are not ticket fields; future tickets must regenerate exact files, MCR, validation, and acceptance from repo truth.",
+      "coverage_result": "READY",
+      "surface_catalog_required": true,
+      "manifest_required": true,
+      "foundry_activation_required": true,
+      "manifest_foundry_consistency_rationale": "Parent source row summarizes child classifications; manifest/foundry semantics are proven per semantic derivation row, not defaulted uniformly.",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "source_component_id": "6B.06",
+      "source_component_name": "CRM Pipeline and Timeline Service",
+      "component": "CRM Pipeline and Timeline Service",
+      "component_type": "Candidate tenant service",
+      "required_dependencies_raw": "6B.04, 6B.05, 6A.13",
+      "optional_dependencies_raw": "6B.02 product pricing for expected value",
+      "owned_data_authority_raw": "Pipeline stages, activities, notes, timeline entries, stage history",
+      "emits_raw": "pipeline.stage_changed, crm.timeline_appended",
+      "consumes_raw": "lead.created, config.changed",
+      "activation_lifecycle_raw": "Foundry-managed; lifecycle configured",
+      "billing_evidence_raw": "Timeline and activity evidence",
+      "billing_evidence_impact_raw": "Timeline and activity evidence",
+      "normalized_required_dependency_targets": [
+        "seed_6b_04_unified_lead_record_authority",
+        "seed_6b_05_match_candidate_generation",
+        "seed_6a_visual_workflow_builder"
+      ],
+      "normalized_optional_dependency_targets": [
+        "represented_as_soft_conditional_deferred_or_manual_review_edges"
+      ],
+      "surface_ids": [
+        "surface_6b_06_crm_pipeline_and_timeline_service"
+      ],
+      "subsurface_ids": [
+        "subsurface_6b_06_pipeline_stage_model",
+        "subsurface_6b_06_crm_activity_timeline",
+        "subsurface_6b_06_internal_notes_comments",
+        "subsurface_6b_06_stage_history_audit",
+        "subsurface_6b_06_expected_value_pricing_bridge"
+      ],
+      "seed_ids": [
+        "seed_6b_06_pipeline_stage_model",
+        "seed_6b_06_crm_activity_timeline",
+        "seed_6b_06_internal_notes_comments",
+        "seed_6b_06_stage_history_audit",
+        "seed_6b_06_expected_value_pricing_bridge"
+      ],
+      "adl_refs": [],
+      "microscopic_scope_summary": "Pipeline stages, activities, notes, timeline entries, stage history",
+      "business_logic_rules_applied": [
+        "forward_dependency_order",
+        "service_manifest_traceability",
+        "ticket_quality_doctrine_no_ticket_authorization"
+      ],
+      "decomposition_guide_rule_applied": "Sub-surfaces split by provider, channel, lifecycle, evidence, finance, configuration, and service-boundary axes where source text indicates separate behavior.",
+      "ticket_quality_risk_notes": "Seed placeholders are not ticket fields; future tickets must regenerate exact files, MCR, validation, and acceptance from repo truth.",
+      "coverage_result": "READY",
+      "surface_catalog_required": true,
+      "manifest_required": true,
+      "foundry_activation_required": true,
+      "manifest_foundry_consistency_rationale": "Parent source row summarizes child classifications; manifest/foundry semantics are proven per semantic derivation row, not defaulted uniformly.",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "source_component_id": "6B.07",
+      "source_component_name": "CRM Communication Engines",
+      "component": "CRM Communication Engines",
+      "component_type": "Candidate optional micro-services",
+      "required_dependencies_raw": "6B.06, 6A.11",
+      "optional_dependencies_raw": "Provider adapters registered through 6A.12",
+      "owned_data_authority_raw": "WhatsApp/email conversation metadata, templates, sequence enrollment, send attempts",
+      "emits_raw": "crm.message_requested, sequence.enrolled, reply.received",
+      "consumes_raw": "communication.sent, communication.blocked",
+      "activation_lifecycle_raw": "Optional per channel; gateway enforcement mandatory",
+      "billing_evidence_raw": "Message usage evidence; billable communication evidence",
+      "billing_evidence_impact_raw": "Message usage evidence; billable communication evidence",
+      "normalized_required_dependency_targets": [
+        "seed_6b_06_pipeline_stage_model"
+      ],
+      "normalized_optional_dependency_targets": [
+        "represented_as_soft_conditional_deferred_or_manual_review_edges",
+        "seed_6a_global_opt_out_registry_conditional_opt_out_awareness"
+      ],
+      "surface_ids": [
+        "surface_6b_07_crm_communication_engines"
+      ],
+      "subsurface_ids": [
+        "subsurface_6b_07_whatsapp_template_management",
+        "subsurface_6b_07_whatsapp_inbound_routing",
+        "subsurface_6b_07_whatsapp_outbound_window",
+        "subsurface_6b_07_whatsapp_broadcast_compliance",
+        "subsurface_6b_07_whatsapp_auto_reply_keywords",
+        "subsurface_6b_07_email_connected_inbox",
+        "subsurface_6b_07_email_transactional_domain",
+        "subsurface_6b_07_email_sequences",
+        "subsurface_6b_07_email_shared_inbox",
+        "subsurface_6b_07_communication_attempt_evidence"
+      ],
+      "seed_ids": [
+        "seed_6b_07_whatsapp_template_management",
+        "seed_6b_07_whatsapp_inbound_routing",
+        "seed_6b_07_whatsapp_outbound_window",
+        "seed_6b_07_whatsapp_broadcast_compliance",
+        "seed_6b_07_whatsapp_auto_reply_keywords",
+        "seed_6b_07_email_connected_inbox",
+        "seed_6b_07_email_transactional_domain",
+        "seed_6b_07_email_sequences",
+        "seed_6b_07_email_shared_inbox",
+        "seed_6b_07_communication_attempt_evidence"
+      ],
+      "adl_refs": [
+        "ADL-004"
+      ],
+      "microscopic_scope_summary": "WhatsApp/email conversation metadata, templates, sequence enrollment, send attempts",
+      "business_logic_rules_applied": [
+        "forward_dependency_order",
+        "service_manifest_traceability",
+        "ticket_quality_doctrine_no_ticket_authorization",
+        "phase_6b_v18_v4_configurable_opt_out_doctrine"
+      ],
+      "decomposition_guide_rule_applied": "Sub-surfaces split by provider, channel, lifecycle, evidence, finance, configuration, and service-boundary axes where source text indicates separate behavior.",
+      "ticket_quality_risk_notes": "Seed placeholders are not ticket fields; future tickets must regenerate exact files, MCR, validation, and acceptance from repo truth. v18 note: parent-level global opt-out is not inherited as a hard dependency for every child; send-specific hard opt-out enforcement is represented on outbound send surfaces, while lead-capture/non-send/evidence opt-out awareness is conditional.",
+      "coverage_result": "READY",
+      "surface_catalog_required": true,
+      "manifest_required": true,
+      "foundry_activation_required": true,
+      "manifest_foundry_consistency_rationale": "Parent source row summarizes child classifications; manifest/foundry semantics are proven per semantic derivation row, not defaulted uniformly.",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "source_component_id": "6B.08",
+      "source_component_name": "CRM Scoring, Follow-Up, and Reporting Service",
+      "component": "CRM Scoring, Follow-Up, and Reporting Service",
+      "component_type": "Candidate service/micro-service cluster",
+      "required_dependencies_raw": "6B.06, 6B.07, 6A.15",
+      "optional_dependencies_raw": "None",
+      "owned_data_authority_raw": "Lead scores, follow-up tasks, reporting definitions, compliance views",
+      "emits_raw": "lead.score_changed, followup.created, crm.report_generated",
+      "consumes_raw": "crm.timeline_appended, communication.sent",
+      "activation_lifecycle_raw": "Foundry-managed; scoring rules configurable",
+      "billing_evidence_raw": "Report/task/record evidence",
+      "billing_evidence_impact_raw": "Report/task/record evidence",
+      "normalized_required_dependency_targets": [
+        "seed_6b_06_pipeline_stage_model",
+        "seed_6b_07_whatsapp_template_management",
+        "seed_6a_optimization_fact_store"
+      ],
+      "normalized_optional_dependency_targets": [],
+      "surface_ids": [
+        "surface_6b_08_crm_scoring_follow_up_and_reporting_service"
+      ],
+      "subsurface_ids": [
+        "subsurface_6b_08_lead_scoring_engine",
+        "subsurface_6b_08_follow_up_task_cadence",
+        "subsurface_6b_08_crm_reporting_definitions",
+        "subsurface_6b_08_crm_compliance_views"
+      ],
+      "seed_ids": [
+        "seed_6b_08_lead_scoring_engine",
+        "seed_6b_08_follow_up_task_cadence",
+        "seed_6b_08_crm_reporting_definitions",
+        "seed_6b_08_crm_compliance_views"
+      ],
+      "adl_refs": [],
+      "microscopic_scope_summary": "Lead scores, follow-up tasks, reporting definitions, compliance views",
+      "business_logic_rules_applied": [
+        "forward_dependency_order",
+        "service_manifest_traceability",
+        "ticket_quality_doctrine_no_ticket_authorization"
+      ],
+      "decomposition_guide_rule_applied": "Sub-surfaces split by provider, channel, lifecycle, evidence, finance, configuration, and service-boundary axes where source text indicates separate behavior.",
+      "ticket_quality_risk_notes": "Seed placeholders are not ticket fields; future tickets must regenerate exact files, MCR, validation, and acceptance from repo truth.",
+      "coverage_result": "READY",
+      "surface_catalog_required": true,
+      "manifest_required": true,
+      "foundry_activation_required": true,
+      "manifest_foundry_consistency_rationale": "Parent source row summarizes child classifications; manifest/foundry semantics are proven per semantic derivation row, not defaulted uniformly.",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "source_component_id": "6B.09",
+      "source_component_name": "Finance Invoice and Receivables Service",
+      "component": "Finance Invoice and Receivables Service",
+      "component_type": "Candidate tenant service",
+      "required_dependencies_raw": "6B.01, 6B.02, 6B.06, 6A.09, 6A.13",
+      "optional_dependencies_raw": "6B.08 for CRM conversion signals",
+      "owned_data_authority_raw": "Invoices, invoice lines, receivables, credit/debit notes, payment terms",
+      "emits_raw": "invoice.issued, invoice.voided, credit_note.issued",
+      "consumes_raw": "product_price.changed, pipeline.stage_changed",
+      "activation_lifecycle_raw": "Foundry-managed; invoices immutable after issue",
+      "billing_evidence_raw": "Invoice/transaction evidence; finance billing",
+      "billing_evidence_impact_raw": "Invoice/transaction evidence; finance billing",
+      "normalized_required_dependency_targets": [
+        "seed_6b_01_product_record_authority",
+        "seed_6b_02_product_price_history_effective_dates",
+        "seed_6b_06_pipeline_stage_model",
+        "seed_6a_pricing_table_effective_dates",
+        "seed_6a_visual_workflow_builder"
+      ],
+      "normalized_optional_dependency_targets": [
+        "represented_as_soft_conditional_deferred_or_manual_review_edges"
+      ],
+      "surface_ids": [
+        "surface_6b_09_finance_invoice_and_receivables_service"
+      ],
+      "subsurface_ids": [
+        "subsurface_6b_09_invoice_record_authority",
+        "subsurface_6b_09_invoice_lifecycle_types",
+        "subsurface_6b_09_receivable_balance_computation",
+        "subsurface_6b_09_fbr_invoice_format",
+        "subsurface_6b_09_aging_and_overdue_management"
+      ],
+      "seed_ids": [
+        "seed_6b_09_invoice_record_authority",
+        "seed_6b_09_invoice_lifecycle_types",
+        "seed_6b_09_receivable_balance_computation",
+        "seed_6b_09_fbr_invoice_format",
+        "seed_6b_09_aging_and_overdue_management"
+      ],
+      "adl_refs": [],
+      "microscopic_scope_summary": "Invoices, invoice lines, receivables, credit/debit notes, payment terms",
+      "business_logic_rules_applied": [
+        "forward_dependency_order",
+        "service_manifest_traceability",
+        "ticket_quality_doctrine_no_ticket_authorization"
+      ],
+      "decomposition_guide_rule_applied": "Sub-surfaces split by provider, channel, lifecycle, evidence, finance, configuration, and service-boundary axes where source text indicates separate behavior.",
+      "ticket_quality_risk_notes": "Seed placeholders are not ticket fields; future tickets must regenerate exact files, MCR, validation, and acceptance from repo truth.",
+      "coverage_result": "READY",
+      "surface_catalog_required": true,
+      "manifest_required": true,
+      "foundry_activation_required": true,
+      "manifest_foundry_consistency_rationale": "Parent source row summarizes child classifications; manifest/foundry semantics are proven per semantic derivation row, not defaulted uniformly.",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "source_component_id": "6B.10",
+      "source_component_name": "Payment, Collection, and Top-Up Service",
+      "component": "Payment, Collection, and Top-Up Service",
+      "component_type": "Candidate tenant service",
+      "required_dependencies_raw": "6B.09, 6A.11, 6A.12, 6A.09",
+      "optional_dependencies_raw": "Payment provider extensions",
+      "owned_data_authority_raw": "Payments, allocations, receipts, top-ups, provider references, reconciliation candidates",
+      "emits_raw": "payment.recorded, payment.verified, topup.received, receipt.issued",
+      "consumes_raw": "invoice.issued, webhook.received",
+      "activation_lifecycle_raw": "Foundry-managed; provider failures degrade gracefully",
+      "billing_evidence_raw": "Payment evidence; provider transaction evidence",
+      "billing_evidence_impact_raw": "Payment evidence; provider transaction evidence",
+      "normalized_required_dependency_targets": [
+        "seed_6b_09_invoice_record_authority",
+        "seed_6a_pricing_table_effective_dates"
+      ],
+      "normalized_optional_dependency_targets": [
+        "api_key_scope_registry_direction_manual_review",
+        "payment_provider_extensions_manual_review"
+      ],
+      "surface_ids": [
+        "surface_6b_10_payment_collection_and_top_up_service"
+      ],
+      "subsurface_ids": [
+        "subsurface_6b_10_jazzcash_gateway",
+        "subsurface_6b_10_easypaisa_gateway",
+        "subsurface_6b_10_raast_gateway",
+        "subsurface_6b_10_quickpay_shadow_account_gateway",
+        "subsurface_6b_10_stripe_gateway_3ds",
+        "subsurface_6b_10_wise_gateway",
+        "subsurface_6b_10_manual_reconciliation_path",
+        "subsurface_6b_10_payment_allocation_balance",
+        "subsurface_6b_10_refund_to_original_method",
+        "subsurface_6b_10_top_up_prepaid_credit"
+      ],
+      "seed_ids": [
+        "seed_6b_10_jazzcash_gateway",
+        "seed_6b_10_easypaisa_gateway",
+        "seed_6b_10_raast_gateway",
+        "seed_6b_10_quickpay_shadow_account_gateway",
+        "seed_6b_10_stripe_gateway_3ds",
+        "seed_6b_10_wise_gateway",
+        "seed_6b_10_manual_reconciliation_path",
+        "seed_6b_10_payment_allocation_balance",
+        "seed_6b_10_refund_to_original_method",
+        "seed_6b_10_top_up_prepaid_credit"
+      ],
+      "adl_refs": [
+        "ADL-013",
+        "ADL-014"
+      ],
+      "microscopic_scope_summary": "Payments, allocations, receipts, top-ups, provider references, reconciliation candidates",
+      "business_logic_rules_applied": [
+        "forward_dependency_order",
+        "service_manifest_traceability",
+        "ticket_quality_doctrine_no_ticket_authorization"
+      ],
+      "decomposition_guide_rule_applied": "Sub-surfaces split by provider, channel, lifecycle, evidence, finance, configuration, and service-boundary axes where source text indicates separate behavior.",
+      "ticket_quality_risk_notes": "v7 removes stale hard opt-out/API-key normalized targets. Raw 6A.11/6A.12 text remains preserved; API-key direction and provider extension mapping remain manual-review blockers.",
+      "coverage_result": "READY",
+      "surface_catalog_required": true,
+      "manifest_required": true,
+      "foundry_activation_required": true,
+      "manifest_foundry_consistency_rationale": "Parent source row summarizes child classifications; manifest/foundry semantics are proven per semantic derivation row, not defaulted uniformly.",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "v6_normalization_note": "Removed seed_6a_global_opt_out_registry from 6B.10 normalized targets in v6. Source 6A.11 (communication gateway opt-out) does not ground a hard payment-processing dependency on marketing-communication opt-out. Payment processing operates independently of communication consent preferences. Removed seed_6a_api_key_scope_registry from 6B.10 normalized hard targets pending manual-review of API-key scope direction (consume vs. register/publish)."
+    },
+    {
+      "source_component_id": "6B.11",
+      "source_component_name": "Expense, Purchase, and Vendor Service",
+      "component": "Expense, Purchase, and Vendor Service",
+      "component_type": "Candidate tenant service",
+      "required_dependencies_raw": "6B.10, 6A.05, 6A.13",
+      "optional_dependencies_raw": "6B.03 inventory for purchase receiving",
+      "owned_data_authority_raw": "Vendors, expenses, purchase orders, approvals, receipts",
+      "emits_raw": "expense.created, po.approved, vendor.updated",
+      "consumes_raw": "payment.verified, rule.blocked",
+      "activation_lifecycle_raw": "Foundry-managed; approvals capability-gated",
+      "billing_evidence_raw": "Expense/approval evidence",
+      "billing_evidence_impact_raw": "Expense/approval evidence",
+      "normalized_required_dependency_targets": [
+        "seed_6b_10_payment_allocation_balance",
+        "seed_6a_person_identity_graph",
+        "seed_6a_visual_workflow_builder"
+      ],
+      "normalized_optional_dependency_targets": [
+        "represented_as_soft_conditional_deferred_or_manual_review_edges"
+      ],
+      "surface_ids": [
+        "surface_6b_11_expense_purchase_and_vendor_service"
+      ],
+      "subsurface_ids": [
+        "subsurface_6b_11_expense_record_authority",
+        "subsurface_6b_11_expense_approval_workflow",
+        "subsurface_6b_11_vendor_record_authority",
+        "subsurface_6b_11_purchase_order_authority",
+        "subsurface_6b_11_three_way_match_evidence"
+      ],
+      "seed_ids": [
+        "seed_6b_11_expense_record_authority",
+        "seed_6b_11_expense_approval_workflow",
+        "seed_6b_11_vendor_record_authority",
+        "seed_6b_11_purchase_order_authority",
+        "seed_6b_11_three_way_match_evidence"
+      ],
+      "adl_refs": [],
+      "microscopic_scope_summary": "Vendors, expenses, purchase orders, approvals, receipts",
+      "business_logic_rules_applied": [
+        "forward_dependency_order",
+        "service_manifest_traceability",
+        "ticket_quality_doctrine_no_ticket_authorization"
+      ],
+      "decomposition_guide_rule_applied": "Sub-surfaces split by provider, channel, lifecycle, evidence, finance, configuration, and service-boundary axes where source text indicates separate behavior.",
+      "ticket_quality_risk_notes": "Seed placeholders are not ticket fields; future tickets must regenerate exact files, MCR, validation, and acceptance from repo truth.",
+      "coverage_result": "READY",
+      "surface_catalog_required": true,
+      "manifest_required": true,
+      "foundry_activation_required": true,
+      "manifest_foundry_consistency_rationale": "Parent source row summarizes child classifications; manifest/foundry semantics are proven per semantic derivation row, not defaulted uniformly.",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "source_component_id": "6B.12",
+      "source_component_name": "General Ledger and Accounting Service",
+      "component": "General Ledger and Accounting Service",
+      "component_type": "Candidate tenant service",
+      "required_dependencies_raw": "6B.09, 6B.10, 6B.11",
+      "optional_dependencies_raw": "Regional compliance packs from 6A.17",
+      "owned_data_authority_raw": "Chart of accounts, journal entries, periods, tax mappings",
+      "emits_raw": "journal.posted, period.closed, tax_report.generated",
+      "consumes_raw": "invoice.issued, payment.verified, expense.created",
+      "activation_lifecycle_raw": "Foundry-managed; accounting periods protected",
+      "billing_evidence_raw": "Accounting/report evidence",
+      "billing_evidence_impact_raw": "Accounting/report evidence",
+      "normalized_required_dependency_targets": [
+        "seed_6b_09_invoice_record_authority",
+        "seed_6b_10_payment_allocation_balance",
+        "seed_6b_11_expense_record_authority"
+      ],
+      "normalized_optional_dependency_targets": [
+        "represented_as_soft_conditional_deferred_or_manual_review_edges"
+      ],
+      "surface_ids": [
+        "surface_6b_12_general_ledger_and_accounting_service"
+      ],
+      "subsurface_ids": [
+        "subsurface_6b_12_chart_of_accounts",
+        "subsurface_6b_12_journal_entry_engine",
+        "subsurface_6b_12_period_close_management",
+        "subsurface_6b_12_tax_mapping_reporting",
+        "subsurface_6b_12_fx_gain_loss_accounting",
+        "subsurface_6b_12_financial_reporting_pack"
+      ],
+      "seed_ids": [
+        "seed_6b_12_chart_of_accounts",
+        "seed_6b_12_journal_entry_engine",
+        "seed_6b_12_period_close_management",
+        "seed_6b_12_tax_mapping_reporting",
+        "seed_6b_12_fx_gain_loss_accounting",
+        "seed_6b_12_financial_reporting_pack"
+      ],
+      "adl_refs": [
+        "ADL-016",
+        "ADL-018"
+      ],
+      "microscopic_scope_summary": "Chart of accounts, journal entries, periods, tax mappings",
+      "business_logic_rules_applied": [
+        "forward_dependency_order",
+        "service_manifest_traceability",
+        "ticket_quality_doctrine_no_ticket_authorization"
+      ],
+      "decomposition_guide_rule_applied": "Sub-surfaces split by provider, channel, lifecycle, evidence, finance, configuration, and service-boundary axes where source text indicates separate behavior.",
+      "ticket_quality_risk_notes": "Seed placeholders are not ticket fields; future tickets must regenerate exact files, MCR, validation, and acceptance from repo truth.",
+      "coverage_result": "READY",
+      "surface_catalog_required": true,
+      "manifest_required": true,
+      "foundry_activation_required": true,
+      "manifest_foundry_consistency_rationale": "Parent source row summarizes child classifications; manifest/foundry semantics are proven per semantic derivation row, not defaulted uniformly.",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "source_component_id": "6B.13",
+      "source_component_name": "Banking and Reconciliation Service",
+      "component": "Banking and Reconciliation Service",
+      "component_type": "Candidate optional service",
+      "required_dependencies_raw": "6B.10, 6B.12",
+      "optional_dependencies_raw": "Bank/provider extensions",
+      "owned_data_authority_raw": "Bank accounts, imported transactions, matches, reconciliation statements",
+      "emits_raw": "bank_tx.imported, reconciliation.completed",
+      "consumes_raw": "payment.verified, webhook.received",
+      "activation_lifecycle_raw": "Optional unless package requires it",
+      "billing_evidence_raw": "Reconciliation evidence",
+      "billing_evidence_impact_raw": "Reconciliation evidence",
+      "normalized_required_dependency_targets": [
+        "seed_6b_10_payment_allocation_balance",
+        "seed_6b_12_chart_of_accounts"
+      ],
+      "normalized_optional_dependency_targets": [
+        "represented_as_soft_conditional_deferred_or_manual_review_edges"
+      ],
+      "surface_ids": [
+        "surface_6b_13_banking_and_reconciliation_service"
+      ],
+      "subsurface_ids": [
+        "subsurface_6b_13_bank_statement_import",
+        "subsurface_6b_13_reconciliation_matching",
+        "subsurface_6b_13_reconciliation_exception_queue",
+        "subsurface_6b_13_banking_evidence_export"
+      ],
+      "seed_ids": [
+        "seed_6b_13_bank_statement_import",
+        "seed_6b_13_reconciliation_matching",
+        "seed_6b_13_reconciliation_exception_queue",
+        "seed_6b_13_banking_evidence_export"
+      ],
+      "adl_refs": [],
+      "microscopic_scope_summary": "Bank accounts, imported transactions, matches, reconciliation statements",
+      "business_logic_rules_applied": [
+        "forward_dependency_order",
+        "service_manifest_traceability",
+        "ticket_quality_doctrine_no_ticket_authorization"
+      ],
+      "decomposition_guide_rule_applied": "Sub-surfaces split by provider, channel, lifecycle, evidence, finance, configuration, and service-boundary axes where source text indicates separate behavior.",
+      "ticket_quality_risk_notes": "Seed placeholders are not ticket fields; future tickets must regenerate exact files, MCR, validation, and acceptance from repo truth.",
+      "coverage_result": "READY",
+      "surface_catalog_required": true,
+      "manifest_required": true,
+      "foundry_activation_required": true,
+      "manifest_foundry_consistency_rationale": "Parent source row summarizes child classifications; manifest/foundry semantics are proven per semantic derivation row, not defaulted uniformly.",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "source_component_id": "6B.14",
+      "source_component_name": "Finance Payroll Foundation",
+      "component": "Finance Payroll Foundation",
+      "component_type": "Candidate service with HR integration deferred",
+      "required_dependencies_raw": "6B.10, 6B.12, 6A.05",
+      "optional_dependencies_raw": "None",
+      "owned_data_authority_raw": "Payees, payroll batches, payout records, deductions/allowance formulas as finance data",
+      "emits_raw": "payroll.calculated, payroll.approved, payroll.disbursed",
+      "consumes_raw": "journal.posted, payment.verified",
+      "activation_lifecycle_raw": "Foundry-managed; HR data dependency is future event integration, not forward build dependency",
+      "billing_evidence_raw": "Payroll run evidence; billable payroll events",
+      "billing_evidence_impact_raw": "Payroll run evidence; billable payroll events",
+      "normalized_required_dependency_targets": [
+        "seed_6b_10_payment_allocation_balance",
+        "seed_6b_12_chart_of_accounts",
+        "seed_6a_person_identity_graph"
+      ],
+      "normalized_optional_dependency_targets": [],
+      "surface_ids": [
+        "surface_6b_14_finance_payroll_foundation"
+      ],
+      "subsurface_ids": [
+        "subsurface_6b_14_payroll_tax_slab_calculator",
+        "subsurface_6b_14_allowance_deduction_formula",
+        "subsurface_6b_14_payroll_run_state_machine",
+        "subsurface_6b_14_payroll_disbursement_file_export",
+        "subsurface_6b_14_hr_event_feed_boundary"
+      ],
+      "seed_ids": [
+        "seed_6b_14_payroll_tax_slab_calculator",
+        "seed_6b_14_allowance_deduction_formula",
+        "seed_6b_14_payroll_run_state_machine",
+        "seed_6b_14_payroll_disbursement_file_export",
+        "seed_6b_14_hr_event_feed_boundary"
+      ],
+      "adl_refs": [],
+      "microscopic_scope_summary": "Payees, payroll batches, payout records, deductions/allowance formulas as finance data",
+      "business_logic_rules_applied": [
+        "forward_dependency_order",
+        "service_manifest_traceability",
+        "ticket_quality_doctrine_no_ticket_authorization"
+      ],
+      "decomposition_guide_rule_applied": "Sub-surfaces split by provider, channel, lifecycle, evidence, finance, configuration, and service-boundary axes where source text indicates separate behavior.",
+      "ticket_quality_risk_notes": "Seed placeholders are not ticket fields; future tickets must regenerate exact files, MCR, validation, and acceptance from repo truth.",
+      "coverage_result": "READY",
+      "surface_catalog_required": true,
+      "manifest_required": true,
+      "foundry_activation_required": true,
+      "manifest_foundry_consistency_rationale": "Parent source row summarizes child classifications; manifest/foundry semantics are proven per semantic derivation row, not defaulted uniformly.",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    },
+    {
+      "source_component_id": "6B.15",
+      "source_component_name": "Finance Platform Billing UI and Customer Billing Operations",
+      "component": "Finance Platform Billing UI and Customer Billing Operations",
+      "component_type": "Tenant-facing UI/service layer",
+      "required_dependencies_raw": "6B.10, 6B.12, 6A.09, 6A.15",
+      "optional_dependencies_raw": "None",
+      "owned_data_authority_raw": "Tenant billing view, balance display, budget cap controls, receipts, service spend views",
+      "emits_raw": "budget.updated, cap.overridden, billing_view.opened",
+      "consumes_raw": "spend.aggregated, topup.received",
+      "activation_lifecycle_raw": "Tenant-facing; core billing engine remains 6A authority",
+      "billing_evidence_raw": "Billing admin evidence",
+      "billing_evidence_impact_raw": "Billing admin evidence",
+      "normalized_required_dependency_targets": [
+        "seed_6b_10_payment_allocation_balance",
+        "seed_6b_12_chart_of_accounts",
+        "seed_6a_pricing_table_effective_dates",
+        "seed_6a_optimization_fact_store"
+      ],
+      "normalized_optional_dependency_targets": [],
+      "surface_ids": [
+        "surface_6b_15_finance_platform_billing_ui_and_customer_billing_operations"
+      ],
+      "subsurface_ids": [
+        "subsurface_6b_15_customer_billing_operations",
+        "subsurface_6b_15_platform_invoice_generation",
+        "subsurface_6b_15_billing_proration_engine",
+        "subsurface_6b_15_retention_and_dunning_rules",
+        "subsurface_6b_15_billing_support_interface"
+      ],
+      "seed_ids": [
+        "seed_6b_15_customer_billing_operations",
+        "seed_6b_15_platform_invoice_generation",
+        "seed_6b_15_billing_proration_engine",
+        "seed_6b_15_retention_and_dunning_rules",
+        "seed_6b_15_billing_support_interface"
+      ],
+      "adl_refs": [],
+      "microscopic_scope_summary": "Tenant billing view, balance display, budget cap controls, receipts, service spend views",
+      "business_logic_rules_applied": [
+        "forward_dependency_order",
+        "service_manifest_traceability",
+        "ticket_quality_doctrine_no_ticket_authorization"
+      ],
+      "decomposition_guide_rule_applied": "Sub-surfaces split by provider, channel, lifecycle, evidence, finance, configuration, and service-boundary axes where source text indicates separate behavior.",
+      "ticket_quality_risk_notes": "Seed placeholders are not ticket fields; future tickets must regenerate exact files, MCR, validation, and acceptance from repo truth.",
+      "coverage_result": "READY",
+      "surface_catalog_required": true,
+      "manifest_required": true,
+      "foundry_activation_required": true,
+      "manifest_foundry_consistency_rationale": "Parent source row summarizes child classifications; manifest/foundry semantics are proven per semantic derivation row, not defaulted uniformly.",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    }
+  ]
+}
