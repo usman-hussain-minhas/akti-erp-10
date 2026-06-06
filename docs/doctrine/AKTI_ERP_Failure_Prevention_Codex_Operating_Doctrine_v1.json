@@ -1,11 +1,11 @@
 {
   "document": {
     "title": "AKTI ERP Failure Prevention & Codex Operating Doctrine",
-    "version": "1.1",
-    "status": "post_phase_6b_ticketability_correction",
+    "version": "1.2",
+    "status": "post_phase_6b_ticketability_ci_settling_gate",
     "created_on": "2026-05-22",
     "owner": "AKTI leadership / Usman Minhas until formally delegated",
-    "purpose": "Prevent AKTI ERP from repeating ARI, AKTI OS, plugin, and ERP IV failure patterns by forcing planning discipline, source-of-truth hierarchy, Codex operating rules, CI enforcement, and delivery-first behavior. This revision preserves the original doctrine and adds post-Phase-2 autonomous-run lessons. Version 1.1 adds the Phase 6B ticketability correction: planning PRs must not create missing repo truth by changing code, schema, runtime, generated, package, contract, registry, migration, frontend, backend, or validation-script files.",
+    "purpose": "Prevent AKTI ERP from repeating ARI, AKTI OS, plugin, and ERP IV failure patterns by forcing planning discipline, source-of-truth hierarchy, Codex operating rules, CI enforcement, and delivery-first behavior. This revision preserves the original doctrine and adds post-Phase-2 autonomous-run lessons. Version 1.1 adds the Phase 6B ticketability correction: planning PRs must not create missing repo truth by changing code, schema, runtime, generated, package, contract, registry, migration, frontend, backend, or validation-script files. Version 1.2 adds the CI settling gate: after push, PR update, PR creation, or merge, Codex must poll transient GitHub CI/merge metadata before treating pending or unstable status as a real stop.",
     "placement_recommendation": [
       "Save this JSON as docs/doctrine/akti-erp-failure-prevention-codex-operating-doctrine.v1.json",
       "Summarize the operational rules into AGENTS.md",
@@ -249,6 +249,11 @@
       "anti_pattern": "Module shortcuts",
       "symptom": "A module directly writes another module's tables or exposes unregistered APIs",
       "required_correction": "Use manifest, registry, capability, and event contracts."
+    },
+    {
+      "anti_pattern": "Transient CI metadata as hard stop",
+      "symptom": "An autonomous run stops immediately after a push or merge because GitHub briefly reports UNSTABLE, PENDING, QUEUED, or IN_PROGRESS while checks are still running",
+      "required_correction": "Run the CI settling gate: poll PR status and check runs on a bounded timer, continue when checks succeed and merge state is clean, and stop only for real failure, conflict, branch-protection human action, scope violation, ambiguity, or timeout."
     }
   ],
   "codex_operating_model": {
@@ -340,6 +345,50 @@
         "akti-pr-review-checklist",
         "akti-entity-registry-validator"
       ]
+    },
+    "ci_settling_gate": {
+      "rule": "After every push, PR creation, PR update, or merge, do not treat transient GitHub UNSTABLE, PENDING, QUEUED, or IN_PROGRESS state as a hard stop.",
+      "command": "gh pr view <PR_NUMBER> --json state,mergeStateStatus,statusCheckRollup,url",
+      "default_polling": {
+        "wait_minutes_between_polls": 2,
+        "max_polls": 5,
+        "total_wait_minutes": 10
+      },
+      "extended_polling": {
+        "allowed_when": "Checks are still actively progressing after the default polling budget.",
+        "wait_minutes_between_polls": 2,
+        "max_additional_polls": 5,
+        "max_total_wait_minutes": 20
+      },
+      "classifications": {
+        "CONTINUE": "All required checks are successful and merge state is CLEAN.",
+        "WAIT": "Any check is IN_PROGRESS, QUEUED, PENDING, or PR metadata is stale while the latest run is active.",
+        "FAIL": "Any required check concluded FAILURE, CANCELLED, TIMED_OUT, or ACTION_REQUIRED.",
+        "STOP": "Merge conflict, branch-protection human action, unknown state after timeout, scope violation, or ambiguity."
+      },
+      "applies_after": [
+        "push",
+        "PR creation",
+        "PR update",
+        "merge",
+        "docs/control PRs",
+        "schema/control implementation PRs",
+        "scaffold/control implementation PRs",
+        "final executable ticket-pack PRs",
+        "approved implementation-ticket PRs"
+      ],
+      "self_heal_policy": {
+        "allowed": "If CI fails because of deterministic local artifact drift inside the active PR scope, self-heal up to 3 attempts, push again, and restart the CI settling gate.",
+        "forbidden": [
+          "architecture ambiguity",
+          "schema ambiguity",
+          "missing business decision",
+          "destructive migration risk",
+          "forbidden scope",
+          "branch protection requiring human action"
+        ]
+      },
+      "timeout_rule": "After the extended polling loop, stop and report timeout rather than waiting indefinitely."
     }
   },
   "agents_md_required_content": {
@@ -368,7 +417,8 @@
         "Never claim done without validation commands",
         "Never produce documentation instead of working code unless the ticket is explicitly documentation",
         "Never let ticket-pack planning resolve blockers by changing code, schema, runtime, contracts, generated artifacts, package files, migrations, frontend, backend, registry outputs, or validation scripts",
-        "Never treat a green mixed-scope PR as valid planning or execution authority"
+        "Never treat a green mixed-scope PR as valid planning or execution authority",
+        "Use the CI settling gate after every push, PR creation, PR update, or merge before treating transient GitHub pending/unstable status as a blocker"
       ],
       "done_means": [
         "Code implemented",
