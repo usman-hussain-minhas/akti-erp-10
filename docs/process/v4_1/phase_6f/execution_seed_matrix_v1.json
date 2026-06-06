@@ -1,0 +1,3137 @@
+{
+  "schema": "spark_platform_v4_1_execution_seed_matrix_v1",
+  "status": "READY",
+  "phase": "6f",
+  "source_authority": [
+    "AGENTS.md",
+    "docs/doctrine/AKTI_ERP_Ticket_Quality_Doctrine_v1.md",
+    "docs/process/core/v0_0_2/spark_platform_v4_1/0_business_logic.md",
+    "docs/process/core/v0_0_2/spark_platform_v4_1/subsurface_decomposition_guide.md",
+    "docs/process/v4_1/phase_6a",
+    "docs/process/v4_1/phase_zero_trust_mechanical_audit_v1.md",
+    "scripts/quality/check_phase_zero_trust_mechanical_audit.mjs",
+    "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md"
+  ],
+  "seeds": [
+    {
+      "seed_id": "seed_6f_01_ai_context_broker",
+      "phase": "6f",
+      "source_component_id": "6F.01",
+      "subsurface_id": "subsurface_6f_01_ai_context_broker",
+      "surface_id": "surface_6f_01_ai_context_broker_and_evidence_readiness_layer",
+      "title": "6F ai context broker",
+      "objective": "Create a zero-trust execution seed for AI Context Broker and Evidence Readiness Layer / ai context broker without authorizing ticket generation or execution.",
+      "scope_summary": "AI-readable context maps, prohibited data maps, freshness metadata, evidence summaries",
+      "dependencies": [
+        "seed_6a_service_manifest_contract",
+        "seed_6a_model_routing",
+        "seed_6a_audit_log_universal_evidence_stream",
+        "seed_6a_pricing_table_effective_dates"
+      ],
+      "dependency_reason": "Dependencies are assigned from finalized Phase 6A manifest authority, source table required dependencies, and earlier same-phase or previous-phase anchors.",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "mechanical_audit_expected": true,
+      "akti_local": {
+        "catalog_order": 1,
+        "dependency_edges": [
+          {
+            "seed_id": "seed_6a_service_manifest_contract",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "activation_lifecycle_required",
+            "hard_dependency_basis": "activation_lifecycle_required",
+            "upgrade_basis": null,
+            "reason": "Finalized Phase 6A service_manifest_contract is required for 6F manifest traceability.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6a_model_routing",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6a_model_routing.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6a_audit_log_universal_evidence_stream",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6a_audit_log_universal_evidence_stream.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6a_pricing_table_effective_dates",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6a_pricing_table_effective_dates.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          }
+        ],
+        "parent_required_dependency_trace": [
+          {
+            "target_seed_id": "seed_6a_service_manifest_contract",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.01 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6a_model_routing",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.01 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6a_audit_log_universal_evidence_stream",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.01 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6a_pricing_table_effective_dates",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.01 required dependency contract or manifest traceability requirement."
+          }
+        ]
+      }
+    },
+    {
+      "seed_id": "seed_6f_01_evidence_readiness_layer",
+      "phase": "6f",
+      "source_component_id": "6F.01",
+      "subsurface_id": "subsurface_6f_01_evidence_readiness_layer",
+      "surface_id": "surface_6f_01_ai_context_broker_and_evidence_readiness_layer",
+      "title": "6F evidence readiness layer",
+      "objective": "Create a zero-trust execution seed for AI Context Broker and Evidence Readiness Layer / evidence readiness layer without authorizing ticket generation or execution.",
+      "scope_summary": "AI-readable context maps, prohibited data maps, freshness metadata, evidence summaries",
+      "dependencies": [
+        "seed_6a_service_manifest_contract",
+        "seed_6a_model_routing",
+        "seed_6a_audit_log_universal_evidence_stream",
+        "seed_6a_pricing_table_effective_dates"
+      ],
+      "dependency_reason": "Dependencies are assigned from finalized Phase 6A manifest authority, source table required dependencies, and earlier same-phase or previous-phase anchors.",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "mechanical_audit_expected": true,
+      "akti_local": {
+        "catalog_order": 2,
+        "dependency_edges": [
+          {
+            "seed_id": "seed_6a_service_manifest_contract",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "activation_lifecycle_required",
+            "hard_dependency_basis": "activation_lifecycle_required",
+            "upgrade_basis": null,
+            "reason": "Finalized Phase 6A service_manifest_contract is required for 6F manifest traceability.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6a_model_routing",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6a_model_routing.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6a_audit_log_universal_evidence_stream",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6a_audit_log_universal_evidence_stream.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6a_pricing_table_effective_dates",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6a_pricing_table_effective_dates.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          }
+        ],
+        "parent_required_dependency_trace": [
+          {
+            "target_seed_id": "seed_6a_service_manifest_contract",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.01 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6a_model_routing",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.01 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6a_audit_log_universal_evidence_stream",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.01 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6a_pricing_table_effective_dates",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.01 required dependency contract or manifest traceability requirement."
+          }
+        ]
+      }
+    },
+    {
+      "seed_id": "seed_6f_01_ai_source_policy",
+      "phase": "6f",
+      "source_component_id": "6F.01",
+      "subsurface_id": "subsurface_6f_01_ai_source_policy",
+      "surface_id": "surface_6f_01_ai_context_broker_and_evidence_readiness_layer",
+      "title": "6F ai source policy",
+      "objective": "Create a zero-trust execution seed for AI Context Broker and Evidence Readiness Layer / ai source policy without authorizing ticket generation or execution.",
+      "scope_summary": "AI-readable context maps, prohibited data maps, freshness metadata, evidence summaries",
+      "dependencies": [
+        "seed_6a_service_manifest_contract",
+        "seed_6a_model_routing",
+        "seed_6a_audit_log_universal_evidence_stream",
+        "seed_6a_pricing_table_effective_dates"
+      ],
+      "dependency_reason": "Dependencies are assigned from finalized Phase 6A manifest authority, source table required dependencies, and earlier same-phase or previous-phase anchors.",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "mechanical_audit_expected": true,
+      "akti_local": {
+        "catalog_order": 3,
+        "dependency_edges": [
+          {
+            "seed_id": "seed_6a_service_manifest_contract",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "activation_lifecycle_required",
+            "hard_dependency_basis": "activation_lifecycle_required",
+            "upgrade_basis": null,
+            "reason": "Finalized Phase 6A service_manifest_contract is required for 6F manifest traceability.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6a_model_routing",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6a_model_routing.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6a_audit_log_universal_evidence_stream",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6a_audit_log_universal_evidence_stream.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6a_pricing_table_effective_dates",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6a_pricing_table_effective_dates.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          }
+        ],
+        "parent_required_dependency_trace": [
+          {
+            "target_seed_id": "seed_6a_service_manifest_contract",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.01 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6a_model_routing",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.01 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6a_audit_log_universal_evidence_stream",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.01 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6a_pricing_table_effective_dates",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.01 required dependency contract or manifest traceability requirement."
+          }
+        ]
+      }
+    },
+    {
+      "seed_id": "seed_6f_01_retrieval_scoping",
+      "phase": "6f",
+      "source_component_id": "6F.01",
+      "subsurface_id": "subsurface_6f_01_retrieval_scoping",
+      "surface_id": "surface_6f_01_ai_context_broker_and_evidence_readiness_layer",
+      "title": "6F retrieval scoping",
+      "objective": "Create a zero-trust execution seed for AI Context Broker and Evidence Readiness Layer / retrieval scoping without authorizing ticket generation or execution.",
+      "scope_summary": "AI-readable context maps, prohibited data maps, freshness metadata, evidence summaries",
+      "dependencies": [
+        "seed_6a_service_manifest_contract",
+        "seed_6a_model_routing",
+        "seed_6a_audit_log_universal_evidence_stream",
+        "seed_6a_pricing_table_effective_dates"
+      ],
+      "dependency_reason": "Dependencies are assigned from finalized Phase 6A manifest authority, source table required dependencies, and earlier same-phase or previous-phase anchors.",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "mechanical_audit_expected": true,
+      "akti_local": {
+        "catalog_order": 4,
+        "dependency_edges": [
+          {
+            "seed_id": "seed_6a_service_manifest_contract",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "activation_lifecycle_required",
+            "hard_dependency_basis": "activation_lifecycle_required",
+            "upgrade_basis": null,
+            "reason": "Finalized Phase 6A service_manifest_contract is required for 6F manifest traceability.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6a_model_routing",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6a_model_routing.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6a_audit_log_universal_evidence_stream",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6a_audit_log_universal_evidence_stream.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6a_pricing_table_effective_dates",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6a_pricing_table_effective_dates.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          }
+        ],
+        "parent_required_dependency_trace": [
+          {
+            "target_seed_id": "seed_6a_service_manifest_contract",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.01 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6a_model_routing",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.01 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6a_audit_log_universal_evidence_stream",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.01 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6a_pricing_table_effective_dates",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.01 required dependency contract or manifest traceability requirement."
+          }
+        ]
+      }
+    },
+    {
+      "seed_id": "seed_6f_02_business_consultant_qa",
+      "phase": "6f",
+      "source_component_id": "6F.02",
+      "subsurface_id": "subsurface_6f_02_business_consultant_qa",
+      "surface_id": "surface_6f_02_ai_business_consultant",
+      "title": "6F business consultant qa",
+      "objective": "Create a zero-trust execution seed for AI Business Consultant / business consultant qa without authorizing ticket generation or execution.",
+      "scope_summary": "Business insights, recommendation briefs, question/answer sessions, confidence/freshness records",
+      "dependencies": [
+        "seed_6a_service_manifest_contract",
+        "seed_6f_01_ai_context_broker",
+        "seed_6a_model_routing",
+        "seed_6a_access_core_gatekeeper"
+      ],
+      "dependency_reason": "Dependencies are assigned from finalized Phase 6A manifest authority, source table required dependencies, and earlier same-phase or previous-phase anchors.",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "mechanical_audit_expected": true,
+      "akti_local": {
+        "catalog_order": 5,
+        "dependency_edges": [
+          {
+            "seed_id": "seed_6a_service_manifest_contract",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "activation_lifecycle_required",
+            "hard_dependency_basis": "activation_lifecycle_required",
+            "upgrade_basis": null,
+            "reason": "Finalized Phase 6A service_manifest_contract is required for 6F manifest traceability.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6f_01_ai_context_broker",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6f_01_ai_context_broker.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6a_model_routing",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6a_model_routing.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6a_access_core_gatekeeper",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6a_access_core_gatekeeper.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          }
+        ],
+        "parent_required_dependency_trace": [
+          {
+            "target_seed_id": "seed_6a_service_manifest_contract",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.02 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6f_01_ai_context_broker",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.02 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6a_model_routing",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.02 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6a_access_core_gatekeeper",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.02 required dependency contract or manifest traceability requirement."
+          }
+        ]
+      }
+    },
+    {
+      "seed_id": "seed_6f_02_recommendation_generation",
+      "phase": "6f",
+      "source_component_id": "6F.02",
+      "subsurface_id": "subsurface_6f_02_recommendation_generation",
+      "surface_id": "surface_6f_02_ai_business_consultant",
+      "title": "6F recommendation generation",
+      "objective": "Create a zero-trust execution seed for AI Business Consultant / recommendation generation without authorizing ticket generation or execution.",
+      "scope_summary": "Business insights, recommendation briefs, question/answer sessions, confidence/freshness records",
+      "dependencies": [
+        "seed_6a_service_manifest_contract",
+        "seed_6f_01_ai_context_broker",
+        "seed_6a_model_routing",
+        "seed_6a_access_core_gatekeeper"
+      ],
+      "dependency_reason": "Dependencies are assigned from finalized Phase 6A manifest authority, source table required dependencies, and earlier same-phase or previous-phase anchors.",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "mechanical_audit_expected": true,
+      "akti_local": {
+        "catalog_order": 6,
+        "dependency_edges": [
+          {
+            "seed_id": "seed_6a_service_manifest_contract",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "activation_lifecycle_required",
+            "hard_dependency_basis": "activation_lifecycle_required",
+            "upgrade_basis": null,
+            "reason": "Finalized Phase 6A service_manifest_contract is required for 6F manifest traceability.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6f_01_ai_context_broker",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6f_01_ai_context_broker.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6a_model_routing",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6a_model_routing.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6a_access_core_gatekeeper",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6a_access_core_gatekeeper.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          }
+        ],
+        "parent_required_dependency_trace": [
+          {
+            "target_seed_id": "seed_6a_service_manifest_contract",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.02 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6f_01_ai_context_broker",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.02 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6a_model_routing",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.02 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6a_access_core_gatekeeper",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.02 required dependency contract or manifest traceability requirement."
+          }
+        ]
+      }
+    },
+    {
+      "seed_id": "seed_6f_02_human_approval_handoff",
+      "phase": "6f",
+      "source_component_id": "6F.02",
+      "subsurface_id": "subsurface_6f_02_human_approval_handoff",
+      "surface_id": "surface_6f_02_ai_business_consultant",
+      "title": "6F human approval handoff",
+      "objective": "Create a zero-trust execution seed for AI Business Consultant / human approval handoff without authorizing ticket generation or execution.",
+      "scope_summary": "Business insights, recommendation briefs, question/answer sessions, confidence/freshness records",
+      "dependencies": [
+        "seed_6a_service_manifest_contract",
+        "seed_6f_01_ai_context_broker",
+        "seed_6a_model_routing",
+        "seed_6a_access_core_gatekeeper"
+      ],
+      "dependency_reason": "Dependencies are assigned from finalized Phase 6A manifest authority, source table required dependencies, and earlier same-phase or previous-phase anchors.",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "mechanical_audit_expected": true,
+      "akti_local": {
+        "catalog_order": 7,
+        "dependency_edges": [
+          {
+            "seed_id": "seed_6a_service_manifest_contract",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "activation_lifecycle_required",
+            "hard_dependency_basis": "activation_lifecycle_required",
+            "upgrade_basis": null,
+            "reason": "Finalized Phase 6A service_manifest_contract is required for 6F manifest traceability.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6f_01_ai_context_broker",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6f_01_ai_context_broker.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6a_model_routing",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6a_model_routing.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6a_access_core_gatekeeper",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6a_access_core_gatekeeper.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          }
+        ],
+        "parent_required_dependency_trace": [
+          {
+            "target_seed_id": "seed_6a_service_manifest_contract",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.02 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6f_01_ai_context_broker",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.02 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6a_model_routing",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.02 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6a_access_core_gatekeeper",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.02 required dependency contract or manifest traceability requirement."
+          }
+        ]
+      }
+    },
+    {
+      "seed_id": "seed_6f_02_consultant_evidence_log",
+      "phase": "6f",
+      "source_component_id": "6F.02",
+      "subsurface_id": "subsurface_6f_02_consultant_evidence_log",
+      "surface_id": "surface_6f_02_ai_business_consultant",
+      "title": "6F consultant evidence log",
+      "objective": "Create a zero-trust execution seed for AI Business Consultant / consultant evidence log without authorizing ticket generation or execution.",
+      "scope_summary": "Business insights, recommendation briefs, question/answer sessions, confidence/freshness records",
+      "dependencies": [
+        "seed_6a_service_manifest_contract",
+        "seed_6f_01_ai_context_broker",
+        "seed_6a_model_routing",
+        "seed_6a_access_core_gatekeeper"
+      ],
+      "dependency_reason": "Dependencies are assigned from finalized Phase 6A manifest authority, source table required dependencies, and earlier same-phase or previous-phase anchors.",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "mechanical_audit_expected": true,
+      "akti_local": {
+        "catalog_order": 8,
+        "dependency_edges": [
+          {
+            "seed_id": "seed_6a_service_manifest_contract",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "activation_lifecycle_required",
+            "hard_dependency_basis": "activation_lifecycle_required",
+            "upgrade_basis": null,
+            "reason": "Finalized Phase 6A service_manifest_contract is required for 6F manifest traceability.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6f_01_ai_context_broker",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6f_01_ai_context_broker.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6a_model_routing",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6a_model_routing.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6a_access_core_gatekeeper",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6a_access_core_gatekeeper.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          }
+        ],
+        "parent_required_dependency_trace": [
+          {
+            "target_seed_id": "seed_6a_service_manifest_contract",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.02 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6f_01_ai_context_broker",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.02 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6a_model_routing",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.02 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6a_access_core_gatekeeper",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.02 required dependency contract or manifest traceability requirement."
+          }
+        ]
+      }
+    },
+    {
+      "seed_id": "seed_6f_03_proactive_optimizer",
+      "phase": "6f",
+      "source_component_id": "6F.03",
+      "subsurface_id": "subsurface_6f_03_proactive_optimizer",
+      "surface_id": "surface_6f_03_proactive_ai_optimization_intelligence",
+      "title": "6F proactive optimizer",
+      "objective": "Create a zero-trust execution seed for Proactive AI Optimization Intelligence / proactive optimizer without authorizing ticket generation or execution.",
+      "scope_summary": "Optimization alerts, before/after cost analyses, accepted/rejected actions",
+      "dependencies": [
+        "seed_6a_service_manifest_contract",
+        "seed_6f_02_business_consultant_qa",
+        "seed_6a_optimization_fact_store"
+      ],
+      "dependency_reason": "Dependencies are assigned from finalized Phase 6A manifest authority, source table required dependencies, and earlier same-phase or previous-phase anchors.",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "mechanical_audit_expected": true,
+      "akti_local": {
+        "catalog_order": 9,
+        "dependency_edges": [
+          {
+            "seed_id": "seed_6a_service_manifest_contract",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "activation_lifecycle_required",
+            "hard_dependency_basis": "activation_lifecycle_required",
+            "upgrade_basis": null,
+            "reason": "Finalized Phase 6A service_manifest_contract is required for 6F manifest traceability.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6f_02_business_consultant_qa",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6f_02_business_consultant_qa.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6a_optimization_fact_store",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6a_optimization_fact_store.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          }
+        ],
+        "parent_required_dependency_trace": [
+          {
+            "target_seed_id": "seed_6a_service_manifest_contract",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.03 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6f_02_business_consultant_qa",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.03 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6a_optimization_fact_store",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.03 required dependency contract or manifest traceability requirement."
+          }
+        ]
+      }
+    },
+    {
+      "seed_id": "seed_6f_03_health_dashboard",
+      "phase": "6f",
+      "source_component_id": "6F.03",
+      "subsurface_id": "subsurface_6f_03_health_dashboard",
+      "surface_id": "surface_6f_03_proactive_ai_optimization_intelligence",
+      "title": "6F health dashboard",
+      "objective": "Create a zero-trust execution seed for Proactive AI Optimization Intelligence / health dashboard without authorizing ticket generation or execution.",
+      "scope_summary": "Optimization alerts, before/after cost analyses, accepted/rejected actions",
+      "dependencies": [
+        "seed_6a_service_manifest_contract",
+        "seed_6f_02_business_consultant_qa",
+        "seed_6a_optimization_fact_store"
+      ],
+      "dependency_reason": "Dependencies are assigned from finalized Phase 6A manifest authority, source table required dependencies, and earlier same-phase or previous-phase anchors.",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "mechanical_audit_expected": true,
+      "akti_local": {
+        "catalog_order": 10,
+        "dependency_edges": [
+          {
+            "seed_id": "seed_6a_service_manifest_contract",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "activation_lifecycle_required",
+            "hard_dependency_basis": "activation_lifecycle_required",
+            "upgrade_basis": null,
+            "reason": "Finalized Phase 6A service_manifest_contract is required for 6F manifest traceability.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6f_02_business_consultant_qa",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6f_02_business_consultant_qa.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6a_optimization_fact_store",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6a_optimization_fact_store.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          }
+        ],
+        "parent_required_dependency_trace": [
+          {
+            "target_seed_id": "seed_6a_service_manifest_contract",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.03 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6f_02_business_consultant_qa",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.03 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6a_optimization_fact_store",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.03 required dependency contract or manifest traceability requirement."
+          }
+        ]
+      }
+    },
+    {
+      "seed_id": "seed_6f_03_ai_cost_cap_guard",
+      "phase": "6f",
+      "source_component_id": "6F.03",
+      "subsurface_id": "subsurface_6f_03_ai_cost_cap_guard",
+      "surface_id": "surface_6f_03_proactive_ai_optimization_intelligence",
+      "title": "6F ai cost cap guard",
+      "objective": "Create a zero-trust execution seed for Proactive AI Optimization Intelligence / ai cost cap guard without authorizing ticket generation or execution.",
+      "scope_summary": "Optimization alerts, before/after cost analyses, accepted/rejected actions",
+      "dependencies": [
+        "seed_6a_service_manifest_contract",
+        "seed_6f_02_business_consultant_qa",
+        "seed_6a_optimization_fact_store"
+      ],
+      "dependency_reason": "Dependencies are assigned from finalized Phase 6A manifest authority, source table required dependencies, and earlier same-phase or previous-phase anchors.",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "mechanical_audit_expected": true,
+      "akti_local": {
+        "catalog_order": 11,
+        "dependency_edges": [
+          {
+            "seed_id": "seed_6a_service_manifest_contract",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "activation_lifecycle_required",
+            "hard_dependency_basis": "activation_lifecycle_required",
+            "upgrade_basis": null,
+            "reason": "Finalized Phase 6A service_manifest_contract is required for 6F manifest traceability.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6f_02_business_consultant_qa",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6f_02_business_consultant_qa.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6a_optimization_fact_store",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6a_optimization_fact_store.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          }
+        ],
+        "parent_required_dependency_trace": [
+          {
+            "target_seed_id": "seed_6a_service_manifest_contract",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.03 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6f_02_business_consultant_qa",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.03 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6a_optimization_fact_store",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.03 required dependency contract or manifest traceability requirement."
+          }
+        ]
+      }
+    },
+    {
+      "seed_id": "seed_6f_03_monitoring_rule_engine",
+      "phase": "6f",
+      "source_component_id": "6F.03",
+      "subsurface_id": "subsurface_6f_03_monitoring_rule_engine",
+      "surface_id": "surface_6f_03_proactive_ai_optimization_intelligence",
+      "title": "6F monitoring rule engine",
+      "objective": "Create a zero-trust execution seed for Proactive AI Optimization Intelligence / monitoring rule engine without authorizing ticket generation or execution.",
+      "scope_summary": "Optimization alerts, before/after cost analyses, accepted/rejected actions",
+      "dependencies": [
+        "seed_6a_service_manifest_contract",
+        "seed_6f_02_business_consultant_qa",
+        "seed_6a_optimization_fact_store"
+      ],
+      "dependency_reason": "Dependencies are assigned from finalized Phase 6A manifest authority, source table required dependencies, and earlier same-phase or previous-phase anchors.",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "mechanical_audit_expected": true,
+      "akti_local": {
+        "catalog_order": 12,
+        "dependency_edges": [
+          {
+            "seed_id": "seed_6a_service_manifest_contract",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "activation_lifecycle_required",
+            "hard_dependency_basis": "activation_lifecycle_required",
+            "upgrade_basis": null,
+            "reason": "Finalized Phase 6A service_manifest_contract is required for 6F manifest traceability.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6f_02_business_consultant_qa",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6f_02_business_consultant_qa.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6a_optimization_fact_store",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6a_optimization_fact_store.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          }
+        ],
+        "parent_required_dependency_trace": [
+          {
+            "target_seed_id": "seed_6a_service_manifest_contract",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.03 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6f_02_business_consultant_qa",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.03 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6a_optimization_fact_store",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.03 required dependency contract or manifest traceability requirement."
+          }
+        ]
+      }
+    },
+    {
+      "seed_id": "seed_6f_04_prediction_maturity_engine",
+      "phase": "6f",
+      "source_component_id": "6F.04",
+      "subsurface_id": "subsurface_6f_04_prediction_maturity_engine",
+      "surface_id": "surface_6f_04_prediction_after_action_review_and_collective_intelligence",
+      "title": "6F prediction maturity engine",
+      "objective": "Create a zero-trust execution seed for Prediction, After-Action Review, and Collective Intelligence / prediction maturity engine without authorizing ticket generation or execution.",
+      "scope_summary": "Predictions, confidence labels, AAR responses, anonymised benchmarks",
+      "dependencies": [
+        "seed_6a_service_manifest_contract",
+        "seed_6f_02_business_consultant_qa",
+        "seed_6f_03_proactive_optimizer"
+      ],
+      "dependency_reason": "Dependencies are assigned from finalized Phase 6A manifest authority, source table required dependencies, and earlier same-phase or previous-phase anchors.",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "mechanical_audit_expected": true,
+      "akti_local": {
+        "catalog_order": 13,
+        "dependency_edges": [
+          {
+            "seed_id": "seed_6a_service_manifest_contract",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "activation_lifecycle_required",
+            "hard_dependency_basis": "activation_lifecycle_required",
+            "upgrade_basis": null,
+            "reason": "Finalized Phase 6A service_manifest_contract is required for 6F manifest traceability.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6f_02_business_consultant_qa",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6f_02_business_consultant_qa.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6f_03_proactive_optimizer",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6f_03_proactive_optimizer.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          }
+        ],
+        "parent_required_dependency_trace": [
+          {
+            "target_seed_id": "seed_6a_service_manifest_contract",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.04 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6f_02_business_consultant_qa",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.04 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6f_03_proactive_optimizer",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.04 required dependency contract or manifest traceability requirement."
+          }
+        ]
+      }
+    },
+    {
+      "seed_id": "seed_6f_04_after_action_review",
+      "phase": "6f",
+      "source_component_id": "6F.04",
+      "subsurface_id": "subsurface_6f_04_after_action_review",
+      "surface_id": "surface_6f_04_prediction_after_action_review_and_collective_intelligence",
+      "title": "6F after action review",
+      "objective": "Create a zero-trust execution seed for Prediction, After-Action Review, and Collective Intelligence / after action review without authorizing ticket generation or execution.",
+      "scope_summary": "Predictions, confidence labels, AAR responses, anonymised benchmarks",
+      "dependencies": [
+        "seed_6a_service_manifest_contract",
+        "seed_6f_02_business_consultant_qa",
+        "seed_6f_03_proactive_optimizer"
+      ],
+      "dependency_reason": "Dependencies are assigned from finalized Phase 6A manifest authority, source table required dependencies, and earlier same-phase or previous-phase anchors.",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "mechanical_audit_expected": true,
+      "akti_local": {
+        "catalog_order": 14,
+        "dependency_edges": [
+          {
+            "seed_id": "seed_6a_service_manifest_contract",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "activation_lifecycle_required",
+            "hard_dependency_basis": "activation_lifecycle_required",
+            "upgrade_basis": null,
+            "reason": "Finalized Phase 6A service_manifest_contract is required for 6F manifest traceability.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6f_02_business_consultant_qa",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6f_02_business_consultant_qa.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6f_03_proactive_optimizer",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6f_03_proactive_optimizer.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          }
+        ],
+        "parent_required_dependency_trace": [
+          {
+            "target_seed_id": "seed_6a_service_manifest_contract",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.04 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6f_02_business_consultant_qa",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.04 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6f_03_proactive_optimizer",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.04 required dependency contract or manifest traceability requirement."
+          }
+        ]
+      }
+    },
+    {
+      "seed_id": "seed_6f_04_collective_intelligence_privacy",
+      "phase": "6f",
+      "source_component_id": "6F.04",
+      "subsurface_id": "subsurface_6f_04_collective_intelligence_privacy",
+      "surface_id": "surface_6f_04_prediction_after_action_review_and_collective_intelligence",
+      "title": "6F collective intelligence privacy",
+      "objective": "Create a zero-trust execution seed for Prediction, After-Action Review, and Collective Intelligence / collective intelligence privacy without authorizing ticket generation or execution.",
+      "scope_summary": "Predictions, confidence labels, AAR responses, anonymised benchmarks",
+      "dependencies": [
+        "seed_6a_service_manifest_contract",
+        "seed_6f_02_business_consultant_qa",
+        "seed_6f_03_proactive_optimizer"
+      ],
+      "dependency_reason": "Dependencies are assigned from finalized Phase 6A manifest authority, source table required dependencies, and earlier same-phase or previous-phase anchors.",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "mechanical_audit_expected": true,
+      "akti_local": {
+        "catalog_order": 15,
+        "dependency_edges": [
+          {
+            "seed_id": "seed_6a_service_manifest_contract",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "activation_lifecycle_required",
+            "hard_dependency_basis": "activation_lifecycle_required",
+            "upgrade_basis": null,
+            "reason": "Finalized Phase 6A service_manifest_contract is required for 6F manifest traceability.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6f_02_business_consultant_qa",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6f_02_business_consultant_qa.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6f_03_proactive_optimizer",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6f_03_proactive_optimizer.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          }
+        ],
+        "parent_required_dependency_trace": [
+          {
+            "target_seed_id": "seed_6a_service_manifest_contract",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.04 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6f_02_business_consultant_qa",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.04 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6f_03_proactive_optimizer",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.04 required dependency contract or manifest traceability requirement."
+          }
+        ]
+      }
+    },
+    {
+      "seed_id": "seed_6f_04_model_evaluation_evidence",
+      "phase": "6f",
+      "source_component_id": "6F.04",
+      "subsurface_id": "subsurface_6f_04_model_evaluation_evidence",
+      "surface_id": "surface_6f_04_prediction_after_action_review_and_collective_intelligence",
+      "title": "6F model evaluation evidence",
+      "objective": "Create a zero-trust execution seed for Prediction, After-Action Review, and Collective Intelligence / model evaluation evidence without authorizing ticket generation or execution.",
+      "scope_summary": "Predictions, confidence labels, AAR responses, anonymised benchmarks",
+      "dependencies": [
+        "seed_6a_service_manifest_contract",
+        "seed_6f_02_business_consultant_qa",
+        "seed_6f_03_proactive_optimizer"
+      ],
+      "dependency_reason": "Dependencies are assigned from finalized Phase 6A manifest authority, source table required dependencies, and earlier same-phase or previous-phase anchors.",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "mechanical_audit_expected": true,
+      "akti_local": {
+        "catalog_order": 16,
+        "dependency_edges": [
+          {
+            "seed_id": "seed_6a_service_manifest_contract",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "activation_lifecycle_required",
+            "hard_dependency_basis": "activation_lifecycle_required",
+            "upgrade_basis": null,
+            "reason": "Finalized Phase 6A service_manifest_contract is required for 6F manifest traceability.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6f_02_business_consultant_qa",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6f_02_business_consultant_qa.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6f_03_proactive_optimizer",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6f_03_proactive_optimizer.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          }
+        ],
+        "parent_required_dependency_trace": [
+          {
+            "target_seed_id": "seed_6a_service_manifest_contract",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.04 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6f_02_business_consultant_qa",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.04 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6f_03_proactive_optimizer",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.04 required dependency contract or manifest traceability requirement."
+          }
+        ]
+      }
+    },
+    {
+      "seed_id": "seed_6f_05_support_ticketing_sla",
+      "phase": "6f",
+      "source_component_id": "6F.05",
+      "subsurface_id": "subsurface_6f_05_support_ticketing_sla",
+      "surface_id": "surface_6f_05_advanced_admin_support_and_diagnostics",
+      "title": "6F support ticketing sla",
+      "objective": "Create a zero-trust execution seed for Advanced Admin, Support, and Diagnostics / support ticketing sla without authorizing ticket generation or execution.",
+      "scope_summary": "Support tickets, SLA evidence, diagnostics views, support-window workflows, admin task automation",
+      "dependencies": [
+        "seed_6a_service_manifest_contract",
+        "seed_6a_base_admin_setup",
+        "seed_6c_05_workspace_realtime_messaging",
+        "seed_6e_08_visual_editor_core"
+      ],
+      "dependency_reason": "Dependencies are assigned from finalized Phase 6A manifest authority, source table required dependencies, and earlier same-phase or previous-phase anchors.",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "mechanical_audit_expected": true,
+      "akti_local": {
+        "catalog_order": 17,
+        "dependency_edges": [
+          {
+            "seed_id": "seed_6a_service_manifest_contract",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "activation_lifecycle_required",
+            "hard_dependency_basis": "activation_lifecycle_required",
+            "upgrade_basis": null,
+            "reason": "Finalized Phase 6A service_manifest_contract is required for 6F manifest traceability.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6a_base_admin_setup",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6a_base_admin_setup.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6c_05_workspace_realtime_messaging",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6c_05_workspace_realtime_messaging.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6e_08_visual_editor_core",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6e_08_visual_editor_core.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          }
+        ],
+        "parent_required_dependency_trace": [
+          {
+            "target_seed_id": "seed_6a_service_manifest_contract",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.05 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6a_base_admin_setup",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.05 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6c_05_workspace_realtime_messaging",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.05 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6e_08_visual_editor_core",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.05 required dependency contract or manifest traceability requirement."
+          }
+        ]
+      }
+    },
+    {
+      "seed_id": "seed_6f_05_support_window_workflow",
+      "phase": "6f",
+      "source_component_id": "6F.05",
+      "subsurface_id": "subsurface_6f_05_support_window_workflow",
+      "surface_id": "surface_6f_05_advanced_admin_support_and_diagnostics",
+      "title": "6F support window workflow",
+      "objective": "Create a zero-trust execution seed for Advanced Admin, Support, and Diagnostics / support window workflow without authorizing ticket generation or execution.",
+      "scope_summary": "Support tickets, SLA evidence, diagnostics views, support-window workflows, admin task automation",
+      "dependencies": [
+        "seed_6a_service_manifest_contract",
+        "seed_6a_base_admin_setup",
+        "seed_6c_05_workspace_realtime_messaging",
+        "seed_6e_08_visual_editor_core"
+      ],
+      "dependency_reason": "Dependencies are assigned from finalized Phase 6A manifest authority, source table required dependencies, and earlier same-phase or previous-phase anchors.",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "mechanical_audit_expected": true,
+      "akti_local": {
+        "catalog_order": 18,
+        "dependency_edges": [
+          {
+            "seed_id": "seed_6a_service_manifest_contract",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "activation_lifecycle_required",
+            "hard_dependency_basis": "activation_lifecycle_required",
+            "upgrade_basis": null,
+            "reason": "Finalized Phase 6A service_manifest_contract is required for 6F manifest traceability.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6a_base_admin_setup",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6a_base_admin_setup.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6c_05_workspace_realtime_messaging",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6c_05_workspace_realtime_messaging.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6e_08_visual_editor_core",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6e_08_visual_editor_core.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          }
+        ],
+        "parent_required_dependency_trace": [
+          {
+            "target_seed_id": "seed_6a_service_manifest_contract",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.05 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6a_base_admin_setup",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.05 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6c_05_workspace_realtime_messaging",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.05 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6e_08_visual_editor_core",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.05 required dependency contract or manifest traceability requirement."
+          }
+        ]
+      }
+    },
+    {
+      "seed_id": "seed_6f_05_diagnostics_console",
+      "phase": "6f",
+      "source_component_id": "6F.05",
+      "subsurface_id": "subsurface_6f_05_diagnostics_console",
+      "surface_id": "surface_6f_05_advanced_admin_support_and_diagnostics",
+      "title": "6F diagnostics console",
+      "objective": "Create a zero-trust execution seed for Advanced Admin, Support, and Diagnostics / diagnostics console without authorizing ticket generation or execution.",
+      "scope_summary": "Support tickets, SLA evidence, diagnostics views, support-window workflows, admin task automation",
+      "dependencies": [
+        "seed_6a_service_manifest_contract",
+        "seed_6a_base_admin_setup",
+        "seed_6c_05_workspace_realtime_messaging",
+        "seed_6e_08_visual_editor_core"
+      ],
+      "dependency_reason": "Dependencies are assigned from finalized Phase 6A manifest authority, source table required dependencies, and earlier same-phase or previous-phase anchors.",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "mechanical_audit_expected": true,
+      "akti_local": {
+        "catalog_order": 19,
+        "dependency_edges": [
+          {
+            "seed_id": "seed_6a_service_manifest_contract",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "activation_lifecycle_required",
+            "hard_dependency_basis": "activation_lifecycle_required",
+            "upgrade_basis": null,
+            "reason": "Finalized Phase 6A service_manifest_contract is required for 6F manifest traceability.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6a_base_admin_setup",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6a_base_admin_setup.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6c_05_workspace_realtime_messaging",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6c_05_workspace_realtime_messaging.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6e_08_visual_editor_core",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6e_08_visual_editor_core.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          }
+        ],
+        "parent_required_dependency_trace": [
+          {
+            "target_seed_id": "seed_6a_service_manifest_contract",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.05 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6a_base_admin_setup",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.05 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6c_05_workspace_realtime_messaging",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.05 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6e_08_visual_editor_core",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.05 required dependency contract or manifest traceability requirement."
+          }
+        ]
+      }
+    },
+    {
+      "seed_id": "seed_6f_05_advanced_admin_controls",
+      "phase": "6f",
+      "source_component_id": "6F.05",
+      "subsurface_id": "subsurface_6f_05_advanced_admin_controls",
+      "surface_id": "surface_6f_05_advanced_admin_support_and_diagnostics",
+      "title": "6F advanced admin controls",
+      "objective": "Create a zero-trust execution seed for Advanced Admin, Support, and Diagnostics / advanced admin controls without authorizing ticket generation or execution.",
+      "scope_summary": "Support tickets, SLA evidence, diagnostics views, support-window workflows, admin task automation",
+      "dependencies": [
+        "seed_6a_service_manifest_contract",
+        "seed_6a_base_admin_setup",
+        "seed_6c_05_workspace_realtime_messaging",
+        "seed_6e_08_visual_editor_core"
+      ],
+      "dependency_reason": "Dependencies are assigned from finalized Phase 6A manifest authority, source table required dependencies, and earlier same-phase or previous-phase anchors.",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "mechanical_audit_expected": true,
+      "akti_local": {
+        "catalog_order": 20,
+        "dependency_edges": [
+          {
+            "seed_id": "seed_6a_service_manifest_contract",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "activation_lifecycle_required",
+            "hard_dependency_basis": "activation_lifecycle_required",
+            "upgrade_basis": null,
+            "reason": "Finalized Phase 6A service_manifest_contract is required for 6F manifest traceability.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6a_base_admin_setup",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6a_base_admin_setup.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6c_05_workspace_realtime_messaging",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6c_05_workspace_realtime_messaging.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6e_08_visual_editor_core",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6e_08_visual_editor_core.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          }
+        ],
+        "parent_required_dependency_trace": [
+          {
+            "target_seed_id": "seed_6a_service_manifest_contract",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.05 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6a_base_admin_setup",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.05 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6c_05_workspace_realtime_messaging",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.05 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6e_08_visual_editor_core",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.05 required dependency contract or manifest traceability requirement."
+          }
+        ]
+      }
+    },
+    {
+      "seed_id": "seed_6f_05_compliance_tooling",
+      "phase": "6f",
+      "source_component_id": "6F.05",
+      "subsurface_id": "subsurface_6f_05_compliance_tooling",
+      "surface_id": "surface_6f_05_advanced_admin_support_and_diagnostics",
+      "title": "6F compliance tooling",
+      "objective": "Create a zero-trust execution seed for Advanced Admin, Support, and Diagnostics / compliance tooling without authorizing ticket generation or execution.",
+      "scope_summary": "Support tickets, SLA evidence, diagnostics views, support-window workflows, admin task automation",
+      "dependencies": [
+        "seed_6a_service_manifest_contract",
+        "seed_6a_base_admin_setup",
+        "seed_6c_05_workspace_realtime_messaging",
+        "seed_6e_08_visual_editor_core"
+      ],
+      "dependency_reason": "Dependencies are assigned from finalized Phase 6A manifest authority, source table required dependencies, and earlier same-phase or previous-phase anchors.",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "mechanical_audit_expected": true,
+      "akti_local": {
+        "catalog_order": 21,
+        "dependency_edges": [
+          {
+            "seed_id": "seed_6a_service_manifest_contract",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "activation_lifecycle_required",
+            "hard_dependency_basis": "activation_lifecycle_required",
+            "upgrade_basis": null,
+            "reason": "Finalized Phase 6A service_manifest_contract is required for 6F manifest traceability.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6a_base_admin_setup",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6a_base_admin_setup.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6c_05_workspace_realtime_messaging",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6c_05_workspace_realtime_messaging.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6e_08_visual_editor_core",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6e_08_visual_editor_core.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          }
+        ],
+        "parent_required_dependency_trace": [
+          {
+            "target_seed_id": "seed_6a_service_manifest_contract",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.05 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6a_base_admin_setup",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.05 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6c_05_workspace_realtime_messaging",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.05 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6e_08_visual_editor_core",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.05 required dependency contract or manifest traceability requirement."
+          }
+        ]
+      }
+    },
+    {
+      "seed_id": "seed_6f_06_ai_concierge_onboarding",
+      "phase": "6f",
+      "source_component_id": "6F.06",
+      "subsurface_id": "subsurface_6f_06_ai_concierge_onboarding",
+      "surface_id": "surface_6f_06_ai_concierge_and_advanced_onboarding",
+      "title": "6F ai concierge onboarding",
+      "objective": "Create a zero-trust execution seed for AI Concierge and Advanced Onboarding / ai concierge onboarding without authorizing ticket generation or execution.",
+      "scope_summary": "Guided setup plans, tours, sample data packs, onboarding progress, accepted AI setup suggestions",
+      "dependencies": [
+        "seed_6a_service_manifest_contract",
+        "seed_6a_base_admin_setup",
+        "seed_6f_02_business_consultant_qa",
+        "seed_6e_08_visual_editor_core"
+      ],
+      "dependency_reason": "Dependencies are assigned from finalized Phase 6A manifest authority, source table required dependencies, and earlier same-phase or previous-phase anchors.",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "mechanical_audit_expected": true,
+      "akti_local": {
+        "catalog_order": 22,
+        "dependency_edges": [
+          {
+            "seed_id": "seed_6a_service_manifest_contract",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "activation_lifecycle_required",
+            "hard_dependency_basis": "activation_lifecycle_required",
+            "upgrade_basis": null,
+            "reason": "Finalized Phase 6A service_manifest_contract is required for 6F manifest traceability.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6a_base_admin_setup",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6a_base_admin_setup.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6f_02_business_consultant_qa",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6f_02_business_consultant_qa.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6e_08_visual_editor_core",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6e_08_visual_editor_core.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          }
+        ],
+        "parent_required_dependency_trace": [
+          {
+            "target_seed_id": "seed_6a_service_manifest_contract",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.06 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6a_base_admin_setup",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.06 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6f_02_business_consultant_qa",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.06 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6e_08_visual_editor_core",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.06 required dependency contract or manifest traceability requirement."
+          }
+        ]
+      }
+    },
+    {
+      "seed_id": "seed_6f_06_sample_data_seed_purge",
+      "phase": "6f",
+      "source_component_id": "6F.06",
+      "subsurface_id": "subsurface_6f_06_sample_data_seed_purge",
+      "surface_id": "surface_6f_06_ai_concierge_and_advanced_onboarding",
+      "title": "6F sample data seed purge",
+      "objective": "Create a zero-trust execution seed for AI Concierge and Advanced Onboarding / sample data seed purge without authorizing ticket generation or execution.",
+      "scope_summary": "Guided setup plans, tours, sample data packs, onboarding progress, accepted AI setup suggestions",
+      "dependencies": [
+        "seed_6a_service_manifest_contract",
+        "seed_6a_base_admin_setup",
+        "seed_6f_02_business_consultant_qa",
+        "seed_6e_08_visual_editor_core"
+      ],
+      "dependency_reason": "Dependencies are assigned from finalized Phase 6A manifest authority, source table required dependencies, and earlier same-phase or previous-phase anchors.",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "mechanical_audit_expected": true,
+      "akti_local": {
+        "catalog_order": 23,
+        "dependency_edges": [
+          {
+            "seed_id": "seed_6a_service_manifest_contract",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "activation_lifecycle_required",
+            "hard_dependency_basis": "activation_lifecycle_required",
+            "upgrade_basis": null,
+            "reason": "Finalized Phase 6A service_manifest_contract is required for 6F manifest traceability.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6a_base_admin_setup",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6a_base_admin_setup.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6f_02_business_consultant_qa",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6f_02_business_consultant_qa.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6e_08_visual_editor_core",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6e_08_visual_editor_core.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          }
+        ],
+        "parent_required_dependency_trace": [
+          {
+            "target_seed_id": "seed_6a_service_manifest_contract",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.06 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6a_base_admin_setup",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.06 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6f_02_business_consultant_qa",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.06 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6e_08_visual_editor_core",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.06 required dependency contract or manifest traceability requirement."
+          }
+        ]
+      }
+    },
+    {
+      "seed_id": "seed_6f_06_onboarding_workflow",
+      "phase": "6f",
+      "source_component_id": "6F.06",
+      "subsurface_id": "subsurface_6f_06_onboarding_workflow",
+      "surface_id": "surface_6f_06_ai_concierge_and_advanced_onboarding",
+      "title": "6F onboarding workflow",
+      "objective": "Create a zero-trust execution seed for AI Concierge and Advanced Onboarding / onboarding workflow without authorizing ticket generation or execution.",
+      "scope_summary": "Guided setup plans, tours, sample data packs, onboarding progress, accepted AI setup suggestions",
+      "dependencies": [
+        "seed_6a_service_manifest_contract",
+        "seed_6a_base_admin_setup",
+        "seed_6f_02_business_consultant_qa",
+        "seed_6e_08_visual_editor_core"
+      ],
+      "dependency_reason": "Dependencies are assigned from finalized Phase 6A manifest authority, source table required dependencies, and earlier same-phase or previous-phase anchors.",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "mechanical_audit_expected": true,
+      "akti_local": {
+        "catalog_order": 24,
+        "dependency_edges": [
+          {
+            "seed_id": "seed_6a_service_manifest_contract",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "activation_lifecycle_required",
+            "hard_dependency_basis": "activation_lifecycle_required",
+            "upgrade_basis": null,
+            "reason": "Finalized Phase 6A service_manifest_contract is required for 6F manifest traceability.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6a_base_admin_setup",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6a_base_admin_setup.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6f_02_business_consultant_qa",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6f_02_business_consultant_qa.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6e_08_visual_editor_core",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6e_08_visual_editor_core.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          }
+        ],
+        "parent_required_dependency_trace": [
+          {
+            "target_seed_id": "seed_6a_service_manifest_contract",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.06 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6a_base_admin_setup",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.06 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6f_02_business_consultant_qa",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.06 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6e_08_visual_editor_core",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.06 required dependency contract or manifest traceability requirement."
+          }
+        ]
+      }
+    },
+    {
+      "seed_id": "seed_6f_06_package_guidance",
+      "phase": "6f",
+      "source_component_id": "6F.06",
+      "subsurface_id": "subsurface_6f_06_package_guidance",
+      "surface_id": "surface_6f_06_ai_concierge_and_advanced_onboarding",
+      "title": "6F package guidance",
+      "objective": "Create a zero-trust execution seed for AI Concierge and Advanced Onboarding / package guidance without authorizing ticket generation or execution.",
+      "scope_summary": "Guided setup plans, tours, sample data packs, onboarding progress, accepted AI setup suggestions",
+      "dependencies": [
+        "seed_6a_service_manifest_contract",
+        "seed_6a_base_admin_setup",
+        "seed_6f_02_business_consultant_qa",
+        "seed_6e_08_visual_editor_core"
+      ],
+      "dependency_reason": "Dependencies are assigned from finalized Phase 6A manifest authority, source table required dependencies, and earlier same-phase or previous-phase anchors.",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "mechanical_audit_expected": true,
+      "akti_local": {
+        "catalog_order": 25,
+        "dependency_edges": [
+          {
+            "seed_id": "seed_6a_service_manifest_contract",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "activation_lifecycle_required",
+            "hard_dependency_basis": "activation_lifecycle_required",
+            "upgrade_basis": null,
+            "reason": "Finalized Phase 6A service_manifest_contract is required for 6F manifest traceability.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6a_base_admin_setup",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6a_base_admin_setup.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6f_02_business_consultant_qa",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6f_02_business_consultant_qa.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6e_08_visual_editor_core",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6e_08_visual_editor_core.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          }
+        ],
+        "parent_required_dependency_trace": [
+          {
+            "target_seed_id": "seed_6a_service_manifest_contract",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.06 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6a_base_admin_setup",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.06 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6f_02_business_consultant_qa",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.06 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6e_08_visual_editor_core",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.06 required dependency contract or manifest traceability requirement."
+          }
+        ]
+      }
+    },
+    {
+      "seed_id": "seed_6f_07_module_import_wizards",
+      "phase": "6f",
+      "source_component_id": "6F.07",
+      "subsurface_id": "subsurface_6f_07_module_import_wizards",
+      "surface_id": "surface_6f_07_documentation_community_training_and_data_migration_workbench",
+      "title": "6F module import wizards",
+      "objective": "Create a zero-trust execution seed for Documentation, Community, Training, and Data Migration Workbench / module import wizards without authorizing ticket generation or execution.",
+      "scope_summary": "Docs, tutorials, migration mappings, import jobs, community posts, accepted answers",
+      "dependencies": [
+        "seed_6a_service_manifest_contract",
+        "seed_6f_05_support_ticketing_sla",
+        "seed_6a_search_indexing",
+        "seed_6a_visual_workflow_builder"
+      ],
+      "dependency_reason": "Dependencies are assigned from finalized Phase 6A manifest authority, source table required dependencies, and earlier same-phase or previous-phase anchors.",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "mechanical_audit_expected": true,
+      "akti_local": {
+        "catalog_order": 26,
+        "dependency_edges": [
+          {
+            "seed_id": "seed_6a_service_manifest_contract",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "activation_lifecycle_required",
+            "hard_dependency_basis": "activation_lifecycle_required",
+            "upgrade_basis": null,
+            "reason": "Finalized Phase 6A service_manifest_contract is required for 6F manifest traceability.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6f_05_support_ticketing_sla",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6f_05_support_ticketing_sla.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6a_search_indexing",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6a_search_indexing.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6a_visual_workflow_builder",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6a_visual_workflow_builder.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          }
+        ],
+        "parent_required_dependency_trace": [
+          {
+            "target_seed_id": "seed_6a_service_manifest_contract",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.07 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6f_05_support_ticketing_sla",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.07 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6a_search_indexing",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.07 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6a_visual_workflow_builder",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.07 required dependency contract or manifest traceability requirement."
+          }
+        ]
+      }
+    },
+    {
+      "seed_id": "seed_6f_07_documentation_platform",
+      "phase": "6f",
+      "source_component_id": "6F.07",
+      "subsurface_id": "subsurface_6f_07_documentation_platform",
+      "surface_id": "surface_6f_07_documentation_community_training_and_data_migration_workbench",
+      "title": "6F documentation platform",
+      "objective": "Create a zero-trust execution seed for Documentation, Community, Training, and Data Migration Workbench / documentation platform without authorizing ticket generation or execution.",
+      "scope_summary": "Docs, tutorials, migration mappings, import jobs, community posts, accepted answers",
+      "dependencies": [
+        "seed_6a_service_manifest_contract",
+        "seed_6f_05_support_ticketing_sla",
+        "seed_6a_search_indexing",
+        "seed_6a_visual_workflow_builder"
+      ],
+      "dependency_reason": "Dependencies are assigned from finalized Phase 6A manifest authority, source table required dependencies, and earlier same-phase or previous-phase anchors.",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "mechanical_audit_expected": true,
+      "akti_local": {
+        "catalog_order": 27,
+        "dependency_edges": [
+          {
+            "seed_id": "seed_6a_service_manifest_contract",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "activation_lifecycle_required",
+            "hard_dependency_basis": "activation_lifecycle_required",
+            "upgrade_basis": null,
+            "reason": "Finalized Phase 6A service_manifest_contract is required for 6F manifest traceability.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6f_05_support_ticketing_sla",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6f_05_support_ticketing_sla.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6a_search_indexing",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6a_search_indexing.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6a_visual_workflow_builder",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6a_visual_workflow_builder.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          }
+        ],
+        "parent_required_dependency_trace": [
+          {
+            "target_seed_id": "seed_6a_service_manifest_contract",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.07 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6f_05_support_ticketing_sla",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.07 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6a_search_indexing",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.07 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6a_visual_workflow_builder",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.07 required dependency contract or manifest traceability requirement."
+          }
+        ]
+      }
+    },
+    {
+      "seed_id": "seed_6f_07_community_forum",
+      "phase": "6f",
+      "source_component_id": "6F.07",
+      "subsurface_id": "subsurface_6f_07_community_forum",
+      "surface_id": "surface_6f_07_documentation_community_training_and_data_migration_workbench",
+      "title": "6F community forum",
+      "objective": "Create a zero-trust execution seed for Documentation, Community, Training, and Data Migration Workbench / community forum without authorizing ticket generation or execution.",
+      "scope_summary": "Docs, tutorials, migration mappings, import jobs, community posts, accepted answers",
+      "dependencies": [
+        "seed_6a_service_manifest_contract",
+        "seed_6f_05_support_ticketing_sla",
+        "seed_6a_search_indexing",
+        "seed_6a_visual_workflow_builder"
+      ],
+      "dependency_reason": "Dependencies are assigned from finalized Phase 6A manifest authority, source table required dependencies, and earlier same-phase or previous-phase anchors.",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "mechanical_audit_expected": true,
+      "akti_local": {
+        "catalog_order": 28,
+        "dependency_edges": [
+          {
+            "seed_id": "seed_6a_service_manifest_contract",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "activation_lifecycle_required",
+            "hard_dependency_basis": "activation_lifecycle_required",
+            "upgrade_basis": null,
+            "reason": "Finalized Phase 6A service_manifest_contract is required for 6F manifest traceability.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6f_05_support_ticketing_sla",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6f_05_support_ticketing_sla.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6a_search_indexing",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6a_search_indexing.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6a_visual_workflow_builder",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6a_visual_workflow_builder.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          }
+        ],
+        "parent_required_dependency_trace": [
+          {
+            "target_seed_id": "seed_6a_service_manifest_contract",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.07 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6f_05_support_ticketing_sla",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.07 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6a_search_indexing",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.07 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6a_visual_workflow_builder",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.07 required dependency contract or manifest traceability requirement."
+          }
+        ]
+      }
+    },
+    {
+      "seed_id": "seed_6f_07_training_center",
+      "phase": "6f",
+      "source_component_id": "6F.07",
+      "subsurface_id": "subsurface_6f_07_training_center",
+      "surface_id": "surface_6f_07_documentation_community_training_and_data_migration_workbench",
+      "title": "6F training center",
+      "objective": "Create a zero-trust execution seed for Documentation, Community, Training, and Data Migration Workbench / training center without authorizing ticket generation or execution.",
+      "scope_summary": "Docs, tutorials, migration mappings, import jobs, community posts, accepted answers",
+      "dependencies": [
+        "seed_6a_service_manifest_contract",
+        "seed_6f_05_support_ticketing_sla",
+        "seed_6a_search_indexing",
+        "seed_6a_visual_workflow_builder"
+      ],
+      "dependency_reason": "Dependencies are assigned from finalized Phase 6A manifest authority, source table required dependencies, and earlier same-phase or previous-phase anchors.",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "mechanical_audit_expected": true,
+      "akti_local": {
+        "catalog_order": 29,
+        "dependency_edges": [
+          {
+            "seed_id": "seed_6a_service_manifest_contract",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "activation_lifecycle_required",
+            "hard_dependency_basis": "activation_lifecycle_required",
+            "upgrade_basis": null,
+            "reason": "Finalized Phase 6A service_manifest_contract is required for 6F manifest traceability.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6f_05_support_ticketing_sla",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6f_05_support_ticketing_sla.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6a_search_indexing",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6a_search_indexing.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6a_visual_workflow_builder",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6a_visual_workflow_builder.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          }
+        ],
+        "parent_required_dependency_trace": [
+          {
+            "target_seed_id": "seed_6a_service_manifest_contract",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.07 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6f_05_support_ticketing_sla",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.07 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6a_search_indexing",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.07 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6a_visual_workflow_builder",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.07 required dependency contract or manifest traceability requirement."
+          }
+        ]
+      }
+    },
+    {
+      "seed_id": "seed_6f_08_design_token_polish",
+      "phase": "6f",
+      "source_component_id": "6F.08",
+      "subsurface_id": "subsurface_6f_08_design_token_polish",
+      "surface_id": "surface_6f_08_advanced_design_polish_and_experience_quality_system",
+      "title": "6F design token polish",
+      "objective": "Create a zero-trust execution seed for Advanced Design Polish and Experience Quality System / design token polish without authorizing ticket generation or execution.",
+      "scope_summary": "Advanced components, visual QA records, UX quality metrics, accessibility audits, noob-proof patterns",
+      "dependencies": [
+        "seed_6a_service_manifest_contract",
+        "seed_6a_base_design_tokens",
+        "seed_6e_08_visual_editor_core",
+        "seed_6f_05_support_ticketing_sla"
+      ],
+      "dependency_reason": "Dependencies are assigned from finalized Phase 6A manifest authority, source table required dependencies, and earlier same-phase or previous-phase anchors.",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "mechanical_audit_expected": true,
+      "akti_local": {
+        "catalog_order": 30,
+        "dependency_edges": [
+          {
+            "seed_id": "seed_6a_service_manifest_contract",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "activation_lifecycle_required",
+            "hard_dependency_basis": "activation_lifecycle_required",
+            "upgrade_basis": null,
+            "reason": "Finalized Phase 6A service_manifest_contract is required for 6F manifest traceability.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6a_base_design_tokens",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6a_base_design_tokens.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6e_08_visual_editor_core",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6e_08_visual_editor_core.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6f_05_support_ticketing_sla",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6f_05_support_ticketing_sla.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          }
+        ],
+        "parent_required_dependency_trace": [
+          {
+            "target_seed_id": "seed_6a_service_manifest_contract",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.08 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6a_base_design_tokens",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.08 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6e_08_visual_editor_core",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.08 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6f_05_support_ticketing_sla",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.08 required dependency contract or manifest traceability requirement."
+          }
+        ]
+      }
+    },
+    {
+      "seed_id": "seed_6f_08_component_quality_review",
+      "phase": "6f",
+      "source_component_id": "6F.08",
+      "subsurface_id": "subsurface_6f_08_component_quality_review",
+      "surface_id": "surface_6f_08_advanced_design_polish_and_experience_quality_system",
+      "title": "6F component quality review",
+      "objective": "Create a zero-trust execution seed for Advanced Design Polish and Experience Quality System / component quality review without authorizing ticket generation or execution.",
+      "scope_summary": "Advanced components, visual QA records, UX quality metrics, accessibility audits, noob-proof patterns",
+      "dependencies": [
+        "seed_6a_service_manifest_contract",
+        "seed_6a_base_design_tokens",
+        "seed_6e_08_visual_editor_core",
+        "seed_6f_05_support_ticketing_sla"
+      ],
+      "dependency_reason": "Dependencies are assigned from finalized Phase 6A manifest authority, source table required dependencies, and earlier same-phase or previous-phase anchors.",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "mechanical_audit_expected": true,
+      "akti_local": {
+        "catalog_order": 31,
+        "dependency_edges": [
+          {
+            "seed_id": "seed_6a_service_manifest_contract",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "activation_lifecycle_required",
+            "hard_dependency_basis": "activation_lifecycle_required",
+            "upgrade_basis": null,
+            "reason": "Finalized Phase 6A service_manifest_contract is required for 6F manifest traceability.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6a_base_design_tokens",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6a_base_design_tokens.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6e_08_visual_editor_core",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6e_08_visual_editor_core.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6f_05_support_ticketing_sla",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6f_05_support_ticketing_sla.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          }
+        ],
+        "parent_required_dependency_trace": [
+          {
+            "target_seed_id": "seed_6a_service_manifest_contract",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.08 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6a_base_design_tokens",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.08 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6e_08_visual_editor_core",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.08 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6f_05_support_ticketing_sla",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.08 required dependency contract or manifest traceability requirement."
+          }
+        ]
+      }
+    },
+    {
+      "seed_id": "seed_6f_08_accessibility_validation",
+      "phase": "6f",
+      "source_component_id": "6F.08",
+      "subsurface_id": "subsurface_6f_08_accessibility_validation",
+      "surface_id": "surface_6f_08_advanced_design_polish_and_experience_quality_system",
+      "title": "6F accessibility validation",
+      "objective": "Create a zero-trust execution seed for Advanced Design Polish and Experience Quality System / accessibility validation without authorizing ticket generation or execution.",
+      "scope_summary": "Advanced components, visual QA records, UX quality metrics, accessibility audits, noob-proof patterns",
+      "dependencies": [
+        "seed_6a_service_manifest_contract",
+        "seed_6a_base_design_tokens",
+        "seed_6e_08_visual_editor_core",
+        "seed_6f_05_support_ticketing_sla"
+      ],
+      "dependency_reason": "Dependencies are assigned from finalized Phase 6A manifest authority, source table required dependencies, and earlier same-phase or previous-phase anchors.",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "mechanical_audit_expected": true,
+      "akti_local": {
+        "catalog_order": 32,
+        "dependency_edges": [
+          {
+            "seed_id": "seed_6a_service_manifest_contract",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "activation_lifecycle_required",
+            "hard_dependency_basis": "activation_lifecycle_required",
+            "upgrade_basis": null,
+            "reason": "Finalized Phase 6A service_manifest_contract is required for 6F manifest traceability.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6a_base_design_tokens",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6a_base_design_tokens.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6e_08_visual_editor_core",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6e_08_visual_editor_core.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6f_05_support_ticketing_sla",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6f_05_support_ticketing_sla.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          }
+        ],
+        "parent_required_dependency_trace": [
+          {
+            "target_seed_id": "seed_6a_service_manifest_contract",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.08 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6a_base_design_tokens",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.08 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6e_08_visual_editor_core",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.08 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6f_05_support_ticketing_sla",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.08 required dependency contract or manifest traceability requirement."
+          }
+        ]
+      }
+    },
+    {
+      "seed_id": "seed_6f_08_browser_visual_validation",
+      "phase": "6f",
+      "source_component_id": "6F.08",
+      "subsurface_id": "subsurface_6f_08_browser_visual_validation",
+      "surface_id": "surface_6f_08_advanced_design_polish_and_experience_quality_system",
+      "title": "6F browser visual validation",
+      "objective": "Create a zero-trust execution seed for Advanced Design Polish and Experience Quality System / browser visual validation without authorizing ticket generation or execution.",
+      "scope_summary": "Advanced components, visual QA records, UX quality metrics, accessibility audits, noob-proof patterns",
+      "dependencies": [
+        "seed_6a_service_manifest_contract",
+        "seed_6a_base_design_tokens",
+        "seed_6e_08_visual_editor_core",
+        "seed_6f_05_support_ticketing_sla"
+      ],
+      "dependency_reason": "Dependencies are assigned from finalized Phase 6A manifest authority, source table required dependencies, and earlier same-phase or previous-phase anchors.",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "mechanical_audit_expected": true,
+      "akti_local": {
+        "catalog_order": 33,
+        "dependency_edges": [
+          {
+            "seed_id": "seed_6a_service_manifest_contract",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "activation_lifecycle_required",
+            "hard_dependency_basis": "activation_lifecycle_required",
+            "upgrade_basis": null,
+            "reason": "Finalized Phase 6A service_manifest_contract is required for 6F manifest traceability.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6a_base_design_tokens",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6a_base_design_tokens.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6e_08_visual_editor_core",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6e_08_visual_editor_core.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6f_05_support_ticketing_sla",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6f_05_support_ticketing_sla.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          }
+        ],
+        "parent_required_dependency_trace": [
+          {
+            "target_seed_id": "seed_6a_service_manifest_contract",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.08 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6a_base_design_tokens",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.08 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6e_08_visual_editor_core",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.08 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6f_05_support_ticketing_sla",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.08 required dependency contract or manifest traceability requirement."
+          }
+        ]
+      }
+    },
+    {
+      "seed_id": "seed_6f_08_experience_consistency_system",
+      "phase": "6f",
+      "source_component_id": "6F.08",
+      "subsurface_id": "subsurface_6f_08_experience_consistency_system",
+      "surface_id": "surface_6f_08_advanced_design_polish_and_experience_quality_system",
+      "title": "6F experience consistency system",
+      "objective": "Create a zero-trust execution seed for Advanced Design Polish and Experience Quality System / experience consistency system without authorizing ticket generation or execution.",
+      "scope_summary": "Advanced components, visual QA records, UX quality metrics, accessibility audits, noob-proof patterns",
+      "dependencies": [
+        "seed_6a_service_manifest_contract",
+        "seed_6a_base_design_tokens",
+        "seed_6e_08_visual_editor_core",
+        "seed_6f_05_support_ticketing_sla"
+      ],
+      "dependency_reason": "Dependencies are assigned from finalized Phase 6A manifest authority, source table required dependencies, and earlier same-phase or previous-phase anchors.",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "mechanical_audit_expected": true,
+      "akti_local": {
+        "catalog_order": 34,
+        "dependency_edges": [
+          {
+            "seed_id": "seed_6a_service_manifest_contract",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "activation_lifecycle_required",
+            "hard_dependency_basis": "activation_lifecycle_required",
+            "upgrade_basis": null,
+            "reason": "Finalized Phase 6A service_manifest_contract is required for 6F manifest traceability.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6a_base_design_tokens",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6a_base_design_tokens.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6e_08_visual_editor_core",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6e_08_visual_editor_core.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          },
+          {
+            "seed_id": "seed_6f_05_support_ticketing_sla",
+            "type": "hard_dependency",
+            "edge_type": "hard_dependency",
+            "edge_basis": "phase_doc_required",
+            "hard_dependency_basis": "phase_doc_required",
+            "upgrade_basis": null,
+            "reason": "Source dependency table requires this seed to wait for seed_6f_05_support_ticketing_sla.",
+            "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/6f_intelligence_admin_design_polish.md",
+            "edge_status": "applied",
+            "adl_refs": []
+          }
+        ],
+        "parent_required_dependency_trace": [
+          {
+            "target_seed_id": "seed_6a_service_manifest_contract",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.08 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6a_base_design_tokens",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.08 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6e_08_visual_editor_core",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.08 required dependency contract or manifest traceability requirement."
+          },
+          {
+            "target_seed_id": "seed_6f_05_support_ticketing_sla",
+            "inheritance_status": "inherited",
+            "reason": "Inherited from parent source component 6F.08 required dependency contract or manifest traceability requirement."
+          }
+        ]
+      }
+    }
+  ]
+}
