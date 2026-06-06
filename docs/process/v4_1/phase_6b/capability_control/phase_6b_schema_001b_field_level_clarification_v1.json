@@ -1,0 +1,73 @@
+{
+  "artifact_id": "phase_6b_schema_001b_field_level_clarification_v1",
+  "status": "P6B_SCHEMA_001B_FIELD_LEVEL_SCHEMA_DECISION_REQUIRED",
+  "source_control_ticket": "P6B-SCHEMA-002",
+  "source_contract": "docs/process/v4_1/phase_6b/capability_control/phase_6b_commerce_schema_model_contract_v1.json",
+  "source_schema": "prisma/schema.prisma",
+  "doctrine_basis": [
+    "Ticket-pack planning must not modify repo truth to make tickets executable.",
+    "Schema/runtime/contracts/scaffold changes require separate control implementation PRs.",
+    "Codex must not invent schema fields, APIs, service boundaries, permissions, events, ADL meaning, runtime behavior, or business rules."
+  ],
+  "review_result": "STOP_BEFORE_SCHEMA_IMPLEMENTATION",
+  "what_is_derivable": {
+    "phase_6b_model_names": 47,
+    "seed_to_model_decision_group_mappings": 103,
+    "tenant_scoping_policy": "Every new Phase 6B model must be tenant scoped through organization_id.",
+    "registry_metadata_policy": "Every new Phase 6B model must be represented in entity registry metadata.",
+    "authorization_flags": {
+      "capability_implementation_authorized": false,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false
+    }
+  },
+  "what_is_not_derivable_without_schema_decision": [
+    {
+      "decision_id": "P6B_SCHEMA_FIELD_POLICY_001",
+      "question": "Should P6B-SCHEMA-002 create technical scaffold tables only, or full business fields for each model?",
+      "why_it_matters": "A technical scaffold table with only id, organization_id, timestamps, and registry metadata may pass Prisma/registry validation but will not make capability tickets fully executable. Full business fields would require field semantics that are not fully specified in the accepted contract."
+    },
+    {
+      "decision_id": "P6B_SCHEMA_FIELD_POLICY_002",
+      "question": "Are generic Json payload/metadata fields allowed as schema-control placeholders?",
+      "why_it_matters": "Generic Json fields can avoid inventing business columns, but they may hide future business logic and weaken executable-ticket exactness."
+    },
+    {
+      "decision_id": "P6B_SCHEMA_FIELD_POLICY_003",
+      "question": "Should Phase 6B CRM intake/dedup/pipeline models link structurally to existing LeadRecord, or remain independent Phase6B* scaffold tables until capability tickets define relations?",
+      "why_it_matters": "The repo already has LeadRecord, LeadStatusHistory, and LeadAssignmentHistory. Adding Phase6B CRM tables without relation policy may duplicate authority or create stale tickets."
+    },
+    {
+      "decision_id": "P6B_SCHEMA_FIELD_POLICY_004",
+      "question": "Should finance models include cross-model relations in P6B-SCHEMA-002, or should all relations wait for capability-specific tickets?",
+      "why_it_matters": "Invoices, receivables, payments, allocations, receipts, top-ups, reconciliation candidates, GL, banking, payroll, and billing have natural relations, but relation cardinality is not fully specified by the model contract."
+    },
+    {
+      "decision_id": "P6B_SCHEMA_FIELD_POLICY_005",
+      "question": "What is the approved migration baseline shape for Phase 6B: model existence only, relation skeleton, or full persistence schema?",
+      "why_it_matters": "The migration SQL must be non-destructive and reviewable. Choosing the wrong baseline shape either under-unblocks capability tickets or invents schema semantics."
+    }
+  ],
+  "blocked_files": [
+    "prisma/schema.prisma",
+    "prisma/migrations/<phase_6b_schema_baseline>/migration.sql",
+    "prisma/entity-registry.metadata.json",
+    "generated/entity-registry.generated.json"
+  ],
+  "forbidden_actions_until_decision": [
+    "Do not add Phase 6B Prisma models.",
+    "Do not create Phase 6B migration SQL.",
+    "Do not update entity registry metadata for Phase 6B models.",
+    "Do not generate registry output for Phase 6B models.",
+    "Do not promote Phase 6B capability tickets to executable status."
+  ],
+  "recommended_next_control_ticket": {
+    "ticket_id": "P6B-SCHEMA-001B",
+    "title": "Approve Phase 6B schema baseline field policy before Prisma implementation",
+    "minimum_concrete_requirement": "A machine-readable field-level schema policy states whether P6B-SCHEMA-002 creates technical scaffold tables only, generic Json payload scaffolds, relation skeletons, or full persistence fields for each Phase 6B model.",
+    "ticket_generation_allowed": false,
+    "execution_authorized": false
+  },
+  "final_status": "PHASE_6B_SCHEMA_CONTROL_STOPPED_FIELD_LEVEL_DECISION_REQUIRED"
+}
