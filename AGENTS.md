@@ -46,6 +46,10 @@ Split a ticket only if it owns multiple architectural decisions, creates multipl
 
 MCR must name a runtime behavior, CI command result, or named artifact. `Service documented`, `file created`, and `implementation improved` are forbidden MCRs.
 
+Lifecycle `PASS`, `READY`, or zero-trust audit success is not executable ticket readiness unless the ticket pack also passes exact-file, runtime-MCR, blocker, dependency, ownership, validation, and freshness gates.
+
+Ticket-pack planning reveals blockers; it must not resolve them by changing real code, schema, runtime, generated, package, lockfile, migration, contract, registry, frontend, backend, or validation-script files. Missing repo truth requires a separate control implementation PR before ticket promotion.
+
 ---
 
 ## Required Stack
