@@ -31,36 +31,85 @@ enum GatekeeperDecisionOutcome {
 }
 
 model Organization {
-  id                        String                 @id @default(cuid())
-  slug                      String                 @unique
-  display_name              String
-  short_name                String?
-  status                    String
-  created_at                DateTime               @default(now())
-  updated_at                DateTime               @updatedAt
-  organization_domains      OrganizationDomain[]
-  unit_types                UnitType[]
-  organization_units        OrganizationUnit[]
-  organization_unit_closure OrganizationUnitClosure[]
-  users                     User[]
-  groups                    Group[]
-  user_groups               UserGroup[]
-  group_capabilities        GroupCapability[]
-  audit_logs                AuditLog[]
+  id                          String                     @id @default(cuid())
+  slug                        String                     @unique
+  display_name                String
+  short_name                  String?
+  status                      String
+  created_at                  DateTime                   @default(now())
+  updated_at                  DateTime                   @updatedAt
+  organization_domains        OrganizationDomain[]
+  unit_types                  UnitType[]
+  organization_units          OrganizationUnit[]
+  organization_unit_closure   OrganizationUnitClosure[]
+  users                       User[]
+  groups                      Group[]
+  user_groups                 UserGroup[]
+  group_capabilities          GroupCapability[]
+  audit_logs                  AuditLog[]
   gatekeeper_decision_records GatekeeperDecisionRecord[]
-  event_outbox_entries      EventOutbox[]
-  read_model_entries        ReadModelEntry[]
-  read_model_cursors        ReadModelCursor[]
+  event_outbox_entries        EventOutbox[]
+  read_model_entries          ReadModelEntry[]
+  read_model_cursors          ReadModelCursor[]
   engagement_gateway_requests EngagementGatewayRequest[]
-  organization_settings     OrganizationSetting[]
-  module_lifecycle_events   ModuleLifecycleEvent[]
-  workflow_definitions      WorkflowDefinition[]
-  workflow_instances        WorkflowInstance[]
-  workflow_step_instances   WorkflowStepInstance[]
-  file_document_metadata    FileDocumentMetadata[]
-  lead_records              LeadRecord[]
-  lead_status_history       LeadStatusHistory[]
-  lead_assignment_history   LeadAssignmentHistory[]
+  organization_settings       OrganizationSetting[]
+  module_lifecycle_events     ModuleLifecycleEvent[]
+  workflow_definitions        WorkflowDefinition[]
+  workflow_instances          WorkflowInstance[]
+  workflow_step_instances     WorkflowStepInstance[]
+  file_document_metadata      FileDocumentMetadata[]
+  lead_records                LeadRecord[]
+  lead_status_history         LeadStatusHistory[]
+  lead_assignment_history     LeadAssignmentHistory[]
+
+  // Phase 6B commerce schema baseline relations.
+  phase_6b_products                           Phase6BProduct[]
+  phase_6b_product_categories                 Phase6BProductCategory[]
+  phase_6b_product_media                      Phase6BProductMedia[]
+  phase_6b_product_histories                  Phase6BProductHistory[]
+  phase_6b_product_price_histories            Phase6BProductPriceHistory[]
+  phase_6b_package_definitions                Phase6BPackageDefinition[]
+  phase_6b_discount_rules                     Phase6BDiscountRule[]
+  phase_6b_inventory_locations                Phase6BInventoryLocation[]
+  phase_6b_stock_items                        Phase6BStockItem[]
+  phase_6b_stock_movements                    Phase6BStockMovement[]
+  phase_6b_lead_sources                       Phase6BLeadSource[]
+  phase_6b_lead_evidence                      Phase6BLeadEvidence[]
+  phase_6b_lead_match_candidates              Phase6BLeadMatchCandidate[]
+  phase_6b_lead_merge_records                 Phase6BLeadMergeRecord[]
+  phase_6b_pipeline_stages                    Phase6BPipelineStage[]
+  phase_6b_pipeline_timeline_entries          Phase6BPipelineTimelineEntry[]
+  phase_6b_communication_templates            Phase6BCommunicationTemplate[]
+  phase_6b_communication_attempts             Phase6BCommunicationAttempt[]
+  phase_6b_communication_sequence_enrollments Phase6BCommunicationSequenceEnrollment[]
+  phase_6b_lead_scores                        Phase6BLeadScore[]
+  phase_6b_follow_up_tasks                    Phase6BFollowUpTask[]
+  phase_6b_invoices                           Phase6BInvoice[]
+  phase_6b_invoice_lines                      Phase6BInvoiceLine[]
+  phase_6b_receivables                        Phase6BReceivable[]
+  phase_6b_credit_debit_notes                 Phase6BCreditDebitNote[]
+  phase_6b_payments                           Phase6BPayment[]
+  phase_6b_payment_allocations                Phase6BPaymentAllocation[]
+  phase_6b_receipts                           Phase6BReceipt[]
+  phase_6b_top_ups                            Phase6BTopUp[]
+  phase_6b_reconciliation_candidates          Phase6BReconciliationCandidate[]
+  phase_6b_vendors                            Phase6BVendor[]
+  phase_6b_expenses                           Phase6BExpense[]
+  phase_6b_purchase_orders                    Phase6BPurchaseOrder[]
+  phase_6b_purchase_receipts                  Phase6BPurchaseReceipt[]
+  phase_6b_chart_of_accounts                  Phase6BChartOfAccount[]
+  phase_6b_journal_entries                    Phase6BJournalEntry[]
+  phase_6b_journal_entry_lines                Phase6BJournalEntryLine[]
+  phase_6b_accounting_periods                 Phase6BAccountingPeriod[]
+  phase_6b_tax_mappings                       Phase6BTaxMapping[]
+  phase_6b_bank_accounts                      Phase6BBankAccount[]
+  phase_6b_bank_transactions                  Phase6BBankTransaction[]
+  phase_6b_reconciliation_statements          Phase6BReconciliationStatement[]
+  phase_6b_payees                             Phase6BPayee[]
+  phase_6b_payroll_batches                    Phase6BPayrollBatch[]
+  phase_6b_payroll_payouts                    Phase6BPayrollPayout[]
+  phase_6b_billing_operations                 Phase6BBillingOperation[]
+  phase_6b_budget_caps                        Phase6BBudgetCap[]
 
   @@index([status])
 }
@@ -132,25 +181,25 @@ model OrganizationUnitClosure {
 }
 
 model User {
-  id             String           @id @default(cuid())
-  organization_id String
-  email          String
-  display_name   String
-  status         String
-  primary_unit_id String?
-  organization   Organization     @relation(fields: [organization_id], references: [id])
-  primary_unit   OrganizationUnit? @relation("User_PrimaryUnit", fields: [organization_id, primary_unit_id], references: [organization_id, id])
-  user_groups    UserGroup[]      @relation("UserGroup_User")
-  audit_logs_as_actor AuditLog[]  @relation("AuditLog_ActorUser")
+  id                                   String                     @id @default(cuid())
+  organization_id                      String
+  email                                String
+  display_name                         String
+  status                               String
+  primary_unit_id                      String?
+  organization                         Organization               @relation(fields: [organization_id], references: [id])
+  primary_unit                         OrganizationUnit?          @relation("User_PrimaryUnit", fields: [organization_id, primary_unit_id], references: [organization_id, id])
+  user_groups                          UserGroup[]                @relation("UserGroup_User")
+  audit_logs_as_actor                  AuditLog[]                 @relation("AuditLog_ActorUser")
   gatekeeper_decision_records_as_actor GatekeeperDecisionRecord[] @relation("GatekeeperDecisionRecord_ActorUser")
-  module_lifecycle_events_as_actor ModuleLifecycleEvent[] @relation("ModuleLifecycleEvent_ActorUser")
-  workflow_instances_as_actor WorkflowInstance[] @relation("WorkflowInstance_ActorUser")
-  workflow_step_instances_as_actor WorkflowStepInstance[] @relation("WorkflowStepInstance_ActorUser")
-  file_document_metadata_created FileDocumentMetadata[] @relation("FileDocumentMetadata_CreatedByUser")
-  lead_records_assigned LeadRecord[] @relation("LeadRecord_AssignedUser")
-  lead_status_history_as_actor LeadStatusHistory[] @relation("LeadStatusHistory_ActorUser")
-  lead_assignment_history_as_actor LeadAssignmentHistory[] @relation("LeadAssignmentHistory_ActorUser")
-  lead_assignment_history_as_assigned LeadAssignmentHistory[] @relation("LeadAssignmentHistory_AssignedUser")
+  module_lifecycle_events_as_actor     ModuleLifecycleEvent[]     @relation("ModuleLifecycleEvent_ActorUser")
+  workflow_instances_as_actor          WorkflowInstance[]         @relation("WorkflowInstance_ActorUser")
+  workflow_step_instances_as_actor     WorkflowStepInstance[]     @relation("WorkflowStepInstance_ActorUser")
+  file_document_metadata_created       FileDocumentMetadata[]     @relation("FileDocumentMetadata_CreatedByUser")
+  lead_records_assigned                LeadRecord[]               @relation("LeadRecord_AssignedUser")
+  lead_status_history_as_actor         LeadStatusHistory[]        @relation("LeadStatusHistory_ActorUser")
+  lead_assignment_history_as_actor     LeadAssignmentHistory[]    @relation("LeadAssignmentHistory_ActorUser")
+  lead_assignment_history_as_assigned  LeadAssignmentHistory[]    @relation("LeadAssignmentHistory_AssignedUser")
   engagement_gateway_requests_as_actor EngagementGatewayRequest[] @relation("EngagementGatewayRequest_ActorUser")
 
   @@unique([organization_id, email])
@@ -215,7 +264,7 @@ model UserGroup {
 }
 
 model Capability {
-  key                     String               @id
+  key                     String              @id
   module_key              String
   description             String
   risk_level              CapabilityRiskLevel
@@ -297,33 +346,33 @@ model GatekeeperDecisionRecord {
 }
 
 model EventOutbox {
-  id              String       @id @default(cuid())
-  organization_id String
-  idempotency_key String
-  event_type      String
-  version         String
-  event_id        String?
-  producer        String       @default("akti-api")
-  occurred_at     DateTime     @default(now())
-  schema_version  String       @default("1.0.0")
-  source_module   String       @default("platform")
-  subject         Json?
-  payload         Json
-  privacy_class   String       @default("internal")
-  retention_class String       @default("standard")
-  redaction_policy String      @default("standard")
-  audit_required  Boolean      @default(true)
-  replay_allowed  Boolean      @default(true)
-  status          String
-  attempt_count   Int          @default(0)
-  next_attempt_at DateTime?
-  last_error      String?
+  id               String       @id @default(cuid())
+  organization_id  String
+  idempotency_key  String
+  event_type       String
+  version          String
+  event_id         String?
+  producer         String       @default("akti-api")
+  occurred_at      DateTime     @default(now())
+  schema_version   String       @default("1.0.0")
+  source_module    String       @default("platform")
+  subject          Json?
+  payload          Json
+  privacy_class    String       @default("internal")
+  retention_class  String       @default("standard")
+  redaction_policy String       @default("standard")
+  audit_required   Boolean      @default(true)
+  replay_allowed   Boolean      @default(true)
+  status           String
+  attempt_count    Int          @default(0)
+  next_attempt_at  DateTime?
+  last_error       String?
   dead_lettered_at DateTime?
-  locked_at       DateTime?
-  locked_by       String?
-  created_at      DateTime     @default(now())
-  processed_at    DateTime?
-  organization    Organization @relation(fields: [organization_id], references: [id])
+  locked_at        DateTime?
+  locked_by        String?
+  created_at       DateTime     @default(now())
+  processed_at     DateTime?
+  organization     Organization @relation(fields: [organization_id], references: [id])
 
   @@unique([organization_id, idempotency_key])
   @@index([organization_id, status, created_at])
@@ -382,7 +431,7 @@ model ReadModelCursor {
 }
 
 model WorkflowDefinition {
-  id                      String             @id @default(cuid())
+  id                      String                   @id @default(cuid())
   organization_id         String
   workflow_key            String
   version                 String
@@ -396,9 +445,9 @@ model WorkflowDefinition {
   evidence_requirements   Json
   deprecation_policy      Json
   search_vector           Unsupported("tsvector")?
-  created_at              DateTime           @default(now())
-  updated_at              DateTime           @updatedAt
-  organization            Organization       @relation(fields: [organization_id], references: [id])
+  created_at              DateTime                 @default(now())
+  updated_at              DateTime                 @updatedAt
+  organization            Organization             @relation(fields: [organization_id], references: [id])
   workflow_instances      WorkflowInstance[]
 
   @@unique([organization_id, workflow_key, version])
@@ -409,7 +458,7 @@ model WorkflowDefinition {
 }
 
 model WorkflowInstance {
-  id                     String                 @id @default(cuid())
+  id                     String                   @id @default(cuid())
   organization_id        String
   workflow_definition_id String
   workflow_key           String
@@ -422,12 +471,12 @@ model WorkflowInstance {
   correlation_id         String?
   context                Json
   search_vector          Unsupported("tsvector")?
-  started_at             DateTime               @default(now())
+  started_at             DateTime                 @default(now())
   completed_at           DateTime?
-  updated_at             DateTime               @updatedAt
-  organization           Organization           @relation(fields: [organization_id], references: [id])
-  workflow_definition    WorkflowDefinition     @relation(fields: [organization_id, workflow_definition_id], references: [organization_id, id])
-  actor_user             User                   @relation("WorkflowInstance_ActorUser", fields: [organization_id, actor_user_id], references: [organization_id, id])
+  updated_at             DateTime                 @updatedAt
+  organization           Organization             @relation(fields: [organization_id], references: [id])
+  workflow_definition    WorkflowDefinition       @relation(fields: [organization_id, workflow_definition_id], references: [organization_id, id])
+  actor_user             User                     @relation("WorkflowInstance_ActorUser", fields: [organization_id, actor_user_id], references: [organization_id, id])
   workflow_steps         WorkflowStepInstance[]
 
   @@unique([organization_id, id])
@@ -438,7 +487,7 @@ model WorkflowInstance {
 }
 
 model WorkflowStepInstance {
-  id                    String                    @id @default(cuid())
+  id                    String                     @id @default(cuid())
   organization_id       String
   workflow_instance_id  String
   step_key              String
@@ -450,12 +499,12 @@ model WorkflowStepInstance {
   gatekeeper_outcome    GatekeeperDecisionOutcome?
   evidence_ref          String?
   event_ref             String?
-  started_at            DateTime                  @default(now())
+  started_at            DateTime                   @default(now())
   completed_at          DateTime?
   metadata              Json
-  organization          Organization              @relation(fields: [organization_id], references: [id])
-  workflow_instance     WorkflowInstance          @relation(fields: [organization_id, workflow_instance_id], references: [organization_id, id])
-  actor_user            User?                     @relation("WorkflowStepInstance_ActorUser", fields: [organization_id, actor_user_id], references: [organization_id, id])
+  organization          Organization               @relation(fields: [organization_id], references: [id])
+  workflow_instance     WorkflowInstance           @relation(fields: [organization_id, workflow_instance_id], references: [organization_id, id])
+  actor_user            User?                      @relation("WorkflowStepInstance_ActorUser", fields: [organization_id, actor_user_id], references: [organization_id, id])
 
   @@unique([organization_id, workflow_instance_id, step_key])
   @@index([organization_id, workflow_instance_id, started_at])
@@ -465,28 +514,28 @@ model WorkflowStepInstance {
 }
 
 model FileDocumentMetadata {
-  id                String       @id @default(cuid())
-  organization_id   String
-  file_key          String
-  storage_key       String
-  owner_module      String
-  owner_entity_type String?
-  owner_entity_id   String?
-  display_name      String
-  mime_type         String
-  byte_size         Int
-  checksum_sha256   String?
-  classification    String
-  retention_policy  String
-  access_policy     Json
-  storage_provider  String
-  status            String
+  id                 String       @id @default(cuid())
+  organization_id    String
+  file_key           String
+  storage_key        String
+  owner_module       String
+  owner_entity_type  String?
+  owner_entity_id    String?
+  display_name       String
+  mime_type          String
+  byte_size          Int
+  checksum_sha256    String?
+  classification     String
+  retention_policy   String
+  access_policy      Json
+  storage_provider   String
+  status             String
   created_by_user_id String?
-  created_at        DateTime     @default(now())
-  updated_at        DateTime     @updatedAt
-  deleted_at        DateTime?
-  organization      Organization @relation(fields: [organization_id], references: [id])
-  created_by_user   User?        @relation("FileDocumentMetadata_CreatedByUser", fields: [organization_id, created_by_user_id], references: [organization_id, id])
+  created_at         DateTime     @default(now())
+  updated_at         DateTime     @updatedAt
+  deleted_at         DateTime?
+  organization       Organization @relation(fields: [organization_id], references: [id])
+  created_by_user    User?        @relation("FileDocumentMetadata_CreatedByUser", fields: [organization_id, created_by_user_id], references: [organization_id, id])
 
   @@unique([organization_id, file_key])
   @@unique([organization_id, storage_key])
@@ -499,11 +548,11 @@ model FileDocumentMetadata {
 }
 
 model ModuleRegistryEntry {
-  module_key   String @id
-  display_name String
-  version      String
-  status       String
-  manifest_hash String
+  module_key       String                 @id
+  display_name     String
+  version          String
+  status           String
+  manifest_hash    String
   lifecycle_events ModuleLifecycleEvent[]
 
   @@index([status])
@@ -512,7 +561,7 @@ model ModuleRegistryEntry {
 }
 
 model ModuleLifecycleEvent {
-  id              String       @id @default(cuid())
+  id              String              @id @default(cuid())
   organization_id String?
   module_key      String
   from_status     String?
@@ -522,10 +571,10 @@ model ModuleLifecycleEvent {
   evidence_ref    String?
   reason          String?
   metadata        Json
-  created_at      DateTime     @default(now())
+  created_at      DateTime            @default(now())
   module          ModuleRegistryEntry @relation(fields: [module_key], references: [module_key])
-  organization    Organization? @relation(fields: [organization_id], references: [id])
-  actor_user      User?        @relation("ModuleLifecycleEvent_ActorUser", fields: [organization_id, actor_user_id], references: [organization_id, id])
+  organization    Organization?       @relation(fields: [organization_id], references: [id])
+  actor_user      User?               @relation("ModuleLifecycleEvent_ActorUser", fields: [organization_id, actor_user_id], references: [organization_id, id])
 
   @@index([module_key, to_status, created_at])
   @@index([organization_id, module_key, created_at])
@@ -546,22 +595,22 @@ model OrganizationSetting {
 }
 
 model LeadRecord {
-  id               String       @id @default(cuid())
-  organization_id  String
+  id                   String                  @id @default(cuid())
+  organization_id      String
   organization_unit_id String?
-  source_ref       String
-  full_name        String
-  phone_e164       String
-  notes            String?
-  status           String
-  assigned_user_id String?
-  created_at       DateTime     @default(now())
-  updated_at       DateTime     @updatedAt
-  organization     Organization @relation(fields: [organization_id], references: [id])
-  assigned_user    User?        @relation("LeadRecord_AssignedUser", fields: [organization_id, assigned_user_id], references: [organization_id, id])
+  source_ref           String
+  full_name            String
+  phone_e164           String
+  notes                String?
+  status               String
+  assigned_user_id     String?
+  created_at           DateTime                @default(now())
+  updated_at           DateTime                @updatedAt
+  organization         Organization            @relation(fields: [organization_id], references: [id])
+  assigned_user        User?                   @relation("LeadRecord_AssignedUser", fields: [organization_id, assigned_user_id], references: [organization_id, id])
   organization_unit OrganizationUnit? @relation(fields: [organization_id, organization_unit_id], references: [organization_id, id])
-  status_history   LeadStatusHistory[]
-  assignment_history LeadAssignmentHistory[]
+  status_history       LeadStatusHistory[]
+  assignment_history   LeadAssignmentHistory[]
 
   @@unique([organization_id, id])
   @@index([organization_id, created_at])
@@ -605,4 +654,991 @@ model LeadAssignmentHistory {
   @@index([organization_id, lead_id, changed_at])
   @@index([organization_id, actor_user_id, changed_at])
   @@index([organization_id, assigned_user_id, changed_at])
+}
+
+model Phase6BProduct {
+  id                   String   @id @default(cuid())
+  organization_id      String
+  key                  String
+  display_name         String
+  status               String   @default("draft")
+  source_authority_ref String   @default("6b_commerce_core.md")
+  payload_json         Json
+  evidence_json        Json?
+  created_at           DateTime @default(now())
+  updated_at           DateTime @updatedAt
+
+  organization Organization @relation(fields: [organization_id], references: [id], onDelete: Restrict)
+
+  @@unique([organization_id, id], map: "p6b_m01_org_id_uq")
+  @@unique([organization_id, key], map: "p6b_m01_key_uq")
+  @@index([organization_id], map: "p6b_m01_org_idx")
+  @@index([organization_id, status], map: "p6b_m01_status_idx")
+  @@map("phase_6b_products")
+}
+
+model Phase6BProductCategory {
+  id                   String   @id @default(cuid())
+  organization_id      String
+  key                  String
+  display_name         String
+  status               String   @default("draft")
+  source_authority_ref String   @default("6b_commerce_core.md")
+  payload_json         Json
+  evidence_json        Json?
+  created_at           DateTime @default(now())
+  updated_at           DateTime @updatedAt
+
+  organization Organization @relation(fields: [organization_id], references: [id], onDelete: Restrict)
+
+  @@unique([organization_id, id], map: "p6b_m02_org_id_uq")
+  @@unique([organization_id, key], map: "p6b_m02_key_uq")
+  @@index([organization_id], map: "p6b_m02_org_idx")
+  @@index([organization_id, status], map: "p6b_m02_status_idx")
+  @@map("phase_6b_product_categories")
+}
+
+model Phase6BProductMedia {
+  id                   String   @id @default(cuid())
+  organization_id      String
+  key                  String
+  display_name         String
+  status               String   @default("draft")
+  source_authority_ref String   @default("6b_commerce_core.md")
+  payload_json         Json
+  evidence_json        Json?
+  created_at           DateTime @default(now())
+  updated_at           DateTime @updatedAt
+
+  organization Organization @relation(fields: [organization_id], references: [id], onDelete: Restrict)
+
+  @@unique([organization_id, id], map: "p6b_m03_org_id_uq")
+  @@unique([organization_id, key], map: "p6b_m03_key_uq")
+  @@index([organization_id], map: "p6b_m03_org_idx")
+  @@index([organization_id, status], map: "p6b_m03_status_idx")
+  @@map("phase_6b_product_media")
+}
+
+model Phase6BProductHistory {
+  id                   String   @id @default(cuid())
+  organization_id      String
+  key                  String
+  display_name         String
+  status               String   @default("draft")
+  source_authority_ref String   @default("6b_commerce_core.md")
+  payload_json         Json
+  evidence_json        Json?
+  created_at           DateTime @default(now())
+  updated_at           DateTime @updatedAt
+
+  organization Organization @relation(fields: [organization_id], references: [id], onDelete: Restrict)
+
+  @@unique([organization_id, id], map: "p6b_m04_org_id_uq")
+  @@unique([organization_id, key], map: "p6b_m04_key_uq")
+  @@index([organization_id], map: "p6b_m04_org_idx")
+  @@index([organization_id, status], map: "p6b_m04_status_idx")
+  @@map("phase_6b_product_histories")
+}
+
+model Phase6BProductPriceHistory {
+  id                   String   @id @default(cuid())
+  organization_id      String
+  key                  String
+  display_name         String
+  status               String   @default("draft")
+  source_authority_ref String   @default("6b_commerce_core.md")
+  payload_json         Json
+  evidence_json        Json?
+  created_at           DateTime @default(now())
+  updated_at           DateTime @updatedAt
+
+  organization Organization @relation(fields: [organization_id], references: [id], onDelete: Restrict)
+
+  @@unique([organization_id, id], map: "p6b_m05_org_id_uq")
+  @@unique([organization_id, key], map: "p6b_m05_key_uq")
+  @@index([organization_id], map: "p6b_m05_org_idx")
+  @@index([organization_id, status], map: "p6b_m05_status_idx")
+  @@map("phase_6b_product_price_histories")
+}
+
+model Phase6BPackageDefinition {
+  id                   String   @id @default(cuid())
+  organization_id      String
+  key                  String
+  display_name         String
+  status               String   @default("draft")
+  source_authority_ref String   @default("6b_commerce_core.md")
+  payload_json         Json
+  evidence_json        Json?
+  created_at           DateTime @default(now())
+  updated_at           DateTime @updatedAt
+
+  organization Organization @relation(fields: [organization_id], references: [id], onDelete: Restrict)
+
+  @@unique([organization_id, id], map: "p6b_m06_org_id_uq")
+  @@unique([organization_id, key], map: "p6b_m06_key_uq")
+  @@index([organization_id], map: "p6b_m06_org_idx")
+  @@index([organization_id, status], map: "p6b_m06_status_idx")
+  @@map("phase_6b_package_definitions")
+}
+
+model Phase6BDiscountRule {
+  id                   String   @id @default(cuid())
+  organization_id      String
+  key                  String
+  display_name         String
+  status               String   @default("draft")
+  source_authority_ref String   @default("6b_commerce_core.md")
+  payload_json         Json
+  evidence_json        Json?
+  created_at           DateTime @default(now())
+  updated_at           DateTime @updatedAt
+
+  organization Organization @relation(fields: [organization_id], references: [id], onDelete: Restrict)
+
+  @@unique([organization_id, id], map: "p6b_m07_org_id_uq")
+  @@unique([organization_id, key], map: "p6b_m07_key_uq")
+  @@index([organization_id], map: "p6b_m07_org_idx")
+  @@index([organization_id, status], map: "p6b_m07_status_idx")
+  @@map("phase_6b_discount_rules")
+}
+
+model Phase6BInventoryLocation {
+  id                   String   @id @default(cuid())
+  organization_id      String
+  key                  String
+  display_name         String
+  status               String   @default("draft")
+  source_authority_ref String   @default("6b_commerce_core.md")
+  payload_json         Json
+  evidence_json        Json?
+  created_at           DateTime @default(now())
+  updated_at           DateTime @updatedAt
+
+  organization Organization @relation(fields: [organization_id], references: [id], onDelete: Restrict)
+
+  @@unique([organization_id, id], map: "p6b_m08_org_id_uq")
+  @@unique([organization_id, key], map: "p6b_m08_key_uq")
+  @@index([organization_id], map: "p6b_m08_org_idx")
+  @@index([organization_id, status], map: "p6b_m08_status_idx")
+  @@map("phase_6b_inventory_locations")
+}
+
+model Phase6BStockItem {
+  id                   String   @id @default(cuid())
+  organization_id      String
+  key                  String
+  display_name         String
+  status               String   @default("draft")
+  source_authority_ref String   @default("6b_commerce_core.md")
+  payload_json         Json
+  evidence_json        Json?
+  created_at           DateTime @default(now())
+  updated_at           DateTime @updatedAt
+
+  organization Organization @relation(fields: [organization_id], references: [id], onDelete: Restrict)
+
+  @@unique([organization_id, id], map: "p6b_m09_org_id_uq")
+  @@unique([organization_id, key], map: "p6b_m09_key_uq")
+  @@index([organization_id], map: "p6b_m09_org_idx")
+  @@index([organization_id, status], map: "p6b_m09_status_idx")
+  @@map("phase_6b_stock_items")
+}
+
+model Phase6BStockMovement {
+  id                   String   @id @default(cuid())
+  organization_id      String
+  key                  String
+  display_name         String
+  status               String   @default("draft")
+  source_authority_ref String   @default("6b_commerce_core.md")
+  payload_json         Json
+  evidence_json        Json?
+  created_at           DateTime @default(now())
+  updated_at           DateTime @updatedAt
+
+  organization Organization @relation(fields: [organization_id], references: [id], onDelete: Restrict)
+
+  @@unique([organization_id, id], map: "p6b_m10_org_id_uq")
+  @@unique([organization_id, key], map: "p6b_m10_key_uq")
+  @@index([organization_id], map: "p6b_m10_org_idx")
+  @@index([organization_id, status], map: "p6b_m10_status_idx")
+  @@map("phase_6b_stock_movements")
+}
+
+model Phase6BLeadSource {
+  id                   String   @id @default(cuid())
+  organization_id      String
+  key                  String
+  display_name         String
+  status               String   @default("draft")
+  source_authority_ref String   @default("6b_commerce_core.md")
+  payload_json         Json
+  evidence_json        Json?
+  created_at           DateTime @default(now())
+  updated_at           DateTime @updatedAt
+
+  organization Organization @relation(fields: [organization_id], references: [id], onDelete: Restrict)
+
+  @@unique([organization_id, id], map: "p6b_m11_org_id_uq")
+  @@unique([organization_id, key], map: "p6b_m11_key_uq")
+  @@index([organization_id], map: "p6b_m11_org_idx")
+  @@index([organization_id, status], map: "p6b_m11_status_idx")
+  @@map("phase_6b_lead_sources")
+}
+
+model Phase6BLeadEvidence {
+  id                   String   @id @default(cuid())
+  organization_id      String
+  key                  String
+  display_name         String
+  status               String   @default("draft")
+  source_authority_ref String   @default("6b_commerce_core.md")
+  payload_json         Json
+  evidence_json        Json?
+  created_at           DateTime @default(now())
+  updated_at           DateTime @updatedAt
+
+  organization Organization @relation(fields: [organization_id], references: [id], onDelete: Restrict)
+
+  @@unique([organization_id, id], map: "p6b_m12_org_id_uq")
+  @@unique([organization_id, key], map: "p6b_m12_key_uq")
+  @@index([organization_id], map: "p6b_m12_org_idx")
+  @@index([organization_id, status], map: "p6b_m12_status_idx")
+  @@map("phase_6b_lead_evidence")
+}
+
+model Phase6BLeadMatchCandidate {
+  id                   String   @id @default(cuid())
+  organization_id      String
+  key                  String
+  display_name         String
+  status               String   @default("draft")
+  source_authority_ref String   @default("6b_commerce_core.md")
+  payload_json         Json
+  evidence_json        Json?
+  created_at           DateTime @default(now())
+  updated_at           DateTime @updatedAt
+
+  organization Organization @relation(fields: [organization_id], references: [id], onDelete: Restrict)
+
+  @@unique([organization_id, id], map: "p6b_m13_org_id_uq")
+  @@unique([organization_id, key], map: "p6b_m13_key_uq")
+  @@index([organization_id], map: "p6b_m13_org_idx")
+  @@index([organization_id, status], map: "p6b_m13_status_idx")
+  @@map("phase_6b_lead_match_candidates")
+}
+
+model Phase6BLeadMergeRecord {
+  id                   String   @id @default(cuid())
+  organization_id      String
+  key                  String
+  display_name         String
+  status               String   @default("draft")
+  source_authority_ref String   @default("6b_commerce_core.md")
+  payload_json         Json
+  evidence_json        Json?
+  created_at           DateTime @default(now())
+  updated_at           DateTime @updatedAt
+
+  organization Organization @relation(fields: [organization_id], references: [id], onDelete: Restrict)
+
+  @@unique([organization_id, id], map: "p6b_m14_org_id_uq")
+  @@unique([organization_id, key], map: "p6b_m14_key_uq")
+  @@index([organization_id], map: "p6b_m14_org_idx")
+  @@index([organization_id, status], map: "p6b_m14_status_idx")
+  @@map("phase_6b_lead_merge_records")
+}
+
+model Phase6BPipelineStage {
+  id                   String   @id @default(cuid())
+  organization_id      String
+  key                  String
+  display_name         String
+  status               String   @default("draft")
+  source_authority_ref String   @default("6b_commerce_core.md")
+  payload_json         Json
+  evidence_json        Json?
+  created_at           DateTime @default(now())
+  updated_at           DateTime @updatedAt
+
+  organization Organization @relation(fields: [organization_id], references: [id], onDelete: Restrict)
+
+  @@unique([organization_id, id], map: "p6b_m15_org_id_uq")
+  @@unique([organization_id, key], map: "p6b_m15_key_uq")
+  @@index([organization_id], map: "p6b_m15_org_idx")
+  @@index([organization_id, status], map: "p6b_m15_status_idx")
+  @@map("phase_6b_pipeline_stages")
+}
+
+model Phase6BPipelineTimelineEntry {
+  id                   String   @id @default(cuid())
+  organization_id      String
+  key                  String
+  display_name         String
+  status               String   @default("draft")
+  source_authority_ref String   @default("6b_commerce_core.md")
+  payload_json         Json
+  evidence_json        Json?
+  created_at           DateTime @default(now())
+  updated_at           DateTime @updatedAt
+
+  organization Organization @relation(fields: [organization_id], references: [id], onDelete: Restrict)
+
+  @@unique([organization_id, id], map: "p6b_m16_org_id_uq")
+  @@unique([organization_id, key], map: "p6b_m16_key_uq")
+  @@index([organization_id], map: "p6b_m16_org_idx")
+  @@index([organization_id, status], map: "p6b_m16_status_idx")
+  @@map("phase_6b_pipeline_timeline_entries")
+}
+
+model Phase6BCommunicationTemplate {
+  id                   String   @id @default(cuid())
+  organization_id      String
+  key                  String
+  display_name         String
+  status               String   @default("draft")
+  source_authority_ref String   @default("6b_commerce_core.md")
+  payload_json         Json
+  evidence_json        Json?
+  created_at           DateTime @default(now())
+  updated_at           DateTime @updatedAt
+
+  organization Organization @relation(fields: [organization_id], references: [id], onDelete: Restrict)
+
+  @@unique([organization_id, id], map: "p6b_m17_org_id_uq")
+  @@unique([organization_id, key], map: "p6b_m17_key_uq")
+  @@index([organization_id], map: "p6b_m17_org_idx")
+  @@index([organization_id, status], map: "p6b_m17_status_idx")
+  @@map("phase_6b_communication_templates")
+}
+
+model Phase6BCommunicationAttempt {
+  id                   String   @id @default(cuid())
+  organization_id      String
+  key                  String
+  display_name         String
+  status               String   @default("draft")
+  source_authority_ref String   @default("6b_commerce_core.md")
+  payload_json         Json
+  evidence_json        Json?
+  created_at           DateTime @default(now())
+  updated_at           DateTime @updatedAt
+
+  organization Organization @relation(fields: [organization_id], references: [id], onDelete: Restrict)
+
+  @@unique([organization_id, id], map: "p6b_m18_org_id_uq")
+  @@unique([organization_id, key], map: "p6b_m18_key_uq")
+  @@index([organization_id], map: "p6b_m18_org_idx")
+  @@index([organization_id, status], map: "p6b_m18_status_idx")
+  @@map("phase_6b_communication_attempts")
+}
+
+model Phase6BCommunicationSequenceEnrollment {
+  id                   String   @id @default(cuid())
+  organization_id      String
+  key                  String
+  display_name         String
+  status               String   @default("draft")
+  source_authority_ref String   @default("6b_commerce_core.md")
+  payload_json         Json
+  evidence_json        Json?
+  created_at           DateTime @default(now())
+  updated_at           DateTime @updatedAt
+
+  organization Organization @relation(fields: [organization_id], references: [id], onDelete: Restrict)
+
+  @@unique([organization_id, id], map: "p6b_m19_org_id_uq")
+  @@unique([organization_id, key], map: "p6b_m19_key_uq")
+  @@index([organization_id], map: "p6b_m19_org_idx")
+  @@index([organization_id, status], map: "p6b_m19_status_idx")
+  @@map("phase_6b_communication_sequence_enrollments")
+}
+
+model Phase6BLeadScore {
+  id                   String   @id @default(cuid())
+  organization_id      String
+  key                  String
+  display_name         String
+  status               String   @default("draft")
+  source_authority_ref String   @default("6b_commerce_core.md")
+  payload_json         Json
+  evidence_json        Json?
+  created_at           DateTime @default(now())
+  updated_at           DateTime @updatedAt
+
+  organization Organization @relation(fields: [organization_id], references: [id], onDelete: Restrict)
+
+  @@unique([organization_id, id], map: "p6b_m20_org_id_uq")
+  @@unique([organization_id, key], map: "p6b_m20_key_uq")
+  @@index([organization_id], map: "p6b_m20_org_idx")
+  @@index([organization_id, status], map: "p6b_m20_status_idx")
+  @@map("phase_6b_lead_scores")
+}
+
+model Phase6BFollowUpTask {
+  id                   String   @id @default(cuid())
+  organization_id      String
+  key                  String
+  display_name         String
+  status               String   @default("draft")
+  source_authority_ref String   @default("6b_commerce_core.md")
+  payload_json         Json
+  evidence_json        Json?
+  created_at           DateTime @default(now())
+  updated_at           DateTime @updatedAt
+
+  organization Organization @relation(fields: [organization_id], references: [id], onDelete: Restrict)
+
+  @@unique([organization_id, id], map: "p6b_m21_org_id_uq")
+  @@unique([organization_id, key], map: "p6b_m21_key_uq")
+  @@index([organization_id], map: "p6b_m21_org_idx")
+  @@index([organization_id, status], map: "p6b_m21_status_idx")
+  @@map("phase_6b_follow_up_tasks")
+}
+
+model Phase6BInvoice {
+  id                   String   @id @default(cuid())
+  organization_id      String
+  key                  String
+  display_name         String
+  status               String   @default("draft")
+  source_authority_ref String   @default("6b_commerce_core.md")
+  payload_json         Json
+  evidence_json        Json?
+  created_at           DateTime @default(now())
+  updated_at           DateTime @updatedAt
+
+  organization Organization @relation(fields: [organization_id], references: [id], onDelete: Restrict)
+
+  @@unique([organization_id, id], map: "p6b_m22_org_id_uq")
+  @@unique([organization_id, key], map: "p6b_m22_key_uq")
+  @@index([organization_id], map: "p6b_m22_org_idx")
+  @@index([organization_id, status], map: "p6b_m22_status_idx")
+  @@map("phase_6b_invoices")
+}
+
+model Phase6BInvoiceLine {
+  id                   String   @id @default(cuid())
+  organization_id      String
+  key                  String
+  display_name         String
+  status               String   @default("draft")
+  source_authority_ref String   @default("6b_commerce_core.md")
+  payload_json         Json
+  evidence_json        Json?
+  created_at           DateTime @default(now())
+  updated_at           DateTime @updatedAt
+
+  organization Organization @relation(fields: [organization_id], references: [id], onDelete: Restrict)
+
+  @@unique([organization_id, id], map: "p6b_m23_org_id_uq")
+  @@unique([organization_id, key], map: "p6b_m23_key_uq")
+  @@index([organization_id], map: "p6b_m23_org_idx")
+  @@index([organization_id, status], map: "p6b_m23_status_idx")
+  @@map("phase_6b_invoice_lines")
+}
+
+model Phase6BReceivable {
+  id                   String   @id @default(cuid())
+  organization_id      String
+  key                  String
+  display_name         String
+  status               String   @default("draft")
+  source_authority_ref String   @default("6b_commerce_core.md")
+  payload_json         Json
+  evidence_json        Json?
+  created_at           DateTime @default(now())
+  updated_at           DateTime @updatedAt
+
+  organization Organization @relation(fields: [organization_id], references: [id], onDelete: Restrict)
+
+  @@unique([organization_id, id], map: "p6b_m24_org_id_uq")
+  @@unique([organization_id, key], map: "p6b_m24_key_uq")
+  @@index([organization_id], map: "p6b_m24_org_idx")
+  @@index([organization_id, status], map: "p6b_m24_status_idx")
+  @@map("phase_6b_receivables")
+}
+
+model Phase6BCreditDebitNote {
+  id                   String   @id @default(cuid())
+  organization_id      String
+  key                  String
+  display_name         String
+  status               String   @default("draft")
+  source_authority_ref String   @default("6b_commerce_core.md")
+  payload_json         Json
+  evidence_json        Json?
+  created_at           DateTime @default(now())
+  updated_at           DateTime @updatedAt
+
+  organization Organization @relation(fields: [organization_id], references: [id], onDelete: Restrict)
+
+  @@unique([organization_id, id], map: "p6b_m25_org_id_uq")
+  @@unique([organization_id, key], map: "p6b_m25_key_uq")
+  @@index([organization_id], map: "p6b_m25_org_idx")
+  @@index([organization_id, status], map: "p6b_m25_status_idx")
+  @@map("phase_6b_credit_debit_notes")
+}
+
+model Phase6BPayment {
+  id                   String   @id @default(cuid())
+  organization_id      String
+  key                  String
+  display_name         String
+  status               String   @default("draft")
+  source_authority_ref String   @default("6b_commerce_core.md")
+  payload_json         Json
+  evidence_json        Json?
+  created_at           DateTime @default(now())
+  updated_at           DateTime @updatedAt
+
+  organization Organization @relation(fields: [organization_id], references: [id], onDelete: Restrict)
+
+  @@unique([organization_id, id], map: "p6b_m26_org_id_uq")
+  @@unique([organization_id, key], map: "p6b_m26_key_uq")
+  @@index([organization_id], map: "p6b_m26_org_idx")
+  @@index([organization_id, status], map: "p6b_m26_status_idx")
+  @@map("phase_6b_payments")
+}
+
+model Phase6BPaymentAllocation {
+  id                   String   @id @default(cuid())
+  organization_id      String
+  key                  String
+  display_name         String
+  status               String   @default("draft")
+  source_authority_ref String   @default("6b_commerce_core.md")
+  payload_json         Json
+  evidence_json        Json?
+  created_at           DateTime @default(now())
+  updated_at           DateTime @updatedAt
+
+  organization Organization @relation(fields: [organization_id], references: [id], onDelete: Restrict)
+
+  @@unique([organization_id, id], map: "p6b_m27_org_id_uq")
+  @@unique([organization_id, key], map: "p6b_m27_key_uq")
+  @@index([organization_id], map: "p6b_m27_org_idx")
+  @@index([organization_id, status], map: "p6b_m27_status_idx")
+  @@map("phase_6b_payment_allocations")
+}
+
+model Phase6BReceipt {
+  id                   String   @id @default(cuid())
+  organization_id      String
+  key                  String
+  display_name         String
+  status               String   @default("draft")
+  source_authority_ref String   @default("6b_commerce_core.md")
+  payload_json         Json
+  evidence_json        Json?
+  created_at           DateTime @default(now())
+  updated_at           DateTime @updatedAt
+
+  organization Organization @relation(fields: [organization_id], references: [id], onDelete: Restrict)
+
+  @@unique([organization_id, id], map: "p6b_m28_org_id_uq")
+  @@unique([organization_id, key], map: "p6b_m28_key_uq")
+  @@index([organization_id], map: "p6b_m28_org_idx")
+  @@index([organization_id, status], map: "p6b_m28_status_idx")
+  @@map("phase_6b_receipts")
+}
+
+model Phase6BTopUp {
+  id                   String   @id @default(cuid())
+  organization_id      String
+  key                  String
+  display_name         String
+  status               String   @default("draft")
+  source_authority_ref String   @default("6b_commerce_core.md")
+  payload_json         Json
+  evidence_json        Json?
+  created_at           DateTime @default(now())
+  updated_at           DateTime @updatedAt
+
+  organization Organization @relation(fields: [organization_id], references: [id], onDelete: Restrict)
+
+  @@unique([organization_id, id], map: "p6b_m29_org_id_uq")
+  @@unique([organization_id, key], map: "p6b_m29_key_uq")
+  @@index([organization_id], map: "p6b_m29_org_idx")
+  @@index([organization_id, status], map: "p6b_m29_status_idx")
+  @@map("phase_6b_top_ups")
+}
+
+model Phase6BReconciliationCandidate {
+  id                   String   @id @default(cuid())
+  organization_id      String
+  key                  String
+  display_name         String
+  status               String   @default("draft")
+  source_authority_ref String   @default("6b_commerce_core.md")
+  payload_json         Json
+  evidence_json        Json?
+  created_at           DateTime @default(now())
+  updated_at           DateTime @updatedAt
+
+  organization Organization @relation(fields: [organization_id], references: [id], onDelete: Restrict)
+
+  @@unique([organization_id, id], map: "p6b_m30_org_id_uq")
+  @@unique([organization_id, key], map: "p6b_m30_key_uq")
+  @@index([organization_id], map: "p6b_m30_org_idx")
+  @@index([organization_id, status], map: "p6b_m30_status_idx")
+  @@map("phase_6b_reconciliation_candidates")
+}
+
+model Phase6BVendor {
+  id                   String   @id @default(cuid())
+  organization_id      String
+  key                  String
+  display_name         String
+  status               String   @default("draft")
+  source_authority_ref String   @default("6b_commerce_core.md")
+  payload_json         Json
+  evidence_json        Json?
+  created_at           DateTime @default(now())
+  updated_at           DateTime @updatedAt
+
+  organization Organization @relation(fields: [organization_id], references: [id], onDelete: Restrict)
+
+  @@unique([organization_id, id], map: "p6b_m31_org_id_uq")
+  @@unique([organization_id, key], map: "p6b_m31_key_uq")
+  @@index([organization_id], map: "p6b_m31_org_idx")
+  @@index([organization_id, status], map: "p6b_m31_status_idx")
+  @@map("phase_6b_vendors")
+}
+
+model Phase6BExpense {
+  id                   String   @id @default(cuid())
+  organization_id      String
+  key                  String
+  display_name         String
+  status               String   @default("draft")
+  source_authority_ref String   @default("6b_commerce_core.md")
+  payload_json         Json
+  evidence_json        Json?
+  created_at           DateTime @default(now())
+  updated_at           DateTime @updatedAt
+
+  organization Organization @relation(fields: [organization_id], references: [id], onDelete: Restrict)
+
+  @@unique([organization_id, id], map: "p6b_m32_org_id_uq")
+  @@unique([organization_id, key], map: "p6b_m32_key_uq")
+  @@index([organization_id], map: "p6b_m32_org_idx")
+  @@index([organization_id, status], map: "p6b_m32_status_idx")
+  @@map("phase_6b_expenses")
+}
+
+model Phase6BPurchaseOrder {
+  id                   String   @id @default(cuid())
+  organization_id      String
+  key                  String
+  display_name         String
+  status               String   @default("draft")
+  source_authority_ref String   @default("6b_commerce_core.md")
+  payload_json         Json
+  evidence_json        Json?
+  created_at           DateTime @default(now())
+  updated_at           DateTime @updatedAt
+
+  organization Organization @relation(fields: [organization_id], references: [id], onDelete: Restrict)
+
+  @@unique([organization_id, id], map: "p6b_m33_org_id_uq")
+  @@unique([organization_id, key], map: "p6b_m33_key_uq")
+  @@index([organization_id], map: "p6b_m33_org_idx")
+  @@index([organization_id, status], map: "p6b_m33_status_idx")
+  @@map("phase_6b_purchase_orders")
+}
+
+model Phase6BPurchaseReceipt {
+  id                   String   @id @default(cuid())
+  organization_id      String
+  key                  String
+  display_name         String
+  status               String   @default("draft")
+  source_authority_ref String   @default("6b_commerce_core.md")
+  payload_json         Json
+  evidence_json        Json?
+  created_at           DateTime @default(now())
+  updated_at           DateTime @updatedAt
+
+  organization Organization @relation(fields: [organization_id], references: [id], onDelete: Restrict)
+
+  @@unique([organization_id, id], map: "p6b_m34_org_id_uq")
+  @@unique([organization_id, key], map: "p6b_m34_key_uq")
+  @@index([organization_id], map: "p6b_m34_org_idx")
+  @@index([organization_id, status], map: "p6b_m34_status_idx")
+  @@map("phase_6b_purchase_receipts")
+}
+
+model Phase6BChartOfAccount {
+  id                   String   @id @default(cuid())
+  organization_id      String
+  key                  String
+  display_name         String
+  status               String   @default("draft")
+  source_authority_ref String   @default("6b_commerce_core.md")
+  payload_json         Json
+  evidence_json        Json?
+  created_at           DateTime @default(now())
+  updated_at           DateTime @updatedAt
+
+  organization Organization @relation(fields: [organization_id], references: [id], onDelete: Restrict)
+
+  @@unique([organization_id, id], map: "p6b_m35_org_id_uq")
+  @@unique([organization_id, key], map: "p6b_m35_key_uq")
+  @@index([organization_id], map: "p6b_m35_org_idx")
+  @@index([organization_id, status], map: "p6b_m35_status_idx")
+  @@map("phase_6b_chart_of_accounts")
+}
+
+model Phase6BJournalEntry {
+  id                   String   @id @default(cuid())
+  organization_id      String
+  key                  String
+  display_name         String
+  status               String   @default("draft")
+  source_authority_ref String   @default("6b_commerce_core.md")
+  payload_json         Json
+  evidence_json        Json?
+  created_at           DateTime @default(now())
+  updated_at           DateTime @updatedAt
+
+  organization Organization @relation(fields: [organization_id], references: [id], onDelete: Restrict)
+
+  @@unique([organization_id, id], map: "p6b_m36_org_id_uq")
+  @@unique([organization_id, key], map: "p6b_m36_key_uq")
+  @@index([organization_id], map: "p6b_m36_org_idx")
+  @@index([organization_id, status], map: "p6b_m36_status_idx")
+  @@map("phase_6b_journal_entries")
+}
+
+model Phase6BJournalEntryLine {
+  id                   String   @id @default(cuid())
+  organization_id      String
+  key                  String
+  display_name         String
+  status               String   @default("draft")
+  source_authority_ref String   @default("6b_commerce_core.md")
+  payload_json         Json
+  evidence_json        Json?
+  created_at           DateTime @default(now())
+  updated_at           DateTime @updatedAt
+
+  organization Organization @relation(fields: [organization_id], references: [id], onDelete: Restrict)
+
+  @@unique([organization_id, id], map: "p6b_m37_org_id_uq")
+  @@unique([organization_id, key], map: "p6b_m37_key_uq")
+  @@index([organization_id], map: "p6b_m37_org_idx")
+  @@index([organization_id, status], map: "p6b_m37_status_idx")
+  @@map("phase_6b_journal_entry_lines")
+}
+
+model Phase6BAccountingPeriod {
+  id                   String   @id @default(cuid())
+  organization_id      String
+  key                  String
+  display_name         String
+  status               String   @default("draft")
+  source_authority_ref String   @default("6b_commerce_core.md")
+  payload_json         Json
+  evidence_json        Json?
+  created_at           DateTime @default(now())
+  updated_at           DateTime @updatedAt
+
+  organization Organization @relation(fields: [organization_id], references: [id], onDelete: Restrict)
+
+  @@unique([organization_id, id], map: "p6b_m38_org_id_uq")
+  @@unique([organization_id, key], map: "p6b_m38_key_uq")
+  @@index([organization_id], map: "p6b_m38_org_idx")
+  @@index([organization_id, status], map: "p6b_m38_status_idx")
+  @@map("phase_6b_accounting_periods")
+}
+
+model Phase6BTaxMapping {
+  id                   String   @id @default(cuid())
+  organization_id      String
+  key                  String
+  display_name         String
+  status               String   @default("draft")
+  source_authority_ref String   @default("6b_commerce_core.md")
+  payload_json         Json
+  evidence_json        Json?
+  created_at           DateTime @default(now())
+  updated_at           DateTime @updatedAt
+
+  organization Organization @relation(fields: [organization_id], references: [id], onDelete: Restrict)
+
+  @@unique([organization_id, id], map: "p6b_m39_org_id_uq")
+  @@unique([organization_id, key], map: "p6b_m39_key_uq")
+  @@index([organization_id], map: "p6b_m39_org_idx")
+  @@index([organization_id, status], map: "p6b_m39_status_idx")
+  @@map("phase_6b_tax_mappings")
+}
+
+model Phase6BBankAccount {
+  id                   String   @id @default(cuid())
+  organization_id      String
+  key                  String
+  display_name         String
+  status               String   @default("draft")
+  source_authority_ref String   @default("6b_commerce_core.md")
+  payload_json         Json
+  evidence_json        Json?
+  created_at           DateTime @default(now())
+  updated_at           DateTime @updatedAt
+
+  organization Organization @relation(fields: [organization_id], references: [id], onDelete: Restrict)
+
+  @@unique([organization_id, id], map: "p6b_m40_org_id_uq")
+  @@unique([organization_id, key], map: "p6b_m40_key_uq")
+  @@index([organization_id], map: "p6b_m40_org_idx")
+  @@index([organization_id, status], map: "p6b_m40_status_idx")
+  @@map("phase_6b_bank_accounts")
+}
+
+model Phase6BBankTransaction {
+  id                   String   @id @default(cuid())
+  organization_id      String
+  key                  String
+  display_name         String
+  status               String   @default("draft")
+  source_authority_ref String   @default("6b_commerce_core.md")
+  payload_json         Json
+  evidence_json        Json?
+  created_at           DateTime @default(now())
+  updated_at           DateTime @updatedAt
+
+  organization Organization @relation(fields: [organization_id], references: [id], onDelete: Restrict)
+
+  @@unique([organization_id, id], map: "p6b_m41_org_id_uq")
+  @@unique([organization_id, key], map: "p6b_m41_key_uq")
+  @@index([organization_id], map: "p6b_m41_org_idx")
+  @@index([organization_id, status], map: "p6b_m41_status_idx")
+  @@map("phase_6b_bank_transactions")
+}
+
+model Phase6BReconciliationStatement {
+  id                   String   @id @default(cuid())
+  organization_id      String
+  key                  String
+  display_name         String
+  status               String   @default("draft")
+  source_authority_ref String   @default("6b_commerce_core.md")
+  payload_json         Json
+  evidence_json        Json?
+  created_at           DateTime @default(now())
+  updated_at           DateTime @updatedAt
+
+  organization Organization @relation(fields: [organization_id], references: [id], onDelete: Restrict)
+
+  @@unique([organization_id, id], map: "p6b_m42_org_id_uq")
+  @@unique([organization_id, key], map: "p6b_m42_key_uq")
+  @@index([organization_id], map: "p6b_m42_org_idx")
+  @@index([organization_id, status], map: "p6b_m42_status_idx")
+  @@map("phase_6b_reconciliation_statements")
+}
+
+model Phase6BPayee {
+  id                   String   @id @default(cuid())
+  organization_id      String
+  key                  String
+  display_name         String
+  status               String   @default("draft")
+  source_authority_ref String   @default("6b_commerce_core.md")
+  payload_json         Json
+  evidence_json        Json?
+  created_at           DateTime @default(now())
+  updated_at           DateTime @updatedAt
+
+  organization Organization @relation(fields: [organization_id], references: [id], onDelete: Restrict)
+
+  @@unique([organization_id, id], map: "p6b_m43_org_id_uq")
+  @@unique([organization_id, key], map: "p6b_m43_key_uq")
+  @@index([organization_id], map: "p6b_m43_org_idx")
+  @@index([organization_id, status], map: "p6b_m43_status_idx")
+  @@map("phase_6b_payees")
+}
+
+model Phase6BPayrollBatch {
+  id                   String   @id @default(cuid())
+  organization_id      String
+  key                  String
+  display_name         String
+  status               String   @default("draft")
+  source_authority_ref String   @default("6b_commerce_core.md")
+  payload_json         Json
+  evidence_json        Json?
+  created_at           DateTime @default(now())
+  updated_at           DateTime @updatedAt
+
+  organization Organization @relation(fields: [organization_id], references: [id], onDelete: Restrict)
+
+  @@unique([organization_id, id], map: "p6b_m44_org_id_uq")
+  @@unique([organization_id, key], map: "p6b_m44_key_uq")
+  @@index([organization_id], map: "p6b_m44_org_idx")
+  @@index([organization_id, status], map: "p6b_m44_status_idx")
+  @@map("phase_6b_payroll_batches")
+}
+
+model Phase6BPayrollPayout {
+  id                   String   @id @default(cuid())
+  organization_id      String
+  key                  String
+  display_name         String
+  status               String   @default("draft")
+  source_authority_ref String   @default("6b_commerce_core.md")
+  payload_json         Json
+  evidence_json        Json?
+  created_at           DateTime @default(now())
+  updated_at           DateTime @updatedAt
+
+  organization Organization @relation(fields: [organization_id], references: [id], onDelete: Restrict)
+
+  @@unique([organization_id, id], map: "p6b_m45_org_id_uq")
+  @@unique([organization_id, key], map: "p6b_m45_key_uq")
+  @@index([organization_id], map: "p6b_m45_org_idx")
+  @@index([organization_id, status], map: "p6b_m45_status_idx")
+  @@map("phase_6b_payroll_payouts")
+}
+
+model Phase6BBillingOperation {
+  id                   String   @id @default(cuid())
+  organization_id      String
+  key                  String
+  display_name         String
+  status               String   @default("draft")
+  source_authority_ref String   @default("6b_commerce_core.md")
+  payload_json         Json
+  evidence_json        Json?
+  created_at           DateTime @default(now())
+  updated_at           DateTime @updatedAt
+
+  organization Organization @relation(fields: [organization_id], references: [id], onDelete: Restrict)
+
+  @@unique([organization_id, id], map: "p6b_m46_org_id_uq")
+  @@unique([organization_id, key], map: "p6b_m46_key_uq")
+  @@index([organization_id], map: "p6b_m46_org_idx")
+  @@index([organization_id, status], map: "p6b_m46_status_idx")
+  @@map("phase_6b_billing_operations")
+}
+
+model Phase6BBudgetCap {
+  id                   String   @id @default(cuid())
+  organization_id      String
+  key                  String
+  display_name         String
+  status               String   @default("draft")
+  source_authority_ref String   @default("6b_commerce_core.md")
+  payload_json         Json
+  evidence_json        Json?
+  created_at           DateTime @default(now())
+  updated_at           DateTime @updatedAt
+
+  organization Organization @relation(fields: [organization_id], references: [id], onDelete: Restrict)
+
+  @@unique([organization_id, id], map: "p6b_m47_org_id_uq")
+  @@unique([organization_id, key], map: "p6b_m47_key_uq")
+  @@index([organization_id], map: "p6b_m47_org_idx")
+  @@index([organization_id, status], map: "p6b_m47_status_idx")
+  @@map("phase_6b_budget_caps")
 }

@@ -21,7 +21,7 @@ export const SensitiveDataClassificationSchema = z.enum([
   "restricted",
 ]);
 
-export const EntityPhaseSchema = z.union([z.literal(0), z.literal(1), z.literal(2)]);
+export const EntityPhaseSchema = z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(6)]);
 
 export const EntityMetadataModelSchema = z
   .object({

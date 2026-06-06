@@ -8,6 +8,8 @@ export type GeneralLedgerAccountingScaffoldMetadata = {
   scaffold_status: 'metadata_only';
   capability_implementation_authorized: false;
   ticket_generation_allowed: false;
+  schema_baseline_status: 'phase_6b_schema_declared';
+  schema_model_refs: readonly string[];
 };
 
 export const GeneralLedgerAccountingScaffoldMetadata: GeneralLedgerAccountingScaffoldMetadata = {
@@ -18,6 +20,14 @@ export const GeneralLedgerAccountingScaffoldMetadata: GeneralLedgerAccountingSca
   scaffold_status: 'metadata_only',
   capability_implementation_authorized: false,
   ticket_generation_allowed: false,
+  schema_baseline_status: 'phase_6b_schema_declared',
+  schema_model_refs: [
+  'Phase6BChartOfAccount',
+  'Phase6BJournalEntry',
+  'Phase6BJournalEntryLine',
+  'Phase6BAccountingPeriod',
+  'Phase6BTaxMapping',
+  ],
 };
 
 @Injectable()

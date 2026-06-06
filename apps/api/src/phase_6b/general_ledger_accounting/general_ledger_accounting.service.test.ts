@@ -12,5 +12,13 @@ assert.equal(metadata.display_name, 'General Ledger Accounting');
 assert.equal(metadata.scaffold_status, 'metadata_only');
 assert.equal(metadata.capability_implementation_authorized, false);
 assert.equal(metadata.ticket_generation_allowed, false);
+assert.equal(metadata.schema_baseline_status, 'phase_6b_schema_declared');
+assert.deepEqual(metadata.schema_model_refs, [
+  'Phase6BChartOfAccount',
+  'Phase6BJournalEntry',
+  'Phase6BJournalEntryLine',
+  'Phase6BAccountingPeriod',
+  'Phase6BTaxMapping',
+]);
 
 console.log('general_ledger_accounting scaffold metadata boundary validated.');

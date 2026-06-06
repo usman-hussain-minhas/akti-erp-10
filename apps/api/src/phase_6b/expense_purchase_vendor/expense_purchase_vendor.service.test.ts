@@ -12,5 +12,12 @@ assert.equal(metadata.display_name, 'Expense Purchase Vendor');
 assert.equal(metadata.scaffold_status, 'metadata_only');
 assert.equal(metadata.capability_implementation_authorized, false);
 assert.equal(metadata.ticket_generation_allowed, false);
+assert.equal(metadata.schema_baseline_status, 'phase_6b_schema_declared');
+assert.deepEqual(metadata.schema_model_refs, [
+  'Phase6BVendor',
+  'Phase6BExpense',
+  'Phase6BPurchaseOrder',
+  'Phase6BPurchaseReceipt',
+]);
 
 console.log('expense_purchase_vendor scaffold metadata boundary validated.');

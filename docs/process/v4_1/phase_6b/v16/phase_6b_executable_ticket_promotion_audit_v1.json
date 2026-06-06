@@ -1,0 +1,295 @@
+{
+  "schema": "akti_spark_phase_6b_executable_ticket_promotion_audit.v1",
+  "version": "v16",
+  "status": "PASS_EXECUTABLE_REVIEW_READY_WITH_CAPABILITY_BLOCKERS",
+  "ticket_count": 17,
+  "executable_review_ready_ticket_count": 1,
+  "executable_capability_ticket_count": 0,
+  "blocked_capability_ticket_count": 15,
+  "review_gate_ticket_count": 1,
+  "source_seed_count": 103,
+  "mapped_seed_count": 103,
+  "unmapped_seed_count": 0,
+  "dependency_graph_cycle_count": 0,
+  "exact_file_overlap_count": 0,
+  "executable_exact_file_overlap_count": 0,
+  "ticket_generation_allowed": false,
+  "execution_authorized": false,
+  "assessments": [
+    {
+      "ticket_id": "P6B-CAP-000",
+      "title": "Produce Phase 6B schema/runtime baseline decision artifacts before capability execution",
+      "ticketability_status": "EXECUTABLE_REVIEW_READY",
+      "promotion_status": "EXECUTABLE_REVIEW_READY",
+      "dependencies": [],
+      "exact_file_count": 3,
+      "has_runtime_mcr": true,
+      "has_validation_commands": true,
+      "blocked_reason": null,
+      "execution_authorized": false
+    },
+    {
+      "ticket_id": "P6B-CAP-001",
+      "title": "Implement Phase 6B Product Catalogue Service capability surface",
+      "ticketability_status": "BLOCKED_PENDING_P6B_CAP_000_SCHEMA_RUNTIME_BASELINE",
+      "promotion_status": "BLOCKED_NOT_EXECUTABLE",
+      "dependencies": [
+        "P6B-CAP-000"
+      ],
+      "exact_file_count": 5,
+      "has_runtime_mcr": true,
+      "has_validation_commands": true,
+      "blocked_reason": "Current repo truth has Phase 6B contract/NestJS scaffold files, but the service files are metadata-only and current Prisma schema lacks a complete Phase 6B commerce-domain entity baseline. Promoting this ticket now would force Codex to invent schema/API/runtime behavior.",
+      "execution_authorized": false
+    },
+    {
+      "ticket_id": "P6B-CAP-002",
+      "title": "Implement Phase 6B Product Pricing and Package Service capability surface",
+      "ticketability_status": "BLOCKED_PENDING_P6B_CAP_000_SCHEMA_RUNTIME_BASELINE",
+      "promotion_status": "BLOCKED_NOT_EXECUTABLE",
+      "dependencies": [
+        "P6B-CAP-000",
+        "P6B-CAP-001"
+      ],
+      "exact_file_count": 5,
+      "has_runtime_mcr": true,
+      "has_validation_commands": true,
+      "blocked_reason": "Current repo truth has Phase 6B contract/NestJS scaffold files, but the service files are metadata-only and current Prisma schema lacks a complete Phase 6B commerce-domain entity baseline. Promoting this ticket now would force Codex to invent schema/API/runtime behavior.",
+      "execution_authorized": false
+    },
+    {
+      "ticket_id": "P6B-CAP-003",
+      "title": "Implement Phase 6B Inventory and Stock Movement Service capability surface",
+      "ticketability_status": "BLOCKED_PENDING_P6B_CAP_000_SCHEMA_RUNTIME_BASELINE",
+      "promotion_status": "BLOCKED_NOT_EXECUTABLE",
+      "dependencies": [
+        "P6B-CAP-000",
+        "P6B-CAP-001",
+        "P6B-CAP-002"
+      ],
+      "exact_file_count": 5,
+      "has_runtime_mcr": true,
+      "has_validation_commands": true,
+      "blocked_reason": "Current repo truth has Phase 6B contract/NestJS scaffold files, but the service files are metadata-only and current Prisma schema lacks a complete Phase 6B commerce-domain entity baseline. Promoting this ticket now would force Codex to invent schema/API/runtime behavior.",
+      "execution_authorized": false
+    },
+    {
+      "ticket_id": "P6B-CAP-004",
+      "title": "Implement Phase 6B CRM Lead Intake Service capability surface",
+      "ticketability_status": "BLOCKED_PENDING_P6B_CAP_000_SCHEMA_RUNTIME_BASELINE",
+      "promotion_status": "BLOCKED_NOT_EXECUTABLE",
+      "dependencies": [
+        "P6B-CAP-000",
+        "P6B-CAP-001"
+      ],
+      "exact_file_count": 5,
+      "has_runtime_mcr": true,
+      "has_validation_commands": true,
+      "blocked_reason": "Current repo truth has Phase 6B contract/NestJS scaffold files, but the service files are metadata-only and current Prisma schema lacks a complete Phase 6B commerce-domain entity baseline. Promoting this ticket now would force Codex to invent schema/API/runtime behavior.",
+      "execution_authorized": false
+    },
+    {
+      "ticket_id": "P6B-CAP-005",
+      "title": "Implement Phase 6B CRM Deduplication and Identity Resolution Micro-service capability surface",
+      "ticketability_status": "BLOCKED_PENDING_P6B_CAP_000_SCHEMA_RUNTIME_BASELINE",
+      "promotion_status": "BLOCKED_NOT_EXECUTABLE",
+      "dependencies": [
+        "P6B-CAP-000",
+        "P6B-CAP-004"
+      ],
+      "exact_file_count": 5,
+      "has_runtime_mcr": true,
+      "has_validation_commands": true,
+      "blocked_reason": "Current repo truth has Phase 6B contract/NestJS scaffold files, but the service files are metadata-only and current Prisma schema lacks a complete Phase 6B commerce-domain entity baseline. Promoting this ticket now would force Codex to invent schema/API/runtime behavior.",
+      "execution_authorized": false
+    },
+    {
+      "ticket_id": "P6B-CAP-006",
+      "title": "Implement Phase 6B CRM Pipeline and Timeline Service capability surface",
+      "ticketability_status": "BLOCKED_PENDING_P6B_CAP_000_SCHEMA_RUNTIME_BASELINE",
+      "promotion_status": "BLOCKED_NOT_EXECUTABLE",
+      "dependencies": [
+        "P6B-CAP-000",
+        "P6B-CAP-004",
+        "P6B-CAP-005"
+      ],
+      "exact_file_count": 5,
+      "has_runtime_mcr": true,
+      "has_validation_commands": true,
+      "blocked_reason": "Current repo truth has Phase 6B contract/NestJS scaffold files, but the service files are metadata-only and current Prisma schema lacks a complete Phase 6B commerce-domain entity baseline. Promoting this ticket now would force Codex to invent schema/API/runtime behavior.",
+      "execution_authorized": false
+    },
+    {
+      "ticket_id": "P6B-CAP-007",
+      "title": "Implement Phase 6B CRM Communication Engines capability surface",
+      "ticketability_status": "BLOCKED_PENDING_P6B_CAP_000_SCHEMA_RUNTIME_BASELINE",
+      "promotion_status": "BLOCKED_NOT_EXECUTABLE",
+      "dependencies": [
+        "P6B-CAP-000",
+        "P6B-CAP-006"
+      ],
+      "exact_file_count": 5,
+      "has_runtime_mcr": true,
+      "has_validation_commands": true,
+      "blocked_reason": "Current repo truth has Phase 6B contract/NestJS scaffold files, but the service files are metadata-only and current Prisma schema lacks a complete Phase 6B commerce-domain entity baseline. Promoting this ticket now would force Codex to invent schema/API/runtime behavior.",
+      "execution_authorized": false
+    },
+    {
+      "ticket_id": "P6B-CAP-008",
+      "title": "Implement Phase 6B CRM Scoring, Follow-Up, and Reporting Service capability surface",
+      "ticketability_status": "BLOCKED_PENDING_P6B_CAP_000_SCHEMA_RUNTIME_BASELINE",
+      "promotion_status": "BLOCKED_NOT_EXECUTABLE",
+      "dependencies": [
+        "P6B-CAP-000",
+        "P6B-CAP-006",
+        "P6B-CAP-007"
+      ],
+      "exact_file_count": 5,
+      "has_runtime_mcr": true,
+      "has_validation_commands": true,
+      "blocked_reason": "Current repo truth has Phase 6B contract/NestJS scaffold files, but the service files are metadata-only and current Prisma schema lacks a complete Phase 6B commerce-domain entity baseline. Promoting this ticket now would force Codex to invent schema/API/runtime behavior.",
+      "execution_authorized": false
+    },
+    {
+      "ticket_id": "P6B-CAP-009",
+      "title": "Implement Phase 6B Finance Invoice and Receivables Service capability surface",
+      "ticketability_status": "BLOCKED_PENDING_P6B_CAP_000_SCHEMA_RUNTIME_BASELINE",
+      "promotion_status": "BLOCKED_NOT_EXECUTABLE",
+      "dependencies": [
+        "P6B-CAP-000",
+        "P6B-CAP-001",
+        "P6B-CAP-002",
+        "P6B-CAP-006"
+      ],
+      "exact_file_count": 5,
+      "has_runtime_mcr": true,
+      "has_validation_commands": true,
+      "blocked_reason": "Current repo truth has Phase 6B contract/NestJS scaffold files, but the service files are metadata-only and current Prisma schema lacks a complete Phase 6B commerce-domain entity baseline. Promoting this ticket now would force Codex to invent schema/API/runtime behavior.",
+      "execution_authorized": false
+    },
+    {
+      "ticket_id": "P6B-CAP-010",
+      "title": "Implement Phase 6B Payment, Collection, and Top-Up Service capability surface",
+      "ticketability_status": "BLOCKED_PENDING_P6B_CAP_000_SCHEMA_RUNTIME_BASELINE",
+      "promotion_status": "BLOCKED_NOT_EXECUTABLE",
+      "dependencies": [
+        "P6B-CAP-000",
+        "P6B-CAP-009"
+      ],
+      "exact_file_count": 5,
+      "has_runtime_mcr": true,
+      "has_validation_commands": true,
+      "blocked_reason": "Current repo truth has Phase 6B contract/NestJS scaffold files, but the service files are metadata-only and current Prisma schema lacks a complete Phase 6B commerce-domain entity baseline. Promoting this ticket now would force Codex to invent schema/API/runtime behavior.",
+      "execution_authorized": false
+    },
+    {
+      "ticket_id": "P6B-CAP-011",
+      "title": "Implement Phase 6B Expense, Purchase, and Vendor Service capability surface",
+      "ticketability_status": "BLOCKED_PENDING_P6B_CAP_000_SCHEMA_RUNTIME_BASELINE",
+      "promotion_status": "BLOCKED_NOT_EXECUTABLE",
+      "dependencies": [
+        "P6B-CAP-000",
+        "P6B-CAP-010"
+      ],
+      "exact_file_count": 5,
+      "has_runtime_mcr": true,
+      "has_validation_commands": true,
+      "blocked_reason": "Current repo truth has Phase 6B contract/NestJS scaffold files, but the service files are metadata-only and current Prisma schema lacks a complete Phase 6B commerce-domain entity baseline. Promoting this ticket now would force Codex to invent schema/API/runtime behavior.",
+      "execution_authorized": false
+    },
+    {
+      "ticket_id": "P6B-CAP-012",
+      "title": "Implement Phase 6B General Ledger and Accounting Service capability surface",
+      "ticketability_status": "BLOCKED_PENDING_P6B_CAP_000_SCHEMA_RUNTIME_BASELINE",
+      "promotion_status": "BLOCKED_NOT_EXECUTABLE",
+      "dependencies": [
+        "P6B-CAP-000",
+        "P6B-CAP-009",
+        "P6B-CAP-010",
+        "P6B-CAP-011"
+      ],
+      "exact_file_count": 5,
+      "has_runtime_mcr": true,
+      "has_validation_commands": true,
+      "blocked_reason": "Current repo truth has Phase 6B contract/NestJS scaffold files, but the service files are metadata-only and current Prisma schema lacks a complete Phase 6B commerce-domain entity baseline. Promoting this ticket now would force Codex to invent schema/API/runtime behavior.",
+      "execution_authorized": false
+    },
+    {
+      "ticket_id": "P6B-CAP-013",
+      "title": "Implement Phase 6B Banking and Reconciliation Service capability surface",
+      "ticketability_status": "BLOCKED_PENDING_P6B_CAP_000_SCHEMA_RUNTIME_BASELINE",
+      "promotion_status": "BLOCKED_NOT_EXECUTABLE",
+      "dependencies": [
+        "P6B-CAP-000",
+        "P6B-CAP-010",
+        "P6B-CAP-012"
+      ],
+      "exact_file_count": 5,
+      "has_runtime_mcr": true,
+      "has_validation_commands": true,
+      "blocked_reason": "Current repo truth has Phase 6B contract/NestJS scaffold files, but the service files are metadata-only and current Prisma schema lacks a complete Phase 6B commerce-domain entity baseline. Promoting this ticket now would force Codex to invent schema/API/runtime behavior.",
+      "execution_authorized": false
+    },
+    {
+      "ticket_id": "P6B-CAP-014",
+      "title": "Implement Phase 6B Finance Payroll Foundation capability surface",
+      "ticketability_status": "BLOCKED_PENDING_P6B_CAP_000_SCHEMA_RUNTIME_BASELINE",
+      "promotion_status": "BLOCKED_NOT_EXECUTABLE",
+      "dependencies": [
+        "P6B-CAP-000",
+        "P6B-CAP-010",
+        "P6B-CAP-012"
+      ],
+      "exact_file_count": 5,
+      "has_runtime_mcr": true,
+      "has_validation_commands": true,
+      "blocked_reason": "Current repo truth has Phase 6B contract/NestJS scaffold files, but the service files are metadata-only and current Prisma schema lacks a complete Phase 6B commerce-domain entity baseline. Promoting this ticket now would force Codex to invent schema/API/runtime behavior.",
+      "execution_authorized": false
+    },
+    {
+      "ticket_id": "P6B-CAP-015",
+      "title": "Implement Phase 6B Finance Platform Billing UI and Customer Billing Operations capability surface",
+      "ticketability_status": "BLOCKED_PENDING_P6B_CAP_000_SCHEMA_RUNTIME_BASELINE",
+      "promotion_status": "BLOCKED_NOT_EXECUTABLE",
+      "dependencies": [
+        "P6B-CAP-000",
+        "P6B-CAP-010",
+        "P6B-CAP-012"
+      ],
+      "exact_file_count": 5,
+      "has_runtime_mcr": true,
+      "has_validation_commands": true,
+      "blocked_reason": "Current repo truth has Phase 6B contract/NestJS scaffold files, but the service files are metadata-only and current Prisma schema lacks a complete Phase 6B commerce-domain entity baseline. Promoting this ticket now would force Codex to invent schema/API/runtime behavior.",
+      "execution_authorized": false
+    },
+    {
+      "ticket_id": "P6B-CAP-016",
+      "title": "Gate Phase 6B capability ticket pack before execution authorization",
+      "ticketability_status": "REVIEW_GATE_ONLY",
+      "promotion_status": "REVIEW_GATE_ONLY",
+      "dependencies": [
+        "P6B-CAP-000",
+        "P6B-CAP-001",
+        "P6B-CAP-002",
+        "P6B-CAP-003",
+        "P6B-CAP-004",
+        "P6B-CAP-005",
+        "P6B-CAP-006",
+        "P6B-CAP-007",
+        "P6B-CAP-008",
+        "P6B-CAP-009",
+        "P6B-CAP-010",
+        "P6B-CAP-011",
+        "P6B-CAP-012",
+        "P6B-CAP-013",
+        "P6B-CAP-014",
+        "P6B-CAP-015"
+      ],
+      "exact_file_count": 2,
+      "has_runtime_mcr": true,
+      "has_validation_commands": true,
+      "blocked_reason": null,
+      "execution_authorized": false
+    }
+  ]
+}

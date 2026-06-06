@@ -12,5 +12,10 @@ assert.equal(metadata.display_name, 'CRM Pipeline');
 assert.equal(metadata.scaffold_status, 'metadata_only');
 assert.equal(metadata.capability_implementation_authorized, false);
 assert.equal(metadata.ticket_generation_allowed, false);
+assert.equal(metadata.schema_baseline_status, 'phase_6b_schema_declared');
+assert.deepEqual(metadata.schema_model_refs, [
+  'Phase6BPipelineStage',
+  'Phase6BPipelineTimelineEntry',
+]);
 
 console.log('crm_pipeline scaffold metadata boundary validated.');
