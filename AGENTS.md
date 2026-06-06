@@ -224,6 +224,31 @@ Test-runner wiring may be updated only when the active ticket adds or requires t
 
 ---
 
+## CI Settling Gate
+
+After every push, PR creation, PR update, or merge, do not treat transient GitHub `UNSTABLE`, `PENDING`, `QUEUED`, or `IN_PROGRESS` state as a hard stop.
+
+Use this polling gate before deciding the autonomous run is blocked:
+
+* Wait 2 minutes, then run `gh pr view <PR_NUMBER> --json state,mergeStateStatus,statusCheckRollup,url`.
+* Repeat up to 5 times for a default 10-minute wait budget.
+* Continue automatically when required checks are successful and merge state is `CLEAN`.
+* Stop immediately when a required check concludes `FAILURE`, `CANCELLED`, `TIMED_OUT`, or `ACTION_REQUIRED`.
+* Stop immediately when merge state becomes conflicted, dirty, blocked by branch protection that needs human action, or otherwise not mergeable for a real reason.
+* If checks are still actively progressing after 5 polls, allow one extended 10-minute loop: 5 more polls, 2 minutes apart.
+* After the extended loop, stop and report timeout rather than waiting indefinitely.
+
+Classify polling results as:
+
+* `CONTINUE`: all required checks successful and merge state clean.
+* `WAIT`: checks are queued, pending, in progress, or PR metadata is stale while the latest run is active.
+* `FAIL`: a required check failed, was cancelled, timed out, or needs action.
+* `STOP`: merge conflict, branch-protection human action, unknown state after timeout, or scope violation.
+
+If CI fails because of deterministic local artifact drift inside the active ticket scope, self-heal up to 3 attempts, push again, and restart this CI settling gate. Do not self-heal failures caused by architecture, schema ambiguity, missing business decision, destructive migration risk, forbidden scope, or branch protection.
+
+---
+
 ## Hard Rules
 
 * Never change architecture without an ADR.
