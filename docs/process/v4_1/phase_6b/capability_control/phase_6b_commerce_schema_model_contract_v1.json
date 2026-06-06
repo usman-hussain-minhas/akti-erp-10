@@ -1,6 +1,6 @@
 {
   "artifact_id": "phase_6b_commerce_schema_model_contract_v1",
-  "artifact_status": "P6B_SCHEMA_001_APPROVED_SCHEMA_BASELINE_INPUT",
+  "artifact_status": "P6B_SCHEMA_001_REVIEW_READY_SCHEMA_BASELINE_INPUT",
   "source_phase": "6B",
   "source_files": [
     "docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
@@ -39,7 +39,15 @@
         "Phase6BProductMedia",
         "Phase6BProductHistory"
       ],
-      "seed_coverage_count": 6
+      "seed_coverage_count": 4,
+      "seed_ids": [
+        "seed_6b_01_product_record_authority",
+        "seed_6b_01_category_taxonomy",
+        "seed_6b_01_product_media_history",
+        "seed_6b_01_product_status_archive_policy"
+      ],
+      "seed_mapping_status": "EXPLICIT_6B_V17_SEED_MAPPING_PRESENT",
+      "model_decision_group_id": "phase_6b_schema_group_6b_01"
     },
     {
       "source_component_id": "6B.02",
@@ -55,7 +63,23 @@
         "Phase6BPackageDefinition",
         "Phase6BDiscountRule"
       ],
-      "seed_coverage_count": 8
+      "seed_coverage_count": 12,
+      "seed_ids": [
+        "seed_6b_02_fixed_pricing_model",
+        "seed_6b_02_tiered_pricing_model",
+        "seed_6b_02_volume_pricing_model",
+        "seed_6b_02_per_unit_pricing_model",
+        "seed_6b_02_per_hour_pricing_model",
+        "seed_6b_02_per_period_pricing_model",
+        "seed_6b_02_early_bird_pricing_deadline",
+        "seed_6b_02_scholarship_discount_approval",
+        "seed_6b_02_installment_plan_engine",
+        "seed_6b_02_bundle_package_composition",
+        "seed_6b_02_discount_stacking_engine",
+        "seed_6b_02_product_price_history_effective_dates"
+      ],
+      "seed_mapping_status": "EXPLICIT_6B_V17_SEED_MAPPING_PRESENT",
+      "model_decision_group_id": "phase_6b_schema_group_6b_02"
     },
     {
       "source_component_id": "6B.03",
@@ -70,7 +94,16 @@
         "Phase6BStockItem",
         "Phase6BStockMovement"
       ],
-      "seed_coverage_count": 6
+      "seed_coverage_count": 5,
+      "seed_ids": [
+        "seed_6b_03_stock_level_location_authority",
+        "seed_6b_03_lot_and_serial_tracking",
+        "seed_6b_03_stock_movement_ledger",
+        "seed_6b_03_purchase_stock_evidence",
+        "seed_6b_03_non_inventory_business_policy"
+      ],
+      "seed_mapping_status": "EXPLICIT_6B_V17_SEED_MAPPING_PRESENT",
+      "model_decision_group_id": "phase_6b_schema_group_6b_03"
     },
     {
       "source_component_id": "6B.04",
@@ -84,7 +117,30 @@
         "Phase6BLeadSource",
         "Phase6BLeadEvidence"
       ],
-      "seed_coverage_count": 6
+      "seed_coverage_count": 19,
+      "seed_ids": [
+        "seed_6b_04_unified_lead_record_authority",
+        "seed_6b_04_meta_lead_forms_connector",
+        "seed_6b_04_meta_whatsapp_intake_connector",
+        "seed_6b_04_tiktok_lead_gen_connector",
+        "seed_6b_04_google_ads_connector",
+        "seed_6b_04_google_business_connector",
+        "seed_6b_04_facebook_page_forms_connector",
+        "seed_6b_04_web_form_intake_connector",
+        "seed_6b_04_manual_lead_entry",
+        "seed_6b_04_csv_excel_import",
+        "seed_6b_04_api_lead_intake",
+        "seed_6b_04_referral_intake",
+        "seed_6b_04_inbound_whatsapp_intake",
+        "seed_6b_04_inbound_sms_intake",
+        "seed_6b_04_chatbot_intake",
+        "seed_6b_04_live_chat_intake",
+        "seed_6b_04_email_intake",
+        "seed_6b_04_phone_intake",
+        "seed_6b_04_walk_in_intake"
+      ],
+      "seed_mapping_status": "EXPLICIT_6B_V17_SEED_MAPPING_PRESENT",
+      "model_decision_group_id": "phase_6b_schema_group_6b_04"
     },
     {
       "source_component_id": "6B.05",
@@ -98,7 +154,15 @@
         "Phase6BLeadMatchCandidate",
         "Phase6BLeadMergeRecord"
       ],
-      "seed_coverage_count": 7
+      "seed_coverage_count": 4,
+      "seed_ids": [
+        "seed_6b_05_match_candidate_generation",
+        "seed_6b_05_merge_decision_record",
+        "seed_6b_05_identity_resolution_linking",
+        "seed_6b_05_duplicate_evidence_log"
+      ],
+      "seed_mapping_status": "EXPLICIT_6B_V17_SEED_MAPPING_PRESENT",
+      "model_decision_group_id": "phase_6b_schema_group_6b_05"
     },
     {
       "source_component_id": "6B.06",
@@ -112,7 +176,16 @@
         "Phase6BPipelineStage",
         "Phase6BPipelineTimelineEntry"
       ],
-      "seed_coverage_count": 7
+      "seed_coverage_count": 5,
+      "seed_ids": [
+        "seed_6b_06_pipeline_stage_model",
+        "seed_6b_06_crm_activity_timeline",
+        "seed_6b_06_internal_notes_comments",
+        "seed_6b_06_stage_history_audit",
+        "seed_6b_06_expected_value_pricing_bridge"
+      ],
+      "seed_mapping_status": "EXPLICIT_6B_V17_SEED_MAPPING_PRESENT",
+      "model_decision_group_id": "phase_6b_schema_group_6b_06"
     },
     {
       "source_component_id": "6B.07",
@@ -128,7 +201,21 @@
         "Phase6BCommunicationAttempt",
         "Phase6BCommunicationSequenceEnrollment"
       ],
-      "seed_coverage_count": 10
+      "seed_coverage_count": 10,
+      "seed_ids": [
+        "seed_6b_07_whatsapp_template_management",
+        "seed_6b_07_whatsapp_inbound_routing",
+        "seed_6b_07_whatsapp_outbound_window",
+        "seed_6b_07_whatsapp_broadcast_compliance",
+        "seed_6b_07_whatsapp_auto_reply_keywords",
+        "seed_6b_07_email_connected_inbox",
+        "seed_6b_07_email_transactional_domain",
+        "seed_6b_07_email_sequences",
+        "seed_6b_07_email_shared_inbox",
+        "seed_6b_07_communication_attempt_evidence"
+      ],
+      "seed_mapping_status": "EXPLICIT_6B_V17_SEED_MAPPING_PRESENT",
+      "model_decision_group_id": "phase_6b_schema_group_6b_07"
     },
     {
       "source_component_id": "6B.08",
@@ -142,7 +229,15 @@
         "Phase6BLeadScore",
         "Phase6BFollowUpTask"
       ],
-      "seed_coverage_count": 6
+      "seed_coverage_count": 4,
+      "seed_ids": [
+        "seed_6b_08_lead_scoring_engine",
+        "seed_6b_08_follow_up_task_cadence",
+        "seed_6b_08_crm_reporting_definitions",
+        "seed_6b_08_crm_compliance_views"
+      ],
+      "seed_mapping_status": "EXPLICIT_6B_V17_SEED_MAPPING_PRESENT",
+      "model_decision_group_id": "phase_6b_schema_group_6b_08"
     },
     {
       "source_component_id": "6B.09",
@@ -158,7 +253,16 @@
         "Phase6BReceivable",
         "Phase6BCreditDebitNote"
       ],
-      "seed_coverage_count": 8
+      "seed_coverage_count": 5,
+      "seed_ids": [
+        "seed_6b_09_invoice_record_authority",
+        "seed_6b_09_invoice_lifecycle_types",
+        "seed_6b_09_receivable_balance_computation",
+        "seed_6b_09_fbr_invoice_format",
+        "seed_6b_09_aging_and_overdue_management"
+      ],
+      "seed_mapping_status": "EXPLICIT_6B_V17_SEED_MAPPING_PRESENT",
+      "model_decision_group_id": "phase_6b_schema_group_6b_09"
     },
     {
       "source_component_id": "6B.10",
@@ -176,7 +280,21 @@
         "Phase6BTopUp",
         "Phase6BReconciliationCandidate"
       ],
-      "seed_coverage_count": 10
+      "seed_coverage_count": 10,
+      "seed_ids": [
+        "seed_6b_10_jazzcash_gateway",
+        "seed_6b_10_easypaisa_gateway",
+        "seed_6b_10_raast_gateway",
+        "seed_6b_10_quickpay_shadow_account_gateway",
+        "seed_6b_10_stripe_gateway_3ds",
+        "seed_6b_10_wise_gateway",
+        "seed_6b_10_manual_reconciliation_path",
+        "seed_6b_10_payment_allocation_balance",
+        "seed_6b_10_refund_to_original_method",
+        "seed_6b_10_top_up_prepaid_credit"
+      ],
+      "seed_mapping_status": "EXPLICIT_6B_V17_SEED_MAPPING_PRESENT",
+      "model_decision_group_id": "phase_6b_schema_group_6b_10"
     },
     {
       "source_component_id": "6B.11",
@@ -192,7 +310,16 @@
         "Phase6BPurchaseOrder",
         "Phase6BPurchaseReceipt"
       ],
-      "seed_coverage_count": 7
+      "seed_coverage_count": 5,
+      "seed_ids": [
+        "seed_6b_11_expense_record_authority",
+        "seed_6b_11_expense_approval_workflow",
+        "seed_6b_11_vendor_record_authority",
+        "seed_6b_11_purchase_order_authority",
+        "seed_6b_11_three_way_match_evidence"
+      ],
+      "seed_mapping_status": "EXPLICIT_6B_V17_SEED_MAPPING_PRESENT",
+      "model_decision_group_id": "phase_6b_schema_group_6b_11"
     },
     {
       "source_component_id": "6B.12",
@@ -209,7 +336,17 @@
         "Phase6BAccountingPeriod",
         "Phase6BTaxMapping"
       ],
-      "seed_coverage_count": 6
+      "seed_coverage_count": 6,
+      "seed_ids": [
+        "seed_6b_12_chart_of_accounts",
+        "seed_6b_12_journal_entry_engine",
+        "seed_6b_12_period_close_management",
+        "seed_6b_12_tax_mapping_reporting",
+        "seed_6b_12_fx_gain_loss_accounting",
+        "seed_6b_12_financial_reporting_pack"
+      ],
+      "seed_mapping_status": "EXPLICIT_6B_V17_SEED_MAPPING_PRESENT",
+      "model_decision_group_id": "phase_6b_schema_group_6b_12"
     },
     {
       "source_component_id": "6B.13",
@@ -224,7 +361,15 @@
         "Phase6BBankTransaction",
         "Phase6BReconciliationStatement"
       ],
-      "seed_coverage_count": 5
+      "seed_coverage_count": 4,
+      "seed_ids": [
+        "seed_6b_13_bank_statement_import",
+        "seed_6b_13_reconciliation_matching",
+        "seed_6b_13_reconciliation_exception_queue",
+        "seed_6b_13_banking_evidence_export"
+      ],
+      "seed_mapping_status": "EXPLICIT_6B_V17_SEED_MAPPING_PRESENT",
+      "model_decision_group_id": "phase_6b_schema_group_6b_13"
     },
     {
       "source_component_id": "6B.14",
@@ -239,7 +384,16 @@
         "Phase6BPayrollBatch",
         "Phase6BPayrollPayout"
       ],
-      "seed_coverage_count": 5
+      "seed_coverage_count": 5,
+      "seed_ids": [
+        "seed_6b_14_payroll_tax_slab_calculator",
+        "seed_6b_14_allowance_deduction_formula",
+        "seed_6b_14_payroll_run_state_machine",
+        "seed_6b_14_payroll_disbursement_file_export",
+        "seed_6b_14_hr_event_feed_boundary"
+      ],
+      "seed_mapping_status": "EXPLICIT_6B_V17_SEED_MAPPING_PRESENT",
+      "model_decision_group_id": "phase_6b_schema_group_6b_14"
     },
     {
       "source_component_id": "6B.15",
@@ -253,7 +407,16 @@
         "Phase6BBillingOperation",
         "Phase6BBudgetCap"
       ],
-      "seed_coverage_count": 6
+      "seed_coverage_count": 5,
+      "seed_ids": [
+        "seed_6b_15_customer_billing_operations",
+        "seed_6b_15_platform_invoice_generation",
+        "seed_6b_15_billing_proration_engine",
+        "seed_6b_15_retention_and_dunning_rules",
+        "seed_6b_15_billing_support_interface"
+      ],
+      "seed_mapping_status": "EXPLICIT_6B_V17_SEED_MAPPING_PRESENT",
+      "model_decision_group_id": "phase_6b_schema_group_6b_15"
     }
   ],
   "all_model_names": [
@@ -305,15 +468,3190 @@
     "Phase6BBillingOperation",
     "Phase6BBudgetCap"
   ],
-  "schema_implementation_authorized_for_ticket": "P6B-SCHEMA-002",
+  "schema_implementation_authorized_for_ticket": false,
   "capability_implementation_authorized": false,
   "ticket_generation_allowed": false,
   "ticket_pack_generation_allowed": false,
   "execution_authorized": false,
   "validation_expectations": [
-    "Prisma schema changes must be additive Phase 6B tenant-scoped baseline models only.",
-    "Migration SQL must be generated from the approved model contract and reviewed before capability tickets execute.",
-    "Registry metadata must include every model in all_model_names.",
-    "No Phase 6B capability ticket may become executable solely because this contract exists; v18 must recompute exact runtime grounding after P6B-SCHEMA-002 and P6B-SCHEMA-003."
+    "P6B-SCHEMA-001 review must verify seed_to_model_decision_group_mapping_count=103.",
+    "P6B-SCHEMA-001 review must verify every v17 execution seed appears exactly once in seed_to_model_decision_group_mappings.",
+    "P6B-SCHEMA-001 review must verify every proposed model has at least one seed in model_seed_coverage.",
+    "P6B-SCHEMA-002 must not start until this contract is explicitly accepted by human review.",
+    "P6B-SCHEMA-002 must add only additive Phase 6B schema baseline models and migration SQL.",
+    "P6B-SCHEMA-003 must align contracts/manifests/NestJS scaffold metadata without implementing business behavior.",
+    "P6B-SCHEMA-004 must regenerate v18 from live repo truth and promote only genuinely grounded capability tickets."
+  ],
+  "review_gate_status": "P6B-SCHEMA-001_ACCEPTED_FOR_SCHEMA_CONTROL_REVIEW",
+  "correction_reason": "Phase 6B recovery review found that the prior contract declared 103 seed coverage but did not include explicit seed-to-model-decision-group mappings. This repair adds 103/103 mappings and corrects stale component seed counts from v17.",
+  "seed_to_model_decision_group_mapping_count": 103,
+  "seed_to_model_decision_group_mappings": [
+    {
+      "seed_id": "seed_6b_01_product_record_authority",
+      "seed_title": "6B product record authority",
+      "source_component_id": "6B.01",
+      "source_component_name": "Product Catalogue",
+      "seed_type": "tenant_service",
+      "subsurface_id": "subsurface_6b_01_product_record_authority",
+      "model_decision_group_id": "phase_6b_schema_group_6b_01",
+      "model_decision_group_name": "Product Catalogue",
+      "proposed_primary_model_names": [
+        "Phase6BProduct"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BProduct",
+        "Phase6BProductCategory",
+        "Phase6BProductMedia",
+        "Phase6BProductHistory"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_01_category_taxonomy",
+      "seed_title": "6B category taxonomy",
+      "source_component_id": "6B.01",
+      "source_component_name": "Product Catalogue",
+      "seed_type": "tenant_service",
+      "subsurface_id": "subsurface_6b_01_category_taxonomy",
+      "model_decision_group_id": "phase_6b_schema_group_6b_01",
+      "model_decision_group_name": "Product Catalogue",
+      "proposed_primary_model_names": [
+        "Phase6BProductCategory"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BProduct",
+        "Phase6BProductCategory",
+        "Phase6BProductMedia",
+        "Phase6BProductHistory"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_01_product_media_history",
+      "seed_title": "6B product media history",
+      "source_component_id": "6B.01",
+      "source_component_name": "Product Catalogue",
+      "seed_type": "internal_lifecycle_primitive",
+      "subsurface_id": "subsurface_6b_01_product_media_history",
+      "model_decision_group_id": "phase_6b_schema_group_6b_01",
+      "model_decision_group_name": "Product Catalogue",
+      "proposed_primary_model_names": [
+        "Phase6BProductMedia",
+        "Phase6BProductHistory"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BProduct",
+        "Phase6BProductCategory",
+        "Phase6BProductMedia",
+        "Phase6BProductHistory"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_01_product_status_archive_policy",
+      "seed_title": "6B product status archive policy",
+      "source_component_id": "6B.01",
+      "source_component_name": "Product Catalogue",
+      "seed_type": "tenant_service",
+      "subsurface_id": "subsurface_6b_01_product_status_archive_policy",
+      "model_decision_group_id": "phase_6b_schema_group_6b_01",
+      "model_decision_group_name": "Product Catalogue",
+      "proposed_primary_model_names": [
+        "Phase6BProduct",
+        "Phase6BProductHistory"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BProduct",
+        "Phase6BProductCategory",
+        "Phase6BProductMedia",
+        "Phase6BProductHistory"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_02_fixed_pricing_model",
+      "seed_title": "6B fixed pricing model",
+      "source_component_id": "6B.02",
+      "source_component_name": "Pricing and Package Service",
+      "seed_type": "configuration_extension",
+      "subsurface_id": "subsurface_6b_02_fixed_pricing_model",
+      "model_decision_group_id": "phase_6b_schema_group_6b_02",
+      "model_decision_group_name": "Pricing and Package Service",
+      "proposed_primary_model_names": [
+        "Phase6BProductPriceHistory"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BProductPriceHistory",
+        "Phase6BPackageDefinition",
+        "Phase6BDiscountRule"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_02_tiered_pricing_model",
+      "seed_title": "6B tiered pricing model",
+      "source_component_id": "6B.02",
+      "source_component_name": "Pricing and Package Service",
+      "seed_type": "configuration_extension",
+      "subsurface_id": "subsurface_6b_02_tiered_pricing_model",
+      "model_decision_group_id": "phase_6b_schema_group_6b_02",
+      "model_decision_group_name": "Pricing and Package Service",
+      "proposed_primary_model_names": [
+        "Phase6BProductPriceHistory"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BProductPriceHistory",
+        "Phase6BPackageDefinition",
+        "Phase6BDiscountRule"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_02_volume_pricing_model",
+      "seed_title": "6B volume pricing model",
+      "source_component_id": "6B.02",
+      "source_component_name": "Pricing and Package Service",
+      "seed_type": "configuration_extension",
+      "subsurface_id": "subsurface_6b_02_volume_pricing_model",
+      "model_decision_group_id": "phase_6b_schema_group_6b_02",
+      "model_decision_group_name": "Pricing and Package Service",
+      "proposed_primary_model_names": [
+        "Phase6BProductPriceHistory"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BProductPriceHistory",
+        "Phase6BPackageDefinition",
+        "Phase6BDiscountRule"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_02_per_unit_pricing_model",
+      "seed_title": "6B per unit pricing model",
+      "source_component_id": "6B.02",
+      "source_component_name": "Pricing and Package Service",
+      "seed_type": "configuration_extension",
+      "subsurface_id": "subsurface_6b_02_per_unit_pricing_model",
+      "model_decision_group_id": "phase_6b_schema_group_6b_02",
+      "model_decision_group_name": "Pricing and Package Service",
+      "proposed_primary_model_names": [
+        "Phase6BProductPriceHistory"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BProductPriceHistory",
+        "Phase6BPackageDefinition",
+        "Phase6BDiscountRule"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_02_per_hour_pricing_model",
+      "seed_title": "6B per hour pricing model",
+      "source_component_id": "6B.02",
+      "source_component_name": "Pricing and Package Service",
+      "seed_type": "configuration_extension",
+      "subsurface_id": "subsurface_6b_02_per_hour_pricing_model",
+      "model_decision_group_id": "phase_6b_schema_group_6b_02",
+      "model_decision_group_name": "Pricing and Package Service",
+      "proposed_primary_model_names": [
+        "Phase6BProductPriceHistory"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BProductPriceHistory",
+        "Phase6BPackageDefinition",
+        "Phase6BDiscountRule"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_02_per_period_pricing_model",
+      "seed_title": "6B per period pricing model",
+      "source_component_id": "6B.02",
+      "source_component_name": "Pricing and Package Service",
+      "seed_type": "configuration_extension",
+      "subsurface_id": "subsurface_6b_02_per_period_pricing_model",
+      "model_decision_group_id": "phase_6b_schema_group_6b_02",
+      "model_decision_group_name": "Pricing and Package Service",
+      "proposed_primary_model_names": [
+        "Phase6BProductPriceHistory"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BProductPriceHistory",
+        "Phase6BPackageDefinition",
+        "Phase6BDiscountRule"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_02_early_bird_pricing_deadline",
+      "seed_title": "6B early bird pricing deadline",
+      "source_component_id": "6B.02",
+      "source_component_name": "Pricing and Package Service",
+      "seed_type": "configuration_extension",
+      "subsurface_id": "subsurface_6b_02_early_bird_pricing_deadline",
+      "model_decision_group_id": "phase_6b_schema_group_6b_02",
+      "model_decision_group_name": "Pricing and Package Service",
+      "proposed_primary_model_names": [
+        "Phase6BDiscountRule"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BProductPriceHistory",
+        "Phase6BPackageDefinition",
+        "Phase6BDiscountRule"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_02_scholarship_discount_approval",
+      "seed_title": "6B scholarship discount approval",
+      "source_component_id": "6B.02",
+      "source_component_name": "Pricing and Package Service",
+      "seed_type": "core_microservice",
+      "subsurface_id": "subsurface_6b_02_scholarship_discount_approval",
+      "model_decision_group_id": "phase_6b_schema_group_6b_02",
+      "model_decision_group_name": "Pricing and Package Service",
+      "proposed_primary_model_names": [
+        "Phase6BDiscountRule"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BProductPriceHistory",
+        "Phase6BPackageDefinition",
+        "Phase6BDiscountRule"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_02_installment_plan_engine",
+      "seed_title": "6B installment plan engine",
+      "source_component_id": "6B.02",
+      "source_component_name": "Pricing and Package Service",
+      "seed_type": "core_microservice",
+      "subsurface_id": "subsurface_6b_02_installment_plan_engine",
+      "model_decision_group_id": "phase_6b_schema_group_6b_02",
+      "model_decision_group_name": "Pricing and Package Service",
+      "proposed_primary_model_names": [
+        "Phase6BPackageDefinition"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BProductPriceHistory",
+        "Phase6BPackageDefinition",
+        "Phase6BDiscountRule"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_02_bundle_package_composition",
+      "seed_title": "6B bundle package composition",
+      "source_component_id": "6B.02",
+      "source_component_name": "Pricing and Package Service",
+      "seed_type": "configuration_extension",
+      "subsurface_id": "subsurface_6b_02_bundle_package_composition",
+      "model_decision_group_id": "phase_6b_schema_group_6b_02",
+      "model_decision_group_name": "Pricing and Package Service",
+      "proposed_primary_model_names": [
+        "Phase6BPackageDefinition"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BProductPriceHistory",
+        "Phase6BPackageDefinition",
+        "Phase6BDiscountRule"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_02_discount_stacking_engine",
+      "seed_title": "6B discount stacking engine",
+      "source_component_id": "6B.02",
+      "source_component_name": "Pricing and Package Service",
+      "seed_type": "core_microservice",
+      "subsurface_id": "subsurface_6b_02_discount_stacking_engine",
+      "model_decision_group_id": "phase_6b_schema_group_6b_02",
+      "model_decision_group_name": "Pricing and Package Service",
+      "proposed_primary_model_names": [
+        "Phase6BDiscountRule"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BProductPriceHistory",
+        "Phase6BPackageDefinition",
+        "Phase6BDiscountRule"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_03_stock_level_location_authority",
+      "seed_title": "6B stock level location authority",
+      "source_component_id": "6B.03",
+      "source_component_name": "Inventory Stock Control",
+      "seed_type": "tenant_service",
+      "subsurface_id": "subsurface_6b_03_stock_level_location_authority",
+      "model_decision_group_id": "phase_6b_schema_group_6b_03",
+      "model_decision_group_name": "Inventory Stock Control",
+      "proposed_primary_model_names": [
+        "Phase6BInventoryLocation",
+        "Phase6BStockItem"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BInventoryLocation",
+        "Phase6BStockItem",
+        "Phase6BStockMovement"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_03_lot_and_serial_tracking",
+      "seed_title": "6B lot and serial tracking",
+      "source_component_id": "6B.03",
+      "source_component_name": "Inventory Stock Control",
+      "seed_type": "tenant_service",
+      "subsurface_id": "subsurface_6b_03_lot_and_serial_tracking",
+      "model_decision_group_id": "phase_6b_schema_group_6b_03",
+      "model_decision_group_name": "Inventory Stock Control",
+      "proposed_primary_model_names": [
+        "Phase6BStockItem"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BInventoryLocation",
+        "Phase6BStockItem",
+        "Phase6BStockMovement"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_03_stock_movement_ledger",
+      "seed_title": "6B stock movement ledger",
+      "source_component_id": "6B.03",
+      "source_component_name": "Inventory Stock Control",
+      "seed_type": "tenant_service",
+      "subsurface_id": "subsurface_6b_03_stock_movement_ledger",
+      "model_decision_group_id": "phase_6b_schema_group_6b_03",
+      "model_decision_group_name": "Inventory Stock Control",
+      "proposed_primary_model_names": [
+        "Phase6BStockMovement"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BInventoryLocation",
+        "Phase6BStockItem",
+        "Phase6BStockMovement"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_03_purchase_stock_evidence",
+      "seed_title": "6B purchase stock evidence",
+      "source_component_id": "6B.03",
+      "source_component_name": "Inventory Stock Control",
+      "seed_type": "evidence_primitive",
+      "subsurface_id": "subsurface_6b_03_purchase_stock_evidence",
+      "model_decision_group_id": "phase_6b_schema_group_6b_03",
+      "model_decision_group_name": "Inventory Stock Control",
+      "proposed_primary_model_names": [
+        "Phase6BStockMovement"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BInventoryLocation",
+        "Phase6BStockItem",
+        "Phase6BStockMovement"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_03_non_inventory_business_policy",
+      "seed_title": "6B non inventory business policy",
+      "source_component_id": "6B.03",
+      "source_component_name": "Inventory Stock Control",
+      "seed_type": "tenant_service",
+      "subsurface_id": "subsurface_6b_03_non_inventory_business_policy",
+      "model_decision_group_id": "phase_6b_schema_group_6b_03",
+      "model_decision_group_name": "Inventory Stock Control",
+      "proposed_primary_model_names": [
+        "Phase6BStockItem"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BInventoryLocation",
+        "Phase6BStockItem",
+        "Phase6BStockMovement"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_04_unified_lead_record_authority",
+      "seed_title": "6B unified lead record authority",
+      "source_component_id": "6B.04",
+      "source_component_name": "CRM Lead Intake",
+      "seed_type": "tenant_service",
+      "subsurface_id": "subsurface_6b_04_unified_lead_record_authority",
+      "model_decision_group_id": "phase_6b_schema_group_6b_04",
+      "model_decision_group_name": "CRM Lead Intake",
+      "proposed_primary_model_names": [
+        "Phase6BLeadSource",
+        "Phase6BLeadEvidence"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BLeadSource",
+        "Phase6BLeadEvidence"
+      ],
+      "existing_repo_model_references": [
+        "LeadRecord"
+      ],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_04_meta_lead_forms_connector",
+      "seed_title": "6B meta lead forms connector",
+      "source_component_id": "6B.04",
+      "source_component_name": "CRM Lead Intake",
+      "seed_type": "tenant_service",
+      "subsurface_id": "subsurface_6b_04_meta_lead_forms_connector",
+      "model_decision_group_id": "phase_6b_schema_group_6b_04",
+      "model_decision_group_name": "CRM Lead Intake",
+      "proposed_primary_model_names": [
+        "Phase6BLeadSource",
+        "Phase6BLeadEvidence"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BLeadSource",
+        "Phase6BLeadEvidence"
+      ],
+      "existing_repo_model_references": [
+        "LeadRecord"
+      ],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_04_meta_whatsapp_intake_connector",
+      "seed_title": "6B meta whatsapp intake connector",
+      "source_component_id": "6B.04",
+      "source_component_name": "CRM Lead Intake",
+      "seed_type": "tenant_service",
+      "subsurface_id": "subsurface_6b_04_meta_whatsapp_intake_connector",
+      "model_decision_group_id": "phase_6b_schema_group_6b_04",
+      "model_decision_group_name": "CRM Lead Intake",
+      "proposed_primary_model_names": [
+        "Phase6BLeadSource",
+        "Phase6BLeadEvidence"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BLeadSource",
+        "Phase6BLeadEvidence"
+      ],
+      "existing_repo_model_references": [
+        "LeadRecord"
+      ],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_04_tiktok_lead_gen_connector",
+      "seed_title": "6B tiktok lead gen connector",
+      "source_component_id": "6B.04",
+      "source_component_name": "CRM Lead Intake",
+      "seed_type": "tenant_service",
+      "subsurface_id": "subsurface_6b_04_tiktok_lead_gen_connector",
+      "model_decision_group_id": "phase_6b_schema_group_6b_04",
+      "model_decision_group_name": "CRM Lead Intake",
+      "proposed_primary_model_names": [
+        "Phase6BLeadSource",
+        "Phase6BLeadEvidence"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BLeadSource",
+        "Phase6BLeadEvidence"
+      ],
+      "existing_repo_model_references": [
+        "LeadRecord"
+      ],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_04_google_ads_connector",
+      "seed_title": "6B google ads connector",
+      "source_component_id": "6B.04",
+      "source_component_name": "CRM Lead Intake",
+      "seed_type": "tenant_service",
+      "subsurface_id": "subsurface_6b_04_google_ads_connector",
+      "model_decision_group_id": "phase_6b_schema_group_6b_04",
+      "model_decision_group_name": "CRM Lead Intake",
+      "proposed_primary_model_names": [
+        "Phase6BLeadSource",
+        "Phase6BLeadEvidence"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BLeadSource",
+        "Phase6BLeadEvidence"
+      ],
+      "existing_repo_model_references": [
+        "LeadRecord"
+      ],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_04_google_business_connector",
+      "seed_title": "6B google business connector",
+      "source_component_id": "6B.04",
+      "source_component_name": "CRM Lead Intake",
+      "seed_type": "tenant_service",
+      "subsurface_id": "subsurface_6b_04_google_business_connector",
+      "model_decision_group_id": "phase_6b_schema_group_6b_04",
+      "model_decision_group_name": "CRM Lead Intake",
+      "proposed_primary_model_names": [
+        "Phase6BLeadSource",
+        "Phase6BLeadEvidence"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BLeadSource",
+        "Phase6BLeadEvidence"
+      ],
+      "existing_repo_model_references": [
+        "LeadRecord"
+      ],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_04_facebook_page_forms_connector",
+      "seed_title": "6B facebook page forms connector",
+      "source_component_id": "6B.04",
+      "source_component_name": "CRM Lead Intake",
+      "seed_type": "tenant_service",
+      "subsurface_id": "subsurface_6b_04_facebook_page_forms_connector",
+      "model_decision_group_id": "phase_6b_schema_group_6b_04",
+      "model_decision_group_name": "CRM Lead Intake",
+      "proposed_primary_model_names": [
+        "Phase6BLeadSource",
+        "Phase6BLeadEvidence"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BLeadSource",
+        "Phase6BLeadEvidence"
+      ],
+      "existing_repo_model_references": [
+        "LeadRecord"
+      ],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_04_web_form_intake_connector",
+      "seed_title": "6B web form intake connector",
+      "source_component_id": "6B.04",
+      "source_component_name": "CRM Lead Intake",
+      "seed_type": "tenant_service",
+      "subsurface_id": "subsurface_6b_04_web_form_intake_connector",
+      "model_decision_group_id": "phase_6b_schema_group_6b_04",
+      "model_decision_group_name": "CRM Lead Intake",
+      "proposed_primary_model_names": [
+        "Phase6BLeadSource",
+        "Phase6BLeadEvidence"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BLeadSource",
+        "Phase6BLeadEvidence"
+      ],
+      "existing_repo_model_references": [
+        "LeadRecord"
+      ],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_04_manual_lead_entry",
+      "seed_title": "6B manual lead entry",
+      "source_component_id": "6B.04",
+      "source_component_name": "CRM Lead Intake",
+      "seed_type": "tenant_service",
+      "subsurface_id": "subsurface_6b_04_manual_lead_entry",
+      "model_decision_group_id": "phase_6b_schema_group_6b_04",
+      "model_decision_group_name": "CRM Lead Intake",
+      "proposed_primary_model_names": [
+        "Phase6BLeadSource",
+        "Phase6BLeadEvidence"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BLeadSource",
+        "Phase6BLeadEvidence"
+      ],
+      "existing_repo_model_references": [
+        "LeadRecord"
+      ],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_04_csv_excel_import",
+      "seed_title": "6B csv excel import",
+      "source_component_id": "6B.04",
+      "source_component_name": "CRM Lead Intake",
+      "seed_type": "tenant_service",
+      "subsurface_id": "subsurface_6b_04_csv_excel_import",
+      "model_decision_group_id": "phase_6b_schema_group_6b_04",
+      "model_decision_group_name": "CRM Lead Intake",
+      "proposed_primary_model_names": [
+        "Phase6BLeadSource",
+        "Phase6BLeadEvidence"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BLeadSource",
+        "Phase6BLeadEvidence"
+      ],
+      "existing_repo_model_references": [
+        "LeadRecord"
+      ],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_04_api_lead_intake",
+      "seed_title": "6B api lead intake",
+      "source_component_id": "6B.04",
+      "source_component_name": "CRM Lead Intake",
+      "seed_type": "tenant_service",
+      "subsurface_id": "subsurface_6b_04_api_lead_intake",
+      "model_decision_group_id": "phase_6b_schema_group_6b_04",
+      "model_decision_group_name": "CRM Lead Intake",
+      "proposed_primary_model_names": [
+        "Phase6BLeadSource",
+        "Phase6BLeadEvidence"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BLeadSource",
+        "Phase6BLeadEvidence"
+      ],
+      "existing_repo_model_references": [
+        "LeadRecord"
+      ],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_04_referral_intake",
+      "seed_title": "6B referral intake",
+      "source_component_id": "6B.04",
+      "source_component_name": "CRM Lead Intake",
+      "seed_type": "tenant_service",
+      "subsurface_id": "subsurface_6b_04_referral_intake",
+      "model_decision_group_id": "phase_6b_schema_group_6b_04",
+      "model_decision_group_name": "CRM Lead Intake",
+      "proposed_primary_model_names": [
+        "Phase6BLeadSource",
+        "Phase6BLeadEvidence"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BLeadSource",
+        "Phase6BLeadEvidence"
+      ],
+      "existing_repo_model_references": [
+        "LeadRecord"
+      ],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_04_inbound_whatsapp_intake",
+      "seed_title": "6B inbound whatsapp intake",
+      "source_component_id": "6B.04",
+      "source_component_name": "CRM Lead Intake",
+      "seed_type": "tenant_service",
+      "subsurface_id": "subsurface_6b_04_inbound_whatsapp_intake",
+      "model_decision_group_id": "phase_6b_schema_group_6b_04",
+      "model_decision_group_name": "CRM Lead Intake",
+      "proposed_primary_model_names": [
+        "Phase6BLeadSource",
+        "Phase6BLeadEvidence"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BLeadSource",
+        "Phase6BLeadEvidence"
+      ],
+      "existing_repo_model_references": [
+        "LeadRecord"
+      ],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_04_inbound_sms_intake",
+      "seed_title": "6B inbound sms intake",
+      "source_component_id": "6B.04",
+      "source_component_name": "CRM Lead Intake",
+      "seed_type": "tenant_service",
+      "subsurface_id": "subsurface_6b_04_inbound_sms_intake",
+      "model_decision_group_id": "phase_6b_schema_group_6b_04",
+      "model_decision_group_name": "CRM Lead Intake",
+      "proposed_primary_model_names": [
+        "Phase6BLeadSource",
+        "Phase6BLeadEvidence"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BLeadSource",
+        "Phase6BLeadEvidence"
+      ],
+      "existing_repo_model_references": [
+        "LeadRecord"
+      ],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_04_chatbot_intake",
+      "seed_title": "6B chatbot intake",
+      "source_component_id": "6B.04",
+      "source_component_name": "CRM Lead Intake",
+      "seed_type": "tenant_service",
+      "subsurface_id": "subsurface_6b_04_chatbot_intake",
+      "model_decision_group_id": "phase_6b_schema_group_6b_04",
+      "model_decision_group_name": "CRM Lead Intake",
+      "proposed_primary_model_names": [
+        "Phase6BLeadSource",
+        "Phase6BLeadEvidence"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BLeadSource",
+        "Phase6BLeadEvidence"
+      ],
+      "existing_repo_model_references": [
+        "LeadRecord"
+      ],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_04_live_chat_intake",
+      "seed_title": "6B live chat intake",
+      "source_component_id": "6B.04",
+      "source_component_name": "CRM Lead Intake",
+      "seed_type": "tenant_service",
+      "subsurface_id": "subsurface_6b_04_live_chat_intake",
+      "model_decision_group_id": "phase_6b_schema_group_6b_04",
+      "model_decision_group_name": "CRM Lead Intake",
+      "proposed_primary_model_names": [
+        "Phase6BLeadSource",
+        "Phase6BLeadEvidence"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BLeadSource",
+        "Phase6BLeadEvidence"
+      ],
+      "existing_repo_model_references": [
+        "LeadRecord"
+      ],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_04_email_intake",
+      "seed_title": "6B email intake",
+      "source_component_id": "6B.04",
+      "source_component_name": "CRM Lead Intake",
+      "seed_type": "tenant_service",
+      "subsurface_id": "subsurface_6b_04_email_intake",
+      "model_decision_group_id": "phase_6b_schema_group_6b_04",
+      "model_decision_group_name": "CRM Lead Intake",
+      "proposed_primary_model_names": [
+        "Phase6BLeadSource",
+        "Phase6BLeadEvidence"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BLeadSource",
+        "Phase6BLeadEvidence"
+      ],
+      "existing_repo_model_references": [
+        "LeadRecord"
+      ],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_04_phone_intake",
+      "seed_title": "6B phone intake",
+      "source_component_id": "6B.04",
+      "source_component_name": "CRM Lead Intake",
+      "seed_type": "tenant_service",
+      "subsurface_id": "subsurface_6b_04_phone_intake",
+      "model_decision_group_id": "phase_6b_schema_group_6b_04",
+      "model_decision_group_name": "CRM Lead Intake",
+      "proposed_primary_model_names": [
+        "Phase6BLeadSource",
+        "Phase6BLeadEvidence"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BLeadSource",
+        "Phase6BLeadEvidence"
+      ],
+      "existing_repo_model_references": [
+        "LeadRecord"
+      ],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_04_walk_in_intake",
+      "seed_title": "6B walk in intake",
+      "source_component_id": "6B.04",
+      "source_component_name": "CRM Lead Intake",
+      "seed_type": "tenant_service",
+      "subsurface_id": "subsurface_6b_04_walk_in_intake",
+      "model_decision_group_id": "phase_6b_schema_group_6b_04",
+      "model_decision_group_name": "CRM Lead Intake",
+      "proposed_primary_model_names": [
+        "Phase6BLeadSource",
+        "Phase6BLeadEvidence"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BLeadSource",
+        "Phase6BLeadEvidence"
+      ],
+      "existing_repo_model_references": [
+        "LeadRecord"
+      ],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_05_match_candidate_generation",
+      "seed_title": "6B match candidate generation",
+      "source_component_id": "6B.05",
+      "source_component_name": "CRM Deduplication",
+      "seed_type": "tenant_service",
+      "subsurface_id": "subsurface_6b_05_match_candidate_generation",
+      "model_decision_group_id": "phase_6b_schema_group_6b_05",
+      "model_decision_group_name": "CRM Deduplication",
+      "proposed_primary_model_names": [
+        "Phase6BLeadMatchCandidate"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BLeadMatchCandidate",
+        "Phase6BLeadMergeRecord"
+      ],
+      "existing_repo_model_references": [
+        "LeadRecord"
+      ],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_05_merge_decision_record",
+      "seed_title": "6B merge decision record",
+      "source_component_id": "6B.05",
+      "source_component_name": "CRM Deduplication",
+      "seed_type": "tenant_service",
+      "subsurface_id": "subsurface_6b_05_merge_decision_record",
+      "model_decision_group_id": "phase_6b_schema_group_6b_05",
+      "model_decision_group_name": "CRM Deduplication",
+      "proposed_primary_model_names": [
+        "Phase6BLeadMergeRecord"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BLeadMatchCandidate",
+        "Phase6BLeadMergeRecord"
+      ],
+      "existing_repo_model_references": [
+        "LeadRecord"
+      ],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_05_identity_resolution_linking",
+      "seed_title": "6B identity resolution linking",
+      "source_component_id": "6B.05",
+      "source_component_name": "CRM Deduplication",
+      "seed_type": "tenant_service",
+      "subsurface_id": "subsurface_6b_05_identity_resolution_linking",
+      "model_decision_group_id": "phase_6b_schema_group_6b_05",
+      "model_decision_group_name": "CRM Deduplication",
+      "proposed_primary_model_names": [
+        "Phase6BLeadMatchCandidate",
+        "Phase6BLeadMergeRecord"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BLeadMatchCandidate",
+        "Phase6BLeadMergeRecord"
+      ],
+      "existing_repo_model_references": [
+        "LeadRecord"
+      ],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_05_duplicate_evidence_log",
+      "seed_title": "6B duplicate evidence log",
+      "source_component_id": "6B.05",
+      "source_component_name": "CRM Deduplication",
+      "seed_type": "audit_log_primitive",
+      "subsurface_id": "subsurface_6b_05_duplicate_evidence_log",
+      "model_decision_group_id": "phase_6b_schema_group_6b_05",
+      "model_decision_group_name": "CRM Deduplication",
+      "proposed_primary_model_names": [
+        "Phase6BLeadMatchCandidate",
+        "Phase6BLeadMergeRecord"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BLeadMatchCandidate",
+        "Phase6BLeadMergeRecord"
+      ],
+      "existing_repo_model_references": [
+        "LeadRecord"
+      ],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_06_pipeline_stage_model",
+      "seed_title": "6B pipeline stage model",
+      "source_component_id": "6B.06",
+      "source_component_name": "CRM Pipeline",
+      "seed_type": "tenant_service",
+      "subsurface_id": "subsurface_6b_06_pipeline_stage_model",
+      "model_decision_group_id": "phase_6b_schema_group_6b_06",
+      "model_decision_group_name": "CRM Pipeline",
+      "proposed_primary_model_names": [
+        "Phase6BPipelineStage"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BPipelineStage",
+        "Phase6BPipelineTimelineEntry"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_06_crm_activity_timeline",
+      "seed_title": "6B crm activity timeline",
+      "source_component_id": "6B.06",
+      "source_component_name": "CRM Pipeline",
+      "seed_type": "tenant_service",
+      "subsurface_id": "subsurface_6b_06_crm_activity_timeline",
+      "model_decision_group_id": "phase_6b_schema_group_6b_06",
+      "model_decision_group_name": "CRM Pipeline",
+      "proposed_primary_model_names": [
+        "Phase6BPipelineTimelineEntry"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BPipelineStage",
+        "Phase6BPipelineTimelineEntry"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_06_internal_notes_comments",
+      "seed_title": "6B internal notes comments",
+      "source_component_id": "6B.06",
+      "source_component_name": "CRM Pipeline",
+      "seed_type": "tenant_service",
+      "subsurface_id": "subsurface_6b_06_internal_notes_comments",
+      "model_decision_group_id": "phase_6b_schema_group_6b_06",
+      "model_decision_group_name": "CRM Pipeline",
+      "proposed_primary_model_names": [
+        "Phase6BPipelineTimelineEntry"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BPipelineStage",
+        "Phase6BPipelineTimelineEntry"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_06_stage_history_audit",
+      "seed_title": "6B stage history audit",
+      "source_component_id": "6B.06",
+      "source_component_name": "CRM Pipeline",
+      "seed_type": "audit_log_primitive",
+      "subsurface_id": "subsurface_6b_06_stage_history_audit",
+      "model_decision_group_id": "phase_6b_schema_group_6b_06",
+      "model_decision_group_name": "CRM Pipeline",
+      "proposed_primary_model_names": [
+        "Phase6BPipelineTimelineEntry"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BPipelineStage",
+        "Phase6BPipelineTimelineEntry"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_06_expected_value_pricing_bridge",
+      "seed_title": "6B expected value pricing bridge",
+      "source_component_id": "6B.06",
+      "source_component_name": "CRM Pipeline",
+      "seed_type": "tenant_service",
+      "subsurface_id": "subsurface_6b_06_expected_value_pricing_bridge",
+      "model_decision_group_id": "phase_6b_schema_group_6b_06",
+      "model_decision_group_name": "CRM Pipeline",
+      "proposed_primary_model_names": [
+        "Phase6BPipelineTimelineEntry"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BPipelineStage",
+        "Phase6BPipelineTimelineEntry"
+      ],
+      "existing_repo_model_references": [
+        "LeadRecord"
+      ],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_07_whatsapp_template_management",
+      "seed_title": "6B whatsapp template management",
+      "source_component_id": "6B.07",
+      "source_component_name": "Communication",
+      "seed_type": "optional_microservice",
+      "subsurface_id": "subsurface_6b_07_whatsapp_template_management",
+      "model_decision_group_id": "phase_6b_schema_group_6b_07",
+      "model_decision_group_name": "Communication",
+      "proposed_primary_model_names": [
+        "Phase6BCommunicationTemplate"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BCommunicationTemplate",
+        "Phase6BCommunicationAttempt",
+        "Phase6BCommunicationSequenceEnrollment"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_07_whatsapp_inbound_routing",
+      "seed_title": "6B whatsapp inbound routing",
+      "source_component_id": "6B.07",
+      "source_component_name": "Communication",
+      "seed_type": "optional_microservice",
+      "subsurface_id": "subsurface_6b_07_whatsapp_inbound_routing",
+      "model_decision_group_id": "phase_6b_schema_group_6b_07",
+      "model_decision_group_name": "Communication",
+      "proposed_primary_model_names": [
+        "Phase6BCommunicationAttempt"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BCommunicationTemplate",
+        "Phase6BCommunicationAttempt",
+        "Phase6BCommunicationSequenceEnrollment"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_07_whatsapp_outbound_window",
+      "seed_title": "6B whatsapp outbound window",
+      "source_component_id": "6B.07",
+      "source_component_name": "Communication",
+      "seed_type": "optional_microservice",
+      "subsurface_id": "subsurface_6b_07_whatsapp_outbound_window",
+      "model_decision_group_id": "phase_6b_schema_group_6b_07",
+      "model_decision_group_name": "Communication",
+      "proposed_primary_model_names": [
+        "Phase6BCommunicationTemplate",
+        "Phase6BCommunicationAttempt"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BCommunicationTemplate",
+        "Phase6BCommunicationAttempt",
+        "Phase6BCommunicationSequenceEnrollment"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_07_whatsapp_broadcast_compliance",
+      "seed_title": "6B whatsapp broadcast compliance",
+      "source_component_id": "6B.07",
+      "source_component_name": "Communication",
+      "seed_type": "optional_microservice",
+      "subsurface_id": "subsurface_6b_07_whatsapp_broadcast_compliance",
+      "model_decision_group_id": "phase_6b_schema_group_6b_07",
+      "model_decision_group_name": "Communication",
+      "proposed_primary_model_names": [
+        "Phase6BCommunicationTemplate",
+        "Phase6BCommunicationAttempt"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BCommunicationTemplate",
+        "Phase6BCommunicationAttempt",
+        "Phase6BCommunicationSequenceEnrollment"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_07_whatsapp_auto_reply_keywords",
+      "seed_title": "6B whatsapp auto reply keywords",
+      "source_component_id": "6B.07",
+      "source_component_name": "Communication",
+      "seed_type": "optional_microservice",
+      "subsurface_id": "subsurface_6b_07_whatsapp_auto_reply_keywords",
+      "model_decision_group_id": "phase_6b_schema_group_6b_07",
+      "model_decision_group_name": "Communication",
+      "proposed_primary_model_names": [
+        "Phase6BCommunicationTemplate",
+        "Phase6BCommunicationAttempt"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BCommunicationTemplate",
+        "Phase6BCommunicationAttempt",
+        "Phase6BCommunicationSequenceEnrollment"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_07_email_connected_inbox",
+      "seed_title": "6B email connected inbox",
+      "source_component_id": "6B.07",
+      "source_component_name": "Communication",
+      "seed_type": "optional_microservice",
+      "subsurface_id": "subsurface_6b_07_email_connected_inbox",
+      "model_decision_group_id": "phase_6b_schema_group_6b_07",
+      "model_decision_group_name": "Communication",
+      "proposed_primary_model_names": [
+        "Phase6BCommunicationAttempt"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BCommunicationTemplate",
+        "Phase6BCommunicationAttempt",
+        "Phase6BCommunicationSequenceEnrollment"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_07_email_transactional_domain",
+      "seed_title": "6B email transactional domain",
+      "source_component_id": "6B.07",
+      "source_component_name": "Communication",
+      "seed_type": "optional_microservice",
+      "subsurface_id": "subsurface_6b_07_email_transactional_domain",
+      "model_decision_group_id": "phase_6b_schema_group_6b_07",
+      "model_decision_group_name": "Communication",
+      "proposed_primary_model_names": [
+        "Phase6BCommunicationTemplate",
+        "Phase6BCommunicationAttempt"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BCommunicationTemplate",
+        "Phase6BCommunicationAttempt",
+        "Phase6BCommunicationSequenceEnrollment"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_07_email_sequences",
+      "seed_title": "6B email sequences",
+      "source_component_id": "6B.07",
+      "source_component_name": "Communication",
+      "seed_type": "optional_microservice",
+      "subsurface_id": "subsurface_6b_07_email_sequences",
+      "model_decision_group_id": "phase_6b_schema_group_6b_07",
+      "model_decision_group_name": "Communication",
+      "proposed_primary_model_names": [
+        "Phase6BCommunicationSequenceEnrollment"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BCommunicationTemplate",
+        "Phase6BCommunicationAttempt",
+        "Phase6BCommunicationSequenceEnrollment"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_07_email_shared_inbox",
+      "seed_title": "6B email shared inbox",
+      "source_component_id": "6B.07",
+      "source_component_name": "Communication",
+      "seed_type": "optional_microservice",
+      "subsurface_id": "subsurface_6b_07_email_shared_inbox",
+      "model_decision_group_id": "phase_6b_schema_group_6b_07",
+      "model_decision_group_name": "Communication",
+      "proposed_primary_model_names": [
+        "Phase6BCommunicationAttempt"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BCommunicationTemplate",
+        "Phase6BCommunicationAttempt",
+        "Phase6BCommunicationSequenceEnrollment"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_07_communication_attempt_evidence",
+      "seed_title": "6B communication attempt evidence",
+      "source_component_id": "6B.07",
+      "source_component_name": "Communication",
+      "seed_type": "evidence_primitive",
+      "subsurface_id": "subsurface_6b_07_communication_attempt_evidence",
+      "model_decision_group_id": "phase_6b_schema_group_6b_07",
+      "model_decision_group_name": "Communication",
+      "proposed_primary_model_names": [
+        "Phase6BCommunicationAttempt"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BCommunicationTemplate",
+        "Phase6BCommunicationAttempt",
+        "Phase6BCommunicationSequenceEnrollment"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_08_lead_scoring_engine",
+      "seed_title": "6B lead scoring engine",
+      "source_component_id": "6B.08",
+      "source_component_name": "Lead Scoring and Reporting",
+      "seed_type": "core_microservice",
+      "subsurface_id": "subsurface_6b_08_lead_scoring_engine",
+      "model_decision_group_id": "phase_6b_schema_group_6b_08",
+      "model_decision_group_name": "Lead Scoring and Reporting",
+      "proposed_primary_model_names": [
+        "Phase6BLeadScore"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BLeadScore",
+        "Phase6BFollowUpTask"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_08_follow_up_task_cadence",
+      "seed_title": "6B follow up task cadence",
+      "source_component_id": "6B.08",
+      "source_component_name": "Lead Scoring and Reporting",
+      "seed_type": "tenant_service",
+      "subsurface_id": "subsurface_6b_08_follow_up_task_cadence",
+      "model_decision_group_id": "phase_6b_schema_group_6b_08",
+      "model_decision_group_name": "Lead Scoring and Reporting",
+      "proposed_primary_model_names": [
+        "Phase6BFollowUpTask"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BLeadScore",
+        "Phase6BFollowUpTask"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_08_crm_reporting_definitions",
+      "seed_title": "6B crm reporting definitions",
+      "source_component_id": "6B.08",
+      "source_component_name": "Lead Scoring and Reporting",
+      "seed_type": "tenant_service",
+      "subsurface_id": "subsurface_6b_08_crm_reporting_definitions",
+      "model_decision_group_id": "phase_6b_schema_group_6b_08",
+      "model_decision_group_name": "Lead Scoring and Reporting",
+      "proposed_primary_model_names": [
+        "Phase6BLeadScore",
+        "Phase6BFollowUpTask"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BLeadScore",
+        "Phase6BFollowUpTask"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_08_crm_compliance_views",
+      "seed_title": "6B crm compliance views",
+      "source_component_id": "6B.08",
+      "source_component_name": "Lead Scoring and Reporting",
+      "seed_type": "tenant_service",
+      "subsurface_id": "subsurface_6b_08_crm_compliance_views",
+      "model_decision_group_id": "phase_6b_schema_group_6b_08",
+      "model_decision_group_name": "Lead Scoring and Reporting",
+      "proposed_primary_model_names": [
+        "Phase6BLeadScore",
+        "Phase6BFollowUpTask"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BLeadScore",
+        "Phase6BFollowUpTask"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_09_invoice_record_authority",
+      "seed_title": "6B invoice record authority",
+      "source_component_id": "6B.09",
+      "source_component_name": "Invoice and Receivables",
+      "seed_type": "tenant_service",
+      "subsurface_id": "subsurface_6b_09_invoice_record_authority",
+      "model_decision_group_id": "phase_6b_schema_group_6b_09",
+      "model_decision_group_name": "Invoice and Receivables",
+      "proposed_primary_model_names": [
+        "Phase6BInvoice",
+        "Phase6BInvoiceLine"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BInvoice",
+        "Phase6BInvoiceLine",
+        "Phase6BReceivable",
+        "Phase6BCreditDebitNote"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_09_invoice_lifecycle_types",
+      "seed_title": "6B invoice lifecycle types",
+      "source_component_id": "6B.09",
+      "source_component_name": "Invoice and Receivables",
+      "seed_type": "tenant_service",
+      "subsurface_id": "subsurface_6b_09_invoice_lifecycle_types",
+      "model_decision_group_id": "phase_6b_schema_group_6b_09",
+      "model_decision_group_name": "Invoice and Receivables",
+      "proposed_primary_model_names": [
+        "Phase6BInvoice",
+        "Phase6BCreditDebitNote"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BInvoice",
+        "Phase6BInvoiceLine",
+        "Phase6BReceivable",
+        "Phase6BCreditDebitNote"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_09_receivable_balance_computation",
+      "seed_title": "6B receivable balance computation",
+      "source_component_id": "6B.09",
+      "source_component_name": "Invoice and Receivables",
+      "seed_type": "tenant_service",
+      "subsurface_id": "subsurface_6b_09_receivable_balance_computation",
+      "model_decision_group_id": "phase_6b_schema_group_6b_09",
+      "model_decision_group_name": "Invoice and Receivables",
+      "proposed_primary_model_names": [
+        "Phase6BReceivable"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BInvoice",
+        "Phase6BInvoiceLine",
+        "Phase6BReceivable",
+        "Phase6BCreditDebitNote"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_09_fbr_invoice_format",
+      "seed_title": "6B fbr invoice format",
+      "source_component_id": "6B.09",
+      "source_component_name": "Invoice and Receivables",
+      "seed_type": "tenant_service",
+      "subsurface_id": "subsurface_6b_09_fbr_invoice_format",
+      "model_decision_group_id": "phase_6b_schema_group_6b_09",
+      "model_decision_group_name": "Invoice and Receivables",
+      "proposed_primary_model_names": [
+        "Phase6BInvoice"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BInvoice",
+        "Phase6BInvoiceLine",
+        "Phase6BReceivable",
+        "Phase6BCreditDebitNote"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_09_aging_and_overdue_management",
+      "seed_title": "6B aging and overdue management",
+      "source_component_id": "6B.09",
+      "source_component_name": "Invoice and Receivables",
+      "seed_type": "tenant_service",
+      "subsurface_id": "subsurface_6b_09_aging_and_overdue_management",
+      "model_decision_group_id": "phase_6b_schema_group_6b_09",
+      "model_decision_group_name": "Invoice and Receivables",
+      "proposed_primary_model_names": [
+        "Phase6BReceivable"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BInvoice",
+        "Phase6BInvoiceLine",
+        "Phase6BReceivable",
+        "Phase6BCreditDebitNote"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_10_jazzcash_gateway",
+      "seed_title": "6B jazzcash gateway",
+      "source_component_id": "6B.10",
+      "source_component_name": "Payment Collection and Top-Up",
+      "seed_type": "provider_adapter",
+      "subsurface_id": "subsurface_6b_10_jazzcash_gateway",
+      "model_decision_group_id": "phase_6b_schema_group_6b_10",
+      "model_decision_group_name": "Payment Collection and Top-Up",
+      "proposed_primary_model_names": [
+        "Phase6BPayment",
+        "Phase6BReceipt"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BPayment",
+        "Phase6BPaymentAllocation",
+        "Phase6BReceipt",
+        "Phase6BTopUp",
+        "Phase6BReconciliationCandidate"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_10_easypaisa_gateway",
+      "seed_title": "6B easypaisa gateway",
+      "source_component_id": "6B.10",
+      "source_component_name": "Payment Collection and Top-Up",
+      "seed_type": "provider_adapter",
+      "subsurface_id": "subsurface_6b_10_easypaisa_gateway",
+      "model_decision_group_id": "phase_6b_schema_group_6b_10",
+      "model_decision_group_name": "Payment Collection and Top-Up",
+      "proposed_primary_model_names": [
+        "Phase6BPayment",
+        "Phase6BReceipt"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BPayment",
+        "Phase6BPaymentAllocation",
+        "Phase6BReceipt",
+        "Phase6BTopUp",
+        "Phase6BReconciliationCandidate"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_10_raast_gateway",
+      "seed_title": "6B raast gateway",
+      "source_component_id": "6B.10",
+      "source_component_name": "Payment Collection and Top-Up",
+      "seed_type": "provider_adapter",
+      "subsurface_id": "subsurface_6b_10_raast_gateway",
+      "model_decision_group_id": "phase_6b_schema_group_6b_10",
+      "model_decision_group_name": "Payment Collection and Top-Up",
+      "proposed_primary_model_names": [
+        "Phase6BPayment",
+        "Phase6BReceipt"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BPayment",
+        "Phase6BPaymentAllocation",
+        "Phase6BReceipt",
+        "Phase6BTopUp",
+        "Phase6BReconciliationCandidate"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_10_quickpay_shadow_account_gateway",
+      "seed_title": "6B quickpay shadow account gateway",
+      "source_component_id": "6B.10",
+      "source_component_name": "Payment Collection and Top-Up",
+      "seed_type": "provider_adapter",
+      "subsurface_id": "subsurface_6b_10_quickpay_shadow_account_gateway",
+      "model_decision_group_id": "phase_6b_schema_group_6b_10",
+      "model_decision_group_name": "Payment Collection and Top-Up",
+      "proposed_primary_model_names": [
+        "Phase6BPayment",
+        "Phase6BReceipt"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BPayment",
+        "Phase6BPaymentAllocation",
+        "Phase6BReceipt",
+        "Phase6BTopUp",
+        "Phase6BReconciliationCandidate"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_10_stripe_gateway_3ds",
+      "seed_title": "6B stripe gateway 3ds",
+      "source_component_id": "6B.10",
+      "source_component_name": "Payment Collection and Top-Up",
+      "seed_type": "provider_adapter",
+      "subsurface_id": "subsurface_6b_10_stripe_gateway_3ds",
+      "model_decision_group_id": "phase_6b_schema_group_6b_10",
+      "model_decision_group_name": "Payment Collection and Top-Up",
+      "proposed_primary_model_names": [
+        "Phase6BPayment",
+        "Phase6BReceipt"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BPayment",
+        "Phase6BPaymentAllocation",
+        "Phase6BReceipt",
+        "Phase6BTopUp",
+        "Phase6BReconciliationCandidate"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_10_wise_gateway",
+      "seed_title": "6B wise gateway",
+      "source_component_id": "6B.10",
+      "source_component_name": "Payment Collection and Top-Up",
+      "seed_type": "provider_adapter",
+      "subsurface_id": "subsurface_6b_10_wise_gateway",
+      "model_decision_group_id": "phase_6b_schema_group_6b_10",
+      "model_decision_group_name": "Payment Collection and Top-Up",
+      "proposed_primary_model_names": [
+        "Phase6BPayment",
+        "Phase6BReceipt"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BPayment",
+        "Phase6BPaymentAllocation",
+        "Phase6BReceipt",
+        "Phase6BTopUp",
+        "Phase6BReconciliationCandidate"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_10_manual_reconciliation_path",
+      "seed_title": "6B manual reconciliation path",
+      "source_component_id": "6B.10",
+      "source_component_name": "Payment Collection and Top-Up",
+      "seed_type": "internal_lifecycle_primitive",
+      "subsurface_id": "subsurface_6b_10_manual_reconciliation_path",
+      "model_decision_group_id": "phase_6b_schema_group_6b_10",
+      "model_decision_group_name": "Payment Collection and Top-Up",
+      "proposed_primary_model_names": [
+        "Phase6BReconciliationCandidate"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BPayment",
+        "Phase6BPaymentAllocation",
+        "Phase6BReceipt",
+        "Phase6BTopUp",
+        "Phase6BReconciliationCandidate"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_10_payment_allocation_balance",
+      "seed_title": "6B payment allocation balance",
+      "source_component_id": "6B.10",
+      "source_component_name": "Payment Collection and Top-Up",
+      "seed_type": "core_microservice",
+      "subsurface_id": "subsurface_6b_10_payment_allocation_balance",
+      "model_decision_group_id": "phase_6b_schema_group_6b_10",
+      "model_decision_group_name": "Payment Collection and Top-Up",
+      "proposed_primary_model_names": [
+        "Phase6BPaymentAllocation"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BPayment",
+        "Phase6BPaymentAllocation",
+        "Phase6BReceipt",
+        "Phase6BTopUp",
+        "Phase6BReconciliationCandidate"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_10_refund_to_original_method",
+      "seed_title": "6B refund to original method",
+      "source_component_id": "6B.10",
+      "source_component_name": "Payment Collection and Top-Up",
+      "seed_type": "core_microservice",
+      "subsurface_id": "subsurface_6b_10_refund_to_original_method",
+      "model_decision_group_id": "phase_6b_schema_group_6b_10",
+      "model_decision_group_name": "Payment Collection and Top-Up",
+      "proposed_primary_model_names": [
+        "Phase6BPayment",
+        "Phase6BPaymentAllocation",
+        "Phase6BReceipt"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BPayment",
+        "Phase6BPaymentAllocation",
+        "Phase6BReceipt",
+        "Phase6BTopUp",
+        "Phase6BReconciliationCandidate"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_10_top_up_prepaid_credit",
+      "seed_title": "6B top up prepaid credit",
+      "source_component_id": "6B.10",
+      "source_component_name": "Payment Collection and Top-Up",
+      "seed_type": "core_microservice",
+      "subsurface_id": "subsurface_6b_10_top_up_prepaid_credit",
+      "model_decision_group_id": "phase_6b_schema_group_6b_10",
+      "model_decision_group_name": "Payment Collection and Top-Up",
+      "proposed_primary_model_names": [
+        "Phase6BTopUp",
+        "Phase6BPayment",
+        "Phase6BReceipt"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BPayment",
+        "Phase6BPaymentAllocation",
+        "Phase6BReceipt",
+        "Phase6BTopUp",
+        "Phase6BReconciliationCandidate"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_11_expense_record_authority",
+      "seed_title": "6B expense record authority",
+      "source_component_id": "6B.11",
+      "source_component_name": "Expense, Purchase, and Vendor",
+      "seed_type": "tenant_service",
+      "subsurface_id": "subsurface_6b_11_expense_record_authority",
+      "model_decision_group_id": "phase_6b_schema_group_6b_11",
+      "model_decision_group_name": "Expense, Purchase, and Vendor",
+      "proposed_primary_model_names": [
+        "Phase6BExpense"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BVendor",
+        "Phase6BExpense",
+        "Phase6BPurchaseOrder",
+        "Phase6BPurchaseReceipt"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_11_expense_approval_workflow",
+      "seed_title": "6B expense approval workflow",
+      "source_component_id": "6B.11",
+      "source_component_name": "Expense, Purchase, and Vendor",
+      "seed_type": "core_microservice",
+      "subsurface_id": "subsurface_6b_11_expense_approval_workflow",
+      "model_decision_group_id": "phase_6b_schema_group_6b_11",
+      "model_decision_group_name": "Expense, Purchase, and Vendor",
+      "proposed_primary_model_names": [
+        "Phase6BExpense"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BVendor",
+        "Phase6BExpense",
+        "Phase6BPurchaseOrder",
+        "Phase6BPurchaseReceipt"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_11_vendor_record_authority",
+      "seed_title": "6B vendor record authority",
+      "source_component_id": "6B.11",
+      "source_component_name": "Expense, Purchase, and Vendor",
+      "seed_type": "tenant_service",
+      "subsurface_id": "subsurface_6b_11_vendor_record_authority",
+      "model_decision_group_id": "phase_6b_schema_group_6b_11",
+      "model_decision_group_name": "Expense, Purchase, and Vendor",
+      "proposed_primary_model_names": [
+        "Phase6BVendor"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BVendor",
+        "Phase6BExpense",
+        "Phase6BPurchaseOrder",
+        "Phase6BPurchaseReceipt"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_11_purchase_order_authority",
+      "seed_title": "6B purchase order authority",
+      "source_component_id": "6B.11",
+      "source_component_name": "Expense, Purchase, and Vendor",
+      "seed_type": "tenant_service",
+      "subsurface_id": "subsurface_6b_11_purchase_order_authority",
+      "model_decision_group_id": "phase_6b_schema_group_6b_11",
+      "model_decision_group_name": "Expense, Purchase, and Vendor",
+      "proposed_primary_model_names": [
+        "Phase6BPurchaseOrder"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BVendor",
+        "Phase6BExpense",
+        "Phase6BPurchaseOrder",
+        "Phase6BPurchaseReceipt"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_11_three_way_match_evidence",
+      "seed_title": "6B three way match evidence",
+      "source_component_id": "6B.11",
+      "source_component_name": "Expense, Purchase, and Vendor",
+      "seed_type": "evidence_primitive",
+      "subsurface_id": "subsurface_6b_11_three_way_match_evidence",
+      "model_decision_group_id": "phase_6b_schema_group_6b_11",
+      "model_decision_group_name": "Expense, Purchase, and Vendor",
+      "proposed_primary_model_names": [
+        "Phase6BPurchaseOrder",
+        "Phase6BPurchaseReceipt"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BVendor",
+        "Phase6BExpense",
+        "Phase6BPurchaseOrder",
+        "Phase6BPurchaseReceipt"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_12_chart_of_accounts",
+      "seed_title": "6B chart of accounts",
+      "source_component_id": "6B.12",
+      "source_component_name": "General Ledger Accounting",
+      "seed_type": "tenant_service",
+      "subsurface_id": "subsurface_6b_12_chart_of_accounts",
+      "model_decision_group_id": "phase_6b_schema_group_6b_12",
+      "model_decision_group_name": "General Ledger Accounting",
+      "proposed_primary_model_names": [
+        "Phase6BChartOfAccount"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BChartOfAccount",
+        "Phase6BJournalEntry",
+        "Phase6BJournalEntryLine",
+        "Phase6BAccountingPeriod",
+        "Phase6BTaxMapping"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_12_journal_entry_engine",
+      "seed_title": "6B journal entry engine",
+      "source_component_id": "6B.12",
+      "source_component_name": "General Ledger Accounting",
+      "seed_type": "core_microservice",
+      "subsurface_id": "subsurface_6b_12_journal_entry_engine",
+      "model_decision_group_id": "phase_6b_schema_group_6b_12",
+      "model_decision_group_name": "General Ledger Accounting",
+      "proposed_primary_model_names": [
+        "Phase6BJournalEntry",
+        "Phase6BJournalEntryLine"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BChartOfAccount",
+        "Phase6BJournalEntry",
+        "Phase6BJournalEntryLine",
+        "Phase6BAccountingPeriod",
+        "Phase6BTaxMapping"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_12_period_close_management",
+      "seed_title": "6B period close management",
+      "source_component_id": "6B.12",
+      "source_component_name": "General Ledger Accounting",
+      "seed_type": "tenant_service",
+      "subsurface_id": "subsurface_6b_12_period_close_management",
+      "model_decision_group_id": "phase_6b_schema_group_6b_12",
+      "model_decision_group_name": "General Ledger Accounting",
+      "proposed_primary_model_names": [
+        "Phase6BAccountingPeriod"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BChartOfAccount",
+        "Phase6BJournalEntry",
+        "Phase6BJournalEntryLine",
+        "Phase6BAccountingPeriod",
+        "Phase6BTaxMapping"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_12_tax_mapping_reporting",
+      "seed_title": "6B tax mapping reporting",
+      "source_component_id": "6B.12",
+      "source_component_name": "General Ledger Accounting",
+      "seed_type": "tenant_service",
+      "subsurface_id": "subsurface_6b_12_tax_mapping_reporting",
+      "model_decision_group_id": "phase_6b_schema_group_6b_12",
+      "model_decision_group_name": "General Ledger Accounting",
+      "proposed_primary_model_names": [
+        "Phase6BTaxMapping"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BChartOfAccount",
+        "Phase6BJournalEntry",
+        "Phase6BJournalEntryLine",
+        "Phase6BAccountingPeriod",
+        "Phase6BTaxMapping"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_12_fx_gain_loss_accounting",
+      "seed_title": "6B fx gain loss accounting",
+      "source_component_id": "6B.12",
+      "source_component_name": "General Ledger Accounting",
+      "seed_type": "tenant_service",
+      "subsurface_id": "subsurface_6b_12_fx_gain_loss_accounting",
+      "model_decision_group_id": "phase_6b_schema_group_6b_12",
+      "model_decision_group_name": "General Ledger Accounting",
+      "proposed_primary_model_names": [
+        "Phase6BJournalEntry",
+        "Phase6BJournalEntryLine"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BChartOfAccount",
+        "Phase6BJournalEntry",
+        "Phase6BJournalEntryLine",
+        "Phase6BAccountingPeriod",
+        "Phase6BTaxMapping"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_12_financial_reporting_pack",
+      "seed_title": "6B financial reporting pack",
+      "source_component_id": "6B.12",
+      "source_component_name": "General Ledger Accounting",
+      "seed_type": "tenant_service",
+      "subsurface_id": "subsurface_6b_12_financial_reporting_pack",
+      "model_decision_group_id": "phase_6b_schema_group_6b_12",
+      "model_decision_group_name": "General Ledger Accounting",
+      "proposed_primary_model_names": [
+        "Phase6BChartOfAccount",
+        "Phase6BJournalEntry",
+        "Phase6BAccountingPeriod"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BChartOfAccount",
+        "Phase6BJournalEntry",
+        "Phase6BJournalEntryLine",
+        "Phase6BAccountingPeriod",
+        "Phase6BTaxMapping"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_13_bank_statement_import",
+      "seed_title": "6B bank statement import",
+      "source_component_id": "6B.13",
+      "source_component_name": "Banking Reconciliation",
+      "seed_type": "provider_adapter",
+      "subsurface_id": "subsurface_6b_13_bank_statement_import",
+      "model_decision_group_id": "phase_6b_schema_group_6b_13",
+      "model_decision_group_name": "Banking Reconciliation",
+      "proposed_primary_model_names": [
+        "Phase6BBankAccount",
+        "Phase6BBankTransaction"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BBankAccount",
+        "Phase6BBankTransaction",
+        "Phase6BReconciliationStatement"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_13_reconciliation_matching",
+      "seed_title": "6B reconciliation matching",
+      "source_component_id": "6B.13",
+      "source_component_name": "Banking Reconciliation",
+      "seed_type": "core_microservice",
+      "subsurface_id": "subsurface_6b_13_reconciliation_matching",
+      "model_decision_group_id": "phase_6b_schema_group_6b_13",
+      "model_decision_group_name": "Banking Reconciliation",
+      "proposed_primary_model_names": [
+        "Phase6BBankTransaction",
+        "Phase6BReconciliationStatement"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BBankAccount",
+        "Phase6BBankTransaction",
+        "Phase6BReconciliationStatement"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_13_reconciliation_exception_queue",
+      "seed_title": "6B reconciliation exception queue",
+      "source_component_id": "6B.13",
+      "source_component_name": "Banking Reconciliation",
+      "seed_type": "internal_lifecycle_primitive",
+      "subsurface_id": "subsurface_6b_13_reconciliation_exception_queue",
+      "model_decision_group_id": "phase_6b_schema_group_6b_13",
+      "model_decision_group_name": "Banking Reconciliation",
+      "proposed_primary_model_names": [
+        "Phase6BReconciliationStatement"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BBankAccount",
+        "Phase6BBankTransaction",
+        "Phase6BReconciliationStatement"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_13_banking_evidence_export",
+      "seed_title": "6B banking evidence export",
+      "source_component_id": "6B.13",
+      "source_component_name": "Banking Reconciliation",
+      "seed_type": "evidence_primitive",
+      "subsurface_id": "subsurface_6b_13_banking_evidence_export",
+      "model_decision_group_id": "phase_6b_schema_group_6b_13",
+      "model_decision_group_name": "Banking Reconciliation",
+      "proposed_primary_model_names": [
+        "Phase6BBankTransaction",
+        "Phase6BReconciliationStatement"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BBankAccount",
+        "Phase6BBankTransaction",
+        "Phase6BReconciliationStatement"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_14_payroll_tax_slab_calculator",
+      "seed_title": "6B payroll tax slab calculator",
+      "source_component_id": "6B.14",
+      "source_component_name": "Payroll Foundation",
+      "seed_type": "tenant_service",
+      "subsurface_id": "subsurface_6b_14_payroll_tax_slab_calculator",
+      "model_decision_group_id": "phase_6b_schema_group_6b_14",
+      "model_decision_group_name": "Payroll Foundation",
+      "proposed_primary_model_names": [
+        "Phase6BPayrollBatch"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BPayee",
+        "Phase6BPayrollBatch",
+        "Phase6BPayrollPayout"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_14_allowance_deduction_formula",
+      "seed_title": "6B allowance deduction formula",
+      "source_component_id": "6B.14",
+      "source_component_name": "Payroll Foundation",
+      "seed_type": "tenant_service",
+      "subsurface_id": "subsurface_6b_14_allowance_deduction_formula",
+      "model_decision_group_id": "phase_6b_schema_group_6b_14",
+      "model_decision_group_name": "Payroll Foundation",
+      "proposed_primary_model_names": [
+        "Phase6BPayrollBatch"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BPayee",
+        "Phase6BPayrollBatch",
+        "Phase6BPayrollPayout"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_14_payroll_run_state_machine",
+      "seed_title": "6B payroll run state machine",
+      "source_component_id": "6B.14",
+      "source_component_name": "Payroll Foundation",
+      "seed_type": "tenant_service",
+      "subsurface_id": "subsurface_6b_14_payroll_run_state_machine",
+      "model_decision_group_id": "phase_6b_schema_group_6b_14",
+      "model_decision_group_name": "Payroll Foundation",
+      "proposed_primary_model_names": [
+        "Phase6BPayrollBatch"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BPayee",
+        "Phase6BPayrollBatch",
+        "Phase6BPayrollPayout"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_14_payroll_disbursement_file_export",
+      "seed_title": "6B payroll disbursement file export",
+      "source_component_id": "6B.14",
+      "source_component_name": "Payroll Foundation",
+      "seed_type": "evidence_primitive",
+      "subsurface_id": "subsurface_6b_14_payroll_disbursement_file_export",
+      "model_decision_group_id": "phase_6b_schema_group_6b_14",
+      "model_decision_group_name": "Payroll Foundation",
+      "proposed_primary_model_names": [
+        "Phase6BPayrollPayout"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BPayee",
+        "Phase6BPayrollBatch",
+        "Phase6BPayrollPayout"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_14_hr_event_feed_boundary",
+      "seed_title": "6B hr event feed boundary",
+      "source_component_id": "6B.14",
+      "source_component_name": "Payroll Foundation",
+      "seed_type": "tenant_service",
+      "subsurface_id": "subsurface_6b_14_hr_event_feed_boundary",
+      "model_decision_group_id": "phase_6b_schema_group_6b_14",
+      "model_decision_group_name": "Payroll Foundation",
+      "proposed_primary_model_names": [
+        "Phase6BPayee",
+        "Phase6BPayrollBatch"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BPayee",
+        "Phase6BPayrollBatch",
+        "Phase6BPayrollPayout"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_15_customer_billing_operations",
+      "seed_title": "6B customer billing operations",
+      "source_component_id": "6B.15",
+      "source_component_name": "Billing UI and Operations",
+      "seed_type": "tenant_service",
+      "subsurface_id": "subsurface_6b_15_customer_billing_operations",
+      "model_decision_group_id": "phase_6b_schema_group_6b_15",
+      "model_decision_group_name": "Billing UI and Operations",
+      "proposed_primary_model_names": [
+        "Phase6BBillingOperation"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BBillingOperation",
+        "Phase6BBudgetCap"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_15_platform_invoice_generation",
+      "seed_title": "6B platform invoice generation",
+      "source_component_id": "6B.15",
+      "source_component_name": "Billing UI and Operations",
+      "seed_type": "tenant_service",
+      "subsurface_id": "subsurface_6b_15_platform_invoice_generation",
+      "model_decision_group_id": "phase_6b_schema_group_6b_15",
+      "model_decision_group_name": "Billing UI and Operations",
+      "proposed_primary_model_names": [
+        "Phase6BBillingOperation"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BBillingOperation",
+        "Phase6BBudgetCap"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_15_billing_proration_engine",
+      "seed_title": "6B billing proration engine",
+      "source_component_id": "6B.15",
+      "source_component_name": "Billing UI and Operations",
+      "seed_type": "core_microservice",
+      "subsurface_id": "subsurface_6b_15_billing_proration_engine",
+      "model_decision_group_id": "phase_6b_schema_group_6b_15",
+      "model_decision_group_name": "Billing UI and Operations",
+      "proposed_primary_model_names": [
+        "Phase6BBillingOperation",
+        "Phase6BBudgetCap"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BBillingOperation",
+        "Phase6BBudgetCap"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_15_retention_and_dunning_rules",
+      "seed_title": "6B retention and dunning rules",
+      "source_component_id": "6B.15",
+      "source_component_name": "Billing UI and Operations",
+      "seed_type": "tenant_service",
+      "subsurface_id": "subsurface_6b_15_retention_and_dunning_rules",
+      "model_decision_group_id": "phase_6b_schema_group_6b_15",
+      "model_decision_group_name": "Billing UI and Operations",
+      "proposed_primary_model_names": [
+        "Phase6BBillingOperation",
+        "Phase6BBudgetCap"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BBillingOperation",
+        "Phase6BBudgetCap"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_15_billing_support_interface",
+      "seed_title": "6B billing support interface",
+      "source_component_id": "6B.15",
+      "source_component_name": "Billing UI and Operations",
+      "seed_type": "tenant_service",
+      "subsurface_id": "subsurface_6b_15_billing_support_interface",
+      "model_decision_group_id": "phase_6b_schema_group_6b_15",
+      "model_decision_group_name": "Billing UI and Operations",
+      "proposed_primary_model_names": [
+        "Phase6BBillingOperation"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BBillingOperation",
+        "Phase6BBudgetCap"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    },
+    {
+      "seed_id": "seed_6b_02_product_price_history_effective_dates",
+      "seed_title": "6B product price history effective dates",
+      "source_component_id": "6B.02",
+      "source_component_name": "Pricing and Package Service",
+      "seed_type": "core_microservice",
+      "subsurface_id": "subsurface_6b_02_product_price_history_effective_dates",
+      "model_decision_group_id": "phase_6b_schema_group_6b_02",
+      "model_decision_group_name": "Pricing and Package Service",
+      "proposed_primary_model_names": [
+        "Phase6BProductPriceHistory"
+      ],
+      "proposed_component_model_names": [
+        "Phase6BProductPriceHistory",
+        "Phase6BPackageDefinition",
+        "Phase6BDiscountRule"
+      ],
+      "existing_repo_model_references": [],
+      "mapping_basis": "Mapped from v17 execution_seed_matrix seed_id/source_component_id plus P6B-SCHEMA-001 proposed model group; this is schema-control planning evidence only and does not authorize capability behavior.",
+      "source_authority_reference": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json and docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md",
+      "schema_implementation_authorized": false,
+      "capability_implementation_authorized": false
+    }
+  ],
+  "model_seed_coverage": [
+    {
+      "model_name": "Phase6BProduct",
+      "source_component_id": "6B.01",
+      "source_component_name": "Product Catalogue",
+      "seed_coverage_count": 2,
+      "seed_ids": [
+        "seed_6b_01_product_record_authority",
+        "seed_6b_01_product_status_archive_policy"
+      ],
+      "coverage_basis": "Derived from seed_to_model_decision_group_mappings; zero count is forbidden for P6B-SCHEMA-001 review readiness."
+    },
+    {
+      "model_name": "Phase6BProductCategory",
+      "source_component_id": "6B.01",
+      "source_component_name": "Product Catalogue",
+      "seed_coverage_count": 1,
+      "seed_ids": [
+        "seed_6b_01_category_taxonomy"
+      ],
+      "coverage_basis": "Derived from seed_to_model_decision_group_mappings; zero count is forbidden for P6B-SCHEMA-001 review readiness."
+    },
+    {
+      "model_name": "Phase6BProductMedia",
+      "source_component_id": "6B.01",
+      "source_component_name": "Product Catalogue",
+      "seed_coverage_count": 1,
+      "seed_ids": [
+        "seed_6b_01_product_media_history"
+      ],
+      "coverage_basis": "Derived from seed_to_model_decision_group_mappings; zero count is forbidden for P6B-SCHEMA-001 review readiness."
+    },
+    {
+      "model_name": "Phase6BProductHistory",
+      "source_component_id": "6B.01",
+      "source_component_name": "Product Catalogue",
+      "seed_coverage_count": 2,
+      "seed_ids": [
+        "seed_6b_01_product_media_history",
+        "seed_6b_01_product_status_archive_policy"
+      ],
+      "coverage_basis": "Derived from seed_to_model_decision_group_mappings; zero count is forbidden for P6B-SCHEMA-001 review readiness."
+    },
+    {
+      "model_name": "Phase6BProductPriceHistory",
+      "source_component_id": "6B.02",
+      "source_component_name": "Pricing and Package Service",
+      "seed_coverage_count": 7,
+      "seed_ids": [
+        "seed_6b_02_fixed_pricing_model",
+        "seed_6b_02_tiered_pricing_model",
+        "seed_6b_02_volume_pricing_model",
+        "seed_6b_02_per_unit_pricing_model",
+        "seed_6b_02_per_hour_pricing_model",
+        "seed_6b_02_per_period_pricing_model",
+        "seed_6b_02_product_price_history_effective_dates"
+      ],
+      "coverage_basis": "Derived from seed_to_model_decision_group_mappings; zero count is forbidden for P6B-SCHEMA-001 review readiness."
+    },
+    {
+      "model_name": "Phase6BPackageDefinition",
+      "source_component_id": "6B.02",
+      "source_component_name": "Pricing and Package Service",
+      "seed_coverage_count": 2,
+      "seed_ids": [
+        "seed_6b_02_installment_plan_engine",
+        "seed_6b_02_bundle_package_composition"
+      ],
+      "coverage_basis": "Derived from seed_to_model_decision_group_mappings; zero count is forbidden for P6B-SCHEMA-001 review readiness."
+    },
+    {
+      "model_name": "Phase6BDiscountRule",
+      "source_component_id": "6B.02",
+      "source_component_name": "Pricing and Package Service",
+      "seed_coverage_count": 3,
+      "seed_ids": [
+        "seed_6b_02_early_bird_pricing_deadline",
+        "seed_6b_02_scholarship_discount_approval",
+        "seed_6b_02_discount_stacking_engine"
+      ],
+      "coverage_basis": "Derived from seed_to_model_decision_group_mappings; zero count is forbidden for P6B-SCHEMA-001 review readiness."
+    },
+    {
+      "model_name": "Phase6BInventoryLocation",
+      "source_component_id": "6B.03",
+      "source_component_name": "Inventory Stock Control",
+      "seed_coverage_count": 1,
+      "seed_ids": [
+        "seed_6b_03_stock_level_location_authority"
+      ],
+      "coverage_basis": "Derived from seed_to_model_decision_group_mappings; zero count is forbidden for P6B-SCHEMA-001 review readiness."
+    },
+    {
+      "model_name": "Phase6BStockItem",
+      "source_component_id": "6B.03",
+      "source_component_name": "Inventory Stock Control",
+      "seed_coverage_count": 3,
+      "seed_ids": [
+        "seed_6b_03_stock_level_location_authority",
+        "seed_6b_03_lot_and_serial_tracking",
+        "seed_6b_03_non_inventory_business_policy"
+      ],
+      "coverage_basis": "Derived from seed_to_model_decision_group_mappings; zero count is forbidden for P6B-SCHEMA-001 review readiness."
+    },
+    {
+      "model_name": "Phase6BStockMovement",
+      "source_component_id": "6B.03",
+      "source_component_name": "Inventory Stock Control",
+      "seed_coverage_count": 2,
+      "seed_ids": [
+        "seed_6b_03_stock_movement_ledger",
+        "seed_6b_03_purchase_stock_evidence"
+      ],
+      "coverage_basis": "Derived from seed_to_model_decision_group_mappings; zero count is forbidden for P6B-SCHEMA-001 review readiness."
+    },
+    {
+      "model_name": "Phase6BLeadSource",
+      "source_component_id": "6B.04",
+      "source_component_name": "CRM Lead Intake",
+      "seed_coverage_count": 19,
+      "seed_ids": [
+        "seed_6b_04_unified_lead_record_authority",
+        "seed_6b_04_meta_lead_forms_connector",
+        "seed_6b_04_meta_whatsapp_intake_connector",
+        "seed_6b_04_tiktok_lead_gen_connector",
+        "seed_6b_04_google_ads_connector",
+        "seed_6b_04_google_business_connector",
+        "seed_6b_04_facebook_page_forms_connector",
+        "seed_6b_04_web_form_intake_connector",
+        "seed_6b_04_manual_lead_entry",
+        "seed_6b_04_csv_excel_import",
+        "seed_6b_04_api_lead_intake",
+        "seed_6b_04_referral_intake",
+        "seed_6b_04_inbound_whatsapp_intake",
+        "seed_6b_04_inbound_sms_intake",
+        "seed_6b_04_chatbot_intake",
+        "seed_6b_04_live_chat_intake",
+        "seed_6b_04_email_intake",
+        "seed_6b_04_phone_intake",
+        "seed_6b_04_walk_in_intake"
+      ],
+      "coverage_basis": "Derived from seed_to_model_decision_group_mappings; zero count is forbidden for P6B-SCHEMA-001 review readiness."
+    },
+    {
+      "model_name": "Phase6BLeadEvidence",
+      "source_component_id": "6B.04",
+      "source_component_name": "CRM Lead Intake",
+      "seed_coverage_count": 19,
+      "seed_ids": [
+        "seed_6b_04_unified_lead_record_authority",
+        "seed_6b_04_meta_lead_forms_connector",
+        "seed_6b_04_meta_whatsapp_intake_connector",
+        "seed_6b_04_tiktok_lead_gen_connector",
+        "seed_6b_04_google_ads_connector",
+        "seed_6b_04_google_business_connector",
+        "seed_6b_04_facebook_page_forms_connector",
+        "seed_6b_04_web_form_intake_connector",
+        "seed_6b_04_manual_lead_entry",
+        "seed_6b_04_csv_excel_import",
+        "seed_6b_04_api_lead_intake",
+        "seed_6b_04_referral_intake",
+        "seed_6b_04_inbound_whatsapp_intake",
+        "seed_6b_04_inbound_sms_intake",
+        "seed_6b_04_chatbot_intake",
+        "seed_6b_04_live_chat_intake",
+        "seed_6b_04_email_intake",
+        "seed_6b_04_phone_intake",
+        "seed_6b_04_walk_in_intake"
+      ],
+      "coverage_basis": "Derived from seed_to_model_decision_group_mappings; zero count is forbidden for P6B-SCHEMA-001 review readiness."
+    },
+    {
+      "model_name": "Phase6BLeadMatchCandidate",
+      "source_component_id": "6B.05",
+      "source_component_name": "CRM Deduplication",
+      "seed_coverage_count": 3,
+      "seed_ids": [
+        "seed_6b_05_match_candidate_generation",
+        "seed_6b_05_identity_resolution_linking",
+        "seed_6b_05_duplicate_evidence_log"
+      ],
+      "coverage_basis": "Derived from seed_to_model_decision_group_mappings; zero count is forbidden for P6B-SCHEMA-001 review readiness."
+    },
+    {
+      "model_name": "Phase6BLeadMergeRecord",
+      "source_component_id": "6B.05",
+      "source_component_name": "CRM Deduplication",
+      "seed_coverage_count": 3,
+      "seed_ids": [
+        "seed_6b_05_merge_decision_record",
+        "seed_6b_05_identity_resolution_linking",
+        "seed_6b_05_duplicate_evidence_log"
+      ],
+      "coverage_basis": "Derived from seed_to_model_decision_group_mappings; zero count is forbidden for P6B-SCHEMA-001 review readiness."
+    },
+    {
+      "model_name": "Phase6BPipelineStage",
+      "source_component_id": "6B.06",
+      "source_component_name": "CRM Pipeline",
+      "seed_coverage_count": 1,
+      "seed_ids": [
+        "seed_6b_06_pipeline_stage_model"
+      ],
+      "coverage_basis": "Derived from seed_to_model_decision_group_mappings; zero count is forbidden for P6B-SCHEMA-001 review readiness."
+    },
+    {
+      "model_name": "Phase6BPipelineTimelineEntry",
+      "source_component_id": "6B.06",
+      "source_component_name": "CRM Pipeline",
+      "seed_coverage_count": 4,
+      "seed_ids": [
+        "seed_6b_06_crm_activity_timeline",
+        "seed_6b_06_internal_notes_comments",
+        "seed_6b_06_stage_history_audit",
+        "seed_6b_06_expected_value_pricing_bridge"
+      ],
+      "coverage_basis": "Derived from seed_to_model_decision_group_mappings; zero count is forbidden for P6B-SCHEMA-001 review readiness."
+    },
+    {
+      "model_name": "Phase6BCommunicationTemplate",
+      "source_component_id": "6B.07",
+      "source_component_name": "Communication",
+      "seed_coverage_count": 5,
+      "seed_ids": [
+        "seed_6b_07_whatsapp_template_management",
+        "seed_6b_07_whatsapp_outbound_window",
+        "seed_6b_07_whatsapp_broadcast_compliance",
+        "seed_6b_07_whatsapp_auto_reply_keywords",
+        "seed_6b_07_email_transactional_domain"
+      ],
+      "coverage_basis": "Derived from seed_to_model_decision_group_mappings; zero count is forbidden for P6B-SCHEMA-001 review readiness."
+    },
+    {
+      "model_name": "Phase6BCommunicationAttempt",
+      "source_component_id": "6B.07",
+      "source_component_name": "Communication",
+      "seed_coverage_count": 8,
+      "seed_ids": [
+        "seed_6b_07_whatsapp_inbound_routing",
+        "seed_6b_07_whatsapp_outbound_window",
+        "seed_6b_07_whatsapp_broadcast_compliance",
+        "seed_6b_07_whatsapp_auto_reply_keywords",
+        "seed_6b_07_email_connected_inbox",
+        "seed_6b_07_email_transactional_domain",
+        "seed_6b_07_email_shared_inbox",
+        "seed_6b_07_communication_attempt_evidence"
+      ],
+      "coverage_basis": "Derived from seed_to_model_decision_group_mappings; zero count is forbidden for P6B-SCHEMA-001 review readiness."
+    },
+    {
+      "model_name": "Phase6BCommunicationSequenceEnrollment",
+      "source_component_id": "6B.07",
+      "source_component_name": "Communication",
+      "seed_coverage_count": 1,
+      "seed_ids": [
+        "seed_6b_07_email_sequences"
+      ],
+      "coverage_basis": "Derived from seed_to_model_decision_group_mappings; zero count is forbidden for P6B-SCHEMA-001 review readiness."
+    },
+    {
+      "model_name": "Phase6BLeadScore",
+      "source_component_id": "6B.08",
+      "source_component_name": "Lead Scoring and Reporting",
+      "seed_coverage_count": 3,
+      "seed_ids": [
+        "seed_6b_08_lead_scoring_engine",
+        "seed_6b_08_crm_reporting_definitions",
+        "seed_6b_08_crm_compliance_views"
+      ],
+      "coverage_basis": "Derived from seed_to_model_decision_group_mappings; zero count is forbidden for P6B-SCHEMA-001 review readiness."
+    },
+    {
+      "model_name": "Phase6BFollowUpTask",
+      "source_component_id": "6B.08",
+      "source_component_name": "Lead Scoring and Reporting",
+      "seed_coverage_count": 3,
+      "seed_ids": [
+        "seed_6b_08_follow_up_task_cadence",
+        "seed_6b_08_crm_reporting_definitions",
+        "seed_6b_08_crm_compliance_views"
+      ],
+      "coverage_basis": "Derived from seed_to_model_decision_group_mappings; zero count is forbidden for P6B-SCHEMA-001 review readiness."
+    },
+    {
+      "model_name": "Phase6BInvoice",
+      "source_component_id": "6B.09",
+      "source_component_name": "Invoice and Receivables",
+      "seed_coverage_count": 3,
+      "seed_ids": [
+        "seed_6b_09_invoice_record_authority",
+        "seed_6b_09_invoice_lifecycle_types",
+        "seed_6b_09_fbr_invoice_format"
+      ],
+      "coverage_basis": "Derived from seed_to_model_decision_group_mappings; zero count is forbidden for P6B-SCHEMA-001 review readiness."
+    },
+    {
+      "model_name": "Phase6BInvoiceLine",
+      "source_component_id": "6B.09",
+      "source_component_name": "Invoice and Receivables",
+      "seed_coverage_count": 1,
+      "seed_ids": [
+        "seed_6b_09_invoice_record_authority"
+      ],
+      "coverage_basis": "Derived from seed_to_model_decision_group_mappings; zero count is forbidden for P6B-SCHEMA-001 review readiness."
+    },
+    {
+      "model_name": "Phase6BReceivable",
+      "source_component_id": "6B.09",
+      "source_component_name": "Invoice and Receivables",
+      "seed_coverage_count": 2,
+      "seed_ids": [
+        "seed_6b_09_receivable_balance_computation",
+        "seed_6b_09_aging_and_overdue_management"
+      ],
+      "coverage_basis": "Derived from seed_to_model_decision_group_mappings; zero count is forbidden for P6B-SCHEMA-001 review readiness."
+    },
+    {
+      "model_name": "Phase6BCreditDebitNote",
+      "source_component_id": "6B.09",
+      "source_component_name": "Invoice and Receivables",
+      "seed_coverage_count": 1,
+      "seed_ids": [
+        "seed_6b_09_invoice_lifecycle_types"
+      ],
+      "coverage_basis": "Derived from seed_to_model_decision_group_mappings; zero count is forbidden for P6B-SCHEMA-001 review readiness."
+    },
+    {
+      "model_name": "Phase6BPayment",
+      "source_component_id": "6B.10",
+      "source_component_name": "Payment Collection and Top-Up",
+      "seed_coverage_count": 8,
+      "seed_ids": [
+        "seed_6b_10_jazzcash_gateway",
+        "seed_6b_10_easypaisa_gateway",
+        "seed_6b_10_raast_gateway",
+        "seed_6b_10_quickpay_shadow_account_gateway",
+        "seed_6b_10_stripe_gateway_3ds",
+        "seed_6b_10_wise_gateway",
+        "seed_6b_10_refund_to_original_method",
+        "seed_6b_10_top_up_prepaid_credit"
+      ],
+      "coverage_basis": "Derived from seed_to_model_decision_group_mappings; zero count is forbidden for P6B-SCHEMA-001 review readiness."
+    },
+    {
+      "model_name": "Phase6BPaymentAllocation",
+      "source_component_id": "6B.10",
+      "source_component_name": "Payment Collection and Top-Up",
+      "seed_coverage_count": 2,
+      "seed_ids": [
+        "seed_6b_10_payment_allocation_balance",
+        "seed_6b_10_refund_to_original_method"
+      ],
+      "coverage_basis": "Derived from seed_to_model_decision_group_mappings; zero count is forbidden for P6B-SCHEMA-001 review readiness."
+    },
+    {
+      "model_name": "Phase6BReceipt",
+      "source_component_id": "6B.10",
+      "source_component_name": "Payment Collection and Top-Up",
+      "seed_coverage_count": 8,
+      "seed_ids": [
+        "seed_6b_10_jazzcash_gateway",
+        "seed_6b_10_easypaisa_gateway",
+        "seed_6b_10_raast_gateway",
+        "seed_6b_10_quickpay_shadow_account_gateway",
+        "seed_6b_10_stripe_gateway_3ds",
+        "seed_6b_10_wise_gateway",
+        "seed_6b_10_refund_to_original_method",
+        "seed_6b_10_top_up_prepaid_credit"
+      ],
+      "coverage_basis": "Derived from seed_to_model_decision_group_mappings; zero count is forbidden for P6B-SCHEMA-001 review readiness."
+    },
+    {
+      "model_name": "Phase6BTopUp",
+      "source_component_id": "6B.10",
+      "source_component_name": "Payment Collection and Top-Up",
+      "seed_coverage_count": 1,
+      "seed_ids": [
+        "seed_6b_10_top_up_prepaid_credit"
+      ],
+      "coverage_basis": "Derived from seed_to_model_decision_group_mappings; zero count is forbidden for P6B-SCHEMA-001 review readiness."
+    },
+    {
+      "model_name": "Phase6BReconciliationCandidate",
+      "source_component_id": "6B.10",
+      "source_component_name": "Payment Collection and Top-Up",
+      "seed_coverage_count": 1,
+      "seed_ids": [
+        "seed_6b_10_manual_reconciliation_path"
+      ],
+      "coverage_basis": "Derived from seed_to_model_decision_group_mappings; zero count is forbidden for P6B-SCHEMA-001 review readiness."
+    },
+    {
+      "model_name": "Phase6BVendor",
+      "source_component_id": "6B.11",
+      "source_component_name": "Expense, Purchase, and Vendor",
+      "seed_coverage_count": 1,
+      "seed_ids": [
+        "seed_6b_11_vendor_record_authority"
+      ],
+      "coverage_basis": "Derived from seed_to_model_decision_group_mappings; zero count is forbidden for P6B-SCHEMA-001 review readiness."
+    },
+    {
+      "model_name": "Phase6BExpense",
+      "source_component_id": "6B.11",
+      "source_component_name": "Expense, Purchase, and Vendor",
+      "seed_coverage_count": 2,
+      "seed_ids": [
+        "seed_6b_11_expense_record_authority",
+        "seed_6b_11_expense_approval_workflow"
+      ],
+      "coverage_basis": "Derived from seed_to_model_decision_group_mappings; zero count is forbidden for P6B-SCHEMA-001 review readiness."
+    },
+    {
+      "model_name": "Phase6BPurchaseOrder",
+      "source_component_id": "6B.11",
+      "source_component_name": "Expense, Purchase, and Vendor",
+      "seed_coverage_count": 2,
+      "seed_ids": [
+        "seed_6b_11_purchase_order_authority",
+        "seed_6b_11_three_way_match_evidence"
+      ],
+      "coverage_basis": "Derived from seed_to_model_decision_group_mappings; zero count is forbidden for P6B-SCHEMA-001 review readiness."
+    },
+    {
+      "model_name": "Phase6BPurchaseReceipt",
+      "source_component_id": "6B.11",
+      "source_component_name": "Expense, Purchase, and Vendor",
+      "seed_coverage_count": 1,
+      "seed_ids": [
+        "seed_6b_11_three_way_match_evidence"
+      ],
+      "coverage_basis": "Derived from seed_to_model_decision_group_mappings; zero count is forbidden for P6B-SCHEMA-001 review readiness."
+    },
+    {
+      "model_name": "Phase6BChartOfAccount",
+      "source_component_id": "6B.12",
+      "source_component_name": "General Ledger Accounting",
+      "seed_coverage_count": 2,
+      "seed_ids": [
+        "seed_6b_12_chart_of_accounts",
+        "seed_6b_12_financial_reporting_pack"
+      ],
+      "coverage_basis": "Derived from seed_to_model_decision_group_mappings; zero count is forbidden for P6B-SCHEMA-001 review readiness."
+    },
+    {
+      "model_name": "Phase6BJournalEntry",
+      "source_component_id": "6B.12",
+      "source_component_name": "General Ledger Accounting",
+      "seed_coverage_count": 3,
+      "seed_ids": [
+        "seed_6b_12_journal_entry_engine",
+        "seed_6b_12_fx_gain_loss_accounting",
+        "seed_6b_12_financial_reporting_pack"
+      ],
+      "coverage_basis": "Derived from seed_to_model_decision_group_mappings; zero count is forbidden for P6B-SCHEMA-001 review readiness."
+    },
+    {
+      "model_name": "Phase6BJournalEntryLine",
+      "source_component_id": "6B.12",
+      "source_component_name": "General Ledger Accounting",
+      "seed_coverage_count": 2,
+      "seed_ids": [
+        "seed_6b_12_journal_entry_engine",
+        "seed_6b_12_fx_gain_loss_accounting"
+      ],
+      "coverage_basis": "Derived from seed_to_model_decision_group_mappings; zero count is forbidden for P6B-SCHEMA-001 review readiness."
+    },
+    {
+      "model_name": "Phase6BAccountingPeriod",
+      "source_component_id": "6B.12",
+      "source_component_name": "General Ledger Accounting",
+      "seed_coverage_count": 2,
+      "seed_ids": [
+        "seed_6b_12_period_close_management",
+        "seed_6b_12_financial_reporting_pack"
+      ],
+      "coverage_basis": "Derived from seed_to_model_decision_group_mappings; zero count is forbidden for P6B-SCHEMA-001 review readiness."
+    },
+    {
+      "model_name": "Phase6BTaxMapping",
+      "source_component_id": "6B.12",
+      "source_component_name": "General Ledger Accounting",
+      "seed_coverage_count": 1,
+      "seed_ids": [
+        "seed_6b_12_tax_mapping_reporting"
+      ],
+      "coverage_basis": "Derived from seed_to_model_decision_group_mappings; zero count is forbidden for P6B-SCHEMA-001 review readiness."
+    },
+    {
+      "model_name": "Phase6BBankAccount",
+      "source_component_id": "6B.13",
+      "source_component_name": "Banking Reconciliation",
+      "seed_coverage_count": 1,
+      "seed_ids": [
+        "seed_6b_13_bank_statement_import"
+      ],
+      "coverage_basis": "Derived from seed_to_model_decision_group_mappings; zero count is forbidden for P6B-SCHEMA-001 review readiness."
+    },
+    {
+      "model_name": "Phase6BBankTransaction",
+      "source_component_id": "6B.13",
+      "source_component_name": "Banking Reconciliation",
+      "seed_coverage_count": 3,
+      "seed_ids": [
+        "seed_6b_13_bank_statement_import",
+        "seed_6b_13_reconciliation_matching",
+        "seed_6b_13_banking_evidence_export"
+      ],
+      "coverage_basis": "Derived from seed_to_model_decision_group_mappings; zero count is forbidden for P6B-SCHEMA-001 review readiness."
+    },
+    {
+      "model_name": "Phase6BReconciliationStatement",
+      "source_component_id": "6B.13",
+      "source_component_name": "Banking Reconciliation",
+      "seed_coverage_count": 3,
+      "seed_ids": [
+        "seed_6b_13_reconciliation_matching",
+        "seed_6b_13_reconciliation_exception_queue",
+        "seed_6b_13_banking_evidence_export"
+      ],
+      "coverage_basis": "Derived from seed_to_model_decision_group_mappings; zero count is forbidden for P6B-SCHEMA-001 review readiness."
+    },
+    {
+      "model_name": "Phase6BPayee",
+      "source_component_id": "6B.14",
+      "source_component_name": "Payroll Foundation",
+      "seed_coverage_count": 1,
+      "seed_ids": [
+        "seed_6b_14_hr_event_feed_boundary"
+      ],
+      "coverage_basis": "Derived from seed_to_model_decision_group_mappings; zero count is forbidden for P6B-SCHEMA-001 review readiness."
+    },
+    {
+      "model_name": "Phase6BPayrollBatch",
+      "source_component_id": "6B.14",
+      "source_component_name": "Payroll Foundation",
+      "seed_coverage_count": 4,
+      "seed_ids": [
+        "seed_6b_14_payroll_tax_slab_calculator",
+        "seed_6b_14_allowance_deduction_formula",
+        "seed_6b_14_payroll_run_state_machine",
+        "seed_6b_14_hr_event_feed_boundary"
+      ],
+      "coverage_basis": "Derived from seed_to_model_decision_group_mappings; zero count is forbidden for P6B-SCHEMA-001 review readiness."
+    },
+    {
+      "model_name": "Phase6BPayrollPayout",
+      "source_component_id": "6B.14",
+      "source_component_name": "Payroll Foundation",
+      "seed_coverage_count": 1,
+      "seed_ids": [
+        "seed_6b_14_payroll_disbursement_file_export"
+      ],
+      "coverage_basis": "Derived from seed_to_model_decision_group_mappings; zero count is forbidden for P6B-SCHEMA-001 review readiness."
+    },
+    {
+      "model_name": "Phase6BBillingOperation",
+      "source_component_id": "6B.15",
+      "source_component_name": "Billing UI and Operations",
+      "seed_coverage_count": 5,
+      "seed_ids": [
+        "seed_6b_15_customer_billing_operations",
+        "seed_6b_15_platform_invoice_generation",
+        "seed_6b_15_billing_proration_engine",
+        "seed_6b_15_retention_and_dunning_rules",
+        "seed_6b_15_billing_support_interface"
+      ],
+      "coverage_basis": "Derived from seed_to_model_decision_group_mappings; zero count is forbidden for P6B-SCHEMA-001 review readiness."
+    },
+    {
+      "model_name": "Phase6BBudgetCap",
+      "source_component_id": "6B.15",
+      "source_component_name": "Billing UI and Operations",
+      "seed_coverage_count": 2,
+      "seed_ids": [
+        "seed_6b_15_billing_proration_engine",
+        "seed_6b_15_retention_and_dunning_rules"
+      ],
+      "coverage_basis": "Derived from seed_to_model_decision_group_mappings; zero count is forbidden for P6B-SCHEMA-001 review readiness."
+    }
+  ],
+  "stale_component_seed_count_corrections": [
+    {
+      "source_component_id": "6B.01",
+      "source_component_name": "Product Catalogue",
+      "prior_declared_seed_coverage_count": 6,
+      "live_v17_seed_coverage_count": 4,
+      "correction_applied": true
+    },
+    {
+      "source_component_id": "6B.02",
+      "source_component_name": "Pricing and Package Service",
+      "prior_declared_seed_coverage_count": 8,
+      "live_v17_seed_coverage_count": 12,
+      "correction_applied": true
+    },
+    {
+      "source_component_id": "6B.03",
+      "source_component_name": "Inventory Stock Control",
+      "prior_declared_seed_coverage_count": 6,
+      "live_v17_seed_coverage_count": 5,
+      "correction_applied": true
+    },
+    {
+      "source_component_id": "6B.04",
+      "source_component_name": "CRM Lead Intake",
+      "prior_declared_seed_coverage_count": 6,
+      "live_v17_seed_coverage_count": 19,
+      "correction_applied": true
+    },
+    {
+      "source_component_id": "6B.05",
+      "source_component_name": "CRM Deduplication",
+      "prior_declared_seed_coverage_count": 7,
+      "live_v17_seed_coverage_count": 4,
+      "correction_applied": true
+    },
+    {
+      "source_component_id": "6B.06",
+      "source_component_name": "CRM Pipeline",
+      "prior_declared_seed_coverage_count": 7,
+      "live_v17_seed_coverage_count": 5,
+      "correction_applied": true
+    },
+    {
+      "source_component_id": "6B.07",
+      "source_component_name": "Communication",
+      "prior_declared_seed_coverage_count": 10,
+      "live_v17_seed_coverage_count": 10,
+      "correction_applied": false
+    },
+    {
+      "source_component_id": "6B.08",
+      "source_component_name": "Lead Scoring and Reporting",
+      "prior_declared_seed_coverage_count": 6,
+      "live_v17_seed_coverage_count": 4,
+      "correction_applied": true
+    },
+    {
+      "source_component_id": "6B.09",
+      "source_component_name": "Invoice and Receivables",
+      "prior_declared_seed_coverage_count": 8,
+      "live_v17_seed_coverage_count": 5,
+      "correction_applied": true
+    },
+    {
+      "source_component_id": "6B.10",
+      "source_component_name": "Payment Collection and Top-Up",
+      "prior_declared_seed_coverage_count": 10,
+      "live_v17_seed_coverage_count": 10,
+      "correction_applied": false
+    },
+    {
+      "source_component_id": "6B.11",
+      "source_component_name": "Expense, Purchase, and Vendor",
+      "prior_declared_seed_coverage_count": 7,
+      "live_v17_seed_coverage_count": 5,
+      "correction_applied": true
+    },
+    {
+      "source_component_id": "6B.12",
+      "source_component_name": "General Ledger Accounting",
+      "prior_declared_seed_coverage_count": 6,
+      "live_v17_seed_coverage_count": 6,
+      "correction_applied": false
+    },
+    {
+      "source_component_id": "6B.13",
+      "source_component_name": "Banking Reconciliation",
+      "prior_declared_seed_coverage_count": 5,
+      "live_v17_seed_coverage_count": 4,
+      "correction_applied": true
+    },
+    {
+      "source_component_id": "6B.14",
+      "source_component_name": "Payroll Foundation",
+      "prior_declared_seed_coverage_count": 5,
+      "live_v17_seed_coverage_count": 5,
+      "correction_applied": false
+    },
+    {
+      "source_component_id": "6B.15",
+      "source_component_name": "Billing UI and Operations",
+      "prior_declared_seed_coverage_count": 6,
+      "live_v17_seed_coverage_count": 5,
+      "correction_applied": true
+    }
   ]
 }

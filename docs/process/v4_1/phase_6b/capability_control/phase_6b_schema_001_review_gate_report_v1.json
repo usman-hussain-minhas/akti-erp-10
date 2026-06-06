@@ -1,0 +1,157 @@
+{
+  "artifact_id": "phase_6b_schema_001_review_gate_report_v1",
+  "status": "P6B-SCHEMA-001_ACCEPTED_FOR_SCHEMA_CONTROL_REVIEW",
+  "source_contract": "docs/process/v4_1/phase_6b/capability_control/phase_6b_commerce_schema_model_contract_v1.json",
+  "source_seed_matrix": "docs/process/v4_1/phase_6b/v17/execution_seed_matrix_v1.json",
+  "review_result": "PASS_FOR_HUMAN_SCHEMA_CONTROL_REVIEW",
+  "counts": {
+    "live_v17_seed_count": 103,
+    "seed_to_model_decision_group_mapping_count": 103,
+    "component_count": 15,
+    "model_count": 47,
+    "proposed_model_with_seed_coverage_count": 47,
+    "stale_component_count_corrections": 11
+  },
+  "assertions": [
+    {
+      "id": "P6B_SCHEMA_001_A1",
+      "status": "PASS",
+      "detail": "Every v17 Phase 6B execution seed appears exactly once in seed_to_model_decision_group_mappings."
+    },
+    {
+      "id": "P6B_SCHEMA_001_A2",
+      "status": "PASS",
+      "detail": "Every mapping references only proposed model names already declared in the 47-model contract."
+    },
+    {
+      "id": "P6B_SCHEMA_001_A3",
+      "status": "PASS",
+      "detail": "Every proposed model has at least one seed coverage row."
+    },
+    {
+      "id": "P6B_SCHEMA_001_A4",
+      "status": "PASS",
+      "detail": "Component seed counts were recomputed from live v17 seed matrix and stale counts are explicitly reported."
+    },
+    {
+      "id": "P6B_SCHEMA_001_A5",
+      "status": "PASS",
+      "detail": "Capability implementation, ticket generation, ticket-pack generation, and execution authorization remain false."
+    }
+  ],
+  "stale_component_seed_count_corrections": [
+    {
+      "source_component_id": "6B.01",
+      "source_component_name": "Product Catalogue",
+      "prior_declared_seed_coverage_count": 6,
+      "live_v17_seed_coverage_count": 4,
+      "correction_applied": true
+    },
+    {
+      "source_component_id": "6B.02",
+      "source_component_name": "Pricing and Package Service",
+      "prior_declared_seed_coverage_count": 8,
+      "live_v17_seed_coverage_count": 12,
+      "correction_applied": true
+    },
+    {
+      "source_component_id": "6B.03",
+      "source_component_name": "Inventory Stock Control",
+      "prior_declared_seed_coverage_count": 6,
+      "live_v17_seed_coverage_count": 5,
+      "correction_applied": true
+    },
+    {
+      "source_component_id": "6B.04",
+      "source_component_name": "CRM Lead Intake",
+      "prior_declared_seed_coverage_count": 6,
+      "live_v17_seed_coverage_count": 19,
+      "correction_applied": true
+    },
+    {
+      "source_component_id": "6B.05",
+      "source_component_name": "CRM Deduplication",
+      "prior_declared_seed_coverage_count": 7,
+      "live_v17_seed_coverage_count": 4,
+      "correction_applied": true
+    },
+    {
+      "source_component_id": "6B.06",
+      "source_component_name": "CRM Pipeline",
+      "prior_declared_seed_coverage_count": 7,
+      "live_v17_seed_coverage_count": 5,
+      "correction_applied": true
+    },
+    {
+      "source_component_id": "6B.07",
+      "source_component_name": "Communication",
+      "prior_declared_seed_coverage_count": 10,
+      "live_v17_seed_coverage_count": 10,
+      "correction_applied": false
+    },
+    {
+      "source_component_id": "6B.08",
+      "source_component_name": "Lead Scoring and Reporting",
+      "prior_declared_seed_coverage_count": 6,
+      "live_v17_seed_coverage_count": 4,
+      "correction_applied": true
+    },
+    {
+      "source_component_id": "6B.09",
+      "source_component_name": "Invoice and Receivables",
+      "prior_declared_seed_coverage_count": 8,
+      "live_v17_seed_coverage_count": 5,
+      "correction_applied": true
+    },
+    {
+      "source_component_id": "6B.10",
+      "source_component_name": "Payment Collection and Top-Up",
+      "prior_declared_seed_coverage_count": 10,
+      "live_v17_seed_coverage_count": 10,
+      "correction_applied": false
+    },
+    {
+      "source_component_id": "6B.11",
+      "source_component_name": "Expense, Purchase, and Vendor",
+      "prior_declared_seed_coverage_count": 7,
+      "live_v17_seed_coverage_count": 5,
+      "correction_applied": true
+    },
+    {
+      "source_component_id": "6B.12",
+      "source_component_name": "General Ledger Accounting",
+      "prior_declared_seed_coverage_count": 6,
+      "live_v17_seed_coverage_count": 6,
+      "correction_applied": false
+    },
+    {
+      "source_component_id": "6B.13",
+      "source_component_name": "Banking Reconciliation",
+      "prior_declared_seed_coverage_count": 5,
+      "live_v17_seed_coverage_count": 4,
+      "correction_applied": true
+    },
+    {
+      "source_component_id": "6B.14",
+      "source_component_name": "Payroll Foundation",
+      "prior_declared_seed_coverage_count": 5,
+      "live_v17_seed_coverage_count": 5,
+      "correction_applied": false
+    },
+    {
+      "source_component_id": "6B.15",
+      "source_component_name": "Billing UI and Operations",
+      "prior_declared_seed_coverage_count": 6,
+      "live_v17_seed_coverage_count": 5,
+      "correction_applied": true
+    }
+  ],
+  "next_required_action": "Human review must accept this repaired P6B-SCHEMA-001 contract before P6B-SCHEMA-002 schema implementation starts.",
+  "forbidden_next_actions_without_human_acceptance": [
+    "prisma/schema.prisma edits",
+    "migration creation",
+    "entity registry generation",
+    "contracts or NestJS scaffold changes",
+    "Phase 6B capability ticket promotion"
+  ]
+}
