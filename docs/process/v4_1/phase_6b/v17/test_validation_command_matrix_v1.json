@@ -1,0 +1,2196 @@
+{
+  "schema": "akti_spark_phase_6b_test_validation_command_matrix.v1",
+  "status": "PHASE_6B_V13_RUNTIME_SCAFFOLD_DISCOVERY_READY_FOR_REVIEW",
+  "phase": "6b",
+  "row_count": 103,
+  "available_repo_commands": [
+    {
+      "package": "package.json",
+      "script": "contracts:validate",
+      "command": "pnpm --filter @akti/contracts contracts:validate"
+    },
+    {
+      "package": "package.json",
+      "script": "registry:generate",
+      "command": "node scripts/registry/generate-entity-registry.mjs"
+    },
+    {
+      "package": "package.json",
+      "script": "registry:check",
+      "command": "node scripts/registry/check-entity-registry.mjs"
+    },
+    {
+      "package": "package.json",
+      "script": "registry:verify:phase1",
+      "command": "node scripts/registry/verify-phase1-registry.mjs"
+    },
+    {
+      "package": "package.json",
+      "script": "registry:verify:phase2",
+      "command": "node scripts/registry/verify-phase2-registry.mjs"
+    },
+    {
+      "package": "package.json",
+      "script": "lint",
+      "command": "pnpm --filter @akti/api lint && pnpm --filter @akti/web lint"
+    },
+    {
+      "package": "package.json",
+      "script": "typecheck",
+      "command": "pnpm --filter @akti/api typecheck && pnpm --filter @akti/web typecheck"
+    },
+    {
+      "package": "package.json",
+      "script": "test",
+      "command": "pnpm --filter @akti/api test && pnpm --filter @akti/web test"
+    },
+    {
+      "package": "package.json",
+      "script": "build",
+      "command": "pnpm --filter @akti/api build && pnpm --filter @akti/web build"
+    },
+    {
+      "package": "apps/api/package.json",
+      "script": "start",
+      "command": "node dist/main.js"
+    },
+    {
+      "package": "apps/api/package.json",
+      "script": "start:dev",
+      "command": "pnpm exec tsx watch src/main.ts"
+    },
+    {
+      "package": "apps/api/package.json",
+      "script": "build",
+      "command": "pnpm --filter @akti/contracts build && pnpm exec tsc -p tsconfig.build.json"
+    },
+    {
+      "package": "apps/api/package.json",
+      "script": "lint",
+      "command": "pnpm exec tsc --noEmit -p tsconfig.json"
+    },
+    {
+      "package": "apps/api/package.json",
+      "script": "typecheck",
+      "command": "pnpm exec tsc --noEmit -p tsconfig.json"
+    },
+    {
+      "package": "apps/api/package.json",
+      "script": "test",
+      "command": "pnpm --filter @akti/contracts build && pnpm exec tsx src/prisma/prisma-import-boundary.test.ts && pnpm exec tsx src/phase1-hardening/phase1-release-blockers.test.ts && pnpm exec tsx src/organization-setup/dto/create-organization-setup.dto.test.ts && pnpm exec tsx src/organization-setup/organization-setup.service.test.ts && pnpm exec tsx src/hierarchy/dto/hierarchy.dto.test.ts && pnpm exec tsx src/hierarchy/hierarchy-closure.service.test.ts && pnpm exec tsx src/hierarchy/hierarchy.controller.test.ts && pnpm exec tsx src/hierarchy/hierarchy.service.test.ts && pnpm exec tsx src/configuration/dto/configuration.dto.test.ts && pnpm exec tsx src/configuration/configuration.controller.test.ts && pnpm exec tsx src/configuration/configuration.service.test.ts && pnpm exec tsx src/platform-observability/audit-log.service.test.ts && pnpm exec tsx src/platform-observability/event-outbox.service.test.ts && pnpm exec tsx src/module-registry/module-registry.service.test.ts && pnpm exec tsx src/access-core/dto/access-core.dto.test.ts && pnpm exec tsx src/security/request-context.test.ts && pnpm exec tsx src/gatekeeper/gatekeeper-preflight.service.test.ts && pnpm exec tsx src/gatekeeper/gatekeeper.p5b-007e.test.ts && pnpm exec tsx src/gatekeeper/gatekeeper.p5b-008f.test.ts && pnpm exec tsx src/gatekeeper/gatekeeper.p5b-008g.test.ts && pnpm exec tsx src/foundry/foundry.p5b-012b.test.ts && pnpm exec tsx src/foundry/foundry.p5b-012c.test.ts && pnpm exec tsx src/foundry/foundry.p5b-013a.test.ts && pnpm exec tsx src/foundry/foundry.p5b-013b.test.ts && pnpm exec tsx src/foundry/foundry.p5b-013c.test.ts && pnpm exec tsx src/foundry/foundry.p5b-014a.test.ts && pnpm exec tsx src/foundry/foundry.p5b-014b.test.ts && pnpm exec tsx src/access-core/access-core.service.test.ts && pnpm exec tsx src/engagement-gateway/engagement-gateway.service.test.ts && (cd ../.. && pnpm exec tsx apps/api/src/lead-desk/lead-desk-scope-model-foundation.test.ts) && pnpm exec tsx src/lead-desk/lead-desk.service.test.ts"
+    },
+    {
+      "package": "apps/web/package.json",
+      "script": "dev",
+      "command": "next dev"
+    },
+    {
+      "package": "apps/web/package.json",
+      "script": "build",
+      "command": "next build"
+    },
+    {
+      "package": "apps/web/package.json",
+      "script": "start",
+      "command": "next start"
+    },
+    {
+      "package": "apps/web/package.json",
+      "script": "lint",
+      "command": "pnpm exec tsc --noEmit -p tsconfig.json"
+    },
+    {
+      "package": "apps/web/package.json",
+      "script": "typecheck",
+      "command": "pnpm exec tsc --noEmit -p tsconfig.json"
+    },
+    {
+      "package": "apps/web/package.json",
+      "script": "test",
+      "command": "node --test test/*.test.mjs"
+    },
+    {
+      "package": "packages/contracts/package.json",
+      "script": "build",
+      "command": "pnpm exec tsc -p tsconfig.build.json"
+    },
+    {
+      "package": "packages/contracts/package.json",
+      "script": "contracts:validate",
+      "command": "node scripts/validate-contracts.mjs"
+    }
+  ],
+  "common_validation_commands": [
+    "pnpm contracts:validate",
+    "pnpm --filter @akti/api typecheck",
+    "pnpm --filter @akti/api test",
+    "pnpm --filter @akti/api build",
+    "pnpm --filter @akti/web typecheck",
+    "pnpm --filter @akti/web test",
+    "pnpm --filter @akti/web build",
+    "pnpm exec prisma validate --schema prisma/schema.prisma",
+    "pnpm registry:check"
+  ],
+  "rows": [
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_01_product_record_authority",
+      "seed_id": "seed_6b_01_product_record_authority",
+      "source_component_id": "6B.01",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/product_catalogue/product_catalogue.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_01_category_taxonomy",
+      "seed_id": "seed_6b_01_category_taxonomy",
+      "source_component_id": "6B.01",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/product_catalogue/product_catalogue.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_01_product_media_history",
+      "seed_id": "seed_6b_01_product_media_history",
+      "source_component_id": "6B.01",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/product_catalogue/product_catalogue.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_01_product_status_archive_policy",
+      "seed_id": "seed_6b_01_product_status_archive_policy",
+      "source_component_id": "6B.01",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/product_catalogue/product_catalogue.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_02_fixed_pricing_model",
+      "seed_id": "seed_6b_02_fixed_pricing_model",
+      "source_component_id": "6B.02",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/product_pricing/product_pricing.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_02_tiered_pricing_model",
+      "seed_id": "seed_6b_02_tiered_pricing_model",
+      "source_component_id": "6B.02",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/product_pricing/product_pricing.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_02_volume_pricing_model",
+      "seed_id": "seed_6b_02_volume_pricing_model",
+      "source_component_id": "6B.02",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/product_pricing/product_pricing.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_02_per_unit_pricing_model",
+      "seed_id": "seed_6b_02_per_unit_pricing_model",
+      "source_component_id": "6B.02",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/product_pricing/product_pricing.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_02_per_hour_pricing_model",
+      "seed_id": "seed_6b_02_per_hour_pricing_model",
+      "source_component_id": "6B.02",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/product_pricing/product_pricing.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_02_per_period_pricing_model",
+      "seed_id": "seed_6b_02_per_period_pricing_model",
+      "source_component_id": "6B.02",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/product_pricing/product_pricing.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_02_early_bird_pricing_deadline",
+      "seed_id": "seed_6b_02_early_bird_pricing_deadline",
+      "source_component_id": "6B.02",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/product_pricing/product_pricing.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_02_scholarship_discount_approval",
+      "seed_id": "seed_6b_02_scholarship_discount_approval",
+      "source_component_id": "6B.02",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/product_pricing/product_pricing.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_02_installment_plan_engine",
+      "seed_id": "seed_6b_02_installment_plan_engine",
+      "source_component_id": "6B.02",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/product_pricing/product_pricing.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_02_bundle_package_composition",
+      "seed_id": "seed_6b_02_bundle_package_composition",
+      "source_component_id": "6B.02",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/product_pricing/product_pricing.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_02_discount_stacking_engine",
+      "seed_id": "seed_6b_02_discount_stacking_engine",
+      "source_component_id": "6B.02",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/product_pricing/product_pricing.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_02_product_price_history_effective_dates",
+      "seed_id": "seed_6b_02_product_price_history_effective_dates",
+      "source_component_id": "6B.02",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/product_pricing/product_pricing.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_03_stock_level_location_authority",
+      "seed_id": "seed_6b_03_stock_level_location_authority",
+      "source_component_id": "6B.03",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/inventory_stock/inventory_stock.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_03_lot_and_serial_tracking",
+      "seed_id": "seed_6b_03_lot_and_serial_tracking",
+      "source_component_id": "6B.03",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/inventory_stock/inventory_stock.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_03_stock_movement_ledger",
+      "seed_id": "seed_6b_03_stock_movement_ledger",
+      "source_component_id": "6B.03",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/inventory_stock/inventory_stock.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_03_purchase_stock_evidence",
+      "seed_id": "seed_6b_03_purchase_stock_evidence",
+      "source_component_id": "6B.03",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/inventory_stock/inventory_stock.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_03_non_inventory_business_policy",
+      "seed_id": "seed_6b_03_non_inventory_business_policy",
+      "source_component_id": "6B.03",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/inventory_stock/inventory_stock.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_04_unified_lead_record_authority",
+      "seed_id": "seed_6b_04_unified_lead_record_authority",
+      "source_component_id": "6B.04",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/crm_lead_intake/crm_lead_intake.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_04_meta_lead_forms_connector",
+      "seed_id": "seed_6b_04_meta_lead_forms_connector",
+      "source_component_id": "6B.04",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/crm_lead_intake/crm_lead_intake.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_04_meta_whatsapp_intake_connector",
+      "seed_id": "seed_6b_04_meta_whatsapp_intake_connector",
+      "source_component_id": "6B.04",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/crm_lead_intake/crm_lead_intake.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_04_tiktok_lead_gen_connector",
+      "seed_id": "seed_6b_04_tiktok_lead_gen_connector",
+      "source_component_id": "6B.04",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/crm_lead_intake/crm_lead_intake.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_04_google_ads_connector",
+      "seed_id": "seed_6b_04_google_ads_connector",
+      "source_component_id": "6B.04",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/crm_lead_intake/crm_lead_intake.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_04_google_business_connector",
+      "seed_id": "seed_6b_04_google_business_connector",
+      "source_component_id": "6B.04",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/crm_lead_intake/crm_lead_intake.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_04_facebook_page_forms_connector",
+      "seed_id": "seed_6b_04_facebook_page_forms_connector",
+      "source_component_id": "6B.04",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/crm_lead_intake/crm_lead_intake.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_04_web_form_intake_connector",
+      "seed_id": "seed_6b_04_web_form_intake_connector",
+      "source_component_id": "6B.04",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/crm_lead_intake/crm_lead_intake.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_04_manual_lead_entry",
+      "seed_id": "seed_6b_04_manual_lead_entry",
+      "source_component_id": "6B.04",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/crm_lead_intake/crm_lead_intake.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_04_csv_excel_import",
+      "seed_id": "seed_6b_04_csv_excel_import",
+      "source_component_id": "6B.04",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/crm_lead_intake/crm_lead_intake.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_04_api_lead_intake",
+      "seed_id": "seed_6b_04_api_lead_intake",
+      "source_component_id": "6B.04",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/crm_lead_intake/crm_lead_intake.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_04_referral_intake",
+      "seed_id": "seed_6b_04_referral_intake",
+      "source_component_id": "6B.04",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/crm_lead_intake/crm_lead_intake.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_04_inbound_whatsapp_intake",
+      "seed_id": "seed_6b_04_inbound_whatsapp_intake",
+      "source_component_id": "6B.04",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/crm_lead_intake/crm_lead_intake.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_04_inbound_sms_intake",
+      "seed_id": "seed_6b_04_inbound_sms_intake",
+      "source_component_id": "6B.04",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/crm_lead_intake/crm_lead_intake.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_04_chatbot_intake",
+      "seed_id": "seed_6b_04_chatbot_intake",
+      "source_component_id": "6B.04",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/crm_lead_intake/crm_lead_intake.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_04_live_chat_intake",
+      "seed_id": "seed_6b_04_live_chat_intake",
+      "source_component_id": "6B.04",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/crm_lead_intake/crm_lead_intake.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_04_email_intake",
+      "seed_id": "seed_6b_04_email_intake",
+      "source_component_id": "6B.04",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/crm_lead_intake/crm_lead_intake.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_04_phone_intake",
+      "seed_id": "seed_6b_04_phone_intake",
+      "source_component_id": "6B.04",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/crm_lead_intake/crm_lead_intake.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_04_walk_in_intake",
+      "seed_id": "seed_6b_04_walk_in_intake",
+      "source_component_id": "6B.04",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/crm_lead_intake/crm_lead_intake.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_05_match_candidate_generation",
+      "seed_id": "seed_6b_05_match_candidate_generation",
+      "source_component_id": "6B.05",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/crm_deduplication/crm_deduplication.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_05_merge_decision_record",
+      "seed_id": "seed_6b_05_merge_decision_record",
+      "source_component_id": "6B.05",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/crm_deduplication/crm_deduplication.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_05_identity_resolution_linking",
+      "seed_id": "seed_6b_05_identity_resolution_linking",
+      "source_component_id": "6B.05",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/crm_deduplication/crm_deduplication.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_05_duplicate_evidence_log",
+      "seed_id": "seed_6b_05_duplicate_evidence_log",
+      "source_component_id": "6B.05",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/crm_deduplication/crm_deduplication.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_06_pipeline_stage_model",
+      "seed_id": "seed_6b_06_pipeline_stage_model",
+      "source_component_id": "6B.06",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/crm_pipeline/crm_pipeline.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_06_crm_activity_timeline",
+      "seed_id": "seed_6b_06_crm_activity_timeline",
+      "source_component_id": "6B.06",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/crm_pipeline/crm_pipeline.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_06_internal_notes_comments",
+      "seed_id": "seed_6b_06_internal_notes_comments",
+      "source_component_id": "6B.06",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/crm_pipeline/crm_pipeline.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_06_stage_history_audit",
+      "seed_id": "seed_6b_06_stage_history_audit",
+      "source_component_id": "6B.06",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/crm_pipeline/crm_pipeline.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_06_expected_value_pricing_bridge",
+      "seed_id": "seed_6b_06_expected_value_pricing_bridge",
+      "source_component_id": "6B.06",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/crm_pipeline/crm_pipeline.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_07_whatsapp_template_management",
+      "seed_id": "seed_6b_07_whatsapp_template_management",
+      "source_component_id": "6B.07",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/crm_communication/crm_communication.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_07_whatsapp_inbound_routing",
+      "seed_id": "seed_6b_07_whatsapp_inbound_routing",
+      "source_component_id": "6B.07",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/crm_communication/crm_communication.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_07_whatsapp_outbound_window",
+      "seed_id": "seed_6b_07_whatsapp_outbound_window",
+      "source_component_id": "6B.07",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/crm_communication/crm_communication.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_07_whatsapp_broadcast_compliance",
+      "seed_id": "seed_6b_07_whatsapp_broadcast_compliance",
+      "source_component_id": "6B.07",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/crm_communication/crm_communication.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_07_whatsapp_auto_reply_keywords",
+      "seed_id": "seed_6b_07_whatsapp_auto_reply_keywords",
+      "source_component_id": "6B.07",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/crm_communication/crm_communication.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_07_email_connected_inbox",
+      "seed_id": "seed_6b_07_email_connected_inbox",
+      "source_component_id": "6B.07",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/crm_communication/crm_communication.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_07_email_transactional_domain",
+      "seed_id": "seed_6b_07_email_transactional_domain",
+      "source_component_id": "6B.07",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/crm_communication/crm_communication.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_07_email_sequences",
+      "seed_id": "seed_6b_07_email_sequences",
+      "source_component_id": "6B.07",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/crm_communication/crm_communication.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_07_email_shared_inbox",
+      "seed_id": "seed_6b_07_email_shared_inbox",
+      "source_component_id": "6B.07",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/crm_communication/crm_communication.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_07_communication_attempt_evidence",
+      "seed_id": "seed_6b_07_communication_attempt_evidence",
+      "source_component_id": "6B.07",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/crm_communication/crm_communication.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_08_lead_scoring_engine",
+      "seed_id": "seed_6b_08_lead_scoring_engine",
+      "source_component_id": "6B.08",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/crm_scoring_reporting/crm_scoring_reporting.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_08_follow_up_task_cadence",
+      "seed_id": "seed_6b_08_follow_up_task_cadence",
+      "source_component_id": "6B.08",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/crm_scoring_reporting/crm_scoring_reporting.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_08_crm_reporting_definitions",
+      "seed_id": "seed_6b_08_crm_reporting_definitions",
+      "source_component_id": "6B.08",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/crm_scoring_reporting/crm_scoring_reporting.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_08_crm_compliance_views",
+      "seed_id": "seed_6b_08_crm_compliance_views",
+      "source_component_id": "6B.08",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/crm_scoring_reporting/crm_scoring_reporting.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_09_invoice_record_authority",
+      "seed_id": "seed_6b_09_invoice_record_authority",
+      "source_component_id": "6B.09",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/finance_invoice_receivables/finance_invoice_receivables.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_09_invoice_lifecycle_types",
+      "seed_id": "seed_6b_09_invoice_lifecycle_types",
+      "source_component_id": "6B.09",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/finance_invoice_receivables/finance_invoice_receivables.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_09_receivable_balance_computation",
+      "seed_id": "seed_6b_09_receivable_balance_computation",
+      "source_component_id": "6B.09",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/finance_invoice_receivables/finance_invoice_receivables.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_09_fbr_invoice_format",
+      "seed_id": "seed_6b_09_fbr_invoice_format",
+      "source_component_id": "6B.09",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/finance_invoice_receivables/finance_invoice_receivables.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_09_aging_and_overdue_management",
+      "seed_id": "seed_6b_09_aging_and_overdue_management",
+      "source_component_id": "6B.09",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/finance_invoice_receivables/finance_invoice_receivables.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_10_jazzcash_gateway",
+      "seed_id": "seed_6b_10_jazzcash_gateway",
+      "source_component_id": "6B.10",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/payment_collection_topup/payment_collection_topup.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_10_easypaisa_gateway",
+      "seed_id": "seed_6b_10_easypaisa_gateway",
+      "source_component_id": "6B.10",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/payment_collection_topup/payment_collection_topup.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_10_raast_gateway",
+      "seed_id": "seed_6b_10_raast_gateway",
+      "source_component_id": "6B.10",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/payment_collection_topup/payment_collection_topup.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_10_quickpay_shadow_account_gateway",
+      "seed_id": "seed_6b_10_quickpay_shadow_account_gateway",
+      "source_component_id": "6B.10",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/payment_collection_topup/payment_collection_topup.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_10_stripe_gateway_3ds",
+      "seed_id": "seed_6b_10_stripe_gateway_3ds",
+      "source_component_id": "6B.10",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/payment_collection_topup/payment_collection_topup.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_10_wise_gateway",
+      "seed_id": "seed_6b_10_wise_gateway",
+      "source_component_id": "6B.10",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/payment_collection_topup/payment_collection_topup.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_10_manual_reconciliation_path",
+      "seed_id": "seed_6b_10_manual_reconciliation_path",
+      "source_component_id": "6B.10",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/payment_collection_topup/payment_collection_topup.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_10_payment_allocation_balance",
+      "seed_id": "seed_6b_10_payment_allocation_balance",
+      "source_component_id": "6B.10",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/payment_collection_topup/payment_collection_topup.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_10_refund_to_original_method",
+      "seed_id": "seed_6b_10_refund_to_original_method",
+      "source_component_id": "6B.10",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/payment_collection_topup/payment_collection_topup.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_10_top_up_prepaid_credit",
+      "seed_id": "seed_6b_10_top_up_prepaid_credit",
+      "source_component_id": "6B.10",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/payment_collection_topup/payment_collection_topup.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_11_expense_record_authority",
+      "seed_id": "seed_6b_11_expense_record_authority",
+      "source_component_id": "6B.11",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/expense_purchase_vendor/expense_purchase_vendor.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_11_expense_approval_workflow",
+      "seed_id": "seed_6b_11_expense_approval_workflow",
+      "source_component_id": "6B.11",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/expense_purchase_vendor/expense_purchase_vendor.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_11_vendor_record_authority",
+      "seed_id": "seed_6b_11_vendor_record_authority",
+      "source_component_id": "6B.11",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/expense_purchase_vendor/expense_purchase_vendor.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_11_purchase_order_authority",
+      "seed_id": "seed_6b_11_purchase_order_authority",
+      "source_component_id": "6B.11",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/expense_purchase_vendor/expense_purchase_vendor.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_11_three_way_match_evidence",
+      "seed_id": "seed_6b_11_three_way_match_evidence",
+      "source_component_id": "6B.11",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/expense_purchase_vendor/expense_purchase_vendor.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_12_chart_of_accounts",
+      "seed_id": "seed_6b_12_chart_of_accounts",
+      "source_component_id": "6B.12",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/general_ledger_accounting/general_ledger_accounting.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_12_journal_entry_engine",
+      "seed_id": "seed_6b_12_journal_entry_engine",
+      "source_component_id": "6B.12",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/general_ledger_accounting/general_ledger_accounting.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_12_period_close_management",
+      "seed_id": "seed_6b_12_period_close_management",
+      "source_component_id": "6B.12",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/general_ledger_accounting/general_ledger_accounting.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_12_tax_mapping_reporting",
+      "seed_id": "seed_6b_12_tax_mapping_reporting",
+      "source_component_id": "6B.12",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/general_ledger_accounting/general_ledger_accounting.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_12_fx_gain_loss_accounting",
+      "seed_id": "seed_6b_12_fx_gain_loss_accounting",
+      "source_component_id": "6B.12",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/general_ledger_accounting/general_ledger_accounting.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_12_financial_reporting_pack",
+      "seed_id": "seed_6b_12_financial_reporting_pack",
+      "source_component_id": "6B.12",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/general_ledger_accounting/general_ledger_accounting.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_13_bank_statement_import",
+      "seed_id": "seed_6b_13_bank_statement_import",
+      "source_component_id": "6B.13",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/banking_reconciliation/banking_reconciliation.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_13_reconciliation_matching",
+      "seed_id": "seed_6b_13_reconciliation_matching",
+      "source_component_id": "6B.13",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/banking_reconciliation/banking_reconciliation.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_13_reconciliation_exception_queue",
+      "seed_id": "seed_6b_13_reconciliation_exception_queue",
+      "source_component_id": "6B.13",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/banking_reconciliation/banking_reconciliation.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_13_banking_evidence_export",
+      "seed_id": "seed_6b_13_banking_evidence_export",
+      "source_component_id": "6B.13",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/banking_reconciliation/banking_reconciliation.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_14_payroll_tax_slab_calculator",
+      "seed_id": "seed_6b_14_payroll_tax_slab_calculator",
+      "source_component_id": "6B.14",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/finance_payroll_foundation/finance_payroll_foundation.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_14_allowance_deduction_formula",
+      "seed_id": "seed_6b_14_allowance_deduction_formula",
+      "source_component_id": "6B.14",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/finance_payroll_foundation/finance_payroll_foundation.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_14_payroll_run_state_machine",
+      "seed_id": "seed_6b_14_payroll_run_state_machine",
+      "source_component_id": "6B.14",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/finance_payroll_foundation/finance_payroll_foundation.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_14_payroll_disbursement_file_export",
+      "seed_id": "seed_6b_14_payroll_disbursement_file_export",
+      "source_component_id": "6B.14",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/finance_payroll_foundation/finance_payroll_foundation.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_14_hr_event_feed_boundary",
+      "seed_id": "seed_6b_14_hr_event_feed_boundary",
+      "source_component_id": "6B.14",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/finance_payroll_foundation/finance_payroll_foundation.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_15_customer_billing_operations",
+      "seed_id": "seed_6b_15_customer_billing_operations",
+      "source_component_id": "6B.15",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/finance_billing_operations/finance_billing_operations.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_15_platform_invoice_generation",
+      "seed_id": "seed_6b_15_platform_invoice_generation",
+      "source_component_id": "6B.15",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/finance_billing_operations/finance_billing_operations.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_15_billing_proration_engine",
+      "seed_id": "seed_6b_15_billing_proration_engine",
+      "source_component_id": "6B.15",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/finance_billing_operations/finance_billing_operations.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_15_retention_and_dunning_rules",
+      "seed_id": "seed_6b_15_retention_and_dunning_rules",
+      "source_component_id": "6B.15",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/finance_billing_operations/finance_billing_operations.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    },
+    {
+      "validation_discovery_id": "validation_6b_v13_seed_6b_15_billing_support_interface",
+      "seed_id": "seed_6b_15_billing_support_interface",
+      "source_component_id": "6B.15",
+      "validation_status": "TEST_VALIDATION_REQUIRED",
+      "existing_validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/api build",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm --filter @akti/web build",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check"
+      ],
+      "seed_specific_test_found": false,
+      "proposed_future_test_path": "apps/api/src/phase_6b/finance_billing_operations/finance_billing_operations.service.test.ts",
+      "reason": "Base validation commands exist, but seed-specific tests cannot be assigned until scaffold paths are approved."
+    }
+  ]
+}

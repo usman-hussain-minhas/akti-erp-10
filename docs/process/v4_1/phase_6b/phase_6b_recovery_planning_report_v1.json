@@ -1,0 +1,40 @@
+{
+  "status": "PHASE_6B_RECOVERY_PLANNING_SCHEMA_CONTROL_REQUIRED",
+  "doctrine_version": "1.1",
+  "recovery_track": "docs_only_planning",
+  "valid_checkpoint": "docs/process/v4_1/phase_6b/v17/",
+  "excluded_checkpoint": "docs/process/v4_1/phase_6b/v18/",
+  "excluded_checkpoint_reason": "v18 depends on quarantined mixed-scope schema/runtime/generated/control implementation changes and is not accepted executable ticket authority",
+  "quarantined_prs": [
+    {
+      "pr_number": 48,
+      "changed_files": 340,
+      "phase_6b_docs_files": 243,
+      "non_doc_control_paths": 97,
+      "decision": "quarantined_mixed_scope_not_final_planning_authority"
+    },
+    {
+      "pr_number": 49,
+      "changed_files": 343,
+      "phase_6b_docs_files": 293,
+      "non_doc_control_paths": 50,
+      "decision": "quarantined_mixed_scope_not_final_planning_authority"
+    }
+  ],
+  "v17_summary": {
+    "status": "PHASE_6B_SCHEMA_CONTROL_TICKETS_READY_FOR_FINAL_REVIEW",
+    "capability_ticket_count": 17,
+    "executable_capability_ticket_count": 0,
+    "schema_control_ticket_count": 4,
+    "schema_control_executable_review_ready_count": 1,
+    "schema_control_blocked_ticket_count": 3,
+    "seed_to_ticket_mapping_count": 103,
+    "manual_blocker_count": 0,
+    "ticket_generation_allowed": false,
+    "ticket_pack_generation_allowed": false,
+    "execution_authorized": false
+  },
+  "next_required_track": "separate_schema_scaffold_control_implementation_pr",
+  "post_control_required_track": "docs_only_ticket_pack_regeneration_from_accepted_main",
+  "capability_execution_authorized": false
+}
