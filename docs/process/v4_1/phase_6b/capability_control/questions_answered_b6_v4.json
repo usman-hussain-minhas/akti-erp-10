@@ -1,0 +1,968 @@
+{
+  "artifact_id": "questions_answered_b6_v4",
+  "artifact_version": "v4",
+  "status": "PHASE_6B_HUMAN_DECISION_REGISTER_V4_READY_FOR_REPO_AUTHORITY",
+  "created_at_utc": "2026-06-06T19:03:58.213Z",
+  "source_inputs": [
+    {
+      "input_type": "local_uploaded_answer_register",
+      "path": "/Users/usman/Downloads/questions_answered_b6_v3.md",
+      "treatment": "source evidence only; not copied raw because v3 contains contradictions and stale operative wording"
+    },
+    {
+      "input_type": "human_v4_amendment_plan",
+      "treatment": "normalized into this repo-native v4 register with live v17 counts"
+    },
+    {
+      "input_type": "merged_schema_field_policy_gate",
+      "path": "docs/process/v4_1/phase_6b/capability_control/phase_6b_schema_001b_field_level_clarification_v1.json",
+      "treatment": "schema-baseline decision gate merged before this v4 normalization"
+    },
+    {
+      "input_type": "live_artifact_snapshot",
+      "path": "docs/process/v4_1/phase_6b/v17/dependency_extraction_matrix_v1.json",
+      "git_sha": "a84e5137bf57fa9392b9b9d1874d3176f7d3cfc6",
+      "treatment": "edge counts and classifications are derived from live v17, not v8 planning text"
+    }
+  ],
+  "authorization_flags": {
+    "ticket_generation_allowed": false,
+    "ticket_pack_generation_allowed": false,
+    "capability_implementation_authorized": false,
+    "schema_implementation_authorized_by_this_artifact": false,
+    "dependency_json_mutation_authorized_by_this_artifact": false,
+    "execution_authorized": false
+  },
+  "canonical_hard_rule_doctrine": {
+    "principle": "An edge is hard only if it is immovable: platform identity or architecture, transaction/data integrity, security/regulatory enforcement, billing/evidence structure, or customer-protection asymmetry. Structure is hard; values and policies not named hard are configurable as data.",
+    "platform_hard_rule_set": [
+      {
+        "id": "A",
+        "name": "Platform Identity and Architecture",
+        "rule": "Platform-neutral identity, two-frontend separation, services as architecture units, Foundry as activation source of truth, and one-way service-to-core dependency direction are hard."
+      },
+      {
+        "id": "B",
+        "name": "Transaction and Data Integrity",
+        "rule": "Saga/no-2PC, at-least-once with idempotent consumers, provider-aware idempotency, locked 24-hour dedup window, immutable invoices after generation, and soft-delete plus staged permanent deletion are hard."
+      },
+      {
+        "id": "C",
+        "name": "Security and Identity",
+        "rule": "No default credentials, MFA floors for privileged/financial roles, audited support-window access, and shared Person/Identity Graph anchoring are hard."
+      },
+      {
+        "id": "D",
+        "name": "Billing and Evidence",
+        "rule": "Micro-service pricing reference, usage evidence including zero-priced evidence, and prepaid balance as funds source of truth are hard structures."
+      },
+      {
+        "id": "E",
+        "name": "Customer-First Protection",
+        "rule": "Two-phase uninstall, minimum protection window, reminders before permanent deletion, and free restore inside the protection window are hard."
+      },
+      {
+        "id": "F",
+        "name": "25-Year Design Principles",
+        "rule": "Design values guide the hard rules but are not independent binary gates unless expressed through a concrete platform rule or ADL."
+      },
+      {
+        "id": "G",
+        "name": "Configurability Rule",
+        "rule": "Everything not named hard is configurable as data through Super Admin or approved configuration surfaces without code or ADR."
+      },
+      {
+        "id": "H",
+        "name": "Communication Gateway Opt-Out",
+        "rule": "All outbound communication send attempts pass through the Communication Gateway and global opt-out enforcement under ADL-004. This is scoped to send paths only."
+      }
+    ],
+    "adl_registry_scope_note": "Domain behavioral ADLs, including ADL-013 through ADL-024 and ADL-016 FX gain/loss, remain hard through the ADL registry. This artifact defines the platform hard-rule layer and does not replace the ADL registry."
+  },
+  "basis_decision_tree": [
+    {
+      "order": 1,
+      "rule": "If an edge is named by a specific ADL, use adl_hard_rule and carry non-empty adl_refs."
+    },
+    {
+      "order": 2,
+      "rule": "If an edge is a locked platform rule and not ADL-specific, use business_logic_hard_rule."
+    },
+    {
+      "order": 3,
+      "rule": "If the target is billing/evidence-bearing, use billing_or_evidence_required."
+    },
+    {
+      "order": 4,
+      "rule": "If the edge is the Foundry/manifest activation dependency to seed_6a_service_manifest_contract, use activation_lifecycle_required."
+    },
+    {
+      "order": 5,
+      "rule": "If the dependency is configurable and not immovable, represent it as soft, conditional, or deferred. Do not silently drop it."
+    },
+    {
+      "order": 6,
+      "rule": "If genuinely unclassifiable from source, keep manual_review_required and do not promote ticket execution."
+    }
+  ],
+  "forbidden_terminal_bases": [
+    {
+      "basis": "phase_doc_required",
+      "rule": "Forbidden as a final hard_dependency_basis. Any operative use is a gate failure."
+    },
+    {
+      "basis": "capability_prerequisite",
+      "rule": "Not permitted as a final hard_dependency_basis until enum/tooling support exists. Use business_logic_hard_rule as interim basis and keep capability_prerequisite in rationale text only."
+    }
+  ],
+  "v3_conflicts_resolved": [
+    {
+      "id": "C1",
+      "issue": "email_shared_inbox used adl_hard_rule in matrix text but business_logic_hard_rule in artifact-update text.",
+      "v4_resolution": "Send enforcement uses adl_hard_rule with adl_refs=[ADL-004]. The existing opt-out edge is also reclassified to adl_hard_rule with ADL-004 because email_shared_inbox is a send surface."
+    },
+    {
+      "id": "C2",
+      "issue": "capability_prerequisite was used as a final basis although live tooling does not accept it.",
+      "v4_resolution": "No terminal capability_prerequisite basis. Interim-map capability-ordering dependencies to business_logic_hard_rule with capability_prerequisite preserved only as rationale."
+    },
+    {
+      "id": "C3",
+      "issue": "target-basis wording for gatekeeper/opt-out/api-key was direction-ambiguous and conflicted with ADL-004 send opt-out.",
+      "v4_resolution": "ADL-specific rule wins. API-key and access/gatekeeper hard edges use business_logic_hard_rule. Send opt-out edges use adl_hard_rule with ADL-004. Non-send opt-out edges become conditional."
+    },
+    {
+      "id": "A1",
+      "issue": "Stale line references remained in v3.",
+      "v4_resolution": "Use section-level authority references only."
+    },
+    {
+      "id": "A2",
+      "issue": "Self-count language treated descriptive forbidden-token mentions as zero occurrences.",
+      "v4_resolution": "Gate checks count operative use only and explicitly exclude descriptive audit mentions."
+    },
+    {
+      "id": "A3",
+      "issue": "Anchor rejections reused the same label as simple accepts.",
+      "v4_resolution": "Use REJECT_PROPOSED_ANCHOR_USE_CANONICAL for whatsapp_template_management, chart_of_accounts, and bank_statement_import anchor rejection cases."
+    },
+    {
+      "id": "S1",
+      "issue": "New pricing-authority seed required manifest dependency instruction.",
+      "v4_resolution": "seed_6b_02_product_price_history_effective_dates must carry service_manifest_contract dependency and parent_required_dependency_trace when generated downstream."
+    }
+  ],
+  "live_v17_edge_snapshot": {
+    "total_edges": 452,
+    "hard_edges": 444,
+    "hard_basis_distribution": {
+      "activation_lifecycle_required": 85,
+      "business_logic_hard_rule": 239,
+      "billing_or_evidence_required": 113,
+      "adl_hard_rule": 7
+    },
+    "phase_doc_required_hard_edges": 0,
+    "capability_prerequisite_hard_edges": 0,
+    "adl_hard_rule_empty_refs": 0,
+    "target_counts": {
+      "global_opt_out_registry": 29,
+      "outbound_gateway_enforcement": 6,
+      "api_key_scope_registry": 16,
+      "service_manifest_contract": 85
+    }
+  },
+  "opt_out_edge_decision_matrix": {
+    "source_artifact": "docs/process/v4_1/phase_6b/v17/dependency_extraction_matrix_v1.json",
+    "live_v17_counts": {
+      "lead_capture": 19,
+      "communication_evidence_non_send": 1,
+      "non_send_setup": 3,
+      "send_surface": 6
+    },
+    "selected_configurable_tier": "conditional",
+    "send_surface_count": 6,
+    "conditional_count": 23,
+    "rows": [
+      {
+        "source_seed_id": "seed_6b_04_api_lead_intake",
+        "target_seed_id": "seed_6a_global_opt_out_registry",
+        "live_v17_state": {
+          "dependency_type": "hard_dependency",
+          "hard_dependency_basis": "business_logic_hard_rule",
+          "adl_refs": []
+        },
+        "v4_population": "lead_capture",
+        "v4_instruction": "MOVE_EXISTING_HARD_EDGE_TO_CONDITIONAL_DEPENDENCY_REPRESENTATION",
+        "v4_dependency_type": "conditional_dependency",
+        "v4_hard_dependency_basis": null,
+        "v4_conditional_tier": "conditional",
+        "v4_adl_refs": [],
+        "rationale": "Lead capture is not a send path. A lead may exist while opted out; enforcement is hard at send time through the gateway."
+      },
+      {
+        "source_seed_id": "seed_6b_04_chatbot_intake",
+        "target_seed_id": "seed_6a_global_opt_out_registry",
+        "live_v17_state": {
+          "dependency_type": "hard_dependency",
+          "hard_dependency_basis": "business_logic_hard_rule",
+          "adl_refs": []
+        },
+        "v4_population": "lead_capture",
+        "v4_instruction": "MOVE_EXISTING_HARD_EDGE_TO_CONDITIONAL_DEPENDENCY_REPRESENTATION",
+        "v4_dependency_type": "conditional_dependency",
+        "v4_hard_dependency_basis": null,
+        "v4_conditional_tier": "conditional",
+        "v4_adl_refs": [],
+        "rationale": "Lead capture is not a send path. A lead may exist while opted out; enforcement is hard at send time through the gateway."
+      },
+      {
+        "source_seed_id": "seed_6b_04_csv_excel_import",
+        "target_seed_id": "seed_6a_global_opt_out_registry",
+        "live_v17_state": {
+          "dependency_type": "hard_dependency",
+          "hard_dependency_basis": "business_logic_hard_rule",
+          "adl_refs": []
+        },
+        "v4_population": "lead_capture",
+        "v4_instruction": "MOVE_EXISTING_HARD_EDGE_TO_CONDITIONAL_DEPENDENCY_REPRESENTATION",
+        "v4_dependency_type": "conditional_dependency",
+        "v4_hard_dependency_basis": null,
+        "v4_conditional_tier": "conditional",
+        "v4_adl_refs": [],
+        "rationale": "Lead capture is not a send path. A lead may exist while opted out; enforcement is hard at send time through the gateway."
+      },
+      {
+        "source_seed_id": "seed_6b_04_email_intake",
+        "target_seed_id": "seed_6a_global_opt_out_registry",
+        "live_v17_state": {
+          "dependency_type": "hard_dependency",
+          "hard_dependency_basis": "business_logic_hard_rule",
+          "adl_refs": []
+        },
+        "v4_population": "lead_capture",
+        "v4_instruction": "MOVE_EXISTING_HARD_EDGE_TO_CONDITIONAL_DEPENDENCY_REPRESENTATION",
+        "v4_dependency_type": "conditional_dependency",
+        "v4_hard_dependency_basis": null,
+        "v4_conditional_tier": "conditional",
+        "v4_adl_refs": [],
+        "rationale": "Lead capture is not a send path. A lead may exist while opted out; enforcement is hard at send time through the gateway."
+      },
+      {
+        "source_seed_id": "seed_6b_04_facebook_page_forms_connector",
+        "target_seed_id": "seed_6a_global_opt_out_registry",
+        "live_v17_state": {
+          "dependency_type": "hard_dependency",
+          "hard_dependency_basis": "business_logic_hard_rule",
+          "adl_refs": []
+        },
+        "v4_population": "lead_capture",
+        "v4_instruction": "MOVE_EXISTING_HARD_EDGE_TO_CONDITIONAL_DEPENDENCY_REPRESENTATION",
+        "v4_dependency_type": "conditional_dependency",
+        "v4_hard_dependency_basis": null,
+        "v4_conditional_tier": "conditional",
+        "v4_adl_refs": [],
+        "rationale": "Lead capture is not a send path. A lead may exist while opted out; enforcement is hard at send time through the gateway."
+      },
+      {
+        "source_seed_id": "seed_6b_04_google_ads_connector",
+        "target_seed_id": "seed_6a_global_opt_out_registry",
+        "live_v17_state": {
+          "dependency_type": "hard_dependency",
+          "hard_dependency_basis": "business_logic_hard_rule",
+          "adl_refs": []
+        },
+        "v4_population": "lead_capture",
+        "v4_instruction": "MOVE_EXISTING_HARD_EDGE_TO_CONDITIONAL_DEPENDENCY_REPRESENTATION",
+        "v4_dependency_type": "conditional_dependency",
+        "v4_hard_dependency_basis": null,
+        "v4_conditional_tier": "conditional",
+        "v4_adl_refs": [],
+        "rationale": "Lead capture is not a send path. A lead may exist while opted out; enforcement is hard at send time through the gateway."
+      },
+      {
+        "source_seed_id": "seed_6b_04_google_business_connector",
+        "target_seed_id": "seed_6a_global_opt_out_registry",
+        "live_v17_state": {
+          "dependency_type": "hard_dependency",
+          "hard_dependency_basis": "business_logic_hard_rule",
+          "adl_refs": []
+        },
+        "v4_population": "lead_capture",
+        "v4_instruction": "MOVE_EXISTING_HARD_EDGE_TO_CONDITIONAL_DEPENDENCY_REPRESENTATION",
+        "v4_dependency_type": "conditional_dependency",
+        "v4_hard_dependency_basis": null,
+        "v4_conditional_tier": "conditional",
+        "v4_adl_refs": [],
+        "rationale": "Lead capture is not a send path. A lead may exist while opted out; enforcement is hard at send time through the gateway."
+      },
+      {
+        "source_seed_id": "seed_6b_04_inbound_sms_intake",
+        "target_seed_id": "seed_6a_global_opt_out_registry",
+        "live_v17_state": {
+          "dependency_type": "hard_dependency",
+          "hard_dependency_basis": "business_logic_hard_rule",
+          "adl_refs": []
+        },
+        "v4_population": "lead_capture",
+        "v4_instruction": "MOVE_EXISTING_HARD_EDGE_TO_CONDITIONAL_DEPENDENCY_REPRESENTATION",
+        "v4_dependency_type": "conditional_dependency",
+        "v4_hard_dependency_basis": null,
+        "v4_conditional_tier": "conditional",
+        "v4_adl_refs": [],
+        "rationale": "Lead capture is not a send path. A lead may exist while opted out; enforcement is hard at send time through the gateway."
+      },
+      {
+        "source_seed_id": "seed_6b_04_inbound_whatsapp_intake",
+        "target_seed_id": "seed_6a_global_opt_out_registry",
+        "live_v17_state": {
+          "dependency_type": "hard_dependency",
+          "hard_dependency_basis": "business_logic_hard_rule",
+          "adl_refs": []
+        },
+        "v4_population": "lead_capture",
+        "v4_instruction": "MOVE_EXISTING_HARD_EDGE_TO_CONDITIONAL_DEPENDENCY_REPRESENTATION",
+        "v4_dependency_type": "conditional_dependency",
+        "v4_hard_dependency_basis": null,
+        "v4_conditional_tier": "conditional",
+        "v4_adl_refs": [],
+        "rationale": "Lead capture is not a send path. A lead may exist while opted out; enforcement is hard at send time through the gateway."
+      },
+      {
+        "source_seed_id": "seed_6b_04_live_chat_intake",
+        "target_seed_id": "seed_6a_global_opt_out_registry",
+        "live_v17_state": {
+          "dependency_type": "hard_dependency",
+          "hard_dependency_basis": "business_logic_hard_rule",
+          "adl_refs": []
+        },
+        "v4_population": "lead_capture",
+        "v4_instruction": "MOVE_EXISTING_HARD_EDGE_TO_CONDITIONAL_DEPENDENCY_REPRESENTATION",
+        "v4_dependency_type": "conditional_dependency",
+        "v4_hard_dependency_basis": null,
+        "v4_conditional_tier": "conditional",
+        "v4_adl_refs": [],
+        "rationale": "Lead capture is not a send path. A lead may exist while opted out; enforcement is hard at send time through the gateway."
+      },
+      {
+        "source_seed_id": "seed_6b_04_manual_lead_entry",
+        "target_seed_id": "seed_6a_global_opt_out_registry",
+        "live_v17_state": {
+          "dependency_type": "hard_dependency",
+          "hard_dependency_basis": "business_logic_hard_rule",
+          "adl_refs": []
+        },
+        "v4_population": "lead_capture",
+        "v4_instruction": "MOVE_EXISTING_HARD_EDGE_TO_CONDITIONAL_DEPENDENCY_REPRESENTATION",
+        "v4_dependency_type": "conditional_dependency",
+        "v4_hard_dependency_basis": null,
+        "v4_conditional_tier": "conditional",
+        "v4_adl_refs": [],
+        "rationale": "Lead capture is not a send path. A lead may exist while opted out; enforcement is hard at send time through the gateway."
+      },
+      {
+        "source_seed_id": "seed_6b_04_meta_lead_forms_connector",
+        "target_seed_id": "seed_6a_global_opt_out_registry",
+        "live_v17_state": {
+          "dependency_type": "hard_dependency",
+          "hard_dependency_basis": "business_logic_hard_rule",
+          "adl_refs": []
+        },
+        "v4_population": "lead_capture",
+        "v4_instruction": "MOVE_EXISTING_HARD_EDGE_TO_CONDITIONAL_DEPENDENCY_REPRESENTATION",
+        "v4_dependency_type": "conditional_dependency",
+        "v4_hard_dependency_basis": null,
+        "v4_conditional_tier": "conditional",
+        "v4_adl_refs": [],
+        "rationale": "Lead capture is not a send path. A lead may exist while opted out; enforcement is hard at send time through the gateway."
+      },
+      {
+        "source_seed_id": "seed_6b_04_meta_whatsapp_intake_connector",
+        "target_seed_id": "seed_6a_global_opt_out_registry",
+        "live_v17_state": {
+          "dependency_type": "hard_dependency",
+          "hard_dependency_basis": "business_logic_hard_rule",
+          "adl_refs": []
+        },
+        "v4_population": "lead_capture",
+        "v4_instruction": "MOVE_EXISTING_HARD_EDGE_TO_CONDITIONAL_DEPENDENCY_REPRESENTATION",
+        "v4_dependency_type": "conditional_dependency",
+        "v4_hard_dependency_basis": null,
+        "v4_conditional_tier": "conditional",
+        "v4_adl_refs": [],
+        "rationale": "Lead capture is not a send path. A lead may exist while opted out; enforcement is hard at send time through the gateway."
+      },
+      {
+        "source_seed_id": "seed_6b_04_phone_intake",
+        "target_seed_id": "seed_6a_global_opt_out_registry",
+        "live_v17_state": {
+          "dependency_type": "hard_dependency",
+          "hard_dependency_basis": "business_logic_hard_rule",
+          "adl_refs": []
+        },
+        "v4_population": "lead_capture",
+        "v4_instruction": "MOVE_EXISTING_HARD_EDGE_TO_CONDITIONAL_DEPENDENCY_REPRESENTATION",
+        "v4_dependency_type": "conditional_dependency",
+        "v4_hard_dependency_basis": null,
+        "v4_conditional_tier": "conditional",
+        "v4_adl_refs": [],
+        "rationale": "Lead capture is not a send path. A lead may exist while opted out; enforcement is hard at send time through the gateway."
+      },
+      {
+        "source_seed_id": "seed_6b_04_referral_intake",
+        "target_seed_id": "seed_6a_global_opt_out_registry",
+        "live_v17_state": {
+          "dependency_type": "hard_dependency",
+          "hard_dependency_basis": "business_logic_hard_rule",
+          "adl_refs": []
+        },
+        "v4_population": "lead_capture",
+        "v4_instruction": "MOVE_EXISTING_HARD_EDGE_TO_CONDITIONAL_DEPENDENCY_REPRESENTATION",
+        "v4_dependency_type": "conditional_dependency",
+        "v4_hard_dependency_basis": null,
+        "v4_conditional_tier": "conditional",
+        "v4_adl_refs": [],
+        "rationale": "Lead capture is not a send path. A lead may exist while opted out; enforcement is hard at send time through the gateway."
+      },
+      {
+        "source_seed_id": "seed_6b_04_tiktok_lead_gen_connector",
+        "target_seed_id": "seed_6a_global_opt_out_registry",
+        "live_v17_state": {
+          "dependency_type": "hard_dependency",
+          "hard_dependency_basis": "business_logic_hard_rule",
+          "adl_refs": []
+        },
+        "v4_population": "lead_capture",
+        "v4_instruction": "MOVE_EXISTING_HARD_EDGE_TO_CONDITIONAL_DEPENDENCY_REPRESENTATION",
+        "v4_dependency_type": "conditional_dependency",
+        "v4_hard_dependency_basis": null,
+        "v4_conditional_tier": "conditional",
+        "v4_adl_refs": [],
+        "rationale": "Lead capture is not a send path. A lead may exist while opted out; enforcement is hard at send time through the gateway."
+      },
+      {
+        "source_seed_id": "seed_6b_04_unified_lead_record_authority",
+        "target_seed_id": "seed_6a_global_opt_out_registry",
+        "live_v17_state": {
+          "dependency_type": "hard_dependency",
+          "hard_dependency_basis": "business_logic_hard_rule",
+          "adl_refs": []
+        },
+        "v4_population": "lead_capture",
+        "v4_instruction": "MOVE_EXISTING_HARD_EDGE_TO_CONDITIONAL_DEPENDENCY_REPRESENTATION",
+        "v4_dependency_type": "conditional_dependency",
+        "v4_hard_dependency_basis": null,
+        "v4_conditional_tier": "conditional",
+        "v4_adl_refs": [],
+        "rationale": "Lead capture is not a send path. A lead may exist while opted out; enforcement is hard at send time through the gateway."
+      },
+      {
+        "source_seed_id": "seed_6b_04_walk_in_intake",
+        "target_seed_id": "seed_6a_global_opt_out_registry",
+        "live_v17_state": {
+          "dependency_type": "hard_dependency",
+          "hard_dependency_basis": "business_logic_hard_rule",
+          "adl_refs": []
+        },
+        "v4_population": "lead_capture",
+        "v4_instruction": "MOVE_EXISTING_HARD_EDGE_TO_CONDITIONAL_DEPENDENCY_REPRESENTATION",
+        "v4_dependency_type": "conditional_dependency",
+        "v4_hard_dependency_basis": null,
+        "v4_conditional_tier": "conditional",
+        "v4_adl_refs": [],
+        "rationale": "Lead capture is not a send path. A lead may exist while opted out; enforcement is hard at send time through the gateway."
+      },
+      {
+        "source_seed_id": "seed_6b_04_web_form_intake_connector",
+        "target_seed_id": "seed_6a_global_opt_out_registry",
+        "live_v17_state": {
+          "dependency_type": "hard_dependency",
+          "hard_dependency_basis": "business_logic_hard_rule",
+          "adl_refs": []
+        },
+        "v4_population": "lead_capture",
+        "v4_instruction": "MOVE_EXISTING_HARD_EDGE_TO_CONDITIONAL_DEPENDENCY_REPRESENTATION",
+        "v4_dependency_type": "conditional_dependency",
+        "v4_hard_dependency_basis": null,
+        "v4_conditional_tier": "conditional",
+        "v4_adl_refs": [],
+        "rationale": "Lead capture is not a send path. A lead may exist while opted out; enforcement is hard at send time through the gateway."
+      },
+      {
+        "source_seed_id": "seed_6b_07_communication_attempt_evidence",
+        "target_seed_id": "seed_6a_global_opt_out_registry",
+        "live_v17_state": {
+          "dependency_type": "hard_dependency",
+          "hard_dependency_basis": "business_logic_hard_rule",
+          "adl_refs": []
+        },
+        "v4_population": "communication_evidence_non_send",
+        "v4_instruction": "MOVE_EXISTING_HARD_EDGE_TO_CONDITIONAL_DEPENDENCY_REPRESENTATION",
+        "v4_dependency_type": "conditional_dependency",
+        "v4_hard_dependency_basis": null,
+        "v4_conditional_tier": "conditional",
+        "v4_adl_refs": [],
+        "rationale": "Communication attempt evidence records evidence and does not itself initiate outbound send; opt-out awareness remains represented as conditional, not hard."
+      },
+      {
+        "source_seed_id": "seed_6b_07_email_connected_inbox",
+        "target_seed_id": "seed_6a_global_opt_out_registry",
+        "live_v17_state": {
+          "dependency_type": "hard_dependency",
+          "hard_dependency_basis": "business_logic_hard_rule",
+          "adl_refs": []
+        },
+        "v4_population": "non_send_setup",
+        "v4_instruction": "MOVE_EXISTING_HARD_EDGE_TO_CONDITIONAL_DEPENDENCY_REPRESENTATION",
+        "v4_dependency_type": "conditional_dependency",
+        "v4_hard_dependency_basis": null,
+        "v4_conditional_tier": "conditional",
+        "v4_adl_refs": [],
+        "rationale": "Setup or receive surfaces are not send paths. They retain configurable opt-out awareness without hard compliance coupling."
+      },
+      {
+        "source_seed_id": "seed_6b_07_email_sequences",
+        "target_seed_id": "seed_6a_global_opt_out_registry",
+        "live_v17_state": {
+          "dependency_type": "hard_dependency",
+          "hard_dependency_basis": "business_logic_hard_rule",
+          "adl_refs": []
+        },
+        "v4_population": "send_surface",
+        "v4_instruction": "RECLASSIFY_EXISTING_EDGE_TO_HARD_ADL_004",
+        "v4_dependency_type": "hard_dependency",
+        "v4_hard_dependency_basis": "adl_hard_rule",
+        "v4_conditional_tier": null,
+        "v4_adl_refs": [
+          "ADL-004"
+        ],
+        "rationale": "Outbound send surfaces are compliance send paths. ADL-004 requires Communication Gateway/global opt-out enforcement for send attempts."
+      },
+      {
+        "source_seed_id": "seed_6b_07_email_shared_inbox",
+        "target_seed_id": "seed_6a_global_opt_out_registry",
+        "live_v17_state": {
+          "dependency_type": "hard_dependency",
+          "hard_dependency_basis": "business_logic_hard_rule",
+          "adl_refs": []
+        },
+        "v4_population": "send_surface",
+        "v4_instruction": "RECLASSIFY_EXISTING_EDGE_TO_HARD_ADL_004",
+        "v4_dependency_type": "hard_dependency",
+        "v4_hard_dependency_basis": "adl_hard_rule",
+        "v4_conditional_tier": null,
+        "v4_adl_refs": [
+          "ADL-004"
+        ],
+        "rationale": "Outbound send surfaces are compliance send paths. ADL-004 requires Communication Gateway/global opt-out enforcement for send attempts."
+      },
+      {
+        "source_seed_id": "seed_6b_07_email_transactional_domain",
+        "target_seed_id": "seed_6a_global_opt_out_registry",
+        "live_v17_state": {
+          "dependency_type": "hard_dependency",
+          "hard_dependency_basis": "business_logic_hard_rule",
+          "adl_refs": []
+        },
+        "v4_population": "send_surface",
+        "v4_instruction": "RECLASSIFY_EXISTING_EDGE_TO_HARD_ADL_004",
+        "v4_dependency_type": "hard_dependency",
+        "v4_hard_dependency_basis": "adl_hard_rule",
+        "v4_conditional_tier": null,
+        "v4_adl_refs": [
+          "ADL-004"
+        ],
+        "rationale": "Outbound send surfaces are compliance send paths. ADL-004 requires Communication Gateway/global opt-out enforcement for send attempts."
+      },
+      {
+        "source_seed_id": "seed_6b_07_whatsapp_auto_reply_keywords",
+        "target_seed_id": "seed_6a_global_opt_out_registry",
+        "live_v17_state": {
+          "dependency_type": "hard_dependency",
+          "hard_dependency_basis": "business_logic_hard_rule",
+          "adl_refs": []
+        },
+        "v4_population": "send_surface",
+        "v4_instruction": "RECLASSIFY_EXISTING_EDGE_TO_HARD_ADL_004",
+        "v4_dependency_type": "hard_dependency",
+        "v4_hard_dependency_basis": "adl_hard_rule",
+        "v4_conditional_tier": null,
+        "v4_adl_refs": [
+          "ADL-004"
+        ],
+        "rationale": "Outbound send surfaces are compliance send paths. ADL-004 requires Communication Gateway/global opt-out enforcement for send attempts."
+      },
+      {
+        "source_seed_id": "seed_6b_07_whatsapp_broadcast_compliance",
+        "target_seed_id": "seed_6a_global_opt_out_registry",
+        "live_v17_state": {
+          "dependency_type": "hard_dependency",
+          "hard_dependency_basis": "business_logic_hard_rule",
+          "adl_refs": []
+        },
+        "v4_population": "send_surface",
+        "v4_instruction": "RECLASSIFY_EXISTING_EDGE_TO_HARD_ADL_004",
+        "v4_dependency_type": "hard_dependency",
+        "v4_hard_dependency_basis": "adl_hard_rule",
+        "v4_conditional_tier": null,
+        "v4_adl_refs": [
+          "ADL-004"
+        ],
+        "rationale": "Outbound send surfaces are compliance send paths. ADL-004 requires Communication Gateway/global opt-out enforcement for send attempts."
+      },
+      {
+        "source_seed_id": "seed_6b_07_whatsapp_inbound_routing",
+        "target_seed_id": "seed_6a_global_opt_out_registry",
+        "live_v17_state": {
+          "dependency_type": "hard_dependency",
+          "hard_dependency_basis": "business_logic_hard_rule",
+          "adl_refs": []
+        },
+        "v4_population": "non_send_setup",
+        "v4_instruction": "MOVE_EXISTING_HARD_EDGE_TO_CONDITIONAL_DEPENDENCY_REPRESENTATION",
+        "v4_dependency_type": "conditional_dependency",
+        "v4_hard_dependency_basis": null,
+        "v4_conditional_tier": "conditional",
+        "v4_adl_refs": [],
+        "rationale": "Setup or receive surfaces are not send paths. They retain configurable opt-out awareness without hard compliance coupling."
+      },
+      {
+        "source_seed_id": "seed_6b_07_whatsapp_outbound_window",
+        "target_seed_id": "seed_6a_global_opt_out_registry",
+        "live_v17_state": {
+          "dependency_type": "hard_dependency",
+          "hard_dependency_basis": "business_logic_hard_rule",
+          "adl_refs": []
+        },
+        "v4_population": "send_surface",
+        "v4_instruction": "RECLASSIFY_EXISTING_EDGE_TO_HARD_ADL_004",
+        "v4_dependency_type": "hard_dependency",
+        "v4_hard_dependency_basis": "adl_hard_rule",
+        "v4_conditional_tier": null,
+        "v4_adl_refs": [
+          "ADL-004"
+        ],
+        "rationale": "Outbound send surfaces are compliance send paths. ADL-004 requires Communication Gateway/global opt-out enforcement for send attempts."
+      },
+      {
+        "source_seed_id": "seed_6b_07_whatsapp_template_management",
+        "target_seed_id": "seed_6a_global_opt_out_registry",
+        "live_v17_state": {
+          "dependency_type": "hard_dependency",
+          "hard_dependency_basis": "business_logic_hard_rule",
+          "adl_refs": []
+        },
+        "v4_population": "non_send_setup",
+        "v4_instruction": "MOVE_EXISTING_HARD_EDGE_TO_CONDITIONAL_DEPENDENCY_REPRESENTATION",
+        "v4_dependency_type": "conditional_dependency",
+        "v4_hard_dependency_basis": null,
+        "v4_conditional_tier": "conditional",
+        "v4_adl_refs": [],
+        "rationale": "Setup or receive surfaces are not send paths. They retain configurable opt-out awareness without hard compliance coupling."
+      }
+    ],
+    "downstream_rules": [
+      "Send-surface opt-out edges stay hard and become adl_hard_rule with adl_refs=[ADL-004].",
+      "Lead-capture, non-send setup, and communication-evidence opt-out edges move out of hard dependencies into conditional dependency representation.",
+      "Conditional opt-out edges must not be silently dropped; if target artifacts cannot represent conditional dependencies, stop for a tooling/control artifact rather than pretending the edge is resolved.",
+      "Top-level seed dependencies arrays must remove demoted opt-out hard dependencies in the same downstream artifact pass that adds conditional representation, so B2 hard-edge parity remains coherent."
+    ]
+  },
+  "projected_post_application_counts_from_live_v17": {
+    "note": "Projection only. This artifact does not apply the dependency graph change.",
+    "hard_edges": 421,
+    "hard_basis_distribution": {
+      "activation_lifecycle_required": 85,
+      "business_logic_hard_rule": 210,
+      "billing_or_evidence_required": 113,
+      "adl_hard_rule": 13
+    },
+    "conditional_opt_out_edges_added_or_represented": 23,
+    "send_opt_out_edges_rebased_to_adl_004": 6
+  },
+  "outbound_gateway_edges_observed": [
+    {
+      "source_seed_id": "seed_6b_07_email_sequences",
+      "target_seed_id": "seed_6a_outbound_gateway_enforcement",
+      "current_dependency_type": "hard_dependency",
+      "current_hard_dependency_basis": "adl_hard_rule",
+      "current_adl_refs": [
+        "ADL-004"
+      ]
+    },
+    {
+      "source_seed_id": "seed_6b_07_email_shared_inbox",
+      "target_seed_id": "seed_6a_outbound_gateway_enforcement",
+      "current_dependency_type": "hard_dependency",
+      "current_hard_dependency_basis": "adl_hard_rule",
+      "current_adl_refs": [
+        "ADL-004"
+      ]
+    },
+    {
+      "source_seed_id": "seed_6b_07_email_transactional_domain",
+      "target_seed_id": "seed_6a_outbound_gateway_enforcement",
+      "current_dependency_type": "hard_dependency",
+      "current_hard_dependency_basis": "adl_hard_rule",
+      "current_adl_refs": [
+        "ADL-004"
+      ]
+    },
+    {
+      "source_seed_id": "seed_6b_07_whatsapp_auto_reply_keywords",
+      "target_seed_id": "seed_6a_outbound_gateway_enforcement",
+      "current_dependency_type": "hard_dependency",
+      "current_hard_dependency_basis": "adl_hard_rule",
+      "current_adl_refs": [
+        "ADL-004"
+      ]
+    },
+    {
+      "source_seed_id": "seed_6b_07_whatsapp_broadcast_compliance",
+      "target_seed_id": "seed_6a_outbound_gateway_enforcement",
+      "current_dependency_type": "hard_dependency",
+      "current_hard_dependency_basis": "adl_hard_rule",
+      "current_adl_refs": [
+        "ADL-004"
+      ]
+    },
+    {
+      "source_seed_id": "seed_6b_07_whatsapp_outbound_window",
+      "target_seed_id": "seed_6a_outbound_gateway_enforcement",
+      "current_dependency_type": "hard_dependency",
+      "current_hard_dependency_basis": "adl_hard_rule",
+      "current_adl_refs": [
+        "ADL-004"
+      ]
+    }
+  ],
+  "api_key_scope_decisions": {
+    "live_v17_count": 16,
+    "rows": [
+      {
+        "source_seed_id": "seed_6b_04_api_lead_intake",
+        "target_seed_id": "seed_6a_api_key_scope_registry",
+        "current_dependency_type": "hard_dependency",
+        "current_hard_dependency_basis": "business_logic_hard_rule",
+        "current_adl_refs": [],
+        "v4_population": "lead_provider_or_api_intake_scope"
+      },
+      {
+        "source_seed_id": "seed_6b_04_facebook_page_forms_connector",
+        "target_seed_id": "seed_6a_api_key_scope_registry",
+        "current_dependency_type": "hard_dependency",
+        "current_hard_dependency_basis": "business_logic_hard_rule",
+        "current_adl_refs": [],
+        "v4_population": "lead_provider_or_api_intake_scope"
+      },
+      {
+        "source_seed_id": "seed_6b_04_google_ads_connector",
+        "target_seed_id": "seed_6a_api_key_scope_registry",
+        "current_dependency_type": "hard_dependency",
+        "current_hard_dependency_basis": "business_logic_hard_rule",
+        "current_adl_refs": [],
+        "v4_population": "lead_provider_or_api_intake_scope"
+      },
+      {
+        "source_seed_id": "seed_6b_04_google_business_connector",
+        "target_seed_id": "seed_6a_api_key_scope_registry",
+        "current_dependency_type": "hard_dependency",
+        "current_hard_dependency_basis": "business_logic_hard_rule",
+        "current_adl_refs": [],
+        "v4_population": "lead_provider_or_api_intake_scope"
+      },
+      {
+        "source_seed_id": "seed_6b_04_meta_lead_forms_connector",
+        "target_seed_id": "seed_6a_api_key_scope_registry",
+        "current_dependency_type": "hard_dependency",
+        "current_hard_dependency_basis": "business_logic_hard_rule",
+        "current_adl_refs": [],
+        "v4_population": "lead_provider_or_api_intake_scope"
+      },
+      {
+        "source_seed_id": "seed_6b_04_meta_whatsapp_intake_connector",
+        "target_seed_id": "seed_6a_api_key_scope_registry",
+        "current_dependency_type": "hard_dependency",
+        "current_hard_dependency_basis": "business_logic_hard_rule",
+        "current_adl_refs": [],
+        "v4_population": "lead_provider_or_api_intake_scope"
+      },
+      {
+        "source_seed_id": "seed_6b_04_tiktok_lead_gen_connector",
+        "target_seed_id": "seed_6a_api_key_scope_registry",
+        "current_dependency_type": "hard_dependency",
+        "current_hard_dependency_basis": "business_logic_hard_rule",
+        "current_adl_refs": [],
+        "v4_population": "lead_provider_or_api_intake_scope"
+      },
+      {
+        "source_seed_id": "seed_6b_04_unified_lead_record_authority",
+        "target_seed_id": "seed_6a_api_key_scope_registry",
+        "current_dependency_type": "hard_dependency",
+        "current_hard_dependency_basis": "business_logic_hard_rule",
+        "current_adl_refs": [],
+        "v4_population": "lead_provider_or_api_intake_scope"
+      },
+      {
+        "source_seed_id": "seed_6b_10_easypaisa_gateway",
+        "target_seed_id": "seed_6a_api_key_scope_registry",
+        "current_dependency_type": "hard_dependency",
+        "current_hard_dependency_basis": "business_logic_hard_rule",
+        "current_adl_refs": [],
+        "v4_population": "payment_provider_or_processing_scope"
+      },
+      {
+        "source_seed_id": "seed_6b_10_jazzcash_gateway",
+        "target_seed_id": "seed_6a_api_key_scope_registry",
+        "current_dependency_type": "hard_dependency",
+        "current_hard_dependency_basis": "business_logic_hard_rule",
+        "current_adl_refs": [],
+        "v4_population": "payment_provider_or_processing_scope"
+      },
+      {
+        "source_seed_id": "seed_6b_10_quickpay_shadow_account_gateway",
+        "target_seed_id": "seed_6a_api_key_scope_registry",
+        "current_dependency_type": "hard_dependency",
+        "current_hard_dependency_basis": "business_logic_hard_rule",
+        "current_adl_refs": [],
+        "v4_population": "payment_provider_or_processing_scope"
+      },
+      {
+        "source_seed_id": "seed_6b_10_raast_gateway",
+        "target_seed_id": "seed_6a_api_key_scope_registry",
+        "current_dependency_type": "hard_dependency",
+        "current_hard_dependency_basis": "business_logic_hard_rule",
+        "current_adl_refs": [],
+        "v4_population": "payment_provider_or_processing_scope"
+      },
+      {
+        "source_seed_id": "seed_6b_10_refund_to_original_method",
+        "target_seed_id": "seed_6a_api_key_scope_registry",
+        "current_dependency_type": "hard_dependency",
+        "current_hard_dependency_basis": "business_logic_hard_rule",
+        "current_adl_refs": [],
+        "v4_population": "payment_provider_or_processing_scope"
+      },
+      {
+        "source_seed_id": "seed_6b_10_stripe_gateway_3ds",
+        "target_seed_id": "seed_6a_api_key_scope_registry",
+        "current_dependency_type": "hard_dependency",
+        "current_hard_dependency_basis": "business_logic_hard_rule",
+        "current_adl_refs": [],
+        "v4_population": "payment_provider_or_processing_scope"
+      },
+      {
+        "source_seed_id": "seed_6b_10_top_up_prepaid_credit",
+        "target_seed_id": "seed_6a_api_key_scope_registry",
+        "current_dependency_type": "hard_dependency",
+        "current_hard_dependency_basis": "business_logic_hard_rule",
+        "current_adl_refs": [],
+        "v4_population": "payment_provider_or_processing_scope"
+      },
+      {
+        "source_seed_id": "seed_6b_10_wise_gateway",
+        "target_seed_id": "seed_6a_api_key_scope_registry",
+        "current_dependency_type": "hard_dependency",
+        "current_hard_dependency_basis": "business_logic_hard_rule",
+        "current_adl_refs": [],
+        "v4_population": "payment_provider_or_processing_scope"
+      }
+    ],
+    "v4_rules": [
+      "Phase 6B.10 payment provider/processing API-key surfaces remain business_logic_hard_rule/api_security dependencies.",
+      "payment_allocation_balance and manual_reconciliation_path must not carry API-key scope dependencies.",
+      "Existing Phase 6B.04 provider/API lead-intake API-key dependencies remain unchanged by v4 unless a later source-specific review proves otherwise.",
+      "No API-key dependency uses adl_hard_rule or billing_or_evidence_required."
+    ]
+  },
+  "pricing_decisions": {
+    "pricing_variants": [
+      "seed_6b_02_fixed_pricing_model",
+      "seed_6b_02_tiered_pricing_model",
+      "seed_6b_02_volume_pricing_model",
+      "seed_6b_02_per_unit_pricing_model",
+      "seed_6b_02_per_hour_pricing_model",
+      "seed_6b_02_per_period_pricing_model",
+      "seed_6b_02_early_bird_pricing_deadline",
+      "seed_6b_02_bundle_package_composition"
+    ],
+    "variant_decision": {
+      "seed_type": "configuration_extension",
+      "manifest_required": false,
+      "foundry_activation_required": false,
+      "service_manifest_contract_dependency": false
+    },
+    "canonical_pricing_authority_seed": "seed_6b_02_product_price_history_effective_dates",
+    "canonical_pricing_authority_rule": "Create or retain as core_microservice with manifest_required=true, service_manifest_contract dependency, parent_required_dependency_trace, and source-grounded wiring. fixed_pricing_model is not the 6B.02 anchor.",
+    "invoice_snapshot_rule": "Invoices keep immutable price snapshots; product price history is the canonical pricing authority but does not make invoices mutable."
+  },
+  "communication_decisions": {
+    "non_send_setup_surfaces": [
+      "seed_6b_07_whatsapp_inbound_routing",
+      "seed_6b_07_email_connected_inbox"
+    ],
+    "send_enforcement_surfaces": [
+      "seed_6b_07_email_sequences",
+      "seed_6b_07_email_shared_inbox",
+      "seed_6b_07_email_transactional_domain",
+      "seed_6b_07_whatsapp_auto_reply_keywords",
+      "seed_6b_07_whatsapp_broadcast_compliance",
+      "seed_6b_07_whatsapp_outbound_window"
+    ],
+    "communication_attempt_evidence_default": "conditional_non_send_evidence_surface",
+    "gateway_rule": "All send attempts pass through seed_6a_outbound_gateway_enforcement with adl_hard_rule and ADL-004.",
+    "opt_out_rule": "Send opt-out edges use adl_hard_rule and ADL-004. Non-send opt-out awareness is conditional."
+  },
+  "schema_baseline_decisions": [
+    {
+      "decision_id": "P6B_SCHEMA_FIELD_POLICY_001",
+      "token": "RELATION_SKELETON_WITH_MINIMAL_SOURCE_GROUNDED_FIELDS",
+      "decision": "P6B-SCHEMA-002 may create relation skeletons with only minimal source-grounded fields. Omit ungrounded fields rather than guessing or hiding them in JSON."
+    },
+    {
+      "decision_id": "P6B_SCHEMA_FIELD_POLICY_002",
+      "token": "ALLOW_METADATA_JSON_ONLY",
+      "decision": "metadata_json is allowed only for audit, control, or extension metadata. No source-named business fact, status, amount, price, foreign key, or logic-driving value may live solely in JSON."
+    },
+    {
+      "decision_id": "P6B_SCHEMA_FIELD_POLICY_003",
+      "token": "YES_LINK_PHASE_6B_CRM_MODELS_TO_LEAD_RECORD_WHEN_THEY_EXTEND_LEAD_WORKFLOWS",
+      "decision": "CRM extension models that extend lead workflows link to existing LeadRecord through real foreign keys and do not duplicate lead identity fields."
+    },
+    {
+      "decision_id": "P6B_SCHEMA_FIELD_POLICY_004",
+      "token": "CREATE_SAFE_CORE_RELATIONS_NOW_NO_CALCULATION_BEHAVIOR",
+      "decision": "Create safe structural foreign keys where source-grounded, with zero posting, allocation, callback, reconciliation, or calculation behavior."
+    },
+    {
+      "decision_id": "P6B_SCHEMA_FIELD_POLICY_005",
+      "token": "PRODUCT_PRICE_HISTORY_IS_CANONICAL_6B_PRICING_AUTHORITY",
+      "decision": "Phase6BProductPriceHistory is the canonical 6B pricing authority. Pricing variants are configuration extensions. fixed_pricing_model is not the anchor. Invoices keep immutable price snapshots."
+    },
+    {
+      "decision_id": "P6B_SCHEMA_FIELD_POLICY_006",
+      "token": "YES_PROVIDER_CALLBACK_ALLOCATION_RECEIPT_TOPUP_RECONCILIATION_BASELINE",
+      "decision": "Schema may represent provider callbacks, allocations, receipts, top-ups, and reconciliation candidates structurally, without provider behavior."
+    },
+    {
+      "decision_id": "P6B_SCHEMA_FIELD_POLICY_007",
+      "token": "YES_OPTIONAL_CHANNELS_GATEWAY_ENFORCED_SEND_ATTEMPTS",
+      "decision": "Communication channels are optional, but outbound send attempts require gateway/opt-out enforcement. Inbound routing and connected inbox remain non-send setup surfaces."
+    },
+    {
+      "decision_id": "P6B_SCHEMA_FIELD_POLICY_008",
+      "token": "CONFIRM_ADL_016_IS_PHASE_6B_ONLY_AND_EXCLUDED_FROM_PHASE_6A_EXECUTABLE_TICKETS",
+      "decision": "ADL-016 is Phase 6B General Ledger / FX scope and must not appear as a Phase 6A executable ticket surface."
+    }
+  ],
+  "validation_gates_for_downstream_application": [
+    "No operative terminal phase_doc_required basis.",
+    "No operative terminal capability_prerequisite basis until tooling supports it.",
+    "Every adl_hard_rule edge carries non-empty adl_refs.",
+    "activation_lifecycle_required targets seed_6a_service_manifest_contract only.",
+    "billing_or_evidence_required targets billing/evidence-bearing targets only.",
+    "Send-surface opt-out edges carry ADL-004.",
+    "Demoted opt-out edges appear as conditional/soft/deferred dependencies and are not dropped.",
+    "ticket_generation_allowed=false and ticket_pack_generation_allowed=false remain locked."
+  ],
+  "final_status": "PHASE_6B_HUMAN_DECISION_REGISTER_V4_READY_FOR_SCHEMA_CONTROL_INPUT"
+}
