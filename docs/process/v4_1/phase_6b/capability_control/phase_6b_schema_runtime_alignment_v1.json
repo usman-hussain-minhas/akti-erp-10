@@ -1,0 +1,301 @@
+{
+  "artifact_id": "phase_6b_schema_runtime_alignment_v1",
+  "artifact_status": "P6B_SCHEMA_003_SCHEMA_RUNTIME_METADATA_ALIGNED",
+  "control_ticket_id": "P6B-SCHEMA-003",
+  "component_count": 15,
+  "schema_model_ref_count": 47,
+  "alignment_rows": [
+    {
+      "source_component_id": "6B.01",
+      "component_key": "product_catalogue",
+      "display_name": "Product Catalogue",
+      "module_key": "phase-6b.product-catalogue",
+      "contract_path": "packages/contracts/phase_6b/product_catalogue.contract.ts",
+      "manifest_path": "packages/contracts/phase_6b/product_catalogue.module_manifest.contract.ts",
+      "nestjs_service_path": "apps/api/src/phase_6b/product_catalogue/product_catalogue.service.ts",
+      "schema_model_refs": [
+        "Phase6BProduct",
+        "Phase6BProductCategory",
+        "Phase6BProductMedia",
+        "Phase6BProductHistory"
+      ],
+      "contract_alignment_status": "SCHEMA_BASELINE_DECLARED",
+      "nestjs_alignment_status": "SCHEMA_BASELINE_METADATA_ONLY",
+      "manifest_alignment_status": "CAPABILITY_EMPTY_UNTIL_CAPABILITY_IMPLEMENTATION_TICKET",
+      "capability_implementation_authorized": false,
+      "ticket_generation_allowed": false
+    },
+    {
+      "source_component_id": "6B.02",
+      "component_key": "product_pricing",
+      "display_name": "Pricing and Package Service",
+      "module_key": "phase-6b.product-pricing",
+      "contract_path": "packages/contracts/phase_6b/product_pricing.contract.ts",
+      "manifest_path": "packages/contracts/phase_6b/product_pricing.module_manifest.contract.ts",
+      "nestjs_service_path": "apps/api/src/phase_6b/product_pricing/product_pricing.service.ts",
+      "schema_model_refs": [
+        "Phase6BProductPriceHistory",
+        "Phase6BPackageDefinition",
+        "Phase6BDiscountRule"
+      ],
+      "contract_alignment_status": "SCHEMA_BASELINE_DECLARED",
+      "nestjs_alignment_status": "SCHEMA_BASELINE_METADATA_ONLY",
+      "manifest_alignment_status": "CAPABILITY_EMPTY_UNTIL_CAPABILITY_IMPLEMENTATION_TICKET",
+      "capability_implementation_authorized": false,
+      "ticket_generation_allowed": false
+    },
+    {
+      "source_component_id": "6B.03",
+      "component_key": "inventory_stock",
+      "display_name": "Inventory Stock Control",
+      "module_key": "phase-6b.inventory-stock",
+      "contract_path": "packages/contracts/phase_6b/inventory_stock.contract.ts",
+      "manifest_path": "packages/contracts/phase_6b/inventory_stock.module_manifest.contract.ts",
+      "nestjs_service_path": "apps/api/src/phase_6b/inventory_stock/inventory_stock.service.ts",
+      "schema_model_refs": [
+        "Phase6BInventoryLocation",
+        "Phase6BStockItem",
+        "Phase6BStockMovement"
+      ],
+      "contract_alignment_status": "SCHEMA_BASELINE_DECLARED",
+      "nestjs_alignment_status": "SCHEMA_BASELINE_METADATA_ONLY",
+      "manifest_alignment_status": "CAPABILITY_EMPTY_UNTIL_CAPABILITY_IMPLEMENTATION_TICKET",
+      "capability_implementation_authorized": false,
+      "ticket_generation_allowed": false
+    },
+    {
+      "source_component_id": "6B.04",
+      "component_key": "crm_lead_intake",
+      "display_name": "CRM Lead Intake",
+      "module_key": "phase-6b.crm-lead-intake",
+      "contract_path": "packages/contracts/phase_6b/crm_lead_intake.contract.ts",
+      "manifest_path": "packages/contracts/phase_6b/crm_lead_intake.module_manifest.contract.ts",
+      "nestjs_service_path": "apps/api/src/phase_6b/crm_lead_intake/crm_lead_intake.service.ts",
+      "schema_model_refs": [
+        "Phase6BLeadSource",
+        "Phase6BLeadEvidence"
+      ],
+      "contract_alignment_status": "SCHEMA_BASELINE_DECLARED",
+      "nestjs_alignment_status": "SCHEMA_BASELINE_METADATA_ONLY",
+      "manifest_alignment_status": "CAPABILITY_EMPTY_UNTIL_CAPABILITY_IMPLEMENTATION_TICKET",
+      "capability_implementation_authorized": false,
+      "ticket_generation_allowed": false
+    },
+    {
+      "source_component_id": "6B.05",
+      "component_key": "crm_deduplication",
+      "display_name": "CRM Deduplication",
+      "module_key": "phase-6b.crm-deduplication",
+      "contract_path": "packages/contracts/phase_6b/crm_deduplication.contract.ts",
+      "manifest_path": "packages/contracts/phase_6b/crm_deduplication.module_manifest.contract.ts",
+      "nestjs_service_path": "apps/api/src/phase_6b/crm_deduplication/crm_deduplication.service.ts",
+      "schema_model_refs": [
+        "Phase6BLeadMatchCandidate",
+        "Phase6BLeadMergeRecord"
+      ],
+      "contract_alignment_status": "SCHEMA_BASELINE_DECLARED",
+      "nestjs_alignment_status": "SCHEMA_BASELINE_METADATA_ONLY",
+      "manifest_alignment_status": "CAPABILITY_EMPTY_UNTIL_CAPABILITY_IMPLEMENTATION_TICKET",
+      "capability_implementation_authorized": false,
+      "ticket_generation_allowed": false
+    },
+    {
+      "source_component_id": "6B.06",
+      "component_key": "crm_pipeline",
+      "display_name": "CRM Pipeline",
+      "module_key": "phase-6b.crm-pipeline",
+      "contract_path": "packages/contracts/phase_6b/crm_pipeline.contract.ts",
+      "manifest_path": "packages/contracts/phase_6b/crm_pipeline.module_manifest.contract.ts",
+      "nestjs_service_path": "apps/api/src/phase_6b/crm_pipeline/crm_pipeline.service.ts",
+      "schema_model_refs": [
+        "Phase6BPipelineStage",
+        "Phase6BPipelineTimelineEntry"
+      ],
+      "contract_alignment_status": "SCHEMA_BASELINE_DECLARED",
+      "nestjs_alignment_status": "SCHEMA_BASELINE_METADATA_ONLY",
+      "manifest_alignment_status": "CAPABILITY_EMPTY_UNTIL_CAPABILITY_IMPLEMENTATION_TICKET",
+      "capability_implementation_authorized": false,
+      "ticket_generation_allowed": false
+    },
+    {
+      "source_component_id": "6B.07",
+      "component_key": "crm_communication",
+      "display_name": "Communication",
+      "module_key": "phase-6b.crm-communication",
+      "contract_path": "packages/contracts/phase_6b/crm_communication.contract.ts",
+      "manifest_path": "packages/contracts/phase_6b/crm_communication.module_manifest.contract.ts",
+      "nestjs_service_path": "apps/api/src/phase_6b/crm_communication/crm_communication.service.ts",
+      "schema_model_refs": [
+        "Phase6BCommunicationTemplate",
+        "Phase6BCommunicationAttempt",
+        "Phase6BCommunicationSequenceEnrollment"
+      ],
+      "contract_alignment_status": "SCHEMA_BASELINE_DECLARED",
+      "nestjs_alignment_status": "SCHEMA_BASELINE_METADATA_ONLY",
+      "manifest_alignment_status": "CAPABILITY_EMPTY_UNTIL_CAPABILITY_IMPLEMENTATION_TICKET",
+      "capability_implementation_authorized": false,
+      "ticket_generation_allowed": false
+    },
+    {
+      "source_component_id": "6B.08",
+      "component_key": "crm_scoring_reporting",
+      "display_name": "Lead Scoring and Reporting",
+      "module_key": "phase-6b.crm-scoring-reporting",
+      "contract_path": "packages/contracts/phase_6b/crm_scoring_reporting.contract.ts",
+      "manifest_path": "packages/contracts/phase_6b/crm_scoring_reporting.module_manifest.contract.ts",
+      "nestjs_service_path": "apps/api/src/phase_6b/crm_scoring_reporting/crm_scoring_reporting.service.ts",
+      "schema_model_refs": [
+        "Phase6BLeadScore",
+        "Phase6BFollowUpTask"
+      ],
+      "contract_alignment_status": "SCHEMA_BASELINE_DECLARED",
+      "nestjs_alignment_status": "SCHEMA_BASELINE_METADATA_ONLY",
+      "manifest_alignment_status": "CAPABILITY_EMPTY_UNTIL_CAPABILITY_IMPLEMENTATION_TICKET",
+      "capability_implementation_authorized": false,
+      "ticket_generation_allowed": false
+    },
+    {
+      "source_component_id": "6B.09",
+      "component_key": "finance_invoice_receivables",
+      "display_name": "Invoice and Receivables",
+      "module_key": "phase-6b.finance-invoice-receivables",
+      "contract_path": "packages/contracts/phase_6b/finance_invoice_receivables.contract.ts",
+      "manifest_path": "packages/contracts/phase_6b/finance_invoice_receivables.module_manifest.contract.ts",
+      "nestjs_service_path": "apps/api/src/phase_6b/finance_invoice_receivables/finance_invoice_receivables.service.ts",
+      "schema_model_refs": [
+        "Phase6BInvoice",
+        "Phase6BInvoiceLine",
+        "Phase6BReceivable",
+        "Phase6BCreditDebitNote"
+      ],
+      "contract_alignment_status": "SCHEMA_BASELINE_DECLARED",
+      "nestjs_alignment_status": "SCHEMA_BASELINE_METADATA_ONLY",
+      "manifest_alignment_status": "CAPABILITY_EMPTY_UNTIL_CAPABILITY_IMPLEMENTATION_TICKET",
+      "capability_implementation_authorized": false,
+      "ticket_generation_allowed": false
+    },
+    {
+      "source_component_id": "6B.10",
+      "component_key": "payment_collection_topup",
+      "display_name": "Payment Collection and Top-Up",
+      "module_key": "phase-6b.payment-collection-topup",
+      "contract_path": "packages/contracts/phase_6b/payment_collection_topup.contract.ts",
+      "manifest_path": "packages/contracts/phase_6b/payment_collection_topup.module_manifest.contract.ts",
+      "nestjs_service_path": "apps/api/src/phase_6b/payment_collection_topup/payment_collection_topup.service.ts",
+      "schema_model_refs": [
+        "Phase6BPayment",
+        "Phase6BPaymentAllocation",
+        "Phase6BReceipt",
+        "Phase6BTopUp",
+        "Phase6BReconciliationCandidate"
+      ],
+      "contract_alignment_status": "SCHEMA_BASELINE_DECLARED",
+      "nestjs_alignment_status": "SCHEMA_BASELINE_METADATA_ONLY",
+      "manifest_alignment_status": "CAPABILITY_EMPTY_UNTIL_CAPABILITY_IMPLEMENTATION_TICKET",
+      "capability_implementation_authorized": false,
+      "ticket_generation_allowed": false
+    },
+    {
+      "source_component_id": "6B.11",
+      "component_key": "expense_purchase_vendor",
+      "display_name": "Expense, Purchase, and Vendor",
+      "module_key": "phase-6b.expense-purchase-vendor",
+      "contract_path": "packages/contracts/phase_6b/expense_purchase_vendor.contract.ts",
+      "manifest_path": "packages/contracts/phase_6b/expense_purchase_vendor.module_manifest.contract.ts",
+      "nestjs_service_path": "apps/api/src/phase_6b/expense_purchase_vendor/expense_purchase_vendor.service.ts",
+      "schema_model_refs": [
+        "Phase6BVendor",
+        "Phase6BExpense",
+        "Phase6BPurchaseOrder",
+        "Phase6BPurchaseReceipt"
+      ],
+      "contract_alignment_status": "SCHEMA_BASELINE_DECLARED",
+      "nestjs_alignment_status": "SCHEMA_BASELINE_METADATA_ONLY",
+      "manifest_alignment_status": "CAPABILITY_EMPTY_UNTIL_CAPABILITY_IMPLEMENTATION_TICKET",
+      "capability_implementation_authorized": false,
+      "ticket_generation_allowed": false
+    },
+    {
+      "source_component_id": "6B.12",
+      "component_key": "general_ledger_accounting",
+      "display_name": "General Ledger Accounting",
+      "module_key": "phase-6b.general-ledger-accounting",
+      "contract_path": "packages/contracts/phase_6b/general_ledger_accounting.contract.ts",
+      "manifest_path": "packages/contracts/phase_6b/general_ledger_accounting.module_manifest.contract.ts",
+      "nestjs_service_path": "apps/api/src/phase_6b/general_ledger_accounting/general_ledger_accounting.service.ts",
+      "schema_model_refs": [
+        "Phase6BChartOfAccount",
+        "Phase6BJournalEntry",
+        "Phase6BJournalEntryLine",
+        "Phase6BAccountingPeriod",
+        "Phase6BTaxMapping"
+      ],
+      "contract_alignment_status": "SCHEMA_BASELINE_DECLARED",
+      "nestjs_alignment_status": "SCHEMA_BASELINE_METADATA_ONLY",
+      "manifest_alignment_status": "CAPABILITY_EMPTY_UNTIL_CAPABILITY_IMPLEMENTATION_TICKET",
+      "capability_implementation_authorized": false,
+      "ticket_generation_allowed": false
+    },
+    {
+      "source_component_id": "6B.13",
+      "component_key": "banking_reconciliation",
+      "display_name": "Banking Reconciliation",
+      "module_key": "phase-6b.banking-reconciliation",
+      "contract_path": "packages/contracts/phase_6b/banking_reconciliation.contract.ts",
+      "manifest_path": "packages/contracts/phase_6b/banking_reconciliation.module_manifest.contract.ts",
+      "nestjs_service_path": "apps/api/src/phase_6b/banking_reconciliation/banking_reconciliation.service.ts",
+      "schema_model_refs": [
+        "Phase6BBankAccount",
+        "Phase6BBankTransaction",
+        "Phase6BReconciliationStatement"
+      ],
+      "contract_alignment_status": "SCHEMA_BASELINE_DECLARED",
+      "nestjs_alignment_status": "SCHEMA_BASELINE_METADATA_ONLY",
+      "manifest_alignment_status": "CAPABILITY_EMPTY_UNTIL_CAPABILITY_IMPLEMENTATION_TICKET",
+      "capability_implementation_authorized": false,
+      "ticket_generation_allowed": false
+    },
+    {
+      "source_component_id": "6B.14",
+      "component_key": "finance_payroll_foundation",
+      "display_name": "Payroll Foundation",
+      "module_key": "phase-6b.finance-payroll-foundation",
+      "contract_path": "packages/contracts/phase_6b/finance_payroll_foundation.contract.ts",
+      "manifest_path": "packages/contracts/phase_6b/finance_payroll_foundation.module_manifest.contract.ts",
+      "nestjs_service_path": "apps/api/src/phase_6b/finance_payroll_foundation/finance_payroll_foundation.service.ts",
+      "schema_model_refs": [
+        "Phase6BPayee",
+        "Phase6BPayrollBatch",
+        "Phase6BPayrollPayout"
+      ],
+      "contract_alignment_status": "SCHEMA_BASELINE_DECLARED",
+      "nestjs_alignment_status": "SCHEMA_BASELINE_METADATA_ONLY",
+      "manifest_alignment_status": "CAPABILITY_EMPTY_UNTIL_CAPABILITY_IMPLEMENTATION_TICKET",
+      "capability_implementation_authorized": false,
+      "ticket_generation_allowed": false
+    },
+    {
+      "source_component_id": "6B.15",
+      "component_key": "finance_billing_operations",
+      "display_name": "Billing UI and Operations",
+      "module_key": "phase-6b.finance-billing-operations",
+      "contract_path": "packages/contracts/phase_6b/finance_billing_operations.contract.ts",
+      "manifest_path": "packages/contracts/phase_6b/finance_billing_operations.module_manifest.contract.ts",
+      "nestjs_service_path": "apps/api/src/phase_6b/finance_billing_operations/finance_billing_operations.service.ts",
+      "schema_model_refs": [
+        "Phase6BBillingOperation",
+        "Phase6BBudgetCap"
+      ],
+      "contract_alignment_status": "SCHEMA_BASELINE_DECLARED",
+      "nestjs_alignment_status": "SCHEMA_BASELINE_METADATA_ONLY",
+      "manifest_alignment_status": "CAPABILITY_EMPTY_UNTIL_CAPABILITY_IMPLEMENTATION_TICKET",
+      "capability_implementation_authorized": false,
+      "ticket_generation_allowed": false
+    }
+  ],
+  "manifest_policy": "Phase 6B module manifests remain capability-empty and migration-empty until reviewed capability implementation tickets are explicitly approved.",
+  "capability_implementation_authorized": false,
+  "ticket_generation_allowed": false,
+  "ticket_pack_generation_allowed": false,
+  "execution_authorized": false
+}

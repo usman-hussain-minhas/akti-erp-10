@@ -9,6 +9,8 @@ export const Phase6BScaffoldContractSchema = z
     scaffold_status: z.literal("scaffold_control_only"),
     capability_implementation_authorized: z.literal(false),
     ticket_generation_allowed: z.literal(false),
+    schema_baseline_status: z.literal("phase_6b_schema_declared"),
+    schema_model_refs: z.array(z.string().min(1)).min(1),
   })
   .strict();
 
@@ -22,4 +24,12 @@ export const phase6bScaffoldContract = Phase6BScaffoldContractSchema.parse({
   scaffold_status: "scaffold_control_only",
   capability_implementation_authorized: false,
   ticket_generation_allowed: false,
+  schema_baseline_status: "phase_6b_schema_declared",
+  schema_model_refs: [
+  "Phase6BChartOfAccount",
+  "Phase6BJournalEntry",
+  "Phase6BJournalEntryLine",
+  "Phase6BAccountingPeriod",
+  "Phase6BTaxMapping",
+  ],
 });
