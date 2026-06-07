@@ -1,0 +1,125 @@
+{
+  "schema": "phase_6b_second_pass_preflight_audit_v1",
+  "phase": "6b",
+  "version": "v21",
+  "status": "PHASE_6B_AUTONOMOUS_EXECUTION_READY_PENDING_HUMAN_GATE_3",
+  "generated_at_context": {
+    "current_date": "2026-06-07",
+    "timezone": "Asia/Karachi",
+    "branch": "codex/phase-6b-autonomous-readiness-check",
+    "base_main_commit": "624974910344b1642f31544e403e76e86151cb75",
+    "v21_accepted_on_main_pr": 136,
+    "v21_merge_commit": "624974910344b1642f31544e403e76e86151cb75"
+  },
+  "spark_genesis": {
+    "channel": "stable",
+    "version": "0.5.0",
+    "git_sha": "18fd109a0417aa707ae91901c5f7b1e1753f898c",
+    "repo_status": "## main...origin/main",
+    "authority_note": "Spark Genesis used as audit/planning aid; AKTI repo source-of-truth hierarchy remains authoritative."
+  },
+  "checks": {
+    "ffet_count": 103,
+    "unique_seed_count": 103,
+    "expected_file_count": 387,
+    "expected_files_existing_count": 0,
+    "expected_files_create_new_count": 387,
+    "phase_6a_expected_file_overlap_count": 0,
+    "ownership_overlap_count": 0,
+    "dependency_cycle_count": 0,
+    "topological_order_count": 103,
+    "broad_expected_path_count": 0,
+    "missing_direct_test_command_count": 0,
+    "missing_source_file_count": 0,
+    "expected_also_forbidden_count": 0,
+    "forbidden_boundary_miss_count": 0,
+    "true_authorization_flag_count": 0,
+    "current_authority_v20_claim_count": 0,
+    "lineage_v20_reference_count": 12,
+    "branch_name_duplicate_count": 0,
+    "invalid_dependency_count": 0,
+    "missing_evidence_expectation_count": 0,
+    "missing_execution_policy_field_count": 0,
+    "completion_evidence_empty_allowed_as_post_execution_capture": true
+  },
+  "label_hygiene": {
+    "current_authority_v20_claims": [],
+    "lineage_v20_references_are_allowed_when_describing_superseded_v20_or_drift": true,
+    "lineage_v20_reference_sample": [
+      {
+        "file": "docs/process/v4_1/phase_6b/v21/phase_6b_capability_ticket_pack_v1.json",
+        "path": "status",
+        "value": "PHASE_6B_V20_SERVICE_LEVEL_CANDIDATES_SUPERSEDED_BY_FFET_REVIEW"
+      },
+      {
+        "file": "docs/process/v4_1/phase_6b/v21/phase_6b_executable_ticket_promotion_audit_v1.json",
+        "path": "supersedes_version",
+        "value": "v20"
+      },
+      {
+        "file": "docs/process/v4_1/phase_6b/v21/phase_6b_executable_ticket_registry_v1.json",
+        "path": "supersedes_version",
+        "value": "v20"
+      },
+      {
+        "file": "docs/process/v4_1/phase_6b/v21/phase_6b_executable_ticket_registry_v1.json",
+        "path": "post_phase_6a_preflight_update.source_version",
+        "value": "v20"
+      },
+      {
+        "file": "docs/process/v4_1/phase_6b/v21/phase_6b_executable_ticket_registry_v1.json",
+        "path": "post_phase_6a_preflight_update.reason",
+        "value": "Phase 6B v20 FFETs used broad api test command without direct seed-specific test execution; Phase 6A v7 established direct pnpm exec tsx seed test commands as the executable FFET v"
+      },
+      {
+        "file": "docs/process/v4_1/phase_6b/v21/phase_6b_ffet_promotion_audit_v1.json",
+        "path": "supersedes_version",
+        "value": "v20"
+      },
+      {
+        "file": "docs/process/v4_1/phase_6b/v21/phase_6b_ffet_registry_v1.json",
+        "path": "supersedes_version",
+        "value": "v20"
+      },
+      {
+        "file": "docs/process/v4_1/phase_6b/v21/phase_6b_ffet_registry_v1.json",
+        "path": "post_phase_6a_preflight_update.source_version",
+        "value": "v20"
+      },
+      {
+        "file": "docs/process/v4_1/phase_6b/v21/phase_6b_ffet_registry_v1.json",
+        "path": "post_phase_6a_preflight_update.reason",
+        "value": "Phase 6B v20 FFETs used broad api test command without direct seed-specific test execution; Phase 6A v7 established direct pnpm exec tsx seed test commands as the executable FFET v"
+      },
+      {
+        "file": "docs/process/v4_1/phase_6b/v21/phase_6b_post_phase_6a_preflight_v1.json",
+        "path": "supersedes_version",
+        "value": "v20"
+      },
+      {
+        "file": "docs/process/v4_1/phase_6b/v21/phase_6b_v20_ffet_generation_audit_v1.json",
+        "path": "supersedes_version",
+        "value": "v20"
+      },
+      {
+        "file": "docs/process/v4_1/phase_6b/v21/phase_6b_v21_ffet_gate_manifest_v1.json",
+        "path": "supersedes_version",
+        "value": "v20"
+      }
+    ]
+  },
+  "command_availability": {
+    "git": "/usr/bin/git",
+    "gh": "/usr/local/bin/gh",
+    "node": "/usr/local/bin/node",
+    "pnpm": "/usr/local/bin/pnpm"
+  },
+  "direct_validation_policy": {
+    "direct_phase_6b_seed_test_command_count": 103,
+    "broad_api_test_is_supplemental": true
+  },
+  "blockers": [],
+  "ticket_generation_allowed": false,
+  "ticket_pack_generation_allowed": false,
+  "execution_authorized": false
+}
