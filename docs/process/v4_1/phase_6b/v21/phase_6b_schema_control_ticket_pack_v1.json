@@ -1,0 +1,396 @@
+{
+  "schema": "akti_spark_phase_6b_schema_control_ticket_pack.v1",
+  "version": "v21",
+  "status": "PHASE_6B_SCHEMA_CONTROL_COMPLETED_ON_MAIN",
+  "source_version": "v18",
+  "source_baseline_artifacts": [
+    "docs/process/v4_1/phase_6b/capability_control/phase_6b_prisma_schema_baseline_decision_v1.json",
+    "docs/process/v4_1/phase_6b/capability_control/phase_6b_runtime_file_grounding_matrix_v1.json"
+  ],
+  "ticket_count": 4,
+  "executable_review_ready_ticket_count": 0,
+  "blocked_ticket_count": 0,
+  "executable_review_ready_ticket_ids": [
+    "P6B-SCHEMA-001"
+  ],
+  "blocked_ticket_ids": [
+    "P6B-SCHEMA-002",
+    "P6B-SCHEMA-003",
+    "P6B-SCHEMA-004"
+  ],
+  "capability_implementation_ticket_count": 0,
+  "ticket_generation_allowed": false,
+  "ticket_pack_generation_allowed": false,
+  "execution_authorized": false,
+  "tickets": [
+    {
+      "ticket_id": "P6B-SCHEMA-001",
+      "title": "Create Phase 6B commerce schema model contract for final approval",
+      "type": "schema_control_decision_ticket",
+      "ticketability_status": "COMPLETED_ON_MAIN",
+      "priority": "P0",
+      "objective": "Create the approved Phase 6B commerce schema model contract that names model ownership, tenant isolation requirements, relation boundaries, registry metadata impact, and which capability seeds each model serves before any Prisma schema implementation begins.",
+      "scope": [
+        "Convert the P6B-CAP-000 baseline into a model-contract artifact covering all 103 Phase 6B seeds.",
+        "Name proposed Prisma model groups and ownership boundaries without editing prisma/schema.prisma.",
+        "Identify which capability tickets remain blocked pending schema implementation."
+      ],
+      "non_scope": [
+        "No Prisma schema edit.",
+        "No migration.",
+        "No runtime service implementation.",
+        "No contract/NestJS implementation.",
+        "No frontend work."
+      ],
+      "source_files_to_inspect": [
+        "docs/process/v4_1/phase_6b/capability_control/phase_6b_prisma_schema_baseline_decision_v1.json",
+        "docs/process/v4_1/phase_6b/capability_control/phase_6b_runtime_file_grounding_matrix_v1.json",
+        "prisma/schema.prisma",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/6b_commerce_core.md"
+      ],
+      "files_expected_to_change": [
+        "docs/process/v4_1/phase_6b/capability_control/phase_6b_commerce_schema_model_contract_v1.json",
+        "docs/process/v4_1/phase_6b/capability_control/phase_6b_commerce_schema_model_contract_v1.md"
+      ],
+      "files_forbidden_to_change": [
+        "prisma/schema.prisma",
+        "prisma/migrations/**",
+        "apps/api/src/**",
+        "packages/contracts/**",
+        "apps/web/**",
+        "package.json",
+        "pnpm-lock.yaml",
+        "generated/**"
+      ],
+      "required_outputs": [
+        "Phase 6B commerce schema model contract JSON",
+        "Human-readable schema model contract report"
+      ],
+      "evidence_artifacts": [
+        "phase_6b_commerce_schema_model_contract_v1.json"
+      ],
+      "tests_required": [
+        "JSON parse of model contract",
+        "manual zero-trust review of proposed model groups before schema implementation"
+      ],
+      "validation_commands": [
+        "python3 -m json.tool docs/process/v4_1/phase_6b/capability_control/phase_6b_commerce_schema_model_contract_v1.json >/dev/null",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check",
+        "git diff --check"
+      ],
+      "stop_conditions": [
+        "Stop if a model, relation, tenant isolation rule, permission, event, or business rule would need to be invented without source authority.",
+        "Stop if implementation pressure tries to edit Prisma or runtime files in this ticket."
+      ],
+      "acceptance_criteria": [
+        "Contract maps 103/103 Phase 6B seeds to model-decision groups.",
+        "Contract explicitly marks unresolved model decisions and their affected capability tickets.",
+        "No schema/runtime files are changed."
+      ],
+      "dependencies": [],
+      "commit_message": "docs: add Phase 6B commerce schema model contract",
+      "rollback_notes": "Revert only the two model-contract artifacts if review rejects the schema decision framing.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": true,
+      "stale_ticket_risk_notes": [
+        "This ticket exists because capability tickets would otherwise become stale by inventing schema/API behavior."
+      ],
+      "runtime_consistency_chain": [
+        "Phase 6B source -> P6B-CAP-000 baseline -> schema model contract -> future Prisma implementation ticket."
+      ],
+      "minimum_concrete_requirement": "The named schema model contract artifact maps 103/103 Phase 6B seeds to explicit schema model-decision groups and `pnpm exec prisma validate --schema prisma/schema.prisma` plus `pnpm registry:check` still pass without schema edits.",
+      "split_if": [
+        "Split if model decision review reveals unrelated schema ownership tracks that cannot be reviewed in one contract artifact."
+      ],
+      "requires_human_approval_if": [
+        "Any proposed model boundary changes existing tenant isolation, registry metadata, or module ownership semantics."
+      ],
+      "failure_classification": "schema_model_contract_decision_failure",
+      "doctrine_enforcement": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket."
+      ],
+      "ticket_generation_allowed": false,
+      "execution_authorized": false,
+      "completed_on_main": true
+    },
+    {
+      "ticket_id": "P6B-SCHEMA-002",
+      "title": "Implement approved Phase 6B Prisma schema baseline and registry metadata",
+      "type": "schema_implementation_ticket_candidate",
+      "ticketability_status": "COMPLETED_ON_MAIN",
+      "priority": "P0",
+      "objective": "Apply the approved Phase 6B schema model contract to Prisma, migrations, metadata, and generated registry after P6B-SCHEMA-001 is approved.",
+      "scope": [
+        "Update Prisma schema only from the approved model contract.",
+        "Create migration SQL for the approved baseline.",
+        "Regenerate registry output and metadata as needed."
+      ],
+      "non_scope": [
+        "No service behavior.",
+        "No frontend.",
+        "No provider integration.",
+        "No capability business logic beyond schema structures approved in P6B-SCHEMA-001."
+      ],
+      "source_files_to_inspect": [
+        "docs/process/v4_1/phase_6b/capability_control/phase_6b_commerce_schema_model_contract_v1.json",
+        "prisma/schema.prisma",
+        "prisma/entity-registry.metadata.json"
+      ],
+      "files_expected_to_change": [
+        "prisma/schema.prisma",
+        "prisma/migrations/<approved_phase_6b_schema_migration>/migration.sql",
+        "prisma/entity-registry.metadata.json",
+        "generated/entity-registry.generated.json"
+      ],
+      "files_forbidden_to_change": [
+        "apps/api/src/**",
+        "packages/contracts/**",
+        "apps/web/**",
+        "package.json",
+        "pnpm-lock.yaml"
+      ],
+      "required_outputs": [
+        "Updated Prisma schema",
+        "Migration SQL",
+        "Updated entity registry metadata/output if needed"
+      ],
+      "evidence_artifacts": [
+        "Prisma validation output",
+        "Registry check output"
+      ],
+      "tests_required": [
+        "Prisma validate",
+        "Registry generate/check",
+        "Migration diff review if available"
+      ],
+      "validation_commands": [
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:generate",
+        "pnpm registry:check",
+        "git diff --check"
+      ],
+      "stop_conditions": [
+        "Stop if P6B-SCHEMA-001 is not approved.",
+        "Stop if schema implementation requires adding a model or relation not present in the approved contract.",
+        "Stop if destructive migration behavior appears."
+      ],
+      "acceptance_criteria": [
+        "Prisma schema validates.",
+        "Entity registry is up to date.",
+        "Migration SQL matches approved baseline."
+      ],
+      "dependencies": [
+        "P6B-SCHEMA-001"
+      ],
+      "commit_message": "feat: add Phase 6B Prisma schema baseline",
+      "rollback_notes": "Revert schema, migration, metadata, and generated registry files together.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": true,
+      "stale_ticket_risk_notes": [
+        "Blocked until the approved schema contract prevents invented model boundaries."
+      ],
+      "runtime_consistency_chain": [
+        "Approved schema model contract -> Prisma schema/migration -> registry metadata/output."
+      ],
+      "minimum_concrete_requirement": "After P6B-SCHEMA-001 approval, `pnpm exec prisma validate --schema prisma/schema.prisma` and `pnpm registry:check` pass with the approved Phase 6B schema baseline represented in Prisma and registry artifacts.",
+      "split_if": [
+        "Split if approved schema baseline spans unrelated migration safety ladders or creates destructive migration risk."
+      ],
+      "requires_human_approval_if": [
+        "Migration is destructive or changes existing model semantics."
+      ],
+      "failure_classification": "schema_implementation_blocked_pending_contract",
+      "doctrine_enforcement": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket."
+      ],
+      "ticket_generation_allowed": false,
+      "execution_authorized": false,
+      "completed_on_main": true
+    },
+    {
+      "ticket_id": "P6B-SCHEMA-003",
+      "title": "Regenerate Phase 6B contract and NestJS runtime ownership from approved schema baseline",
+      "type": "schema_runtime_alignment_ticket_candidate",
+      "ticketability_status": "COMPLETED_ON_MAIN",
+      "priority": "P1",
+      "objective": "Update Phase 6B contract/NestJS scaffold ownership metadata after the Prisma baseline exists, without implementing business capability behavior.",
+      "scope": [
+        "Align contracts and scaffold metadata with approved schema ownership.",
+        "Keep services metadata-only unless a later capability ticket approves behavior."
+      ],
+      "non_scope": [
+        "No pricing/payment/communication/CRM/finance business behavior.",
+        "No frontend."
+      ],
+      "source_files_to_inspect": [
+        "packages/contracts/phase_6b/**",
+        "apps/api/src/phase_6b/**",
+        "generated/entity-registry.generated.json"
+      ],
+      "files_expected_to_change": [
+        "packages/contracts/phase_6b/**",
+        "apps/api/src/phase_6b/**"
+      ],
+      "files_forbidden_to_change": [
+        "prisma/schema.prisma",
+        "prisma/migrations/**",
+        "apps/web/**",
+        "package.json",
+        "pnpm-lock.yaml"
+      ],
+      "required_outputs": [
+        "Schema-aligned contract/scaffold metadata"
+      ],
+      "evidence_artifacts": [
+        "contracts validation output",
+        "api scaffold test output"
+      ],
+      "tests_required": [
+        "contracts validate",
+        "api phase_6b scaffold tests",
+        "api typecheck"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api test:phase-6b-scaffold",
+        "pnpm --filter @akti/api typecheck",
+        "git diff --check"
+      ],
+      "stop_conditions": [
+        "Stop if business behavior implementation is required.",
+        "Stop if schema baseline is not merged/available."
+      ],
+      "acceptance_criteria": [
+        "Contracts validate.",
+        "Phase 6B scaffold tests pass.",
+        "No capability business behavior is implemented."
+      ],
+      "dependencies": [
+        "P6B-SCHEMA-002"
+      ],
+      "commit_message": "docs: align Phase 6B runtime scaffolds to schema baseline",
+      "rollback_notes": "Revert contract and scaffold metadata changes together.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": true,
+      "stale_ticket_risk_notes": [
+        "Blocked until schema baseline exists to prevent stale scaffold metadata."
+      ],
+      "runtime_consistency_chain": [
+        "Prisma baseline -> registry -> contracts/manifests -> NestJS scaffold metadata."
+      ],
+      "minimum_concrete_requirement": "After P6B-SCHEMA-002 lands, `pnpm contracts:validate`, `pnpm --filter @akti/api test:phase-6b-scaffold`, and `pnpm --filter @akti/api typecheck` pass with schema-aligned Phase 6B scaffold metadata.",
+      "split_if": [
+        "Split if backend and contract ownership overlap becomes difficult to review as one commit."
+      ],
+      "requires_human_approval_if": [
+        "A contract field implies unapproved business behavior."
+      ],
+      "failure_classification": "schema_runtime_alignment_blocked_pending_schema",
+      "doctrine_enforcement": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket."
+      ],
+      "ticket_generation_allowed": false,
+      "execution_authorized": false,
+      "completed_on_main": true
+    },
+    {
+      "ticket_id": "P6B-SCHEMA-004",
+      "title": "Regenerate Phase 6B capability implementation tickets after schema baseline",
+      "type": "ticket_pack_regeneration_gate",
+      "ticketability_status": "COMPLETED_ON_MAIN",
+      "priority": "P1",
+      "objective": "Generate the post-schema executable Phase 6B capability ticket pack from live Prisma, registry, contracts, manifests, and NestJS scaffold truth.",
+      "scope": [
+        "Rebuild capability tickets from approved schema/runtime truth.",
+        "Promote only tickets with exact files, runtime MCR, validation commands, and no hidden decisions."
+      ],
+      "non_scope": [
+        "No capability implementation execution.",
+        "No schema/runtime modifications."
+      ],
+      "source_files_to_inspect": [
+        "prisma/schema.prisma",
+        "generated/entity-registry.generated.json",
+        "packages/contracts/phase_6b/**",
+        "apps/api/src/phase_6b/**",
+        "docs/process/v4_1/phase_6b/v17/**"
+      ],
+      "files_expected_to_change": [
+        "docs/process/v4_1/phase_6b/v18/**"
+      ],
+      "files_forbidden_to_change": [
+        "prisma/schema.prisma",
+        "prisma/migrations/**",
+        "apps/api/src/**",
+        "packages/contracts/**",
+        "apps/web/**",
+        "package.json",
+        "pnpm-lock.yaml"
+      ],
+      "required_outputs": [
+        "Post-schema executable capability ticket pack"
+      ],
+      "evidence_artifacts": [
+        "stale-ticket prevention audit",
+        "exact-file ownership map",
+        "dependency graph"
+      ],
+      "tests_required": [
+        "ticket-quality validation",
+        "mechanical audit",
+        "scaffold-control check"
+      ],
+      "validation_commands": [
+        "node scripts/quality/check_phase_zero_trust_mechanical_audit.mjs --phase-root docs/process/v4_1/phase_6b/v18 --phase 6b --external-phase-root docs/process/v4_1/phase_6a --manifest-seed-id seed_6a_service_manifest_contract --json",
+        "node scripts/quality/check_phase_6b_scaffold_control.mjs",
+        "git diff --check"
+      ],
+      "stop_conditions": [
+        "Stop if any generated capability ticket needs invented schema/API/business logic.",
+        "Stop if ticket generation or execution flags become true before final review."
+      ],
+      "acceptance_criteria": [
+        "Post-schema pack maps 103/103 seeds.",
+        "No executable ticket overlaps ownership.",
+        "Only genuinely grounded capability tickets are executable-review-ready."
+      ],
+      "dependencies": [
+        "P6B-SCHEMA-003"
+      ],
+      "commit_message": "docs: regenerate Phase 6B executable capability ticket pack",
+      "rollback_notes": "Revert generated ticket-pack version only.",
+      "exact_file_plan_required": true,
+      "broad_globs_are_inspection_hints_only": true,
+      "conditional_replan_required": true,
+      "stale_ticket_risk_notes": [
+        "This is the gate that prevents stale capability tickets after schema/runtime baseline changes."
+      ],
+      "runtime_consistency_chain": [
+        "Approved schema/runtime baseline -> live repo truth -> regenerated capability tickets."
+      ],
+      "minimum_concrete_requirement": "The regenerated post-schema ticket pack maps 103/103 seeds and passes stale-ticket prevention, exact-file ownership, dependency graph, and mechanical audit gates while keeping execution authorization false.",
+      "split_if": [
+        "Split if regeneration discovers unrelated capability groups that need separate blocker decisions."
+      ],
+      "requires_human_approval_if": [
+        "Any ticket would enable execution or business capability implementation."
+      ],
+      "failure_classification": "post_schema_ticket_pack_regeneration_blocked",
+      "doctrine_enforcement": [
+        "Implementation is not stale by itself. Tickets become stale.",
+        "Apply maximum concrete capability within the approved scope of each ticket."
+      ],
+      "ticket_generation_allowed": false,
+      "execution_authorized": false,
+      "completed_on_main": true
+    }
+  ],
+  "completed_ticket_count": 4
+}

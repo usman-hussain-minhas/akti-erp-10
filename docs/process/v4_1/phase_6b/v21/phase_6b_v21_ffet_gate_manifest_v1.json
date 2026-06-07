@@ -1,0 +1,30 @@
+{
+  "schema": "phase_6b_v21_ffet_gate_manifest_v1",
+  "phase": "6b",
+  "version": "v21",
+  "supersedes_version": "v20",
+  "status": "PHASE_6B_V21_READY_FOR_GATE_3_REVIEW_AFTER_PHASE_6A",
+  "gate_rules": [
+    "one_ffet_maps_to_exactly_one_seed_unless_merge_rationale_exists",
+    "files_expected_to_change_must_be_concrete_paths_only",
+    "each_ffet_test_file_requires_direct_pnpm_exec_tsx_validation_command",
+    "broad_api_test_command_is_supplemental_not_ticket_specific_proof",
+    "phase_6a_files_forbidden_to_change_and_not_expected_to_change",
+    "authorization_flags_remain_false_until_human_gate_3"
+  ],
+  "required_artifacts": [
+    "phase_6b_ffet_registry_v1.json",
+    "phase_6b_ffet_dependency_graph_v1.json",
+    "phase_6b_ffet_exact_file_ownership_v1.json",
+    "phase_6b_post_phase_6a_preflight_v1.json"
+  ],
+  "validation_command_policy": {
+    "direct_seed_test_commands_required": true,
+    "broad_api_test_retained_as_supplemental": true,
+    "source_pattern": "Phase 6A v7 executable FFET validation command policy after implementation on main"
+  },
+  "final_status": "PHASE_6B_V21_READY_FOR_GATE_3_REVIEW_AFTER_PHASE_6A",
+  "ticket_generation_allowed": false,
+  "ticket_pack_generation_allowed": false,
+  "execution_authorized": false
+}

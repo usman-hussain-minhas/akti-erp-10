@@ -1,0 +1,83 @@
+{
+  "schema": "phase_6b_post_phase_6a_preflight_v1",
+  "phase": "6b",
+  "version": "v21",
+  "supersedes_version": "v20",
+  "status": "PHASE_6B_V21_READY_FOR_GATE_3_REVIEW_AFTER_PHASE_6A",
+  "generated_at_context": {
+    "current_date": "2026-06-07",
+    "timezone": "Asia/Karachi",
+    "repo_main_commit": "cc6d9acb936f5cb57d33b3e21e6fa8be4048bdf5",
+    "branch": "codex/phase-6b-post-6a-preflight"
+  },
+  "spark_genesis": {
+    "channel": "stable",
+    "version": "0.5.0",
+    "git_sha": "18fd109a0417aa707ae91901c5f7b1e1753f898c",
+    "repo_status": "main...origin/main clean at inspection time",
+    "skill_path": "/Volumes/UsmanWork/Spark Genesis/skills/spark_genesis/SKILL.md",
+    "authority_note": "Spark Genesis used as planning/audit aid only; AKTI repo source-of-truth hierarchy remains authoritative."
+  },
+  "phase_6a_post_implementation_check": {
+    "phase_6a_completed_on_main": true,
+    "phase_6a_file_overlap_with_phase_6b_expected_files": 0,
+    "overlapping_files": []
+  },
+  "phase_6b_v20_drift_finding": {
+    "validation_command_drift_confirmed": true,
+    "v20_problem": "103 Phase 6B FFETs relied on pnpm --filter @akti/api test without direct per-ticket test command coverage.",
+    "correction": "v21 adds pnpm exec tsx <seed-test-path> for every FFET test file while retaining broad api test as supplemental validation."
+  },
+  "v21_audit": {
+    "ffet_count": 103,
+    "seed_coverage_count": 103,
+    "dependency_cycle_count": 0,
+    "ownership_overlap_count": 0,
+    "expected_file_count": 387,
+    "existing_expected_file_count": 0,
+    "missing_expected_file_count": 387,
+    "expected_files_are_create_new_files": true,
+    "direct_seed_test_command_count": 103,
+    "ffets_missing_direct_seed_test_command_count": 0,
+    "true_authorization_flag_count": 0
+  },
+  "existing_phase_6b_scaffold_control_files": [
+    {
+      "file": "apps/api/src/phase_6b/phase_6b.controller.ts",
+      "exists_on_main": true,
+      "role": "scaffold_control_source_input_not_ffet_expected_change"
+    },
+    {
+      "file": "apps/api/src/phase_6b/phase_6b.module.ts",
+      "exists_on_main": true,
+      "role": "scaffold_control_source_input_not_ffet_expected_change"
+    },
+    {
+      "file": "apps/api/src/phase_6b/phase_6b.scaffold.test.ts",
+      "exists_on_main": true,
+      "role": "scaffold_control_source_input_not_ffet_expected_change"
+    },
+    {
+      "file": "apps/api/src/phase_6b/phase_6b.service.ts",
+      "exists_on_main": true,
+      "role": "scaffold_control_source_input_not_ffet_expected_change"
+    },
+    {
+      "file": "packages/contracts/phase_6b/phase_6b_scaffold_control.contract.ts",
+      "exists_on_main": true,
+      "role": "scaffold_control_source_input_not_ffet_expected_change"
+    }
+  ],
+  "gate_results": {
+    "coverage_103_of_103": true,
+    "no_phase_6a_overlap": true,
+    "dependency_graph_acyclic": true,
+    "no_file_ownership_overlap": true,
+    "all_expected_files_create_new": true,
+    "direct_validation_commands_present": true,
+    "authorization_flags_false": true
+  },
+  "ticket_generation_allowed": false,
+  "ticket_pack_generation_allowed": false,
+  "execution_authorized": false
+}
