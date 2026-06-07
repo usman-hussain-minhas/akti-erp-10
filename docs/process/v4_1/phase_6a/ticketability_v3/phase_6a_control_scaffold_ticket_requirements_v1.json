@@ -1,0 +1,48 @@
+{
+  "schema": "phase_6a_control_scaffold_ticket_requirements_v1",
+  "phase": "6a",
+  "artifact_version": "v3",
+  "status": "PHASE_6A_CONTROL_SCAFFOLD_TICKETS_REQUIRED_BEFORE_FFET_PROMOTION",
+  "ticket_count": 5,
+  "executable_capability_ticket_count": 0,
+  "tickets": [
+    {
+      "ticket_id": "P6A-CONTROL-003",
+      "title": "Define Phase 6A seed-specific runtime ownership contract",
+      "purpose": "Map each Phase 6A seed to exact accepted runtime/control ownership without editing runtime code in planning.",
+      "allowed_role": "docs/control planning or separate implementation-control branch if real repo files must change",
+      "stop_condition": "Stop if ownership requires changing shared runtime surfaces without a separate control implementation PR."
+    },
+    {
+      "ticket_id": "P6A-SCAF-001",
+      "title": "Create Phase 6A contract and manifest scaffold-control baseline",
+      "purpose": "Add or confirm contracts/manifests needed for Phase 6A seed-level FFETs in a separate control PR if missing.",
+      "allowed_role": "control implementation only after review",
+      "stop_condition": "Stop if business capability behavior is required."
+    },
+    {
+      "ticket_id": "P6A-SCAF-002",
+      "title": "Create Phase 6A API/test validation boundary baseline",
+      "purpose": "Add or confirm seed-specific API/test validation surfaces in a separate control PR if missing.",
+      "allowed_role": "control implementation only after review",
+      "stop_condition": "Stop if schema, permission, API, or module-boundary decisions are not committed."
+    },
+    {
+      "ticket_id": "P6A-SCAF-003",
+      "title": "Create Phase 6A registry and metadata control alignment",
+      "purpose": "Prove registry/metadata coverage for Phase 6A seeds from committed source truth.",
+      "allowed_role": "control implementation only after review",
+      "stop_condition": "Stop if generated registry changes are needed without explicit control scope."
+    },
+    {
+      "ticket_id": "P6A-SCAF-004",
+      "title": "Regenerate Phase 6A FFET pack from accepted control truth",
+      "purpose": "Produce audited FFETs only after required control/scaffold truth is accepted on main.",
+      "allowed_role": "docs-only planning",
+      "stop_condition": "Stop if any seed still lacks exact files, runtime MCR, validation commands, dependencies, or stop conditions."
+    }
+  ],
+  "ticket_generation_allowed": false,
+  "ticket_pack_generation_allowed": false,
+  "execution_authorized": false
+}
