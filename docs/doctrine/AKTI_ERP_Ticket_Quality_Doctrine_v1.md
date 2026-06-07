@@ -1,7 +1,7 @@
 # AKTI ERP Ticket Quality Doctrine v1
 
 **Status:** Authoritative
-**Version:** 1.1
+**Version:** 1.2
 **Owner:** Platform Architecture
 **Applies to:** Every ticket pack, every phase, every Codex session
 
@@ -9,6 +9,7 @@
 
 ## Changelog
 
+- v1.2: Adds the Final Fine-Grained Executable Ticket (FFET) gate after the Phase 6B v19 audit. Service-level capability candidates are not final execution units. A final implementation ticket is an audited FFET mapped to exactly one seed/sub-surface unless an explicit merge rationale proves inseparability. Only binding human approval may flip ticket-generation or execution flags.
 - v1.1: Adds the Phase 6B v1-v18 ticketability correction. Lifecycle evidence is compiler input for ticket writing, not ticket readiness by itself. Ticket-pack planning must not modify real code, schema, runtime, generated artifacts, package files, or validation scripts to unblock tickets.
 - v1.0: Initial authoritative ticket quality doctrine.
 
@@ -132,9 +133,11 @@ ticket is considered executable-review-ready.
    dependency tickets, blockers, runtime behavior, MCR, validation commands,
    and stop conditions against current repo HEAD.
 
-3. Ticket generation by runtime capability slice.
-   Tickets are generated around executable runtime capability ownership, not
-   lifecycle row count, artifact count, seed count, or queue-size anxiety.
+3. Ticket generation by runtime capability slice, then FFET refinement.
+   Service-level candidates may be generated around runtime capability
+   ownership for review and dependency planning. They are not final execution
+   units. Before implementation, candidates must be refined into FFETs as
+   defined below.
 
 4. Ticket quality audit.
    Fail any ticket with vague scope, hidden decisions, unresolved dependencies,
@@ -146,6 +149,76 @@ ticket is considered executable-review-ready.
    If files moved, dependencies changed, blockers changed, validation changed,
    or repo truth changed, refresh the ticket before implementation. If the
    refresh requires a decision, stop for human review.
+
+## Final Fine-Grained Executable Ticket (FFET)
+
+A Final Fine-Grained Executable Ticket, or FFET, is the atomic unit of
+implementation execution after ticket-pack review.
+
+A service-level capability candidate is not an FFET. A planning ticket,
+control ticket, readiness report, lifecycle row, or broad capability bundle is
+not an FFET.
+
+An FFET maps to exactly one seed or sub-surface unless an explicit
+`merge_rationale` proves that two seeds are inseparable because they share one
+file, one validation surface, and no independently reviewable behavior. The
+default is one FFET per seed/sub-surface. No FFET may span two source
+components.
+
+Every FFET must include all of these fields:
+
+- `ticket_id`;
+- `maps_to_seed_id`;
+- `source_component_id`;
+- `seed_type`;
+- `objective`;
+- `scope`;
+- `non_scope`;
+- `source_files_to_inspect`;
+- `files_expected_to_change`;
+- `files_forbidden_to_change`;
+- `required_outputs`;
+- `evidence_artifacts`;
+- `tests_required`;
+- `validation_commands`;
+- `acceptance_criteria`;
+- `dependencies`;
+- `stop_conditions`;
+- `rollback_notes`;
+- `commit_message`;
+- `requires_human_approval_if`;
+- `failure_classification`;
+- `self_audit_checks`;
+- `self_heal_policy`;
+- `promotion_criteria`;
+- `completion_evidence`;
+- `ticket_generation_allowed`;
+- `ticket_pack_generation_allowed`;
+- `execution_authorized`.
+
+`files_expected_to_change` must contain concrete paths only. Broad globs,
+wildcards, placeholder paths, TODO/TBD text, and seed-id placeholders in build
+fields are hard failures.
+
+Every FFET field must be derived from committed repo truth: the seed matrix,
+dependency/extraction matrices, exact-file ownership map, human decision
+registers, schema/control baselines, scaffold/control baselines, accepted
+contracts/manifests, and current repo HEAD. Generation introduces zero new
+architectural, schema, permission, API, ADL, service-boundary, or business
+decisions. If any field cannot be derived, the seed remains blocked instead of
+being promoted.
+
+Ticket-generation, ticket-pack-generation, and execution flags default to
+`false`. Only binding human approval after independent FFET audit may flip
+those flags. No script, readiness report, CI result, planning PR, or autonomous
+run may flip them.
+
+Independent FFET audit must run before human review. It must prove seed
+coverage, exact-file ownership, no overlaps, no dependency cycles, no broad
+globs, no placeholder leakage, no terminal `phase_doc_required`, no terminal
+`capability_prerequisite` until tooling supports it, inherited basis/tier
+correctness, runnable validation commands, binary acceptance criteria, and
+bounded self-heal policy.
 
 ---
 

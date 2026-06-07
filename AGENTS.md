@@ -52,6 +52,10 @@ Ticket-pack planning reveals blockers; it must not resolve them by changing real
 
 Every branch and PR must have one role: planning, control implementation, capability implementation, review, or documentation correction. A mixed ticket-planning plus implementation PR is not valid planning or execution authority even when CI is green; quarantine, split, or replace it before using it as source truth.
 
+Final Fine-Grained Executable Tickets (FFETs) are the only final implementation execution units. A service-level capability candidate is not an FFET. Each FFET maps to exactly one seed/sub-surface unless an explicit `merge_rationale` proves inseparability, and it must carry concrete files, runtime MCR, validation commands, dependencies, stop conditions, rollback notes, and bounded self-heal policy.
+
+Only binding human approval after independent FFET audit may flip `ticket_generation_allowed`, `ticket_pack_generation_allowed`, or `execution_authorized` to `true`. CI, readiness reports, scripts, and autonomous runs must keep those flags `false`.
+
 ---
 
 ## Required Stack
