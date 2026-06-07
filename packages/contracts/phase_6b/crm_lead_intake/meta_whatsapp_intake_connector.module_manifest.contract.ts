@@ -1,0 +1,31 @@
+export const metaWhatsAppIntakeConnectorModuleManifest = {
+  seed_id: 'seed_6b_04_meta_whatsapp_intake_connector',
+  component_id: '6B.04',
+  capability_surface: 'crm_lead_intake.meta_whatsapp_intake_connector',
+  source_system: 'META_WHATSAPP_INTAKE',
+  activation_lifecycle_required: true,
+  person_identity_graph_required: true,
+  access_core_gatekeeper_required: true,
+  api_key_scope_registry_required: true,
+  visual_workflow_builder_required: true,
+  product_record_authority_required: true,
+  conditional_dependencies: {
+    global_opt_out_registry: 'observed_at_intake_not_hard_send_gate',
+  },
+  owned_data: [
+    'whatsapp_business_account_id',
+    'whatsapp_phone_number_id',
+    'inbound_message_id',
+    'sender_contact_reference',
+    'intake_mapping',
+    'lead_record_authority_reference',
+  ],
+  forbidden_behaviors: [
+    'outbound_whatsapp_send',
+    'provider_callback_processing',
+    'credential_material_storage',
+    'communication_gateway_send',
+    'frontend_screen',
+    'shared_scaffold_mutation',
+  ],
+} as const;
