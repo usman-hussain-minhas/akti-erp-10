@@ -84,3 +84,10 @@ ADL prose and structured adl_refs are consistent; no ADL edge was invented solel
 - manifest_required=false sub-surfaces now have empty manifest_traceability_targets unless a documented exception exists; current exception count: 0.
 - ADL prose/ref mismatches: 0; no ADL edge was invented solely for coverage.
 - Extraction edges: 130; top-level seed dependency references: 122.
+
+
+## Phase 6A v6 ADL Ref Gate Correction
+
+Status: APPLIED
+
+The Phase 6A dependency extraction matrix now carries user-ratified ADL references for the six Saga/Event/DLQ hard-rule edges that previously had empty `adl_refs`. The corrected v6 FFET package enforces the Gate-2 rule that every operative `adl_hard_rule` edge must carry non-empty `adl_refs`; `business_logic_hard_rule` is not a fallback for missing ADL references; and `phase_doc_required` may remain only as raw provenance, never as an operative terminal basis.

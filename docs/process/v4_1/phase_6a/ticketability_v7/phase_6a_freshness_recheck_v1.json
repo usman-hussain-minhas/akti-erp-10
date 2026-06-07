@@ -1,0 +1,70 @@
+{
+  "schema": "phase_6a_freshness_recheck_v1",
+  "artifact_version": "v7",
+  "status": "PASS_LOCAL_VALIDATION_PENDING_POST_PUSH_CI",
+  "final_status": "PHASE_6A_V7_FFET_SET_READY_FOR_HUMAN_GATE_REVIEW",
+  "branch": "codex/phase-6a-ffet-adl-ref-gate",
+  "base_ref": "origin/main",
+  "base_commit": "d93e0bc",
+  "source_head_before_v7_commit": "26a5e96",
+  "changed_paths_before_v7_commit": [
+    "docs/process/v4_1/phase_6a/dependency_extraction_audit_v1.md",
+    "docs/process/v4_1/phase_6a/dependency_extraction_matrix_v1.json",
+    "docs/process/v4_1/phase_6a/ticketability_v6/phase_6a_ffet_dependency_graph_v1.json",
+    "docs/process/v4_1/phase_6a/ticketability_v6/phase_6a_ffet_exact_file_ownership_v1.json",
+    "docs/process/v4_1/phase_6a/ticketability_v6/phase_6a_ffet_final_human_review_packet_v1.md",
+    "docs/process/v4_1/phase_6a/ticketability_v6/phase_6a_ffet_independent_gate_2_audit_v1.json",
+    "docs/process/v4_1/phase_6a/ticketability_v6/phase_6a_ffet_independent_gate_2_audit_v1.md",
+    "docs/process/v4_1/phase_6a/ticketability_v6/phase_6a_ffet_promotion_audit_v1.json",
+    "docs/process/v4_1/phase_6a/ticketability_v6/phase_6a_ffet_quality_gate_v1.md",
+    "docs/process/v4_1/phase_6a/ticketability_v6/phase_6a_ffet_registry_v1.json",
+    "docs/process/v4_1/phase_6a/ticketability_v6/phase_6a_ffet_stale_ticket_prevention_audit_v1.json",
+    "docs/process/v4_1/phase_6a/ticketability_v6/phase_6a_v6_ffet_gate_manifest_v1.json",
+    "docs/process/v4_1/phase_6a/ticketability_v6/phase_6a_v6_ffet_gate_manifest_v1.md"
+  ],
+  "branch_current_with_origin_main_at_generation": true,
+  "authorization_flags_remain_false": true,
+  "required_post_push_check": "Apply CI settling gate after v7 commit push.",
+  "local_validation_status": "PASS",
+  "local_validation_results": [
+    {
+      "command": "Phase 6A JSON parse",
+      "result": "PASS"
+    },
+    {
+      "command": "Custom Phase 6A v7 audit",
+      "result": "PASS"
+    },
+    {
+      "command": "node scripts/quality/check_phase_zero_trust_mechanical_audit.mjs --phase-root docs/process/v4_1/phase_6a --phase 6a --manifest-seed-id seed_6a_service_manifest_contract --json",
+      "result": "PASS"
+    },
+    {
+      "command": "node scripts/quality/check_lower_snake_case_paths.mjs",
+      "result": "PASS"
+    },
+    {
+      "command": "git diff --check",
+      "result": "PASS"
+    }
+  ],
+  "v7_files_created": [
+    "docs/process/v4_1/phase_6a/ticketability_v7/phase_6a_ffet_dependency_graph_v1.json",
+    "docs/process/v4_1/phase_6a/ticketability_v7/phase_6a_ffet_exact_file_ownership_v1.json",
+    "docs/process/v4_1/phase_6a/ticketability_v7/phase_6a_ffet_final_human_review_packet_v1.md",
+    "docs/process/v4_1/phase_6a/ticketability_v7/phase_6a_ffet_independent_gate_2_audit_v1.json",
+    "docs/process/v4_1/phase_6a/ticketability_v7/phase_6a_ffet_independent_gate_2_audit_v1.md",
+    "docs/process/v4_1/phase_6a/ticketability_v7/phase_6a_ffet_promotion_audit_v1.json",
+    "docs/process/v4_1/phase_6a/ticketability_v7/phase_6a_ffet_quality_gate_v1.md",
+    "docs/process/v4_1/phase_6a/ticketability_v7/phase_6a_ffet_registry_v1.json",
+    "docs/process/v4_1/phase_6a/ticketability_v7/phase_6a_ffet_stale_ticket_prevention_audit_v1.json",
+    "docs/process/v4_1/phase_6a/ticketability_v7/phase_6a_freshness_recheck_v1.json",
+    "docs/process/v4_1/phase_6a/ticketability_v7/phase_6a_freshness_recheck_v1.md",
+    "docs/process/v4_1/phase_6a/ticketability_v7/phase_6a_root_artifact_source_verification_v1.json",
+    "docs/process/v4_1/phase_6a/ticketability_v7/phase_6a_root_artifact_source_verification_v1.md",
+    "docs/process/v4_1/phase_6a/ticketability_v7/phase_6a_root_dependency_matrix_snapshot_v1.json",
+    "docs/process/v4_1/phase_6a/ticketability_v7/phase_6a_v7_ffet_gate_manifest_v1.json",
+    "docs/process/v4_1/phase_6a/ticketability_v7/phase_6a_v7_ffet_gate_manifest_v1.md"
+  ],
+  "post_push_ci_status": "PENDING_CI_SETTLING_GATE"
+}
