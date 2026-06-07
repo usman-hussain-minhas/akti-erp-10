@@ -1,0 +1,165 @@
+{
+  "schema": "phase_6a_root_artifact_source_verification_v1",
+  "artifact_version": "v7",
+  "status": "PASS",
+  "final_status": "PHASE_6A_V7_FFET_SET_READY_FOR_HUMAN_GATE_REVIEW",
+  "authoritative_root_matrix_path": "docs/process/v4_1/phase_6a/dependency_extraction_matrix_v1.json",
+  "v7_root_matrix_snapshot_path": "docs/process/v4_1/phase_6a/ticketability_v7/phase_6a_root_dependency_matrix_snapshot_v1.json",
+  "v7_ffet_registry_path": "docs/process/v4_1/phase_6a/ticketability_v7/phase_6a_ffet_registry_v1.json",
+  "derived_snapshot_not_source_of_truth": true,
+  "source_matrix_sha256": "51cd89db9ed16cf98d327607396fdc6e1372ee711b61171f7dc8a34333683bc2",
+  "corrected_edges": [
+    {
+      "dependency_edge_id": "seed_6a_dlq_admin_inspection_replay__to__seed_6a_event_bus_delivery",
+      "expected_adl_refs": [
+        "ADL-002"
+      ],
+      "authoritative_root_matrix_adl_refs": [
+        "ADL-002"
+      ],
+      "v7_snapshot_adl_refs": [
+        "ADL-002"
+      ],
+      "v7_ffet_registry_adl_refs": [
+        "ADL-002"
+      ],
+      "authoritative_root_matches_expected": true,
+      "snapshot_matches_authoritative_root": true,
+      "ffet_registry_matches_authoritative_root": true,
+      "all_layers_match_expected": true
+    },
+    {
+      "dependency_edge_id": "seed_6a_saga_orchestrator__to__seed_6a_transactional_outbox",
+      "expected_adl_refs": [
+        "ADL-001",
+        "ADL-002"
+      ],
+      "authoritative_root_matrix_adl_refs": [
+        "ADL-001",
+        "ADL-002"
+      ],
+      "v7_snapshot_adl_refs": [
+        "ADL-001",
+        "ADL-002"
+      ],
+      "v7_ffet_registry_adl_refs": [
+        "ADL-001",
+        "ADL-002"
+      ],
+      "authoritative_root_matches_expected": true,
+      "snapshot_matches_authoritative_root": true,
+      "ffet_registry_matches_authoritative_root": true,
+      "all_layers_match_expected": true
+    },
+    {
+      "dependency_edge_id": "seed_6a_saga_orchestrator__to__seed_6a_event_bus_delivery",
+      "expected_adl_refs": [
+        "ADL-001",
+        "ADL-002"
+      ],
+      "authoritative_root_matrix_adl_refs": [
+        "ADL-001",
+        "ADL-002"
+      ],
+      "v7_snapshot_adl_refs": [
+        "ADL-001",
+        "ADL-002"
+      ],
+      "v7_ffet_registry_adl_refs": [
+        "ADL-001",
+        "ADL-002"
+      ],
+      "authoritative_root_matches_expected": true,
+      "snapshot_matches_authoritative_root": true,
+      "ffet_registry_matches_authoritative_root": true,
+      "all_layers_match_expected": true
+    },
+    {
+      "dependency_edge_id": "seed_6a_saga_orchestrator__to__seed_6a_dlq_admin_inspection_replay",
+      "expected_adl_refs": [
+        "ADL-001",
+        "ADL-002"
+      ],
+      "authoritative_root_matrix_adl_refs": [
+        "ADL-001",
+        "ADL-002"
+      ],
+      "v7_snapshot_adl_refs": [
+        "ADL-001",
+        "ADL-002"
+      ],
+      "v7_ffet_registry_adl_refs": [
+        "ADL-001",
+        "ADL-002"
+      ],
+      "authoritative_root_matches_expected": true,
+      "snapshot_matches_authoritative_root": true,
+      "ffet_registry_matches_authoritative_root": true,
+      "all_layers_match_expected": true
+    },
+    {
+      "dependency_edge_id": "seed_6a_compensation_dispatcher__to__seed_6a_saga_orchestrator",
+      "expected_adl_refs": [
+        "ADL-001",
+        "ADL-003"
+      ],
+      "authoritative_root_matrix_adl_refs": [
+        "ADL-001",
+        "ADL-003"
+      ],
+      "v7_snapshot_adl_refs": [
+        "ADL-001",
+        "ADL-003"
+      ],
+      "v7_ffet_registry_adl_refs": [
+        "ADL-001",
+        "ADL-003"
+      ],
+      "authoritative_root_matches_expected": true,
+      "snapshot_matches_authoritative_root": true,
+      "ffet_registry_matches_authoritative_root": true,
+      "all_layers_match_expected": true
+    },
+    {
+      "dependency_edge_id": "seed_6a_terminal_state_handler__to__seed_6a_saga_orchestrator",
+      "expected_adl_refs": [
+        "ADL-001",
+        "ADL-003"
+      ],
+      "authoritative_root_matrix_adl_refs": [
+        "ADL-001",
+        "ADL-003"
+      ],
+      "v7_snapshot_adl_refs": [
+        "ADL-001",
+        "ADL-003"
+      ],
+      "v7_ffet_registry_adl_refs": [
+        "ADL-001",
+        "ADL-003"
+      ],
+      "authoritative_root_matches_expected": true,
+      "snapshot_matches_authoritative_root": true,
+      "ffet_registry_matches_authoritative_root": true,
+      "all_layers_match_expected": true
+    }
+  ],
+  "core_ffet_checks": {
+    "ffet_count": 74,
+    "unique_seed_count": 74,
+    "seed_orphan_count": 0,
+    "seed_overlap_count": 0,
+    "ffet_template_missing_count": 0,
+    "ffet_template_bad_count": 0,
+    "operative_adl_hard_rule_edge_count": 10,
+    "operative_adl_hard_rule_missing_ref_count": 0,
+    "terminal_phase_doc_required_count": 0,
+    "terminal_capability_prerequisite_count": 0,
+    "broad_glob_count": 0,
+    "exact_file_ownership_overlap_count": 0,
+    "dependency_cycle_count": 0,
+    "true_authorization_flag_count": 0,
+    "graph_node_count": 74,
+    "graph_edge_count": 122
+  }
+}

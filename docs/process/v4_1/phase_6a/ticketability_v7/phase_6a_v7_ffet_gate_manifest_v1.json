@@ -1,0 +1,87 @@
+{
+  "schema": "phase_6a_v7_ffet_gate_manifest_v1",
+  "artifact_version": "v7",
+  "status": "PHASE_6A_V7_FFET_SET_READY_FOR_HUMAN_GATE_REVIEW",
+  "phase": "6a",
+  "package_root": "docs/process/v4_1/phase_6a/ticketability_v7",
+  "supersedes": "docs/process/v4_1/phase_6a/ticketability_v6",
+  "purpose": "Self-contained Phase 6A FFET Gate-2 package with direct root dependency matrix source verification.",
+  "authoritative_source_truth": [
+    "docs/process/v4_1/phase_6a/dependency_extraction_matrix_v1.json"
+  ],
+  "included_source_verification_artifacts": [
+    "docs/process/v4_1/phase_6a/ticketability_v7/phase_6a_root_dependency_matrix_snapshot_v1.json",
+    "docs/process/v4_1/phase_6a/ticketability_v7/phase_6a_root_artifact_source_verification_v1.json",
+    "docs/process/v4_1/phase_6a/ticketability_v7/phase_6a_root_artifact_source_verification_v1.md",
+    "docs/process/v4_1/phase_6a/ticketability_v7/phase_6a_freshness_recheck_v1.json",
+    "docs/process/v4_1/phase_6a/ticketability_v7/phase_6a_freshness_recheck_v1.md"
+  ],
+  "source_verification_status": "PASS",
+  "freshness_recheck_status": "PASS_PENDING_POST_COMMIT_CI",
+  "gate_rules": {
+    "operative_adl_hard_rule_edges_require_non_empty_adl_refs": true,
+    "business_logic_hard_rule_is_not_missing_adl_fallback": true,
+    "phase_doc_required_allowed_only_as_raw_provenance": true,
+    "authorization_flags_remain_false": true
+  },
+  "final_counts": {
+    "ffet_count": 74,
+    "unique_seed_count": 74,
+    "seed_orphan_count": 0,
+    "seed_overlap_count": 0,
+    "ffet_template_missing_count": 0,
+    "ffet_template_bad_count": 0,
+    "operative_adl_hard_rule_edge_count": 10,
+    "operative_adl_hard_rule_missing_ref_count": 0,
+    "terminal_phase_doc_required_count": 0,
+    "terminal_capability_prerequisite_count": 0,
+    "broad_glob_count": 0,
+    "exact_file_ownership_overlap_count": 0,
+    "dependency_cycle_count": 0,
+    "true_authorization_flag_count": 0,
+    "graph_node_count": 74,
+    "graph_edge_count": 122
+  },
+  "local_validation_status": "PASS",
+  "local_validation_results": [
+    {
+      "command": "Phase 6A JSON parse",
+      "result": "PASS"
+    },
+    {
+      "command": "Custom Phase 6A v7 audit",
+      "result": "PASS"
+    },
+    {
+      "command": "node scripts/quality/check_phase_zero_trust_mechanical_audit.mjs --phase-root docs/process/v4_1/phase_6a --phase 6a --manifest-seed-id seed_6a_service_manifest_contract --json",
+      "result": "PASS"
+    },
+    {
+      "command": "node scripts/quality/check_lower_snake_case_paths.mjs",
+      "result": "PASS"
+    },
+    {
+      "command": "git diff --check",
+      "result": "PASS"
+    }
+  ],
+  "v7_files_created": [
+    "docs/process/v4_1/phase_6a/ticketability_v7/phase_6a_ffet_dependency_graph_v1.json",
+    "docs/process/v4_1/phase_6a/ticketability_v7/phase_6a_ffet_exact_file_ownership_v1.json",
+    "docs/process/v4_1/phase_6a/ticketability_v7/phase_6a_ffet_final_human_review_packet_v1.md",
+    "docs/process/v4_1/phase_6a/ticketability_v7/phase_6a_ffet_independent_gate_2_audit_v1.json",
+    "docs/process/v4_1/phase_6a/ticketability_v7/phase_6a_ffet_independent_gate_2_audit_v1.md",
+    "docs/process/v4_1/phase_6a/ticketability_v7/phase_6a_ffet_promotion_audit_v1.json",
+    "docs/process/v4_1/phase_6a/ticketability_v7/phase_6a_ffet_quality_gate_v1.md",
+    "docs/process/v4_1/phase_6a/ticketability_v7/phase_6a_ffet_registry_v1.json",
+    "docs/process/v4_1/phase_6a/ticketability_v7/phase_6a_ffet_stale_ticket_prevention_audit_v1.json",
+    "docs/process/v4_1/phase_6a/ticketability_v7/phase_6a_freshness_recheck_v1.json",
+    "docs/process/v4_1/phase_6a/ticketability_v7/phase_6a_freshness_recheck_v1.md",
+    "docs/process/v4_1/phase_6a/ticketability_v7/phase_6a_root_artifact_source_verification_v1.json",
+    "docs/process/v4_1/phase_6a/ticketability_v7/phase_6a_root_artifact_source_verification_v1.md",
+    "docs/process/v4_1/phase_6a/ticketability_v7/phase_6a_root_dependency_matrix_snapshot_v1.json",
+    "docs/process/v4_1/phase_6a/ticketability_v7/phase_6a_v7_ffet_gate_manifest_v1.json",
+    "docs/process/v4_1/phase_6a/ticketability_v7/phase_6a_v7_ffet_gate_manifest_v1.md"
+  ],
+  "post_push_ci_status": "PENDING_CI_SETTLING_GATE"
+}
