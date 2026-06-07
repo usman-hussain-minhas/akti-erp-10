@@ -25,3 +25,26 @@ Final status: PHASE_6A_V6_FFET_SET_READY_FOR_HUMAN_GATE_REVIEW
 ## Gate Rule Added
 
 Every operative `adl_hard_rule` edge must carry non-empty `adl_refs`. `business_logic_hard_rule` is not a fallback for missing ADL references. `phase_doc_required` remains allowed only as raw provenance.
+
+
+## Root Artifact Fix Evidence
+
+Status: PASS
+
+The root dependency extraction matrix and the v6 FFET registry agree on the six ratified Saga/Event/DLQ ADL references. This proves the root artifact fix and the FFET package fix moved together.
+
+
+## FFET Template Traceability
+
+Status: PASS
+
+All 74 FFETs carry deterministic non-null templates derived from `seed_type` by replacing `_planning_seed` with `_runtime_ffet`.
+
+
+## Minute-Detail Validation Results
+
+- Phase 6A JSON parse: PASS
+- Custom Phase 6A v6 minute-detail FFET audit: PASS
+- Phase 6A zero-trust mechanical audit: PASS
+- Lower-snake path check: PASS
+- `git diff --check`: PASS

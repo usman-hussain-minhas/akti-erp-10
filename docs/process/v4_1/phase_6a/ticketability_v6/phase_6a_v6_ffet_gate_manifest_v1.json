@@ -37,5 +37,125 @@
     "broad_globs": 0,
     "exact_file_ownership_overlaps": 0,
     "true_authorization_flags": 0
+  },
+  "artifact_version": "v6",
+  "root_artifact_fix_evidence": {
+    "status": "PASS",
+    "root_matrix_path": "docs/process/v4_1/phase_6a/dependency_extraction_matrix_v1.json",
+    "corrected_edges": [
+      {
+        "dependency_edge_id": "seed_6a_dlq_admin_inspection_replay__to__seed_6a_event_bus_delivery",
+        "expected_adl_refs": [
+          "ADL-002"
+        ],
+        "root_matrix_adl_refs": [
+          "ADL-002"
+        ],
+        "root_matrix_matches_expected": true
+      },
+      {
+        "dependency_edge_id": "seed_6a_saga_orchestrator__to__seed_6a_transactional_outbox",
+        "expected_adl_refs": [
+          "ADL-001",
+          "ADL-002"
+        ],
+        "root_matrix_adl_refs": [
+          "ADL-001",
+          "ADL-002"
+        ],
+        "root_matrix_matches_expected": true
+      },
+      {
+        "dependency_edge_id": "seed_6a_saga_orchestrator__to__seed_6a_event_bus_delivery",
+        "expected_adl_refs": [
+          "ADL-001",
+          "ADL-002"
+        ],
+        "root_matrix_adl_refs": [
+          "ADL-001",
+          "ADL-002"
+        ],
+        "root_matrix_matches_expected": true
+      },
+      {
+        "dependency_edge_id": "seed_6a_saga_orchestrator__to__seed_6a_dlq_admin_inspection_replay",
+        "expected_adl_refs": [
+          "ADL-001",
+          "ADL-002"
+        ],
+        "root_matrix_adl_refs": [
+          "ADL-001",
+          "ADL-002"
+        ],
+        "root_matrix_matches_expected": true
+      },
+      {
+        "dependency_edge_id": "seed_6a_compensation_dispatcher__to__seed_6a_saga_orchestrator",
+        "expected_adl_refs": [
+          "ADL-001",
+          "ADL-003"
+        ],
+        "root_matrix_adl_refs": [
+          "ADL-001",
+          "ADL-003"
+        ],
+        "root_matrix_matches_expected": true
+      },
+      {
+        "dependency_edge_id": "seed_6a_terminal_state_handler__to__seed_6a_saga_orchestrator",
+        "expected_adl_refs": [
+          "ADL-001",
+          "ADL-003"
+        ],
+        "root_matrix_adl_refs": [
+          "ADL-001",
+          "ADL-003"
+        ],
+        "root_matrix_matches_expected": true
+      }
+    ],
+    "root_dependency_truth_updated": true,
+    "reviewer_note": "The root dependency extraction matrix is updated in the same PR as this v6 FFET package, so future regeneration starts from corrected source truth instead of relying only on the Gate-2 backstop."
+  },
+  "freshness_evidence": {
+    "status": "LOCAL_BRANCH_CURRENT_WITH_ORIGIN_MAIN_AT_ARTIFACT_UPDATE",
+    "branch": "codex/phase-6a-ffet-adl-ref-gate",
+    "base_ref": "origin/main",
+    "base_commit": "d93e0bc",
+    "artifact_update_head_commit": "ea677f5",
+    "validation_results_status": "PASS",
+    "validation_results": [
+      {
+        "command": "Phase 6A JSON parse",
+        "result": "PASS"
+      },
+      {
+        "command": "Custom Phase 6A v6 minute-detail FFET audit",
+        "result": "PASS"
+      },
+      {
+        "command": "node scripts/quality/check_phase_zero_trust_mechanical_audit.mjs --phase-root docs/process/v4_1/phase_6a --phase 6a --manifest-seed-id seed_6a_service_manifest_contract --json",
+        "result": "PASS"
+      },
+      {
+        "command": "node scripts/quality/check_lower_snake_case_paths.mjs",
+        "result": "PASS"
+      },
+      {
+        "command": "git diff --check",
+        "result": "PASS"
+      }
+    ],
+    "changed_paths_after_minute_detail_patch": [
+      "docs/process/v4_1/phase_6a/ticketability_v6/phase_6a_ffet_dependency_graph_v1.json",
+      "docs/process/v4_1/phase_6a/ticketability_v6/phase_6a_ffet_exact_file_ownership_v1.json",
+      "docs/process/v4_1/phase_6a/ticketability_v6/phase_6a_ffet_independent_gate_2_audit_v1.json",
+      "docs/process/v4_1/phase_6a/ticketability_v6/phase_6a_ffet_independent_gate_2_audit_v1.md",
+      "docs/process/v4_1/phase_6a/ticketability_v6/phase_6a_ffet_promotion_audit_v1.json",
+      "docs/process/v4_1/phase_6a/ticketability_v6/phase_6a_ffet_registry_v1.json",
+      "docs/process/v4_1/phase_6a/ticketability_v6/phase_6a_ffet_stale_ticket_prevention_audit_v1.json",
+      "docs/process/v4_1/phase_6a/ticketability_v6/phase_6a_v6_ffet_gate_manifest_v1.json",
+      "docs/process/v4_1/phase_6a/ticketability_v6/phase_6a_v6_ffet_gate_manifest_v1.md"
+    ]
   }
 }
