@@ -1,0 +1,30 @@
+export const unifiedLeadRecordAuthorityModuleManifest = {
+  seed_id: 'seed_6b_04_unified_lead_record_authority',
+  component_id: '6B.04',
+  capability_surface: 'crm_lead_intake.unified_lead_record_authority',
+  canonical_authority: 'LeadRecord',
+  activation_lifecycle_required: true,
+  person_identity_graph_required: true,
+  access_core_gatekeeper_required: true,
+  api_key_scope_registry_required: true,
+  visual_workflow_builder_required: true,
+  product_record_authority_required: true,
+  conditional_dependencies: {
+    global_opt_out_registry: 'observed_at_intake_not_hard_send_gate',
+  },
+  owned_data: [
+    'lead_source',
+    'intake_mapping',
+    'consent_basis_reference',
+    'assignment_state_reference',
+    'lead_record_authority_receipt',
+  ],
+  forbidden_behaviors: [
+    'direct_provider_messaging',
+    'parallel_lead_authority',
+    'communication_send',
+    'provider_callback_processing',
+    'frontend_screen',
+    'shared_scaffold_mutation',
+  ],
+} as const;
