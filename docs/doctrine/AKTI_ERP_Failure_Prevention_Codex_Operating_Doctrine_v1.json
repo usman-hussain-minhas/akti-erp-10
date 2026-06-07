@@ -1,11 +1,11 @@
 {
   "document": {
     "title": "AKTI ERP Failure Prevention & Codex Operating Doctrine",
-    "version": "1.2",
+    "version": "1.3",
     "status": "post_phase_6b_ticketability_ci_settling_gate",
     "created_on": "2026-05-22",
     "owner": "AKTI leadership / Usman Minhas until formally delegated",
-    "purpose": "Prevent AKTI ERP from repeating ARI, AKTI OS, plugin, and ERP IV failure patterns by forcing planning discipline, source-of-truth hierarchy, Codex operating rules, CI enforcement, and delivery-first behavior. This revision preserves the original doctrine and adds post-Phase-2 autonomous-run lessons. Version 1.1 adds the Phase 6B ticketability correction: planning PRs must not create missing repo truth by changing code, schema, runtime, generated, package, contract, registry, migration, frontend, backend, or validation-script files. Version 1.2 adds the CI settling gate: after push, PR update, PR creation, or merge, Codex must poll transient GitHub CI/merge metadata before treating pending or unstable status as a real stop.",
+    "purpose": "Prevent AKTI ERP from repeating ARI, AKTI OS, plugin, and ERP IV failure patterns by forcing planning discipline, source-of-truth hierarchy, Codex operating rules, CI enforcement, and delivery-first behavior. This revision preserves the original doctrine and adds post-Phase-2 autonomous-run lessons. Version 1.1 adds the Phase 6B ticketability correction: planning PRs must not create missing repo truth by changing code, schema, runtime, generated, package, contract, registry, migration, frontend, backend, or validation-script files. Version 1.2 adds the CI settling gate: after push, PR update, PR creation, or merge, Codex must poll transient GitHub CI/merge metadata before treating pending or unstable status as a real stop. Version 1.3 adds the FFET gate: final executable implementation tickets must be audited one-seed/sub-surface execution units, and only binding human approval may flip ticket-generation or execution flags.",
     "placement_recommendation": [
       "Save this JSON as docs/doctrine/akti-erp-failure-prevention-codex-operating-doctrine.v1.json",
       "Summarize the operational rules into AGENTS.md",
@@ -465,7 +465,21 @@
       "I could not run tests but it looks fine",
       "Implemented with TODOs",
       "Created docs instead of requested feature"
-    ]
+    ],
+    "final_fine_grained_executable_ticket": {
+      "acronym": "FFET",
+      "role": "final implementation execution unit",
+      "default_granularity": "one seed or sub-surface per FFET",
+      "merge_exception": "allowed only with explicit merge_rationale proving inseparability",
+      "service_level_candidates_are_final": false,
+      "independent_audit_required_before_human_review": true,
+      "human_approval_required_to_flip_flags": true,
+      "default_flags": {
+        "ticket_generation_allowed": false,
+        "ticket_pack_generation_allowed": false,
+        "execution_authorized": false
+      }
+    }
   },
   "frontend_prevention_rules": {
     "rule": "No frontend screen may be implemented without a screen contract.",
@@ -854,5 +868,63 @@
     "phase_6b_recovery_rule": "Treat the last docs-valid planning checkpoint as planning evidence. Treat later schema/scaffold/runtime changes as a separate implementation-control candidate, not as clean ticket-planning authority, unless split and reviewed under a dedicated implementation PR.",
     "future_phase_rule": "No Phase 6A, Phase 6B, or later ticket-pack planning may promote executable tickets by modifying real repo truth in the same planning branch."
   },
-  "final_guardrail": "If the next output is another broad blueprint instead of AGENTS.md, ADRs, contracts, or small-ticket code, the project is repeating the old failure pattern."
+  "final_guardrail": "If the next output is another broad blueprint instead of AGENTS.md, ADRs, contracts, or small-ticket code, the project is repeating the old failure pattern.",
+  "post_phase_6b_ffet_gate_update": {
+    "status": "authoritative",
+    "source_incident": "Phase 6B v19 audit clarified that service-level capability candidates are review-ready candidates, not final execution units.",
+    "correction": "Define Final Fine-Grained Executable Ticket (FFET) as the atomic implementation unit after independent audit and binding human approval.",
+    "observed_risks": [
+      "Service-level capability candidates can look executable while still bundling multiple seeds or sub-surfaces.",
+      "Execution flags can be misread as mechanical readiness instead of explicit human authorization.",
+      "A planning package can be internally clean but still not be the final unit a developer should execute."
+    ],
+    "operating_rules": [
+      "A final implementation ticket is an FFET, not a broad capability candidate.",
+      "One FFET maps to exactly one seed or sub-surface unless an explicit merge_rationale proves inseparability.",
+      "FFET generation derives every field from committed repo truth and introduces zero new architecture, schema, permission, API, ADL, service-boundary, or business decisions.",
+      "Independent FFET audit must pass before human review.",
+      "Only binding human approval may flip ticket_generation_allowed, ticket_pack_generation_allowed, or execution_authorized to true.",
+      "Autonomous execution may begin only after the human gate authorizes the audited FFET set."
+    ],
+    "ffet_required_fields": [
+      "ticket_id",
+      "maps_to_seed_id",
+      "source_component_id",
+      "seed_type",
+      "objective",
+      "scope",
+      "non_scope",
+      "source_files_to_inspect",
+      "files_expected_to_change",
+      "files_forbidden_to_change",
+      "required_outputs",
+      "evidence_artifacts",
+      "tests_required",
+      "validation_commands",
+      "acceptance_criteria",
+      "dependencies",
+      "stop_conditions",
+      "rollback_notes",
+      "commit_message",
+      "requires_human_approval_if",
+      "failure_classification",
+      "self_audit_checks",
+      "self_heal_policy",
+      "promotion_criteria",
+      "completion_evidence",
+      "ticket_generation_allowed",
+      "ticket_pack_generation_allowed",
+      "execution_authorized"
+    ],
+    "hard_stops": [
+      "missing concrete files_expected_to_change",
+      "broad globs or wildcard file ownership",
+      "documentation-only MCR",
+      "unresolved blocker hidden inside READY status",
+      "dependency cycle or forward dependency",
+      "terminal phase_doc_required basis",
+      "terminal capability_prerequisite basis until tooling supports it",
+      "any automated flag flip before binding human approval"
+    ]
+  }
 }
