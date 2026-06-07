@@ -1,0 +1,41 @@
+{
+  "schema": "phase_6a_v6_ffet_gate_manifest_v1",
+  "status": "PHASE_6A_V6_FFET_SET_READY_FOR_HUMAN_GATE_REVIEW",
+  "phase": "6a",
+  "package_root": "docs/process/v4_1/phase_6a/ticketability_v6",
+  "supersedes": "docs/process/v4_1/phase_6a/ticketability_v5",
+  "purpose": "Clean Phase 6A FFET Gate-2 package after user-ratified ADL reference correction.",
+  "source_truth_updated": [
+    "docs/process/v4_1/phase_6a/dependency_extraction_matrix_v1.json"
+  ],
+  "included_artifacts": [
+    "phase_6a_ffet_dependency_graph_v1.json",
+    "phase_6a_ffet_exact_file_ownership_v1.json",
+    "phase_6a_ffet_final_human_review_packet_v1.md",
+    "phase_6a_ffet_independent_gate_2_audit_v1.json",
+    "phase_6a_ffet_independent_gate_2_audit_v1.md",
+    "phase_6a_ffet_promotion_audit_v1.json",
+    "phase_6a_ffet_quality_gate_v1.md",
+    "phase_6a_ffet_registry_v1.json",
+    "phase_6a_ffet_stale_ticket_prevention_audit_v1.json",
+    "phase_6a_v6_ffet_gate_manifest_v1.json",
+    "phase_6a_v6_ffet_gate_manifest_v1.md"
+  ],
+  "excluded_inherited_artifacts_reason": "Earlier ticketability/control artifacts from v5 remain preserved in ticketability_v5 and are not recopied into v6 because they contain historical blocked/control-required statuses that are superseded by the accepted control/scaffold baseline and v6 FFET Gate-2 audit.",
+  "gate_rules": {
+    "operative_adl_hard_rule_edges_require_non_empty_adl_refs": true,
+    "business_logic_hard_rule_is_not_missing_adl_fallback": true,
+    "phase_doc_required_allowed_only_as_raw_provenance": true,
+    "authorization_flags_remain_false": true
+  },
+  "final_counts": {
+    "ffets": 74,
+    "unique_seeds": 74,
+    "operative_adl_hard_rule_edges": 10,
+    "operative_adl_hard_rule_edges_missing_refs": 0,
+    "dependency_cycles": 0,
+    "broad_globs": 0,
+    "exact_file_ownership_overlaps": 0,
+    "true_authorization_flags": 0
+  }
+}

@@ -1,6 +1,6 @@
 {
   "schema": "codex_direct_phase_6a_dependency_extraction_matrix_v1",
-  "status": "SPARK_PLATFORM_V4_1_PHASE_6A_DEPENDENCY_EXTRACTION_MATRIX_READY_FOR_AUDIT",
+  "status": "SPARK_PLATFORM_V4_1_PHASE_6A_DEPENDENCY_EXTRACTION_MATRIX_READY_FOR_AUDIT_WITH_PHASE_6A_V6_ADL_REF_GATE_CORRECTION",
   "phase": "6a",
   "source_authority": [
     "docs/process/core/v0_0_2/spark_platform_v4_1/0_business_logic.md",
@@ -286,7 +286,10 @@
       "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/subsurface_decomposition_guide.md#6A.08",
       "phase_legality": "legal",
       "same_phase_order_legality": "legal",
-      "edge_status": "applied"
+      "edge_status": "applied",
+      "adl_refs": [
+        "ADL-002"
+      ]
     },
     {
       "dependency_edge_id": "seed_6a_saga_orchestrator__to__seed_6a_dlq_admin_inspection_replay",
@@ -302,7 +305,11 @@
       "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/subsurface_decomposition_guide.md#6A.08",
       "phase_legality": "legal",
       "same_phase_order_legality": "legal",
-      "edge_status": "applied"
+      "edge_status": "applied",
+      "adl_refs": [
+        "ADL-001",
+        "ADL-002"
+      ]
     },
     {
       "dependency_edge_id": "seed_6a_saga_orchestrator__to__seed_6a_event_bus_delivery",
@@ -318,7 +325,11 @@
       "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/subsurface_decomposition_guide.md#6A.08",
       "phase_legality": "legal",
       "same_phase_order_legality": "legal",
-      "edge_status": "applied"
+      "edge_status": "applied",
+      "adl_refs": [
+        "ADL-001",
+        "ADL-002"
+      ]
     },
     {
       "dependency_edge_id": "seed_6a_saga_orchestrator__to__seed_6a_transactional_outbox",
@@ -334,7 +345,11 @@
       "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/subsurface_decomposition_guide.md#6A.08",
       "phase_legality": "legal",
       "same_phase_order_legality": "legal",
-      "edge_status": "applied"
+      "edge_status": "applied",
+      "adl_refs": [
+        "ADL-001",
+        "ADL-002"
+      ]
     },
     {
       "dependency_edge_id": "seed_6a_compensation_dispatcher__to__seed_6a_saga_orchestrator",
@@ -350,7 +365,11 @@
       "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/subsurface_decomposition_guide.md#6A.08",
       "phase_legality": "legal",
       "same_phase_order_legality": "legal",
-      "edge_status": "applied"
+      "edge_status": "applied",
+      "adl_refs": [
+        "ADL-001",
+        "ADL-003"
+      ]
     },
     {
       "dependency_edge_id": "seed_6a_terminal_state_handler__to__seed_6a_saga_orchestrator",
@@ -366,7 +385,11 @@
       "source_authority_reference": "docs/process/core/v0_0_2/spark_platform_v4_1/subsurface_decomposition_guide.md#6A.08",
       "phase_legality": "legal",
       "same_phase_order_legality": "legal",
-      "edge_status": "applied"
+      "edge_status": "applied",
+      "adl_refs": [
+        "ADL-001",
+        "ADL-003"
+      ]
     },
     {
       "dependency_edge_id": "seed_6a_billing_dimension_measurement_registry__to__seed_6a_audit_log_universal_evidence_stream",
@@ -2241,5 +2264,57 @@
       "projected_cost_alternative_calculator"
     ],
     "foundry_bootstrap_verified": true
+  },
+  "phase_6a_v6_adl_ref_gate_correction": {
+    "status": "APPLIED",
+    "source_decision": "User-ratified Phase 6A ADL scope answers, June 2026",
+    "doctrine": {
+      "adl_hard_rule_requires_non_empty_adl_refs": true,
+      "business_logic_hard_rule_is_not_missing_adl_fallback": true,
+      "phase_doc_required_allowed_only_as_raw_provenance": true
+    },
+    "corrected_edges": [
+      {
+        "dependency_edge_id": "seed_6a_dlq_admin_inspection_replay__to__seed_6a_event_bus_delivery",
+        "adl_refs": [
+          "ADL-002"
+        ]
+      },
+      {
+        "dependency_edge_id": "seed_6a_saga_orchestrator__to__seed_6a_transactional_outbox",
+        "adl_refs": [
+          "ADL-001",
+          "ADL-002"
+        ]
+      },
+      {
+        "dependency_edge_id": "seed_6a_saga_orchestrator__to__seed_6a_event_bus_delivery",
+        "adl_refs": [
+          "ADL-001",
+          "ADL-002"
+        ]
+      },
+      {
+        "dependency_edge_id": "seed_6a_saga_orchestrator__to__seed_6a_dlq_admin_inspection_replay",
+        "adl_refs": [
+          "ADL-001",
+          "ADL-002"
+        ]
+      },
+      {
+        "dependency_edge_id": "seed_6a_compensation_dispatcher__to__seed_6a_saga_orchestrator",
+        "adl_refs": [
+          "ADL-001",
+          "ADL-003"
+        ]
+      },
+      {
+        "dependency_edge_id": "seed_6a_terminal_state_handler__to__seed_6a_saga_orchestrator",
+        "adl_refs": [
+          "ADL-001",
+          "ADL-003"
+        ]
+      }
+    ]
   }
 }
