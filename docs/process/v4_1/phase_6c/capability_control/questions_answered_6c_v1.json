@@ -1,0 +1,2024 @@
+{
+  "artifact_id": "questions_answered_6c_v1",
+  "artifact_version": "v1",
+  "phase": "6c",
+  "status": "PHASE_6C_DECISION_AUTHORITY_REVIEW_READY",
+  "source_markdown": "docs/process/v4_1/phase_6c/capability_control/questions_answered_6c_v1.md",
+  "copied_from": "/Users/usman/Downloads/questions_answered_6c.md",
+  "source_authority": [
+    "docs/process/core/v0_0_2/spark_platform_v4_1/6c_operations.md",
+    "docs/process/core/v0_0_2/spark_platform_v4_1/0_business_logic.md",
+    "docs/process/core/v0_0_2/spark_platform_v4_1/subsurface_decomposition_guide.md",
+    "docs/process/v4_1/phase_6a/ticketability_v7/phase_6a_ffet_registry_v1.json",
+    "docs/process/v4_1/phase_6b/v21/phase_6b_ffet_registry_v1.json"
+  ],
+  "flags": {
+    "ticket_generation_allowed": false,
+    "ticket_pack_generation_allowed": false,
+    "execution_authorized": false
+  },
+  "counts": {
+    "decisions": 245,
+    "sections_present": 17,
+    "sections_missing": 0,
+    "duplicate_ids": 0,
+    "normalizations": 2
+  },
+  "normalizations": [
+    {
+      "id": "6C-ATT-018",
+      "reason": "Uploaded token text says not to use ADL-024, but its own comment, Section L, 6c_operations/subsurface decomposition, and management intent confirm attendance time windows carry ADL-024.",
+      "original_value": "NO_USE_ADL_024_FOR_TIME_WINDOWS",
+      "normalized_value": "YES_USE_ADL_024_FOR_ATTENDANCE_WINDOWS",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_platform_v4_1/subsurface_decomposition_guide.md:108",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/subsurface_decomposition_guide.md:115",
+        "questions_answered_6c_v1.md Section L / 6C-ADL-007"
+      ]
+    },
+    {
+      "id": "6C-EVENT-CHECK-014",
+      "reason": "Clarifies the intended boundary: 6C may model attendance-certificate evidence, while LMS certification output remains deferred to 6D.",
+      "original_value": "DEFER_TO_6D_LMS_CERTIFICATES",
+      "normalized_value": "ATTENDANCE_CERTIFICATE_EVIDENCE_ALLOWED_IN_6C__LMS_CERTIFICATION_DEFERRED_TO_6D",
+      "source_authority": [
+        "docs/process/core/v0_0_2/spark_platform_v4_1/6c_operations.md:145",
+        "docs/process/core/v0_0_2/spark_platform_v4_1/6d_learning.md:56",
+        "questions_answered_6c_v1.md Items worth explicit eye / 6C-EVENT-CHECK-014"
+      ]
+    }
+  ],
+  "decisions": [
+    {
+      "id": "6C-GLOBAL-001",
+      "section": "A. Phase-level execution doctrine",
+      "original_value": "REAL_RUNTIME",
+      "original_comment": "real runtime after Gate 3 (6C is operations 6B depends-forward-from; not scaffold-only)",
+      "effective_value": "REAL_RUNTIME",
+      "normalized": false
+    },
+    {
+      "id": "6C-GLOBAL-002",
+      "section": "A. Phase-level execution doctrine",
+      "original_value": "MAXIMUM_WITHIN_SCOPE",
+      "original_comment": "",
+      "effective_value": "MAXIMUM_WITHIN_SCOPE",
+      "normalized": false
+    },
+    {
+      "id": "6C-GLOBAL-003",
+      "section": "A. Phase-level execution doctrine",
+      "original_value": "SAME_AS_6B_SEQUENCE",
+      "original_comment": "decision register → schema/control → scaffold/control → FFET pack → Gate-2 → Gate-3 → autonomous",
+      "effective_value": "SAME_AS_6B_SEQUENCE",
+      "normalized": false
+    },
+    {
+      "id": "6C-GLOBAL-004",
+      "section": "A. Phase-level execution doctrine",
+      "original_value": "ONE_FFET_PER_SEED_UNLESS_MERGE_RATIONALE",
+      "original_comment": "",
+      "effective_value": "ONE_FFET_PER_SEED_UNLESS_MERGE_RATIONALE",
+      "normalized": false
+    },
+    {
+      "id": "6C-GLOBAL-005",
+      "section": "A. Phase-level execution doctrine",
+      "original_value": "FLAGS_FALSE_UNTIL_GATE_3",
+      "original_comment": "",
+      "effective_value": "FLAGS_FALSE_UNTIL_GATE_3",
+      "normalized": false
+    },
+    {
+      "id": "6C-GLOBAL-006",
+      "section": "A. Phase-level execution doctrine",
+      "original_value": "YES_PHASE_6C_PLANNING_ROOT",
+      "original_comment": "docs/process/v4_1/phase_6c/",
+      "effective_value": "YES_PHASE_6C_PLANNING_ROOT",
+      "normalized": false
+    },
+    {
+      "id": "6C-GLOBAL-007",
+      "section": "A. Phase-level execution doctrine",
+      "original_value": "YES_PHASE_6C_IMPL_ROOTS",
+      "original_comment": "packages/contracts/phase_6c/**, apps/api/src/phase_6c/**",
+      "effective_value": "YES_PHASE_6C_IMPL_ROOTS",
+      "normalized": false
+    },
+    {
+      "id": "6C-GLOBAL-008",
+      "section": "A. Phase-level execution doctrine",
+      "original_value": "FORBID_UI_UNTIL_SCREEN_CONTRACTS",
+      "original_comment": "",
+      "effective_value": "FORBID_UI_UNTIL_SCREEN_CONTRACTS",
+      "normalized": false
+    },
+    {
+      "id": "6C-GLOBAL-009",
+      "section": "A. Phase-level execution doctrine",
+      "original_value": "SCHEMA_FIRST",
+      "original_comment": "Prisma models in schema-control BEFORE runtime FFETs; runtime never edits schema (scope-creep guard)",
+      "effective_value": "SCHEMA_FIRST",
+      "normalized": false
+    },
+    {
+      "id": "6C-GLOBAL-010",
+      "section": "A. Phase-level execution doctrine",
+      "original_value": "PHASE_6_WITH_SUBPHASE_METADATA",
+      "original_comment": "same as 6A/6B",
+      "effective_value": "PHASE_6_WITH_SUBPHASE_METADATA",
+      "normalized": false
+    },
+    {
+      "id": "6C-GLOBAL-011",
+      "section": "A. Phase-level execution doctrine",
+      "original_value": "DIRECT_TSX_COMMANDS_NO_SCRIPT_EDITS",
+      "original_comment": "like 6B v21; do not modify package scripts",
+      "effective_value": "DIRECT_TSX_COMMANDS_NO_SCRIPT_EDITS",
+      "normalized": false
+    },
+    {
+      "id": "6C-GLOBAL-012",
+      "section": "A. Phase-level execution doctrine",
+      "original_value": "PROVIDER_NEUTRAL_ONLY_UNLESS_APPROVED",
+      "original_comment": "",
+      "effective_value": "PROVIDER_NEUTRAL_ONLY_UNLESS_APPROVED",
+      "normalized": false
+    },
+    {
+      "id": "6C-GLOBAL-013",
+      "section": "A. Phase-level execution doctrine",
+      "original_value": "YES_GATEWAY_WITH_OPT_OUT",
+      "original_comment": "",
+      "effective_value": "YES_GATEWAY_WITH_OPT_OUT",
+      "normalized": false
+    },
+    {
+      "id": "6C-GLOBAL-014",
+      "section": "A. Phase-level execution doctrine",
+      "original_value": "YES_FOUNDRY_TOGGLEABLE",
+      "original_comment": "HR, Workspace, Events all tenant-toggleable",
+      "effective_value": "YES_FOUNDRY_TOGGLEABLE",
+      "normalized": false
+    },
+    {
+      "id": "6C-GLOBAL-015",
+      "section": "A. Phase-level execution doctrine",
+      "original_value": "YES_EVIDENCE_EVEN_ZERO_PRICED",
+      "original_comment": "",
+      "effective_value": "YES_EVIDENCE_EVEN_ZERO_PRICED",
+      "normalized": false
+    },
+    {
+      "id": "6C-GLOBAL-016",
+      "section": "A. Phase-level execution doctrine",
+      "original_value": "YES_PRICING_AT_LEAF_ROLLUP",
+      "original_comment": "",
+      "effective_value": "YES_PRICING_AT_LEAF_ROLLUP",
+      "normalized": false
+    },
+    {
+      "id": "6C-GLOBAL-017",
+      "section": "A. Phase-level execution doctrine",
+      "original_value": "YES_FORBID_6D_6E_6F_DEPENDENCY",
+      "original_comment": "",
+      "effective_value": "YES_FORBID_6D_6E_6F_DEPENDENCY",
+      "normalized": false
+    },
+    {
+      "id": "6C-GLOBAL-018",
+      "section": "A. Phase-level execution doctrine",
+      "original_value": "YES_REFS_EVENTS_ONLY_NO_DIRECT_WRITES",
+      "original_comment": "",
+      "effective_value": "YES_REFS_EVENTS_ONLY_NO_DIRECT_WRITES",
+      "normalized": false
+    },
+    {
+      "id": "6C-GLOBAL-019",
+      "section": "A. Phase-level execution doctrine",
+      "original_value": "YES_GATEKEEPER_AND_HUMAN_FOR_IRREVERSIBLE",
+      "original_comment": "",
+      "effective_value": "YES_GATEKEEPER_AND_HUMAN_FOR_IRREVERSIBLE",
+      "normalized": false
+    },
+    {
+      "id": "6C-GLOBAL-020",
+      "section": "A. Phase-level execution doctrine",
+      "original_value": "YES_REQUIRED_ADL_REF_GATE",
+      "original_comment": "",
+      "effective_value": "YES_REQUIRED_ADL_REF_GATE",
+      "normalized": false
+    },
+    {
+      "id": "6C-SCHEMA-001",
+      "section": "B. Schema / control decisions",
+      "original_value": "YES_MODEL_CONTRACT_BEFORE_PRISMA",
+      "original_comment": "",
+      "effective_value": "YES_MODEL_CONTRACT_BEFORE_PRISMA",
+      "normalized": false
+    },
+    {
+      "id": "6C-SCHEMA-002",
+      "section": "B. Schema / control decisions",
+      "original_value": "YES_ADD_HR_WORKSPACE_EVENTS_MODELS",
+      "original_comment": "",
+      "effective_value": "YES_ADD_HR_WORKSPACE_EVENTS_MODELS",
+      "normalized": false
+    },
+    {
+      "id": "6C-SCHEMA-003",
+      "section": "B. Schema / control decisions",
+      "original_value": "YES_ORGANIZATION_ID_REQUIRED",
+      "original_comment": "all tenant-scoped tables",
+      "effective_value": "YES_ORGANIZATION_ID_REQUIRED",
+      "normalized": false
+    },
+    {
+      "id": "6C-SCHEMA-004",
+      "section": "B. Schema / control decisions",
+      "original_value": "YES_REAL_FK_NOT_JSON",
+      "original_comment": "business relations are FK; JSON never carries a business fact",
+      "effective_value": "YES_REAL_FK_NOT_JSON",
+      "normalized": false
+    },
+    {
+      "id": "6C-SCHEMA-005",
+      "section": "B. Schema / control decisions",
+      "original_value": "METADATA_JSON_ONLY_NOT_BUSINESS",
+      "original_comment": "",
+      "effective_value": "METADATA_JSON_ONLY_NOT_BUSINESS",
+      "normalized": false
+    },
+    {
+      "id": "6C-SCHEMA-006",
+      "section": "B. Schema / control decisions",
+      "original_value": "LINK_EMPLOYEE_TO_PERSON",
+      "original_comment": "employee extends core Person; no own identity",
+      "effective_value": "LINK_EMPLOYEE_TO_PERSON",
+      "normalized": false
+    },
+    {
+      "id": "6C-SCHEMA-007",
+      "section": "B. Schema / control decisions",
+      "original_value": "LINK_APPLICANT_TO_PERSON_WHEN_KNOWN",
+      "original_comment": "",
+      "effective_value": "LINK_APPLICANT_TO_PERSON_WHEN_KNOWN",
+      "normalized": false
+    },
+    {
+      "id": "6C-SCHEMA-008",
+      "section": "B. Schema / control decisions",
+      "original_value": "ATTENDEE_PERSON_REF_ALLOW_CONTACT_ONLY",
+      "original_comment": "link to Person when known; contact-only before identity resolution",
+      "effective_value": "ATTENDEE_PERSON_REF_ALLOW_CONTACT_ONLY",
+      "normalized": false
+    },
+    {
+      "id": "6C-SCHEMA-009",
+      "section": "B. Schema / control decisions",
+      "original_value": "WORKSPACE_USER_IS_EMPLOYEE_PERSON_REF",
+      "original_comment": "",
+      "effective_value": "WORKSPACE_USER_IS_EMPLOYEE_PERSON_REF",
+      "normalized": false
+    },
+    {
+      "id": "6C-SCHEMA-010",
+      "section": "B. Schema / control decisions",
+      "original_value": "YES_SOFT_DELETE_STAGED_FOR_SENSITIVE",
+      "original_comment": "",
+      "effective_value": "YES_SOFT_DELETE_STAGED_FOR_SENSITIVE",
+      "normalized": false
+    },
+    {
+      "id": "6C-SCHEMA-011",
+      "section": "B. Schema / control decisions",
+      "original_value": "REFERENCE_6B_INVOICE_PAYMENT_NO_DUP",
+      "original_comment": "",
+      "effective_value": "REFERENCE_6B_INVOICE_PAYMENT_NO_DUP",
+      "normalized": false
+    },
+    {
+      "id": "6C-SCHEMA-012",
+      "section": "B. Schema / control decisions",
+      "original_value": "REFERENCE_CRM_PAYMENT_EVIDENCE_NO_COPY",
+      "original_comment": "",
+      "effective_value": "REFERENCE_CRM_PAYMENT_EVIDENCE_NO_COPY",
+      "normalized": false
+    },
+    {
+      "id": "6C-SCHEMA-013",
+      "section": "B. Schema / control decisions",
+      "original_value": "PROVIDER_NEUTRAL_ATTENDANCE_DEVICE_MODELS",
+      "original_comment": "",
+      "effective_value": "PROVIDER_NEUTRAL_ATTENDANCE_DEVICE_MODELS",
+      "normalized": false
+    },
+    {
+      "id": "6C-SCHEMA-014",
+      "section": "B. Schema / control decisions",
+      "original_value": "PROVIDER_NEUTRAL_ADAPTER_REFS_FIRST",
+      "original_comment": "",
+      "effective_value": "PROVIDER_NEUTRAL_ADAPTER_REFS_FIRST",
+      "normalized": false
+    },
+    {
+      "id": "6C-SCHEMA-015",
+      "section": "B. Schema / control decisions",
+      "original_value": "NON_DESTRUCTIVE_MIGRATIONS_ONLY",
+      "original_comment": "",
+      "effective_value": "NON_DESTRUCTIVE_MIGRATIONS_ONLY",
+      "normalized": false
+    },
+    {
+      "id": "6C-SCHEMA-016",
+      "section": "B. Schema / control decisions",
+      "original_value": "YES_UPDATE_REGISTRY_METADATA_SAME_PR",
+      "original_comment": "",
+      "effective_value": "YES_UPDATE_REGISTRY_METADATA_SAME_PR",
+      "normalized": false
+    },
+    {
+      "id": "6C-SCHEMA-017",
+      "section": "B. Schema / control decisions",
+      "original_value": "YES_AUDIT_EVIDENCE_FIELDS_SUFFICIENT_FOR_FFET",
+      "original_comment": "",
+      "effective_value": "YES_AUDIT_EVIDENCE_FIELDS_SUFFICIENT_FOR_FFET",
+      "normalized": false
+    },
+    {
+      "id": "6C-SCHEMA-018",
+      "section": "B. Schema / control decisions",
+      "original_value": "PER_COMPONENT_MANIFEST_PLUS_SUBSURFACE_CONTRACTS",
+      "original_comment": "",
+      "effective_value": "PER_COMPONENT_MANIFEST_PLUS_SUBSURFACE_CONTRACTS",
+      "normalized": false
+    },
+    {
+      "id": "6C-SCHEMA-019",
+      "section": "B. Schema / control decisions",
+      "original_value": "FK_WHEN_AUTHORITY_EXISTS_ELSE_TYPED_STRING_REF",
+      "original_comment": "",
+      "effective_value": "FK_WHEN_AUTHORITY_EXISTS_ELSE_TYPED_STRING_REF",
+      "normalized": false
+    },
+    {
+      "id": "6C-SCHEMA-020",
+      "section": "B. Schema / control decisions",
+      "original_value": "SCHEMA_AND_SCAFFOLD_SEPARATE_PRS",
+      "original_comment": "as in 6B",
+      "effective_value": "SCHEMA_AND_SCAFFOLD_SEPARATE_PRS",
+      "normalized": false
+    },
+    {
+      "id": "6C-HR-EMP-001",
+      "section": "C. HR employee records and organisation structure (6C.01)",
+      "original_value": "STABLE_INTERNAL_UUID_PLUS_CONFIGURABLE_DISPLAY_NUMBER",
+      "original_comment": "",
+      "effective_value": "STABLE_INTERNAL_UUID_PLUS_CONFIGURABLE_DISPLAY_NUMBER",
+      "normalized": false
+    },
+    {
+      "id": "6C-HR-EMP-002",
+      "section": "C. HR employee records and organisation structure (6C.01)",
+      "original_value": "CONFIGURABLE_DEFAULT_ORGANIZATION_UNIQUE",
+      "original_comment": "",
+      "effective_value": "CONFIGURABLE_DEFAULT_ORGANIZATION_UNIQUE",
+      "normalized": false
+    },
+    {
+      "id": "6C-HR-EMP-003",
+      "section": "C. HR employee records and organisation structure (6C.01)",
+      "original_value": "CONFIGURABLE_DEFAULT_ONE_ACTIVE",
+      "original_comment": "rehire/extra contracts allowed with history; one active default",
+      "effective_value": "CONFIGURABLE_DEFAULT_ONE_ACTIVE",
+      "normalized": false
+    },
+    {
+      "id": "6C-HR-EMP-004",
+      "section": "C. HR employee records and organisation structure (6C.01)",
+      "original_value": "YES_MULTI_POSITION_CONFIGURABLE",
+      "original_comment": "",
+      "effective_value": "YES_MULTI_POSITION_CONFIGURABLE",
+      "normalized": false
+    },
+    {
+      "id": "6C-HR-EMP-005",
+      "section": "C. HR employee records and organisation structure (6C.01)",
+      "original_value": "YES_FULLY_CONFIGURABLE",
+      "original_comment": "doc L64: org structures configurable",
+      "effective_value": "YES_FULLY_CONFIGURABLE",
+      "normalized": false
+    },
+    {
+      "id": "6C-HR-EMP-006",
+      "section": "C. HR employee records and organisation structure (6C.01)",
+      "original_value": "MATRIX_ALLOWED_CONFIGURABLE",
+      "original_comment": "",
+      "effective_value": "MATRIX_ALLOWED_CONFIGURABLE",
+      "normalized": false
+    },
+    {
+      "id": "6C-HR-EMP-007",
+      "section": "C. HR employee records and organisation structure (6C.01)",
+      "original_value": "YES_CONTRACT_TYPES_CONFIGURABLE",
+      "original_comment": "",
+      "effective_value": "YES_CONTRACT_TYPES_CONFIGURABLE",
+      "normalized": false
+    },
+    {
+      "id": "6C-HR-EMP-008",
+      "section": "C. HR employee records and organisation structure (6C.01)",
+      "original_value": "HARD_MINIMAL_REST_CONFIGURABLE",
+      "original_comment": "hard lifecycle anchors (active/inactive/terminated); other statuses configurable labels",
+      "effective_value": "HARD_MINIMAL_REST_CONFIGURABLE",
+      "normalized": false
+    },
+    {
+      "id": "6C-HR-EMP-009",
+      "section": "C. HR employee records and organisation structure (6C.01)",
+      "original_value": "YES_6A_FILE_SERVICE_ONLY",
+      "original_comment": "",
+      "effective_value": "YES_6A_FILE_SERVICE_ONLY",
+      "normalized": false
+    },
+    {
+      "id": "6C-HR-EMP-010",
+      "section": "C. HR employee records and organisation structure (6C.01)",
+      "original_value": "SENSITIVE_SET_REDACTED",
+      "original_comment": "compensation, national ID, bank, health, emergency contact, performance, disciplinary",
+      "effective_value": "SENSITIVE_SET_REDACTED",
+      "normalized": false
+    },
+    {
+      "id": "6C-HR-EMP-011",
+      "section": "C. HR employee records and organisation structure (6C.01)",
+      "original_value": "EMIT_PAYROLL_EVIDENCE_NOT_OWN_PAYROLL",
+      "original_comment": "doc L66: compensation feeds 6B payroll via events",
+      "effective_value": "EMIT_PAYROLL_EVIDENCE_NOT_OWN_PAYROLL",
+      "normalized": false
+    },
+    {
+      "id": "6C-HR-EMP-012",
+      "section": "C. HR employee records and organisation structure (6C.01)",
+      "original_value": "YES_EMERGENCY_CONTACTS_IN_SCOPE_SENSITIVE",
+      "original_comment": "",
+      "effective_value": "YES_EMERGENCY_CONTACTS_IN_SCOPE_SENSITIVE",
+      "normalized": false
+    },
+    {
+      "id": "6C-HR-EMP-013",
+      "section": "C. HR employee records and organisation structure (6C.01)",
+      "original_value": "ASSET_REF_HERE_RECOVERY_IN_OFFBOARDING",
+      "original_comment": "",
+      "effective_value": "ASSET_REF_HERE_RECOVERY_IN_OFFBOARDING",
+      "normalized": false
+    },
+    {
+      "id": "6C-HR-EMP-014",
+      "section": "C. HR employee records and organisation structure (6C.01)",
+      "original_value": "APPROVAL_CONFIGURABLE_REQUIRED_FOR_SENSITIVE",
+      "original_comment": "",
+      "effective_value": "APPROVAL_CONFIGURABLE_REQUIRED_FOR_SENSITIVE",
+      "normalized": false
+    },
+    {
+      "id": "6C-HR-EMP-015",
+      "section": "C. HR employee records and organisation structure (6C.01)",
+      "original_value": "YES_EMIT_EMPLOYEE_CREATED_EVENT",
+      "original_comment": "for Workspace + payroll foundation",
+      "effective_value": "YES_EMIT_EMPLOYEE_CREATED_EVENT",
+      "normalized": false
+    },
+    {
+      "id": "6C-RECRUIT-001",
+      "section": "D. Recruitment and onboarding (6C.02)",
+      "original_value": "BOTH_CRM_LEAD_AND_DIRECT_FORM",
+      "original_comment": "doc L74",
+      "effective_value": "BOTH_CRM_LEAD_AND_DIRECT_FORM",
+      "normalized": false
+    },
+    {
+      "id": "6C-RECRUIT-002",
+      "section": "D. Recruitment and onboarding (6C.02)",
+      "original_value": "RETAIN_AND_LINK_NOT_DESTRUCTIVE_CONVERT",
+      "original_comment": "CRM lead retained; applicant references it",
+      "effective_value": "RETAIN_AND_LINK_NOT_DESTRUCTIVE_CONVERT",
+      "normalized": false
+    },
+    {
+      "id": "6C-RECRUIT-003",
+      "section": "D. Recruitment and onboarding (6C.02)",
+      "original_value": "YES_FULLY_CONFIGURABLE_STAGES",
+      "original_comment": "",
+      "effective_value": "YES_FULLY_CONFIGURABLE_STAGES",
+      "normalized": false
+    },
+    {
+      "id": "6C-RECRUIT-004",
+      "section": "D. Recruitment and onboarding (6C.02)",
+      "original_value": "YES_CONFIGURATION_ENGINE_FORMS",
+      "original_comment": "",
+      "effective_value": "YES_CONFIGURATION_ENGINE_FORMS",
+      "normalized": false
+    },
+    {
+      "id": "6C-RECRUIT-005",
+      "section": "D. Recruitment and onboarding (6C.02)",
+      "original_value": "CALENDAR_WHEN_ACTIVE_ELSE_EVENTS_ONLY",
+      "original_comment": "Workspace is not a hard dep of recruitment (doc L77)",
+      "effective_value": "CALENDAR_WHEN_ACTIVE_ELSE_EVENTS_ONLY",
+      "normalized": false
+    },
+    {
+      "id": "6C-RECRUIT-006",
+      "section": "D. Recruitment and onboarding (6C.02)",
+      "original_value": "CONFIGURABLE_RULES_GATEKEEPER_FOR_ACCESS",
+      "original_comment": "offer approval configurable; access provisioning via Gatekeeper",
+      "effective_value": "CONFIGURABLE_RULES_GATEKEEPER_FOR_ACCESS",
+      "normalized": false
+    },
+    {
+      "id": "6C-RECRUIT-007",
+      "section": "D. Recruitment and onboarding (6C.02)",
+      "original_value": "RECOMMEND_CREATION_NOT_AUTO",
+      "original_comment": "acceptance recommends employee creation; creation is an explicit step",
+      "effective_value": "RECOMMEND_CREATION_NOT_AUTO",
+      "normalized": false
+    },
+    {
+      "id": "6C-RECRUIT-008",
+      "section": "D. Recruitment and onboarding (6C.02)",
+      "original_value": "YES_CONFIGURABLE_TEMPLATES",
+      "original_comment": "",
+      "effective_value": "YES_CONFIGURABLE_TEMPLATES",
+      "normalized": false
+    },
+    {
+      "id": "6C-RECRUIT-009",
+      "section": "D. Recruitment and onboarding (6C.02)",
+      "original_value": "EVENTS_AFTER_WORKSPACE_EXISTS",
+      "original_comment": "provision via events, not a build-time dependency",
+      "effective_value": "EVENTS_AFTER_WORKSPACE_EXISTS",
+      "normalized": false
+    },
+    {
+      "id": "6C-RECRUIT-010",
+      "section": "D. Recruitment and onboarding (6C.02)",
+      "original_value": "YES_ALWAYS_GATEKEEPER",
+      "original_comment": "doc L76",
+      "effective_value": "YES_ALWAYS_GATEKEEPER",
+      "normalized": false
+    },
+    {
+      "id": "6C-RECRUIT-011",
+      "section": "D. Recruitment and onboarding (6C.02)",
+      "original_value": "PROVIDER_NEUTRAL_BOUNDARY_ONLY",
+      "original_comment": "background checks: no real provider/credentials in 6C",
+      "effective_value": "PROVIDER_NEUTRAL_BOUNDARY_ONLY",
+      "normalized": false
+    },
+    {
+      "id": "6C-RECRUIT-012",
+      "section": "D. Recruitment and onboarding (6C.02)",
+      "original_value": "YES_OFFER_DOCS_VIA_6A_FILE_SERVICE",
+      "original_comment": "",
+      "effective_value": "YES_OFFER_DOCS_VIA_6A_FILE_SERVICE",
+      "normalized": false
+    },
+    {
+      "id": "6C-RECRUIT-013",
+      "section": "D. Recruitment and onboarding (6C.02)",
+      "original_value": "YES_STAGED_DELETION",
+      "original_comment": "",
+      "effective_value": "YES_STAGED_DELETION",
+      "normalized": false
+    },
+    {
+      "id": "6C-RECRUIT-014",
+      "section": "D. Recruitment and onboarding (6C.02)",
+      "original_value": "YES_REUSE_6B_CRM_DEDUP_PATTERNS",
+      "original_comment": "",
+      "effective_value": "YES_REUSE_6B_CRM_DEDUP_PATTERNS",
+      "normalized": false
+    },
+    {
+      "id": "6C-RECRUIT-015",
+      "section": "D. Recruitment and onboarding (6C.02)",
+      "original_value": "YES_EVIDENCE_FOR_PERFORMANCE_OPTIMIZATION_LATER",
+      "original_comment": "via events only; no 6D+ dependency",
+      "effective_value": "YES_EVIDENCE_FOR_PERFORMANCE_OPTIMIZATION_LATER",
+      "normalized": false
+    },
+    {
+      "id": "6C-ATT-001",
+      "section": "E. Attendance, leave, and time tracking (6C.03)",
+      "original_value": "ALL_FIVE_METHOD_FAMILIES",
+      "original_comment": "QR, biometric, RFID/NFC, mobile GPS, manual override (doc L83) — as registered capabilities",
+      "effective_value": "ALL_FIVE_METHOD_FAMILIES",
+      "normalized": false
+    },
+    {
+      "id": "6C-ATT-002",
+      "section": "E. Attendance, leave, and time tracking (6C.03)",
+      "original_value": "YES_PROVIDER_NEUTRAL_ONLY",
+      "original_comment": "",
+      "effective_value": "YES_PROVIDER_NEUTRAL_ONLY",
+      "normalized": false
+    },
+    {
+      "id": "6C-ATT-003",
+      "section": "E. Attendance, leave, and time tracking (6C.03)",
+      "original_value": "NO_REAL_BIOMETRIC_BRANDS_IN_6C",
+      "original_comment": "brand adapters separately approved",
+      "effective_value": "NO_REAL_BIOMETRIC_BRANDS_IN_6C",
+      "normalized": false
+    },
+    {
+      "id": "6C-ATT-004",
+      "section": "E. Attendance, leave, and time tracking (6C.03)",
+      "original_value": "YES_SELF_AND_SUPERVISOR_SCAN",
+      "original_comment": "",
+      "effective_value": "YES_SELF_AND_SUPERVISOR_SCAN",
+      "normalized": false
+    },
+    {
+      "id": "6C-ATT-005",
+      "section": "E. Attendance, leave, and time tracking (6C.03)",
+      "original_value": "LIVENESS_PHOTO_CONFIGURABLE",
+      "original_comment": "",
+      "effective_value": "LIVENESS_PHOTO_CONFIGURABLE",
+      "normalized": false
+    },
+    {
+      "id": "6C-ATT-006",
+      "section": "E. Attendance, leave, and time tracking (6C.03)",
+      "original_value": "YES_OFFLINE_QUEUE_IN_SCOPE",
+      "original_comment": "",
+      "effective_value": "YES_OFFLINE_QUEUE_IN_SCOPE",
+      "normalized": false
+    },
+    {
+      "id": "6C-ATT-007",
+      "section": "E. Attendance, leave, and time tracking (6C.03)",
+      "original_value": "SERVER_AUTHORITATIVE_RECORD_SKEW_TOLERANCE_CONFIGURABLE",
+      "original_comment": "",
+      "effective_value": "SERVER_AUTHORITATIVE_RECORD_SKEW_TOLERANCE_CONFIGURABLE",
+      "normalized": false
+    },
+    {
+      "id": "6C-ATT-008",
+      "section": "E. Attendance, leave, and time tracking (6C.03)",
+      "original_value": "DUPLICATE_DETECTED_RECORDED_AS_EXCEPTION",
+      "original_comment": "",
+      "effective_value": "DUPLICATE_DETECTED_RECORDED_AS_EXCEPTION",
+      "normalized": false
+    },
+    {
+      "id": "6C-ATT-009",
+      "section": "E. Attendance, leave, and time tracking (6C.03)",
+      "original_value": "MISSING_CHECKOUT_FLAGGED_CONFIGURABLE_AUTO_CLOSE",
+      "original_comment": "",
+      "effective_value": "MISSING_CHECKOUT_FLAGGED_CONFIGURABLE_AUTO_CLOSE",
+      "normalized": false
+    },
+    {
+      "id": "6C-ATT-010",
+      "section": "E. Attendance, leave, and time tracking (6C.03)",
+      "original_value": "YES_OVERRIDE_REQUIRES_REASON",
+      "original_comment": "doc L86",
+      "effective_value": "YES_OVERRIDE_REQUIRES_REASON",
+      "normalized": false
+    },
+    {
+      "id": "6C-ATT-011",
+      "section": "E. Attendance, leave, and time tracking (6C.03)",
+      "original_value": "OVERRIDE_APPROVAL_CONFIGURABLE_DEFAULT_ON",
+      "original_comment": "",
+      "effective_value": "OVERRIDE_APPROVAL_CONFIGURABLE_DEFAULT_ON",
+      "normalized": false
+    },
+    {
+      "id": "6C-ATT-012",
+      "section": "E. Attendance, leave, and time tracking (6C.03)",
+      "original_value": "YES_SHIFTS_ROSTERS_IN_SCOPE",
+      "original_comment": "",
+      "effective_value": "YES_SHIFTS_ROSTERS_IN_SCOPE",
+      "normalized": false
+    },
+    {
+      "id": "6C-ATT-013",
+      "section": "E. Attendance, leave, and time tracking (6C.03)",
+      "original_value": "CONFIGURABLE_ORG_OR_BRANCH",
+      "original_comment": "",
+      "effective_value": "CONFIGURABLE_ORG_OR_BRANCH",
+      "normalized": false
+    },
+    {
+      "id": "6C-ATT-014",
+      "section": "E. Attendance, leave, and time tracking (6C.03)",
+      "original_value": "YES_LEAVE_TYPES_CONFIGURABLE",
+      "original_comment": "",
+      "effective_value": "YES_LEAVE_TYPES_CONFIGURABLE",
+      "normalized": false
+    },
+    {
+      "id": "6C-ATT-015",
+      "section": "E. Attendance, leave, and time tracking (6C.03)",
+      "original_value": "YES_ACCRUAL_CARRYFORWARD_EXPIRY_ENCASH_CONFIGURABLE",
+      "original_comment": "",
+      "effective_value": "YES_ACCRUAL_CARRYFORWARD_EXPIRY_ENCASH_CONFIGURABLE",
+      "normalized": false
+    },
+    {
+      "id": "6C-ATT-016",
+      "section": "E. Attendance, leave, and time tracking (6C.03)",
+      "original_value": "YES_LEAVE_APPROVAL_CHAINS_CONFIGURABLE",
+      "original_comment": "",
+      "effective_value": "YES_LEAVE_APPROVAL_CHAINS_CONFIGURABLE",
+      "normalized": false
+    },
+    {
+      "id": "6C-ATT-017",
+      "section": "E. Attendance, leave, and time tracking (6C.03)",
+      "original_value": "YES_EMIT_PAYROLL_INPUT_EVIDENCE",
+      "original_comment": "doc L85",
+      "effective_value": "YES_EMIT_PAYROLL_INPUT_EVIDENCE",
+      "normalized": false
+    },
+    {
+      "id": "6C-ATT-018",
+      "section": "E. Attendance, leave, and time tracking (6C.03)",
+      "original_value": "NO_USE_ADL_024_FOR_TIME_WINDOWS",
+      "original_comment": "ADL-024 (time-window), not ADL-024-mislabel; see L",
+      "effective_value": "YES_USE_ADL_024_FOR_ATTENDANCE_WINDOWS",
+      "normalized": true
+    },
+    {
+      "id": "6C-ATT-019",
+      "section": "E. Attendance, leave, and time tracking (6C.03)",
+      "original_value": "YES_DEGRADE_TO_FALLBACK_METHODS",
+      "original_comment": "doc L87",
+      "effective_value": "YES_DEGRADE_TO_FALLBACK_METHODS",
+      "normalized": false
+    },
+    {
+      "id": "6C-ATT-020",
+      "section": "E. Attendance, leave, and time tracking (6C.03)",
+      "original_value": "YES_LOCATION_SENSITIVE_REDACTED",
+      "original_comment": "",
+      "effective_value": "YES_LOCATION_SENSITIVE_REDACTED",
+      "normalized": false
+    },
+    {
+      "id": "6C-HR-OPS-001",
+      "section": "F. Performance, commission, policy, offboarding (6C.04)",
+      "original_value": "YES_FULLY_CONFIGURABLE",
+      "original_comment": "doc L93",
+      "effective_value": "YES_FULLY_CONFIGURABLE",
+      "normalized": false
+    },
+    {
+      "id": "6C-HR-OPS-002",
+      "section": "F. Performance, commission, policy, offboarding (6C.04)",
+      "original_value": "YES_WEIGHTED_GOALS",
+      "original_comment": "",
+      "effective_value": "YES_WEIGHTED_GOALS",
+      "normalized": false
+    },
+    {
+      "id": "6C-HR-OPS-003",
+      "section": "F. Performance, commission, policy, offboarding (6C.04)",
+      "original_value": "CONFIGURABLE_LABELS_MINIMAL_HARD_ANCHORS",
+      "original_comment": "",
+      "effective_value": "CONFIGURABLE_LABELS_MINIMAL_HARD_ANCHORS",
+      "normalized": false
+    },
+    {
+      "id": "6C-HR-OPS-004",
+      "section": "F. Performance, commission, policy, offboarding (6C.04)",
+      "original_value": "YES_RULES_ENGINE_FOR_AT_RISK",
+      "original_comment": "",
+      "effective_value": "YES_RULES_ENGINE_FOR_AT_RISK",
+      "normalized": false
+    },
+    {
+      "id": "6C-HR-OPS-005",
+      "section": "F. Performance, commission, policy, offboarding (6C.04)",
+      "original_value": "YES_CONSUME_6B_CRM_PAYMENT_EVIDENCE",
+      "original_comment": "read/ref only (doc L94)",
+      "effective_value": "YES_CONSUME_6B_CRM_PAYMENT_EVIDENCE",
+      "normalized": false
+    },
+    {
+      "id": "6C-HR-OPS-006",
+      "section": "F. Performance, commission, policy, offboarding (6C.04)",
+      "original_value": "YES_SEPARATE_FFET_SURFACES",
+      "original_comment": "calc / deferred release / clawback reversal / tier accelerator / pool distribution",
+      "effective_value": "YES_SEPARATE_FFET_SURFACES",
+      "normalized": false
+    },
+    {
+      "id": "6C-HR-OPS-007",
+      "section": "F. Performance, commission, policy, offboarding (6C.04)",
+      "original_value": "YES_EMIT_COMMISSION_BATCH_TO_6B_PAYROLL",
+      "original_comment": "via events",
+      "effective_value": "YES_EMIT_COMMISSION_BATCH_TO_6B_PAYROLL",
+      "normalized": false
+    },
+    {
+      "id": "6C-HR-OPS-008",
+      "section": "F. Performance, commission, policy, offboarding (6C.04)",
+      "original_value": "YES_CLAWBACK_REQUIRES_GATEKEEPER",
+      "original_comment": "",
+      "effective_value": "YES_CLAWBACK_REQUIRES_GATEKEEPER",
+      "normalized": false
+    },
+    {
+      "id": "6C-HR-OPS-009",
+      "section": "F. Performance, commission, policy, offboarding (6C.04)",
+      "original_value": "YES_VERSIONED_POLICY_DOCUMENTS",
+      "original_comment": "",
+      "effective_value": "YES_VERSIONED_POLICY_DOCUMENTS",
+      "normalized": false
+    },
+    {
+      "id": "6C-HR-OPS-010",
+      "section": "F. Performance, commission, policy, offboarding (6C.04)",
+      "original_value": "YES_IMMUTABLE_ACKNOWLEDGEMENT_EVIDENCE",
+      "original_comment": "",
+      "effective_value": "YES_IMMUTABLE_ACKNOWLEDGEMENT_EVIDENCE",
+      "normalized": false
+    },
+    {
+      "id": "6C-HR-OPS-011",
+      "section": "F. Performance, commission, policy, offboarding (6C.04)",
+      "original_value": "YES_OFFBOARDING_IS_SAGA",
+      "original_comment": "doc L96 → ADL-001",
+      "effective_value": "YES_OFFBOARDING_IS_SAGA",
+      "normalized": false
+    },
+    {
+      "id": "6C-HR-OPS-012",
+      "section": "F. Performance, commission, policy, offboarding (6C.04)",
+      "original_value": "MANDATORY_SETTLEMENT_ASSET_WORKSPACE_ACCESS_PAYROLL",
+      "original_comment": "all five mandatory Saga steps",
+      "effective_value": "MANDATORY_SETTLEMENT_ASSET_WORKSPACE_ACCESS_PAYROLL",
+      "normalized": false
+    },
+    {
+      "id": "6C-HR-OPS-013",
+      "section": "F. Performance, commission, policy, offboarding (6C.04)",
+      "original_value": "YES_ACCESS_REVOCATION_VIA_GATEKEEPER",
+      "original_comment": "doc L97",
+      "effective_value": "YES_ACCESS_REVOCATION_VIA_GATEKEEPER",
+      "normalized": false
+    },
+    {
+      "id": "6C-HR-OPS-014",
+      "section": "F. Performance, commission, policy, offboarding (6C.04)",
+      "original_value": "YES_REVERSIBLE_DEACTIVATION_BEFORE_IRREVERSIBLE",
+      "original_comment": "",
+      "effective_value": "YES_REVERSIBLE_DEACTIVATION_BEFORE_IRREVERSIBLE",
+      "normalized": false
+    },
+    {
+      "id": "6C-HR-OPS-015",
+      "section": "F. Performance, commission, policy, offboarding (6C.04)",
+      "original_value": "HUMAN_APPROVAL_FOR_FINAL_SETTLEMENT_AND_IRREVERSIBLE_REVOCATION",
+      "original_comment": "",
+      "effective_value": "HUMAN_APPROVAL_FOR_FINAL_SETTLEMENT_AND_IRREVERSIBLE_REVOCATION",
+      "normalized": false
+    },
+    {
+      "id": "6C-WORK-MSG-001",
+      "section": "G. Workspace messaging and collaboration (6C.05)",
+      "original_value": "YES_ALL_IN_SCOPE",
+      "original_comment": "channels, DMs, threads, mentions, reactions, attachments, read receipts",
+      "effective_value": "YES_ALL_IN_SCOPE",
+      "normalized": false
+    },
+    {
+      "id": "6C-WORK-MSG-002",
+      "section": "G. Workspace messaging and collaboration (6C.05)",
+      "original_value": "PROVIDER_NEUTRAL_RUNTIME_ONLY",
+      "original_comment": "NO real-time transport infra in 6C runtime (scope-creep guard)",
+      "effective_value": "PROVIDER_NEUTRAL_RUNTIME_ONLY",
+      "normalized": false
+    },
+    {
+      "id": "6C-WORK-MSG-003",
+      "section": "G. Workspace messaging and collaboration (6C.05)",
+      "original_value": "DEFERRED_SCAFFOLD_BOUNDARY_ONLY",
+      "original_comment": "optional E2E encryption deferred",
+      "effective_value": "DEFERRED_SCAFFOLD_BOUNDARY_ONLY",
+      "normalized": false
+    },
+    {
+      "id": "6C-WORK-MSG-004",
+      "section": "G. Workspace messaging and collaboration (6C.05)",
+      "original_value": "YES_IMMUTABLE_EDIT_HISTORY",
+      "original_comment": "",
+      "effective_value": "YES_IMMUTABLE_EDIT_HISTORY",
+      "normalized": false
+    },
+    {
+      "id": "6C-WORK-MSG-005",
+      "section": "G. Workspace messaging and collaboration (6C.05)",
+      "original_value": "RETAINED_WITH_TOMBSTONE_THEN_STAGED",
+      "original_comment": "soft-delete + tombstone; staged permanent deletion rules apply",
+      "effective_value": "RETAINED_WITH_TOMBSTONE_THEN_STAGED",
+      "normalized": false
+    },
+    {
+      "id": "6C-WORK-MSG-006",
+      "section": "G. Workspace messaging and collaboration (6C.05)",
+      "original_value": "YES_6A_FILE_SERVICE_ONLY",
+      "original_comment": "",
+      "effective_value": "YES_6A_FILE_SERVICE_ONLY",
+      "normalized": false
+    },
+    {
+      "id": "6C-WORK-MSG-007",
+      "section": "G. Workspace messaging and collaboration (6C.05)",
+      "original_value": "YES_GATEWAY_FOR_OUTBOUND_NOTIFICATIONS",
+      "original_comment": "doc L105",
+      "effective_value": "YES_GATEWAY_FOR_OUTBOUND_NOTIFICATIONS",
+      "normalized": false
+    },
+    {
+      "id": "6C-WORK-MSG-008",
+      "section": "G. Workspace messaging and collaboration (6C.05)",
+      "original_value": "YES_MENTIONS_GENERATE_NOTIFICATION_EVIDENCE",
+      "original_comment": "",
+      "effective_value": "YES_MENTIONS_GENERATE_NOTIFICATION_EVIDENCE",
+      "normalized": false
+    },
+    {
+      "id": "6C-WORK-MSG-009",
+      "section": "G. Workspace messaging and collaboration (6C.05)",
+      "original_value": "YES_USE_IDENTITY_NOT_OWN_RECORDS",
+      "original_comment": "doc L104",
+      "effective_value": "YES_USE_IDENTITY_NOT_OWN_RECORDS",
+      "normalized": false
+    },
+    {
+      "id": "6C-WORK-MSG-010",
+      "section": "G. Workspace messaging and collaboration (6C.05)",
+      "original_value": "BOTH_ACCESS_CORE_ROLES_AND_EMPLOYEE_TEAMS",
+      "original_comment": "",
+      "effective_value": "BOTH_ACCESS_CORE_ROLES_AND_EMPLOYEE_TEAMS",
+      "normalized": false
+    },
+    {
+      "id": "6C-WORK-MSG-011",
+      "section": "G. Workspace messaging and collaboration (6C.05)",
+      "original_value": "PRIVATE_CHANNEL_APPROVAL_CONFIGURABLE",
+      "original_comment": "",
+      "effective_value": "PRIVATE_CHANNEL_APPROVAL_CONFIGURABLE",
+      "normalized": false
+    },
+    {
+      "id": "6C-WORK-MSG-012",
+      "section": "G. Workspace messaging and collaboration (6C.05)",
+      "original_value": "YES_CROSS_MODULE_VIA_REGISTERED_REFS",
+      "original_comment": "",
+      "effective_value": "YES_CROSS_MODULE_VIA_REGISTERED_REFS",
+      "normalized": false
+    },
+    {
+      "id": "6C-WORK-MSG-013",
+      "section": "G. Workspace messaging and collaboration (6C.05)",
+      "original_value": "YES_6A_SEARCH_FILE_LAYER",
+      "original_comment": "",
+      "effective_value": "YES_6A_SEARCH_FILE_LAYER",
+      "normalized": false
+    },
+    {
+      "id": "6C-WORK-MSG-014",
+      "section": "G. Workspace messaging and collaboration (6C.05)",
+      "original_value": "YES_MODERATION_REPORTING_IN_SCOPE",
+      "original_comment": "",
+      "effective_value": "YES_MODERATION_REPORTING_IN_SCOPE",
+      "normalized": false
+    },
+    {
+      "id": "6C-WORK-MSG-015",
+      "section": "G. Workspace messaging and collaboration (6C.05)",
+      "original_value": "AI_READABLE_LATER_VIA_EVENTS_ONLY",
+      "original_comment": "prohibited fields: message body of private/DM channels, redacted-sensitive content; no 6F dependency now",
+      "effective_value": "AI_READABLE_LATER_VIA_EVENTS_ONLY",
+      "normalized": false
+    },
+    {
+      "id": "6C-WORK-TASK-001",
+      "section": "H. Tasks, projects, documents, knowledge (6C.06)",
+      "original_value": "YES_CROSS_MODULE_REGISTERED_REFS",
+      "original_comment": "doc L113",
+      "effective_value": "YES_CROSS_MODULE_REGISTERED_REFS",
+      "normalized": false
+    },
+    {
+      "id": "6C-WORK-TASK-002",
+      "section": "H. Tasks, projects, documents, knowledge (6C.06)",
+      "original_value": "YES_FULL_TASK_FIELDS",
+      "original_comment": "",
+      "effective_value": "YES_FULL_TASK_FIELDS",
+      "normalized": false
+    },
+    {
+      "id": "6C-WORK-TASK-003",
+      "section": "H. Tasks, projects, documents, knowledge (6C.06)",
+      "original_value": "CONFIGURABLE_WITH_MINIMAL_HARD_ANCHORS",
+      "original_comment": "",
+      "effective_value": "CONFIGURABLE_WITH_MINIMAL_HARD_ANCHORS",
+      "normalized": false
+    },
+    {
+      "id": "6C-WORK-TASK-004",
+      "section": "H. Tasks, projects, documents, knowledge (6C.06)",
+      "original_value": "DEPENDENCY_ENGINE_YES_GANTT_VIEW_DEFERRED",
+      "original_comment": "dependency logic in scope; visual Gantt is a screen/UI concern",
+      "effective_value": "DEPENDENCY_ENGINE_YES_GANTT_VIEW_DEFERRED",
+      "normalized": false
+    },
+    {
+      "id": "6C-WORK-TASK-005",
+      "section": "H. Tasks, projects, documents, knowledge (6C.06)",
+      "original_value": "YES_READ_ONLY_6B_FINANCE_EVIDENCE",
+      "original_comment": "",
+      "effective_value": "YES_READ_ONLY_6B_FINANCE_EVIDENCE",
+      "normalized": false
+    },
+    {
+      "id": "6C-WORK-TASK-006",
+      "section": "H. Tasks, projects, documents, knowledge (6C.06)",
+      "original_value": "NO_WRITE_TO_FINANCE",
+      "original_comment": "budgets read-only; no direct Finance writes",
+      "effective_value": "NO_WRITE_TO_FINANCE",
+      "normalized": false
+    },
+    {
+      "id": "6C-WORK-TASK-007",
+      "section": "H. Tasks, projects, documents, knowledge (6C.06)",
+      "original_value": "YES_VERSION_HISTORY_AND_RESTORE",
+      "original_comment": "",
+      "effective_value": "YES_VERSION_HISTORY_AND_RESTORE",
+      "normalized": false
+    },
+    {
+      "id": "6C-WORK-TASK-008",
+      "section": "H. Tasks, projects, documents, knowledge (6C.06)",
+      "original_value": "VERSIONED_SAVE_ONLY",
+      "original_comment": "real-time collaborative editing DEFERRED (scope-creep guard)",
+      "effective_value": "VERSIONED_SAVE_ONLY",
+      "normalized": false
+    },
+    {
+      "id": "6C-WORK-TASK-009",
+      "section": "H. Tasks, projects, documents, knowledge (6C.06)",
+      "original_value": "YES_6A_FILE_SERVICE_ONLY",
+      "original_comment": "",
+      "effective_value": "YES_6A_FILE_SERVICE_ONLY",
+      "normalized": false
+    },
+    {
+      "id": "6C-WORK-TASK-010",
+      "section": "H. Tasks, projects, documents, knowledge (6C.06)",
+      "original_value": "YES_TIME_LOG_EVIDENCE_FOR_BILLING_DIMENSIONS",
+      "original_comment": "",
+      "effective_value": "YES_TIME_LOG_EVIDENCE_FOR_BILLING_DIMENSIONS",
+      "normalized": false
+    },
+    {
+      "id": "6C-WORK-TASK-011",
+      "section": "H. Tasks, projects, documents, knowledge (6C.06)",
+      "original_value": "YES_REMINDERS_VIA_GATEWAY",
+      "original_comment": "",
+      "effective_value": "YES_REMINDERS_VIA_GATEWAY",
+      "normalized": false
+    },
+    {
+      "id": "6C-WORK-TASK-012",
+      "section": "H. Tasks, projects, documents, knowledge (6C.06)",
+      "original_value": "YES_CONFIGURABLE_PROJECT_TEMPLATES",
+      "original_comment": "",
+      "effective_value": "YES_CONFIGURABLE_PROJECT_TEMPLATES",
+      "normalized": false
+    },
+    {
+      "id": "6C-WORK-TASK-013",
+      "section": "H. Tasks, projects, documents, knowledge (6C.06)",
+      "original_value": "YES_TENANT_AUTHORED_NEVER_HARDCODED",
+      "original_comment": "",
+      "effective_value": "YES_TENANT_AUTHORED_NEVER_HARDCODED",
+      "normalized": false
+    },
+    {
+      "id": "6C-WORK-TASK-014",
+      "section": "H. Tasks, projects, documents, knowledge (6C.06)",
+      "original_value": "YES_CUSTOMER_FIRST_RESTORE_RULES",
+      "original_comment": "",
+      "effective_value": "YES_CUSTOMER_FIRST_RESTORE_RULES",
+      "normalized": false
+    },
+    {
+      "id": "6C-WORK-TASK-015",
+      "section": "H. Tasks, projects, documents, knowledge (6C.06)",
+      "original_value": "YES_TASK_PROJECT_EVENTS_CONSUMABLE_BY_CALENDAR",
+      "original_comment": "",
+      "effective_value": "YES_TASK_PROJECT_EVENTS_CONSUMABLE_BY_CALENDAR",
+      "normalized": false
+    },
+    {
+      "id": "6C-CAL-001",
+      "section": "I. Calendar, meetings, rooms, announcements (6C.07)",
+      "original_value": "YES_PROVIDER_NEUTRAL_RUNTIME_FIRST",
+      "original_comment": "",
+      "effective_value": "YES_PROVIDER_NEUTRAL_RUNTIME_FIRST",
+      "normalized": false
+    },
+    {
+      "id": "6C-CAL-002",
+      "section": "I. Calendar, meetings, rooms, announcements (6C.07)",
+      "original_value": "ADAPTER_BOUNDARY_ONLY",
+      "original_comment": "Google/Outlook sync = boundary, no real adapter/credentials in 6C",
+      "effective_value": "ADAPTER_BOUNDARY_ONLY",
+      "normalized": false
+    },
+    {
+      "id": "6C-CAL-003",
+      "section": "I. Calendar, meetings, rooms, announcements (6C.07)",
+      "original_value": "ADAPTER_BOUNDARY_ONLY",
+      "original_comment": "Meet/Zoom link gen = boundary only",
+      "effective_value": "ADAPTER_BOUNDARY_ONLY",
+      "normalized": false
+    },
+    {
+      "id": "6C-CAL-004",
+      "section": "I. Calendar, meetings, rooms, announcements (6C.07)",
+      "original_value": "YES_ENFORCE_CONFLICT_DETECTION",
+      "original_comment": "",
+      "effective_value": "YES_ENFORCE_CONFLICT_DETECTION",
+      "normalized": false
+    },
+    {
+      "id": "6C-CAL-005",
+      "section": "I. Calendar, meetings, rooms, announcements (6C.07)",
+      "original_value": "YES_CAPACITY_AND_EQUIPMENT_METADATA",
+      "original_comment": "",
+      "effective_value": "YES_CAPACITY_AND_EQUIPMENT_METADATA",
+      "normalized": false
+    },
+    {
+      "id": "6C-CAL-006",
+      "section": "I. Calendar, meetings, rooms, announcements (6C.07)",
+      "original_value": "YES_ANNOUNCEMENTS_VIA_GATEWAY",
+      "original_comment": "doc L125",
+      "effective_value": "YES_ANNOUNCEMENTS_VIA_GATEWAY",
+      "normalized": false
+    },
+    {
+      "id": "6C-CAL-007",
+      "section": "I. Calendar, meetings, rooms, announcements (6C.07)",
+      "original_value": "YES_DISTINGUISH_MANDATORY_FROM_OPT_OUT",
+      "original_comment": "mandatory notices opt-out-exempt but gateway-routed",
+      "effective_value": "YES_DISTINGUISH_MANDATORY_FROM_OPT_OUT",
+      "normalized": false
+    },
+    {
+      "id": "6C-CAL-008",
+      "section": "I. Calendar, meetings, rooms, announcements (6C.07)",
+      "original_value": "YES_REMINDERS_RESPECT_QUIET_HOURS",
+      "original_comment": "quiet hours configurable (doc L127)",
+      "effective_value": "YES_REMINDERS_RESPECT_QUIET_HOURS",
+      "normalized": false
+    },
+    {
+      "id": "6C-CAL-009",
+      "section": "I. Calendar, meetings, rooms, announcements (6C.07)",
+      "original_value": "YES_RECURRING_EVENTS",
+      "original_comment": "",
+      "effective_value": "YES_RECURRING_EVENTS",
+      "normalized": false
+    },
+    {
+      "id": "6C-CAL-010",
+      "section": "I. Calendar, meetings, rooms, announcements (6C.07)",
+      "original_value": "YES_ORIGINATE_FROM_HR_TASKS_EVENTS_LMS_VIA_EVENTS_ONLY",
+      "original_comment": "",
+      "effective_value": "YES_ORIGINATE_FROM_HR_TASKS_EVENTS_LMS_VIA_EVENTS_ONLY",
+      "normalized": false
+    },
+    {
+      "id": "6C-CAL-011",
+      "section": "I. Calendar, meetings, rooms, announcements (6C.07)",
+      "original_value": "YES_MEETING_ATTENDANCE_FEEDS_WORKSPACE_EVIDENCE",
+      "original_comment": "",
+      "effective_value": "YES_MEETING_ATTENDANCE_FEEDS_WORKSPACE_EVIDENCE",
+      "normalized": false
+    },
+    {
+      "id": "6C-CAL-012",
+      "section": "I. Calendar, meetings, rooms, announcements (6C.07)",
+      "original_value": "YES_DEGRADE_GRACEFULLY_ON_SYNC_FAILURE",
+      "original_comment": "",
+      "effective_value": "YES_DEGRADE_GRACEFULLY_ON_SYNC_FAILURE",
+      "normalized": false
+    },
+    {
+      "id": "6C-CAL-013",
+      "section": "I. Calendar, meetings, rooms, announcements (6C.07)",
+      "original_value": "CONFIGURABLE_HARD_BLOCK_OR_WARN",
+      "original_comment": "default hard-block on resource conflict, warn on soft overlap",
+      "effective_value": "CONFIGURABLE_HARD_BLOCK_OR_WARN",
+      "normalized": false
+    },
+    {
+      "id": "6C-CAL-014",
+      "section": "I. Calendar, meetings, rooms, announcements (6C.07)",
+      "original_value": "YES_ANNOUNCEMENT_ACK_EVIDENCE",
+      "original_comment": "",
+      "effective_value": "YES_ANNOUNCEMENT_ACK_EVIDENCE",
+      "normalized": false
+    },
+    {
+      "id": "6C-CAL-015",
+      "section": "I. Calendar, meetings, rooms, announcements (6C.07)",
+      "original_value": "YES_EXCLUDE_PROVIDER_CREDENTIALS_FROM_6C",
+      "original_comment": "future adapter credential scope",
+      "effective_value": "YES_EXCLUDE_PROVIDER_CREDENTIALS_FROM_6C",
+      "normalized": false
+    },
+    {
+      "id": "6C-EVENT-REG-001",
+      "section": "J. Events configuration and registration (6C.08)",
+      "original_value": "YES_FULL_EVENT_CONFIG_SET",
+      "original_comment": "",
+      "effective_value": "YES_FULL_EVENT_CONFIG_SET",
+      "normalized": false
+    },
+    {
+      "id": "6C-EVENT-REG-002",
+      "section": "J. Events configuration and registration (6C.08)",
+      "original_value": "YES_REFERENCE_6B_PRODUCT_CATALOGUE",
+      "original_comment": "doc L133",
+      "effective_value": "YES_REFERENCE_6B_PRODUCT_CATALOGUE",
+      "normalized": false
+    },
+    {
+      "id": "6C-EVENT-REG-003",
+      "section": "J. Events configuration and registration (6C.08)",
+      "original_value": "YES_INVOICE_VIA_EVENTS_SAGA_ONLY",
+      "original_comment": "doc L136 → ADL-001",
+      "effective_value": "YES_INVOICE_VIA_EVENTS_SAGA_ONLY",
+      "normalized": false
+    },
+    {
+      "id": "6C-EVENT-REG-004",
+      "section": "J. Events configuration and registration (6C.08)",
+      "original_value": "YES_CONFIGURATION_ENGINE_FORMS",
+      "original_comment": "",
+      "effective_value": "YES_CONFIGURATION_ENGINE_FORMS",
+      "normalized": false
+    },
+    {
+      "id": "6C-EVENT-REG-005",
+      "section": "J. Events configuration and registration (6C.08)",
+      "original_value": "YES_WAITLIST_RULES_CONFIGURABLE",
+      "original_comment": "",
+      "effective_value": "YES_WAITLIST_RULES_CONFIGURABLE",
+      "normalized": false
+    },
+    {
+      "id": "6C-EVENT-REG-006",
+      "section": "J. Events configuration and registration (6C.08)",
+      "original_value": "YES_ADL_023_WAITLIST_TIMER",
+      "original_comment": "",
+      "effective_value": "YES_ADL_023_WAITLIST_TIMER",
+      "normalized": false
+    },
+    {
+      "id": "6C-EVENT-REG-007",
+      "section": "J. Events configuration and registration (6C.08)",
+      "original_value": "YES_TICKET_CLAIM_DEADLINES_CONFIGURABLE",
+      "original_comment": "",
+      "effective_value": "YES_TICKET_CLAIM_DEADLINES_CONFIGURABLE",
+      "normalized": false
+    },
+    {
+      "id": "6C-EVENT-REG-008",
+      "section": "J. Events configuration and registration (6C.08)",
+      "original_value": "YES_APPROVAL_REQUIRED_REGISTRATIONS",
+      "original_comment": "",
+      "effective_value": "YES_APPROVAL_REQUIRED_REGISTRATIONS",
+      "normalized": false
+    },
+    {
+      "id": "6C-EVENT-REG-009",
+      "section": "J. Events configuration and registration (6C.08)",
+      "original_value": "CALENDAR_WHEN_ACTIVE",
+      "original_comment": "Workspace Calendar dependency where present (doc 6C.08 dep on 6C.07)",
+      "effective_value": "CALENDAR_WHEN_ACTIVE",
+      "normalized": false
+    },
+    {
+      "id": "6C-EVENT-REG-010",
+      "section": "J. Events configuration and registration (6C.08)",
+      "original_value": "REFERENCE_FINANCE_EXPENSE_VIA_EVENTS",
+      "original_comment": "honorarium references Finance/expense, not duplicated",
+      "effective_value": "REFERENCE_FINANCE_EXPENSE_VIA_EVENTS",
+      "normalized": false
+    },
+    {
+      "id": "6C-EVENT-REG-011",
+      "section": "J. Events configuration and registration (6C.08)",
+      "original_value": "YES_LINK_ATTENDEE_TO_CRM_LEAD_WHERE_APPLICABLE",
+      "original_comment": "",
+      "effective_value": "YES_LINK_ATTENDEE_TO_CRM_LEAD_WHERE_APPLICABLE",
+      "normalized": false
+    },
+    {
+      "id": "6C-EVENT-REG-012",
+      "section": "J. Events configuration and registration (6C.08)",
+      "original_value": "EMIT_EVENT_LEAD_HANDOFF_NOT_DIRECT",
+      "original_comment": "Events never write CRM directly (doc L23)",
+      "effective_value": "EMIT_EVENT_LEAD_HANDOFF_NOT_DIRECT",
+      "normalized": false
+    },
+    {
+      "id": "6C-EVENT-REG-013",
+      "section": "J. Events configuration and registration (6C.08)",
+      "original_value": "YES_MULTI_TRACK_SESSION_REGISTRATION",
+      "original_comment": "",
+      "effective_value": "YES_MULTI_TRACK_SESSION_REGISTRATION",
+      "normalized": false
+    },
+    {
+      "id": "6C-EVENT-REG-014",
+      "section": "J. Events configuration and registration (6C.08)",
+      "original_value": "DELEGATE_REFUND_TO_FINANCE_PAYMENT",
+      "original_comment": "cancellation state in 6C; refund executed by 6B",
+      "effective_value": "DELEGATE_REFUND_TO_FINANCE_PAYMENT",
+      "normalized": false
+    },
+    {
+      "id": "6C-EVENT-REG-015",
+      "section": "J. Events configuration and registration (6C.08)",
+      "original_value": "YES_FREE_PAID_APPROVAL_ONLY_TICKET_TYPES",
+      "original_comment": "",
+      "effective_value": "YES_FREE_PAID_APPROVAL_ONLY_TICKET_TYPES",
+      "normalized": false
+    },
+    {
+      "id": "6C-EVENT-REG-016",
+      "section": "J. Events configuration and registration (6C.08)",
+      "original_value": "ALL_LEVELS_CONFIGURABLE",
+      "original_comment": "event / session / ticket-type capacity, configurable per event",
+      "effective_value": "ALL_LEVELS_CONFIGURABLE",
+      "normalized": false
+    },
+    {
+      "id": "6C-EVENT-REG-017",
+      "section": "J. Events configuration and registration (6C.08)",
+      "original_value": "YES_FORBID_LMS_CERTIFICATION_OUTPUTS",
+      "original_comment": "LMS is 6D",
+      "effective_value": "YES_FORBID_LMS_CERTIFICATION_OUTPUTS",
+      "normalized": false
+    },
+    {
+      "id": "6C-EVENT-REG-018",
+      "section": "J. Events configuration and registration (6C.08)",
+      "original_value": "YES_EVIDENCE_FOR_EVERY_REGISTRATION_ATTEMPT",
+      "original_comment": "incl. rejected/waitlisted",
+      "effective_value": "YES_EVIDENCE_FOR_EVERY_REGISTRATION_ATTEMPT",
+      "normalized": false
+    },
+    {
+      "id": "6C-EVENT-CHECK-001",
+      "section": "K. Events check-in and post-event (6C.09)",
+      "original_value": "YES_REQUIRE_PAYMENT_REGISTRATION_STATE",
+      "original_comment": "doc L143",
+      "effective_value": "YES_REQUIRE_PAYMENT_REGISTRATION_STATE",
+      "normalized": false
+    },
+    {
+      "id": "6C-EVENT-CHECK-002",
+      "section": "K. Events check-in and post-event (6C.09)",
+      "original_value": "CRYPTOGRAPHIC_SIGNED_TOKENS",
+      "original_comment": "",
+      "effective_value": "CRYPTOGRAPHIC_SIGNED_TOKENS",
+      "normalized": false
+    },
+    {
+      "id": "6C-EVENT-CHECK-003",
+      "section": "K. Events check-in and post-event (6C.09)",
+      "original_value": "YES_ADL_024_CHECKIN_WINDOWS",
+      "original_comment": "",
+      "effective_value": "YES_ADL_024_CHECKIN_WINDOWS",
+      "normalized": false
+    },
+    {
+      "id": "6C-EVENT-CHECK-004",
+      "section": "K. Events check-in and post-event (6C.09)",
+      "original_value": "YES_KIOSK_MODE_IN_SCOPE",
+      "original_comment": "",
+      "effective_value": "YES_KIOSK_MODE_IN_SCOPE",
+      "normalized": false
+    },
+    {
+      "id": "6C-EVENT-CHECK-005",
+      "section": "K. Events check-in and post-event (6C.09)",
+      "original_value": "YES_SESSION_LEVEL_CHECKIN",
+      "original_comment": "",
+      "effective_value": "YES_SESSION_LEVEL_CHECKIN",
+      "normalized": false
+    },
+    {
+      "id": "6C-EVENT-CHECK-006",
+      "section": "K. Events check-in and post-event (6C.09)",
+      "original_value": "YES_OVERRIDE_REQUIRES_REASON_AND_APPROVAL",
+      "original_comment": "",
+      "effective_value": "YES_OVERRIDE_REQUIRES_REASON_AND_APPROVAL",
+      "normalized": false
+    },
+    {
+      "id": "6C-EVENT-CHECK-007",
+      "section": "K. Events check-in and post-event (6C.09)",
+      "original_value": "DUPLICATE_BLOCKED_RECORDED_AS_EXCEPTION",
+      "original_comment": "",
+      "effective_value": "DUPLICATE_BLOCKED_RECORDED_AS_EXCEPTION",
+      "normalized": false
+    },
+    {
+      "id": "6C-EVENT-CHECK-008",
+      "section": "K. Events check-in and post-event (6C.09)",
+      "original_value": "YES_OFFLINE_CHECKIN_QUEUE",
+      "original_comment": "",
+      "effective_value": "YES_OFFLINE_CHECKIN_QUEUE",
+      "normalized": false
+    },
+    {
+      "id": "6C-EVENT-CHECK-009",
+      "section": "K. Events check-in and post-event (6C.09)",
+      "original_value": "YES_BADGE_EXPORT_IN_SCOPE",
+      "original_comment": "",
+      "effective_value": "YES_BADGE_EXPORT_IN_SCOPE",
+      "normalized": false
+    },
+    {
+      "id": "6C-EVENT-CHECK-010",
+      "section": "K. Events check-in and post-event (6C.09)",
+      "original_value": "YES_CONFIGURATION_ENGINE_FORMS",
+      "original_comment": "",
+      "effective_value": "YES_CONFIGURATION_ENGINE_FORMS",
+      "normalized": false
+    },
+    {
+      "id": "6C-EVENT-CHECK-011",
+      "section": "K. Events check-in and post-event (6C.09)",
+      "original_value": "CONFIGURABLE_ANON_OR_IDENTIFIED",
+      "original_comment": "",
+      "effective_value": "CONFIGURABLE_ANON_OR_IDENTIFIED",
+      "normalized": false
+    },
+    {
+      "id": "6C-EVENT-CHECK-012",
+      "section": "K. Events check-in and post-event (6C.09)",
+      "original_value": "YES_6A_FILE_SERVICE",
+      "original_comment": "",
+      "effective_value": "YES_6A_FILE_SERVICE",
+      "normalized": false
+    },
+    {
+      "id": "6C-EVENT-CHECK-013",
+      "section": "K. Events check-in and post-event (6C.09)",
+      "original_value": "EMIT_EVENT_LEAD_HANDOFF_EVIDENCE",
+      "original_comment": "update via CRM-owned handler, not direct write",
+      "effective_value": "EMIT_EVENT_LEAD_HANDOFF_EVIDENCE",
+      "normalized": false
+    },
+    {
+      "id": "6C-EVENT-CHECK-014",
+      "section": "K. Events check-in and post-event (6C.09)",
+      "original_value": "DEFER_TO_6D_LMS_CERTIFICATES",
+      "original_comment": "attendance certificate ≠ LMS certification",
+      "effective_value": "ATTENDANCE_CERTIFICATE_EVIDENCE_ALLOWED_IN_6C__LMS_CERTIFICATION_DEFERRED_TO_6D",
+      "normalized": true
+    },
+    {
+      "id": "6C-EVENT-CHECK-015",
+      "section": "K. Events check-in and post-event (6C.09)",
+      "original_value": "AI_READABLE_LATER_VIA_EVENTS_ONLY",
+      "original_comment": "prohibited: attendee contact PII, payment internals",
+      "effective_value": "AI_READABLE_LATER_VIA_EVENTS_ONLY",
+      "normalized": false
+    },
+    {
+      "id": "6C-ADL-001",
+      "section": "L. ADL and hard-rule decisions",
+      "original_value": "SAGA_ON_OFFBOARDING_AND_EVENT_REG_INVOICE_PAYMENT_TICKET",
+      "original_comment": "cross-module workflows with compensation",
+      "effective_value": "SAGA_ON_OFFBOARDING_AND_EVENT_REG_INVOICE_PAYMENT_TICKET",
+      "normalized": false
+    },
+    {
+      "id": "6C-ADL-002",
+      "section": "L. ADL and hard-rule decisions",
+      "original_value": "YES_OFFBOARDING_CARRIES_ADL_001",
+      "original_comment": "",
+      "effective_value": "YES_OFFBOARDING_CARRIES_ADL_001",
+      "normalized": false
+    },
+    {
+      "id": "6C-ADL-003",
+      "section": "L. ADL and hard-rule decisions",
+      "original_value": "YES_EVENT_REG_TO_TICKET_CARRIES_ADL_001",
+      "original_comment": "",
+      "effective_value": "YES_EVENT_REG_TO_TICKET_CARRIES_ADL_001",
+      "normalized": false
+    },
+    {
+      "id": "6C-ADL-004",
+      "section": "L. ADL and hard-rule decisions",
+      "original_value": "YES_FAILED_COMPENSATION_TO_DLQ_ADL_002",
+      "original_comment": "",
+      "effective_value": "YES_FAILED_COMPENSATION_TO_DLQ_ADL_002",
+      "normalized": false
+    },
+    {
+      "id": "6C-ADL-005",
+      "section": "L. ADL and hard-rule decisions",
+      "original_value": "YES_EVERY_TIMED_DEADLINE_NEEDS_EXPLICIT_ADL_REFS",
+      "original_comment": "",
+      "effective_value": "YES_EVERY_TIMED_DEADLINE_NEEDS_EXPLICIT_ADL_REFS",
+      "normalized": false
+    },
+    {
+      "id": "6C-ADL-006",
+      "section": "L. ADL and hard-rule decisions",
+      "original_value": "CONFIRMED_ADL_023_WAITLIST_AUTO_PROMOTION_TIMER",
+      "original_comment": "",
+      "effective_value": "CONFIRMED_ADL_023_WAITLIST_AUTO_PROMOTION_TIMER",
+      "normalized": false
+    },
+    {
+      "id": "6C-ADL-007",
+      "section": "L. ADL and hard-rule decisions",
+      "original_value": "CONFIRMED_ADL_024_ATTENDANCE_AND_CHECKIN_WINDOWS",
+      "original_comment": "",
+      "effective_value": "CONFIRMED_ADL_024_ATTENDANCE_AND_CHECKIN_WINDOWS",
+      "normalized": false
+    },
+    {
+      "id": "6C-ADL-008",
+      "section": "L. ADL and hard-rule decisions",
+      "original_value": "YES_ADL_004_ALL_OUTBOUND",
+      "original_comment": "announcements, reminders, recruitment, event, workspace notifications",
+      "effective_value": "YES_ADL_004_ALL_OUTBOUND",
+      "normalized": false
+    },
+    {
+      "id": "6C-ADL-009",
+      "section": "L. ADL and hard-rule decisions",
+      "original_value": "YES_MANDATORY_NOTICES_GATEWAY_ROUTED_OPT_OUT_EXEMPT",
+      "original_comment": "",
+      "effective_value": "YES_MANDATORY_NOTICES_GATEWAY_ROUTED_OPT_OUT_EXEMPT",
+      "normalized": false
+    },
+    {
+      "id": "6C-ADL-010",
+      "section": "L. ADL and hard-rule decisions",
+      "original_value": "YES_MISSING_ADL_REF_BLOCKS_PROMOTION",
+      "original_comment": "no business-logic fallback (matches 6A/6B)",
+      "effective_value": "YES_MISSING_ADL_REF_BLOCKS_PROMOTION",
+      "normalized": false
+    },
+    {
+      "id": "6C-SEC-001",
+      "section": "M. Access, privacy, and support",
+      "original_value": "HIGH_RISK = offboarding, access revocation, commission clawback, private-channel access grant, irreversible deletion → Gatekeeper",
+      "original_comment": "",
+      "effective_value": "HIGH_RISK = offboarding, access revocation, commission clawback, private-channel access grant, irreversible deletion → Gatekeeper",
+      "normalized": false
+    },
+    {
+      "id": "6C-SEC-002",
+      "section": "M. Access, privacy, and support",
+      "original_value": "SUPPORT_WINDOW_ONLY = compensation, national ID, bank, health, disciplinary, performance",
+      "original_comment": "",
+      "effective_value": "SUPPORT_WINDOW_ONLY = compensation, national ID, bank, health, disciplinary, performance",
+      "normalized": false
+    },
+    {
+      "id": "6C-SEC-003",
+      "section": "M. Access, privacy, and support",
+      "original_value": "SUPPORT_WINDOW_ONLY = private channel / DM content",
+      "original_comment": "",
+      "effective_value": "SUPPORT_WINDOW_ONLY = private channel / DM content",
+      "normalized": false
+    },
+    {
+      "id": "6C-SEC-004",
+      "section": "M. Access, privacy, and support",
+      "original_value": "SUPPORT_WINDOW_ONLY = attendee contact PII + payment state",
+      "original_comment": "",
+      "effective_value": "SUPPORT_WINDOW_ONLY = attendee contact PII + payment state",
+      "normalized": false
+    },
+    {
+      "id": "6C-SEC-005",
+      "section": "M. Access, privacy, and support",
+      "original_value": "YES_MANAGERS_SEE_REPORTING_SCOPE_ONLY",
+      "original_comment": "",
+      "effective_value": "YES_MANAGERS_SEE_REPORTING_SCOPE_ONLY",
+      "normalized": false
+    },
+    {
+      "id": "6C-SEC-006",
+      "section": "M. Access, privacy, and support",
+      "original_value": "NO_WORKSPACE_ADMINS_NOT_SEE_PRIVATE_CONTENT_BY_DEFAULT",
+      "original_comment": "only via audited support window",
+      "effective_value": "NO_WORKSPACE_ADMINS_NOT_SEE_PRIVATE_CONTENT_BY_DEFAULT",
+      "normalized": false
+    },
+    {
+      "id": "6C-SEC-007",
+      "section": "M. Access, privacy, and support",
+      "original_value": "ORGANIZERS_SEE_CONTACT_AND_PAYMENT_STATE_NOT_RAW_PAYMENT_INTERNALS",
+      "original_comment": "",
+      "effective_value": "ORGANIZERS_SEE_CONTACT_AND_PAYMENT_STATE_NOT_RAW_PAYMENT_INTERNALS",
+      "normalized": false
+    },
+    {
+      "id": "6C-SEC-008",
+      "section": "M. Access, privacy, and support",
+      "original_value": "STAGED_REVERSIBLE_THEN_IRREVERSIBLE",
+      "original_comment": "deactivate (reversible) → revoke (irreversible, human-approved)",
+      "effective_value": "STAGED_REVERSIBLE_THEN_IRREVERSIBLE",
+      "normalized": false
+    },
+    {
+      "id": "6C-SEC-009",
+      "section": "M. Access, privacy, and support",
+      "original_value": "YES_OVERRIDE_AUDIT_REASON_AND_ACTOR_EVIDENCE",
+      "original_comment": "",
+      "effective_value": "YES_OVERRIDE_AUDIT_REASON_AND_ACTOR_EVIDENCE",
+      "normalized": false
+    },
+    {
+      "id": "6C-SEC-010",
+      "section": "M. Access, privacy, and support",
+      "original_value": "YES_TIME_BOUND_AUDITED_SUPPORT_WINDOWS",
+      "original_comment": "",
+      "effective_value": "YES_TIME_BOUND_AUDITED_SUPPORT_WINDOWS",
+      "normalized": false
+    },
+    {
+      "id": "6C-BILL-001",
+      "section": "N. Billing, pricing, and evidence",
+      "original_value": "YES_PRICING_REF_EVEN_ZERO_PRICED",
+      "original_comment": "",
+      "effective_value": "YES_PRICING_REF_EVEN_ZERO_PRICED",
+      "normalized": false
+    },
+    {
+      "id": "6C-BILL-002",
+      "section": "N. Billing, pricing, and evidence",
+      "original_value": "CONFIGURABLE_PACKAGE_INCLUDED_OR_ZERO_PRICED",
+      "original_comment": "tenant/package decides; must still carry a ref",
+      "effective_value": "CONFIGURABLE_PACKAGE_INCLUDED_OR_ZERO_PRICED",
+      "normalized": false
+    },
+    {
+      "id": "6C-BILL-003",
+      "section": "N. Billing, pricing, and evidence",
+      "original_value": "YES_USAGE_EVIDENCE_BEARING",
+      "original_comment": "",
+      "effective_value": "YES_USAGE_EVIDENCE_BEARING",
+      "normalized": false
+    },
+    {
+      "id": "6C-BILL-004",
+      "section": "N. Billing, pricing, and evidence",
+      "original_value": "YES_USAGE_EVIDENCE_BEARING",
+      "original_comment": "",
+      "effective_value": "YES_USAGE_EVIDENCE_BEARING",
+      "normalized": false
+    },
+    {
+      "id": "6C-BILL-005",
+      "section": "N. Billing, pricing, and evidence",
+      "original_value": "YES_SEPARATE_PRICING_REFS_BY_METHOD_FAMILY",
+      "original_comment": "",
+      "effective_value": "YES_SEPARATE_PRICING_REFS_BY_METHOD_FAMILY",
+      "normalized": false
+    },
+    {
+      "id": "6C-BILL-006",
+      "section": "N. Billing, pricing, and evidence",
+      "original_value": "YES_ADAPTER_BOUNDARIES_CARRY_PRICING_REFS",
+      "original_comment": "",
+      "effective_value": "YES_ADAPTER_BOUNDARIES_CARRY_PRICING_REFS",
+      "normalized": false
+    },
+    {
+      "id": "6C-BILL-007",
+      "section": "N. Billing, pricing, and evidence",
+      "original_value": "YES_6B_PRODUCT_PRICE_HISTORY_AUTHORITY",
+      "original_comment": "",
+      "effective_value": "YES_6B_PRODUCT_PRICE_HISTORY_AUTHORITY",
+      "normalized": false
+    },
+    {
+      "id": "6C-BILL-008",
+      "section": "N. Billing, pricing, and evidence",
+      "original_value": "YES_INVOICES_BY_6B_FINANCE_ONLY",
+      "original_comment": "",
+      "effective_value": "YES_INVOICES_BY_6B_FINANCE_ONLY",
+      "normalized": false
+    },
+    {
+      "id": "6C-BILL-009",
+      "section": "N. Billing, pricing, and evidence",
+      "original_value": "YES_TIME_LOGS_FEED_FUTURE_BILLING_DIMENSIONS",
+      "original_comment": "",
+      "effective_value": "YES_TIME_LOGS_FEED_FUTURE_BILLING_DIMENSIONS",
+      "normalized": false
+    },
+    {
+      "id": "6C-BILL-010",
+      "section": "N. Billing, pricing, and evidence",
+      "original_value": "YES_NAMED_EVIDENCE_ARTIFACTS_IN_TESTS",
+      "original_comment": "",
+      "effective_value": "YES_NAMED_EVIDENCE_ARTIFACTS_IN_TESTS",
+      "normalized": false
+    },
+    {
+      "id": "6C-API-001",
+      "section": "O. API, endpoint, and runtime shape",
+      "original_value": "SERVICE_AND_TEST_FIRST_CONTROLLERS_DEFERRED",
+      "original_comment": "like many 6B FFETs; controllers when screen contracts exist",
+      "effective_value": "SERVICE_AND_TEST_FIRST_CONTROLLERS_DEFERRED",
+      "normalized": false
+    },
+    {
+      "id": "6C-API-002",
+      "section": "O. API, endpoint, and runtime shape",
+      "original_value": "EVENT_COMMAND_STYLE_REST_DEFERRED_UNTIL_SCREEN_CONTRACTS",
+      "original_comment": "",
+      "effective_value": "EVENT_COMMAND_STYLE_REST_DEFERRED_UNTIL_SCREEN_CONTRACTS",
+      "normalized": false
+    },
+    {
+      "id": "6C-API-003",
+      "section": "O. API, endpoint, and runtime shape",
+      "original_value": "YES_ONE_DIRECT_SERVICE_TEST_PER_FFET",
+      "original_comment": "",
+      "effective_value": "YES_ONE_DIRECT_SERVICE_TEST_PER_FFET",
+      "normalized": false
+    },
+    {
+      "id": "6C-API-004",
+      "section": "O. API, endpoint, and runtime shape",
+      "original_value": "YES_LOCAL_API_TYPES",
+      "original_comment": "6B rootDir constraint; do not import contracts into API runtime",
+      "effective_value": "YES_LOCAL_API_TYPES",
+      "normalized": false
+    },
+    {
+      "id": "6C-API-005",
+      "section": "O. API, endpoint, and runtime shape",
+      "original_value": "BOTH_TS_TYPES_AND_ZOD",
+      "original_comment": "",
+      "effective_value": "BOTH_TS_TYPES_AND_ZOD",
+      "normalized": false
+    },
+    {
+      "id": "6C-API-006",
+      "section": "O. API, endpoint, and runtime shape",
+      "original_value": "YES_EVENT_PAYLOAD_CONTRACT_PER_EMITTED_EVENT",
+      "original_comment": "",
+      "effective_value": "YES_EVENT_PAYLOAD_CONTRACT_PER_EMITTED_EVENT",
+      "normalized": false
+    },
+    {
+      "id": "6C-API-007",
+      "section": "O. API, endpoint, and runtime shape",
+      "original_value": "NEST_INJECTABLE_WITH_DETERMINISTIC_CORE",
+      "original_comment": "deterministic functions wrapped in injectable services",
+      "effective_value": "NEST_INJECTABLE_WITH_DETERMINISTIC_CORE",
+      "normalized": false
+    },
+    {
+      "id": "6C-API-008",
+      "section": "O. API, endpoint, and runtime shape",
+      "original_value": "YES_CROSS_MODULE_WRITES_FORBIDDEN_EVENT_REFS_ONLY",
+      "original_comment": "",
+      "effective_value": "YES_CROSS_MODULE_WRITES_FORBIDDEN_EVENT_REFS_ONLY",
+      "normalized": false
+    },
+    {
+      "id": "6C-API-009",
+      "section": "O. API, endpoint, and runtime shape",
+      "original_value": "YES_TESTS_REJECT_ADJACENT_FORBIDDEN_BEHAVIOR",
+      "original_comment": "",
+      "effective_value": "YES_TESTS_REJECT_ADJACENT_FORBIDDEN_BEHAVIOR",
+      "normalized": false
+    },
+    {
+      "id": "6C-API-010",
+      "section": "O. API, endpoint, and runtime shape",
+      "original_value": "YES_DIRECT_PER_SEED_TSX_PLUS_BROAD_API_TEST",
+      "original_comment": "",
+      "effective_value": "YES_DIRECT_PER_SEED_TSX_PLUS_BROAD_API_TEST",
+      "normalized": false
+    },
+    {
+      "id": "6C-AUTO-001",
+      "section": "P. Autonomous workflow decisions",
+      "original_value": "YES_PLANNING_LINEAGE",
+      "original_comment": "v1/v2/v3 like 6A/6B",
+      "effective_value": "YES_PLANNING_LINEAGE",
+      "normalized": false
+    },
+    {
+      "id": "6C-AUTO-002",
+      "section": "P. Autonomous workflow decisions",
+      "original_value": "YES_INDEPENDENT_GATE_2_AUDIT",
+      "original_comment": "",
+      "effective_value": "YES_INDEPENDENT_GATE_2_AUDIT",
+      "normalized": false
+    },
+    {
+      "id": "6C-AUTO-003",
+      "section": "P. Autonomous workflow decisions",
+      "original_value": "YES_ROOT_ARTIFACT_SNAPSHOT_PACKAGE",
+      "original_comment": "like 6A v7 (path + sha256 + commit context)",
+      "effective_value": "YES_ROOT_ARTIFACT_SNAPSHOT_PACKAGE",
+      "normalized": false
+    },
+    {
+      "id": "6C-AUTO-004",
+      "section": "P. Autonomous workflow decisions",
+      "original_value": "YES_POST_6A_6B_PREFLIGHT",
+      "original_comment": "",
+      "effective_value": "YES_POST_6A_6B_PREFLIGHT",
+      "normalized": false
+    },
+    {
+      "id": "6C-AUTO-005",
+      "section": "P. Autonomous workflow decisions",
+      "original_value": "YES_READINESS_REPORTS_BEFORE_AUTONOMOUS",
+      "original_comment": "",
+      "effective_value": "YES_READINESS_REPORTS_BEFORE_AUTONOMOUS",
+      "normalized": false
+    },
+    {
+      "id": "6C-AUTO-006",
+      "section": "P. Autonomous workflow decisions",
+      "original_value": "YES_SAME_CI_SETTLING_POLICY",
+      "original_comment": "2-minute, 5-check, one-extension",
+      "effective_value": "YES_SAME_CI_SETTLING_POLICY",
+      "normalized": false
+    },
+    {
+      "id": "6C-AUTO-007",
+      "section": "P. Autonomous workflow decisions",
+      "original_value": "YES_ONE_FFET_PER_PR_MANDATORY",
+      "original_comment": "",
+      "effective_value": "YES_ONE_FFET_PER_PR_MANDATORY",
+      "normalized": false
+    },
+    {
+      "id": "6C-AUTO-008",
+      "section": "P. Autonomous workflow decisions",
+      "original_value": "YES_FORBID_LOW_RISK_BATCHING",
+      "original_comment": "HR/Workspace/Events complexity",
+      "effective_value": "YES_FORBID_LOW_RISK_BATCHING",
+      "normalized": false
+    },
+    {
+      "id": "6C-AUTO-009",
+      "section": "P. Autonomous workflow decisions",
+      "original_value": "YES_SELF_HEAL_MAX_3_ACTIVE_FILES_ONLY",
+      "original_comment": "",
+      "effective_value": "YES_SELF_HEAL_MAX_3_ACTIVE_FILES_ONLY",
+      "normalized": false
+    },
+    {
+      "id": "6C-AUTO-010",
+      "section": "P. Autonomous workflow decisions",
+      "original_value": "YES_STOP_IF_FILE_OUTSIDE_PLAN",
+      "original_comment": "incl. any schema change — capture as schema-control doc (scope-creep guard)",
+      "effective_value": "YES_STOP_IF_FILE_OUTSIDE_PLAN",
+      "normalized": false
+    },
+    {
+      "id": "6C-AUTO-011",
+      "section": "P. Autonomous workflow decisions",
+      "original_value": "YES_FINAL_AUDIT_ALL_EXIST_ZERO_MISSING_ZERO_FLIP_MAIN_EQ_ORIGIN",
+      "original_comment": "",
+      "effective_value": "YES_FINAL_AUDIT_ALL_EXIST_ZERO_MISSING_ZERO_FLIP_MAIN_EQ_ORIGIN",
+      "normalized": false
+    },
+    {
+      "id": "6C-AUTO-012",
+      "section": "P. Autonomous workflow decisions",
+      "original_value": "YES_6B_IMMUTABLE_EXCEPT_EXPLICIT_SOURCE_TRUTH_DEFECT",
+      "original_comment": "",
+      "effective_value": "YES_6B_IMMUTABLE_EXCEPT_EXPLICIT_SOURCE_TRUTH_DEFECT",
+      "normalized": false
+    },
+    {
+      "id": "6C-NON-001",
+      "section": "Q. Explicit non-scope confirmation",
+      "original_value": "CONFIRMED",
+      "original_comment": "LMS out of scope (6D)",
+      "effective_value": "CONFIRMED",
+      "normalized": false
+    },
+    {
+      "id": "6C-NON-002",
+      "section": "Q. Explicit non-scope confirmation",
+      "original_value": "CONFIRMED",
+      "original_comment": "Campaigns out of scope (6E)",
+      "effective_value": "CONFIRMED",
+      "normalized": false
+    },
+    {
+      "id": "6C-NON-003",
+      "section": "Q. Explicit non-scope confirmation",
+      "original_value": "CONFIRMED",
+      "original_comment": "E-Commerce out of scope",
+      "effective_value": "CONFIRMED",
+      "normalized": false
+    },
+    {
+      "id": "6C-NON-004",
+      "section": "Q. Explicit non-scope confirmation",
+      "original_value": "CONFIRMED",
+      "original_comment": "Website/App Builder out of scope",
+      "effective_value": "CONFIRMED",
+      "normalized": false
+    },
+    {
+      "id": "6C-NON-005",
+      "section": "Q. Explicit non-scope confirmation",
+      "original_value": "CONFIRMED",
+      "original_comment": "AI Business Consultant out of scope (6F)",
+      "effective_value": "CONFIRMED",
+      "normalized": false
+    },
+    {
+      "id": "6C-NON-006",
+      "section": "Q. Explicit non-scope confirmation",
+      "original_value": "CONFIRMED",
+      "original_comment": "advanced admin/support/design polish out of scope (6F)",
+      "effective_value": "CONFIRMED",
+      "normalized": false
+    },
+    {
+      "id": "6C-NON-007",
+      "section": "Q. Explicit non-scope confirmation",
+      "original_value": "CONFIRMED",
+      "original_comment": "HR must not own global Person identity",
+      "effective_value": "CONFIRMED",
+      "normalized": false
+    },
+    {
+      "id": "6C-NON-008",
+      "section": "Q. Explicit non-scope confirmation",
+      "original_value": "CONFIRMED",
+      "original_comment": "Events must not bypass CRM/Finance/Communication Gateway",
+      "effective_value": "CONFIRMED",
+      "normalized": false
+    },
+    {
+      "id": "6C-NON-009",
+      "section": "Q. Explicit non-scope confirmation",
+      "original_value": "CONFIRMED",
+      "original_comment": "Workspace must not own HR employee records",
+      "effective_value": "CONFIRMED",
+      "normalized": false
+    },
+    {
+      "id": "6C-NON-010",
+      "section": "Q. Explicit non-scope confirmation",
+      "original_value": "CONFIRMED",
+      "original_comment": "real provider credentials/secrets out of scope unless separately approved",
+      "effective_value": "CONFIRMED",
+      "normalized": false
+    }
+  ],
+  "repo": {
+    "head": "8e4e12c98b8452a92559acaad4c63ec0f7b704fa",
+    "branch": "codex/phase-6c-decision-authority",
+    "status": "## codex/phase-6c-decision-authority\n?? docs/process/v4_1/phase_6c/"
+  },
+  "spark_genesis": {
+    "channel": "stable",
+    "skill_path": "/Volumes/UsmanWork/Spark Genesis/skills/spark_genesis/SKILL.md",
+    "git_sha": "18fd109a0417aa707ae91901c5f7b1e1753f898c",
+    "repo_status": "## main...origin/main"
+  }
+}
