@@ -1,0 +1,28 @@
+export const mergeDecisionRecordModuleManifest = {
+  seed_id: 'seed_6b_05_merge_decision_record',
+  component_id: '6B.05',
+  capability_surface: 'crm_deduplication.merge_decision_record',
+  source_system: 'CRM_DEDUPLICATION',
+  activation_lifecycle_required: true,
+  unified_lead_record_authority_required: true,
+  person_identity_graph_required: true,
+  owned_data: [
+    'merge_decision_id',
+    'dedup_run_id',
+    'source_lead_record_authority_id',
+    'source_person_identity_graph_id',
+    'decision_outcome',
+    'decision_basis',
+    'decision_rationale',
+    'candidate_evidence_refs',
+  ],
+  forbidden_behaviors: [
+    'merge_execution',
+    'record_mutation',
+    'irreversible_action',
+    'provider_callback_processing',
+    'credential_material_storage',
+    'frontend_screen',
+    'shared_scaffold_mutation',
+  ],
+} as const;
