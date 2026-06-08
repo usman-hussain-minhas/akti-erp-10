@@ -1,0 +1,26 @@
+export const matchCandidateGenerationModuleManifest = {
+  seed_id: 'seed_6b_05_match_candidate_generation',
+  component_id: '6B.05',
+  capability_surface: 'crm_deduplication.match_candidate_generation',
+  source_system: 'CRM_DEDUPLICATION',
+  activation_lifecycle_required: true,
+  unified_lead_record_authority_required: true,
+  person_identity_graph_required: true,
+  owned_data: [
+    'dedup_run_id',
+    'source_lead_record_authority_id',
+    'source_person_identity_graph_id',
+    'candidate_lead_record_authority_id',
+    'match_signal_evidence',
+    'candidate_score',
+  ],
+  forbidden_behaviors: [
+    'merge_decision',
+    'record_merge_execution',
+    'irreversible_action',
+    'provider_callback_processing',
+    'credential_material_storage',
+    'frontend_screen',
+    'shared_scaffold_mutation',
+  ],
+} as const;
