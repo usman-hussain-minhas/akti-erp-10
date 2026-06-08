@@ -1,0 +1,90 @@
+export const PHASE_6B_PURCHASE_ORDER_AUTHORITY_SEED_ID = 'seed_6b_11_purchase_order_authority' as const;
+export const PHASE_6B_PURCHASE_ORDER_AUTHORITY_COMPONENT_ID = '6B.11' as const;
+
+export const PURCHASE_ORDER_AUTHORITY_EVENT = 'phase_6b.expense_purchase_vendor.po.approved' as const;
+
+export type PurchaseOrderApprovalDecision = 'APPROVED';
+export type PurchaseOrderLineType = 'GOODS' | 'SERVICE' | 'FEE' | 'TAX';
+
+export type PurchaseOrderLineInput = {
+  purchase_order_line_ref: string;
+  line_type: PurchaseOrderLineType;
+  description: string;
+  quantity_units: number;
+  unit_amount_minor: number;
+  line_total_minor: number;
+  currency_code: string;
+};
+
+export type PurchaseOrderAuthorityInput = {
+  organization_id: string;
+  service_manifest_contract_id: string;
+  source_seed_id: typeof PHASE_6B_PURCHASE_ORDER_AUTHORITY_SEED_ID;
+  purchase_order_ref: string;
+  purchase_order_number: string;
+  vendor_record_ref: string;
+  requester_person_ref: string;
+  approver_person_ref: string;
+  visual_workflow_builder_ref: string;
+  approval_workflow_ref: string;
+  approval_step_ref: string;
+  payment_allocation_balance_ref: string;
+  approval_decision: PurchaseOrderApprovalDecision;
+  currency_code: string;
+  issued_at: string;
+  approved_at: string;
+  expected_receipt_at?: string;
+  purchase_order_lines: PurchaseOrderLineInput[];
+  purchase_order_evidence_refs: string[];
+  authorized_by_user_id: string;
+  authorized_at: string;
+  purchase_receipt_requested?: boolean;
+  vendor_invoice_requested?: boolean;
+  inventory_receiving_requested?: boolean;
+  payment_allocation_requested?: boolean;
+  provider_callback_processing_requested?: boolean;
+  gl_posting_requested?: boolean;
+  irreversible_action_requested?: boolean;
+};
+
+export type PurchaseOrderAuthorityReceipt = {
+  seed_id: typeof PHASE_6B_PURCHASE_ORDER_AUTHORITY_SEED_ID;
+  component_id: typeof PHASE_6B_PURCHASE_ORDER_AUTHORITY_COMPONENT_ID;
+  event_name: typeof PURCHASE_ORDER_AUTHORITY_EVENT;
+  organization_id: string;
+  service_manifest_contract_id: string;
+  phase_6b_purchase_order_model: 'Phase6BPurchaseOrder';
+  phase_6b_vendor_model_relation_required: true;
+  source_seed_id: typeof PHASE_6B_PURCHASE_ORDER_AUTHORITY_SEED_ID;
+  purchase_order_ref: string;
+  purchase_order_number: string;
+  vendor_record_ref: string;
+  requester_person_ref: string;
+  approver_person_ref: string;
+  visual_workflow_builder_ref: string;
+  approval_workflow_ref: string;
+  approval_step_ref: string;
+  payment_allocation_balance_ref: string;
+  approval_decision: PurchaseOrderApprovalDecision;
+  currency_code: string;
+  issued_at: string;
+  approved_at: string;
+  expected_receipt_at?: string;
+  purchase_order_lines: PurchaseOrderLineInput[];
+  line_count: number;
+  purchase_order_total_minor: number;
+  purchase_order_evidence_refs: string[];
+  evidence_count: number;
+  approval_capability_gated: true;
+  purchase_order_evidence_ref: string;
+  purchase_order_digest: string;
+  purchase_receipt_created: false;
+  vendor_invoice_created: false;
+  inventory_receiving_performed: false;
+  payment_allocation_performed: false;
+  provider_callback_processed: false;
+  gl_posting_performed: false;
+  irreversible_action_allowed: false;
+  authorized_by_user_id: string;
+  authorized_at: string;
+};
