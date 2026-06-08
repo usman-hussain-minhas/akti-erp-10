@@ -1,0 +1,1986 @@
+{
+  "artifact_id": "phase_6c_schema_model_contract_v1",
+  "artifact_version": "v1",
+  "phase": "6c",
+  "status": "P6C_SCHEMA_001_REVIEW_READY_FOR_SCHEMA_CONTROL_IMPLEMENTATION",
+  "source_authority": [
+    "docs/process/v4_1/phase_6c/capability_control/questions_answered_6c_v1.json",
+    "docs/process/v4_1/phase_6c/v1/execution_seed_matrix_v1.json",
+    "docs/process/v4_1/phase_6c/v1/dependency_extraction_matrix_v1.json",
+    "docs/process/core/v0_0_2/spark_platform_v4_1/6c_operations.md",
+    "docs/process/core/v0_0_2/spark_platform_v4_1/0_business_logic.md",
+    "docs/process/core/v0_0_2/spark_platform_v4_1/subsurface_decomposition_guide.md"
+  ],
+  "flags": {
+    "ticket_generation_allowed": false,
+    "ticket_pack_generation_allowed": false,
+    "execution_authorized": false
+  },
+  "counts": {
+    "seed_coverage": "124/124",
+    "component_groups": 9,
+    "proposed_model_names": 124,
+    "capability_runtime_authorized": 0
+  },
+  "schema_policy": {
+    "relation_skeleton": "minimal_source_grounded_relation_skeletons_only",
+    "tenant_isolation": "all_tenant_scoped_models_require_organization_id",
+    "person_identity": "phase_6c_role_records_link_to_core_person_when_known_and_never_own_person_identity",
+    "metadata_json": "allowed_only_for_audit_control_extension_metadata_never_business_facts",
+    "field_policy": "every business field must trace to source docs, accepted decisions, or committed repo model truth; otherwise omit and block",
+    "external_provider_policy": "provider_neutral_boundaries_only_no_credentials_or_real_provider_adapters",
+    "destructive_migration_policy": "forbidden"
+  },
+  "p6c_schema_002_allowed_files": [
+    "prisma/schema.prisma",
+    "prisma/migrations/<phase_6c_schema_control_baseline>/migration.sql",
+    "prisma/entity-registry.metadata.json",
+    "generated/entity-registry.generated.json"
+  ],
+  "forbidden_in_schema_002": [
+    "apps/**",
+    "packages/**",
+    "scripts/**",
+    "package.json",
+    "pnpm-lock.yaml",
+    "frontend routes",
+    "runtime behavior",
+    "provider credentials",
+    "phase_6a docs",
+    "phase_6b docs"
+  ],
+  "component_groups": [
+    {
+      "component_id": "6C.01",
+      "component_slug": "hr_employee_records_and_organisation_structure",
+      "component_name": "HR Employee Records and Organisation Structure",
+      "model_count": 10,
+      "seeds": [
+        {
+          "seed_id": "seed_6c_001_employee_person_extension",
+          "seed_slug": "employee_person_extension",
+          "objective": "Employee role extension linked to core Person",
+          "proposed_model_name": "Phase6CEmployeePersonExtension",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "link_to_core_person_when_known_never_own_person_identity",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-HR-EMP-006"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_002_employee_number_policy",
+          "seed_slug": "employee_number_policy",
+          "objective": "Stable UUID plus configurable employee display number policy",
+          "proposed_model_name": "Phase6CEmployeeNumberPolicy",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "link_to_core_person_when_known_never_own_person_identity",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-HR-EMP-001"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_003_org_department_team_position",
+          "seed_slug": "org_department_team_position",
+          "objective": "Configurable departments, teams, positions, grades, and assignments",
+          "proposed_model_name": "Phase6COrgDepartmentTeamPosition",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-HR-EMP-005"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_004_reporting_line_matrix",
+          "seed_slug": "reporting_line_matrix",
+          "objective": "Single or matrix reporting line model",
+          "proposed_model_name": "Phase6CReportingLineMatrix",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-HR-EMP-006"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_005_employment_contract_record",
+          "seed_slug": "employment_contract_record",
+          "objective": "Configurable employment contract records",
+          "proposed_model_name": "Phase6CEmploymentContractRecord",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-HR-EMP-007"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_006_employee_document_boundary",
+          "seed_slug": "employee_document_boundary",
+          "objective": "Employee documents through 6A file service",
+          "proposed_model_name": "Phase6CEmployeeDocumentBoundary",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "link_to_core_person_when_known_never_own_person_identity",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-HR-EMP-009"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_007_compensation_metadata_payroll_evidence",
+          "seed_slug": "compensation_metadata_payroll_evidence",
+          "objective": "Compensation metadata emits payroll evidence without owning payroll",
+          "proposed_model_name": "Phase6CCompensationMetadataPayrollEvidence",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-HR-EMP-011"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_008_employee_lifecycle_status_history",
+          "seed_slug": "employee_lifecycle_status_history",
+          "objective": "Minimal hard lifecycle anchors and configurable status labels",
+          "proposed_model_name": "Phase6CEmployeeLifecycleStatusHistory",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "link_to_core_person_when_known_never_own_person_identity",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-HR-EMP-008"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_009_employee_sensitive_field_redaction",
+          "seed_slug": "employee_sensitive_field_redaction",
+          "objective": "Sensitive HR field redaction and support-window policy",
+          "proposed_model_name": "Phase6CEmployeeSensitiveFieldRedaction",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "link_to_core_person_when_known_never_own_person_identity",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-HR-EMP-010"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_010_employee_created_event",
+          "seed_slug": "employee_created_event",
+          "objective": "Employee creation evidence/event for Workspace and payroll foundation",
+          "proposed_model_name": "Phase6CEmployeeCreatedEvent",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "link_to_core_person_when_known_never_own_person_identity",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-HR-EMP-015"
+          ]
+        }
+      ]
+    },
+    {
+      "component_id": "6C.02",
+      "component_slug": "hr_recruitment_and_onboarding_pipeline",
+      "component_name": "HR Recruitment and Onboarding Pipeline",
+      "model_count": 13,
+      "seeds": [
+        {
+          "seed_id": "seed_6c_011_applicant_source_linkage",
+          "seed_slug": "applicant_source_linkage",
+          "objective": "Applicant source linkage from CRM lead or direct HR form",
+          "proposed_model_name": "Phase6CApplicantSourceLinkage",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "link_to_core_person_when_known_never_own_person_identity",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-RECRUIT-001"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_012_recruitment_stage_config",
+          "seed_slug": "recruitment_stage_config",
+          "objective": "Configurable recruitment lifecycle stages",
+          "proposed_model_name": "Phase6CRecruitmentStageConfig",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-RECRUIT-003"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_013_scorecard_interview_form",
+          "seed_slug": "scorecard_interview_form",
+          "objective": "Scorecards and interview forms through Configuration Engine",
+          "proposed_model_name": "Phase6CScorecardInterviewForm",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-RECRUIT-004"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_014_interview_calendar_event_request",
+          "seed_slug": "interview_calendar_event_request",
+          "objective": "Interview calendar request via events when Workspace active",
+          "proposed_model_name": "Phase6CInterviewCalendarEventRequest",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-RECRUIT-005"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_015_offer_approval_workflow",
+          "seed_slug": "offer_approval_workflow",
+          "objective": "Configurable offer approval workflow",
+          "proposed_model_name": "Phase6COfferApprovalWorkflow",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-RECRUIT-006"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_016_offer_acceptance_employee_creation_request",
+          "seed_slug": "offer_acceptance_employee_creation_request",
+          "objective": "Offer acceptance recommends employee creation as explicit step",
+          "proposed_model_name": "Phase6COfferAcceptanceEmployeeCreationRequest",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "link_to_core_person_when_known_never_own_person_identity",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-RECRUIT-007"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_017_onboarding_task_template",
+          "seed_slug": "onboarding_task_template",
+          "objective": "Configurable onboarding task templates",
+          "proposed_model_name": "Phase6COnboardingTaskTemplate",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-RECRUIT-008"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_018_access_provisioning_gatekeeper_event",
+          "seed_slug": "access_provisioning_gatekeeper_event",
+          "objective": "Access provisioning event routed through Gatekeeper",
+          "proposed_model_name": "Phase6CAccessProvisioningGatekeeperEvent",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-RECRUIT-010"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_019_background_check_provider_boundary",
+          "seed_slug": "background_check_provider_boundary",
+          "objective": "Provider-neutral background-check boundary only",
+          "proposed_model_name": "Phase6CBackgroundCheckProviderBoundary",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-RECRUIT-011"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_020_offer_document_generation",
+          "seed_slug": "offer_document_generation",
+          "objective": "Offer documents through 6A file service",
+          "proposed_model_name": "Phase6COfferDocumentGeneration",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-RECRUIT-012"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_021_applicant_staged_deletion",
+          "seed_slug": "applicant_staged_deletion",
+          "objective": "Applicant staged deletion and protection rules",
+          "proposed_model_name": "Phase6CApplicantStagedDeletion",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "link_to_core_person_when_known_never_own_person_identity",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-RECRUIT-013"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_022_applicant_dedup_linkage",
+          "seed_slug": "applicant_dedup_linkage",
+          "objective": "Applicant duplicate detection using CRM dedup patterns",
+          "proposed_model_name": "Phase6CApplicantDedupLinkage",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "link_to_core_person_when_known_never_own_person_identity",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-RECRUIT-014"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_023_recruitment_evidence_feed",
+          "seed_slug": "recruitment_evidence_feed",
+          "objective": "Recruitment evidence for later performance/optimization",
+          "proposed_model_name": "Phase6CRecruitmentEvidenceFeed",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-RECRUIT-015"
+          ]
+        }
+      ]
+    },
+    {
+      "component_id": "6C.03",
+      "component_slug": "hr_attendance_leave_and_time_tracking",
+      "component_name": "HR Attendance, Leave, and Time Tracking",
+      "model_count": 16,
+      "seeds": [
+        {
+          "seed_id": "seed_6c_024_qr_attendance",
+          "seed_slug": "qr_attendance",
+          "objective": "Geofenced time-windowed QR attendance",
+          "proposed_model_name": "Phase6CQrAttendance",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-ATT-004"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_025_biometric_device_boundary",
+          "seed_slug": "biometric_device_boundary",
+          "objective": "Provider-neutral biometric device boundary",
+          "proposed_model_name": "Phase6CBiometricDeviceBoundary",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-ATT-002"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_026_rfid_nfc_attendance",
+          "seed_slug": "rfid_nfc_attendance",
+          "objective": "RFID/NFC attendance method family",
+          "proposed_model_name": "Phase6CRfidNfcAttendance",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-ATT-001"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_027_mobile_gps_attendance",
+          "seed_slug": "mobile_gps_attendance",
+          "objective": "Mobile GPS attendance with configurable liveness photo",
+          "proposed_model_name": "Phase6CMobileGpsAttendance",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-ATT-005"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_028_manual_attendance_override",
+          "seed_slug": "manual_attendance_override",
+          "objective": "Manual attendance override with reason and approval defaults",
+          "proposed_model_name": "Phase6CManualAttendanceOverride",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-ATT-010"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_029_offline_attendance_queue",
+          "seed_slug": "offline_attendance_queue",
+          "objective": "Offline attendance queue and replay evidence",
+          "proposed_model_name": "Phase6COfflineAttendanceQueue",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-ATT-006"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_030_attendance_exception_detection",
+          "seed_slug": "attendance_exception_detection",
+          "objective": "Duplicate, clock-skew, late, and missing-checkout exceptions",
+          "proposed_model_name": "Phase6CAttendanceExceptionDetection",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-ATT-008"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_031_shift_roster",
+          "seed_slug": "shift_roster",
+          "objective": "Shift and roster model",
+          "proposed_model_name": "Phase6CShiftRoster",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-ATT-012"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_032_holiday_calendar",
+          "seed_slug": "holiday_calendar",
+          "objective": "Organization or branch holiday calendar",
+          "proposed_model_name": "Phase6CHolidayCalendar",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-ATT-013"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_033_leave_type_registry",
+          "seed_slug": "leave_type_registry",
+          "objective": "Configurable leave types",
+          "proposed_model_name": "Phase6CLeaveTypeRegistry",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-ATT-014"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_034_leave_accrual_engine",
+          "seed_slug": "leave_accrual_engine",
+          "objective": "Leave accrual rule engine",
+          "proposed_model_name": "Phase6CLeaveAccrualEngine",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-ATT-015"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_035_leave_carryforward_expiry",
+          "seed_slug": "leave_carryforward_expiry",
+          "objective": "Leave carry-forward and expiry logic",
+          "proposed_model_name": "Phase6CLeaveCarryforwardExpiry",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-ATT-015"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_036_leave_encashment",
+          "seed_slug": "leave_encashment",
+          "objective": "Leave encashment evidence boundary",
+          "proposed_model_name": "Phase6CLeaveEncashment",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-ATT-015"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_037_leave_approval_chain",
+          "seed_slug": "leave_approval_chain",
+          "objective": "Configurable leave approval chains",
+          "proposed_model_name": "Phase6CLeaveApprovalChain",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-ATT-016"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_038_payroll_input_evidence",
+          "seed_slug": "payroll_input_evidence",
+          "objective": "Attendance/leave payroll input evidence",
+          "proposed_model_name": "Phase6CPayrollInputEvidence",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-ATT-017"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_039_attendance_location_redaction",
+          "seed_slug": "attendance_location_redaction",
+          "objective": "Sensitive attendance location redaction",
+          "proposed_model_name": "Phase6CAttendanceLocationRedaction",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-ATT-020"
+          ]
+        }
+      ]
+    },
+    {
+      "component_id": "6C.04",
+      "component_slug": "hr_performance_commission_policy_and_offboarding",
+      "component_name": "HR Performance, Commission, Policy, and Offboarding",
+      "model_count": 17,
+      "seeds": [
+        {
+          "seed_id": "seed_6c_040_performance_framework",
+          "seed_slug": "performance_framework",
+          "objective": "Configurable performance framework",
+          "proposed_model_name": "Phase6CPerformanceFramework",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-HR-OPS-001"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_041_weighted_goal_review_cycle",
+          "seed_slug": "weighted_goal_review_cycle",
+          "objective": "Weighted goals and review cycles",
+          "proposed_model_name": "Phase6CWeightedGoalReviewCycle",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-HR-OPS-002"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_042_at_risk_rules_engine",
+          "seed_slug": "at_risk_rules_engine",
+          "objective": "At-risk rules via Rules Engine",
+          "proposed_model_name": "Phase6CAtRiskRulesEngine",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-HR-OPS-004"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_043_commission_calculation",
+          "seed_slug": "commission_calculation",
+          "objective": "Commission calculation from CRM/payment evidence refs",
+          "proposed_model_name": "Phase6CCommissionCalculation",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-HR-OPS-005"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_044_commission_deferred_release",
+          "seed_slug": "commission_deferred_release",
+          "objective": "Deferred commission release scheduler",
+          "proposed_model_name": "Phase6CCommissionDeferredRelease",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-HR-OPS-006"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_045_commission_clawback_reversal",
+          "seed_slug": "commission_clawback_reversal",
+          "objective": "Commission clawback reversal handler",
+          "proposed_model_name": "Phase6CCommissionClawbackReversal",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-HR-OPS-008"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_046_commission_tier_accelerator",
+          "seed_slug": "commission_tier_accelerator",
+          "objective": "Commission tier accelerator evaluator",
+          "proposed_model_name": "Phase6CCommissionTierAccelerator",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-HR-OPS-006"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_047_commission_pool_distribution",
+          "seed_slug": "commission_pool_distribution",
+          "objective": "Commission pool distribution surface",
+          "proposed_model_name": "Phase6CCommissionPoolDistribution",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-HR-OPS-006"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_048_commission_payroll_batch_event",
+          "seed_slug": "commission_payroll_batch_event",
+          "objective": "Approved commission batch event to payroll",
+          "proposed_model_name": "Phase6CCommissionPayrollBatchEvent",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-HR-OPS-007"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_049_policy_version_library",
+          "seed_slug": "policy_version_library",
+          "objective": "Versioned policy library",
+          "proposed_model_name": "Phase6CPolicyVersionLibrary",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-HR-OPS-009"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_050_policy_acknowledgement_evidence",
+          "seed_slug": "policy_acknowledgement_evidence",
+          "objective": "Immutable policy acknowledgement evidence",
+          "proposed_model_name": "Phase6CPolicyAcknowledgementEvidence",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-HR-OPS-010"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_051_offboarding_saga",
+          "seed_slug": "offboarding_saga",
+          "objective": "Offboarding Saga coordinator",
+          "proposed_model_name": "Phase6COffboardingSaga",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-HR-OPS-011"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_052_offboarding_settlement_step",
+          "seed_slug": "offboarding_settlement_step",
+          "objective": "Offboarding final settlement step",
+          "proposed_model_name": "Phase6COffboardingSettlementStep",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-HR-OPS-012"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_053_offboarding_asset_recovery_step",
+          "seed_slug": "offboarding_asset_recovery_step",
+          "objective": "Offboarding asset recovery step",
+          "proposed_model_name": "Phase6COffboardingAssetRecoveryStep",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-HR-OPS-012"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_054_offboarding_workspace_removal_step",
+          "seed_slug": "offboarding_workspace_removal_step",
+          "objective": "Offboarding Workspace removal step",
+          "proposed_model_name": "Phase6COffboardingWorkspaceRemovalStep",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-HR-OPS-012"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_055_offboarding_access_revocation_gatekeeper",
+          "seed_slug": "offboarding_access_revocation_gatekeeper",
+          "objective": "Offboarding access revocation through Gatekeeper",
+          "proposed_model_name": "Phase6COffboardingAccessRevocationGatekeeper",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-HR-OPS-013"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_056_offboarding_payroll_closure_step",
+          "seed_slug": "offboarding_payroll_closure_step",
+          "objective": "Offboarding payroll closure event",
+          "proposed_model_name": "Phase6COffboardingPayrollClosureStep",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-HR-OPS-012"
+          ]
+        }
+      ]
+    },
+    {
+      "component_id": "6C.05",
+      "component_slug": "workspace_messaging_and_collaboration",
+      "component_name": "Workspace Messaging and Collaboration",
+      "model_count": 13,
+      "seeds": [
+        {
+          "seed_id": "seed_6c_057_workspace_channel_dm",
+          "seed_slug": "workspace_channel_dm",
+          "objective": "Workspace channels and DMs",
+          "proposed_model_name": "Phase6CWorkspaceChannelDm",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-WORK-MSG-001"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_058_message_thread_reaction",
+          "seed_slug": "message_thread_reaction",
+          "objective": "Threads, mentions, reactions, read receipts",
+          "proposed_model_name": "Phase6CMessageThreadReaction",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-WORK-MSG-001"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_059_message_edit_history",
+          "seed_slug": "message_edit_history",
+          "objective": "Immutable message edit history",
+          "proposed_model_name": "Phase6CMessageEditHistory",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-WORK-MSG-004"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_060_message_tombstone_staged_deletion",
+          "seed_slug": "message_tombstone_staged_deletion",
+          "objective": "Message tombstone and staged deletion",
+          "proposed_model_name": "Phase6CMessageTombstoneStagedDeletion",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-WORK-MSG-005"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_061_message_attachment_file_ref",
+          "seed_slug": "message_attachment_file_ref",
+          "objective": "Message attachments via 6A file refs",
+          "proposed_model_name": "Phase6CMessageAttachmentFileRef",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-WORK-MSG-006"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_062_outbound_notification_gateway",
+          "seed_slug": "outbound_notification_gateway",
+          "objective": "Outbound Workspace notifications through gateway",
+          "proposed_model_name": "Phase6COutboundNotificationGateway",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-WORK-MSG-007"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_063_mention_notification_evidence",
+          "seed_slug": "mention_notification_evidence",
+          "objective": "Mention notification evidence",
+          "proposed_model_name": "Phase6CMentionNotificationEvidence",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-WORK-MSG-008"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_064_membership_policy",
+          "seed_slug": "membership_policy",
+          "objective": "Membership policy from Access Core roles and employee teams",
+          "proposed_model_name": "Phase6CMembershipPolicy",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-WORK-MSG-010"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_065_private_channel_approval",
+          "seed_slug": "private_channel_approval",
+          "objective": "Configurable private-channel approval",
+          "proposed_model_name": "Phase6CPrivateChannelApproval",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-WORK-MSG-011"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_066_cross_module_channel_ref",
+          "seed_slug": "cross_module_channel_ref",
+          "objective": "Cross-module channels through registered refs",
+          "proposed_model_name": "Phase6CCrossModuleChannelRef",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-WORK-MSG-012"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_067_workspace_message_search",
+          "seed_slug": "workspace_message_search",
+          "objective": "Workspace message search via 6A Search/File layer",
+          "proposed_model_name": "Phase6CWorkspaceMessageSearch",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-WORK-MSG-013"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_068_moderation_reporting",
+          "seed_slug": "moderation_reporting",
+          "objective": "Workspace moderation/reporting",
+          "proposed_model_name": "Phase6CModerationReporting",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-WORK-MSG-014"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_069_e2e_encryption_boundary",
+          "seed_slug": "e2e_encryption_boundary",
+          "objective": "Optional E2E encryption scaffold boundary",
+          "proposed_model_name": "Phase6CE2eEncryptionBoundary",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-WORK-MSG-003"
+          ]
+        }
+      ]
+    },
+    {
+      "component_id": "6C.06",
+      "component_slug": "workspace_tasks_projects_documents_and_knowledge",
+      "component_name": "Workspace Tasks, Projects, Documents, and Knowledge",
+      "model_count": 13,
+      "seeds": [
+        {
+          "seed_id": "seed_6c_070_task_record",
+          "seed_slug": "task_record",
+          "objective": "Task record with full task fields",
+          "proposed_model_name": "Phase6CTaskRecord",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-WORK-TASK-002"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_071_task_status_config",
+          "seed_slug": "task_status_config",
+          "objective": "Configurable task status with hard anchors",
+          "proposed_model_name": "Phase6CTaskStatusConfig",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-WORK-TASK-003"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_072_project_record",
+          "seed_slug": "project_record",
+          "objective": "Project record and metadata",
+          "proposed_model_name": "Phase6CProjectRecord",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-WORK-TASK-004"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_073_project_dependency_engine",
+          "seed_slug": "project_dependency_engine",
+          "objective": "Project dependency engine without UI Gantt",
+          "proposed_model_name": "Phase6CProjectDependencyEngine",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-WORK-TASK-004"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_074_project_budget_evidence_ref",
+          "seed_slug": "project_budget_evidence_ref",
+          "objective": "Read-only 6B Finance budget evidence refs",
+          "proposed_model_name": "Phase6CProjectBudgetEvidenceRef",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-WORK-TASK-005"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_075_wiki_page_versioning",
+          "seed_slug": "wiki_page_versioning",
+          "objective": "Wiki page version history",
+          "proposed_model_name": "Phase6CWikiPageVersioning",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-WORK-TASK-007"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_076_wiki_restore",
+          "seed_slug": "wiki_restore",
+          "objective": "Wiki/document restore rules",
+          "proposed_model_name": "Phase6CWikiRestore",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-WORK-TASK-014"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_077_document_folder_file_ref",
+          "seed_slug": "document_folder_file_ref",
+          "objective": "Document folder and file refs",
+          "proposed_model_name": "Phase6CDocumentFolderFileRef",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-WORK-TASK-009"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_078_time_log_evidence",
+          "seed_slug": "time_log_evidence",
+          "objective": "Time log evidence for future billing dimensions",
+          "proposed_model_name": "Phase6CTimeLogEvidence",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-WORK-TASK-010"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_079_task_reminder_gateway",
+          "seed_slug": "task_reminder_gateway",
+          "objective": "Task reminders through gateway",
+          "proposed_model_name": "Phase6CTaskReminderGateway",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-WORK-TASK-011"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_080_project_template",
+          "seed_slug": "project_template",
+          "objective": "Configurable project templates",
+          "proposed_model_name": "Phase6CProjectTemplate",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-WORK-TASK-012"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_081_tenant_authored_knowledge",
+          "seed_slug": "tenant_authored_knowledge",
+          "objective": "Tenant-authored knowledge pages",
+          "proposed_model_name": "Phase6CTenantAuthoredKnowledge",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-WORK-TASK-013"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_082_task_project_calendar_event",
+          "seed_slug": "task_project_calendar_event",
+          "objective": "Task/project events consumable by Calendar",
+          "proposed_model_name": "Phase6CTaskProjectCalendarEvent",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-WORK-TASK-015"
+          ]
+        }
+      ]
+    },
+    {
+      "component_id": "6C.07",
+      "component_slug": "workspace_calendar_meetings_rooms_announcements",
+      "component_name": "Workspace Calendar, Meetings, Rooms, Announcements",
+      "model_count": 13,
+      "seeds": [
+        {
+          "seed_id": "seed_6c_083_provider_neutral_calendar_entry",
+          "seed_slug": "provider_neutral_calendar_entry",
+          "objective": "Provider-neutral calendar entry runtime",
+          "proposed_model_name": "Phase6CProviderNeutralCalendarEntry",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-CAL-001"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_084_calendar_provider_sync_boundary",
+          "seed_slug": "calendar_provider_sync_boundary",
+          "objective": "Google/Outlook adapter boundary only",
+          "proposed_model_name": "Phase6CCalendarProviderSyncBoundary",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-CAL-002"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_085_conferencing_provider_boundary",
+          "seed_slug": "conferencing_provider_boundary",
+          "objective": "Meet/Zoom conferencing adapter boundary only",
+          "proposed_model_name": "Phase6CConferencingProviderBoundary",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-CAL-003"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_086_room_booking_conflict",
+          "seed_slug": "room_booking_conflict",
+          "objective": "Room/resource booking conflict detection",
+          "proposed_model_name": "Phase6CRoomBookingConflict",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-CAL-004"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_087_resource_capacity_equipment",
+          "seed_slug": "resource_capacity_equipment",
+          "objective": "Room/resource capacity and equipment metadata",
+          "proposed_model_name": "Phase6CResourceCapacityEquipment",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-CAL-005"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_088_announcement_gateway",
+          "seed_slug": "announcement_gateway",
+          "objective": "Announcements through Communication Gateway",
+          "proposed_model_name": "Phase6CAnnouncementGateway",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-CAL-006"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_089_mandatory_notice_classification",
+          "seed_slug": "mandatory_notice_classification",
+          "objective": "Mandatory vs opt-out notice classification",
+          "proposed_model_name": "Phase6CMandatoryNoticeClassification",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-CAL-007"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_090_reminder_quiet_hours",
+          "seed_slug": "reminder_quiet_hours",
+          "objective": "Reminder quiet-hour enforcement",
+          "proposed_model_name": "Phase6CReminderQuietHours",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-CAL-008"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_091_recurring_event_rule",
+          "seed_slug": "recurring_event_rule",
+          "objective": "Recurring calendar event rules",
+          "proposed_model_name": "Phase6CRecurringEventRule",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-CAL-009"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_092_calendar_origin_event_ref",
+          "seed_slug": "calendar_origin_event_ref",
+          "objective": "Calendar origin event refs from HR/tasks/events/LMS later",
+          "proposed_model_name": "Phase6CCalendarOriginEventRef",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-CAL-010"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_093_meeting_attendance_evidence",
+          "seed_slug": "meeting_attendance_evidence",
+          "objective": "Meeting attendance Workspace evidence",
+          "proposed_model_name": "Phase6CMeetingAttendanceEvidence",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-CAL-011"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_094_sync_failure_degradation",
+          "seed_slug": "sync_failure_degradation",
+          "objective": "Calendar sync failure degradation",
+          "proposed_model_name": "Phase6CSyncFailureDegradation",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-CAL-012"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_095_announcement_ack_evidence",
+          "seed_slug": "announcement_ack_evidence",
+          "objective": "Announcement acknowledgement evidence",
+          "proposed_model_name": "Phase6CAnnouncementAckEvidence",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-CAL-014"
+          ]
+        }
+      ]
+    },
+    {
+      "component_id": "6C.08",
+      "component_slug": "events_configuration_and_registration_service",
+      "component_name": "Events Configuration and Registration Service",
+      "model_count": 15,
+      "seeds": [
+        {
+          "seed_id": "seed_6c_096_event_configuration",
+          "seed_slug": "event_configuration",
+          "objective": "Event configuration baseline",
+          "proposed_model_name": "Phase6CEventConfiguration",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-EVENT-REG-001"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_097_event_session_track",
+          "seed_slug": "event_session_track",
+          "objective": "Multi-track session model",
+          "proposed_model_name": "Phase6CEventSessionTrack",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-EVENT-REG-013"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_098_speaker_honorarium_ref",
+          "seed_slug": "speaker_honorarium_ref",
+          "objective": "Speaker and honorarium refs",
+          "proposed_model_name": "Phase6CSpeakerHonorariumRef",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-EVENT-REG-010"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_099_ticket_type_capacity",
+          "seed_slug": "ticket_type_capacity",
+          "objective": "Ticket-type capacity rules",
+          "proposed_model_name": "Phase6CTicketTypeCapacity",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-EVENT-REG-016"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_100_registration_form_config",
+          "seed_slug": "registration_form_config",
+          "objective": "Registration forms through Configuration Engine",
+          "proposed_model_name": "Phase6CRegistrationFormConfig",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-EVENT-REG-004"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_101_waitlist_rule",
+          "seed_slug": "waitlist_rule",
+          "objective": "Configurable waitlist rules",
+          "proposed_model_name": "Phase6CWaitlistRule",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-EVENT-REG-005"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_102_waitlist_auto_promotion_timer",
+          "seed_slug": "waitlist_auto_promotion_timer",
+          "objective": "Waitlist auto-promotion timer",
+          "proposed_model_name": "Phase6CWaitlistAutoPromotionTimer",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-EVENT-REG-006"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_103_ticket_claim_deadline",
+          "seed_slug": "ticket_claim_deadline",
+          "objective": "Ticket claim deadlines",
+          "proposed_model_name": "Phase6CTicketClaimDeadline",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-EVENT-REG-007"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_104_approval_required_registration",
+          "seed_slug": "approval_required_registration",
+          "objective": "Approval-required registration workflow",
+          "proposed_model_name": "Phase6CApprovalRequiredRegistration",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-EVENT-REG-008"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_105_event_calendar_schedule_ref",
+          "seed_slug": "event_calendar_schedule_ref",
+          "objective": "Event scheduling via Workspace Calendar refs",
+          "proposed_model_name": "Phase6CEventCalendarScheduleRef",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-EVENT-REG-009"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_106_attendee_crm_lead_link",
+          "seed_slug": "attendee_crm_lead_link",
+          "objective": "Attendee to CRM lead linkage where applicable",
+          "proposed_model_name": "Phase6CAttendeeCrmLeadLink",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "link_to_core_person_when_known_never_own_person_identity",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-EVENT-REG-011"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_107_event_lead_handoff",
+          "seed_slug": "event_lead_handoff",
+          "objective": "Event lead handoff events, not CRM direct writes",
+          "proposed_model_name": "Phase6CEventLeadHandoff",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-EVENT-REG-012"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_108_registration_invoice_saga",
+          "seed_slug": "registration_invoice_saga",
+          "objective": "Registration invoice/payment/ticket Saga",
+          "proposed_model_name": "Phase6CRegistrationInvoiceSaga",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-EVENT-REG-003"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_109_registration_attempt_evidence",
+          "seed_slug": "registration_attempt_evidence",
+          "objective": "Evidence for every registration attempt",
+          "proposed_model_name": "Phase6CRegistrationAttemptEvidence",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-EVENT-REG-018"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_110_cancellation_refund_delegation",
+          "seed_slug": "cancellation_refund_delegation",
+          "objective": "Cancellation state with refund delegated to Finance/payment",
+          "proposed_model_name": "Phase6CCancellationRefundDelegation",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-EVENT-REG-014"
+          ]
+        }
+      ]
+    },
+    {
+      "component_id": "6C.09",
+      "component_slug": "events_check_in_and_post_event_service",
+      "component_name": "Events Check-In and Post-Event Service",
+      "model_count": 14,
+      "seeds": [
+        {
+          "seed_id": "seed_6c_111_qr_ticket_issuing",
+          "seed_slug": "qr_ticket_issuing",
+          "objective": "QR ticket issuing from registration/payment state",
+          "proposed_model_name": "Phase6CQrTicketIssuing",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-EVENT-CHECK-001"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_112_signed_ticket_token",
+          "seed_slug": "signed_ticket_token",
+          "objective": "Cryptographic signed ticket tokens",
+          "proposed_model_name": "Phase6CSignedTicketToken",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-EVENT-CHECK-002"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_113_checkin_time_window",
+          "seed_slug": "checkin_time_window",
+          "objective": "Check-in time-window enforcement",
+          "proposed_model_name": "Phase6CCheckinTimeWindow",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-EVENT-CHECK-003"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_114_kiosk_mode_checkin",
+          "seed_slug": "kiosk_mode_checkin",
+          "objective": "Kiosk-mode check-in",
+          "proposed_model_name": "Phase6CKioskModeCheckin",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-EVENT-CHECK-004"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_115_session_level_checkin",
+          "seed_slug": "session_level_checkin",
+          "objective": "Session-level check-in",
+          "proposed_model_name": "Phase6CSessionLevelCheckin",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-EVENT-CHECK-005"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_116_manual_checkin_override",
+          "seed_slug": "manual_checkin_override",
+          "objective": "Manual check-in override with reason and approval",
+          "proposed_model_name": "Phase6CManualCheckinOverride",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-EVENT-CHECK-006"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_117_duplicate_checkin_exception",
+          "seed_slug": "duplicate_checkin_exception",
+          "objective": "Duplicate check-in blocked and recorded as exception",
+          "proposed_model_name": "Phase6CDuplicateCheckinException",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-EVENT-CHECK-007"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_118_offline_checkin_queue",
+          "seed_slug": "offline_checkin_queue",
+          "objective": "Offline check-in queue",
+          "proposed_model_name": "Phase6COfflineCheckinQueue",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-EVENT-CHECK-008"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_119_badge_export",
+          "seed_slug": "badge_export",
+          "objective": "Badge export",
+          "proposed_model_name": "Phase6CBadgeExport",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-EVENT-CHECK-009"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_120_post_event_feedback_form",
+          "seed_slug": "post_event_feedback_form",
+          "objective": "Post-event feedback form",
+          "proposed_model_name": "Phase6CPostEventFeedbackForm",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-EVENT-CHECK-010"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_121_feedback_identity_policy",
+          "seed_slug": "feedback_identity_policy",
+          "objective": "Anonymous or identified feedback policy",
+          "proposed_model_name": "Phase6CFeedbackIdentityPolicy",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-EVENT-CHECK-011"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_122_post_event_resource_file_ref",
+          "seed_slug": "post_event_resource_file_ref",
+          "objective": "Post-event resources through file refs",
+          "proposed_model_name": "Phase6CPostEventResourceFileRef",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-EVENT-CHECK-012"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_123_event_lead_handoff_evidence",
+          "seed_slug": "event_lead_handoff_evidence",
+          "objective": "Event lead handoff evidence",
+          "proposed_model_name": "Phase6CEventLeadHandoffEvidence",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-EVENT-CHECK-013"
+          ]
+        },
+        {
+          "seed_id": "seed_6c_124_attendance_certificate_evidence",
+          "seed_slug": "attendance_certificate_evidence",
+          "objective": "Attendance certificate evidence only, LMS certification deferred",
+          "proposed_model_name": "Phase6CAttendanceCertificateEvidence",
+          "model_decision": "CREATE_MINIMAL_SOURCE_GROUNDED_RELATION_SKELETON",
+          "tenant_isolation": "organization_id_required",
+          "person_identity_policy": "not_identity_owner",
+          "metadata_json_policy": "audit_control_extension_metadata_only_not_business_fact",
+          "external_ref_policy": "fk_when_authority_exists_else_typed_string_ref",
+          "capability_runtime_authorized": false,
+          "decision_refs": [
+            "6C-EVENT-CHECK-014"
+          ]
+        }
+      ]
+    }
+  ]
+}
