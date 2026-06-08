@@ -1,0 +1,30 @@
+export const csvExcelImportModuleManifest = {
+  seed_id: 'seed_6b_04_csv_excel_import',
+  component_id: '6B.04',
+  capability_surface: 'crm_lead_intake.csv_excel_import',
+  source_system: 'CSV_EXCEL_IMPORT',
+  activation_lifecycle_required: true,
+  person_identity_graph_required: true,
+  access_core_gatekeeper_required: true,
+  visual_workflow_builder_required: true,
+  product_record_authority_required: true,
+  conditional_dependencies: {
+    global_opt_out_registry: 'observed_per_import_row_not_hard_send_gate',
+  },
+  owned_data: [
+    'import_batch_id',
+    'source_file_name',
+    'source_file_type',
+    'uploaded_by_user_id',
+    'imported_lead_rows',
+    'lead_record_authority_references',
+  ],
+  forbidden_behaviors: [
+    'direct_provider_messaging',
+    'provider_callback_processing',
+    'credential_material_storage',
+    'communication_send',
+    'frontend_screen',
+    'shared_scaffold_mutation',
+  ],
+} as const;
