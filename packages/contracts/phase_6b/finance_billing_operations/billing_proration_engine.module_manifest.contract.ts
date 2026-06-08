@@ -1,0 +1,30 @@
+export const phase6BBillingProrationEngineModuleManifest = {
+  seed_id: 'seed_6b_15_billing_proration_engine',
+  component_id: '6B.15',
+  capability_surface: 'billing_proration_engine',
+  source_system: 'phase_6b_v21_ffet',
+  activation_lifecycle_required: true,
+  tenant_service: true,
+  owned_data: [
+    'Phase6BBillingProration',
+    'Phase6BBillingProrationLine',
+    'Phase6BProductPriceHistory',
+  ],
+  required_refs: [
+    'organization_id',
+    'customer_ref',
+    'billing_account_ref',
+    'service_ref',
+    'current_pricing_ref',
+    'replacement_pricing_ref',
+    'usage_evidence_ref',
+  ],
+  forbidden_behaviors: [
+    'invoice_generation',
+    'payment_collection',
+    'journal_posting',
+    'dunning_execution',
+    'pricing_authority_mutation',
+    'irreversible_customer_action',
+  ],
+} as const;
