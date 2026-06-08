@@ -1,0 +1,30 @@
+export const phase6BRetentionAndDunningRulesModuleManifest = {
+  seed_id: 'seed_6b_15_retention_and_dunning_rules',
+  component_id: '6B.15',
+  capability_surface: 'retention_and_dunning_rules',
+  source_system: 'phase_6b_v21_ffet',
+  activation_lifecycle_required: true,
+  tenant_service: true,
+  owned_data: [
+    'Phase6BDunningCase',
+    'Phase6BDunningPolicyRule',
+    'Phase6BDunningRecommendedAction',
+  ],
+  required_refs: [
+    'organization_id',
+    'customer_ref',
+    'billing_account_ref',
+    'receivable_ref',
+    'invoice_ref',
+    'policy_ref',
+  ],
+  forbidden_behaviors: [
+    'communication_send',
+    'payment_collection',
+    'service_suspension_execution',
+    'customer_data_purge',
+    'debt_waiver',
+    'journal_posting',
+    'irreversible_customer_action',
+  ],
+} as const;
