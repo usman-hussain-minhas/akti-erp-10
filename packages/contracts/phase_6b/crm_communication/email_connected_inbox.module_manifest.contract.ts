@@ -1,0 +1,28 @@
+export const emailConnectedInboxModuleManifest = {
+  seed_id: 'seed_6b_07_email_connected_inbox',
+  component_id: '6B.07',
+  capability_surface: 'crm_communication.email_connected_inbox',
+  source_system: 'CRM_COMMUNICATION',
+  activation_lifecycle_required: true,
+  optional_microservice: true,
+  pipeline_stage_model_required: true,
+  global_opt_out_registry_tier: 'conditional_setup_reference',
+  owned_data: [
+    'connected_inbox_id',
+    'inbox_address',
+    'display_name',
+    'pipeline_stage_model_ref',
+    'inbound_route_ref',
+    'lifecycle_status',
+    'health_status',
+    'allowed_sender_domain',
+  ],
+  forbidden_behaviors: [
+    'outbound_email_send',
+    'mailbox_sync_execution',
+    'credential_material_storage',
+    'provider_callback_processing',
+    'frontend_screen',
+    'shared_scaffold_mutation',
+  ],
+} as const;
