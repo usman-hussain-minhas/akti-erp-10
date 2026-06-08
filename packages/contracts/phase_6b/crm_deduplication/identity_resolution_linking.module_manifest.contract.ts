@@ -1,0 +1,27 @@
+export const identityResolutionLinkingModuleManifest = {
+  seed_id: 'seed_6b_05_identity_resolution_linking',
+  component_id: '6B.05',
+  capability_surface: 'crm_deduplication.identity_resolution_linking',
+  source_system: 'CRM_DEDUPLICATION',
+  activation_lifecycle_required: true,
+  unified_lead_record_authority_required: true,
+  person_identity_graph_required: true,
+  owned_data: [
+    'identity_resolution_link_id',
+    'source_lead_record_authority_id',
+    'target_lead_record_authority_id',
+    'person_identity_graph_id',
+    'link_type',
+    'link_basis',
+    'link_evidence',
+  ],
+  forbidden_behaviors: [
+    'merge_execution',
+    'record_mutation',
+    'irreversible_action',
+    'provider_callback_processing',
+    'credential_material_storage',
+    'frontend_screen',
+    'shared_scaffold_mutation',
+  ],
+} as const;
