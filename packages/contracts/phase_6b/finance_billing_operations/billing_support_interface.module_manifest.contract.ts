@@ -1,0 +1,31 @@
+export const phase6BBillingSupportInterfaceModuleManifest = {
+  seed_id: 'seed_6b_15_billing_support_interface',
+  component_id: '6B.15',
+  capability_surface: 'billing_support_interface',
+  source_system: 'phase_6b_v21_ffet',
+  activation_lifecycle_required: true,
+  tenant_service: true,
+  owned_data: [
+    'Phase6BBillingSupportCase',
+    'Phase6BBillingSupportAccessEvidence',
+    'Phase6BBillingSupportReadModel',
+  ],
+  required_refs: [
+    'organization_id',
+    'support_case_ref',
+    'support_window_ref',
+    'support_window_authorized_by_ref',
+    'support_agent_ref',
+    'customer_ref',
+    'billing_account_ref',
+  ],
+  forbidden_behaviors: [
+    'invoice_mutation',
+    'payment_collection',
+    'dunning_execution',
+    'debt_waiver',
+    'tenant_data_access_without_authorized_support_window',
+    'unredacted_export',
+    'irreversible_customer_action',
+  ],
+} as const;
