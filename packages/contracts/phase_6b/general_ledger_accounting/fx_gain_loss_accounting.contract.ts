@@ -1,0 +1,93 @@
+export const PHASE_6B_FX_GAIN_LOSS_ACCOUNTING_SEED_ID = 'seed_6b_12_fx_gain_loss_accounting' as const;
+export const PHASE_6B_FX_GAIN_LOSS_ACCOUNTING_COMPONENT_ID = '6B.12' as const;
+
+export const FX_GAIN_LOSS_ACCOUNTING_EVENT = 'phase_6b.general_ledger_accounting.fx_gain_loss.accounted' as const;
+
+export type FxSourceEvent = 'invoice.issued' | 'payment.verified' | 'expense.created';
+export type FxPositionType = 'RECEIVABLE' | 'PAYABLE';
+export type FxGainLossClassification = 'GAIN' | 'LOSS' | 'NEUTRAL';
+export type FxJournalSide = 'DEBIT' | 'CREDIT';
+
+export type FxAdjustmentLine = {
+  adjustment_line_ref: string;
+  chart_of_account_ref: string;
+  side: FxJournalSide;
+  amount_minor: number;
+  line_evidence_ref: string;
+};
+
+export type FxGainLossAccountingInput = {
+  organization_id: string;
+  service_manifest_contract_id: string;
+  source_seed_id: typeof PHASE_6B_FX_GAIN_LOSS_ACCOUNTING_SEED_ID;
+  fx_event_ref: string;
+  source_event_name: FxSourceEvent;
+  source_document_ref: string;
+  invoice_record_authority_ref?: string;
+  payment_allocation_balance_ref: string;
+  expense_record_authority_ref?: string;
+  journal_entry_engine_ref: string;
+  chart_version_ref: string;
+  accounting_period_ref: string;
+  position_type: FxPositionType;
+  base_currency_code: string;
+  transaction_currency_code: string;
+  original_base_amount_minor: number;
+  settlement_base_amount_minor: number;
+  exchange_rate_basis_ref: string;
+  fx_gain_account_ref: string;
+  fx_loss_account_ref: string;
+  settlement_clearing_account_ref: string;
+  accounted_by_user_id: string;
+  accounted_at: string;
+  journal_posting_requested?: boolean;
+  payment_allocation_requested?: boolean;
+  provider_callback_processing_requested?: boolean;
+  tax_report_generation_requested?: boolean;
+  irreversible_action_requested?: boolean;
+};
+
+export type FxGainLossAccountingReceipt = {
+  seed_id: typeof PHASE_6B_FX_GAIN_LOSS_ACCOUNTING_SEED_ID;
+  component_id: typeof PHASE_6B_FX_GAIN_LOSS_ACCOUNTING_COMPONENT_ID;
+  event_name: typeof FX_GAIN_LOSS_ACCOUNTING_EVENT;
+  organization_id: string;
+  service_manifest_contract_id: string;
+  source_seed_id: typeof PHASE_6B_FX_GAIN_LOSS_ACCOUNTING_SEED_ID;
+  fx_event_ref: string;
+  source_event_name: FxSourceEvent;
+  source_document_ref: string;
+  invoice_record_authority_ref?: string;
+  payment_allocation_balance_ref: string;
+  expense_record_authority_ref?: string;
+  journal_entry_engine_ref: string;
+  chart_version_ref: string;
+  accounting_period_ref: string;
+  position_type: FxPositionType;
+  base_currency_code: string;
+  transaction_currency_code: string;
+  original_base_amount_minor: number;
+  settlement_base_amount_minor: number;
+  signed_base_delta_minor: number;
+  fx_gain_loss_amount_minor: number;
+  fx_gain_loss_classification: FxGainLossClassification;
+  exchange_rate_basis_ref: string;
+  fx_gain_account_ref: string;
+  fx_loss_account_ref: string;
+  settlement_clearing_account_ref: string;
+  fx_adjustment_lines: FxAdjustmentLine[];
+  fx_adjustment_line_count: number;
+  journal_balanced: true;
+  fx_adjustment_journal_prepared: true;
+  journal_posting_delegated_to_journal_entry_engine: true;
+  journal_posting_performed: false;
+  payment_allocation_performed: false;
+  provider_callback_processed: false;
+  tax_report_generated: false;
+  irreversible_action_allowed: false;
+  adl_refs: readonly string[];
+  fx_gain_loss_evidence_ref: string;
+  fx_gain_loss_digest: string;
+  accounted_by_user_id: string;
+  accounted_at: string;
+};
