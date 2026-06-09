@@ -1,35 +1,75 @@
 export const PHASE_6C_LEAVE_ACCRUAL_ENGINE_SEED_ID = "seed_6c_034_leave_accrual_engine" as const;
 export const PHASE_6C_LEAVE_ACCRUAL_ENGINE_COMPONENT_ID = "6C.03" as const;
-export const LEAVE_ACCRUAL_ENGINE_SCAFFOLD_EVENT = "phase_6c.hr_attendance_leave_and_time_tracking.leave_accrual_engine.scaffold_control_evaluated" as const;
+export const LEAVE_ACCRUAL_ENGINE_EVALUATED_EVENT = "phase_6c.hr_attendance_leave_and_time_tracking.leave_accrual_engine.evaluated" as const;
 
-export type LeaveAccrualEngineScaffoldInput = {
+export type LeaveAccrualFrequency = "MONTHLY" | "PER_PAY_PERIOD" | "ANNUAL_GRANT" | "PRORATED_PERIOD";
+export type LeaveAccrualRoundingPolicy = "NONE" | "FLOOR" | "CEILING" | "NEAREST_HALF";
+export type LeaveAccrualDecision = "ACCRUAL_CALCULATED" | "ACCRUAL_CAPPED";
+
+export type LeaveAccrualEngineInput = {
   organization_id: string;
   service_manifest_contract_id: string;
   source_record_ref: string;
+  employee_ref: string;
+  leave_type_ref: string;
+  accrual_rule_ref: string;
+  accrual_frequency: LeaveAccrualFrequency;
+  accrual_period_start: string;
+  accrual_period_end: string;
+  annual_entitlement_units: number;
+  opening_balance_units: number;
+  used_units: number;
+  carry_forward_units: number;
+  max_balance_units?: number;
+  pay_periods_in_year?: number;
+  completed_pay_periods?: number;
+  period_year_days?: number;
+  rounding_policy: LeaveAccrualRoundingPolicy;
   evaluated_by_user_id: string;
   evaluated_at: string;
   control_metadata?: Record<string, unknown>;
-  capability_execution_requested?: boolean;
-  business_behavior_requested?: boolean;
+  direct_balance_mutation_requested?: boolean;
+  provider_specific_adapter_requested?: boolean;
+  schema_mutation_requested?: boolean;
+  phase_6a_mutation_requested?: boolean;
+  phase_6b_mutation_requested?: boolean;
   runtime_adapter_requested?: boolean;
+  ticket_flag_flip_requested?: boolean;
 };
 
-export type LeaveAccrualEngineScaffoldReceipt = {
+export type LeaveAccrualEngineReceipt = {
   seed_id: typeof PHASE_6C_LEAVE_ACCRUAL_ENGINE_SEED_ID;
   component_id: typeof PHASE_6C_LEAVE_ACCRUAL_ENGINE_COMPONENT_ID;
   component_slug: "hr_attendance_leave_and_time_tracking";
   model_name: "Phase6CLeaveAccrualEngine";
-  event_name: typeof LEAVE_ACCRUAL_ENGINE_SCAFFOLD_EVENT;
+  event_name: typeof LEAVE_ACCRUAL_ENGINE_EVALUATED_EVENT;
   organization_id: string;
   service_manifest_contract_id: string;
   source_record_ref: string;
-  scaffold_status: 'SCAFFOLD_CONTROL_ONLY';
-  capability_implementation_allowed: false;
-  business_behavior_allowed: false;
-  runtime_adapter_allowed: false;
+  employee_ref: string;
+  leave_type_ref: string;
+  accrual_rule_ref: string;
+  accrual_frequency: LeaveAccrualFrequency;
+  accrual_period_start: string;
+  accrual_period_end: string;
+  annual_entitlement_units: number;
+  opening_balance_units: number;
+  used_units: number;
+  carry_forward_units: number;
+  raw_accrual_units: number;
+  rounded_accrual_units: number;
+  cap_adjustment_units: number;
+  projected_balance_units: number;
+  max_balance_units: number | null;
+  rounding_policy: LeaveAccrualRoundingPolicy;
+  decision: LeaveAccrualDecision;
+  balance_mutation_allowed: false;
+  provider_neutral_only: true;
+  runtime_status: "LEAVE_ACCRUAL_ENGINE_EVALUATED";
   decision_refs: readonly string[];
+  evidence_artifacts: readonly string[];
   control_metadata: Record<string, unknown>;
-  scaffold_evidence_digest: string;
   evaluated_by_user_id: string;
   evaluated_at: string;
+  leave_accrual_evidence_digest: string;
 };
