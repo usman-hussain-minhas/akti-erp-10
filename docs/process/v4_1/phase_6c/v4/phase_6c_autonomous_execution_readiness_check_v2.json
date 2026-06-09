@@ -1,0 +1,795 @@
+{
+  "artifact_id": "phase_6c_autonomous_execution_readiness_check_v2",
+  "artifact_version": "v4",
+  "phase": "6C",
+  "status": "PHASE_6C_AUTONOMOUS_EXECUTION_READY_AFTER_CONDITIONAL_GATE_3",
+  "checked_at": "2026-06-09T08:07:44.204Z",
+  "repo": {
+    "head": "ea9d53e",
+    "branch": "main"
+  },
+  "no_spark_genesis_used": true,
+  "authority": "docs/process/v4_1/phase_6c/v4/phase_6c_ffet_registry_v1.json",
+  "conditional_gate_3": {
+    "status": "SATISFIED_BY_MERGED_INDEPENDENT_AUDIT",
+    "evidence": "docs/process/v4_1/phase_6c/v4/phase_6c_independent_ffet_audit_v2.json"
+  },
+  "counts": {
+    "ffets": 124,
+    "direct_seed_tests": 124,
+    "missing_expected_files": 0,
+    "missing_source_files": 0,
+    "missing_direct_tests": 0,
+    "forbidden_expected_files": 0,
+    "dependency_cycles": 0
+  },
+  "tool_availability": {
+    "git": "/usr/bin/git",
+    "gh": "/usr/local/bin/gh",
+    "node": "/usr/local/bin/node",
+    "pnpm": "/usr/local/bin/pnpm"
+  },
+  "validation": {
+    "status": "PASS",
+    "commands": [
+      "pnpm contracts:validate",
+      "pnpm --filter @akti/api typecheck",
+      "pnpm exec tsx apps/api/src/phase_6c/hr_employee_records_and_organisation_structure/employee_person_extension.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/hr_employee_records_and_organisation_structure/employee_number_policy.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/hr_employee_records_and_organisation_structure/org_department_team_position.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/hr_employee_records_and_organisation_structure/reporting_line_matrix.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/hr_employee_records_and_organisation_structure/employment_contract_record.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/hr_employee_records_and_organisation_structure/employee_document_boundary.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/hr_employee_records_and_organisation_structure/compensation_metadata_payroll_evidence.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/hr_employee_records_and_organisation_structure/employee_lifecycle_status_history.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/hr_employee_records_and_organisation_structure/employee_sensitive_field_redaction.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/hr_employee_records_and_organisation_structure/employee_created_event.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/hr_recruitment_and_onboarding_pipeline/applicant_source_linkage.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/hr_recruitment_and_onboarding_pipeline/recruitment_stage_config.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/hr_recruitment_and_onboarding_pipeline/scorecard_interview_form.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/hr_recruitment_and_onboarding_pipeline/interview_calendar_event_request.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/hr_recruitment_and_onboarding_pipeline/offer_approval_workflow.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/hr_recruitment_and_onboarding_pipeline/offer_acceptance_employee_creation_request.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/hr_recruitment_and_onboarding_pipeline/onboarding_task_template.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/hr_recruitment_and_onboarding_pipeline/access_provisioning_gatekeeper_event.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/hr_recruitment_and_onboarding_pipeline/background_check_provider_boundary.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/hr_recruitment_and_onboarding_pipeline/offer_document_generation.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/hr_recruitment_and_onboarding_pipeline/applicant_staged_deletion.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/hr_recruitment_and_onboarding_pipeline/applicant_dedup_linkage.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/hr_recruitment_and_onboarding_pipeline/recruitment_evidence_feed.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/hr_attendance_leave_and_time_tracking/qr_attendance.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/hr_attendance_leave_and_time_tracking/biometric_device_boundary.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/hr_attendance_leave_and_time_tracking/rfid_nfc_attendance.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/hr_attendance_leave_and_time_tracking/mobile_gps_attendance.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/hr_attendance_leave_and_time_tracking/manual_attendance_override.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/hr_attendance_leave_and_time_tracking/offline_attendance_queue.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/hr_attendance_leave_and_time_tracking/attendance_exception_detection.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/hr_attendance_leave_and_time_tracking/shift_roster.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/hr_attendance_leave_and_time_tracking/holiday_calendar.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/hr_attendance_leave_and_time_tracking/leave_type_registry.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/hr_attendance_leave_and_time_tracking/leave_accrual_engine.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/hr_attendance_leave_and_time_tracking/leave_carryforward_expiry.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/hr_attendance_leave_and_time_tracking/leave_encashment.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/hr_attendance_leave_and_time_tracking/leave_approval_chain.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/hr_attendance_leave_and_time_tracking/payroll_input_evidence.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/hr_attendance_leave_and_time_tracking/attendance_location_redaction.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/hr_performance_commission_policy_and_offboarding/performance_framework.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/hr_performance_commission_policy_and_offboarding/weighted_goal_review_cycle.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/hr_performance_commission_policy_and_offboarding/at_risk_rules_engine.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/hr_performance_commission_policy_and_offboarding/commission_calculation.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/hr_performance_commission_policy_and_offboarding/commission_deferred_release.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/hr_performance_commission_policy_and_offboarding/commission_clawback_reversal.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/hr_performance_commission_policy_and_offboarding/commission_tier_accelerator.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/hr_performance_commission_policy_and_offboarding/commission_pool_distribution.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/hr_performance_commission_policy_and_offboarding/commission_payroll_batch_event.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/hr_performance_commission_policy_and_offboarding/policy_version_library.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/hr_performance_commission_policy_and_offboarding/policy_acknowledgement_evidence.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/hr_performance_commission_policy_and_offboarding/offboarding_saga.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/hr_performance_commission_policy_and_offboarding/offboarding_settlement_step.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/hr_performance_commission_policy_and_offboarding/offboarding_asset_recovery_step.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/hr_performance_commission_policy_and_offboarding/offboarding_workspace_removal_step.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/hr_performance_commission_policy_and_offboarding/offboarding_access_revocation_gatekeeper.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/hr_performance_commission_policy_and_offboarding/offboarding_payroll_closure_step.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/workspace_messaging_and_collaboration/workspace_channel_dm.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/workspace_messaging_and_collaboration/message_thread_reaction.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/workspace_messaging_and_collaboration/message_edit_history.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/workspace_messaging_and_collaboration/message_tombstone_staged_deletion.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/workspace_messaging_and_collaboration/message_attachment_file_ref.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/workspace_messaging_and_collaboration/outbound_notification_gateway.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/workspace_messaging_and_collaboration/mention_notification_evidence.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/workspace_messaging_and_collaboration/membership_policy.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/workspace_messaging_and_collaboration/private_channel_approval.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/workspace_messaging_and_collaboration/cross_module_channel_ref.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/workspace_messaging_and_collaboration/workspace_message_search.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/workspace_messaging_and_collaboration/moderation_reporting.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/workspace_messaging_and_collaboration/e2e_encryption_boundary.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/workspace_tasks_projects_documents_and_knowledge/task_record.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/workspace_tasks_projects_documents_and_knowledge/task_status_config.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/workspace_tasks_projects_documents_and_knowledge/project_record.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/workspace_tasks_projects_documents_and_knowledge/project_dependency_engine.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/workspace_tasks_projects_documents_and_knowledge/project_budget_evidence_ref.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/workspace_tasks_projects_documents_and_knowledge/wiki_page_versioning.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/workspace_tasks_projects_documents_and_knowledge/wiki_restore.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/workspace_tasks_projects_documents_and_knowledge/document_folder_file_ref.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/workspace_tasks_projects_documents_and_knowledge/time_log_evidence.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/workspace_tasks_projects_documents_and_knowledge/task_reminder_gateway.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/workspace_tasks_projects_documents_and_knowledge/project_template.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/workspace_tasks_projects_documents_and_knowledge/tenant_authored_knowledge.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/workspace_tasks_projects_documents_and_knowledge/task_project_calendar_event.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/workspace_calendar_meetings_rooms_announcements/provider_neutral_calendar_entry.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/workspace_calendar_meetings_rooms_announcements/calendar_provider_sync_boundary.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/workspace_calendar_meetings_rooms_announcements/conferencing_provider_boundary.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/workspace_calendar_meetings_rooms_announcements/room_booking_conflict.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/workspace_calendar_meetings_rooms_announcements/resource_capacity_equipment.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/workspace_calendar_meetings_rooms_announcements/announcement_gateway.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/workspace_calendar_meetings_rooms_announcements/mandatory_notice_classification.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/workspace_calendar_meetings_rooms_announcements/reminder_quiet_hours.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/workspace_calendar_meetings_rooms_announcements/recurring_event_rule.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/workspace_calendar_meetings_rooms_announcements/calendar_origin_event_ref.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/workspace_calendar_meetings_rooms_announcements/meeting_attendance_evidence.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/workspace_calendar_meetings_rooms_announcements/sync_failure_degradation.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/workspace_calendar_meetings_rooms_announcements/announcement_ack_evidence.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/events_configuration_and_registration_service/event_configuration.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/events_configuration_and_registration_service/event_session_track.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/events_configuration_and_registration_service/speaker_honorarium_ref.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/events_configuration_and_registration_service/ticket_type_capacity.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/events_configuration_and_registration_service/registration_form_config.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/events_configuration_and_registration_service/waitlist_rule.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/events_configuration_and_registration_service/waitlist_auto_promotion_timer.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/events_configuration_and_registration_service/ticket_claim_deadline.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/events_configuration_and_registration_service/approval_required_registration.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/events_configuration_and_registration_service/event_calendar_schedule_ref.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/events_configuration_and_registration_service/attendee_crm_lead_link.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/events_configuration_and_registration_service/event_lead_handoff.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/events_configuration_and_registration_service/registration_invoice_saga.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/events_configuration_and_registration_service/registration_attempt_evidence.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/events_configuration_and_registration_service/cancellation_refund_delegation.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/events_check_in_and_post_event_service/qr_ticket_issuing.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/events_check_in_and_post_event_service/signed_ticket_token.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/events_check_in_and_post_event_service/checkin_time_window.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/events_check_in_and_post_event_service/kiosk_mode_checkin.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/events_check_in_and_post_event_service/session_level_checkin.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/events_check_in_and_post_event_service/manual_checkin_override.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/events_check_in_and_post_event_service/duplicate_checkin_exception.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/events_check_in_and_post_event_service/offline_checkin_queue.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/events_check_in_and_post_event_service/badge_export.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/events_check_in_and_post_event_service/post_event_feedback_form.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/events_check_in_and_post_event_service/feedback_identity_policy.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/events_check_in_and_post_event_service/post_event_resource_file_ref.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/events_check_in_and_post_event_service/event_lead_handoff_evidence.service.test.ts",
+      "pnpm exec tsx apps/api/src/phase_6c/events_check_in_and_post_event_service/attendance_certificate_evidence.service.test.ts",
+      "pnpm --filter @akti/api test",
+      "pnpm exec prisma validate --schema prisma/schema.prisma",
+      "pnpm registry:check",
+      "node scripts/quality/check_lower_snake_case_paths.mjs"
+    ],
+    "raw_output": "\n===== pnpm contracts:validate =====\n\n> akti-erp@ contracts:validate /Volumes/UsmanWork/AKTI ERP 10\n> pnpm --filter @akti/contracts contracts:validate\n\n\n> @akti/contracts@0.0.0 contracts:validate /Volumes/UsmanWork/AKTI ERP 10/packages/contracts\n> node scripts/validate-contracts.mjs\n\nValidating entity-registry.schema.ts\nValidating module-manifest.schema.ts\nValidating screen-contract.schema.ts\nValidating scripts/validate-access-core-contracts.mjs\nAccess Core contract validation passed.\nValidating scripts/validate-engagement-gateway-lite-contracts.mjs\nEngagement Gateway Lite contract validation passed.\nValidating scripts/validate-lead-desk-contracts.mjs\nLead Desk contract validation passed.\nValidating scripts/validate-module-manifest-contracts.mjs\nValidating module manifest access-core.module-manifest.contract.ts\nValidating module manifest engagement-gateway-lite.module-manifest.contract.ts\nValidating module manifest internal-fixture.module-manifest.contract.ts\nValidating module manifest lead-desk-core.module-manifest.contract.ts\nValidated 4 module manifest contract file(s).\nValidating scripts/validate-screen-contracts.mjs\nPhase 1, Phase 2, and Phase 4B screen-contract validation passed.\n===== exit 0: pnpm contracts:validate =====\n\n===== pnpm --filter @akti/api typecheck =====\n\n> @akti/api@0.0.0 typecheck /Volumes/UsmanWork/AKTI ERP 10/apps/api\n> pnpm exec tsc --noEmit -p tsconfig.json\n\n===== exit 0: pnpm --filter @akti/api typecheck =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/hr_employee_records_and_organisation_structure/employee_person_extension.service.test.ts =====\nP6C scaffold-control employee_person_extension test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/hr_employee_records_and_organisation_structure/employee_person_extension.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/hr_employee_records_and_organisation_structure/employee_number_policy.service.test.ts =====\nP6C scaffold-control employee_number_policy test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/hr_employee_records_and_organisation_structure/employee_number_policy.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/hr_employee_records_and_organisation_structure/org_department_team_position.service.test.ts =====\nP6C scaffold-control org_department_team_position test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/hr_employee_records_and_organisation_structure/org_department_team_position.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/hr_employee_records_and_organisation_structure/reporting_line_matrix.service.test.ts =====\nP6C scaffold-control reporting_line_matrix test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/hr_employee_records_and_organisation_structure/reporting_line_matrix.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/hr_employee_records_and_organisation_structure/employment_contract_record.service.test.ts =====\nP6C scaffold-control employment_contract_record test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/hr_employee_records_and_organisation_structure/employment_contract_record.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/hr_employee_records_and_organisation_structure/employee_document_boundary.service.test.ts =====\nP6C scaffold-control employee_document_boundary test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/hr_employee_records_and_organisation_structure/employee_document_boundary.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/hr_employee_records_and_organisation_structure/compensation_metadata_payroll_evidence.service.test.ts =====\nP6C scaffold-control compensation_metadata_payroll_evidence test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/hr_employee_records_and_organisation_structure/compensation_metadata_payroll_evidence.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/hr_employee_records_and_organisation_structure/employee_lifecycle_status_history.service.test.ts =====\nP6C scaffold-control employee_lifecycle_status_history test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/hr_employee_records_and_organisation_structure/employee_lifecycle_status_history.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/hr_employee_records_and_organisation_structure/employee_sensitive_field_redaction.service.test.ts =====\nP6C scaffold-control employee_sensitive_field_redaction test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/hr_employee_records_and_organisation_structure/employee_sensitive_field_redaction.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/hr_employee_records_and_organisation_structure/employee_created_event.service.test.ts =====\nP6C scaffold-control employee_created_event test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/hr_employee_records_and_organisation_structure/employee_created_event.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/hr_recruitment_and_onboarding_pipeline/applicant_source_linkage.service.test.ts =====\nP6C scaffold-control applicant_source_linkage test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/hr_recruitment_and_onboarding_pipeline/applicant_source_linkage.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/hr_recruitment_and_onboarding_pipeline/recruitment_stage_config.service.test.ts =====\nP6C scaffold-control recruitment_stage_config test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/hr_recruitment_and_onboarding_pipeline/recruitment_stage_config.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/hr_recruitment_and_onboarding_pipeline/scorecard_interview_form.service.test.ts =====\nP6C scaffold-control scorecard_interview_form test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/hr_recruitment_and_onboarding_pipeline/scorecard_interview_form.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/hr_recruitment_and_onboarding_pipeline/interview_calendar_event_request.service.test.ts =====\nP6C scaffold-control interview_calendar_event_request test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/hr_recruitment_and_onboarding_pipeline/interview_calendar_event_request.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/hr_recruitment_and_onboarding_pipeline/offer_approval_workflow.service.test.ts =====\nP6C scaffold-control offer_approval_workflow test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/hr_recruitment_and_onboarding_pipeline/offer_approval_workflow.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/hr_recruitment_and_onboarding_pipeline/offer_acceptance_employee_creation_request.service.test.ts =====\nP6C scaffold-control offer_acceptance_employee_creation_request test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/hr_recruitment_and_onboarding_pipeline/offer_acceptance_employee_creation_request.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/hr_recruitment_and_onboarding_pipeline/onboarding_task_template.service.test.ts =====\nP6C scaffold-control onboarding_task_template test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/hr_recruitment_and_onboarding_pipeline/onboarding_task_template.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/hr_recruitment_and_onboarding_pipeline/access_provisioning_gatekeeper_event.service.test.ts =====\nP6C scaffold-control access_provisioning_gatekeeper_event test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/hr_recruitment_and_onboarding_pipeline/access_provisioning_gatekeeper_event.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/hr_recruitment_and_onboarding_pipeline/background_check_provider_boundary.service.test.ts =====\nP6C scaffold-control background_check_provider_boundary test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/hr_recruitment_and_onboarding_pipeline/background_check_provider_boundary.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/hr_recruitment_and_onboarding_pipeline/offer_document_generation.service.test.ts =====\nP6C scaffold-control offer_document_generation test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/hr_recruitment_and_onboarding_pipeline/offer_document_generation.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/hr_recruitment_and_onboarding_pipeline/applicant_staged_deletion.service.test.ts =====\nP6C scaffold-control applicant_staged_deletion test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/hr_recruitment_and_onboarding_pipeline/applicant_staged_deletion.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/hr_recruitment_and_onboarding_pipeline/applicant_dedup_linkage.service.test.ts =====\nP6C scaffold-control applicant_dedup_linkage test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/hr_recruitment_and_onboarding_pipeline/applicant_dedup_linkage.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/hr_recruitment_and_onboarding_pipeline/recruitment_evidence_feed.service.test.ts =====\nP6C scaffold-control recruitment_evidence_feed test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/hr_recruitment_and_onboarding_pipeline/recruitment_evidence_feed.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/hr_attendance_leave_and_time_tracking/qr_attendance.service.test.ts =====\nP6C scaffold-control qr_attendance test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/hr_attendance_leave_and_time_tracking/qr_attendance.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/hr_attendance_leave_and_time_tracking/biometric_device_boundary.service.test.ts =====\nP6C scaffold-control biometric_device_boundary test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/hr_attendance_leave_and_time_tracking/biometric_device_boundary.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/hr_attendance_leave_and_time_tracking/rfid_nfc_attendance.service.test.ts =====\nP6C scaffold-control rfid_nfc_attendance test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/hr_attendance_leave_and_time_tracking/rfid_nfc_attendance.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/hr_attendance_leave_and_time_tracking/mobile_gps_attendance.service.test.ts =====\nP6C scaffold-control mobile_gps_attendance test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/hr_attendance_leave_and_time_tracking/mobile_gps_attendance.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/hr_attendance_leave_and_time_tracking/manual_attendance_override.service.test.ts =====\nP6C scaffold-control manual_attendance_override test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/hr_attendance_leave_and_time_tracking/manual_attendance_override.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/hr_attendance_leave_and_time_tracking/offline_attendance_queue.service.test.ts =====\nP6C scaffold-control offline_attendance_queue test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/hr_attendance_leave_and_time_tracking/offline_attendance_queue.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/hr_attendance_leave_and_time_tracking/attendance_exception_detection.service.test.ts =====\nP6C scaffold-control attendance_exception_detection test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/hr_attendance_leave_and_time_tracking/attendance_exception_detection.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/hr_attendance_leave_and_time_tracking/shift_roster.service.test.ts =====\nP6C scaffold-control shift_roster test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/hr_attendance_leave_and_time_tracking/shift_roster.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/hr_attendance_leave_and_time_tracking/holiday_calendar.service.test.ts =====\nP6C scaffold-control holiday_calendar test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/hr_attendance_leave_and_time_tracking/holiday_calendar.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/hr_attendance_leave_and_time_tracking/leave_type_registry.service.test.ts =====\nP6C scaffold-control leave_type_registry test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/hr_attendance_leave_and_time_tracking/leave_type_registry.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/hr_attendance_leave_and_time_tracking/leave_accrual_engine.service.test.ts =====\nP6C scaffold-control leave_accrual_engine test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/hr_attendance_leave_and_time_tracking/leave_accrual_engine.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/hr_attendance_leave_and_time_tracking/leave_carryforward_expiry.service.test.ts =====\nP6C scaffold-control leave_carryforward_expiry test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/hr_attendance_leave_and_time_tracking/leave_carryforward_expiry.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/hr_attendance_leave_and_time_tracking/leave_encashment.service.test.ts =====\nP6C scaffold-control leave_encashment test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/hr_attendance_leave_and_time_tracking/leave_encashment.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/hr_attendance_leave_and_time_tracking/leave_approval_chain.service.test.ts =====\nP6C scaffold-control leave_approval_chain test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/hr_attendance_leave_and_time_tracking/leave_approval_chain.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/hr_attendance_leave_and_time_tracking/payroll_input_evidence.service.test.ts =====\nP6C scaffold-control payroll_input_evidence test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/hr_attendance_leave_and_time_tracking/payroll_input_evidence.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/hr_attendance_leave_and_time_tracking/attendance_location_redaction.service.test.ts =====\nP6C scaffold-control attendance_location_redaction test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/hr_attendance_leave_and_time_tracking/attendance_location_redaction.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/hr_performance_commission_policy_and_offboarding/performance_framework.service.test.ts =====\nP6C scaffold-control performance_framework test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/hr_performance_commission_policy_and_offboarding/performance_framework.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/hr_performance_commission_policy_and_offboarding/weighted_goal_review_cycle.service.test.ts =====\nP6C scaffold-control weighted_goal_review_cycle test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/hr_performance_commission_policy_and_offboarding/weighted_goal_review_cycle.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/hr_performance_commission_policy_and_offboarding/at_risk_rules_engine.service.test.ts =====\nP6C scaffold-control at_risk_rules_engine test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/hr_performance_commission_policy_and_offboarding/at_risk_rules_engine.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/hr_performance_commission_policy_and_offboarding/commission_calculation.service.test.ts =====\nP6C scaffold-control commission_calculation test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/hr_performance_commission_policy_and_offboarding/commission_calculation.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/hr_performance_commission_policy_and_offboarding/commission_deferred_release.service.test.ts =====\nP6C scaffold-control commission_deferred_release test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/hr_performance_commission_policy_and_offboarding/commission_deferred_release.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/hr_performance_commission_policy_and_offboarding/commission_clawback_reversal.service.test.ts =====\nP6C scaffold-control commission_clawback_reversal test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/hr_performance_commission_policy_and_offboarding/commission_clawback_reversal.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/hr_performance_commission_policy_and_offboarding/commission_tier_accelerator.service.test.ts =====\nP6C scaffold-control commission_tier_accelerator test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/hr_performance_commission_policy_and_offboarding/commission_tier_accelerator.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/hr_performance_commission_policy_and_offboarding/commission_pool_distribution.service.test.ts =====\nP6C scaffold-control commission_pool_distribution test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/hr_performance_commission_policy_and_offboarding/commission_pool_distribution.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/hr_performance_commission_policy_and_offboarding/commission_payroll_batch_event.service.test.ts =====\nP6C scaffold-control commission_payroll_batch_event test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/hr_performance_commission_policy_and_offboarding/commission_payroll_batch_event.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/hr_performance_commission_policy_and_offboarding/policy_version_library.service.test.ts =====\nP6C scaffold-control policy_version_library test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/hr_performance_commission_policy_and_offboarding/policy_version_library.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/hr_performance_commission_policy_and_offboarding/policy_acknowledgement_evidence.service.test.ts =====\nP6C scaffold-control policy_acknowledgement_evidence test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/hr_performance_commission_policy_and_offboarding/policy_acknowledgement_evidence.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/hr_performance_commission_policy_and_offboarding/offboarding_saga.service.test.ts =====\nP6C scaffold-control offboarding_saga test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/hr_performance_commission_policy_and_offboarding/offboarding_saga.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/hr_performance_commission_policy_and_offboarding/offboarding_settlement_step.service.test.ts =====\nP6C scaffold-control offboarding_settlement_step test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/hr_performance_commission_policy_and_offboarding/offboarding_settlement_step.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/hr_performance_commission_policy_and_offboarding/offboarding_asset_recovery_step.service.test.ts =====\nP6C scaffold-control offboarding_asset_recovery_step test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/hr_performance_commission_policy_and_offboarding/offboarding_asset_recovery_step.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/hr_performance_commission_policy_and_offboarding/offboarding_workspace_removal_step.service.test.ts =====\nP6C scaffold-control offboarding_workspace_removal_step test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/hr_performance_commission_policy_and_offboarding/offboarding_workspace_removal_step.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/hr_performance_commission_policy_and_offboarding/offboarding_access_revocation_gatekeeper.service.test.ts =====\nP6C scaffold-control offboarding_access_revocation_gatekeeper test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/hr_performance_commission_policy_and_offboarding/offboarding_access_revocation_gatekeeper.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/hr_performance_commission_policy_and_offboarding/offboarding_payroll_closure_step.service.test.ts =====\nP6C scaffold-control offboarding_payroll_closure_step test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/hr_performance_commission_policy_and_offboarding/offboarding_payroll_closure_step.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/workspace_messaging_and_collaboration/workspace_channel_dm.service.test.ts =====\nP6C scaffold-control workspace_channel_dm test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/workspace_messaging_and_collaboration/workspace_channel_dm.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/workspace_messaging_and_collaboration/message_thread_reaction.service.test.ts =====\nP6C scaffold-control message_thread_reaction test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/workspace_messaging_and_collaboration/message_thread_reaction.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/workspace_messaging_and_collaboration/message_edit_history.service.test.ts =====\nP6C scaffold-control message_edit_history test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/workspace_messaging_and_collaboration/message_edit_history.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/workspace_messaging_and_collaboration/message_tombstone_staged_deletion.service.test.ts =====\nP6C scaffold-control message_tombstone_staged_deletion test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/workspace_messaging_and_collaboration/message_tombstone_staged_deletion.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/workspace_messaging_and_collaboration/message_attachment_file_ref.service.test.ts =====\nP6C scaffold-control message_attachment_file_ref test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/workspace_messaging_and_collaboration/message_attachment_file_ref.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/workspace_messaging_and_collaboration/outbound_notification_gateway.service.test.ts =====\nP6C scaffold-control outbound_notification_gateway test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/workspace_messaging_and_collaboration/outbound_notification_gateway.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/workspace_messaging_and_collaboration/mention_notification_evidence.service.test.ts =====\nP6C scaffold-control mention_notification_evidence test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/workspace_messaging_and_collaboration/mention_notification_evidence.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/workspace_messaging_and_collaboration/membership_policy.service.test.ts =====\nP6C scaffold-control membership_policy test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/workspace_messaging_and_collaboration/membership_policy.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/workspace_messaging_and_collaboration/private_channel_approval.service.test.ts =====\nP6C scaffold-control private_channel_approval test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/workspace_messaging_and_collaboration/private_channel_approval.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/workspace_messaging_and_collaboration/cross_module_channel_ref.service.test.ts =====\nP6C scaffold-control cross_module_channel_ref test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/workspace_messaging_and_collaboration/cross_module_channel_ref.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/workspace_messaging_and_collaboration/workspace_message_search.service.test.ts =====\nP6C scaffold-control workspace_message_search test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/workspace_messaging_and_collaboration/workspace_message_search.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/workspace_messaging_and_collaboration/moderation_reporting.service.test.ts =====\nP6C scaffold-control moderation_reporting test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/workspace_messaging_and_collaboration/moderation_reporting.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/workspace_messaging_and_collaboration/e2e_encryption_boundary.service.test.ts =====\nP6C scaffold-control e2e_encryption_boundary test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/workspace_messaging_and_collaboration/e2e_encryption_boundary.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/workspace_tasks_projects_documents_and_knowledge/task_record.service.test.ts =====\nP6C scaffold-control task_record test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/workspace_tasks_projects_documents_and_knowledge/task_record.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/workspace_tasks_projects_documents_and_knowledge/task_status_config.service.test.ts =====\nP6C scaffold-control task_status_config test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/workspace_tasks_projects_documents_and_knowledge/task_status_config.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/workspace_tasks_projects_documents_and_knowledge/project_record.service.test.ts =====\nP6C scaffold-control project_record test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/workspace_tasks_projects_documents_and_knowledge/project_record.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/workspace_tasks_projects_documents_and_knowledge/project_dependency_engine.service.test.ts =====\nP6C scaffold-control project_dependency_engine test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/workspace_tasks_projects_documents_and_knowledge/project_dependency_engine.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/workspace_tasks_projects_documents_and_knowledge/project_budget_evidence_ref.service.test.ts =====\nP6C scaffold-control project_budget_evidence_ref test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/workspace_tasks_projects_documents_and_knowledge/project_budget_evidence_ref.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/workspace_tasks_projects_documents_and_knowledge/wiki_page_versioning.service.test.ts =====\nP6C scaffold-control wiki_page_versioning test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/workspace_tasks_projects_documents_and_knowledge/wiki_page_versioning.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/workspace_tasks_projects_documents_and_knowledge/wiki_restore.service.test.ts =====\nP6C scaffold-control wiki_restore test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/workspace_tasks_projects_documents_and_knowledge/wiki_restore.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/workspace_tasks_projects_documents_and_knowledge/document_folder_file_ref.service.test.ts =====\nP6C scaffold-control document_folder_file_ref test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/workspace_tasks_projects_documents_and_knowledge/document_folder_file_ref.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/workspace_tasks_projects_documents_and_knowledge/time_log_evidence.service.test.ts =====\nP6C scaffold-control time_log_evidence test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/workspace_tasks_projects_documents_and_knowledge/time_log_evidence.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/workspace_tasks_projects_documents_and_knowledge/task_reminder_gateway.service.test.ts =====\nP6C scaffold-control task_reminder_gateway test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/workspace_tasks_projects_documents_and_knowledge/task_reminder_gateway.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/workspace_tasks_projects_documents_and_knowledge/project_template.service.test.ts =====\nP6C scaffold-control project_template test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/workspace_tasks_projects_documents_and_knowledge/project_template.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/workspace_tasks_projects_documents_and_knowledge/tenant_authored_knowledge.service.test.ts =====\nP6C scaffold-control tenant_authored_knowledge test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/workspace_tasks_projects_documents_and_knowledge/tenant_authored_knowledge.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/workspace_tasks_projects_documents_and_knowledge/task_project_calendar_event.service.test.ts =====\nP6C scaffold-control task_project_calendar_event test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/workspace_tasks_projects_documents_and_knowledge/task_project_calendar_event.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/workspace_calendar_meetings_rooms_announcements/provider_neutral_calendar_entry.service.test.ts =====\nP6C scaffold-control provider_neutral_calendar_entry test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/workspace_calendar_meetings_rooms_announcements/provider_neutral_calendar_entry.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/workspace_calendar_meetings_rooms_announcements/calendar_provider_sync_boundary.service.test.ts =====\nP6C scaffold-control calendar_provider_sync_boundary test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/workspace_calendar_meetings_rooms_announcements/calendar_provider_sync_boundary.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/workspace_calendar_meetings_rooms_announcements/conferencing_provider_boundary.service.test.ts =====\nP6C scaffold-control conferencing_provider_boundary test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/workspace_calendar_meetings_rooms_announcements/conferencing_provider_boundary.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/workspace_calendar_meetings_rooms_announcements/room_booking_conflict.service.test.ts =====\nP6C scaffold-control room_booking_conflict test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/workspace_calendar_meetings_rooms_announcements/room_booking_conflict.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/workspace_calendar_meetings_rooms_announcements/resource_capacity_equipment.service.test.ts =====\nP6C scaffold-control resource_capacity_equipment test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/workspace_calendar_meetings_rooms_announcements/resource_capacity_equipment.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/workspace_calendar_meetings_rooms_announcements/announcement_gateway.service.test.ts =====\nP6C scaffold-control announcement_gateway test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/workspace_calendar_meetings_rooms_announcements/announcement_gateway.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/workspace_calendar_meetings_rooms_announcements/mandatory_notice_classification.service.test.ts =====\nP6C scaffold-control mandatory_notice_classification test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/workspace_calendar_meetings_rooms_announcements/mandatory_notice_classification.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/workspace_calendar_meetings_rooms_announcements/reminder_quiet_hours.service.test.ts =====\nP6C scaffold-control reminder_quiet_hours test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/workspace_calendar_meetings_rooms_announcements/reminder_quiet_hours.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/workspace_calendar_meetings_rooms_announcements/recurring_event_rule.service.test.ts =====\nP6C scaffold-control recurring_event_rule test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/workspace_calendar_meetings_rooms_announcements/recurring_event_rule.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/workspace_calendar_meetings_rooms_announcements/calendar_origin_event_ref.service.test.ts =====\nP6C scaffold-control calendar_origin_event_ref test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/workspace_calendar_meetings_rooms_announcements/calendar_origin_event_ref.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/workspace_calendar_meetings_rooms_announcements/meeting_attendance_evidence.service.test.ts =====\nP6C scaffold-control meeting_attendance_evidence test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/workspace_calendar_meetings_rooms_announcements/meeting_attendance_evidence.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/workspace_calendar_meetings_rooms_announcements/sync_failure_degradation.service.test.ts =====\nP6C scaffold-control sync_failure_degradation test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/workspace_calendar_meetings_rooms_announcements/sync_failure_degradation.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/workspace_calendar_meetings_rooms_announcements/announcement_ack_evidence.service.test.ts =====\nP6C scaffold-control announcement_ack_evidence test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/workspace_calendar_meetings_rooms_announcements/announcement_ack_evidence.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/events_configuration_and_registration_service/event_configuration.service.test.ts =====\nP6C scaffold-control event_configuration test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/events_configuration_and_registration_service/event_configuration.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/events_configuration_and_registration_service/event_session_track.service.test.ts =====\nP6C scaffold-control event_session_track test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/events_configuration_and_registration_service/event_session_track.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/events_configuration_and_registration_service/speaker_honorarium_ref.service.test.ts =====\nP6C scaffold-control speaker_honorarium_ref test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/events_configuration_and_registration_service/speaker_honorarium_ref.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/events_configuration_and_registration_service/ticket_type_capacity.service.test.ts =====\nP6C scaffold-control ticket_type_capacity test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/events_configuration_and_registration_service/ticket_type_capacity.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/events_configuration_and_registration_service/registration_form_config.service.test.ts =====\nP6C scaffold-control registration_form_config test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/events_configuration_and_registration_service/registration_form_config.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/events_configuration_and_registration_service/waitlist_rule.service.test.ts =====\nP6C scaffold-control waitlist_rule test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/events_configuration_and_registration_service/waitlist_rule.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/events_configuration_and_registration_service/waitlist_auto_promotion_timer.service.test.ts =====\nP6C scaffold-control waitlist_auto_promotion_timer test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/events_configuration_and_registration_service/waitlist_auto_promotion_timer.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/events_configuration_and_registration_service/ticket_claim_deadline.service.test.ts =====\nP6C scaffold-control ticket_claim_deadline test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/events_configuration_and_registration_service/ticket_claim_deadline.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/events_configuration_and_registration_service/approval_required_registration.service.test.ts =====\nP6C scaffold-control approval_required_registration test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/events_configuration_and_registration_service/approval_required_registration.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/events_configuration_and_registration_service/event_calendar_schedule_ref.service.test.ts =====\nP6C scaffold-control event_calendar_schedule_ref test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/events_configuration_and_registration_service/event_calendar_schedule_ref.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/events_configuration_and_registration_service/attendee_crm_lead_link.service.test.ts =====\nP6C scaffold-control attendee_crm_lead_link test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/events_configuration_and_registration_service/attendee_crm_lead_link.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/events_configuration_and_registration_service/event_lead_handoff.service.test.ts =====\nP6C scaffold-control event_lead_handoff test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/events_configuration_and_registration_service/event_lead_handoff.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/events_configuration_and_registration_service/registration_invoice_saga.service.test.ts =====\nP6C scaffold-control registration_invoice_saga test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/events_configuration_and_registration_service/registration_invoice_saga.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/events_configuration_and_registration_service/registration_attempt_evidence.service.test.ts =====\nP6C scaffold-control registration_attempt_evidence test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/events_configuration_and_registration_service/registration_attempt_evidence.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/events_configuration_and_registration_service/cancellation_refund_delegation.service.test.ts =====\nP6C scaffold-control cancellation_refund_delegation test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/events_configuration_and_registration_service/cancellation_refund_delegation.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/events_check_in_and_post_event_service/qr_ticket_issuing.service.test.ts =====\nP6C scaffold-control qr_ticket_issuing test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/events_check_in_and_post_event_service/qr_ticket_issuing.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/events_check_in_and_post_event_service/signed_ticket_token.service.test.ts =====\nP6C scaffold-control signed_ticket_token test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/events_check_in_and_post_event_service/signed_ticket_token.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/events_check_in_and_post_event_service/checkin_time_window.service.test.ts =====\nP6C scaffold-control checkin_time_window test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/events_check_in_and_post_event_service/checkin_time_window.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/events_check_in_and_post_event_service/kiosk_mode_checkin.service.test.ts =====\nP6C scaffold-control kiosk_mode_checkin test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/events_check_in_and_post_event_service/kiosk_mode_checkin.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/events_check_in_and_post_event_service/session_level_checkin.service.test.ts =====\nP6C scaffold-control session_level_checkin test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/events_check_in_and_post_event_service/session_level_checkin.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/events_check_in_and_post_event_service/manual_checkin_override.service.test.ts =====\nP6C scaffold-control manual_checkin_override test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/events_check_in_and_post_event_service/manual_checkin_override.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/events_check_in_and_post_event_service/duplicate_checkin_exception.service.test.ts =====\nP6C scaffold-control duplicate_checkin_exception test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/events_check_in_and_post_event_service/duplicate_checkin_exception.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/events_check_in_and_post_event_service/offline_checkin_queue.service.test.ts =====\nP6C scaffold-control offline_checkin_queue test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/events_check_in_and_post_event_service/offline_checkin_queue.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/events_check_in_and_post_event_service/badge_export.service.test.ts =====\nP6C scaffold-control badge_export test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/events_check_in_and_post_event_service/badge_export.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/events_check_in_and_post_event_service/post_event_feedback_form.service.test.ts =====\nP6C scaffold-control post_event_feedback_form test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/events_check_in_and_post_event_service/post_event_feedback_form.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/events_check_in_and_post_event_service/feedback_identity_policy.service.test.ts =====\nP6C scaffold-control feedback_identity_policy test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/events_check_in_and_post_event_service/feedback_identity_policy.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/events_check_in_and_post_event_service/post_event_resource_file_ref.service.test.ts =====\nP6C scaffold-control post_event_resource_file_ref test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/events_check_in_and_post_event_service/post_event_resource_file_ref.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/events_check_in_and_post_event_service/event_lead_handoff_evidence.service.test.ts =====\nP6C scaffold-control event_lead_handoff_evidence test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/events_check_in_and_post_event_service/event_lead_handoff_evidence.service.test.ts =====\n\n===== pnpm exec tsx apps/api/src/phase_6c/events_check_in_and_post_event_service/attendance_certificate_evidence.service.test.ts =====\nP6C scaffold-control attendance_certificate_evidence test passed.\n===== exit 0: pnpm exec tsx apps/api/src/phase_6c/events_check_in_and_post_event_service/attendance_certificate_evidence.service.test.ts =====\n\n===== pnpm --filter @akti/api test =====\n\n> @akti/api@0.0.0 test /Volumes/UsmanWork/AKTI ERP 10/apps/api\n> pnpm --filter @akti/contracts build && pnpm exec tsx src/prisma/prisma-import-boundary.test.ts && pnpm exec tsx src/phase1-hardening/phase1-release-blockers.test.ts && pnpm exec tsx src/organization-setup/dto/create-organization-setup.dto.test.ts && pnpm exec tsx src/organization-setup/organization-setup.service.test.ts && pnpm exec tsx src/hierarchy/dto/hierarchy.dto.test.ts && pnpm exec tsx src/hierarchy/hierarchy-closure.service.test.ts && pnpm exec tsx src/hierarchy/hierarchy.controller.test.ts && pnpm exec tsx src/hierarchy/hierarchy.service.test.ts && pnpm exec tsx src/configuration/dto/configuration.dto.test.ts && pnpm exec tsx src/configuration/configuration.controller.test.ts && pnpm exec tsx src/configuration/configuration.service.test.ts && pnpm exec tsx src/platform-observability/audit-log.service.test.ts && pnpm exec tsx src/platform-observability/event-outbox.service.test.ts && pnpm exec tsx src/module-registry/module-registry.service.test.ts && pnpm exec tsx src/access-core/dto/access-core.dto.test.ts && pnpm exec tsx src/security/request-context.test.ts && pnpm exec tsx src/gatekeeper/gatekeeper-preflight.service.test.ts && pnpm exec tsx src/gatekeeper/gatekeeper.p5b-007e.test.ts && pnpm exec tsx src/gatekeeper/gatekeeper.p5b-008f.test.ts && pnpm exec tsx src/gatekeeper/gatekeeper.p5b-008g.test.ts && pnpm exec tsx src/foundry/foundry.p5b-012b.test.ts && pnpm exec tsx src/foundry/foundry.p5b-012c.test.ts && pnpm exec tsx src/foundry/foundry.p5b-013a.test.ts && pnpm exec tsx src/foundry/foundry.p5b-013b.test.ts && pnpm exec tsx src/foundry/foundry.p5b-013c.test.ts && pnpm exec tsx src/foundry/foundry.p5b-014a.test.ts && pnpm exec tsx src/foundry/foundry.p5b-014b.test.ts && pnpm exec tsx src/access-core/access-core.service.test.ts && pnpm exec tsx src/engagement-gateway/engagement-gateway.service.test.ts && (cd ../.. && pnpm exec tsx apps/api/src/lead-desk/lead-desk-scope-model-foundation.test.ts) && pnpm exec tsx src/lead-desk/lead-desk.service.test.ts\n\n\n> @akti/contracts@0.0.0 build /Volumes/UsmanWork/AKTI ERP 10/packages/contracts\n> pnpm exec tsc -p tsconfig.build.json\n\nprisma-import-boundary tests passed\nphase1-release-blockers tests passed\ncreate-organization-setup.dto tests passed\norganization-setup.service tests passed\nhierarchy.dto tests passed\nhierarchy-closure.service tests passed\nhierarchy.controller tests passed\nhierarchy.service tests passed\nconfiguration.dto tests passed\nconfiguration.controller tests passed\nconfiguration.service tests passed\naudit-log.service tests passed\nevent-outbox.service tests passed\nmodule-registry.service tests passed\naccess-core.dto tests passed\nrequest-context tests passed\ngatekeeper-preflight.service tests passed\nP5B-007e gatekeeper negative outcome tests passed.\nP5B-008f gatekeeper STOP_FOR_REVIEW immutability enforcement tests passed.\nP5B-008g gatekeeper STOP_FOR_REVIEW immutability negative tests passed.\nP5B-012b Foundry install execution tests passed.\nP5B-012c Foundry install evidence receipt tests passed.\nP5B-013a Foundry enable flow tests passed.\nP5B-013b Foundry disable flow tests passed.\nP5B-013c Foundry uninstall flow tests passed.\nP5B-014a Foundry update flow tests passed.\nP5B-014b Foundry rollback/recovery flow tests passed.\naccess-core.service tests passed\nengagement-gateway.service tests passed\nlead-desk-scope-model-foundation tests passed\nlead-desk.service tests passed\n===== exit 0: pnpm --filter @akti/api test =====\n\n===== pnpm exec prisma validate --schema prisma/schema.prisma =====\nLoaded Prisma config from prisma.config.ts.\n\nPrisma schema loaded from prisma/schema.prisma.\nThe schema at prisma/schema.prisma is valid 🚀\n===== exit 0: pnpm exec prisma validate --schema prisma/schema.prisma =====\n\n===== pnpm registry:check =====\n\n> akti-erp@ registry:check /Volumes/UsmanWork/AKTI ERP 10\n> node scripts/registry/check-entity-registry.mjs\n\nLoaded Prisma config from prisma.config.ts.\n\nPrisma schema loaded from prisma/schema.prisma.\nThe schema at prisma/schema.prisma is valid 🚀\nEntity Registry is up to date.\n===== exit 0: pnpm registry:check =====\n\n===== node scripts/quality/check_lower_snake_case_paths.mjs =====\nAKTI lower_snake_case path policy check\nTotal tracked paths: 4136\nViolation count: 0\nException count: 3\nExceptions by category:\n- historical_evidence: 3\n  - codex-review/apps/training/crm/v0_0_1/index.md (codex-review/**)\n  - codex-review/core/v0_0_1/index.md (codex-review/**)\n  - codex-review/core/v0_0_2/index.md (codex-review/**)\nPASS: no new unapproved hyphenated tracked paths\n===== exit 0: node scripts/quality/check_lower_snake_case_paths.mjs =====\n"
+  },
+  "branch_plan": [
+    {
+      "ticket_id": "P6C-FFET-001",
+      "seed_id": "seed_6c_001_employee_person_extension",
+      "branch": "codex/p6c-ffet-001-employee_person_extension"
+    },
+    {
+      "ticket_id": "P6C-FFET-002",
+      "seed_id": "seed_6c_002_employee_number_policy",
+      "branch": "codex/p6c-ffet-002-employee_number_policy"
+    },
+    {
+      "ticket_id": "P6C-FFET-003",
+      "seed_id": "seed_6c_003_org_department_team_position",
+      "branch": "codex/p6c-ffet-003-org_department_team_position"
+    },
+    {
+      "ticket_id": "P6C-FFET-004",
+      "seed_id": "seed_6c_004_reporting_line_matrix",
+      "branch": "codex/p6c-ffet-004-reporting_line_matrix"
+    },
+    {
+      "ticket_id": "P6C-FFET-005",
+      "seed_id": "seed_6c_005_employment_contract_record",
+      "branch": "codex/p6c-ffet-005-employment_contract_record"
+    },
+    {
+      "ticket_id": "P6C-FFET-006",
+      "seed_id": "seed_6c_006_employee_document_boundary",
+      "branch": "codex/p6c-ffet-006-employee_document_boundary"
+    },
+    {
+      "ticket_id": "P6C-FFET-007",
+      "seed_id": "seed_6c_007_compensation_metadata_payroll_evidence",
+      "branch": "codex/p6c-ffet-007-compensation_metadata_payroll_evidence"
+    },
+    {
+      "ticket_id": "P6C-FFET-008",
+      "seed_id": "seed_6c_008_employee_lifecycle_status_history",
+      "branch": "codex/p6c-ffet-008-employee_lifecycle_status_history"
+    },
+    {
+      "ticket_id": "P6C-FFET-009",
+      "seed_id": "seed_6c_009_employee_sensitive_field_redaction",
+      "branch": "codex/p6c-ffet-009-employee_sensitive_field_redaction"
+    },
+    {
+      "ticket_id": "P6C-FFET-010",
+      "seed_id": "seed_6c_010_employee_created_event",
+      "branch": "codex/p6c-ffet-010-employee_created_event"
+    },
+    {
+      "ticket_id": "P6C-FFET-011",
+      "seed_id": "seed_6c_011_applicant_source_linkage",
+      "branch": "codex/p6c-ffet-011-applicant_source_linkage"
+    },
+    {
+      "ticket_id": "P6C-FFET-012",
+      "seed_id": "seed_6c_012_recruitment_stage_config",
+      "branch": "codex/p6c-ffet-012-recruitment_stage_config"
+    },
+    {
+      "ticket_id": "P6C-FFET-013",
+      "seed_id": "seed_6c_013_scorecard_interview_form",
+      "branch": "codex/p6c-ffet-013-scorecard_interview_form"
+    },
+    {
+      "ticket_id": "P6C-FFET-014",
+      "seed_id": "seed_6c_014_interview_calendar_event_request",
+      "branch": "codex/p6c-ffet-014-interview_calendar_event_request"
+    },
+    {
+      "ticket_id": "P6C-FFET-015",
+      "seed_id": "seed_6c_015_offer_approval_workflow",
+      "branch": "codex/p6c-ffet-015-offer_approval_workflow"
+    },
+    {
+      "ticket_id": "P6C-FFET-016",
+      "seed_id": "seed_6c_016_offer_acceptance_employee_creation_request",
+      "branch": "codex/p6c-ffet-016-offer_acceptance_employee_creation_request"
+    },
+    {
+      "ticket_id": "P6C-FFET-017",
+      "seed_id": "seed_6c_017_onboarding_task_template",
+      "branch": "codex/p6c-ffet-017-onboarding_task_template"
+    },
+    {
+      "ticket_id": "P6C-FFET-018",
+      "seed_id": "seed_6c_018_access_provisioning_gatekeeper_event",
+      "branch": "codex/p6c-ffet-018-access_provisioning_gatekeeper_event"
+    },
+    {
+      "ticket_id": "P6C-FFET-019",
+      "seed_id": "seed_6c_019_background_check_provider_boundary",
+      "branch": "codex/p6c-ffet-019-background_check_provider_boundary"
+    },
+    {
+      "ticket_id": "P6C-FFET-020",
+      "seed_id": "seed_6c_020_offer_document_generation",
+      "branch": "codex/p6c-ffet-020-offer_document_generation"
+    },
+    {
+      "ticket_id": "P6C-FFET-021",
+      "seed_id": "seed_6c_021_applicant_staged_deletion",
+      "branch": "codex/p6c-ffet-021-applicant_staged_deletion"
+    },
+    {
+      "ticket_id": "P6C-FFET-022",
+      "seed_id": "seed_6c_022_applicant_dedup_linkage",
+      "branch": "codex/p6c-ffet-022-applicant_dedup_linkage"
+    },
+    {
+      "ticket_id": "P6C-FFET-023",
+      "seed_id": "seed_6c_023_recruitment_evidence_feed",
+      "branch": "codex/p6c-ffet-023-recruitment_evidence_feed"
+    },
+    {
+      "ticket_id": "P6C-FFET-024",
+      "seed_id": "seed_6c_024_qr_attendance",
+      "branch": "codex/p6c-ffet-024-qr_attendance"
+    },
+    {
+      "ticket_id": "P6C-FFET-025",
+      "seed_id": "seed_6c_025_biometric_device_boundary",
+      "branch": "codex/p6c-ffet-025-biometric_device_boundary"
+    },
+    {
+      "ticket_id": "P6C-FFET-026",
+      "seed_id": "seed_6c_026_rfid_nfc_attendance",
+      "branch": "codex/p6c-ffet-026-rfid_nfc_attendance"
+    },
+    {
+      "ticket_id": "P6C-FFET-027",
+      "seed_id": "seed_6c_027_mobile_gps_attendance",
+      "branch": "codex/p6c-ffet-027-mobile_gps_attendance"
+    },
+    {
+      "ticket_id": "P6C-FFET-028",
+      "seed_id": "seed_6c_028_manual_attendance_override",
+      "branch": "codex/p6c-ffet-028-manual_attendance_override"
+    },
+    {
+      "ticket_id": "P6C-FFET-029",
+      "seed_id": "seed_6c_029_offline_attendance_queue",
+      "branch": "codex/p6c-ffet-029-offline_attendance_queue"
+    },
+    {
+      "ticket_id": "P6C-FFET-030",
+      "seed_id": "seed_6c_030_attendance_exception_detection",
+      "branch": "codex/p6c-ffet-030-attendance_exception_detection"
+    },
+    {
+      "ticket_id": "P6C-FFET-031",
+      "seed_id": "seed_6c_031_shift_roster",
+      "branch": "codex/p6c-ffet-031-shift_roster"
+    },
+    {
+      "ticket_id": "P6C-FFET-032",
+      "seed_id": "seed_6c_032_holiday_calendar",
+      "branch": "codex/p6c-ffet-032-holiday_calendar"
+    },
+    {
+      "ticket_id": "P6C-FFET-033",
+      "seed_id": "seed_6c_033_leave_type_registry",
+      "branch": "codex/p6c-ffet-033-leave_type_registry"
+    },
+    {
+      "ticket_id": "P6C-FFET-034",
+      "seed_id": "seed_6c_034_leave_accrual_engine",
+      "branch": "codex/p6c-ffet-034-leave_accrual_engine"
+    },
+    {
+      "ticket_id": "P6C-FFET-035",
+      "seed_id": "seed_6c_035_leave_carryforward_expiry",
+      "branch": "codex/p6c-ffet-035-leave_carryforward_expiry"
+    },
+    {
+      "ticket_id": "P6C-FFET-036",
+      "seed_id": "seed_6c_036_leave_encashment",
+      "branch": "codex/p6c-ffet-036-leave_encashment"
+    },
+    {
+      "ticket_id": "P6C-FFET-037",
+      "seed_id": "seed_6c_037_leave_approval_chain",
+      "branch": "codex/p6c-ffet-037-leave_approval_chain"
+    },
+    {
+      "ticket_id": "P6C-FFET-038",
+      "seed_id": "seed_6c_038_payroll_input_evidence",
+      "branch": "codex/p6c-ffet-038-payroll_input_evidence"
+    },
+    {
+      "ticket_id": "P6C-FFET-039",
+      "seed_id": "seed_6c_039_attendance_location_redaction",
+      "branch": "codex/p6c-ffet-039-attendance_location_redaction"
+    },
+    {
+      "ticket_id": "P6C-FFET-040",
+      "seed_id": "seed_6c_040_performance_framework",
+      "branch": "codex/p6c-ffet-040-performance_framework"
+    },
+    {
+      "ticket_id": "P6C-FFET-041",
+      "seed_id": "seed_6c_041_weighted_goal_review_cycle",
+      "branch": "codex/p6c-ffet-041-weighted_goal_review_cycle"
+    },
+    {
+      "ticket_id": "P6C-FFET-042",
+      "seed_id": "seed_6c_042_at_risk_rules_engine",
+      "branch": "codex/p6c-ffet-042-at_risk_rules_engine"
+    },
+    {
+      "ticket_id": "P6C-FFET-043",
+      "seed_id": "seed_6c_043_commission_calculation",
+      "branch": "codex/p6c-ffet-043-commission_calculation"
+    },
+    {
+      "ticket_id": "P6C-FFET-044",
+      "seed_id": "seed_6c_044_commission_deferred_release",
+      "branch": "codex/p6c-ffet-044-commission_deferred_release"
+    },
+    {
+      "ticket_id": "P6C-FFET-045",
+      "seed_id": "seed_6c_045_commission_clawback_reversal",
+      "branch": "codex/p6c-ffet-045-commission_clawback_reversal"
+    },
+    {
+      "ticket_id": "P6C-FFET-046",
+      "seed_id": "seed_6c_046_commission_tier_accelerator",
+      "branch": "codex/p6c-ffet-046-commission_tier_accelerator"
+    },
+    {
+      "ticket_id": "P6C-FFET-047",
+      "seed_id": "seed_6c_047_commission_pool_distribution",
+      "branch": "codex/p6c-ffet-047-commission_pool_distribution"
+    },
+    {
+      "ticket_id": "P6C-FFET-048",
+      "seed_id": "seed_6c_048_commission_payroll_batch_event",
+      "branch": "codex/p6c-ffet-048-commission_payroll_batch_event"
+    },
+    {
+      "ticket_id": "P6C-FFET-049",
+      "seed_id": "seed_6c_049_policy_version_library",
+      "branch": "codex/p6c-ffet-049-policy_version_library"
+    },
+    {
+      "ticket_id": "P6C-FFET-050",
+      "seed_id": "seed_6c_050_policy_acknowledgement_evidence",
+      "branch": "codex/p6c-ffet-050-policy_acknowledgement_evidence"
+    },
+    {
+      "ticket_id": "P6C-FFET-051",
+      "seed_id": "seed_6c_051_offboarding_saga",
+      "branch": "codex/p6c-ffet-051-offboarding_saga"
+    },
+    {
+      "ticket_id": "P6C-FFET-052",
+      "seed_id": "seed_6c_052_offboarding_settlement_step",
+      "branch": "codex/p6c-ffet-052-offboarding_settlement_step"
+    },
+    {
+      "ticket_id": "P6C-FFET-053",
+      "seed_id": "seed_6c_053_offboarding_asset_recovery_step",
+      "branch": "codex/p6c-ffet-053-offboarding_asset_recovery_step"
+    },
+    {
+      "ticket_id": "P6C-FFET-054",
+      "seed_id": "seed_6c_054_offboarding_workspace_removal_step",
+      "branch": "codex/p6c-ffet-054-offboarding_workspace_removal_step"
+    },
+    {
+      "ticket_id": "P6C-FFET-055",
+      "seed_id": "seed_6c_055_offboarding_access_revocation_gatekeeper",
+      "branch": "codex/p6c-ffet-055-offboarding_access_revocation_gatekeeper"
+    },
+    {
+      "ticket_id": "P6C-FFET-056",
+      "seed_id": "seed_6c_056_offboarding_payroll_closure_step",
+      "branch": "codex/p6c-ffet-056-offboarding_payroll_closure_step"
+    },
+    {
+      "ticket_id": "P6C-FFET-057",
+      "seed_id": "seed_6c_057_workspace_channel_dm",
+      "branch": "codex/p6c-ffet-057-workspace_channel_dm"
+    },
+    {
+      "ticket_id": "P6C-FFET-058",
+      "seed_id": "seed_6c_058_message_thread_reaction",
+      "branch": "codex/p6c-ffet-058-message_thread_reaction"
+    },
+    {
+      "ticket_id": "P6C-FFET-059",
+      "seed_id": "seed_6c_059_message_edit_history",
+      "branch": "codex/p6c-ffet-059-message_edit_history"
+    },
+    {
+      "ticket_id": "P6C-FFET-060",
+      "seed_id": "seed_6c_060_message_tombstone_staged_deletion",
+      "branch": "codex/p6c-ffet-060-message_tombstone_staged_deletion"
+    },
+    {
+      "ticket_id": "P6C-FFET-061",
+      "seed_id": "seed_6c_061_message_attachment_file_ref",
+      "branch": "codex/p6c-ffet-061-message_attachment_file_ref"
+    },
+    {
+      "ticket_id": "P6C-FFET-062",
+      "seed_id": "seed_6c_062_outbound_notification_gateway",
+      "branch": "codex/p6c-ffet-062-outbound_notification_gateway"
+    },
+    {
+      "ticket_id": "P6C-FFET-063",
+      "seed_id": "seed_6c_063_mention_notification_evidence",
+      "branch": "codex/p6c-ffet-063-mention_notification_evidence"
+    },
+    {
+      "ticket_id": "P6C-FFET-064",
+      "seed_id": "seed_6c_064_membership_policy",
+      "branch": "codex/p6c-ffet-064-membership_policy"
+    },
+    {
+      "ticket_id": "P6C-FFET-065",
+      "seed_id": "seed_6c_065_private_channel_approval",
+      "branch": "codex/p6c-ffet-065-private_channel_approval"
+    },
+    {
+      "ticket_id": "P6C-FFET-066",
+      "seed_id": "seed_6c_066_cross_module_channel_ref",
+      "branch": "codex/p6c-ffet-066-cross_module_channel_ref"
+    },
+    {
+      "ticket_id": "P6C-FFET-067",
+      "seed_id": "seed_6c_067_workspace_message_search",
+      "branch": "codex/p6c-ffet-067-workspace_message_search"
+    },
+    {
+      "ticket_id": "P6C-FFET-068",
+      "seed_id": "seed_6c_068_moderation_reporting",
+      "branch": "codex/p6c-ffet-068-moderation_reporting"
+    },
+    {
+      "ticket_id": "P6C-FFET-069",
+      "seed_id": "seed_6c_069_e2e_encryption_boundary",
+      "branch": "codex/p6c-ffet-069-e2e_encryption_boundary"
+    },
+    {
+      "ticket_id": "P6C-FFET-070",
+      "seed_id": "seed_6c_070_task_record",
+      "branch": "codex/p6c-ffet-070-task_record"
+    },
+    {
+      "ticket_id": "P6C-FFET-071",
+      "seed_id": "seed_6c_071_task_status_config",
+      "branch": "codex/p6c-ffet-071-task_status_config"
+    },
+    {
+      "ticket_id": "P6C-FFET-072",
+      "seed_id": "seed_6c_072_project_record",
+      "branch": "codex/p6c-ffet-072-project_record"
+    },
+    {
+      "ticket_id": "P6C-FFET-073",
+      "seed_id": "seed_6c_073_project_dependency_engine",
+      "branch": "codex/p6c-ffet-073-project_dependency_engine"
+    },
+    {
+      "ticket_id": "P6C-FFET-074",
+      "seed_id": "seed_6c_074_project_budget_evidence_ref",
+      "branch": "codex/p6c-ffet-074-project_budget_evidence_ref"
+    },
+    {
+      "ticket_id": "P6C-FFET-075",
+      "seed_id": "seed_6c_075_wiki_page_versioning",
+      "branch": "codex/p6c-ffet-075-wiki_page_versioning"
+    },
+    {
+      "ticket_id": "P6C-FFET-076",
+      "seed_id": "seed_6c_076_wiki_restore",
+      "branch": "codex/p6c-ffet-076-wiki_restore"
+    },
+    {
+      "ticket_id": "P6C-FFET-077",
+      "seed_id": "seed_6c_077_document_folder_file_ref",
+      "branch": "codex/p6c-ffet-077-document_folder_file_ref"
+    },
+    {
+      "ticket_id": "P6C-FFET-078",
+      "seed_id": "seed_6c_078_time_log_evidence",
+      "branch": "codex/p6c-ffet-078-time_log_evidence"
+    },
+    {
+      "ticket_id": "P6C-FFET-079",
+      "seed_id": "seed_6c_079_task_reminder_gateway",
+      "branch": "codex/p6c-ffet-079-task_reminder_gateway"
+    },
+    {
+      "ticket_id": "P6C-FFET-080",
+      "seed_id": "seed_6c_080_project_template",
+      "branch": "codex/p6c-ffet-080-project_template"
+    },
+    {
+      "ticket_id": "P6C-FFET-081",
+      "seed_id": "seed_6c_081_tenant_authored_knowledge",
+      "branch": "codex/p6c-ffet-081-tenant_authored_knowledge"
+    },
+    {
+      "ticket_id": "P6C-FFET-082",
+      "seed_id": "seed_6c_082_task_project_calendar_event",
+      "branch": "codex/p6c-ffet-082-task_project_calendar_event"
+    },
+    {
+      "ticket_id": "P6C-FFET-083",
+      "seed_id": "seed_6c_083_provider_neutral_calendar_entry",
+      "branch": "codex/p6c-ffet-083-provider_neutral_calendar_entry"
+    },
+    {
+      "ticket_id": "P6C-FFET-084",
+      "seed_id": "seed_6c_084_calendar_provider_sync_boundary",
+      "branch": "codex/p6c-ffet-084-calendar_provider_sync_boundary"
+    },
+    {
+      "ticket_id": "P6C-FFET-085",
+      "seed_id": "seed_6c_085_conferencing_provider_boundary",
+      "branch": "codex/p6c-ffet-085-conferencing_provider_boundary"
+    },
+    {
+      "ticket_id": "P6C-FFET-086",
+      "seed_id": "seed_6c_086_room_booking_conflict",
+      "branch": "codex/p6c-ffet-086-room_booking_conflict"
+    },
+    {
+      "ticket_id": "P6C-FFET-087",
+      "seed_id": "seed_6c_087_resource_capacity_equipment",
+      "branch": "codex/p6c-ffet-087-resource_capacity_equipment"
+    },
+    {
+      "ticket_id": "P6C-FFET-088",
+      "seed_id": "seed_6c_088_announcement_gateway",
+      "branch": "codex/p6c-ffet-088-announcement_gateway"
+    },
+    {
+      "ticket_id": "P6C-FFET-089",
+      "seed_id": "seed_6c_089_mandatory_notice_classification",
+      "branch": "codex/p6c-ffet-089-mandatory_notice_classification"
+    },
+    {
+      "ticket_id": "P6C-FFET-090",
+      "seed_id": "seed_6c_090_reminder_quiet_hours",
+      "branch": "codex/p6c-ffet-090-reminder_quiet_hours"
+    },
+    {
+      "ticket_id": "P6C-FFET-091",
+      "seed_id": "seed_6c_091_recurring_event_rule",
+      "branch": "codex/p6c-ffet-091-recurring_event_rule"
+    },
+    {
+      "ticket_id": "P6C-FFET-092",
+      "seed_id": "seed_6c_092_calendar_origin_event_ref",
+      "branch": "codex/p6c-ffet-092-calendar_origin_event_ref"
+    },
+    {
+      "ticket_id": "P6C-FFET-093",
+      "seed_id": "seed_6c_093_meeting_attendance_evidence",
+      "branch": "codex/p6c-ffet-093-meeting_attendance_evidence"
+    },
+    {
+      "ticket_id": "P6C-FFET-094",
+      "seed_id": "seed_6c_094_sync_failure_degradation",
+      "branch": "codex/p6c-ffet-094-sync_failure_degradation"
+    },
+    {
+      "ticket_id": "P6C-FFET-095",
+      "seed_id": "seed_6c_095_announcement_ack_evidence",
+      "branch": "codex/p6c-ffet-095-announcement_ack_evidence"
+    },
+    {
+      "ticket_id": "P6C-FFET-096",
+      "seed_id": "seed_6c_096_event_configuration",
+      "branch": "codex/p6c-ffet-096-event_configuration"
+    },
+    {
+      "ticket_id": "P6C-FFET-097",
+      "seed_id": "seed_6c_097_event_session_track",
+      "branch": "codex/p6c-ffet-097-event_session_track"
+    },
+    {
+      "ticket_id": "P6C-FFET-098",
+      "seed_id": "seed_6c_098_speaker_honorarium_ref",
+      "branch": "codex/p6c-ffet-098-speaker_honorarium_ref"
+    },
+    {
+      "ticket_id": "P6C-FFET-099",
+      "seed_id": "seed_6c_099_ticket_type_capacity",
+      "branch": "codex/p6c-ffet-099-ticket_type_capacity"
+    },
+    {
+      "ticket_id": "P6C-FFET-100",
+      "seed_id": "seed_6c_100_registration_form_config",
+      "branch": "codex/p6c-ffet-100-registration_form_config"
+    },
+    {
+      "ticket_id": "P6C-FFET-101",
+      "seed_id": "seed_6c_101_waitlist_rule",
+      "branch": "codex/p6c-ffet-101-waitlist_rule"
+    },
+    {
+      "ticket_id": "P6C-FFET-102",
+      "seed_id": "seed_6c_102_waitlist_auto_promotion_timer",
+      "branch": "codex/p6c-ffet-102-waitlist_auto_promotion_timer"
+    },
+    {
+      "ticket_id": "P6C-FFET-103",
+      "seed_id": "seed_6c_103_ticket_claim_deadline",
+      "branch": "codex/p6c-ffet-103-ticket_claim_deadline"
+    },
+    {
+      "ticket_id": "P6C-FFET-104",
+      "seed_id": "seed_6c_104_approval_required_registration",
+      "branch": "codex/p6c-ffet-104-approval_required_registration"
+    },
+    {
+      "ticket_id": "P6C-FFET-105",
+      "seed_id": "seed_6c_105_event_calendar_schedule_ref",
+      "branch": "codex/p6c-ffet-105-event_calendar_schedule_ref"
+    },
+    {
+      "ticket_id": "P6C-FFET-106",
+      "seed_id": "seed_6c_106_attendee_crm_lead_link",
+      "branch": "codex/p6c-ffet-106-attendee_crm_lead_link"
+    },
+    {
+      "ticket_id": "P6C-FFET-107",
+      "seed_id": "seed_6c_107_event_lead_handoff",
+      "branch": "codex/p6c-ffet-107-event_lead_handoff"
+    },
+    {
+      "ticket_id": "P6C-FFET-108",
+      "seed_id": "seed_6c_108_registration_invoice_saga",
+      "branch": "codex/p6c-ffet-108-registration_invoice_saga"
+    },
+    {
+      "ticket_id": "P6C-FFET-109",
+      "seed_id": "seed_6c_109_registration_attempt_evidence",
+      "branch": "codex/p6c-ffet-109-registration_attempt_evidence"
+    },
+    {
+      "ticket_id": "P6C-FFET-110",
+      "seed_id": "seed_6c_110_cancellation_refund_delegation",
+      "branch": "codex/p6c-ffet-110-cancellation_refund_delegation"
+    },
+    {
+      "ticket_id": "P6C-FFET-111",
+      "seed_id": "seed_6c_111_qr_ticket_issuing",
+      "branch": "codex/p6c-ffet-111-qr_ticket_issuing"
+    },
+    {
+      "ticket_id": "P6C-FFET-112",
+      "seed_id": "seed_6c_112_signed_ticket_token",
+      "branch": "codex/p6c-ffet-112-signed_ticket_token"
+    },
+    {
+      "ticket_id": "P6C-FFET-113",
+      "seed_id": "seed_6c_113_checkin_time_window",
+      "branch": "codex/p6c-ffet-113-checkin_time_window"
+    },
+    {
+      "ticket_id": "P6C-FFET-114",
+      "seed_id": "seed_6c_114_kiosk_mode_checkin",
+      "branch": "codex/p6c-ffet-114-kiosk_mode_checkin"
+    },
+    {
+      "ticket_id": "P6C-FFET-115",
+      "seed_id": "seed_6c_115_session_level_checkin",
+      "branch": "codex/p6c-ffet-115-session_level_checkin"
+    },
+    {
+      "ticket_id": "P6C-FFET-116",
+      "seed_id": "seed_6c_116_manual_checkin_override",
+      "branch": "codex/p6c-ffet-116-manual_checkin_override"
+    },
+    {
+      "ticket_id": "P6C-FFET-117",
+      "seed_id": "seed_6c_117_duplicate_checkin_exception",
+      "branch": "codex/p6c-ffet-117-duplicate_checkin_exception"
+    },
+    {
+      "ticket_id": "P6C-FFET-118",
+      "seed_id": "seed_6c_118_offline_checkin_queue",
+      "branch": "codex/p6c-ffet-118-offline_checkin_queue"
+    },
+    {
+      "ticket_id": "P6C-FFET-119",
+      "seed_id": "seed_6c_119_badge_export",
+      "branch": "codex/p6c-ffet-119-badge_export"
+    },
+    {
+      "ticket_id": "P6C-FFET-120",
+      "seed_id": "seed_6c_120_post_event_feedback_form",
+      "branch": "codex/p6c-ffet-120-post_event_feedback_form"
+    },
+    {
+      "ticket_id": "P6C-FFET-121",
+      "seed_id": "seed_6c_121_feedback_identity_policy",
+      "branch": "codex/p6c-ffet-121-feedback_identity_policy"
+    },
+    {
+      "ticket_id": "P6C-FFET-122",
+      "seed_id": "seed_6c_122_post_event_resource_file_ref",
+      "branch": "codex/p6c-ffet-122-post_event_resource_file_ref"
+    },
+    {
+      "ticket_id": "P6C-FFET-123",
+      "seed_id": "seed_6c_123_event_lead_handoff_evidence",
+      "branch": "codex/p6c-ffet-123-event_lead_handoff_evidence"
+    },
+    {
+      "ticket_id": "P6C-FFET-124",
+      "seed_id": "seed_6c_124_attendance_certificate_evidence",
+      "branch": "codex/p6c-ffet-124-attendance_certificate_evidence"
+    }
+  ],
+  "flags": {
+    "ticket_generation_allowed": false,
+    "ticket_pack_generation_allowed": false,
+    "execution_authorized": false
+  }
+}
