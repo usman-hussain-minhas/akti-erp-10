@@ -1,0 +1,13 @@
+# Phase 6C v4 FFET Gate Manifest
+
+Status: `PHASE_6C_V4_READY_FOR_GATE_3_REVIEW_AFTER_6A_6B_FOUNDATION_REAUDIT`
+
+Rules:
+- one_ffet_maps_to_exactly_one_seed
+- files_expected_to_change_are_concrete_no_globs
+- all_expected_files_exist_on_main_after_scaffold_control
+- direct_seed_test_command_required
+- operative_adl_hard_rule_edges_require_non_empty_adl_refs
+- phase_doc_required_forbidden_as_terminal_basis
+- capability_prerequisite_forbidden_as_terminal_basis_until_tooling_supports_it
+- authorization_flags_remain_false_until_human_gate_3

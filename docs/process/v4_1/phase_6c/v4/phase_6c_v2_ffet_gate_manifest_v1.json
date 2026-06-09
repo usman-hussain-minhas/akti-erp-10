@@ -1,0 +1,32 @@
+{
+  "artifact_id": "phase_6c_v2_ffet_gate_manifest_v1",
+  "artifact_version": "v4",
+  "phase": "6C",
+  "status": "PHASE_6C_V4_READY_FOR_GATE_3_REVIEW_AFTER_6A_6B_FOUNDATION_REAUDIT",
+  "flags": {
+    "ticket_generation_allowed": false,
+    "ticket_pack_generation_allowed": false,
+    "execution_authorized": false
+  },
+  "rules": [
+    "one_ffet_maps_to_exactly_one_seed",
+    "files_expected_to_change_are_concrete_no_globs",
+    "all_expected_files_exist_on_main_after_scaffold_control",
+    "direct_seed_test_command_required",
+    "operative_adl_hard_rule_edges_require_non_empty_adl_refs",
+    "phase_doc_required_forbidden_as_terminal_basis",
+    "capability_prerequisite_forbidden_as_terminal_basis_until_tooling_supports_it",
+    "authorization_flags_remain_false_until_human_gate_3"
+  ],
+  "supersedes_version": "v2",
+  "pre_gate_3_foundation_reaudit": {
+    "status": "PASS",
+    "checked_at": "2026-06-09T06:14:51.224Z",
+    "base_main_sha": "fcf47fb",
+    "generated_on_branch": "main",
+    "foundation_correction_pr_merged": true,
+    "phase_6a_provenance_integrity": "PASS",
+    "phase_6b_external_dependency_adl_refs": "PASS",
+    "native_validation_evidence": "docs/process/v4_1/phase_6c/pre_gate_3_foundation_validation_evidence_v1.json"
+  }
+}
