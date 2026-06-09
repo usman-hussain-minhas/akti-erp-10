@@ -1,0 +1,50 @@
+{
+  "artifact_id": "pre_6c_foundation_validation_evidence_v1",
+  "artifact_version": "v1",
+  "phase": "pre-6c",
+  "status": "PASS",
+  "checked_at": "2026-06-09T06:05:35.269Z",
+  "repo_head": "918bde9",
+  "platform": "Darwin 192.168.1.8 23.6.0 Darwin Kernel Version 23.6.0: Thu Dec 19 20:44:50 PST 2024; root:xnu-10063.141.1.703.2~1/RELEASE_X86_64 x86_64",
+  "node_version": "v23.10.0",
+  "pnpm_version": "10.12.1",
+  "commands": [
+    {
+      "command": "pnpm contracts:validate",
+      "status": "PASS",
+      "output_in_raw_log": true
+    },
+    {
+      "command": "pnpm --filter @akti/api typecheck",
+      "status": "PASS",
+      "output_in_raw_log": true
+    },
+    {
+      "command": "pnpm --filter @akti/api test",
+      "status": "PASS",
+      "output_in_raw_log": true
+    },
+    {
+      "command": "pnpm exec prisma validate --schema prisma/schema.prisma",
+      "status": "PASS",
+      "output_in_raw_log": true
+    },
+    {
+      "command": "pnpm registry:check",
+      "status": "PASS",
+      "output_in_raw_log": true
+    },
+    {
+      "command": "node scripts/quality/check_lower_snake_case_paths.mjs",
+      "status": "PASS",
+      "output_in_raw_log": true
+    }
+  ],
+  "wrapper_exit_code": 0,
+  "raw_output": "\n===== pnpm contracts:validate =====\n\n> akti-erp@ contracts:validate /Volumes/UsmanWork/AKTI ERP 10\n> pnpm --filter @akti/contracts contracts:validate\n\n\n> @akti/contracts@0.0.0 contracts:validate /Volumes/UsmanWork/AKTI ERP 10/packages/contracts\n> node scripts/validate-contracts.mjs\n\nValidating entity-registry.schema.ts\nValidating module-manifest.schema.ts\nValidating screen-contract.schema.ts\nValidating scripts/validate-access-core-contracts.mjs\nAccess Core contract validation passed.\nValidating scripts/validate-engagement-gateway-lite-contracts.mjs\nEngagement Gateway Lite contract validation passed.\nValidating scripts/validate-lead-desk-contracts.mjs\nLead Desk contract validation passed.\nValidating scripts/validate-module-manifest-contracts.mjs\nValidating module manifest access-core.module-manifest.contract.ts\nValidating module manifest engagement-gateway-lite.module-manifest.contract.ts\nValidating module manifest internal-fixture.module-manifest.contract.ts\nValidating module manifest lead-desk-core.module-manifest.contract.ts\nValidated 4 module manifest contract file(s).\nValidating scripts/validate-screen-contracts.mjs\nPhase 1, Phase 2, and Phase 4B screen-contract validation passed.\n===== exit : pnpm contracts:validate =====\n\n===== pnpm --filter @akti/api typecheck =====\n\n> @akti/api@0.0.0 typecheck /Volumes/UsmanWork/AKTI ERP 10/apps/api\n> pnpm exec tsc --noEmit -p tsconfig.json\n\n===== exit : pnpm --filter @akti/api typecheck =====\n\n===== pnpm --filter @akti/api test =====\n\n> @akti/api@0.0.0 test /Volumes/UsmanWork/AKTI ERP 10/apps/api\n> pnpm --filter @akti/contracts build && pnpm exec tsx src/prisma/prisma-import-boundary.test.ts && pnpm exec tsx src/phase1-hardening/phase1-release-blockers.test.ts && pnpm exec tsx src/organization-setup/dto/create-organization-setup.dto.test.ts && pnpm exec tsx src/organization-setup/organization-setup.service.test.ts && pnpm exec tsx src/hierarchy/dto/hierarchy.dto.test.ts && pnpm exec tsx src/hierarchy/hierarchy-closure.service.test.ts && pnpm exec tsx src/hierarchy/hierarchy.controller.test.ts && pnpm exec tsx src/hierarchy/hierarchy.service.test.ts && pnpm exec tsx src/configuration/dto/configuration.dto.test.ts && pnpm exec tsx src/configuration/configuration.controller.test.ts && pnpm exec tsx src/configuration/configuration.service.test.ts && pnpm exec tsx src/platform-observability/audit-log.service.test.ts && pnpm exec tsx src/platform-observability/event-outbox.service.test.ts && pnpm exec tsx src/module-registry/module-registry.service.test.ts && pnpm exec tsx src/access-core/dto/access-core.dto.test.ts && pnpm exec tsx src/security/request-context.test.ts && pnpm exec tsx src/gatekeeper/gatekeeper-preflight.service.test.ts && pnpm exec tsx src/gatekeeper/gatekeeper.p5b-007e.test.ts && pnpm exec tsx src/gatekeeper/gatekeeper.p5b-008f.test.ts && pnpm exec tsx src/gatekeeper/gatekeeper.p5b-008g.test.ts && pnpm exec tsx src/foundry/foundry.p5b-012b.test.ts && pnpm exec tsx src/foundry/foundry.p5b-012c.test.ts && pnpm exec tsx src/foundry/foundry.p5b-013a.test.ts && pnpm exec tsx src/foundry/foundry.p5b-013b.test.ts && pnpm exec tsx src/foundry/foundry.p5b-013c.test.ts && pnpm exec tsx src/foundry/foundry.p5b-014a.test.ts && pnpm exec tsx src/foundry/foundry.p5b-014b.test.ts && pnpm exec tsx src/access-core/access-core.service.test.ts && pnpm exec tsx src/engagement-gateway/engagement-gateway.service.test.ts && (cd ../.. && pnpm exec tsx apps/api/src/lead-desk/lead-desk-scope-model-foundation.test.ts) && pnpm exec tsx src/lead-desk/lead-desk.service.test.ts\n\n\n> @akti/contracts@0.0.0 build /Volumes/UsmanWork/AKTI ERP 10/packages/contracts\n> pnpm exec tsc -p tsconfig.build.json\n\nprisma-import-boundary tests passed\nphase1-release-blockers tests passed\ncreate-organization-setup.dto tests passed\norganization-setup.service tests passed\nhierarchy.dto tests passed\nhierarchy-closure.service tests passed\nhierarchy.controller tests passed\nhierarchy.service tests passed\nconfiguration.dto tests passed\nconfiguration.controller tests passed\nconfiguration.service tests passed\naudit-log.service tests passed\nevent-outbox.service tests passed\nmodule-registry.service tests passed\naccess-core.dto tests passed\nrequest-context tests passed\ngatekeeper-preflight.service tests passed\nP5B-007e gatekeeper negative outcome tests passed.\nP5B-008f gatekeeper STOP_FOR_REVIEW immutability enforcement tests passed.\nP5B-008g gatekeeper STOP_FOR_REVIEW immutability negative tests passed.\nP5B-012b Foundry install execution tests passed.\nP5B-012c Foundry install evidence receipt tests passed.\nP5B-013a Foundry enable flow tests passed.\nP5B-013b Foundry disable flow tests passed.\nP5B-013c Foundry uninstall flow tests passed.\nP5B-014a Foundry update flow tests passed.\nP5B-014b Foundry rollback/recovery flow tests passed.\naccess-core.service tests passed\nengagement-gateway.service tests passed\nlead-desk-scope-model-foundation tests passed\nlead-desk.service tests passed\n===== exit : pnpm --filter @akti/api test =====\n\n===== pnpm exec prisma validate --schema prisma/schema.prisma =====\nLoaded Prisma config from prisma.config.ts.\n\nPrisma schema loaded from prisma/schema.prisma.\nThe schema at prisma/schema.prisma is valid 🚀\n===== exit : pnpm exec prisma validate --schema prisma/schema.prisma =====\n\n===== pnpm registry:check =====\n\n> akti-erp@ registry:check /Volumes/UsmanWork/AKTI ERP 10\n> node scripts/registry/check-entity-registry.mjs\n\nLoaded Prisma config from prisma.config.ts.\n\nPrisma schema loaded from prisma/schema.prisma.\nThe schema at prisma/schema.prisma is valid 🚀\nEntity Registry is up to date.\n===== exit : pnpm registry:check =====\n\n===== node scripts/quality/check_lower_snake_case_paths.mjs =====\nAKTI lower_snake_case path policy check\nTotal tracked paths: 4072\nViolation count: 0\nException count: 3\nExceptions by category:\n- historical_evidence: 3\n  - codex-review/apps/training/crm/v0_0_1/index.md (codex-review/**)\n  - codex-review/core/v0_0_1/index.md (codex-review/**)\n  - codex-review/core/v0_0_2/index.md (codex-review/**)\nPASS: no new unapproved hyphenated tracked paths\n===== exit : node scripts/quality/check_lower_snake_case_paths.mjs =====\n",
+  "flags": {
+    "ticket_generation_allowed": false,
+    "ticket_pack_generation_allowed": false,
+    "execution_authorized": false
+  }
+}

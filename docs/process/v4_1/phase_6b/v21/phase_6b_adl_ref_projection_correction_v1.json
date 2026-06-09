@@ -1,0 +1,130 @@
+{
+  "artifact_id": "phase_6b_adl_ref_projection_correction_v1",
+  "artifact_version": "v1",
+  "phase": "6B",
+  "status": "PASS",
+  "checked_at": "2026-06-09T06:03:34.944Z",
+  "repo_head": "918bde9",
+  "source_root_matrix": "docs/process/v4_1/phase_6b/v21/dependency_extraction_matrix_v1.json",
+  "corrected_registry": "docs/process/v4_1/phase_6b/v21/phase_6b_ffet_registry_v1.json",
+  "finding": "13 adl_hard_rule external_dependencies in v21 registry projection omitted adl_refs while source/root and basis_tier_inheritance already carried them.",
+  "correction": "Mirrored source-grounded ADL refs into external_dependencies and extended gate evidence to scan external_dependencies.",
+  "fixed_edges": [
+    {
+      "ffet_id": "P6B-FFET-022",
+      "dependency_edge_id": "edge_6b_v4_0075_seed_6b_04_unified_lead_record_authority__to__seed_6a_person_identity_graph",
+      "target_seed_id": "seed_6a_person_identity_graph",
+      "adl_refs": [
+        "ADL-021"
+      ]
+    },
+    {
+      "ffet_id": "P6B-FFET-052",
+      "dependency_edge_id": "edge_6b_v4_0235_seed_6b_07_whatsapp_outbound_window__to__seed_6a_global_opt_out_registry",
+      "target_seed_id": "seed_6a_global_opt_out_registry",
+      "adl_refs": [
+        "ADL-004"
+      ]
+    },
+    {
+      "ffet_id": "P6B-FFET-052",
+      "dependency_edge_id": "edge_6b_v4_0236_seed_6b_07_whatsapp_outbound_window__to__seed_6a_outbound_gateway_enforcement",
+      "target_seed_id": "seed_6a_outbound_gateway_enforcement",
+      "adl_refs": [
+        "ADL-004"
+      ]
+    },
+    {
+      "ffet_id": "P6B-FFET-053",
+      "dependency_edge_id": "edge_6b_v4_0239_seed_6b_07_whatsapp_broadcast_compliance__to__seed_6a_global_opt_out_registry",
+      "target_seed_id": "seed_6a_global_opt_out_registry",
+      "adl_refs": [
+        "ADL-004"
+      ]
+    },
+    {
+      "ffet_id": "P6B-FFET-053",
+      "dependency_edge_id": "edge_6b_v4_0240_seed_6b_07_whatsapp_broadcast_compliance__to__seed_6a_outbound_gateway_enforcement",
+      "target_seed_id": "seed_6a_outbound_gateway_enforcement",
+      "adl_refs": [
+        "ADL-004"
+      ]
+    },
+    {
+      "ffet_id": "P6B-FFET-054",
+      "dependency_edge_id": "edge_6b_v4_0243_seed_6b_07_whatsapp_auto_reply_keywords__to__seed_6a_global_opt_out_registry",
+      "target_seed_id": "seed_6a_global_opt_out_registry",
+      "adl_refs": [
+        "ADL-004"
+      ]
+    },
+    {
+      "ffet_id": "P6B-FFET-054",
+      "dependency_edge_id": "edge_6b_v4_0244_seed_6b_07_whatsapp_auto_reply_keywords__to__seed_6a_outbound_gateway_enforcement",
+      "target_seed_id": "seed_6a_outbound_gateway_enforcement",
+      "adl_refs": [
+        "ADL-004"
+      ]
+    },
+    {
+      "ffet_id": "P6B-FFET-056",
+      "dependency_edge_id": "edge_6b_v4_0250_seed_6b_07_email_transactional_domain__to__seed_6a_global_opt_out_registry",
+      "target_seed_id": "seed_6a_global_opt_out_registry",
+      "adl_refs": [
+        "ADL-004"
+      ]
+    },
+    {
+      "ffet_id": "P6B-FFET-056",
+      "dependency_edge_id": "edge_6b_v4_0251_seed_6b_07_email_transactional_domain__to__seed_6a_outbound_gateway_enforcement",
+      "target_seed_id": "seed_6a_outbound_gateway_enforcement",
+      "adl_refs": [
+        "ADL-004"
+      ]
+    },
+    {
+      "ffet_id": "P6B-FFET-057",
+      "dependency_edge_id": "edge_6b_v4_0254_seed_6b_07_email_sequences__to__seed_6a_global_opt_out_registry",
+      "target_seed_id": "seed_6a_global_opt_out_registry",
+      "adl_refs": [
+        "ADL-004"
+      ]
+    },
+    {
+      "ffet_id": "P6B-FFET-057",
+      "dependency_edge_id": "edge_6b_v4_0255_seed_6b_07_email_sequences__to__seed_6a_outbound_gateway_enforcement",
+      "target_seed_id": "seed_6a_outbound_gateway_enforcement",
+      "adl_refs": [
+        "ADL-004"
+      ]
+    },
+    {
+      "ffet_id": "P6B-FFET-058",
+      "dependency_edge_id": "edge_6b_v4_0258_seed_6b_07_email_shared_inbox__to__seed_6a_global_opt_out_registry",
+      "target_seed_id": "seed_6a_global_opt_out_registry",
+      "adl_refs": [
+        "ADL-004"
+      ]
+    },
+    {
+      "ffet_id": "P6B-FFET-058",
+      "dependency_edge_id": "edge_6b_v4_0259_seed_6b_07_email_shared_inbox__to__seed_6a_outbound_gateway_enforcement",
+      "target_seed_id": "seed_6a_outbound_gateway_enforcement",
+      "adl_refs": [
+        "ADL-004"
+      ]
+    }
+  ],
+  "counts_after": {
+    "registry_adl_hard_rule_total": 26,
+    "registry_adl_hard_rule_missing_refs": 0,
+    "external_dependency_adl_hard_rule_total": 13,
+    "external_dependency_adl_missing_refs": 0,
+    "root_extraction_adl_hard_rule_missing_refs": 0
+  },
+  "flags": {
+    "ticket_generation_allowed": false,
+    "ticket_pack_generation_allowed": false,
+    "execution_authorized": false
+  }
+}
