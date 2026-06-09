@@ -201,6 +201,29 @@ Broad globs in ticket packs are inspection hints only. If required files fall ou
 
 ---
 
+## Autonomous Execution Constants
+
+Reusable autonomous-run constants are committed doctrine, not chat memory. Phase-specific variables remain in the active phase plan, FFET registry, or explicit human approval.
+
+Fixed FFET lifecycle:
+
+* Gate 1: generate candidate FFETs from committed repo truth only.
+* Gate 2: run independent FFET audit before human review.
+* Gate 3: binding human approval; only this gate may flip `ticket_generation_allowed`, `ticket_pack_generation_allowed`, or `execution_authorized`.
+* Gate 4: execute approved FFETs in dependency order within exact files.
+* Gate 5: stop and escalate on scope expansion, hidden decision, irreversible action, forbidden path, exhausted self-heal, CI failure outside scope, or branch protection requiring human action.
+
+Execution constants:
+
+* One FFET per seed/sub-surface unless explicit `merge_rationale` proves inseparability.
+* One FFET per branch, commit, PR, CI wait, merge, and local `main` update unless an approved phase plan permits safe batching.
+* Apply maximum concrete capability within approved exact-file scope; do not ship minimal/stale/scaffold-only behavior for runtime-authorized FFETs.
+* Self-audit before implementation, before commit, before merge, and after merge.
+* Self-heal up to 3 deterministic repairs per FFET, only inside active FFET files.
+* Use the CI settling gate after every push, PR creation, PR update, and merge.
+
+Do not encode phase variables in doctrine: phase/version, registry path, ticket count/order, allowed files, validation commands, branch names, blockers, or approval scope.
+
 ## Autonomous Repair Policy
 
 Autonomous repair is allowed only for deterministic local validation failures inside active ticket scope.

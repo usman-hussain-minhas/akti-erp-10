@@ -10,6 +10,7 @@
 ## Changelog
 
 - v1.2: Adds the Final Fine-Grained Executable Ticket (FFET) gate after the Phase 6B v19 audit. Service-level capability candidates are not final execution units. A final implementation ticket is an audited FFET mapped to exactly one seed/sub-surface unless an explicit merge rationale proves inseparability. Only binding human approval may flip ticket-generation or execution flags.
+- v1.3: Commits reusable autonomous execution constants for FFET lifecycle, self-audit, bounded self-heal, PR workflow, CI settling, and human-only authorization flags. Phase-specific variables remain in active phase plans, FFET registries, or explicit approvals.
 - v1.1: Adds the Phase 6B v1-v18 ticketability correction. Lifecycle evidence is compiler input for ticket writing, not ticket readiness by itself. Ticket-pack planning must not modify real code, schema, runtime, generated artifacts, package files, or validation scripts to unblock tickets.
 - v1.0: Initial authoritative ticket quality doctrine.
 
@@ -221,6 +222,29 @@ correctness, runnable validation commands, binary acceptance criteria, and
 bounded self-heal policy.
 
 ---
+
+## Autonomous Execution Constants
+
+Reusable autonomous-run constants belong in committed doctrine, not chat memory. Phase-specific variables stay in active phase plans, FFET registries, and explicit human approvals.
+
+The fixed FFET lifecycle is:
+
+1. Gate 1: generate candidate FFETs only from committed repo truth.
+2. Gate 2: run independent FFET audit before human review.
+3. Gate 3: obtain binding human approval; only this gate may flip `ticket_generation_allowed`, `ticket_pack_generation_allowed`, or `execution_authorized`.
+4. Gate 4: execute approved FFETs in dependency order within exact files.
+5. Gate 5: stop and escalate on scope expansion, hidden decision, irreversible action, forbidden path, exhausted self-heal, CI failure outside scope, or branch protection requiring human action.
+
+Default execution constants:
+
+- One FFET per seed/sub-surface unless explicit `merge_rationale` proves inseparability.
+- One FFET per branch, commit, PR, CI wait, merge, and local `main` update unless an approved phase run plan permits safe low-risk batching.
+- Apply maximum concrete capability within approved exact-file scope. Do not reduce runtime-authorized FFETs to minimal, stale, metadata-only, or scaffold-only behavior unless the FFET itself is scaffold/control-only.
+- Self-audit before implementation, before commit, before merge, and after merge.
+- Self-heal up to 3 deterministic repairs per FFET, only inside active FFET files.
+- After push, PR creation, PR update, or merge, wait two minutes and poll up to five times; if checks are still actively progressing, allow one additional ten-minute loop.
+
+Doctrine constants must not contain phase variables such as phase name/version, registry path, ticket count, execution order, allowed files, validation commands, branch names, current blockers, or active approval scope.
 
 ## Blocked Means Blocked
 
