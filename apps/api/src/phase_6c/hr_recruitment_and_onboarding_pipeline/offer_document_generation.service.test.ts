@@ -1,37 +1,91 @@
 import assert from 'node:assert/strict';
+import { Phase6cOfferDocumentGenerationService } from './offer_document_generation.service';
 
-import { evaluateOfferDocumentGenerationScaffold, type OfferDocumentGenerationScaffoldInput } from './offer_document_generation.service';
+const service = new Phase6cOfferDocumentGenerationService();
 
-const baseInput: OfferDocumentGenerationScaffoldInput = {
-  organization_id: 'org_phase_6c_control',
-  service_manifest_contract_id: 'smc_phase_6c_offer_document_generation',
-  source_record_ref: 'offer_document_generation_record_001',
-  evaluated_by_user_id: 'user_phase_6c_control',
-  evaluated_at: '2026-06-09T09:00:00.000Z',
-  control_metadata: { source: 'phase_6c_scaffold_control' },
+const validInput = {
+  organization_id: 'org_akti',
+  service_manifest_contract_id: 'smc:phase_6c_offer_document_generation',
+  source_record_ref: 'recruitment_application:app_001',
+  applicant_ref: 'applicant:person_001',
+  offer_ref: 'employment_offer:offer_001',
+  template_ref: 'offer_template:standard_full_time',
+  template_version: '2026.06',
+  language_code: 'en-US',
+  output_format: 'PDF' as const,
+  file_service_ref: '6a_file_service:svfs_offer_documents',
+  requested_by_user_id: 'user_hr_001',
+  requested_at: '2026-06-09T10:00:00.000Z',
+  variables: [
+    { variable_code: 'candidate_name', value: 'Amina Khan' },
+    { variable_code: 'start_date', value: '2026-07-01' },
+    { variable_code: 'compensation_summary', value: 'redacted in audit', redacted_in_audit: true },
+  ],
 };
 
-const receipt = evaluateOfferDocumentGenerationScaffold(baseInput);
+const receipt = service.prepareOfferDocumentGeneration(validInput);
+
 assert.equal(receipt.seed_id, 'seed_6c_020_offer_document_generation');
 assert.equal(receipt.component_id, '6C.02');
-assert.equal(receipt.component_slug, 'hr_recruitment_and_onboarding_pipeline');
-assert.equal(receipt.model_name, 'Phase6COfferDocumentGeneration');
-assert.equal(receipt.scaffold_status, 'SCAFFOLD_CONTROL_ONLY');
-assert.equal(receipt.capability_implementation_allowed, false);
-assert.equal(receipt.business_behavior_allowed, false);
-assert.equal(receipt.runtime_adapter_allowed, false);
-assert.match(receipt.scaffold_evidence_digest, /^[a-f0-9]{64}$/);
+assert.equal(receipt.runtime_status, 'OFFER_DOCUMENT_6A_FILE_SERVICE_REQUEST_READY');
+assert.equal(receipt.file_service_only, true);
+assert.equal(receipt.direct_file_mutation_allowed, false);
+assert.equal(receipt.local_file_write_allowed, false);
+assert.equal(receipt.non_6a_file_service_allowed, false);
+assert.equal(receipt.schema_mutation_allowed, false);
+assert.equal(receipt.phase_6a_mutation_allowed, false);
+assert.equal(receipt.phase_6b_mutation_allowed, false);
+assert.equal(receipt.ticket_flag_flip_allowed, false);
+assert.deepEqual(receipt.decision_refs, ['6C-RECRUIT-012', '6C-GLOBAL-018']);
+assert.deepEqual(receipt.evidence_artifacts, [
+  'phase_6c_offer_document_generation_request',
+  'phase_6c_offer_document_6a_file_service_payload',
+  'phase_6c_offer_document_generation_receipt',
+]);
+assert.deepEqual(receipt.generation_payload.variable_codes, [
+  'candidate_name',
+  'compensation_summary',
+  'start_date',
+]);
+assert.equal(receipt.variable_count, 3);
+assert.equal(receipt.redacted_variable_count, 1);
+assert.match(receipt.receipt_digest, /^[a-f0-9]{64}$/);
 
-const repeatedReceipt = evaluateOfferDocumentGenerationScaffold(baseInput);
-assert.equal(repeatedReceipt.scaffold_evidence_digest, receipt.scaffold_evidence_digest);
+const repeatedReceipt = service.prepareOfferDocumentGeneration(validInput);
+assert.equal(repeatedReceipt.receipt_digest, receipt.receipt_digest);
 
-assert.throws(() => evaluateOfferDocumentGenerationScaffold({ ...baseInput, organization_id: ' ' }), /organization_id is required/);
-assert.throws(() => evaluateOfferDocumentGenerationScaffold({ ...baseInput, service_manifest_contract_id: '' }), /service_manifest_contract_id is required/);
-assert.throws(() => evaluateOfferDocumentGenerationScaffold({ ...baseInput, source_record_ref: '' }), /source_record_ref is required/);
-assert.throws(() => evaluateOfferDocumentGenerationScaffold({ ...baseInput, evaluated_by_user_id: '' }), /evaluated_by_user_id is required/);
-assert.throws(() => evaluateOfferDocumentGenerationScaffold({ ...baseInput, evaluated_at: 'not-a-date' }), /evaluated_at must be a valid ISO-compatible timestamp/);
-assert.throws(() => evaluateOfferDocumentGenerationScaffold({ ...baseInput, capability_execution_requested: true }), /must not execute capability behavior/);
-assert.throws(() => evaluateOfferDocumentGenerationScaffold({ ...baseInput, business_behavior_requested: true }), /must not execute business behavior/);
-assert.throws(() => evaluateOfferDocumentGenerationScaffold({ ...baseInput, runtime_adapter_requested: true }), /must not execute runtime adapter behavior/);
-
-console.log('P6C scaffold-control offer_document_generation test passed.');
+assert.throws(
+  () => service.prepareOfferDocumentGeneration({ ...validInput, file_service_ref: 's3:bucket/path' }),
+  /6a_file_service:/,
+);
+assert.throws(
+  () => service.prepareOfferDocumentGeneration({ ...validInput, template_ref: 'generic_template:offer' }),
+  /offer_template:/,
+);
+assert.throws(
+  () => service.prepareOfferDocumentGeneration({ ...validInput, output_format: 'HTML' as never }),
+  /unsupported offer document format/,
+);
+assert.throws(
+  () => service.prepareOfferDocumentGeneration({ ...validInput, variables: [] }),
+  /at least one offer document variable/,
+);
+assert.throws(
+  () =>
+    service.prepareOfferDocumentGeneration({
+      ...validInput,
+      variables: [
+        { variable_code: 'candidate_name', value: 'Amina Khan' },
+        { variable_code: 'candidate_name', value: 'Duplicate' },
+      ],
+    }),
+  /duplicate offer document variable_code/,
+);
+assert.throws(
+  () => service.prepareOfferDocumentGeneration({ ...validInput, direct_file_service_mutation_requested: true }),
+  /direct 6A file service mutation is forbidden/,
+);
+assert.throws(
+  () => service.prepareOfferDocumentGeneration({ ...validInput, ticket_flag_flip_requested: true }),
+  /flag flips remain human-only/,
+);
