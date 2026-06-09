@@ -1,11 +1,11 @@
 {
   "document": {
     "title": "AKTI ERP Failure Prevention & Codex Operating Doctrine",
-    "version": "1.3",
-    "status": "post_phase_6b_ticketability_ci_settling_gate",
+    "version": "1.4",
+    "status": "autonomous_execution_constants_committed",
     "created_on": "2026-05-22",
     "owner": "AKTI leadership / Usman Minhas until formally delegated",
-    "purpose": "Prevent AKTI ERP from repeating ARI, AKTI OS, plugin, and ERP IV failure patterns by forcing planning discipline, source-of-truth hierarchy, Codex operating rules, CI enforcement, and delivery-first behavior. This revision preserves the original doctrine and adds post-Phase-2 autonomous-run lessons. Version 1.1 adds the Phase 6B ticketability correction: planning PRs must not create missing repo truth by changing code, schema, runtime, generated, package, contract, registry, migration, frontend, backend, or validation-script files. Version 1.2 adds the CI settling gate: after push, PR update, PR creation, or merge, Codex must poll transient GitHub CI/merge metadata before treating pending or unstable status as a real stop. Version 1.3 adds the FFET gate: final executable implementation tickets must be audited one-seed/sub-surface execution units, and only binding human approval may flip ticket-generation or execution flags.",
+    "purpose": "Prevent AKTI ERP from repeating ARI, AKTI OS, plugin, and ERP IV failure patterns by forcing planning discipline, source-of-truth hierarchy, Codex operating rules, CI enforcement, and delivery-first behavior. This revision preserves the original doctrine and adds post-Phase-2 autonomous-run lessons. Version 1.1 adds the Phase 6B ticketability correction: planning PRs must not create missing repo truth by changing code, schema, runtime, generated, package, contract, registry, migration, frontend, backend, or validation-script files. Version 1.2 adds the CI settling gate: after push, PR update, PR creation, or merge, Codex must poll transient GitHub CI/merge metadata before treating pending or unstable status as a real stop. Version 1.3 adds the FFET gate: final executable implementation tickets must be audited one-seed/sub-surface execution units, and only binding human approval may flip ticket-generation or execution flags. Version 1.4 commits reusable autonomous execution constants for FFET lifecycle, self-audit, bounded self-heal, PR workflow, CI settling, and human-only authorization flags while keeping phase-specific variables in active phase plans.",
     "placement_recommendation": [
       "Save this JSON as docs/doctrine/akti-erp-failure-prevention-codex-operating-doctrine.v1.json",
       "Summarize the operational rules into AGENTS.md",
@@ -926,5 +926,156 @@
       "terminal capability_prerequisite basis until tooling supports it",
       "any automated flag flip before binding human approval"
     ]
+  },
+  "autonomous_execution_constants": {
+    "status": "active_reusable_operating_contract",
+    "purpose": "Move reusable autonomous-run constants out of chat memory and into committed doctrine while keeping phase-specific variables in active phase run plans, FFET registries, and explicit human approvals.",
+    "phase_variables_policy": {
+      "keep_in_doctrine": [
+        "FFET lifecycle gate semantics",
+        "self-audit timing",
+        "bounded self-heal rules",
+        "CI settling wait budget",
+        "PR role purity and one-FFET default",
+        "human-only authorization flag authority"
+      ],
+      "keep_in_phase_plan_or_chat": [
+        "phase name and package version",
+        "FFET registry path",
+        "ticket count and execution order",
+        "allowed files and forbidden files",
+        "validation commands",
+        "branch names and PR numbers",
+        "current blockers",
+        "active approval scope"
+      ],
+      "conflict_rule": "If a phase plan conflicts with these reusable constants, the phase must explicitly record the exception and obtain human approval before execution."
+    },
+    "ffet_lifecycle_gates": [
+      {
+        "gate": "Gate 1",
+        "name": "FFET generation",
+        "constant": "derive candidate FFETs only from committed repo truth; do not introduce new decisions"
+      },
+      {
+        "gate": "Gate 2",
+        "name": "independent FFET audit",
+        "constant": "audit coverage, exact files, dependencies, validation, flags, source grounding, and stale-risk before human review"
+      },
+      {
+        "gate": "Gate 3",
+        "name": "human approval",
+        "constant": "only binding human approval may authorize execution or flip ticket/execution flags"
+      },
+      {
+        "gate": "Gate 4",
+        "name": "autonomous execution",
+        "constant": "execute approved FFETs in dependency order within exact files and validation ladder"
+      },
+      {
+        "gate": "Gate 5",
+        "name": "stop and escalation",
+        "constant": "stop for scope expansion, hidden decision, irreversible action, forbidden path, exhausted self-heal, CI failure outside scope, or branch protection human action"
+      }
+    ],
+    "ffet_granularity": {
+      "default": "one FFET per seed or sub-surface",
+      "merge_exception": "allowed only with explicit merge_rationale proving inseparability",
+      "pr_default": "one FFET per branch, commit, PR, CI wait, merge, and local main update",
+      "batching_exception": "allowed only when an approved phase run plan explicitly permits safe low-risk batching"
+    },
+    "implementation_depth": {
+      "rule": "Apply maximum concrete capability within the approved exact-file scope of each FFET.",
+      "forbidden_interpretation": "Do not reduce a runtime-authorized FFET to minimal, stale, metadata-only, or scaffold-only behavior unless the FFET itself is scaffold/control-only.",
+      "source_limit": "Maximum capability may not invent schema, APIs, permissions, ADLs, provider behavior, service boundaries, credentials, or business rules."
+    },
+    "self_audit_gates": {
+      "before_implementation": [
+        "confirm clean tracked worktree",
+        "confirm local main equals origin/main",
+        "load active FFET authority",
+        "verify dependencies landed",
+        "verify exact file plan and forbidden paths"
+      ],
+      "before_commit": [
+        "run FFET validation ladder",
+        "run git diff --check",
+        "verify changed files equal exact plan",
+        "verify no zip staged",
+        "verify no forbidden paths changed",
+        "verify no placeholders or authorization flag flips"
+      ],
+      "before_merge": [
+        "confirm PR changed paths match exact file plan",
+        "confirm CI success",
+        "confirm merge state clean",
+        "confirm no human review or branch protection blocker"
+      ],
+      "after_merge": [
+        "wait for merge settle",
+        "sync local main",
+        "confirm main equals origin/main",
+        "confirm expected files landed",
+        "continue to next approved FFET"
+      ]
+    },
+    "self_heal_policy": {
+      "max_attempts_per_ffet": 3,
+      "allowed": [
+        "TypeScript import/export mismatch inside active FFET files",
+        "local type/schema mismatch inside active FFET files",
+        "direct seed-test expectation drift caused by active FFET files",
+        "deterministic metadata/test drift inside active FFET files",
+        "conflict-free branch refresh when main advances and exact scope is unchanged"
+      ],
+      "forbidden": [
+        "editing outside exact files",
+        "inventing schema/API/permission/ADL/provider/business decisions",
+        "weakening validation",
+        "changing doctrine during implementation FFETs",
+        "changing packages, lockfiles, migrations, generated registry, scripts, frontend, or other forbidden paths unless explicitly listed by the FFET"
+      ],
+      "exhausted_behavior": "After three failed repairs, hard stop and report failed command, logs, attempted repairs, and exact blocker."
+    },
+    "ci_settling_gate": {
+      "applies_after": [
+        "push",
+        "PR creation",
+        "PR update",
+        "merge"
+      ],
+      "default_loop": {
+        "wait_minutes": 2,
+        "max_polls": 5,
+        "total_minutes": 10
+      },
+      "extension": {
+        "allowed_once": true,
+        "condition": "checks are still actively progressing",
+        "wait_minutes": 2,
+        "max_additional_polls": 5,
+        "max_total_minutes": 20
+      },
+      "continue_when": "required checks successful and mergeStateStatus is CLEAN",
+      "wait_when": "checks queued, pending, in progress, or merge metadata temporarily UNSTABLE while latest run is active",
+      "fail_when": "required check concludes FAILURE, CANCELLED, TIMED_OUT, or ACTION_REQUIRED",
+      "stop_when": "merge conflict, dirty/blocked branch protection needing human action, scope violation, or timeout after bounded polling"
+    },
+    "authorization_flags": {
+      "default_false": [
+        "ticket_generation_allowed",
+        "ticket_pack_generation_allowed",
+        "execution_authorized"
+      ],
+      "only_human_may_flip": true,
+      "forbidden_automated_flip_sources": [
+        "CI",
+        "readiness reports",
+        "scripts",
+        "autonomous runs",
+        "self-audit passes",
+        "Gate 2 audit passes"
+      ]
+    }
   }
 }
