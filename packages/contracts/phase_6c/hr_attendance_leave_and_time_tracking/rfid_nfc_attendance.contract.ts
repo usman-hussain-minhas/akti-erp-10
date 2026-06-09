@@ -1,35 +1,68 @@
-export const PHASE_6C_RFID_NFC_ATTENDANCE_SEED_ID = "seed_6c_026_rfid_nfc_attendance" as const;
-export const PHASE_6C_RFID_NFC_ATTENDANCE_COMPONENT_ID = "6C.03" as const;
-export const RFID_NFC_ATTENDANCE_SCAFFOLD_EVENT = "phase_6c.hr_attendance_leave_and_time_tracking.rfid_nfc_attendance.scaffold_control_evaluated" as const;
+export const PHASE_6C_RFID_NFC_ATTENDANCE_SEED_ID = 'seed_6c_026_rfid_nfc_attendance' as const;
+export const PHASE_6C_RFID_NFC_ATTENDANCE_COMPONENT_ID = '6C.03' as const;
+export const RFID_NFC_ATTENDANCE_RUNTIME_EVENT = 'phase_6c.hr_attendance_leave_and_time_tracking.rfid_nfc_attendance.evaluated' as const;
 
-export type RfidNfcAttendanceScaffoldInput = {
+export type RfidNfcMethod = 'RFID' | 'NFC';
+export type RfidNfcDecision = 'ACCEPTED' | 'REJECTED';
+
+export type RfidNfcAttendanceInput = {
   organization_id: string;
   service_manifest_contract_id: string;
   source_record_ref: string;
+  employee_ref: string;
+  method: RfidNfcMethod;
+  provider_neutral_reader_ref: string;
+  token_evidence_ref: string;
+  device_observed_at: string;
+  server_received_at: string;
+  max_clock_skew_seconds: number;
+  offline_capture: boolean;
+  offline_queue_ref?: string;
+  fallback_method_ref?: string;
   evaluated_by_user_id: string;
-  evaluated_at: string;
   control_metadata?: Record<string, unknown>;
-  capability_execution_requested?: boolean;
-  business_behavior_requested?: boolean;
+  provider_specific_adapter_requested?: boolean;
+  raw_tag_storage_requested?: boolean;
+  external_reader_call_requested?: boolean;
+  attendance_record_mutation_requested?: boolean;
+  schema_mutation_requested?: boolean;
+  phase_6a_mutation_requested?: boolean;
+  phase_6b_mutation_requested?: boolean;
   runtime_adapter_requested?: boolean;
+  ticket_flag_flip_requested?: boolean;
 };
 
-export type RfidNfcAttendanceScaffoldReceipt = {
+export type RfidNfcAttendanceReceipt = {
   seed_id: typeof PHASE_6C_RFID_NFC_ATTENDANCE_SEED_ID;
   component_id: typeof PHASE_6C_RFID_NFC_ATTENDANCE_COMPONENT_ID;
-  component_slug: "hr_attendance_leave_and_time_tracking";
-  model_name: "Phase6CRfidNfcAttendance";
-  event_name: typeof RFID_NFC_ATTENDANCE_SCAFFOLD_EVENT;
+  component_slug: 'hr_attendance_leave_and_time_tracking';
+  model_name: 'Phase6CRfidNfcAttendance';
+  event_name: typeof RFID_NFC_ATTENDANCE_RUNTIME_EVENT;
   organization_id: string;
   service_manifest_contract_id: string;
   source_record_ref: string;
-  scaffold_status: 'SCAFFOLD_CONTROL_ONLY';
-  capability_implementation_allowed: false;
-  business_behavior_allowed: false;
-  runtime_adapter_allowed: false;
+  employee_ref: string;
+  runtime_status: 'RFID_NFC_ATTENDANCE_EVALUATED';
+  method: RfidNfcMethod;
+  decision: RfidNfcDecision;
+  rejection_reasons: readonly string[];
+  provider_neutral_only: true;
+  raw_tag_storage_allowed: false;
+  external_reader_call_allowed: false;
+  attendance_record_mutation_allowed: false;
+  offline_queue_supported: true;
+  fallback_methods_allowed: true;
+  provider_neutral_reader_ref: string;
+  token_evidence_ref: string;
+  clock_skew_seconds: number;
+  within_clock_skew_tolerance: boolean;
+  offline_capture: boolean;
+  offline_queue_ref: string | null;
+  fallback_method_ref: string | null;
   decision_refs: readonly string[];
+  evidence_artifacts: readonly string[];
   control_metadata: Record<string, unknown>;
-  scaffold_evidence_digest: string;
   evaluated_by_user_id: string;
-  evaluated_at: string;
+  server_received_at: string;
+  rfid_nfc_attendance_evidence_digest: string;
 };
