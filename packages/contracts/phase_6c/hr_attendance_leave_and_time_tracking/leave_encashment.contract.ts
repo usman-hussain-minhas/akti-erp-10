@@ -1,35 +1,74 @@
 export const PHASE_6C_LEAVE_ENCASHMENT_SEED_ID = "seed_6c_036_leave_encashment" as const;
 export const PHASE_6C_LEAVE_ENCASHMENT_COMPONENT_ID = "6C.03" as const;
-export const LEAVE_ENCASHMENT_SCAFFOLD_EVENT = "phase_6c.hr_attendance_leave_and_time_tracking.leave_encashment.scaffold_control_evaluated" as const;
+export const LEAVE_ENCASHMENT_EVALUATED_EVENT = "phase_6c.hr_attendance_leave_and_time_tracking.leave_encashment.evaluated" as const;
 
-export type LeaveEncashmentScaffoldInput = {
+export type LeaveEncashmentPolicy = "NOT_ALLOWED" | "FULL_BALANCE" | "CAPPED_UNITS" | "REQUESTED_UNITS_ONLY";
+export type LeaveEncashmentDecision = "ENCASHMENT_NOT_ALLOWED" | "ENCASHMENT_EVIDENCE_READY" | "ENCASHMENT_CAPPED" | "ENCASHMENT_REJECTED_ZERO_BALANCE";
+
+export type LeaveEncashmentInput = {
   organization_id: string;
   service_manifest_contract_id: string;
   source_record_ref: string;
+  employee_ref: string;
+  leave_type_ref: string;
+  policy_ref: string;
+  fiscal_period_ref: string;
+  policy: LeaveEncashmentPolicy;
+  available_balance_units: number;
+  requested_encashment_units: number;
+  max_encashment_units?: number;
+  unit_rate_amount: number;
+  currency: string;
+  request_date: string;
+  payout_evidence_date: string;
+  approval_ref?: string;
   evaluated_by_user_id: string;
   evaluated_at: string;
   control_metadata?: Record<string, unknown>;
-  capability_execution_requested?: boolean;
-  business_behavior_requested?: boolean;
+  payroll_mutation_requested?: boolean;
+  balance_mutation_requested?: boolean;
+  provider_specific_adapter_requested?: boolean;
+  schema_mutation_requested?: boolean;
+  phase_6a_mutation_requested?: boolean;
+  phase_6b_mutation_requested?: boolean;
   runtime_adapter_requested?: boolean;
+  ticket_flag_flip_requested?: boolean;
 };
 
-export type LeaveEncashmentScaffoldReceipt = {
+export type LeaveEncashmentReceipt = {
   seed_id: typeof PHASE_6C_LEAVE_ENCASHMENT_SEED_ID;
   component_id: typeof PHASE_6C_LEAVE_ENCASHMENT_COMPONENT_ID;
   component_slug: "hr_attendance_leave_and_time_tracking";
   model_name: "Phase6CLeaveEncashment";
-  event_name: typeof LEAVE_ENCASHMENT_SCAFFOLD_EVENT;
+  event_name: typeof LEAVE_ENCASHMENT_EVALUATED_EVENT;
   organization_id: string;
   service_manifest_contract_id: string;
   source_record_ref: string;
-  scaffold_status: 'SCAFFOLD_CONTROL_ONLY';
-  capability_implementation_allowed: false;
-  business_behavior_allowed: false;
-  runtime_adapter_allowed: false;
+  employee_ref: string;
+  leave_type_ref: string;
+  policy_ref: string;
+  fiscal_period_ref: string;
+  policy: LeaveEncashmentPolicy;
+  available_balance_units: number;
+  requested_encashment_units: number;
+  max_encashment_units: number | null;
+  unit_rate_amount: number;
+  currency: string;
+  approved_encashment_units: number;
+  rejected_units: number;
+  gross_encashment_amount: number;
+  approval_ref: string | null;
+  request_date: string;
+  payout_evidence_date: string;
+  decision: LeaveEncashmentDecision;
+  payroll_mutation_allowed: false;
+  balance_mutation_allowed: false;
+  provider_neutral_only: true;
+  runtime_status: "LEAVE_ENCASHMENT_EVIDENCE_EVALUATED";
   decision_refs: readonly string[];
+  evidence_artifacts: readonly string[];
   control_metadata: Record<string, unknown>;
-  scaffold_evidence_digest: string;
   evaluated_by_user_id: string;
   evaluated_at: string;
+  leave_encashment_evidence_digest: string;
 };
