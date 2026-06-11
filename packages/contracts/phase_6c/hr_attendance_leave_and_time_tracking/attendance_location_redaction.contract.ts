@@ -1,35 +1,67 @@
 export const PHASE_6C_ATTENDANCE_LOCATION_REDACTION_SEED_ID = "seed_6c_039_attendance_location_redaction" as const;
 export const PHASE_6C_ATTENDANCE_LOCATION_REDACTION_COMPONENT_ID = "6C.03" as const;
-export const ATTENDANCE_LOCATION_REDACTION_SCAFFOLD_EVENT = "phase_6c.hr_attendance_leave_and_time_tracking.attendance_location_redaction.scaffold_control_evaluated" as const;
+export const ATTENDANCE_LOCATION_REDACTION_EVALUATED_EVENT = "phase_6c.hr_attendance_leave_and_time_tracking.attendance_location_redaction.evaluated" as const;
 
-export type AttendanceLocationRedactionScaffoldInput = {
+export type AttendanceLocationRedactionProfile = "HASH_ONLY" | "COARSE_COORDINATES" | "REGION_ONLY" | "AUDIT_EXACT";
+export type AttendanceLocationRequesterPurpose = "EMPLOYEE_SELF" | "MANAGER_REVIEW" | "PAYROLL_EVIDENCE" | "AUDIT_SUPPORT_WINDOW";
+export type AttendanceLocationRedactionDecision = "LOCATION_HASHED" | "LOCATION_COARSENED" | "LOCATION_REGION_ONLY" | "LOCATION_AUDIT_EXACT_ALLOWED";
+
+export type AttendanceLocationRedactionInput = {
   organization_id: string;
   service_manifest_contract_id: string;
   source_record_ref: string;
+  attendance_event_ref: string;
+  employee_ref: string;
+  requester_ref: string;
+  requester_purpose: AttendanceLocationRequesterPurpose;
+  redaction_profile: AttendanceLocationRedactionProfile;
+  latitude?: number;
+  longitude?: number;
+  location_label?: string;
+  region_code?: string;
+  provider_location_ref?: string;
+  captured_at: string;
   evaluated_by_user_id: string;
   evaluated_at: string;
   control_metadata?: Record<string, unknown>;
-  capability_execution_requested?: boolean;
-  business_behavior_requested?: boolean;
+  raw_location_disclosure_requested?: boolean;
+  provider_specific_adapter_requested?: boolean;
+  schema_mutation_requested?: boolean;
+  phase_6a_mutation_requested?: boolean;
+  phase_6b_mutation_requested?: boolean;
   runtime_adapter_requested?: boolean;
+  ticket_flag_flip_requested?: boolean;
 };
 
-export type AttendanceLocationRedactionScaffoldReceipt = {
+export type AttendanceLocationRedactionReceipt = {
   seed_id: typeof PHASE_6C_ATTENDANCE_LOCATION_REDACTION_SEED_ID;
   component_id: typeof PHASE_6C_ATTENDANCE_LOCATION_REDACTION_COMPONENT_ID;
   component_slug: "hr_attendance_leave_and_time_tracking";
   model_name: "Phase6CAttendanceLocationRedaction";
-  event_name: typeof ATTENDANCE_LOCATION_REDACTION_SCAFFOLD_EVENT;
+  event_name: typeof ATTENDANCE_LOCATION_REDACTION_EVALUATED_EVENT;
   organization_id: string;
   service_manifest_contract_id: string;
   source_record_ref: string;
-  scaffold_status: 'SCAFFOLD_CONTROL_ONLY';
-  capability_implementation_allowed: false;
-  business_behavior_allowed: false;
-  runtime_adapter_allowed: false;
+  attendance_event_ref: string;
+  employee_ref: string;
+  requester_ref: string;
+  requester_purpose: AttendanceLocationRequesterPurpose;
+  redaction_profile: AttendanceLocationRedactionProfile;
+  redacted_latitude: number | null;
+  redacted_longitude: number | null;
+  redacted_location_label: string | null;
+  region_code: string | null;
+  provider_location_ref_hash: string | null;
+  raw_location_hash: string;
+  captured_at: string;
+  decision: AttendanceLocationRedactionDecision;
+  raw_location_disclosure_allowed: boolean;
+  provider_neutral_only: true;
+  runtime_status: "ATTENDANCE_LOCATION_REDACTION_EVALUATED";
   decision_refs: readonly string[];
+  evidence_artifacts: readonly string[];
   control_metadata: Record<string, unknown>;
-  scaffold_evidence_digest: string;
   evaluated_by_user_id: string;
   evaluated_at: string;
+  attendance_location_redaction_evidence_digest: string;
 };
