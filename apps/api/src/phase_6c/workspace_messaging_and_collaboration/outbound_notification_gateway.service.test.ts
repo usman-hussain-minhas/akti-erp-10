@@ -1,37 +1,120 @@
-import assert from 'node:assert/strict';
+import assert from "node:assert/strict";
+import { evaluateOutboundNotificationGateway } from "./outbound_notification_gateway.service";
 
-import { evaluateOutboundNotificationGatewayScaffold, type OutboundNotificationGatewayScaffoldInput } from './outbound_notification_gateway.service';
+function baseInput() {
+  return {
+    organization_id: "org_1",
+    service_manifest_contract_id: "seed_6a_service_manifest_contract",
+    source_record_ref: "workspace_notification:evidence:1",
+    workspace_ref: "workspace_1",
+    notification_ref: "notification_1",
+    actor_user_ref: "user_sender",
+    evaluated_by_user_id: "user_reviewer",
+    evaluated_at: "2026-06-11T10:00:00.000Z",
+    notification_type: "THREAD_MENTION" as const,
+    urgency: "NORMAL" as const,
+    message: {
+      subject: "Mention in workspace",
+      body_preview: "You were mentioned in a workspace thread.",
+      deep_link_ref: "workspace://conversation_1/message_1",
+    },
+    recipients: [
+      {
+        recipient_ref: "recipient_1",
+        person_ref: "person_1",
+        user_ref: "user_1",
+        channels: ["EMAIL", "PUSH", "EMAIL"] as const,
+        opt_out_status: "ALLOWED" as const,
+        gateway_policy_evidence_ref: "gateway_policy_evidence_1",
+      },
+    ],
+  };
+}
 
-const baseInput: OutboundNotificationGatewayScaffoldInput = {
-  organization_id: 'org_phase_6c_control',
-  service_manifest_contract_id: 'smc_phase_6c_outbound_notification_gateway',
-  source_record_ref: 'outbound_notification_gateway_record_001',
-  evaluated_by_user_id: 'user_phase_6c_control',
-  evaluated_at: '2026-06-09T09:00:00.000Z',
-  control_metadata: { source: 'phase_6c_scaffold_control' },
-};
+const ready = evaluateOutboundNotificationGateway(baseInput());
+assert.equal(ready.decision, "READY_FOR_GATEWAY");
+assert.equal(ready.recipient_count, 1);
+assert.equal(ready.envelope_count, 2);
+assert.equal(ready.suppressed_count, 0);
+assert.equal(ready.gateway_envelopes.every((envelope) => envelope.send_performed === false), true);
+assert.deepEqual(ready.gateway_envelopes[0]?.required_gateway_controls, [
+  "global_opt_out_registry",
+  "outbound_gateway_enforcement",
+]);
+assert.deepEqual(ready.gateway_envelopes[0]?.adl_refs, ["ADL-004"]);
+assert.equal(ready.send_performed, false);
+assert.equal(ready.provider_adapter_performed, false);
+assert.equal(ready.gateway_bypass_performed, false);
+assert.deepEqual(ready.decision_refs, ["6C-WORK-MSG-007", "6C-GLOBAL-013", "6C-ADL-008"]);
+assert.deepEqual(ready.adl_refs, ["ADL-004"]);
+assert.match(ready.deterministic_digest, /^[a-f0-9]{64}$/);
 
-const receipt = evaluateOutboundNotificationGatewayScaffold(baseInput);
-assert.equal(receipt.seed_id, 'seed_6c_062_outbound_notification_gateway');
-assert.equal(receipt.component_id, '6C.05');
-assert.equal(receipt.component_slug, 'workspace_messaging_and_collaboration');
-assert.equal(receipt.model_name, 'Phase6COutboundNotificationGateway');
-assert.equal(receipt.scaffold_status, 'SCAFFOLD_CONTROL_ONLY');
-assert.equal(receipt.capability_implementation_allowed, false);
-assert.equal(receipt.business_behavior_allowed, false);
-assert.equal(receipt.runtime_adapter_allowed, false);
-assert.match(receipt.scaffold_evidence_digest, /^[a-f0-9]{64}$/);
+const repeat = evaluateOutboundNotificationGateway(baseInput());
+assert.equal(repeat.deterministic_digest, ready.deterministic_digest);
 
-const repeatedReceipt = evaluateOutboundNotificationGatewayScaffold(baseInput);
-assert.equal(repeatedReceipt.scaffold_evidence_digest, receipt.scaffold_evidence_digest);
+const partiallyReady = evaluateOutboundNotificationGateway({
+  ...baseInput(),
+  recipients: [
+    baseInput().recipients[0],
+    {
+      recipient_ref: "recipient_2",
+      channels: ["SMS"] as const,
+      opt_out_status: "OPTED_OUT" as const,
+      gateway_policy_evidence_ref: "gateway_policy_evidence_2",
+    },
+  ],
+});
+assert.equal(partiallyReady.decision, "PARTIALLY_READY_FOR_GATEWAY");
+assert.equal(partiallyReady.envelope_count, 2);
+assert.equal(partiallyReady.suppressed_recipients[0]?.reason, "GLOBAL_OPT_OUT");
 
-assert.throws(() => evaluateOutboundNotificationGatewayScaffold({ ...baseInput, organization_id: ' ' }), /organization_id is required/);
-assert.throws(() => evaluateOutboundNotificationGatewayScaffold({ ...baseInput, service_manifest_contract_id: '' }), /service_manifest_contract_id is required/);
-assert.throws(() => evaluateOutboundNotificationGatewayScaffold({ ...baseInput, source_record_ref: '' }), /source_record_ref is required/);
-assert.throws(() => evaluateOutboundNotificationGatewayScaffold({ ...baseInput, evaluated_by_user_id: '' }), /evaluated_by_user_id is required/);
-assert.throws(() => evaluateOutboundNotificationGatewayScaffold({ ...baseInput, evaluated_at: 'not-a-date' }), /evaluated_at must be a valid ISO-compatible timestamp/);
-assert.throws(() => evaluateOutboundNotificationGatewayScaffold({ ...baseInput, capability_execution_requested: true }), /must not execute capability behavior/);
-assert.throws(() => evaluateOutboundNotificationGatewayScaffold({ ...baseInput, business_behavior_requested: true }), /must not execute business behavior/);
-assert.throws(() => evaluateOutboundNotificationGatewayScaffold({ ...baseInput, runtime_adapter_requested: true }), /must not execute runtime adapter behavior/);
+const missingEvidence = evaluateOutboundNotificationGateway({
+  ...baseInput(),
+  recipients: [
+    {
+      recipient_ref: "recipient_3",
+      channels: ["EMAIL"] as const,
+      opt_out_status: "UNKNOWN" as const,
+    },
+  ],
+});
+assert.equal(missingEvidence.decision, "REQUIRES_GATEWAY_REVIEW");
+assert.deepEqual(missingEvidence.review_reasons, ["recipient_3:missing_gateway_policy_evidence"]);
+assert.equal(missingEvidence.suppressed_recipients[0]?.reason, "MISSING_GATEWAY_POLICY_EVIDENCE");
 
-console.log('P6C scaffold-control outbound_notification_gateway test passed.');
+const allOptedOut = evaluateOutboundNotificationGateway({
+  ...baseInput(),
+  recipients: [
+    {
+      recipient_ref: "recipient_4",
+      channels: ["EMAIL"] as const,
+      opt_out_status: "OPTED_OUT" as const,
+      gateway_policy_evidence_ref: "gateway_policy_evidence_4",
+    },
+  ],
+});
+assert.equal(allOptedOut.decision, "SUPPRESSED_BY_OPT_OUT");
+assert.equal(allOptedOut.envelope_count, 0);
+
+assert.throws(
+  () => evaluateOutboundNotificationGateway({ ...baseInput(), gateway_bypass_requested: true }),
+  /gateway bypass is forbidden by ADL-004/,
+);
+assert.throws(
+  () => evaluateOutboundNotificationGateway({ ...baseInput(), opt_out_override_requested: true }),
+  /global opt-out override is forbidden by ADL-004/,
+);
+assert.throws(
+  () =>
+    evaluateOutboundNotificationGateway({
+      ...baseInput(),
+      recipients: [{ ...baseInput().recipients[0], channels: ["FAX" as never] }],
+    }),
+  /unsupported channel/,
+);
+assert.throws(
+  () => evaluateOutboundNotificationGateway({ ...baseInput(), recipients: [] }),
+  /recipients must contain at least one recipient/,
+);
+
+console.log("outbound_notification_gateway.service.test passed");
