@@ -1,35 +1,74 @@
 export const PHASE_6C_LEAVE_CARRYFORWARD_EXPIRY_SEED_ID = "seed_6c_035_leave_carryforward_expiry" as const;
 export const PHASE_6C_LEAVE_CARRYFORWARD_EXPIRY_COMPONENT_ID = "6C.03" as const;
-export const LEAVE_CARRYFORWARD_EXPIRY_SCAFFOLD_EVENT = "phase_6c.hr_attendance_leave_and_time_tracking.leave_carryforward_expiry.scaffold_control_evaluated" as const;
+export const LEAVE_CARRYFORWARD_EXPIRY_EVALUATED_EVENT = "phase_6c.hr_attendance_leave_and_time_tracking.leave_carryforward_expiry.evaluated" as const;
 
-export type LeaveCarryforwardExpiryScaffoldInput = {
+export type LeaveCarryforwardExpiryPolicy = "NO_CARRY_FORWARD" | "FULL_CARRY_FORWARD" | "CAPPED_CARRY_FORWARD" | "EXPIRY_DATE_CAPPED";
+export type LeaveCarryforwardExpiryDecision = "NO_CARRY_FORWARD_ALLOWED" | "CARRY_FORWARD_APPLIED" | "CARRY_FORWARD_CAPPED" | "CARRY_FORWARD_EXPIRED";
+
+export type LeaveCarryforwardExpiryInput = {
   organization_id: string;
   service_manifest_contract_id: string;
   source_record_ref: string;
+  employee_ref: string;
+  leave_type_ref: string;
+  policy_ref: string;
+  policy: LeaveCarryforwardExpiryPolicy;
+  source_period_start: string;
+  source_period_end: string;
+  target_period_start: string;
+  available_balance_units: number;
+  already_carried_forward_units: number;
+  max_carryforward_units?: number;
+  expiry_date?: string;
+  evaluation_date: string;
   evaluated_by_user_id: string;
   evaluated_at: string;
   control_metadata?: Record<string, unknown>;
-  capability_execution_requested?: boolean;
-  business_behavior_requested?: boolean;
+  balance_mutation_requested?: boolean;
+  payroll_mutation_requested?: boolean;
+  provider_specific_adapter_requested?: boolean;
+  schema_mutation_requested?: boolean;
+  phase_6a_mutation_requested?: boolean;
+  phase_6b_mutation_requested?: boolean;
   runtime_adapter_requested?: boolean;
+  ticket_flag_flip_requested?: boolean;
 };
 
-export type LeaveCarryforwardExpiryScaffoldReceipt = {
+export type LeaveCarryforwardExpiryReceipt = {
   seed_id: typeof PHASE_6C_LEAVE_CARRYFORWARD_EXPIRY_SEED_ID;
   component_id: typeof PHASE_6C_LEAVE_CARRYFORWARD_EXPIRY_COMPONENT_ID;
   component_slug: "hr_attendance_leave_and_time_tracking";
   model_name: "Phase6CLeaveCarryforwardExpiry";
-  event_name: typeof LEAVE_CARRYFORWARD_EXPIRY_SCAFFOLD_EVENT;
+  event_name: typeof LEAVE_CARRYFORWARD_EXPIRY_EVALUATED_EVENT;
   organization_id: string;
   service_manifest_contract_id: string;
   source_record_ref: string;
-  scaffold_status: 'SCAFFOLD_CONTROL_ONLY';
-  capability_implementation_allowed: false;
-  business_behavior_allowed: false;
-  runtime_adapter_allowed: false;
+  employee_ref: string;
+  leave_type_ref: string;
+  policy_ref: string;
+  policy: LeaveCarryforwardExpiryPolicy;
+  source_period_start: string;
+  source_period_end: string;
+  target_period_start: string;
+  available_balance_units: number;
+  already_carried_forward_units: number;
+  max_carryforward_units: number | null;
+  expiry_date: string | null;
+  evaluation_date: string;
+  eligible_balance_units: number;
+  carryforward_units: number;
+  capped_units: number;
+  expired_units: number;
+  forfeited_units: number;
+  decision: LeaveCarryforwardExpiryDecision;
+  balance_mutation_allowed: false;
+  payroll_mutation_allowed: false;
+  provider_neutral_only: true;
+  runtime_status: "LEAVE_CARRYFORWARD_EXPIRY_EVALUATED";
   decision_refs: readonly string[];
+  evidence_artifacts: readonly string[];
   control_metadata: Record<string, unknown>;
-  scaffold_evidence_digest: string;
   evaluated_by_user_id: string;
   evaluated_at: string;
+  leave_carryforward_expiry_evidence_digest: string;
 };
