@@ -1,37 +1,125 @@
-import assert from 'node:assert/strict';
+import assert from "node:assert/strict";
+import { recordMentionNotificationEvidence } from "./mention_notification_evidence.service";
 
-import { evaluateMentionNotificationEvidenceScaffold, type MentionNotificationEvidenceScaffoldInput } from './mention_notification_evidence.service';
+function baseInput() {
+  return {
+    organization_id: "org_1",
+    service_manifest_contract_id: "seed_6a_service_manifest_contract",
+    source_record_ref: "mention_notification:evidence:1",
+    workspace_ref: "workspace_1",
+    conversation_ref: "conversation_1",
+    message_ref: "message_1",
+    notification_ref: "notification_1",
+    actor_user_ref: "user_sender",
+    evaluated_by_user_id: "user_reviewer",
+    evaluated_at: "2026-06-11T10:00:00.000Z",
+    mentions: [
+      {
+        mention_ref: "mention_1",
+        mention_type: "USER_MENTION" as const,
+        token: "@Amna",
+        target_ref: "person_1",
+        recipient_ref: "recipient_1",
+        evidence_status: "GATEWAY_ENVELOPE_PREPARED" as const,
+        gateway_envelope_ref: "gateway_envelope_1",
+        gateway_policy_evidence_ref: "gateway_policy_evidence_1",
+      },
+    ],
+  };
+}
 
-const baseInput: MentionNotificationEvidenceScaffoldInput = {
-  organization_id: 'org_phase_6c_control',
-  service_manifest_contract_id: 'smc_phase_6c_mention_notification_evidence',
-  source_record_ref: 'mention_notification_evidence_record_001',
-  evaluated_by_user_id: 'user_phase_6c_control',
-  evaluated_at: '2026-06-09T09:00:00.000Z',
-  control_metadata: { source: 'phase_6c_scaffold_control' },
-};
+const complete = recordMentionNotificationEvidence(baseInput());
+assert.equal(complete.decision, "MENTION_EVIDENCE_COMPLETE");
+assert.equal(complete.mention_count, 1);
+assert.equal(complete.gateway_prepared_count, 1);
+assert.equal(complete.suppressed_count, 0);
+assert.equal(complete.review_count, 0);
+assert.equal(complete.records[0]?.evidence_status, "GATEWAY_ENVELOPE_PREPARED");
+assert.match(complete.records[0]?.evidence_ref ?? "", /^mention_evidence_[a-f0-9]{24}$/);
+assert.equal(complete.send_performed, false);
+assert.equal(complete.provider_adapter_performed, false);
+assert.equal(complete.gateway_bypass_performed, false);
+assert.deepEqual(complete.decision_refs, ["6C-WORK-MSG-008", "6C-GLOBAL-013", "6C-ADL-008"]);
+assert.deepEqual(complete.adl_refs, ["ADL-004"]);
+assert.match(complete.deterministic_digest, /^[a-f0-9]{64}$/);
 
-const receipt = evaluateMentionNotificationEvidenceScaffold(baseInput);
-assert.equal(receipt.seed_id, 'seed_6c_063_mention_notification_evidence');
-assert.equal(receipt.component_id, '6C.05');
-assert.equal(receipt.component_slug, 'workspace_messaging_and_collaboration');
-assert.equal(receipt.model_name, 'Phase6CMentionNotificationEvidence');
-assert.equal(receipt.scaffold_status, 'SCAFFOLD_CONTROL_ONLY');
-assert.equal(receipt.capability_implementation_allowed, false);
-assert.equal(receipt.business_behavior_allowed, false);
-assert.equal(receipt.runtime_adapter_allowed, false);
-assert.match(receipt.scaffold_evidence_digest, /^[a-f0-9]{64}$/);
+const repeat = recordMentionNotificationEvidence(baseInput());
+assert.equal(repeat.deterministic_digest, complete.deterministic_digest);
 
-const repeatedReceipt = evaluateMentionNotificationEvidenceScaffold(baseInput);
-assert.equal(repeatedReceipt.scaffold_evidence_digest, receipt.scaffold_evidence_digest);
+const partial = recordMentionNotificationEvidence({
+  ...baseInput(),
+  mentions: [
+    baseInput().mentions[0],
+    {
+      mention_ref: "mention_2",
+      mention_type: "TEAM_MENTION" as const,
+      token: "@PayrollTeam",
+      target_ref: "team_payroll",
+      recipient_ref: "recipient_2",
+      evidence_status: "SUPPRESSED_BY_OPT_OUT" as const,
+      suppression_reason: "GLOBAL_OPT_OUT" as const,
+    },
+  ],
+});
+assert.equal(partial.decision, "MENTION_EVIDENCE_PARTIAL");
+assert.equal(partial.suppressed_count, 1);
 
-assert.throws(() => evaluateMentionNotificationEvidenceScaffold({ ...baseInput, organization_id: ' ' }), /organization_id is required/);
-assert.throws(() => evaluateMentionNotificationEvidenceScaffold({ ...baseInput, service_manifest_contract_id: '' }), /service_manifest_contract_id is required/);
-assert.throws(() => evaluateMentionNotificationEvidenceScaffold({ ...baseInput, source_record_ref: '' }), /source_record_ref is required/);
-assert.throws(() => evaluateMentionNotificationEvidenceScaffold({ ...baseInput, evaluated_by_user_id: '' }), /evaluated_by_user_id is required/);
-assert.throws(() => evaluateMentionNotificationEvidenceScaffold({ ...baseInput, evaluated_at: 'not-a-date' }), /evaluated_at must be a valid ISO-compatible timestamp/);
-assert.throws(() => evaluateMentionNotificationEvidenceScaffold({ ...baseInput, capability_execution_requested: true }), /must not execute capability behavior/);
-assert.throws(() => evaluateMentionNotificationEvidenceScaffold({ ...baseInput, business_behavior_requested: true }), /must not execute business behavior/);
-assert.throws(() => evaluateMentionNotificationEvidenceScaffold({ ...baseInput, runtime_adapter_requested: true }), /must not execute runtime adapter behavior/);
+const review = recordMentionNotificationEvidence({
+  ...baseInput(),
+  mentions: [
+    {
+      mention_ref: "mention_3",
+      mention_type: "ROLE_MENTION" as const,
+      token: "@Managers",
+      target_ref: "role_managers",
+      recipient_ref: "recipient_3",
+      evidence_status: "REQUIRES_REVIEW" as const,
+      review_reason: "recipient_resolution_incomplete",
+    },
+  ],
+});
+assert.equal(review.decision, "MENTION_EVIDENCE_REQUIRES_REVIEW");
+assert.deepEqual(review.review_reasons, ["mention_3:recipient_resolution_incomplete"]);
 
-console.log('P6C scaffold-control mention_notification_evidence test passed.');
+assert.throws(
+  () =>
+    recordMentionNotificationEvidence({
+      ...baseInput(),
+      mentions: [
+        {
+          ...baseInput().mentions[0],
+          gateway_envelope_ref: "",
+        },
+      ],
+    }),
+  /gateway_envelope_ref must be a non-empty string/,
+);
+assert.throws(
+  () =>
+    recordMentionNotificationEvidence({
+      ...baseInput(),
+      mentions: [
+        {
+          ...baseInput().mentions[0],
+          evidence_status: "SUPPRESSED_BY_OPT_OUT",
+          gateway_envelope_ref: undefined,
+          gateway_policy_evidence_ref: undefined,
+        },
+      ],
+    }),
+  /suppression_reason must be a non-empty string/,
+);
+assert.throws(
+  () => recordMentionNotificationEvidence({ ...baseInput(), gateway_bypass_requested: true }),
+  /gateway bypass is forbidden by ADL-004/,
+);
+assert.throws(
+  () => recordMentionNotificationEvidence({ ...baseInput(), send_requested: true }),
+  /sending is outside this FFET/,
+);
+assert.throws(
+  () => recordMentionNotificationEvidence({ ...baseInput(), mentions: [] }),
+  /mentions must contain at least one mention evidence item/,
+);
+
+console.log("mention_notification_evidence.service.test passed");
