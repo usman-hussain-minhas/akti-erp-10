@@ -1,35 +1,91 @@
-export const PHASE_6C_EVENT_SESSION_TRACK_SEED_ID = "seed_6c_097_event_session_track" as const;
-export const PHASE_6C_EVENT_SESSION_TRACK_COMPONENT_ID = "6C.08" as const;
-export const EVENT_SESSION_TRACK_SCAFFOLD_EVENT = "phase_6c.events_configuration_and_registration_service.event_session_track.scaffold_control_evaluated" as const;
+export const PHASE_6C_EVENT_SESSION_TRACK_SEED_ID = 'seed_6c_097_event_session_track' as const;
+export const PHASE_6C_EVENT_SESSION_TRACK_COMPONENT_ID = '6C.08' as const;
+export const EVENT_SESSION_TRACK_RUNTIME_EVENT = 'phase_6c.events_configuration_and_registration_service.event_session_track.runtime_evaluated' as const;
 
-export type EventSessionTrackScaffoldInput = {
-  organization_id: string;
-  service_manifest_contract_id: string;
-  source_record_ref: string;
-  evaluated_by_user_id: string;
-  evaluated_at: string;
-  control_metadata?: Record<string, unknown>;
-  capability_execution_requested?: boolean;
-  business_behavior_requested?: boolean;
-  runtime_adapter_requested?: boolean;
+export type EventSessionTrackCapacityMode = 'INHERIT_EVENT' | 'FIXED_TRACK_CAPACITY' | 'PER_SESSION_CAPACITY';
+export type EventSessionTrackDecision = 'SESSION_TRACK_READY' | 'SESSION_TRACK_REQUIRES_REVIEW';
+
+export type EventSessionDefinition = {
+  session_ref: string;
+  title: string;
+  starts_at: string;
+  ends_at: string;
+  capacity?: number;
+  speaker_ref?: string;
+  product_catalogue_item_ref?: string;
+  calendar_event_ref?: string;
 };
 
-export type EventSessionTrackScaffoldReceipt = {
-  seed_id: typeof PHASE_6C_EVENT_SESSION_TRACK_SEED_ID;
-  component_id: typeof PHASE_6C_EVENT_SESSION_TRACK_COMPONENT_ID;
-  component_slug: "events_configuration_and_registration_service";
-  model_name: "Phase6CEventSessionTrack";
-  event_name: typeof EVENT_SESSION_TRACK_SCAFFOLD_EVENT;
+export type EventSessionTrackInput = {
   organization_id: string;
   service_manifest_contract_id: string;
+  event_configuration_id: string;
+  session_track_id: string;
   source_record_ref: string;
-  scaffold_status: 'SCAFFOLD_CONTROL_ONLY';
-  capability_implementation_allowed: false;
-  business_behavior_allowed: false;
-  runtime_adapter_allowed: false;
-  decision_refs: readonly string[];
-  control_metadata: Record<string, unknown>;
-  scaffold_evidence_digest: string;
-  evaluated_by_user_id: string;
+  configured_by_user_id: string;
   evaluated_at: string;
+  track_name: string;
+  track_code: string;
+  capacity_mode: EventSessionTrackCapacityMode;
+  sessions: readonly EventSessionDefinition[];
+  track_capacity?: number;
+  product_catalogue_ref?: string;
+  ticket_type_ref?: string;
+  paid_registration_enabled?: boolean;
+  registration_invoice_saga_ref?: string;
+  calendar_schedule?: {
+    enabled: boolean;
+    condition: 'workspace_calendar_active';
+    workspace_calendar_ref?: string;
+  };
+  control_metadata?: Record<string, unknown>;
+  product_catalogue_write_requested?: boolean;
+  finance_invoice_write_requested?: boolean;
+  payment_capture_requested?: boolean;
+  calendar_direct_write_requested?: boolean;
+  provider_adapter_requested?: boolean;
+  persistence_requested?: boolean;
+  schema_mutation_requested?: boolean;
+  frontend_requested?: boolean;
+};
+
+export type EventSessionTrackRuntimeReceipt = {
+  seed_id: typeof PHASE_6C_EVENT_SESSION_TRACK_SEED_ID;
+  component_id: typeof PHASE_6C_EVENT_SESSION_TRACK_COMPONENT_ID;
+  component_slug: 'events_configuration_and_registration_service';
+  model_name: 'Phase6CEventSessionTrack';
+  event_name: typeof EVENT_SESSION_TRACK_RUNTIME_EVENT;
+  organization_id: string;
+  service_manifest_contract_id: string;
+  event_configuration_id: string;
+  session_track_id: string;
+  source_record_ref: string;
+  configured_by_user_id: string;
+  evaluated_at: string;
+  normalized_track_code: string;
+  capacity_mode: EventSessionTrackCapacityMode;
+  session_count: number;
+  earliest_session_start: string;
+  latest_session_end: string;
+  fixed_track_capacity?: number;
+  total_session_capacity?: number;
+  product_catalogue_anchor_required: boolean;
+  product_catalogue_ref?: string;
+  ticket_type_ref?: string;
+  registration_invoice_saga_required: boolean;
+  registration_invoice_saga_ref?: string;
+  calendar_schedule_condition?: 'workspace_calendar_active';
+  calendar_target_ref?: string;
+  decision: EventSessionTrackDecision;
+  refs_events_only: true;
+  direct_cross_module_write_allowed: false;
+  provider_adapter_allowed: false;
+  persistence_performed: false;
+  schema_mutation_performed: false;
+  frontend_surface_created: false;
+  decision_refs: readonly string[];
+  adl_refs: readonly string[];
+  evidence_artifacts: readonly string[];
+  control_metadata: Record<string, unknown>;
+  event_session_track_runtime_digest: string;
 };
