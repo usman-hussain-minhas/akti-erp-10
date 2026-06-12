@@ -1,37 +1,97 @@
 import assert from 'node:assert/strict';
 
-import { evaluateRecurringEventRuleScaffold, type RecurringEventRuleScaffoldInput } from './recurring_event_rule.service';
+import { evaluateRecurringEventRule, type RecurringEventRuleInput } from './recurring_event_rule.service';
 
-const baseInput: RecurringEventRuleScaffoldInput = {
-  organization_id: 'org_phase_6c_control',
+const baseInput: RecurringEventRuleInput = {
+  organization_id: 'org_phase_6c_runtime',
   service_manifest_contract_id: 'smc_phase_6c_recurring_event_rule',
-  source_record_ref: 'recurring_event_rule_record_001',
-  evaluated_by_user_id: 'user_phase_6c_control',
+  rule_id: 'recurrence_rule_001',
+  source_record_ref: 'recurring_event_source_record_001',
+  requested_by_user_id: 'user_calendar_admin',
   evaluated_at: '2026-06-09T09:00:00.000Z',
-  control_metadata: { source: 'phase_6c_scaffold_control' },
+  frequency: 'WEEKLY',
+  interval: 1,
+  start_date: '2026-06-08',
+  occurrence_count: 4,
+  days_of_week: ['MONDAY', 'WEDNESDAY'],
+  preview_limit: 4,
 };
 
-const receipt = evaluateRecurringEventRuleScaffold(baseInput);
-assert.equal(receipt.seed_id, 'seed_6c_091_recurring_event_rule');
-assert.equal(receipt.component_id, '6C.07');
-assert.equal(receipt.component_slug, 'workspace_calendar_meetings_rooms_announcements');
-assert.equal(receipt.model_name, 'Phase6CRecurringEventRule');
-assert.equal(receipt.scaffold_status, 'SCAFFOLD_CONTROL_ONLY');
-assert.equal(receipt.capability_implementation_allowed, false);
-assert.equal(receipt.business_behavior_allowed, false);
-assert.equal(receipt.runtime_adapter_allowed, false);
-assert.match(receipt.scaffold_evidence_digest, /^[a-f0-9]{64}$/);
+const weeklyReceipt = evaluateRecurringEventRule(baseInput);
+assert.equal(weeklyReceipt.seed_id, 'seed_6c_091_recurring_event_rule');
+assert.equal(weeklyReceipt.component_id, '6C.07');
+assert.equal(weeklyReceipt.event_name, 'phase_6c.workspace_calendar_meetings_rooms_announcements.recurring_event_rule.runtime_evaluated');
+assert.equal(weeklyReceipt.decision, 'VALID_RULE_WITH_PREVIEW');
+assert.deepEqual(weeklyReceipt.normalized_rule.days_of_week, ['MONDAY', 'WEDNESDAY']);
+assert.deepEqual(weeklyReceipt.preview_occurrences.map((occurrence) => occurrence.local_date), [
+  '2026-06-08',
+  '2026-06-10',
+  '2026-06-15',
+  '2026-06-17',
+]);
+assert.equal(weeklyReceipt.calendar_write_executed, false);
+assert.equal(weeklyReceipt.provider_sync_executed, false);
+assert.equal(weeklyReceipt.runtime_adapter_executed, false);
+assert.equal(weeklyReceipt.persistence_executed, false);
+assert.deepEqual(weeklyReceipt.decision_refs, ['6C-CAL-009']);
+assert.match(weeklyReceipt.runtime_evidence_digest, /^[a-f0-9]{64}$/);
 
-const repeatedReceipt = evaluateRecurringEventRuleScaffold(baseInput);
-assert.equal(repeatedReceipt.scaffold_evidence_digest, receipt.scaffold_evidence_digest);
+const repeatedReceipt = evaluateRecurringEventRule(baseInput);
+assert.equal(repeatedReceipt.runtime_evidence_digest, weeklyReceipt.runtime_evidence_digest);
 
-assert.throws(() => evaluateRecurringEventRuleScaffold({ ...baseInput, organization_id: ' ' }), /organization_id is required/);
-assert.throws(() => evaluateRecurringEventRuleScaffold({ ...baseInput, service_manifest_contract_id: '' }), /service_manifest_contract_id is required/);
-assert.throws(() => evaluateRecurringEventRuleScaffold({ ...baseInput, source_record_ref: '' }), /source_record_ref is required/);
-assert.throws(() => evaluateRecurringEventRuleScaffold({ ...baseInput, evaluated_by_user_id: '' }), /evaluated_by_user_id is required/);
-assert.throws(() => evaluateRecurringEventRuleScaffold({ ...baseInput, evaluated_at: 'not-a-date' }), /evaluated_at must be a valid ISO-compatible timestamp/);
-assert.throws(() => evaluateRecurringEventRuleScaffold({ ...baseInput, capability_execution_requested: true }), /must not execute capability behavior/);
-assert.throws(() => evaluateRecurringEventRuleScaffold({ ...baseInput, business_behavior_requested: true }), /must not execute business behavior/);
-assert.throws(() => evaluateRecurringEventRuleScaffold({ ...baseInput, runtime_adapter_requested: true }), /must not execute runtime adapter behavior/);
+const dailyReceipt = evaluateRecurringEventRule({
+  ...baseInput,
+  rule_id: 'recurrence_rule_daily',
+  frequency: 'DAILY',
+  interval: 2,
+  start_date: '2026-06-08',
+  occurrence_count: 3,
+  days_of_week: ['FRIDAY'],
+});
+assert.deepEqual(dailyReceipt.normalized_rule.days_of_week, []);
+assert.deepEqual(dailyReceipt.preview_occurrences.map((occurrence) => occurrence.local_date), [
+  '2026-06-08',
+  '2026-06-10',
+  '2026-06-12',
+]);
 
-console.log('P6C scaffold-control recurring_event_rule test passed.');
+const monthlyReceipt = evaluateRecurringEventRule({
+  ...baseInput,
+  rule_id: 'recurrence_rule_monthly',
+  frequency: 'MONTHLY',
+  interval: 1,
+  start_date: '2026-01-31',
+  occurrence_count: 3,
+  days_of_week: undefined,
+});
+assert.deepEqual(monthlyReceipt.preview_occurrences.map((occurrence) => occurrence.local_date), [
+  '2026-01-31',
+  '2026-02-28',
+  '2026-03-31',
+]);
+
+const emptyReceipt = evaluateRecurringEventRule({
+  ...baseInput,
+  rule_id: 'recurrence_rule_empty',
+  start_date: '2026-06-08',
+  end_date: '2026-06-08',
+  days_of_week: ['TUESDAY'],
+  occurrence_count: undefined,
+  preview_limit: 1,
+});
+assert.equal(emptyReceipt.decision, 'VALID_RULE_WITH_EMPTY_PREVIEW');
+
+assert.throws(() => evaluateRecurringEventRule({ ...baseInput, organization_id: ' ' }), /organization_id is required/);
+assert.throws(() => evaluateRecurringEventRule({ ...baseInput, evaluated_at: 'not-a-date' }), /evaluated_at must be a valid ISO-compatible timestamp/);
+assert.throws(() => evaluateRecurringEventRule({ ...baseInput, frequency: 'YEARLY' as never }), /unsupported value YEARLY/);
+assert.throws(() => evaluateRecurringEventRule({ ...baseInput, interval: 0 }), /interval must be an integer between 1 and 24/);
+assert.throws(() => evaluateRecurringEventRule({ ...baseInput, preview_limit: 0 }), /preview_limit must be an integer between 1 and 52/);
+assert.throws(() => evaluateRecurringEventRule({ ...baseInput, start_date: '2026-02-30' }), /start_date must be a valid calendar date/);
+assert.throws(() => evaluateRecurringEventRule({ ...baseInput, days_of_week: ['FUNDAY' as never] }), /unsupported day FUNDAY/);
+assert.throws(() => evaluateRecurringEventRule({ ...baseInput, end_date: '2026-06-01' }), /end_date must be on or after start_date/);
+assert.throws(() => evaluateRecurringEventRule({ ...baseInput, calendar_write_requested: true }), /must not write calendar events/);
+assert.throws(() => evaluateRecurringEventRule({ ...baseInput, provider_sync_requested: true }), /must not execute provider sync/);
+assert.throws(() => evaluateRecurringEventRule({ ...baseInput, persistence_requested: true }), /must not persist recurrence state/);
+assert.throws(() => evaluateRecurringEventRule({ ...baseInput, runtime_adapter_requested: true }), /must not execute runtime adapters/);
+
+console.log('P6C runtime recurring_event_rule test passed.');
