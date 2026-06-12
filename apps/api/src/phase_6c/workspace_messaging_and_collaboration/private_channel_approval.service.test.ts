@@ -1,37 +1,136 @@
-import assert from 'node:assert/strict';
+import assert from "node:assert/strict";
+import { evaluatePrivateChannelApproval } from "./private_channel_approval.service";
 
-import { evaluatePrivateChannelApprovalScaffold, type PrivateChannelApprovalScaffoldInput } from './private_channel_approval.service';
+function baseInput() {
+  return {
+    organization_id: "org_1",
+    service_manifest_contract_id: "seed_6a_service_manifest_contract",
+    source_record_ref: "private_channel_approval:evidence:1",
+    workspace_ref: "workspace_1",
+    requested_channel_ref: "private_channel_request_1",
+    requested_channel_name: "Payroll escalations",
+    business_justification: "Sensitive payroll discussion",
+    initial_member_refs: ["user_1", "user_2"],
+    requested_at: "2026-06-11T09:00:00.000Z",
+    evaluated_by_user_id: "policy_evaluator",
+    evaluated_at: "2026-06-11T10:00:00.000Z",
+    policy: {
+      policy_ref: "policy_1",
+      mode: "AUTO_APPROVE_WHEN_POLICY_MATCHES" as const,
+      allowed_requester_role_refs: ["role_workspace_admin"],
+      allowed_requester_team_refs: ["team_people_ops"],
+      required_approver_role_refs: ["role_workspace_admin"],
+      require_business_justification: true,
+      max_initial_member_count: 5,
+    },
+    requester_context: {
+      requester_user_ref: "user_1",
+      requester_person_ref: "person_1",
+      requester_employee_ref: "employee_1",
+      access_core_role_refs: ["role_workspace_admin"],
+      employee_team_refs: [],
+      evidence_refs: ["access:evidence:1", "employee_team:evidence:1"],
+    },
+  };
+}
 
-const baseInput: PrivateChannelApprovalScaffoldInput = {
-  organization_id: 'org_phase_6c_control',
-  service_manifest_contract_id: 'smc_phase_6c_private_channel_approval',
-  source_record_ref: 'private_channel_approval_record_001',
-  evaluated_by_user_id: 'user_phase_6c_control',
-  evaluated_at: '2026-06-09T09:00:00.000Z',
-  control_metadata: { source: 'phase_6c_scaffold_control' },
-};
+const approved = evaluatePrivateChannelApproval(baseInput());
+assert.equal(approved.decision, "PRIVATE_CHANNEL_APPROVED");
+assert.equal(approved.requester_policy_matched, true);
+assert.equal(approved.approver_policy_matched, true);
+assert.deepEqual(approved.matched_requester_role_refs, ["role_workspace_admin"]);
+assert.equal(approved.channel_creation_performed, false);
+assert.equal(approved.membership_mutation_performed, false);
+assert.equal(approved.notification_send_performed, false);
+assert.deepEqual(approved.decision_refs, ["6C-WORK-MSG-011", "6C-GLOBAL-018"]);
+assert.match(approved.deterministic_digest, /^[a-f0-9]{64}$/);
 
-const receipt = evaluatePrivateChannelApprovalScaffold(baseInput);
-assert.equal(receipt.seed_id, 'seed_6c_065_private_channel_approval');
-assert.equal(receipt.component_id, '6C.05');
-assert.equal(receipt.component_slug, 'workspace_messaging_and_collaboration');
-assert.equal(receipt.model_name, 'Phase6CPrivateChannelApproval');
-assert.equal(receipt.scaffold_status, 'SCAFFOLD_CONTROL_ONLY');
-assert.equal(receipt.capability_implementation_allowed, false);
-assert.equal(receipt.business_behavior_allowed, false);
-assert.equal(receipt.runtime_adapter_allowed, false);
-assert.match(receipt.scaffold_evidence_digest, /^[a-f0-9]{64}$/);
+const repeat = evaluatePrivateChannelApproval(baseInput());
+assert.equal(repeat.deterministic_digest, approved.deterministic_digest);
 
-const repeatedReceipt = evaluatePrivateChannelApprovalScaffold(baseInput);
-assert.equal(repeatedReceipt.scaffold_evidence_digest, receipt.scaffold_evidence_digest);
+const pending = evaluatePrivateChannelApproval({
+  ...baseInput(),
+  policy: {
+    ...baseInput().policy,
+    mode: "REQUIRE_APPROVAL",
+  },
+});
+assert.equal(pending.decision, "PRIVATE_CHANNEL_PENDING_APPROVAL");
+assert.deepEqual(pending.review_reasons, ["approval_action_required"]);
 
-assert.throws(() => evaluatePrivateChannelApprovalScaffold({ ...baseInput, organization_id: ' ' }), /organization_id is required/);
-assert.throws(() => evaluatePrivateChannelApprovalScaffold({ ...baseInput, service_manifest_contract_id: '' }), /service_manifest_contract_id is required/);
-assert.throws(() => evaluatePrivateChannelApprovalScaffold({ ...baseInput, source_record_ref: '' }), /source_record_ref is required/);
-assert.throws(() => evaluatePrivateChannelApprovalScaffold({ ...baseInput, evaluated_by_user_id: '' }), /evaluated_by_user_id is required/);
-assert.throws(() => evaluatePrivateChannelApprovalScaffold({ ...baseInput, evaluated_at: 'not-a-date' }), /evaluated_at must be a valid ISO-compatible timestamp/);
-assert.throws(() => evaluatePrivateChannelApprovalScaffold({ ...baseInput, capability_execution_requested: true }), /must not execute capability behavior/);
-assert.throws(() => evaluatePrivateChannelApprovalScaffold({ ...baseInput, business_behavior_requested: true }), /must not execute business behavior/);
-assert.throws(() => evaluatePrivateChannelApprovalScaffold({ ...baseInput, runtime_adapter_requested: true }), /must not execute runtime adapter behavior/);
+const approvedByApprover = evaluatePrivateChannelApproval({
+  ...baseInput(),
+  policy: {
+    ...baseInput().policy,
+    mode: "REQUIRE_APPROVAL",
+  },
+  approval_action: {
+    approver_user_ref: "approver_1",
+    approver_role_refs: ["role_workspace_admin"],
+    decision: "APPROVED" as const,
+    reason: "Scoped to payroll operators",
+    evidence_ref: "approval:evidence:1",
+  },
+});
+assert.equal(approvedByApprover.decision, "PRIVATE_CHANNEL_APPROVED");
+assert.deepEqual(approvedByApprover.matched_approver_role_refs, ["role_workspace_admin"]);
 
-console.log('P6C scaffold-control private_channel_approval test passed.');
+const denied = evaluatePrivateChannelApproval({
+  ...baseInput(),
+  policy: {
+    ...baseInput().policy,
+    mode: "DISABLED",
+  },
+});
+assert.equal(denied.decision, "PRIVATE_CHANNEL_DENIED");
+assert.deepEqual(denied.deny_reasons, ["private_channel_requests_disabled_by_policy"]);
+
+const review = evaluatePrivateChannelApproval({
+  ...baseInput(),
+  business_justification: " ",
+  initial_member_refs: ["user_1", "user_2", "user_3", "user_4", "user_5", "user_6"],
+  requester_context: {
+    ...baseInput().requester_context,
+    access_core_role_refs: [],
+    employee_team_refs: [],
+  },
+});
+assert.equal(review.decision, "PRIVATE_CHANNEL_REVIEW_REQUIRED");
+assert.deepEqual(review.review_reasons, [
+  "business_justification_required",
+  "initial_member_count_exceeds_policy",
+  "requester_role_or_team_not_policy_matched",
+]);
+
+assert.throws(
+  () => evaluatePrivateChannelApproval({ ...baseInput(), channel_creation_requested: true }),
+  /private channel creation is outside this FFET/,
+);
+assert.throws(
+  () => evaluatePrivateChannelApproval({ ...baseInput(), gatekeeper_bypass_requested: true }),
+  /Gatekeeper bypass is forbidden/,
+);
+assert.throws(
+  () =>
+    evaluatePrivateChannelApproval({
+      ...baseInput(),
+      policy: { ...baseInput().policy, mode: "OPEN" as never },
+    }),
+  /policy.mode is not supported/,
+);
+assert.throws(
+  () =>
+    evaluatePrivateChannelApproval({
+      ...baseInput(),
+      approval_action: {
+        approver_user_ref: "approver_1",
+        approver_role_refs: [],
+        decision: "APPROVED",
+        reason: " ",
+        evidence_ref: "approval:evidence:1",
+      },
+    }),
+  /approval_action.reason must be a non-empty string/,
+);
+
+console.log("private_channel_approval.service.test passed");
