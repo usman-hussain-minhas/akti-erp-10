@@ -19,7 +19,7 @@ ratifier: Usman Hussain
 
 **Company:** HAUTM. **Product:** Esbla Spark. **Documentation suite:** v5.0.
 **Supersedes:** Blueprint v3, v2, v1 (moved to legacy). v3.1 is a consistency-and-review patch incorporating the accepted findings of the v3 review; it is not a conceptual redraft. The suite version is v5.0; this file's version is v3.1 — the metadata standard separates the two.
-**v3.1 changelog:** (1) v5.0 suite frontmatter, source-of-truth bridge, and active Phase 6C continuity rule added; (2) P-25 employment cross-context crossing disabled by default pending counsel and T&S review; (3) P-20 bond cap made market-specific in local currency; (4) "white-label" wording replaced with "agency-branded client editor with mandatory Esbla Spark platform identity"; (5) marketplace GMV/AOV gate now requires a recorded sufficiency decision; (6) risk rows 21–27 added (cross-tenant leak, chargeback spiral, BYO-API leak, trustee abuse, refactor breakage, metadata drift, stale-document authority); (7) parameter registry fixes (P-04 window, P-09 wording, P-10 provisional default, P-13 "greater of"); (8) Scope C non-commitment wording de-contradicted. **Declined from the v3 review (logged):** renaming this file to v5.0 — the suite carries v5.0 per founder ruling; Phase 7–10 renumbering — Phase 9 is restored as Marketplace / Trust Layer and Phase 10 becomes Intelligence Scale / Ecosystem Expansion.
+**v3.1 changelog:** (1) v5.0 suite frontmatter, source-of-truth bridge, and active Phase 6C continuity rule added; (2) P-25 employment cross-context crossing disabled by default pending counsel and T&S review; (3) P-20 bond cap made market-specific in local currency; (4) "white-label" wording replaced with "agency-branded client editor with mandatory Esbla Spark platform identity"; (5) marketplace GMV/AOV gate now requires a recorded sufficiency decision; (6) risk rows 21–27 added (cross-tenant leak, chargeback spiral, BYO-API leak, trustee abuse, refactor breakage, metadata drift, stale-document authority); (7) parameter registry fixes (P-04 window, P-09 wording, P-10 provisional default, P-13 "greater of"); (8) Scope C non-commitment wording de-contradicted; (9) marketplace renumbered from Phase 10 to Phase 9 to close the post-6F sequence gap; there is no Phase 10. **Declined from the v3 review (logged):** renaming this file to v5.0 — the suite carries v5.0 per founder ruling.
 **Status:** For ratification per Part 0.
 
 ---
@@ -253,7 +253,7 @@ Carried from v2 (tenant operations, freelancer toolkit, client hiring, job-seeke
 
 ### IX.1 Phases
 
-6A → 6B → 6C → 6D → 6E (campaign scope = cross-platform attribution + internal outbound; Scope C deferred; **Phase 9 restored — locked**) → 6F → foundations transition (runtime wiring completion, doc-as-SOT activation, doctrine ratification) → Phase 7 wedge → Phase 8 (demand-gated) → Phase 10 (gate-controlled).
+6A → 6B → 6C → 6D → 6E (campaign scope = cross-platform attribution + internal outbound; Scope C deferred; campaigns are not a standalone phase and remain folded into 6E.03) → 6F → foundations transition (runtime wiring completion, doc-as-SOT activation, doctrine ratification) → Phase 7 wedge → Phase 8 (demand-gated) → Phase 9 marketplace/trust layer (gate-controlled).
 
 ### IX.2 Artifact plan and source-of-truth reconciliation
 
@@ -396,7 +396,7 @@ These are strategic defaults, changeable only through the XIII.3 decision-gate p
 | Non-commitment | Revisit trigger |
 |---|---|
 | No enterprise sales motion | Sustained inbound enterprise demand after R3, evaluated at a gate |
-| No campaign Scope C (AI ad creation); Phase 9 restored | Phase 9 is restored as Marketplace / Trust Layer. Scope C is reconsidered only through a XIII.3 gate (AI capability maturity plus documented demand) |
+| No standalone campaign phase; Scope C remains deferred | Campaigns are not a standalone phase and remain folded into 6E.03. Marketplace / Trust Layer is Phase 9. Scope C is reconsidered only through a XIII.3 gate (AI capability maturity plus documented demand) |
 | No native mobile apps v1 | Measured PWA limitations blocking adoption |
 | No Web3 activation | Existing XIII.3 gate |
 | No full EOR infrastructure v1 | ≥10 tenants requesting compliant cross-border employment |
