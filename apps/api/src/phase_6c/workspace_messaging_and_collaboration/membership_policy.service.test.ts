@@ -1,37 +1,130 @@
-import assert from 'node:assert/strict';
+import assert from "node:assert/strict";
+import { evaluateMembershipPolicy } from "./membership_policy.service";
 
-import { evaluateMembershipPolicyScaffold, type MembershipPolicyScaffoldInput } from './membership_policy.service';
+function baseInput() {
+  return {
+    organization_id: "org_1",
+    service_manifest_contract_id: "seed_6a_service_manifest_contract",
+    source_record_ref: "membership_policy:evidence:1",
+    workspace_ref: "workspace_1",
+    resource_ref: "channel_1",
+    evaluated_by_user_id: "policy_evaluator",
+    evaluated_at: "2026-06-11T10:00:00.000Z",
+    policy: {
+      policy_ref: "policy_1",
+      mode: "ANY_ROLE_OR_TEAM" as const,
+      allowed_role_refs: ["role_workspace_admin", "role_workspace_member"],
+      denied_role_refs: ["role_suspended_workspace"],
+      allowed_team_refs: ["team_ops"],
+      required_team_refs: [],
+      require_active_employee: true,
+    },
+    candidates: [
+      {
+        principal_ref: "principal_1",
+        person_ref: "person_1",
+        employee_ref: "employee_1",
+        access_core_role_refs: ["role_workspace_member"],
+        employee_team_refs: [],
+        employee_status: "ACTIVE" as const,
+        evidence_refs: ["access:evidence:1", "team:evidence:1"],
+      },
+    ],
+  };
+}
 
-const baseInput: MembershipPolicyScaffoldInput = {
-  organization_id: 'org_phase_6c_control',
-  service_manifest_contract_id: 'smc_phase_6c_membership_policy',
-  source_record_ref: 'membership_policy_record_001',
-  evaluated_by_user_id: 'user_phase_6c_control',
-  evaluated_at: '2026-06-09T09:00:00.000Z',
-  control_metadata: { source: 'phase_6c_scaffold_control' },
-};
+const granted = evaluateMembershipPolicy(baseInput());
+assert.equal(granted.grant_count, 1);
+assert.equal(granted.deny_count, 0);
+assert.equal(granted.review_count, 0);
+assert.equal(granted.evaluations[0]?.decision, "MEMBERSHIP_GRANTED");
+assert.deepEqual(granted.evaluations[0]?.matched_role_refs, ["role_workspace_member"]);
+assert.equal(granted.access_core_mutation_performed, false);
+assert.equal(granted.employee_team_mutation_performed, false);
+assert.equal(granted.workspace_membership_mutation_performed, false);
+assert.deepEqual(granted.decision_refs, ["6C-WORK-MSG-010", "6C-GLOBAL-018"]);
+assert.match(granted.deterministic_digest, /^[a-f0-9]{64}$/);
 
-const receipt = evaluateMembershipPolicyScaffold(baseInput);
-assert.equal(receipt.seed_id, 'seed_6c_064_membership_policy');
-assert.equal(receipt.component_id, '6C.05');
-assert.equal(receipt.component_slug, 'workspace_messaging_and_collaboration');
-assert.equal(receipt.model_name, 'Phase6CMembershipPolicy');
-assert.equal(receipt.scaffold_status, 'SCAFFOLD_CONTROL_ONLY');
-assert.equal(receipt.capability_implementation_allowed, false);
-assert.equal(receipt.business_behavior_allowed, false);
-assert.equal(receipt.runtime_adapter_allowed, false);
-assert.match(receipt.scaffold_evidence_digest, /^[a-f0-9]{64}$/);
+const repeat = evaluateMembershipPolicy(baseInput());
+assert.equal(repeat.deterministic_digest, granted.deterministic_digest);
 
-const repeatedReceipt = evaluateMembershipPolicyScaffold(baseInput);
-assert.equal(repeatedReceipt.scaffold_evidence_digest, receipt.scaffold_evidence_digest);
+const denied = evaluateMembershipPolicy({
+  ...baseInput(),
+  candidates: [
+    {
+      ...baseInput().candidates[0],
+      principal_ref: "principal_2",
+      access_core_role_refs: ["role_suspended_workspace"],
+      employee_status: "SUSPENDED",
+    },
+  ],
+});
+assert.equal(denied.deny_count, 1);
+assert.equal(denied.evaluations[0]?.decision, "MEMBERSHIP_DENIED");
+assert.deepEqual(denied.evaluations[0]?.deny_reasons, [
+  "denied_role:role_suspended_workspace",
+  "employee_status:SUSPENDED",
+]);
 
-assert.throws(() => evaluateMembershipPolicyScaffold({ ...baseInput, organization_id: ' ' }), /organization_id is required/);
-assert.throws(() => evaluateMembershipPolicyScaffold({ ...baseInput, service_manifest_contract_id: '' }), /service_manifest_contract_id is required/);
-assert.throws(() => evaluateMembershipPolicyScaffold({ ...baseInput, source_record_ref: '' }), /source_record_ref is required/);
-assert.throws(() => evaluateMembershipPolicyScaffold({ ...baseInput, evaluated_by_user_id: '' }), /evaluated_by_user_id is required/);
-assert.throws(() => evaluateMembershipPolicyScaffold({ ...baseInput, evaluated_at: 'not-a-date' }), /evaluated_at must be a valid ISO-compatible timestamp/);
-assert.throws(() => evaluateMembershipPolicyScaffold({ ...baseInput, capability_execution_requested: true }), /must not execute capability behavior/);
-assert.throws(() => evaluateMembershipPolicyScaffold({ ...baseInput, business_behavior_requested: true }), /must not execute business behavior/);
-assert.throws(() => evaluateMembershipPolicyScaffold({ ...baseInput, runtime_adapter_requested: true }), /must not execute runtime adapter behavior/);
+const review = evaluateMembershipPolicy({
+  ...baseInput(),
+  policy: {
+    ...baseInput().policy,
+    mode: "ROLE_AND_TEAM",
+    required_team_refs: ["team_ops"],
+  },
+  candidates: [
+    {
+      ...baseInput().candidates[0],
+      access_core_role_refs: ["role_workspace_member"],
+      employee_team_refs: [],
+    },
+  ],
+});
+assert.equal(review.review_count, 1);
+assert.equal(review.evaluations[0]?.decision, "MEMBERSHIP_REVIEW_REQUIRED");
+assert.deepEqual(review.evaluations[0]?.missing_required_team_refs, ["team_ops"]);
+assert.deepEqual(review.evaluations[0]?.review_reasons, ["missing_required_team:team_ops", "no_access_role_or_employee_team_match"]);
 
-console.log('P6C scaffold-control membership_policy test passed.');
+const teamGrant = evaluateMembershipPolicy({
+  ...baseInput(),
+  policy: {
+    ...baseInput().policy,
+    mode: "REQUIRED_TEAMS_ONLY",
+    allowed_role_refs: [],
+    allowed_team_refs: [],
+    required_team_refs: ["team_ops"],
+  },
+  candidates: [
+    {
+      ...baseInput().candidates[0],
+      access_core_role_refs: [],
+      employee_team_refs: ["team_ops"],
+    },
+  ],
+});
+assert.equal(teamGrant.evaluations[0]?.decision, "MEMBERSHIP_GRANTED");
+assert.deepEqual(teamGrant.evaluations[0]?.matched_team_refs, ["team_ops"]);
+
+assert.throws(
+  () => evaluateMembershipPolicy({ ...baseInput(), gatekeeper_bypass_requested: true }),
+  /Gatekeeper bypass is forbidden/,
+);
+assert.throws(
+  () => evaluateMembershipPolicy({ ...baseInput(), workspace_membership_mutation_requested: true }),
+  /workspace membership mutation is outside this FFET/,
+);
+assert.throws(
+  () =>
+    evaluateMembershipPolicy({
+      ...baseInput(),
+      policy: { ...baseInput().policy, mode: "EVERYONE" as never },
+    }),
+  /policy.mode is not supported/,
+);
+assert.throws(
+  () => evaluateMembershipPolicy({ ...baseInput(), candidates: [] }),
+  /candidates must contain at least one membership candidate/,
+);
+
+console.log("membership_policy.service.test passed");
