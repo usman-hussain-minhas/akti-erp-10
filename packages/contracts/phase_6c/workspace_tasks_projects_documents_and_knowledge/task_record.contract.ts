@@ -1,35 +1,101 @@
 export const PHASE_6C_TASK_RECORD_SEED_ID = "seed_6c_070_task_record" as const;
 export const PHASE_6C_TASK_RECORD_COMPONENT_ID = "6C.06" as const;
-export const TASK_RECORD_SCAFFOLD_EVENT = "phase_6c.workspace_tasks_projects_documents_and_knowledge.task_record.scaffold_control_evaluated" as const;
+export const TASK_RECORD_EVALUATED_EVENT = "phase_6c.workspace_tasks_projects_documents_and_knowledge.task_record.evaluated" as const;
 
-export type TaskRecordScaffoldInput = {
+export const taskRecordStatuses = ["DRAFT", "OPEN", "IN_PROGRESS", "BLOCKED", "DONE", "CANCELLED"] as const;
+export const taskRecordPriorities = ["LOW", "NORMAL", "HIGH", "URGENT"] as const;
+export const taskRecordVisibilities = ["PRIVATE", "TEAM", "WORKSPACE"] as const;
+export const taskRecordDecisions = ["TASK_RECORD_READY", "TASK_RECORD_REQUIRES_REVIEW", "TASK_RECORD_REJECTED"] as const;
+
+export type TaskRecordStatus = (typeof taskRecordStatuses)[number];
+export type TaskRecordPriority = (typeof taskRecordPriorities)[number];
+export type TaskRecordVisibility = (typeof taskRecordVisibilities)[number];
+export type TaskRecordDecision = (typeof taskRecordDecisions)[number];
+
+export type TaskRecordInput = {
   organization_id: string;
   service_manifest_contract_id: string;
   source_record_ref: string;
+  task_ref: string;
+  title: string;
+  description?: string;
+  status: TaskRecordStatus;
+  priority: TaskRecordPriority;
+  visibility: TaskRecordVisibility;
+  owner_user_ref: string;
+  assignee_user_refs?: readonly string[];
+  watcher_user_refs?: readonly string[];
+  team_refs?: readonly string[];
+  workspace_ref?: string;
+  project_ref?: string;
+  parent_task_ref?: string;
+  external_ref?: string;
+  start_at?: string;
+  due_at?: string;
+  completed_at?: string;
+  blocked_reason?: string;
+  tags?: readonly string[];
+  evidence_refs?: readonly string[];
   evaluated_by_user_id: string;
   evaluated_at: string;
-  control_metadata?: Record<string, unknown>;
-  capability_execution_requested?: boolean;
-  business_behavior_requested?: boolean;
+  persistence_requested?: boolean;
+  notification_send_requested?: boolean;
+  workflow_transition_requested?: boolean;
   runtime_adapter_requested?: boolean;
+  schema_mutation_requested?: boolean;
+  cross_phase_write_requested?: boolean;
+  frontend_publication_requested?: boolean;
+  ticket_flag_flip_requested?: boolean;
 };
 
-export type TaskRecordScaffoldReceipt = {
+export type NormalizedTaskRecord = {
+  task_ref: string;
+  title: string;
+  description: string | null;
+  status: TaskRecordStatus;
+  priority: TaskRecordPriority;
+  visibility: TaskRecordVisibility;
+  owner_user_ref: string;
+  assignee_user_refs: readonly string[];
+  watcher_user_refs: readonly string[];
+  team_refs: readonly string[];
+  workspace_ref: string | null;
+  project_ref: string | null;
+  parent_task_ref: string | null;
+  external_ref: string | null;
+  start_at: string | null;
+  due_at: string | null;
+  completed_at: string | null;
+  blocked_reason: string | null;
+  tags: readonly string[];
+};
+
+export type TaskRecordReceipt = {
   seed_id: typeof PHASE_6C_TASK_RECORD_SEED_ID;
   component_id: typeof PHASE_6C_TASK_RECORD_COMPONENT_ID;
   component_slug: "workspace_tasks_projects_documents_and_knowledge";
   model_name: "Phase6CTaskRecord";
-  event_name: typeof TASK_RECORD_SCAFFOLD_EVENT;
+  event_name: typeof TASK_RECORD_EVALUATED_EVENT;
   organization_id: string;
   service_manifest_contract_id: string;
   source_record_ref: string;
-  scaffold_status: 'SCAFFOLD_CONTROL_ONLY';
-  capability_implementation_allowed: false;
-  business_behavior_allowed: false;
-  runtime_adapter_allowed: false;
+  decision: TaskRecordDecision;
+  normalized_task: NormalizedTaskRecord;
+  review_reasons: readonly string[];
+  rejection_reasons: readonly string[];
+  evidence_artifacts: readonly string[];
   decision_refs: readonly string[];
-  control_metadata: Record<string, unknown>;
-  scaffold_evidence_digest: string;
+  capability_implementation_allowed: true;
+  business_behavior_allowed: true;
+  runtime_adapter_allowed: false;
+  persistence_performed: false;
+  notification_sent: false;
+  workflow_transition_performed: false;
+  schema_mutation_performed: false;
+  cross_phase_write_performed: false;
+  frontend_publication_performed: false;
+  ticket_flags_changed: false;
+  task_record_evidence_digest: string;
   evaluated_by_user_id: string;
   evaluated_at: string;
 };
