@@ -1,37 +1,103 @@
-import assert from 'node:assert/strict';
+import assert from "node:assert/strict";
+import { evaluateCrossModuleChannelRef } from "./cross_module_channel_ref.service";
 
-import { evaluateCrossModuleChannelRefScaffold, type CrossModuleChannelRefScaffoldInput } from './cross_module_channel_ref.service';
+function baseInput() {
+  return {
+    organization_id: "org_1",
+    service_manifest_contract_id: "seed_6a_service_manifest_contract",
+    source_record_ref: "cross_module_channel_ref:evidence:1",
+    workspace_ref: "workspace_1",
+    channel_ref: "channel_1",
+    channel_name: "Event coordination",
+    evaluated_by_user_id: "ref_evaluator",
+    evaluated_at: "2026-06-11T10:00:00.000Z",
+    registered_refs: [
+      {
+        registered_ref: "registered_event_module",
+        module_key: "phase-6c.event-registrations",
+        capability_surface: "phase_6c.event_registrations.event_workspace_context",
+        evidence_ref: "registered:evidence:1",
+      },
+    ],
+    requested_refs: [
+      {
+        link_ref: "link_1",
+        registered_ref: "registered_event_module",
+        module_key: "phase-6c.event-registrations",
+        module_record_ref: "event_1",
+        relation: "CONTEXT_CHANNEL" as const,
+        evidence_ref: "link:evidence:1",
+      },
+    ],
+  };
+}
 
-const baseInput: CrossModuleChannelRefScaffoldInput = {
-  organization_id: 'org_phase_6c_control',
-  service_manifest_contract_id: 'smc_phase_6c_cross_module_channel_ref',
-  source_record_ref: 'cross_module_channel_ref_record_001',
-  evaluated_by_user_id: 'user_phase_6c_control',
-  evaluated_at: '2026-06-09T09:00:00.000Z',
-  control_metadata: { source: 'phase_6c_scaffold_control' },
-};
+const ready = evaluateCrossModuleChannelRef(baseInput());
+assert.equal(ready.decision, "CHANNEL_REFS_READY");
+assert.equal(ready.requested_ref_count, 1);
+assert.equal(ready.accepted_ref_count, 1);
+assert.equal(ready.rejected_ref_count, 0);
+assert.equal(ready.normalized_refs[0]?.capability_surface, "phase_6c.event_registrations.event_workspace_context");
+assert.equal(ready.module_mutation_performed, false);
+assert.equal(ready.direct_cross_module_query_performed, false);
+assert.equal(ready.runtime_adapter_performed, false);
+assert.deepEqual(ready.decision_refs, ["6C-WORK-MSG-012", "6C-GLOBAL-018"]);
+assert.match(ready.deterministic_digest, /^[a-f0-9]{64}$/);
 
-const receipt = evaluateCrossModuleChannelRefScaffold(baseInput);
-assert.equal(receipt.seed_id, 'seed_6c_066_cross_module_channel_ref');
-assert.equal(receipt.component_id, '6C.05');
-assert.equal(receipt.component_slug, 'workspace_messaging_and_collaboration');
-assert.equal(receipt.model_name, 'Phase6CCrossModuleChannelRef');
-assert.equal(receipt.scaffold_status, 'SCAFFOLD_CONTROL_ONLY');
-assert.equal(receipt.capability_implementation_allowed, false);
-assert.equal(receipt.business_behavior_allowed, false);
-assert.equal(receipt.runtime_adapter_allowed, false);
-assert.match(receipt.scaffold_evidence_digest, /^[a-f0-9]{64}$/);
+const repeat = evaluateCrossModuleChannelRef(baseInput());
+assert.equal(repeat.deterministic_digest, ready.deterministic_digest);
 
-const repeatedReceipt = evaluateCrossModuleChannelRefScaffold(baseInput);
-assert.equal(repeatedReceipt.scaffold_evidence_digest, receipt.scaffold_evidence_digest);
+const review = evaluateCrossModuleChannelRef({
+  ...baseInput(),
+  requested_refs: [
+    {
+      ...baseInput().requested_refs[0],
+      registered_ref: "missing_registration",
+    },
+  ],
+});
+assert.equal(review.decision, "CHANNEL_REFS_REQUIRE_REVIEW");
+assert.equal(review.accepted_ref_count, 0);
+assert.deepEqual(review.review_reasons, ["unregistered_ref:missing_registration"]);
 
-assert.throws(() => evaluateCrossModuleChannelRefScaffold({ ...baseInput, organization_id: ' ' }), /organization_id is required/);
-assert.throws(() => evaluateCrossModuleChannelRefScaffold({ ...baseInput, service_manifest_contract_id: '' }), /service_manifest_contract_id is required/);
-assert.throws(() => evaluateCrossModuleChannelRefScaffold({ ...baseInput, source_record_ref: '' }), /source_record_ref is required/);
-assert.throws(() => evaluateCrossModuleChannelRefScaffold({ ...baseInput, evaluated_by_user_id: '' }), /evaluated_by_user_id is required/);
-assert.throws(() => evaluateCrossModuleChannelRefScaffold({ ...baseInput, evaluated_at: 'not-a-date' }), /evaluated_at must be a valid ISO-compatible timestamp/);
-assert.throws(() => evaluateCrossModuleChannelRefScaffold({ ...baseInput, capability_execution_requested: true }), /must not execute capability behavior/);
-assert.throws(() => evaluateCrossModuleChannelRefScaffold({ ...baseInput, business_behavior_requested: true }), /must not execute business behavior/);
-assert.throws(() => evaluateCrossModuleChannelRefScaffold({ ...baseInput, runtime_adapter_requested: true }), /must not execute runtime adapter behavior/);
+const blocked = evaluateCrossModuleChannelRef({
+  ...baseInput(),
+  requested_refs: [baseInput().requested_refs[0], { ...baseInput().requested_refs[0] }],
+});
+assert.equal(blocked.decision, "CHANNEL_REFS_BLOCKED");
+assert.deepEqual(blocked.blockers, ["duplicate_link_ref:link_1"]);
 
-console.log('P6C scaffold-control cross_module_channel_ref test passed.');
+const mismatch = evaluateCrossModuleChannelRef({
+  ...baseInput(),
+  requested_refs: [
+    {
+      ...baseInput().requested_refs[0],
+      module_key: "phase-6b.crm",
+    },
+  ],
+});
+assert.equal(mismatch.decision, "CHANNEL_REFS_REQUIRE_REVIEW");
+assert.deepEqual(mismatch.review_reasons, ["module_key_mismatch:link_1"]);
+
+assert.throws(
+  () => evaluateCrossModuleChannelRef({ ...baseInput(), module_mutation_requested: true }),
+  /module mutation is outside this FFET/,
+);
+assert.throws(
+  () => evaluateCrossModuleChannelRef({ ...baseInput(), direct_cross_module_query_requested: true }),
+  /direct cross-module query is outside this FFET/,
+);
+assert.throws(
+  () =>
+    evaluateCrossModuleChannelRef({
+      ...baseInput(),
+      requested_refs: [{ ...baseInput().requested_refs[0], relation: "OWNER" as never }],
+    }),
+  /relation is not supported/,
+);
+assert.throws(
+  () => evaluateCrossModuleChannelRef({ ...baseInput(), registered_refs: [] }),
+  /registered_refs must contain at least one registered module reference/,
+);
+
+console.log("cross_module_channel_ref.service.test passed");
