@@ -16,8 +16,8 @@ ratifier: Usman Hussain
 
 # Esbla Spark — v5.0 Ratification Packet
 
-**Ratification status:** pending human signature.  
-**Ratifier:** Usman Hussain.  
+**Ratification status:** pending human signature.
+**Ratifier:** Usman Hussain.
 **Important:** chat approval is not ratification. Ratification is valid only when this repo artifact and `decision_record_v5_0.json` are explicitly signed/accepted by the ratifier in a later PR.
 
 ## 1. Suite documents under review

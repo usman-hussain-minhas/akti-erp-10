@@ -16,8 +16,8 @@ ratifier: Usman Hussain
 
 # Esbla Spark — Ticket Quality Doctrine v1
 
-**Status:** pending ratification successor shell.  
-**Current active source:** `docs/doctrine/AKTI_ERP_Ticket_Quality_Doctrine_v1.md`.  
+**Status:** pending ratification successor shell.
+**Current active source:** `docs/doctrine/AKTI_ERP_Ticket_Quality_Doctrine_v1.md`.
 **Activation rule:** this file does not replace the current active source until a signed ratification PR explicitly promotes it and updates `AGENTS.md` or the active operating guide.
 
 ## Transition rule

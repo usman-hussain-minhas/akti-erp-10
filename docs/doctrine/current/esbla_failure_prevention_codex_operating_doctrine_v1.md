@@ -16,8 +16,8 @@ ratifier: Usman Hussain
 
 # Esbla Spark — Failure Prevention and Codex Operating Doctrine v1
 
-**Status:** pending ratification successor shell.  
-**Current active source:** `docs/doctrine/AKTI_ERP_Failure_Prevention_Codex_Operating_Doctrine_v1.json`.  
+**Status:** pending ratification successor shell.
+**Current active source:** `docs/doctrine/AKTI_ERP_Failure_Prevention_Codex_Operating_Doctrine_v1.json`.
 **Activation rule:** this file does not replace the current active source until a signed ratification PR explicitly promotes it and updates `AGENTS.md` or the active operating guide.
 
 ## Transition rule
