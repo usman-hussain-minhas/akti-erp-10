@@ -62,6 +62,6 @@ Scope C ad creation; marketplace matching/escrow disputes at scale (Phase 9 gate
 
 Standard pipeline with the 12 planning gates and zero-trust Gate-2 audits; **Gate-3 human approval** before the run; wiring and frontend in-phase per §3. Exit negative tests: opted-out recipient provably skipped with evidence record; campaign to a suppressed segment member blocked at gateway; guardian-linked profile excluded from a commercial audience build; site export of a commerce-enabled site produces the capability map and parses; an inactive store block's route 404s server-side; cross-tenant audience isolation attempt fails. Exit also requires: audit headers match live JSON counts; failure-pattern library updated; demo-script extension merged and green nightly.
 
-**Parameters referenced:** P-08, P-09, P-11 (notice on freemium-affecting changes surfaced in tenant UI), P-13 (high-value order confirmation patterns), P-16 (acceptance ladder on handoff milestones), P-18, P-21 (instrumentation only — gate evaluation is Phase 10), P-22/P-23 (R-stage measurement hooks).
+**Parameters referenced:** P-08, P-09, P-11 (notice on freemium-affecting changes surfaced in tenant UI), P-13 (high-value order confirmation patterns), P-16 (acceptance ladder on handoff milestones), P-18, P-21 (instrumentation only — gate evaluation is Phase 9), P-22/P-23 (R-stage measurement hooks).
 
 End of Phase 6E plan v2.

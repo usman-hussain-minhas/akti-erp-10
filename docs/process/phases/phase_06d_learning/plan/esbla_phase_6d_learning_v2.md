@@ -57,7 +57,7 @@ Phases 6A–6C closed **including** the consolidated amendment (Stage 1) and run
 
 ## §6 Explicit non-scope
 
-No marketplace placement of students (Phase 10); no employment matching from learning data (P-25 disabled); no Scope C campaign features; no native mobile apps; no new payout rails (6B adapters only); no stipend/scholarship disbursement beyond existing billing primitives (deferred to a XIII.3 gate).
+No marketplace placement of students (Phase 9); no employment matching from learning data (P-25 disabled); no Scope C campaign features; no native mobile apps; no new payout rails (6B adapters only); no stipend/scholarship disbursement beyond existing billing primitives (deferred to a XIII.3 gate).
 
 ## §7 Gates and definition of done
 

@@ -96,8 +96,6 @@ docs/
       phase_08_app_builder/gates/
       phase_09_marketplace_trust_layer/plan/
       phase_09_marketplace_trust_layer/gates/
-      phase_10_intelligence_scale_ecosystem_expansion/plan/
-      phase_10_intelligence_scale_ecosystem_expansion/gates/
     runbooks/
     registries/
     archive/legacy_akti/
@@ -122,7 +120,7 @@ codex-review/
   temp/ignored/
 ```
 
-Note: there is intentionally **no `phase_09` directory** — Phase 9 is restored doctrine (Blueprint XV). The review's 7–10 renumbering suggestion is declined and logged in the suite manifest.
+Note: the marketplace is Phase 9 and uses `phase_09_marketplace_trust_layer/`. Marketplace was renumbered from Phase 10 to close the post-6F sequence gap; there is no Phase 10. Campaign Scope C is not a standalone phase and remains folded into 6E.03 unless reopened by a Blueprint XIII.3 gate.
 
 ## 5. Registries (created Wave 1–2, maintained thereafter)
 

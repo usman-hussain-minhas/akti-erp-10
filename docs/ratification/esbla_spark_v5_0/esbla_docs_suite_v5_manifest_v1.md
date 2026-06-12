@@ -73,7 +73,7 @@ Per Blueprint 0.2: `RATIFICATION_Esbla_Spark_v5_0.md` + `decision_record_v5_0.js
 ## 6. Declined review items (logged, with reasons)
 
 1. **Rename the blueprint file to v5.0** — declined; founder ruling: v5.0 is the suite version, the blueprint remains file_version v3.1. The metadata standard's suite/file split is the permanent fix.
-2. **Renumber Phases 7–10** — accepted for v5. Phase 7 = Website Builder / Agency Handoff; Phase 8 = App Builder; Phase 9 = Marketplace / Trust Layer; Phase 10 = Intelligence Scale / Ecosystem Expansion.
+2. **Renumber post-6F phases** — accepted for v5. Phase 7 = Website Builder / Agency Handoff; Phase 8 = App Builder; Phase 9 = Marketplace / Trust Layer. Marketplace was renumbered from Phase 10 to close the post-6F sequence gap; there is no Phase 10.
 3. **Three separate per-phase 6A–6C amendment files** — consolidated per founder ruling; section boundaries are split-ready if Codex prefers per-phase files at Wave 2.
 
 End of suite manifest v1.

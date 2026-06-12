@@ -59,7 +59,7 @@ Never add headers or metadata fields to: lockfiles, binaries, generated build ar
 
 ## 6. Single-source-of-numbers rule
 
-All governed numeric thresholds live **only** in Blueprint v3.1 Appendix A (the Parameter Registry). Every other suite document references parameters by ID (`P-01` … `P-25`) and never restates the value. A restated number anywhere outside Appendix A is a doctrine defect: fix by replacing with the P-ID. This prevents table-vs-prose drift across the suite.
+All governed numeric thresholds live **only** in Blueprint v3.1 Appendix A (the Parameter Registry). Every other suite document references parameters by ID (`P-ID`, up to the current maximum defined in Blueprint Appendix A) and never restates the value. A restated number anywhere outside Appendix A is a doctrine defect: fix by replacing with the P-ID. This prevents table-vs-prose drift across the suite.
 
 ## 7. Naming, paths, and legacy references
 

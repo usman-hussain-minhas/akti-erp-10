@@ -54,7 +54,7 @@ Identical to 6D/6E: every component ships seeds, runtime wiring on the full enfo
 
 ## §6 Explicit non-scope
 
-No autonomous AI actions without Gatekeeper; no cross-tenant benchmarking without opt-in consent; no reputation interpretation changes from 6F intelligence (interpretation lives in 6A-X4 with its governance); no Phase 7 wedge packaging (next phase); no marketplace activation (Phase 10 gates); no employment cross-context activation (P-25 stays disabled pending counsel/T&S).
+No autonomous AI actions without Gatekeeper; no cross-tenant benchmarking without opt-in consent; no reputation interpretation changes from 6F intelligence (interpretation lives in 6A-X4 with its governance); no Phase 7 wedge packaging (next phase); no marketplace activation (Phase 9 gates); no employment cross-context activation (P-25 stays disabled pending counsel/T&S).
 
 ## §7 Gates and definition of done
 
