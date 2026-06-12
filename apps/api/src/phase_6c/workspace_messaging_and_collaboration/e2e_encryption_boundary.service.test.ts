@@ -1,37 +1,127 @@
-import assert from 'node:assert/strict';
+import assert from "node:assert/strict";
+import { evaluateE2eEncryptionBoundary } from "./e2e_encryption_boundary.service";
 
-import { evaluateE2eEncryptionBoundaryScaffold, type E2eEncryptionBoundaryScaffoldInput } from './e2e_encryption_boundary.service';
+const DIGEST = "b".repeat(64);
 
-const baseInput: E2eEncryptionBoundaryScaffoldInput = {
-  organization_id: 'org_phase_6c_control',
-  service_manifest_contract_id: 'smc_phase_6c_e2e_encryption_boundary',
-  source_record_ref: 'e2e_encryption_boundary_record_001',
-  evaluated_by_user_id: 'user_phase_6c_control',
-  evaluated_at: '2026-06-09T09:00:00.000Z',
-  control_metadata: { source: 'phase_6c_scaffold_control' },
-};
+function baseInput() {
+  return {
+    organization_id: "org_1",
+    service_manifest_contract_id: "seed_6a_service_manifest_contract",
+    source_record_ref: "e2e_boundary:evidence:1",
+    workspace_ref: "workspace_1",
+    evaluated_by_user_id: "boundary_evaluator",
+    evaluated_at: "2026-06-12T08:05:00.000Z",
+    policy: {
+      policy_ref: "e2e_policy_1",
+      mode: "REQUIRED" as const,
+      accepted_algorithms: ["xchacha20-poly1305", "aes-256-gcm"],
+      require_device_key_ref: true,
+    },
+    envelopes: [
+      {
+        message_ref: "message_1",
+        conversation_ref: "conversation_1",
+        envelope_state: "ENCRYPTED" as const,
+        algorithm: "xchacha20-poly1305",
+        sender_device_key_ref: "sender_key_1",
+        recipient_device_key_refs: ["recipient_key_1", "recipient_key_1"],
+        ciphertext_digest: DIGEST,
+        boundary_evidence_ref: "boundary:evidence:1",
+      },
+    ],
+  };
+}
 
-const receipt = evaluateE2eEncryptionBoundaryScaffold(baseInput);
-assert.equal(receipt.seed_id, 'seed_6c_069_e2e_encryption_boundary');
-assert.equal(receipt.component_id, '6C.05');
-assert.equal(receipt.component_slug, 'workspace_messaging_and_collaboration');
-assert.equal(receipt.model_name, 'Phase6CE2eEncryptionBoundary');
-assert.equal(receipt.scaffold_status, 'SCAFFOLD_CONTROL_ONLY');
-assert.equal(receipt.capability_implementation_allowed, false);
-assert.equal(receipt.business_behavior_allowed, false);
-assert.equal(receipt.runtime_adapter_allowed, false);
-assert.match(receipt.scaffold_evidence_digest, /^[a-f0-9]{64}$/);
+const accepted = evaluateE2eEncryptionBoundary(baseInput());
+assert.equal(accepted.decision, "E2E_BOUNDARY_ACCEPTED");
+assert.equal(accepted.evaluated_envelope_count, 1);
+assert.equal(accepted.accepted_envelope_count, 1);
+assert.equal(accepted.review_envelope_count, 0);
+assert.equal(accepted.rejected_envelope_count, 0);
+assert.equal(accepted.envelope_evaluations[0]?.recipient_device_key_count, 1);
+assert.equal(accepted.key_generation_performed, false);
+assert.equal(accepted.decryption_performed, false);
+assert.equal(accepted.encryption_performed, false);
+assert.deepEqual(accepted.decision_refs, ["6C-WORK-MSG-003", "6C-GLOBAL-018"]);
+assert.match(accepted.deterministic_digest, /^[a-f0-9]{64}$/);
 
-const repeatedReceipt = evaluateE2eEncryptionBoundaryScaffold(baseInput);
-assert.equal(repeatedReceipt.scaffold_evidence_digest, receipt.scaffold_evidence_digest);
+const repeat = evaluateE2eEncryptionBoundary(baseInput());
+assert.equal(repeat.deterministic_digest, accepted.deterministic_digest);
 
-assert.throws(() => evaluateE2eEncryptionBoundaryScaffold({ ...baseInput, organization_id: ' ' }), /organization_id is required/);
-assert.throws(() => evaluateE2eEncryptionBoundaryScaffold({ ...baseInput, service_manifest_contract_id: '' }), /service_manifest_contract_id is required/);
-assert.throws(() => evaluateE2eEncryptionBoundaryScaffold({ ...baseInput, source_record_ref: '' }), /source_record_ref is required/);
-assert.throws(() => evaluateE2eEncryptionBoundaryScaffold({ ...baseInput, evaluated_by_user_id: '' }), /evaluated_by_user_id is required/);
-assert.throws(() => evaluateE2eEncryptionBoundaryScaffold({ ...baseInput, evaluated_at: 'not-a-date' }), /evaluated_at must be a valid ISO-compatible timestamp/);
-assert.throws(() => evaluateE2eEncryptionBoundaryScaffold({ ...baseInput, capability_execution_requested: true }), /must not execute capability behavior/);
-assert.throws(() => evaluateE2eEncryptionBoundaryScaffold({ ...baseInput, business_behavior_requested: true }), /must not execute business behavior/);
-assert.throws(() => evaluateE2eEncryptionBoundaryScaffold({ ...baseInput, runtime_adapter_requested: true }), /must not execute runtime adapter behavior/);
+const review = evaluateE2eEncryptionBoundary({
+  ...baseInput(),
+  policy: { ...baseInput().policy, mode: "DISABLED" },
+});
+assert.equal(review.decision, "E2E_BOUNDARY_REQUIRES_REVIEW");
+assert.deepEqual(review.envelope_evaluations[0]?.review_reasons, [
+  "encrypted_envelope_present_while_boundary_disabled",
+]);
 
-console.log('P6C scaffold-control e2e_encryption_boundary test passed.');
+const rejectedPlaintext = evaluateE2eEncryptionBoundary({
+  ...baseInput(),
+  envelopes: [
+    {
+      message_ref: "message_2",
+      conversation_ref: "conversation_1",
+      envelope_state: "PLAINTEXT" as const,
+      recipient_device_key_refs: [],
+      plaintext_body: "do not persist this at the boundary",
+      boundary_evidence_ref: "boundary:evidence:2",
+    },
+  ],
+});
+assert.equal(rejectedPlaintext.decision, "E2E_BOUNDARY_REJECTED");
+assert.deepEqual(rejectedPlaintext.envelope_evaluations[0]?.rejection_reasons, [
+  "encrypted_envelope_required_by_policy",
+  "plaintext_body_present_at_e2e_boundary",
+]);
+
+const rejectedMissingKey = evaluateE2eEncryptionBoundary({
+  ...baseInput(),
+  envelopes: [
+    {
+      ...baseInput().envelopes[0],
+      sender_device_key_ref: undefined,
+      recipient_device_key_refs: [],
+    },
+  ],
+});
+assert.equal(rejectedMissingKey.decision, "E2E_BOUNDARY_REJECTED");
+assert.deepEqual(rejectedMissingKey.envelope_evaluations[0]?.rejection_reasons, [
+  "recipient_device_key_refs_required_by_policy",
+  "sender_device_key_ref_required_by_policy",
+]);
+
+const unsupportedAlgorithm = evaluateE2eEncryptionBoundary({
+  ...baseInput(),
+  envelopes: [{ ...baseInput().envelopes[0], algorithm: "unknown-algorithm" }],
+});
+assert.equal(unsupportedAlgorithm.decision, "E2E_BOUNDARY_REQUIRES_REVIEW");
+assert.deepEqual(unsupportedAlgorithm.envelope_evaluations[0]?.review_reasons, ["algorithm_not_in_policy_allowlist"]);
+
+assert.throws(
+  () => evaluateE2eEncryptionBoundary({ ...baseInput(), decryption_requested: true }),
+  /decryption is outside this FFET/,
+);
+assert.throws(
+  () => evaluateE2eEncryptionBoundary({ ...baseInput(), key_generation_requested: true }),
+  /key generation is outside this FFET/,
+);
+const badDigest = evaluateE2eEncryptionBoundary({
+  ...baseInput(),
+  envelopes: [{ ...baseInput().envelopes[0], ciphertext_digest: "bad" }],
+});
+assert.equal(badDigest.decision, "E2E_BOUNDARY_REJECTED");
+assert.deepEqual(badDigest.envelope_evaluations[0]?.rejection_reasons, [
+  "encrypted_envelope_missing_ciphertext_digest",
+]);
+assert.throws(
+  () =>
+    evaluateE2eEncryptionBoundary({
+      ...baseInput(),
+      policy: { ...baseInput().policy, mode: "MANDATORY" as never },
+    }),
+  /policy.mode is not supported/,
+);
+
+console.log("e2e_encryption_boundary.service.test passed");
