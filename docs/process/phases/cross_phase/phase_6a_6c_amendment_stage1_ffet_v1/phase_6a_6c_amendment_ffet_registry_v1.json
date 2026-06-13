@@ -1,0 +1,1373 @@
+{
+  "$metadata": {
+    "company": "HAUTM",
+    "platform": "Esbla Spark",
+    "author": "Usman Hussain",
+    "owner": "Usman Hussain",
+    "suite_version": "v5.0",
+    "file_version": "v1.0",
+    "created": "2026-06-13",
+    "last_updated": "2026-06-13",
+    "status": "active",
+    "document_type": "stage1_amendment_ffet_registry",
+    "scope": "Gate-2 FFET registry for Stage 1 amendment execution.",
+    "ratifier": "Usman Hussain"
+  },
+  "artifact_id": "phase_6a_6c_amendment_ffet_registry_v1",
+  "status": "PHASE_6A_6C_STAGE1_AMENDMENT_FFETS_GATE_3_READY_FOR_HUMAN_APPROVAL",
+  "ffet_count": 19,
+  "ticket_generation_allowed": false,
+  "ticket_pack_generation_allowed": false,
+  "execution_authorized": false,
+  "runtime_wiring_deferred_to_stage2": true,
+  "ffets": [
+    {
+      "ffet_id": "S1-6A6C-FFET-001",
+      "surface_id": "6A-X1",
+      "phase": "6A",
+      "seed_name": "person_graph_multi_participant",
+      "title": "Stage 1 amendment seed artifacts for Person Graph, multi-participant",
+      "status": "gate_2_ready_pending_gate_3_human_approval",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "source_authority": "docs/process/phases/cross_phase/esbla_phase_6a_6c_consolidated_amendment_v1.md",
+      "source_section": "§2 Phase 6A extensions",
+      "files_expected_to_change": [
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_person_graph_multi_participant/6a_person_graph_multi_participant_decision_record_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_person_graph_multi_participant/6a_person_graph_multi_participant_catalog_entry_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_person_graph_multi_participant/6a_person_graph_multi_participant_dependency_edges_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_person_graph_multi_participant/6a_person_graph_multi_participant_seed_update_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_person_graph_multi_participant/6a_person_graph_multi_participant_fidelity_evidence_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_person_graph_multi_participant/6a_person_graph_multi_participant_readiness_note_v1.md"
+      ],
+      "dependencies": [],
+      "surface_dependencies": [],
+      "mcr": "Create complete Stage 1 decision, catalog, dependency, seed, fidelity, and readiness artifacts for 6A-X1 with source citations and no runtime execution.",
+      "validation_commands": [
+        "node scripts/quality/check_lower_snake_case_paths.mjs",
+        "git diff --check",
+        "node -e \"for (const p of [\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_person_graph_multi_participant/6a_person_graph_multi_participant_decision_record_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_person_graph_multi_participant/6a_person_graph_multi_participant_catalog_entry_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_person_graph_multi_participant/6a_person_graph_multi_participant_dependency_edges_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_person_graph_multi_participant/6a_person_graph_multi_participant_seed_update_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_person_graph_multi_participant/6a_person_graph_multi_participant_fidelity_evidence_v1.json\"] ) JSON.parse(require('fs').readFileSync(p,'utf8')); console.log('json parse ok')\""
+      ],
+      "stop_conditions": [
+        "Required edit outside exact files.",
+        "Missing source citation from the consolidated amendment or current v5 doctrine.",
+        "Runtime wiring, schema, package, generated, frontend, or contract identifier change required.",
+        "Business, permission, ADL, provider, or API decision not derivable from committed sources.",
+        "Validation failure after three deterministic self-heal attempts."
+      ],
+      "rollback_notes": "Revert the single FFET PR; no runtime, schema, package, generated, or frontend state is changed by this Stage 1 FFET.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": [
+          "stale hash",
+          "stale line number",
+          "broken JSON",
+          "metadata mismatch",
+          "count drift",
+          "internal docs reference drift"
+        ],
+        "forbidden": [
+          "scope expansion",
+          "runtime wiring",
+          "schema edit",
+          "package or lockfile edit",
+          "generated-file manual edit",
+          "frontend route or screen",
+          "semantic contract/package rename",
+          "invented doctrine"
+        ]
+      },
+      "expected_evidence": [
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_person_graph_multi_participant/6a_person_graph_multi_participant_decision_record_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_person_graph_multi_participant/6a_person_graph_multi_participant_catalog_entry_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_person_graph_multi_participant/6a_person_graph_multi_participant_dependency_edges_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_person_graph_multi_participant/6a_person_graph_multi_participant_seed_update_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_person_graph_multi_participant/6a_person_graph_multi_participant_fidelity_evidence_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_person_graph_multi_participant/6a_person_graph_multi_participant_readiness_note_v1.md"
+      ]
+    },
+    {
+      "ffet_id": "S1-6A6C-FFET-002",
+      "surface_id": "6A-X2",
+      "phase": "6A",
+      "seed_name": "tiered_verification",
+      "title": "Stage 1 amendment seed artifacts for Tiered verification",
+      "status": "gate_2_ready_pending_gate_3_human_approval",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "source_authority": "docs/process/phases/cross_phase/esbla_phase_6a_6c_consolidated_amendment_v1.md",
+      "source_section": "§2 Phase 6A extensions",
+      "files_expected_to_change": [
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_tiered_verification/6a_tiered_verification_decision_record_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_tiered_verification/6a_tiered_verification_catalog_entry_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_tiered_verification/6a_tiered_verification_dependency_edges_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_tiered_verification/6a_tiered_verification_seed_update_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_tiered_verification/6a_tiered_verification_fidelity_evidence_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_tiered_verification/6a_tiered_verification_readiness_note_v1.md"
+      ],
+      "dependencies": [
+        "S1-6A6C-FFET-001"
+      ],
+      "surface_dependencies": [
+        "6A-X1"
+      ],
+      "mcr": "Create complete Stage 1 decision, catalog, dependency, seed, fidelity, and readiness artifacts for 6A-X2 with source citations and no runtime execution.",
+      "validation_commands": [
+        "node scripts/quality/check_lower_snake_case_paths.mjs",
+        "git diff --check",
+        "node -e \"for (const p of [\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_tiered_verification/6a_tiered_verification_decision_record_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_tiered_verification/6a_tiered_verification_catalog_entry_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_tiered_verification/6a_tiered_verification_dependency_edges_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_tiered_verification/6a_tiered_verification_seed_update_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_tiered_verification/6a_tiered_verification_fidelity_evidence_v1.json\"] ) JSON.parse(require('fs').readFileSync(p,'utf8')); console.log('json parse ok')\""
+      ],
+      "stop_conditions": [
+        "Required edit outside exact files.",
+        "Missing source citation from the consolidated amendment or current v5 doctrine.",
+        "Runtime wiring, schema, package, generated, frontend, or contract identifier change required.",
+        "Business, permission, ADL, provider, or API decision not derivable from committed sources.",
+        "Validation failure after three deterministic self-heal attempts."
+      ],
+      "rollback_notes": "Revert the single FFET PR; no runtime, schema, package, generated, or frontend state is changed by this Stage 1 FFET.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": [
+          "stale hash",
+          "stale line number",
+          "broken JSON",
+          "metadata mismatch",
+          "count drift",
+          "internal docs reference drift"
+        ],
+        "forbidden": [
+          "scope expansion",
+          "runtime wiring",
+          "schema edit",
+          "package or lockfile edit",
+          "generated-file manual edit",
+          "frontend route or screen",
+          "semantic contract/package rename",
+          "invented doctrine"
+        ]
+      },
+      "expected_evidence": [
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_tiered_verification/6a_tiered_verification_decision_record_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_tiered_verification/6a_tiered_verification_catalog_entry_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_tiered_verification/6a_tiered_verification_dependency_edges_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_tiered_verification/6a_tiered_verification_seed_update_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_tiered_verification/6a_tiered_verification_fidelity_evidence_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_tiered_verification/6a_tiered_verification_readiness_note_v1.md"
+      ]
+    },
+    {
+      "ffet_id": "S1-6A6C-FFET-003",
+      "surface_id": "6A-X3",
+      "phase": "6A",
+      "seed_name": "evidence_ledger_hardening",
+      "title": "Stage 1 amendment seed artifacts for Evidence ledger hardening",
+      "status": "gate_2_ready_pending_gate_3_human_approval",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "source_authority": "docs/process/phases/cross_phase/esbla_phase_6a_6c_consolidated_amendment_v1.md",
+      "source_section": "§2 Phase 6A extensions",
+      "files_expected_to_change": [
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_evidence_ledger_hardening/6a_evidence_ledger_hardening_decision_record_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_evidence_ledger_hardening/6a_evidence_ledger_hardening_catalog_entry_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_evidence_ledger_hardening/6a_evidence_ledger_hardening_dependency_edges_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_evidence_ledger_hardening/6a_evidence_ledger_hardening_seed_update_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_evidence_ledger_hardening/6a_evidence_ledger_hardening_fidelity_evidence_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_evidence_ledger_hardening/6a_evidence_ledger_hardening_readiness_note_v1.md"
+      ],
+      "dependencies": [
+        "S1-6A6C-FFET-001"
+      ],
+      "surface_dependencies": [
+        "6A-X1"
+      ],
+      "mcr": "Create complete Stage 1 decision, catalog, dependency, seed, fidelity, and readiness artifacts for 6A-X3 with source citations and no runtime execution.",
+      "validation_commands": [
+        "node scripts/quality/check_lower_snake_case_paths.mjs",
+        "git diff --check",
+        "node -e \"for (const p of [\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_evidence_ledger_hardening/6a_evidence_ledger_hardening_decision_record_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_evidence_ledger_hardening/6a_evidence_ledger_hardening_catalog_entry_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_evidence_ledger_hardening/6a_evidence_ledger_hardening_dependency_edges_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_evidence_ledger_hardening/6a_evidence_ledger_hardening_seed_update_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_evidence_ledger_hardening/6a_evidence_ledger_hardening_fidelity_evidence_v1.json\"] ) JSON.parse(require('fs').readFileSync(p,'utf8')); console.log('json parse ok')\""
+      ],
+      "stop_conditions": [
+        "Required edit outside exact files.",
+        "Missing source citation from the consolidated amendment or current v5 doctrine.",
+        "Runtime wiring, schema, package, generated, frontend, or contract identifier change required.",
+        "Business, permission, ADL, provider, or API decision not derivable from committed sources.",
+        "Validation failure after three deterministic self-heal attempts."
+      ],
+      "rollback_notes": "Revert the single FFET PR; no runtime, schema, package, generated, or frontend state is changed by this Stage 1 FFET.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": [
+          "stale hash",
+          "stale line number",
+          "broken JSON",
+          "metadata mismatch",
+          "count drift",
+          "internal docs reference drift"
+        ],
+        "forbidden": [
+          "scope expansion",
+          "runtime wiring",
+          "schema edit",
+          "package or lockfile edit",
+          "generated-file manual edit",
+          "frontend route or screen",
+          "semantic contract/package rename",
+          "invented doctrine"
+        ]
+      },
+      "expected_evidence": [
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_evidence_ledger_hardening/6a_evidence_ledger_hardening_decision_record_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_evidence_ledger_hardening/6a_evidence_ledger_hardening_catalog_entry_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_evidence_ledger_hardening/6a_evidence_ledger_hardening_dependency_edges_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_evidence_ledger_hardening/6a_evidence_ledger_hardening_seed_update_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_evidence_ledger_hardening/6a_evidence_ledger_hardening_fidelity_evidence_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_evidence_ledger_hardening/6a_evidence_ledger_hardening_readiness_note_v1.md"
+      ]
+    },
+    {
+      "ffet_id": "S1-6A6C-FFET-004",
+      "surface_id": "6A-X4",
+      "phase": "6A",
+      "seed_name": "reputation_interpretation_service",
+      "title": "Stage 1 amendment seed artifacts for Reputation interpretation service",
+      "status": "gate_2_ready_pending_gate_3_human_approval",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "source_authority": "docs/process/phases/cross_phase/esbla_phase_6a_6c_consolidated_amendment_v1.md",
+      "source_section": "§2 Phase 6A extensions",
+      "files_expected_to_change": [
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_reputation_interpretation_service/6a_reputation_interpretation_service_decision_record_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_reputation_interpretation_service/6a_reputation_interpretation_service_catalog_entry_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_reputation_interpretation_service/6a_reputation_interpretation_service_dependency_edges_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_reputation_interpretation_service/6a_reputation_interpretation_service_seed_update_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_reputation_interpretation_service/6a_reputation_interpretation_service_fidelity_evidence_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_reputation_interpretation_service/6a_reputation_interpretation_service_readiness_note_v1.md"
+      ],
+      "dependencies": [
+        "S1-6A6C-FFET-001",
+        "S1-6A6C-FFET-003"
+      ],
+      "surface_dependencies": [
+        "6A-X1",
+        "6A-X3"
+      ],
+      "mcr": "Create complete Stage 1 decision, catalog, dependency, seed, fidelity, and readiness artifacts for 6A-X4 with source citations and no runtime execution.",
+      "validation_commands": [
+        "node scripts/quality/check_lower_snake_case_paths.mjs",
+        "git diff --check",
+        "node -e \"for (const p of [\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_reputation_interpretation_service/6a_reputation_interpretation_service_decision_record_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_reputation_interpretation_service/6a_reputation_interpretation_service_catalog_entry_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_reputation_interpretation_service/6a_reputation_interpretation_service_dependency_edges_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_reputation_interpretation_service/6a_reputation_interpretation_service_seed_update_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_reputation_interpretation_service/6a_reputation_interpretation_service_fidelity_evidence_v1.json\"] ) JSON.parse(require('fs').readFileSync(p,'utf8')); console.log('json parse ok')\""
+      ],
+      "stop_conditions": [
+        "Required edit outside exact files.",
+        "Missing source citation from the consolidated amendment or current v5 doctrine.",
+        "Runtime wiring, schema, package, generated, frontend, or contract identifier change required.",
+        "Business, permission, ADL, provider, or API decision not derivable from committed sources.",
+        "Validation failure after three deterministic self-heal attempts."
+      ],
+      "rollback_notes": "Revert the single FFET PR; no runtime, schema, package, generated, or frontend state is changed by this Stage 1 FFET.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": [
+          "stale hash",
+          "stale line number",
+          "broken JSON",
+          "metadata mismatch",
+          "count drift",
+          "internal docs reference drift"
+        ],
+        "forbidden": [
+          "scope expansion",
+          "runtime wiring",
+          "schema edit",
+          "package or lockfile edit",
+          "generated-file manual edit",
+          "frontend route or screen",
+          "semantic contract/package rename",
+          "invented doctrine"
+        ]
+      },
+      "expected_evidence": [
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_reputation_interpretation_service/6a_reputation_interpretation_service_decision_record_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_reputation_interpretation_service/6a_reputation_interpretation_service_catalog_entry_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_reputation_interpretation_service/6a_reputation_interpretation_service_dependency_edges_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_reputation_interpretation_service/6a_reputation_interpretation_service_seed_update_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_reputation_interpretation_service/6a_reputation_interpretation_service_fidelity_evidence_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_reputation_interpretation_service/6a_reputation_interpretation_service_readiness_note_v1.md"
+      ]
+    },
+    {
+      "ffet_id": "S1-6A6C-FFET-005",
+      "surface_id": "6A-X5",
+      "phase": "6A",
+      "seed_name": "communication_gateway",
+      "title": "Stage 1 amendment seed artifacts for Communication Gateway",
+      "status": "gate_2_ready_pending_gate_3_human_approval",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "source_authority": "docs/process/phases/cross_phase/esbla_phase_6a_6c_consolidated_amendment_v1.md",
+      "source_section": "§2 Phase 6A extensions",
+      "files_expected_to_change": [
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_communication_gateway/6a_communication_gateway_decision_record_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_communication_gateway/6a_communication_gateway_catalog_entry_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_communication_gateway/6a_communication_gateway_dependency_edges_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_communication_gateway/6a_communication_gateway_seed_update_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_communication_gateway/6a_communication_gateway_fidelity_evidence_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_communication_gateway/6a_communication_gateway_readiness_note_v1.md"
+      ],
+      "dependencies": [
+        "S1-6A6C-FFET-001",
+        "S1-6A6C-FFET-003"
+      ],
+      "surface_dependencies": [
+        "6A-X1",
+        "6A-X3"
+      ],
+      "mcr": "Create complete Stage 1 decision, catalog, dependency, seed, fidelity, and readiness artifacts for 6A-X5 with source citations and no runtime execution.",
+      "validation_commands": [
+        "node scripts/quality/check_lower_snake_case_paths.mjs",
+        "git diff --check",
+        "node -e \"for (const p of [\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_communication_gateway/6a_communication_gateway_decision_record_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_communication_gateway/6a_communication_gateway_catalog_entry_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_communication_gateway/6a_communication_gateway_dependency_edges_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_communication_gateway/6a_communication_gateway_seed_update_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_communication_gateway/6a_communication_gateway_fidelity_evidence_v1.json\"] ) JSON.parse(require('fs').readFileSync(p,'utf8')); console.log('json parse ok')\""
+      ],
+      "stop_conditions": [
+        "Required edit outside exact files.",
+        "Missing source citation from the consolidated amendment or current v5 doctrine.",
+        "Runtime wiring, schema, package, generated, frontend, or contract identifier change required.",
+        "Business, permission, ADL, provider, or API decision not derivable from committed sources.",
+        "Validation failure after three deterministic self-heal attempts."
+      ],
+      "rollback_notes": "Revert the single FFET PR; no runtime, schema, package, generated, or frontend state is changed by this Stage 1 FFET.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": [
+          "stale hash",
+          "stale line number",
+          "broken JSON",
+          "metadata mismatch",
+          "count drift",
+          "internal docs reference drift"
+        ],
+        "forbidden": [
+          "scope expansion",
+          "runtime wiring",
+          "schema edit",
+          "package or lockfile edit",
+          "generated-file manual edit",
+          "frontend route or screen",
+          "semantic contract/package rename",
+          "invented doctrine"
+        ]
+      },
+      "expected_evidence": [
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_communication_gateway/6a_communication_gateway_decision_record_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_communication_gateway/6a_communication_gateway_catalog_entry_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_communication_gateway/6a_communication_gateway_dependency_edges_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_communication_gateway/6a_communication_gateway_seed_update_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_communication_gateway/6a_communication_gateway_fidelity_evidence_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_communication_gateway/6a_communication_gateway_readiness_note_v1.md"
+      ]
+    },
+    {
+      "ffet_id": "S1-6A6C-FFET-006",
+      "surface_id": "6A-X6",
+      "phase": "6A",
+      "seed_name": "configuration_constraints",
+      "title": "Stage 1 amendment seed artifacts for Configuration constraints",
+      "status": "gate_2_ready_pending_gate_3_human_approval",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "source_authority": "docs/process/phases/cross_phase/esbla_phase_6a_6c_consolidated_amendment_v1.md",
+      "source_section": "§2 Phase 6A extensions",
+      "files_expected_to_change": [
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_configuration_constraints/6a_configuration_constraints_decision_record_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_configuration_constraints/6a_configuration_constraints_catalog_entry_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_configuration_constraints/6a_configuration_constraints_dependency_edges_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_configuration_constraints/6a_configuration_constraints_seed_update_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_configuration_constraints/6a_configuration_constraints_fidelity_evidence_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_configuration_constraints/6a_configuration_constraints_readiness_note_v1.md"
+      ],
+      "dependencies": [],
+      "surface_dependencies": [],
+      "mcr": "Create complete Stage 1 decision, catalog, dependency, seed, fidelity, and readiness artifacts for 6A-X6 with source citations and no runtime execution.",
+      "validation_commands": [
+        "node scripts/quality/check_lower_snake_case_paths.mjs",
+        "git diff --check",
+        "node -e \"for (const p of [\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_configuration_constraints/6a_configuration_constraints_decision_record_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_configuration_constraints/6a_configuration_constraints_catalog_entry_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_configuration_constraints/6a_configuration_constraints_dependency_edges_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_configuration_constraints/6a_configuration_constraints_seed_update_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_configuration_constraints/6a_configuration_constraints_fidelity_evidence_v1.json\"] ) JSON.parse(require('fs').readFileSync(p,'utf8')); console.log('json parse ok')\""
+      ],
+      "stop_conditions": [
+        "Required edit outside exact files.",
+        "Missing source citation from the consolidated amendment or current v5 doctrine.",
+        "Runtime wiring, schema, package, generated, frontend, or contract identifier change required.",
+        "Business, permission, ADL, provider, or API decision not derivable from committed sources.",
+        "Validation failure after three deterministic self-heal attempts."
+      ],
+      "rollback_notes": "Revert the single FFET PR; no runtime, schema, package, generated, or frontend state is changed by this Stage 1 FFET.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": [
+          "stale hash",
+          "stale line number",
+          "broken JSON",
+          "metadata mismatch",
+          "count drift",
+          "internal docs reference drift"
+        ],
+        "forbidden": [
+          "scope expansion",
+          "runtime wiring",
+          "schema edit",
+          "package or lockfile edit",
+          "generated-file manual edit",
+          "frontend route or screen",
+          "semantic contract/package rename",
+          "invented doctrine"
+        ]
+      },
+      "expected_evidence": [
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_configuration_constraints/6a_configuration_constraints_decision_record_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_configuration_constraints/6a_configuration_constraints_catalog_entry_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_configuration_constraints/6a_configuration_constraints_dependency_edges_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_configuration_constraints/6a_configuration_constraints_seed_update_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_configuration_constraints/6a_configuration_constraints_fidelity_evidence_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_configuration_constraints/6a_configuration_constraints_readiness_note_v1.md"
+      ]
+    },
+    {
+      "ffet_id": "S1-6A6C-FFET-007",
+      "surface_id": "6A-X7",
+      "phase": "6A",
+      "seed_name": "ai_proxy_dual_plane",
+      "title": "Stage 1 amendment seed artifacts for AI proxy dual-plane",
+      "status": "gate_2_ready_pending_gate_3_human_approval",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "source_authority": "docs/process/phases/cross_phase/esbla_phase_6a_6c_consolidated_amendment_v1.md",
+      "source_section": "§2 Phase 6A extensions",
+      "files_expected_to_change": [
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_ai_proxy_dual_plane/6a_ai_proxy_dual_plane_decision_record_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_ai_proxy_dual_plane/6a_ai_proxy_dual_plane_catalog_entry_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_ai_proxy_dual_plane/6a_ai_proxy_dual_plane_dependency_edges_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_ai_proxy_dual_plane/6a_ai_proxy_dual_plane_seed_update_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_ai_proxy_dual_plane/6a_ai_proxy_dual_plane_fidelity_evidence_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_ai_proxy_dual_plane/6a_ai_proxy_dual_plane_readiness_note_v1.md"
+      ],
+      "dependencies": [
+        "S1-6A6C-FFET-006"
+      ],
+      "surface_dependencies": [
+        "6A-X6"
+      ],
+      "mcr": "Create complete Stage 1 decision, catalog, dependency, seed, fidelity, and readiness artifacts for 6A-X7 with source citations and no runtime execution.",
+      "validation_commands": [
+        "node scripts/quality/check_lower_snake_case_paths.mjs",
+        "git diff --check",
+        "node -e \"for (const p of [\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_ai_proxy_dual_plane/6a_ai_proxy_dual_plane_decision_record_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_ai_proxy_dual_plane/6a_ai_proxy_dual_plane_catalog_entry_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_ai_proxy_dual_plane/6a_ai_proxy_dual_plane_dependency_edges_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_ai_proxy_dual_plane/6a_ai_proxy_dual_plane_seed_update_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_ai_proxy_dual_plane/6a_ai_proxy_dual_plane_fidelity_evidence_v1.json\"] ) JSON.parse(require('fs').readFileSync(p,'utf8')); console.log('json parse ok')\""
+      ],
+      "stop_conditions": [
+        "Required edit outside exact files.",
+        "Missing source citation from the consolidated amendment or current v5 doctrine.",
+        "Runtime wiring, schema, package, generated, frontend, or contract identifier change required.",
+        "Business, permission, ADL, provider, or API decision not derivable from committed sources.",
+        "Validation failure after three deterministic self-heal attempts."
+      ],
+      "rollback_notes": "Revert the single FFET PR; no runtime, schema, package, generated, or frontend state is changed by this Stage 1 FFET.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": [
+          "stale hash",
+          "stale line number",
+          "broken JSON",
+          "metadata mismatch",
+          "count drift",
+          "internal docs reference drift"
+        ],
+        "forbidden": [
+          "scope expansion",
+          "runtime wiring",
+          "schema edit",
+          "package or lockfile edit",
+          "generated-file manual edit",
+          "frontend route or screen",
+          "semantic contract/package rename",
+          "invented doctrine"
+        ]
+      },
+      "expected_evidence": [
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_ai_proxy_dual_plane/6a_ai_proxy_dual_plane_decision_record_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_ai_proxy_dual_plane/6a_ai_proxy_dual_plane_catalog_entry_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_ai_proxy_dual_plane/6a_ai_proxy_dual_plane_dependency_edges_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_ai_proxy_dual_plane/6a_ai_proxy_dual_plane_seed_update_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_ai_proxy_dual_plane/6a_ai_proxy_dual_plane_fidelity_evidence_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_ai_proxy_dual_plane/6a_ai_proxy_dual_plane_readiness_note_v1.md"
+      ]
+    },
+    {
+      "ffet_id": "S1-6A6C-FFET-008",
+      "surface_id": "6A-X8",
+      "phase": "6A",
+      "seed_name": "foundry_cross_tenant_activation",
+      "title": "Stage 1 amendment seed artifacts for Foundry cross-tenant activation",
+      "status": "gate_2_ready_pending_gate_3_human_approval",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "source_authority": "docs/process/phases/cross_phase/esbla_phase_6a_6c_consolidated_amendment_v1.md",
+      "source_section": "§2 Phase 6A extensions",
+      "files_expected_to_change": [
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_foundry_cross_tenant_activation/6a_foundry_cross_tenant_activation_decision_record_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_foundry_cross_tenant_activation/6a_foundry_cross_tenant_activation_catalog_entry_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_foundry_cross_tenant_activation/6a_foundry_cross_tenant_activation_dependency_edges_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_foundry_cross_tenant_activation/6a_foundry_cross_tenant_activation_seed_update_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_foundry_cross_tenant_activation/6a_foundry_cross_tenant_activation_fidelity_evidence_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_foundry_cross_tenant_activation/6a_foundry_cross_tenant_activation_readiness_note_v1.md"
+      ],
+      "dependencies": [
+        "S1-6A6C-FFET-006"
+      ],
+      "surface_dependencies": [
+        "6A-X6"
+      ],
+      "mcr": "Create complete Stage 1 decision, catalog, dependency, seed, fidelity, and readiness artifacts for 6A-X8 with source citations and no runtime execution.",
+      "validation_commands": [
+        "node scripts/quality/check_lower_snake_case_paths.mjs",
+        "git diff --check",
+        "node -e \"for (const p of [\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_foundry_cross_tenant_activation/6a_foundry_cross_tenant_activation_decision_record_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_foundry_cross_tenant_activation/6a_foundry_cross_tenant_activation_catalog_entry_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_foundry_cross_tenant_activation/6a_foundry_cross_tenant_activation_dependency_edges_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_foundry_cross_tenant_activation/6a_foundry_cross_tenant_activation_seed_update_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_foundry_cross_tenant_activation/6a_foundry_cross_tenant_activation_fidelity_evidence_v1.json\"] ) JSON.parse(require('fs').readFileSync(p,'utf8')); console.log('json parse ok')\""
+      ],
+      "stop_conditions": [
+        "Required edit outside exact files.",
+        "Missing source citation from the consolidated amendment or current v5 doctrine.",
+        "Runtime wiring, schema, package, generated, frontend, or contract identifier change required.",
+        "Business, permission, ADL, provider, or API decision not derivable from committed sources.",
+        "Validation failure after three deterministic self-heal attempts."
+      ],
+      "rollback_notes": "Revert the single FFET PR; no runtime, schema, package, generated, or frontend state is changed by this Stage 1 FFET.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": [
+          "stale hash",
+          "stale line number",
+          "broken JSON",
+          "metadata mismatch",
+          "count drift",
+          "internal docs reference drift"
+        ],
+        "forbidden": [
+          "scope expansion",
+          "runtime wiring",
+          "schema edit",
+          "package or lockfile edit",
+          "generated-file manual edit",
+          "frontend route or screen",
+          "semantic contract/package rename",
+          "invented doctrine"
+        ]
+      },
+      "expected_evidence": [
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_foundry_cross_tenant_activation/6a_foundry_cross_tenant_activation_decision_record_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_foundry_cross_tenant_activation/6a_foundry_cross_tenant_activation_catalog_entry_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_foundry_cross_tenant_activation/6a_foundry_cross_tenant_activation_dependency_edges_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_foundry_cross_tenant_activation/6a_foundry_cross_tenant_activation_seed_update_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_foundry_cross_tenant_activation/6a_foundry_cross_tenant_activation_fidelity_evidence_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6a_foundry_cross_tenant_activation/6a_foundry_cross_tenant_activation_readiness_note_v1.md"
+      ]
+    },
+    {
+      "ffet_id": "S1-6A6C-FFET-009",
+      "surface_id": "6B-X1",
+      "phase": "6B",
+      "seed_name": "marketplace_transaction_infrastructure",
+      "title": "Stage 1 amendment seed artifacts for Marketplace transaction infrastructure",
+      "status": "gate_2_ready_pending_gate_3_human_approval",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "source_authority": "docs/process/phases/cross_phase/esbla_phase_6a_6c_consolidated_amendment_v1.md",
+      "source_section": "§3 Phase 6B extensions",
+      "files_expected_to_change": [
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_marketplace_transaction_infrastructure/6b_marketplace_transaction_infrastructure_decision_record_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_marketplace_transaction_infrastructure/6b_marketplace_transaction_infrastructure_catalog_entry_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_marketplace_transaction_infrastructure/6b_marketplace_transaction_infrastructure_dependency_edges_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_marketplace_transaction_infrastructure/6b_marketplace_transaction_infrastructure_seed_update_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_marketplace_transaction_infrastructure/6b_marketplace_transaction_infrastructure_fidelity_evidence_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_marketplace_transaction_infrastructure/6b_marketplace_transaction_infrastructure_readiness_note_v1.md"
+      ],
+      "dependencies": [
+        "S1-6A6C-FFET-003",
+        "S1-6A6C-FFET-006"
+      ],
+      "surface_dependencies": [
+        "6A-X3",
+        "6A-X6"
+      ],
+      "mcr": "Create complete Stage 1 decision, catalog, dependency, seed, fidelity, and readiness artifacts for 6B-X1 with source citations and no runtime execution.",
+      "validation_commands": [
+        "node scripts/quality/check_lower_snake_case_paths.mjs",
+        "git diff --check",
+        "node -e \"for (const p of [\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_marketplace_transaction_infrastructure/6b_marketplace_transaction_infrastructure_decision_record_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_marketplace_transaction_infrastructure/6b_marketplace_transaction_infrastructure_catalog_entry_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_marketplace_transaction_infrastructure/6b_marketplace_transaction_infrastructure_dependency_edges_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_marketplace_transaction_infrastructure/6b_marketplace_transaction_infrastructure_seed_update_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_marketplace_transaction_infrastructure/6b_marketplace_transaction_infrastructure_fidelity_evidence_v1.json\"] ) JSON.parse(require('fs').readFileSync(p,'utf8')); console.log('json parse ok')\""
+      ],
+      "stop_conditions": [
+        "Required edit outside exact files.",
+        "Missing source citation from the consolidated amendment or current v5 doctrine.",
+        "Runtime wiring, schema, package, generated, frontend, or contract identifier change required.",
+        "Business, permission, ADL, provider, or API decision not derivable from committed sources.",
+        "Validation failure after three deterministic self-heal attempts."
+      ],
+      "rollback_notes": "Revert the single FFET PR; no runtime, schema, package, generated, or frontend state is changed by this Stage 1 FFET.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": [
+          "stale hash",
+          "stale line number",
+          "broken JSON",
+          "metadata mismatch",
+          "count drift",
+          "internal docs reference drift"
+        ],
+        "forbidden": [
+          "scope expansion",
+          "runtime wiring",
+          "schema edit",
+          "package or lockfile edit",
+          "generated-file manual edit",
+          "frontend route or screen",
+          "semantic contract/package rename",
+          "invented doctrine"
+        ]
+      },
+      "expected_evidence": [
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_marketplace_transaction_infrastructure/6b_marketplace_transaction_infrastructure_decision_record_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_marketplace_transaction_infrastructure/6b_marketplace_transaction_infrastructure_catalog_entry_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_marketplace_transaction_infrastructure/6b_marketplace_transaction_infrastructure_dependency_edges_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_marketplace_transaction_infrastructure/6b_marketplace_transaction_infrastructure_seed_update_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_marketplace_transaction_infrastructure/6b_marketplace_transaction_infrastructure_fidelity_evidence_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_marketplace_transaction_infrastructure/6b_marketplace_transaction_infrastructure_readiness_note_v1.md"
+      ]
+    },
+    {
+      "ffet_id": "S1-6A6C-FFET-010",
+      "surface_id": "6B-X2",
+      "phase": "6B",
+      "seed_name": "payout_rails",
+      "title": "Stage 1 amendment seed artifacts for Payout rails",
+      "status": "gate_2_ready_pending_gate_3_human_approval",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "source_authority": "docs/process/phases/cross_phase/esbla_phase_6a_6c_consolidated_amendment_v1.md",
+      "source_section": "§3 Phase 6B extensions",
+      "files_expected_to_change": [
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_payout_rails/6b_payout_rails_decision_record_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_payout_rails/6b_payout_rails_catalog_entry_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_payout_rails/6b_payout_rails_dependency_edges_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_payout_rails/6b_payout_rails_seed_update_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_payout_rails/6b_payout_rails_fidelity_evidence_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_payout_rails/6b_payout_rails_readiness_note_v1.md"
+      ],
+      "dependencies": [
+        "S1-6A6C-FFET-009"
+      ],
+      "surface_dependencies": [
+        "6B-X1"
+      ],
+      "mcr": "Create complete Stage 1 decision, catalog, dependency, seed, fidelity, and readiness artifacts for 6B-X2 with source citations and no runtime execution.",
+      "validation_commands": [
+        "node scripts/quality/check_lower_snake_case_paths.mjs",
+        "git diff --check",
+        "node -e \"for (const p of [\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_payout_rails/6b_payout_rails_decision_record_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_payout_rails/6b_payout_rails_catalog_entry_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_payout_rails/6b_payout_rails_dependency_edges_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_payout_rails/6b_payout_rails_seed_update_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_payout_rails/6b_payout_rails_fidelity_evidence_v1.json\"] ) JSON.parse(require('fs').readFileSync(p,'utf8')); console.log('json parse ok')\""
+      ],
+      "stop_conditions": [
+        "Required edit outside exact files.",
+        "Missing source citation from the consolidated amendment or current v5 doctrine.",
+        "Runtime wiring, schema, package, generated, frontend, or contract identifier change required.",
+        "Business, permission, ADL, provider, or API decision not derivable from committed sources.",
+        "Validation failure after three deterministic self-heal attempts."
+      ],
+      "rollback_notes": "Revert the single FFET PR; no runtime, schema, package, generated, or frontend state is changed by this Stage 1 FFET.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": [
+          "stale hash",
+          "stale line number",
+          "broken JSON",
+          "metadata mismatch",
+          "count drift",
+          "internal docs reference drift"
+        ],
+        "forbidden": [
+          "scope expansion",
+          "runtime wiring",
+          "schema edit",
+          "package or lockfile edit",
+          "generated-file manual edit",
+          "frontend route or screen",
+          "semantic contract/package rename",
+          "invented doctrine"
+        ]
+      },
+      "expected_evidence": [
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_payout_rails/6b_payout_rails_decision_record_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_payout_rails/6b_payout_rails_catalog_entry_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_payout_rails/6b_payout_rails_dependency_edges_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_payout_rails/6b_payout_rails_seed_update_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_payout_rails/6b_payout_rails_fidelity_evidence_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_payout_rails/6b_payout_rails_readiness_note_v1.md"
+      ]
+    },
+    {
+      "ffet_id": "S1-6A6C-FFET-011",
+      "surface_id": "6B-X3",
+      "phase": "6B",
+      "seed_name": "cross_tenant_invoicing",
+      "title": "Stage 1 amendment seed artifacts for Cross-tenant invoicing",
+      "status": "gate_2_ready_pending_gate_3_human_approval",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "source_authority": "docs/process/phases/cross_phase/esbla_phase_6a_6c_consolidated_amendment_v1.md",
+      "source_section": "§3 Phase 6B extensions",
+      "files_expected_to_change": [
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_cross_tenant_invoicing/6b_cross_tenant_invoicing_decision_record_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_cross_tenant_invoicing/6b_cross_tenant_invoicing_catalog_entry_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_cross_tenant_invoicing/6b_cross_tenant_invoicing_dependency_edges_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_cross_tenant_invoicing/6b_cross_tenant_invoicing_seed_update_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_cross_tenant_invoicing/6b_cross_tenant_invoicing_fidelity_evidence_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_cross_tenant_invoicing/6b_cross_tenant_invoicing_readiness_note_v1.md"
+      ],
+      "dependencies": [
+        "S1-6A6C-FFET-009",
+        "S1-6A6C-FFET-003"
+      ],
+      "surface_dependencies": [
+        "6B-X1",
+        "6A-X3"
+      ],
+      "mcr": "Create complete Stage 1 decision, catalog, dependency, seed, fidelity, and readiness artifacts for 6B-X3 with source citations and no runtime execution.",
+      "validation_commands": [
+        "node scripts/quality/check_lower_snake_case_paths.mjs",
+        "git diff --check",
+        "node -e \"for (const p of [\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_cross_tenant_invoicing/6b_cross_tenant_invoicing_decision_record_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_cross_tenant_invoicing/6b_cross_tenant_invoicing_catalog_entry_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_cross_tenant_invoicing/6b_cross_tenant_invoicing_dependency_edges_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_cross_tenant_invoicing/6b_cross_tenant_invoicing_seed_update_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_cross_tenant_invoicing/6b_cross_tenant_invoicing_fidelity_evidence_v1.json\"] ) JSON.parse(require('fs').readFileSync(p,'utf8')); console.log('json parse ok')\""
+      ],
+      "stop_conditions": [
+        "Required edit outside exact files.",
+        "Missing source citation from the consolidated amendment or current v5 doctrine.",
+        "Runtime wiring, schema, package, generated, frontend, or contract identifier change required.",
+        "Business, permission, ADL, provider, or API decision not derivable from committed sources.",
+        "Validation failure after three deterministic self-heal attempts."
+      ],
+      "rollback_notes": "Revert the single FFET PR; no runtime, schema, package, generated, or frontend state is changed by this Stage 1 FFET.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": [
+          "stale hash",
+          "stale line number",
+          "broken JSON",
+          "metadata mismatch",
+          "count drift",
+          "internal docs reference drift"
+        ],
+        "forbidden": [
+          "scope expansion",
+          "runtime wiring",
+          "schema edit",
+          "package or lockfile edit",
+          "generated-file manual edit",
+          "frontend route or screen",
+          "semantic contract/package rename",
+          "invented doctrine"
+        ]
+      },
+      "expected_evidence": [
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_cross_tenant_invoicing/6b_cross_tenant_invoicing_decision_record_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_cross_tenant_invoicing/6b_cross_tenant_invoicing_catalog_entry_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_cross_tenant_invoicing/6b_cross_tenant_invoicing_dependency_edges_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_cross_tenant_invoicing/6b_cross_tenant_invoicing_seed_update_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_cross_tenant_invoicing/6b_cross_tenant_invoicing_fidelity_evidence_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_cross_tenant_invoicing/6b_cross_tenant_invoicing_readiness_note_v1.md"
+      ]
+    },
+    {
+      "ffet_id": "S1-6A6C-FFET-012",
+      "surface_id": "6B-X4",
+      "phase": "6B",
+      "seed_name": "billing_honesty_surfaces",
+      "title": "Stage 1 amendment seed artifacts for Billing honesty surfaces",
+      "status": "gate_2_ready_pending_gate_3_human_approval",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "source_authority": "docs/process/phases/cross_phase/esbla_phase_6a_6c_consolidated_amendment_v1.md",
+      "source_section": "§3 Phase 6B extensions",
+      "files_expected_to_change": [
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_billing_honesty_surfaces/6b_billing_honesty_surfaces_decision_record_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_billing_honesty_surfaces/6b_billing_honesty_surfaces_catalog_entry_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_billing_honesty_surfaces/6b_billing_honesty_surfaces_dependency_edges_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_billing_honesty_surfaces/6b_billing_honesty_surfaces_seed_update_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_billing_honesty_surfaces/6b_billing_honesty_surfaces_fidelity_evidence_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_billing_honesty_surfaces/6b_billing_honesty_surfaces_readiness_note_v1.md"
+      ],
+      "dependencies": [
+        "S1-6A6C-FFET-009",
+        "S1-6A6C-FFET-007"
+      ],
+      "surface_dependencies": [
+        "6B-X1",
+        "6A-X7"
+      ],
+      "mcr": "Create complete Stage 1 decision, catalog, dependency, seed, fidelity, and readiness artifacts for 6B-X4 with source citations and no runtime execution.",
+      "validation_commands": [
+        "node scripts/quality/check_lower_snake_case_paths.mjs",
+        "git diff --check",
+        "node -e \"for (const p of [\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_billing_honesty_surfaces/6b_billing_honesty_surfaces_decision_record_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_billing_honesty_surfaces/6b_billing_honesty_surfaces_catalog_entry_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_billing_honesty_surfaces/6b_billing_honesty_surfaces_dependency_edges_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_billing_honesty_surfaces/6b_billing_honesty_surfaces_seed_update_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_billing_honesty_surfaces/6b_billing_honesty_surfaces_fidelity_evidence_v1.json\"] ) JSON.parse(require('fs').readFileSync(p,'utf8')); console.log('json parse ok')\""
+      ],
+      "stop_conditions": [
+        "Required edit outside exact files.",
+        "Missing source citation from the consolidated amendment or current v5 doctrine.",
+        "Runtime wiring, schema, package, generated, frontend, or contract identifier change required.",
+        "Business, permission, ADL, provider, or API decision not derivable from committed sources.",
+        "Validation failure after three deterministic self-heal attempts."
+      ],
+      "rollback_notes": "Revert the single FFET PR; no runtime, schema, package, generated, or frontend state is changed by this Stage 1 FFET.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": [
+          "stale hash",
+          "stale line number",
+          "broken JSON",
+          "metadata mismatch",
+          "count drift",
+          "internal docs reference drift"
+        ],
+        "forbidden": [
+          "scope expansion",
+          "runtime wiring",
+          "schema edit",
+          "package or lockfile edit",
+          "generated-file manual edit",
+          "frontend route or screen",
+          "semantic contract/package rename",
+          "invented doctrine"
+        ]
+      },
+      "expected_evidence": [
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_billing_honesty_surfaces/6b_billing_honesty_surfaces_decision_record_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_billing_honesty_surfaces/6b_billing_honesty_surfaces_catalog_entry_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_billing_honesty_surfaces/6b_billing_honesty_surfaces_dependency_edges_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_billing_honesty_surfaces/6b_billing_honesty_surfaces_seed_update_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_billing_honesty_surfaces/6b_billing_honesty_surfaces_fidelity_evidence_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_billing_honesty_surfaces/6b_billing_honesty_surfaces_readiness_note_v1.md"
+      ]
+    },
+    {
+      "ffet_id": "S1-6A6C-FFET-013",
+      "surface_id": "6B-X5",
+      "phase": "6B",
+      "seed_name": "pricing_presentations",
+      "title": "Stage 1 amendment seed artifacts for Pricing presentations",
+      "status": "gate_2_ready_pending_gate_3_human_approval",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "source_authority": "docs/process/phases/cross_phase/esbla_phase_6a_6c_consolidated_amendment_v1.md",
+      "source_section": "§3 Phase 6B extensions",
+      "files_expected_to_change": [
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_pricing_presentations/6b_pricing_presentations_decision_record_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_pricing_presentations/6b_pricing_presentations_catalog_entry_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_pricing_presentations/6b_pricing_presentations_dependency_edges_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_pricing_presentations/6b_pricing_presentations_seed_update_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_pricing_presentations/6b_pricing_presentations_fidelity_evidence_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_pricing_presentations/6b_pricing_presentations_readiness_note_v1.md"
+      ],
+      "dependencies": [
+        "S1-6A6C-FFET-012"
+      ],
+      "surface_dependencies": [
+        "6B-X4"
+      ],
+      "mcr": "Create complete Stage 1 decision, catalog, dependency, seed, fidelity, and readiness artifacts for 6B-X5 with source citations and no runtime execution.",
+      "validation_commands": [
+        "node scripts/quality/check_lower_snake_case_paths.mjs",
+        "git diff --check",
+        "node -e \"for (const p of [\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_pricing_presentations/6b_pricing_presentations_decision_record_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_pricing_presentations/6b_pricing_presentations_catalog_entry_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_pricing_presentations/6b_pricing_presentations_dependency_edges_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_pricing_presentations/6b_pricing_presentations_seed_update_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_pricing_presentations/6b_pricing_presentations_fidelity_evidence_v1.json\"] ) JSON.parse(require('fs').readFileSync(p,'utf8')); console.log('json parse ok')\""
+      ],
+      "stop_conditions": [
+        "Required edit outside exact files.",
+        "Missing source citation from the consolidated amendment or current v5 doctrine.",
+        "Runtime wiring, schema, package, generated, frontend, or contract identifier change required.",
+        "Business, permission, ADL, provider, or API decision not derivable from committed sources.",
+        "Validation failure after three deterministic self-heal attempts."
+      ],
+      "rollback_notes": "Revert the single FFET PR; no runtime, schema, package, generated, or frontend state is changed by this Stage 1 FFET.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": [
+          "stale hash",
+          "stale line number",
+          "broken JSON",
+          "metadata mismatch",
+          "count drift",
+          "internal docs reference drift"
+        ],
+        "forbidden": [
+          "scope expansion",
+          "runtime wiring",
+          "schema edit",
+          "package or lockfile edit",
+          "generated-file manual edit",
+          "frontend route or screen",
+          "semantic contract/package rename",
+          "invented doctrine"
+        ]
+      },
+      "expected_evidence": [
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_pricing_presentations/6b_pricing_presentations_decision_record_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_pricing_presentations/6b_pricing_presentations_catalog_entry_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_pricing_presentations/6b_pricing_presentations_dependency_edges_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_pricing_presentations/6b_pricing_presentations_seed_update_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_pricing_presentations/6b_pricing_presentations_fidelity_evidence_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_pricing_presentations/6b_pricing_presentations_readiness_note_v1.md"
+      ]
+    },
+    {
+      "ffet_id": "S1-6A6C-FFET-014",
+      "surface_id": "6C-X1",
+      "phase": "6C",
+      "seed_name": "workspace_level_working_copy",
+      "title": "Stage 1 amendment seed artifacts for Workspace-level working copy",
+      "status": "gate_2_ready_pending_gate_3_human_approval",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "source_authority": "docs/process/phases/cross_phase/esbla_phase_6a_6c_consolidated_amendment_v1.md",
+      "source_section": "§4 Phase 6C extensions",
+      "files_expected_to_change": [
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_workspace_level_working_copy/6c_workspace_level_working_copy_decision_record_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_workspace_level_working_copy/6c_workspace_level_working_copy_catalog_entry_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_workspace_level_working_copy/6c_workspace_level_working_copy_dependency_edges_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_workspace_level_working_copy/6c_workspace_level_working_copy_seed_update_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_workspace_level_working_copy/6c_workspace_level_working_copy_fidelity_evidence_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_workspace_level_working_copy/6c_workspace_level_working_copy_readiness_note_v1.md"
+      ],
+      "dependencies": [
+        "S1-6A6C-FFET-001",
+        "S1-6A6C-FFET-003"
+      ],
+      "surface_dependencies": [
+        "6A-X1",
+        "6A-X3"
+      ],
+      "mcr": "Create complete Stage 1 decision, catalog, dependency, seed, fidelity, and readiness artifacts for 6C-X1 with source citations and no runtime execution.",
+      "validation_commands": [
+        "node scripts/quality/check_lower_snake_case_paths.mjs",
+        "git diff --check",
+        "node -e \"for (const p of [\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_workspace_level_working_copy/6c_workspace_level_working_copy_decision_record_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_workspace_level_working_copy/6c_workspace_level_working_copy_catalog_entry_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_workspace_level_working_copy/6c_workspace_level_working_copy_dependency_edges_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_workspace_level_working_copy/6c_workspace_level_working_copy_seed_update_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_workspace_level_working_copy/6c_workspace_level_working_copy_fidelity_evidence_v1.json\"] ) JSON.parse(require('fs').readFileSync(p,'utf8')); console.log('json parse ok')\""
+      ],
+      "stop_conditions": [
+        "Required edit outside exact files.",
+        "Missing source citation from the consolidated amendment or current v5 doctrine.",
+        "Runtime wiring, schema, package, generated, frontend, or contract identifier change required.",
+        "Business, permission, ADL, provider, or API decision not derivable from committed sources.",
+        "Validation failure after three deterministic self-heal attempts."
+      ],
+      "rollback_notes": "Revert the single FFET PR; no runtime, schema, package, generated, or frontend state is changed by this Stage 1 FFET.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": [
+          "stale hash",
+          "stale line number",
+          "broken JSON",
+          "metadata mismatch",
+          "count drift",
+          "internal docs reference drift"
+        ],
+        "forbidden": [
+          "scope expansion",
+          "runtime wiring",
+          "schema edit",
+          "package or lockfile edit",
+          "generated-file manual edit",
+          "frontend route or screen",
+          "semantic contract/package rename",
+          "invented doctrine"
+        ]
+      },
+      "expected_evidence": [
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_workspace_level_working_copy/6c_workspace_level_working_copy_decision_record_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_workspace_level_working_copy/6c_workspace_level_working_copy_catalog_entry_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_workspace_level_working_copy/6c_workspace_level_working_copy_dependency_edges_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_workspace_level_working_copy/6c_workspace_level_working_copy_seed_update_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_workspace_level_working_copy/6c_workspace_level_working_copy_fidelity_evidence_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_workspace_level_working_copy/6c_workspace_level_working_copy_readiness_note_v1.md"
+      ]
+    },
+    {
+      "ffet_id": "S1-6A6C-FFET-015",
+      "surface_id": "6C-X2",
+      "phase": "6C",
+      "seed_name": "structured_agreements",
+      "title": "Stage 1 amendment seed artifacts for Structured agreements",
+      "status": "gate_2_ready_pending_gate_3_human_approval",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "source_authority": "docs/process/phases/cross_phase/esbla_phase_6a_6c_consolidated_amendment_v1.md",
+      "source_section": "§4 Phase 6C extensions",
+      "files_expected_to_change": [
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_structured_agreements/6c_structured_agreements_decision_record_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_structured_agreements/6c_structured_agreements_catalog_entry_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_structured_agreements/6c_structured_agreements_dependency_edges_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_structured_agreements/6c_structured_agreements_seed_update_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_structured_agreements/6c_structured_agreements_fidelity_evidence_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_structured_agreements/6c_structured_agreements_readiness_note_v1.md"
+      ],
+      "dependencies": [
+        "S1-6A6C-FFET-014",
+        "S1-6A6C-FFET-006"
+      ],
+      "surface_dependencies": [
+        "6C-X1",
+        "6A-X6"
+      ],
+      "mcr": "Create complete Stage 1 decision, catalog, dependency, seed, fidelity, and readiness artifacts for 6C-X2 with source citations and no runtime execution.",
+      "validation_commands": [
+        "node scripts/quality/check_lower_snake_case_paths.mjs",
+        "git diff --check",
+        "node -e \"for (const p of [\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_structured_agreements/6c_structured_agreements_decision_record_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_structured_agreements/6c_structured_agreements_catalog_entry_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_structured_agreements/6c_structured_agreements_dependency_edges_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_structured_agreements/6c_structured_agreements_seed_update_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_structured_agreements/6c_structured_agreements_fidelity_evidence_v1.json\"] ) JSON.parse(require('fs').readFileSync(p,'utf8')); console.log('json parse ok')\""
+      ],
+      "stop_conditions": [
+        "Required edit outside exact files.",
+        "Missing source citation from the consolidated amendment or current v5 doctrine.",
+        "Runtime wiring, schema, package, generated, frontend, or contract identifier change required.",
+        "Business, permission, ADL, provider, or API decision not derivable from committed sources.",
+        "Validation failure after three deterministic self-heal attempts."
+      ],
+      "rollback_notes": "Revert the single FFET PR; no runtime, schema, package, generated, or frontend state is changed by this Stage 1 FFET.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": [
+          "stale hash",
+          "stale line number",
+          "broken JSON",
+          "metadata mismatch",
+          "count drift",
+          "internal docs reference drift"
+        ],
+        "forbidden": [
+          "scope expansion",
+          "runtime wiring",
+          "schema edit",
+          "package or lockfile edit",
+          "generated-file manual edit",
+          "frontend route or screen",
+          "semantic contract/package rename",
+          "invented doctrine"
+        ]
+      },
+      "expected_evidence": [
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_structured_agreements/6c_structured_agreements_decision_record_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_structured_agreements/6c_structured_agreements_catalog_entry_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_structured_agreements/6c_structured_agreements_dependency_edges_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_structured_agreements/6c_structured_agreements_seed_update_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_structured_agreements/6c_structured_agreements_fidelity_evidence_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_structured_agreements/6c_structured_agreements_readiness_note_v1.md"
+      ]
+    },
+    {
+      "ffet_id": "S1-6A6C-FFET-016",
+      "surface_id": "6C-X3",
+      "phase": "6C",
+      "seed_name": "ai_verification_hooks",
+      "title": "Stage 1 amendment seed artifacts for AI verification hooks",
+      "status": "gate_2_ready_pending_gate_3_human_approval",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "source_authority": "docs/process/phases/cross_phase/esbla_phase_6a_6c_consolidated_amendment_v1.md",
+      "source_section": "§4 Phase 6C extensions",
+      "files_expected_to_change": [
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_ai_verification_hooks/6c_ai_verification_hooks_decision_record_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_ai_verification_hooks/6c_ai_verification_hooks_catalog_entry_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_ai_verification_hooks/6c_ai_verification_hooks_dependency_edges_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_ai_verification_hooks/6c_ai_verification_hooks_seed_update_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_ai_verification_hooks/6c_ai_verification_hooks_fidelity_evidence_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_ai_verification_hooks/6c_ai_verification_hooks_readiness_note_v1.md"
+      ],
+      "dependencies": [
+        "S1-6A6C-FFET-015",
+        "S1-6A6C-FFET-007"
+      ],
+      "surface_dependencies": [
+        "6C-X2",
+        "6A-X7"
+      ],
+      "mcr": "Create complete Stage 1 decision, catalog, dependency, seed, fidelity, and readiness artifacts for 6C-X3 with source citations and no runtime execution.",
+      "validation_commands": [
+        "node scripts/quality/check_lower_snake_case_paths.mjs",
+        "git diff --check",
+        "node -e \"for (const p of [\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_ai_verification_hooks/6c_ai_verification_hooks_decision_record_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_ai_verification_hooks/6c_ai_verification_hooks_catalog_entry_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_ai_verification_hooks/6c_ai_verification_hooks_dependency_edges_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_ai_verification_hooks/6c_ai_verification_hooks_seed_update_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_ai_verification_hooks/6c_ai_verification_hooks_fidelity_evidence_v1.json\"] ) JSON.parse(require('fs').readFileSync(p,'utf8')); console.log('json parse ok')\""
+      ],
+      "stop_conditions": [
+        "Required edit outside exact files.",
+        "Missing source citation from the consolidated amendment or current v5 doctrine.",
+        "Runtime wiring, schema, package, generated, frontend, or contract identifier change required.",
+        "Business, permission, ADL, provider, or API decision not derivable from committed sources.",
+        "Validation failure after three deterministic self-heal attempts."
+      ],
+      "rollback_notes": "Revert the single FFET PR; no runtime, schema, package, generated, or frontend state is changed by this Stage 1 FFET.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": [
+          "stale hash",
+          "stale line number",
+          "broken JSON",
+          "metadata mismatch",
+          "count drift",
+          "internal docs reference drift"
+        ],
+        "forbidden": [
+          "scope expansion",
+          "runtime wiring",
+          "schema edit",
+          "package or lockfile edit",
+          "generated-file manual edit",
+          "frontend route or screen",
+          "semantic contract/package rename",
+          "invented doctrine"
+        ]
+      },
+      "expected_evidence": [
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_ai_verification_hooks/6c_ai_verification_hooks_decision_record_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_ai_verification_hooks/6c_ai_verification_hooks_catalog_entry_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_ai_verification_hooks/6c_ai_verification_hooks_dependency_edges_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_ai_verification_hooks/6c_ai_verification_hooks_seed_update_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_ai_verification_hooks/6c_ai_verification_hooks_fidelity_evidence_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_ai_verification_hooks/6c_ai_verification_hooks_readiness_note_v1.md"
+      ]
+    },
+    {
+      "ffet_id": "S1-6A6C-FFET-017",
+      "surface_id": "6C-X4",
+      "phase": "6C",
+      "seed_name": "employment_reputation_linkage",
+      "title": "Stage 1 amendment seed artifacts for Employment to reputation linkage",
+      "status": "gate_2_ready_pending_gate_3_human_approval",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "source_authority": "docs/process/phases/cross_phase/esbla_phase_6a_6c_consolidated_amendment_v1.md",
+      "source_section": "§4 Phase 6C extensions",
+      "files_expected_to_change": [
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_employment_reputation_linkage/6c_employment_reputation_linkage_decision_record_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_employment_reputation_linkage/6c_employment_reputation_linkage_catalog_entry_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_employment_reputation_linkage/6c_employment_reputation_linkage_dependency_edges_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_employment_reputation_linkage/6c_employment_reputation_linkage_seed_update_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_employment_reputation_linkage/6c_employment_reputation_linkage_fidelity_evidence_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_employment_reputation_linkage/6c_employment_reputation_linkage_readiness_note_v1.md"
+      ],
+      "dependencies": [
+        "S1-6A6C-FFET-004",
+        "S1-6A6C-FFET-014"
+      ],
+      "surface_dependencies": [
+        "6A-X4",
+        "6C-X1"
+      ],
+      "mcr": "Create complete Stage 1 decision, catalog, dependency, seed, fidelity, and readiness artifacts for 6C-X4 with source citations and no runtime execution.",
+      "validation_commands": [
+        "node scripts/quality/check_lower_snake_case_paths.mjs",
+        "git diff --check",
+        "node -e \"for (const p of [\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_employment_reputation_linkage/6c_employment_reputation_linkage_decision_record_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_employment_reputation_linkage/6c_employment_reputation_linkage_catalog_entry_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_employment_reputation_linkage/6c_employment_reputation_linkage_dependency_edges_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_employment_reputation_linkage/6c_employment_reputation_linkage_seed_update_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_employment_reputation_linkage/6c_employment_reputation_linkage_fidelity_evidence_v1.json\"] ) JSON.parse(require('fs').readFileSync(p,'utf8')); console.log('json parse ok')\""
+      ],
+      "stop_conditions": [
+        "Required edit outside exact files.",
+        "Missing source citation from the consolidated amendment or current v5 doctrine.",
+        "Runtime wiring, schema, package, generated, frontend, or contract identifier change required.",
+        "Business, permission, ADL, provider, or API decision not derivable from committed sources.",
+        "Validation failure after three deterministic self-heal attempts."
+      ],
+      "rollback_notes": "Revert the single FFET PR; no runtime, schema, package, generated, or frontend state is changed by this Stage 1 FFET.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": [
+          "stale hash",
+          "stale line number",
+          "broken JSON",
+          "metadata mismatch",
+          "count drift",
+          "internal docs reference drift"
+        ],
+        "forbidden": [
+          "scope expansion",
+          "runtime wiring",
+          "schema edit",
+          "package or lockfile edit",
+          "generated-file manual edit",
+          "frontend route or screen",
+          "semantic contract/package rename",
+          "invented doctrine"
+        ]
+      },
+      "expected_evidence": [
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_employment_reputation_linkage/6c_employment_reputation_linkage_decision_record_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_employment_reputation_linkage/6c_employment_reputation_linkage_catalog_entry_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_employment_reputation_linkage/6c_employment_reputation_linkage_dependency_edges_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_employment_reputation_linkage/6c_employment_reputation_linkage_seed_update_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_employment_reputation_linkage/6c_employment_reputation_linkage_fidelity_evidence_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_employment_reputation_linkage/6c_employment_reputation_linkage_readiness_note_v1.md"
+      ]
+    },
+    {
+      "ffet_id": "S1-6A6C-FFET-018",
+      "surface_id": "6C-X5",
+      "phase": "6C",
+      "seed_name": "dispute_appeals_scaffolding",
+      "title": "Stage 1 amendment seed artifacts for Dispute and appeals scaffolding",
+      "status": "gate_2_ready_pending_gate_3_human_approval",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "source_authority": "docs/process/phases/cross_phase/esbla_phase_6a_6c_consolidated_amendment_v1.md",
+      "source_section": "§4 Phase 6C extensions",
+      "files_expected_to_change": [
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_dispute_appeals_scaffolding/6c_dispute_appeals_scaffolding_decision_record_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_dispute_appeals_scaffolding/6c_dispute_appeals_scaffolding_catalog_entry_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_dispute_appeals_scaffolding/6c_dispute_appeals_scaffolding_dependency_edges_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_dispute_appeals_scaffolding/6c_dispute_appeals_scaffolding_seed_update_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_dispute_appeals_scaffolding/6c_dispute_appeals_scaffolding_fidelity_evidence_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_dispute_appeals_scaffolding/6c_dispute_appeals_scaffolding_readiness_note_v1.md"
+      ],
+      "dependencies": [
+        "S1-6A6C-FFET-003",
+        "S1-6A6C-FFET-004",
+        "S1-6A6C-FFET-015"
+      ],
+      "surface_dependencies": [
+        "6A-X3",
+        "6A-X4",
+        "6C-X2"
+      ],
+      "mcr": "Create complete Stage 1 decision, catalog, dependency, seed, fidelity, and readiness artifacts for 6C-X5 with source citations and no runtime execution.",
+      "validation_commands": [
+        "node scripts/quality/check_lower_snake_case_paths.mjs",
+        "git diff --check",
+        "node -e \"for (const p of [\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_dispute_appeals_scaffolding/6c_dispute_appeals_scaffolding_decision_record_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_dispute_appeals_scaffolding/6c_dispute_appeals_scaffolding_catalog_entry_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_dispute_appeals_scaffolding/6c_dispute_appeals_scaffolding_dependency_edges_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_dispute_appeals_scaffolding/6c_dispute_appeals_scaffolding_seed_update_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_dispute_appeals_scaffolding/6c_dispute_appeals_scaffolding_fidelity_evidence_v1.json\"] ) JSON.parse(require('fs').readFileSync(p,'utf8')); console.log('json parse ok')\""
+      ],
+      "stop_conditions": [
+        "Required edit outside exact files.",
+        "Missing source citation from the consolidated amendment or current v5 doctrine.",
+        "Runtime wiring, schema, package, generated, frontend, or contract identifier change required.",
+        "Business, permission, ADL, provider, or API decision not derivable from committed sources.",
+        "Validation failure after three deterministic self-heal attempts."
+      ],
+      "rollback_notes": "Revert the single FFET PR; no runtime, schema, package, generated, or frontend state is changed by this Stage 1 FFET.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": [
+          "stale hash",
+          "stale line number",
+          "broken JSON",
+          "metadata mismatch",
+          "count drift",
+          "internal docs reference drift"
+        ],
+        "forbidden": [
+          "scope expansion",
+          "runtime wiring",
+          "schema edit",
+          "package or lockfile edit",
+          "generated-file manual edit",
+          "frontend route or screen",
+          "semantic contract/package rename",
+          "invented doctrine"
+        ]
+      },
+      "expected_evidence": [
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_dispute_appeals_scaffolding/6c_dispute_appeals_scaffolding_decision_record_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_dispute_appeals_scaffolding/6c_dispute_appeals_scaffolding_catalog_entry_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_dispute_appeals_scaffolding/6c_dispute_appeals_scaffolding_dependency_edges_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_dispute_appeals_scaffolding/6c_dispute_appeals_scaffolding_seed_update_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_dispute_appeals_scaffolding/6c_dispute_appeals_scaffolding_fidelity_evidence_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_dispute_appeals_scaffolding/6c_dispute_appeals_scaffolding_readiness_note_v1.md"
+      ]
+    },
+    {
+      "ffet_id": "S1-6A6C-FFET-019",
+      "surface_id": "6C-X6",
+      "phase": "6C",
+      "seed_name": "cross_tenant_scheduling_recruitment",
+      "title": "Stage 1 amendment seed artifacts for Cross-tenant scheduling and recruitment",
+      "status": "gate_2_ready_pending_gate_3_human_approval",
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "source_authority": "docs/process/phases/cross_phase/esbla_phase_6a_6c_consolidated_amendment_v1.md",
+      "source_section": "§4 Phase 6C extensions",
+      "files_expected_to_change": [
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_cross_tenant_scheduling_recruitment/6c_cross_tenant_scheduling_recruitment_decision_record_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_cross_tenant_scheduling_recruitment/6c_cross_tenant_scheduling_recruitment_catalog_entry_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_cross_tenant_scheduling_recruitment/6c_cross_tenant_scheduling_recruitment_dependency_edges_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_cross_tenant_scheduling_recruitment/6c_cross_tenant_scheduling_recruitment_seed_update_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_cross_tenant_scheduling_recruitment/6c_cross_tenant_scheduling_recruitment_fidelity_evidence_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_cross_tenant_scheduling_recruitment/6c_cross_tenant_scheduling_recruitment_readiness_note_v1.md"
+      ],
+      "dependencies": [
+        "S1-6A6C-FFET-005",
+        "S1-6A6C-FFET-008",
+        "S1-6A6C-FFET-014"
+      ],
+      "surface_dependencies": [
+        "6A-X5",
+        "6A-X8",
+        "6C-X1"
+      ],
+      "mcr": "Create complete Stage 1 decision, catalog, dependency, seed, fidelity, and readiness artifacts for 6C-X6 with source citations and no runtime execution.",
+      "validation_commands": [
+        "node scripts/quality/check_lower_snake_case_paths.mjs",
+        "git diff --check",
+        "node -e \"for (const p of [\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_cross_tenant_scheduling_recruitment/6c_cross_tenant_scheduling_recruitment_decision_record_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_cross_tenant_scheduling_recruitment/6c_cross_tenant_scheduling_recruitment_catalog_entry_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_cross_tenant_scheduling_recruitment/6c_cross_tenant_scheduling_recruitment_dependency_edges_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_cross_tenant_scheduling_recruitment/6c_cross_tenant_scheduling_recruitment_seed_update_v1.json\",\"docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_cross_tenant_scheduling_recruitment/6c_cross_tenant_scheduling_recruitment_fidelity_evidence_v1.json\"] ) JSON.parse(require('fs').readFileSync(p,'utf8')); console.log('json parse ok')\""
+      ],
+      "stop_conditions": [
+        "Required edit outside exact files.",
+        "Missing source citation from the consolidated amendment or current v5 doctrine.",
+        "Runtime wiring, schema, package, generated, frontend, or contract identifier change required.",
+        "Business, permission, ADL, provider, or API decision not derivable from committed sources.",
+        "Validation failure after three deterministic self-heal attempts."
+      ],
+      "rollback_notes": "Revert the single FFET PR; no runtime, schema, package, generated, or frontend state is changed by this Stage 1 FFET.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": [
+          "stale hash",
+          "stale line number",
+          "broken JSON",
+          "metadata mismatch",
+          "count drift",
+          "internal docs reference drift"
+        ],
+        "forbidden": [
+          "scope expansion",
+          "runtime wiring",
+          "schema edit",
+          "package or lockfile edit",
+          "generated-file manual edit",
+          "frontend route or screen",
+          "semantic contract/package rename",
+          "invented doctrine"
+        ]
+      },
+      "expected_evidence": [
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_cross_tenant_scheduling_recruitment/6c_cross_tenant_scheduling_recruitment_decision_record_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_cross_tenant_scheduling_recruitment/6c_cross_tenant_scheduling_recruitment_catalog_entry_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_cross_tenant_scheduling_recruitment/6c_cross_tenant_scheduling_recruitment_dependency_edges_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_cross_tenant_scheduling_recruitment/6c_cross_tenant_scheduling_recruitment_seed_update_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_cross_tenant_scheduling_recruitment/6c_cross_tenant_scheduling_recruitment_fidelity_evidence_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6c_cross_tenant_scheduling_recruitment/6c_cross_tenant_scheduling_recruitment_readiness_note_v1.md"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "$metadata": {
+    "company": "HAUTM",
+    "platform": "Esbla Spark",
+    "author": "Usman Hussain",
+    "owner": "Usman Hussain",
+    "suite_version": "v5.0",
+    "file_version": "v1.0",
+    "created": "2026-06-13",
+    "last_updated": "2026-06-13",
+    "status": "active",
+    "document_type": "stage1_amendment_validation_ladder_manifest",
+    "scope": "Validation ladder manifest for Stage 1 amendment FFETs.",
+    "ratifier": "Usman Hussain"
+  },
+  "artifact_id": "phase_6a_6c_amendment_validation_ladder_manifest_v1",
+  "status": "active",
+  "shared_commands": [
+    "node scripts/quality/check_lower_snake_case_paths.mjs",
+    "git diff --check"
+  ],
+  "package_gate_2_commands": [
+    "JSON parse for all package artifacts",
+    "metadata frontmatter check for touched markdown",
+    "exact-file ownership duplicate check",
+    "dependency graph cycle check",
+    "execution flag false audit"
+  ],
+  "per_ffet_commands": [
+    "JSON parse for active FFET artifacts",
+    "metadata check for readiness note markdown",
+    "exact-file changed-file audit",
+    "legacy-name delta audit",
+    "git diff --check"
+  ],
+  "runtime_validation_required": false,
+  "runtime_validation_deferred_to_stage2": true
+}

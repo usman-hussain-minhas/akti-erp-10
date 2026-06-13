@@ -1,0 +1,55 @@
+{
+  "$metadata": {
+    "company": "HAUTM",
+    "platform": "Esbla Spark",
+    "author": "Usman Hussain",
+    "owner": "Usman Hussain",
+    "suite_version": "v5.0",
+    "file_version": "v1.0",
+    "created": "2026-06-13",
+    "last_updated": "2026-06-13",
+    "status": "active",
+    "document_type": "stage1_amendment_decision_register",
+    "scope": "Binding Stage 1 decisions for the Phase 6A-6C amendment FFET package.",
+    "ratifier": "Usman Hussain"
+  },
+  "artifact_id": "phase_6a_6c_amendment_decision_register_v1",
+  "status": "active_gate_2_ready",
+  "decisions": [
+    {
+      "decision_id": "S1-D001",
+      "decision": "Stage 1 is amendment seed-artifact work only.",
+      "status": "accepted",
+      "rationale": "The consolidated amendment separates Stage 1 amendments from Stage 2 runtime wiring.",
+      "source": "docs/process/phases/cross_phase/esbla_phase_6a_6c_consolidated_amendment_v1.md §6"
+    },
+    {
+      "decision_id": "S1-D002",
+      "decision": "Stage 2 runtime integration remains separate and must be re-audited after Stage 1 lands.",
+      "status": "accepted",
+      "rationale": "The runtime wiring scope is defined in §5 and sequenced after Stage 1 seed-level readiness.",
+      "source": "docs/process/phases/cross_phase/esbla_phase_6a_6c_consolidated_amendment_v1.md §5-§6"
+    },
+    {
+      "decision_id": "S1-D003",
+      "decision": "The deferred semantic contract/package rename remains Stage 2 work.",
+      "status": "accepted",
+      "rationale": "Stage 0 explicitly deferred the contract/package namespace migration to avoid changing contract surfaces without consumers.",
+      "source": "docs/process/registries/migration_tracker_v5_0.json"
+    },
+    {
+      "decision_id": "S1-D004",
+      "decision": "No Spark Genesis is used for this package.",
+      "status": "accepted",
+      "rationale": "User instruction requires committed repo artifacts only unless explicitly requested.",
+      "source": "AGENTS.md"
+    },
+    {
+      "decision_id": "S1-D005",
+      "decision": "All execution flags remain false at Gate 2.",
+      "status": "accepted",
+      "rationale": "Gate 2 prepares human review; Gate 3 human approval is required before execution.",
+      "source": "docs/doctrine/current/esbla_ticket_quality_doctrine_v1.md"
+    }
+  ]
+}
