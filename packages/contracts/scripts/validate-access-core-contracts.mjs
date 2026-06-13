@@ -13,6 +13,19 @@ const scriptDir = dirname(fileURLToPath(import.meta.url));
 const contractsRoot = resolve(scriptDir, "..");
 const manifestPath = resolve(contractsRoot, "access-core.module-manifest.contract.ts");
 const seedPath = resolve(contractsRoot, "access-core-capability-seed.contract.ts");
+const packageManifestPath = resolve(contractsRoot, "package.json");
+
+const S2_CC_001_PHASE6C_WORKSPACE_EXPORTS = [
+  "./phase-6c-workspace-cross-module-channel-ref-module-manifest",
+  "./phase-6c-workspace-e2e-encryption-boundary-module-manifest",
+  "./phase-6c-workspace-membership-policy-module-manifest",
+  "./phase-6c-workspace-mention-notification-evidence-module-manifest",
+  "./phase-6c-workspace-message-attachment-file-ref-module-manifest",
+  "./phase-6c-workspace-moderation-reporting-module-manifest",
+  "./phase-6c-workspace-outbound-notification-gateway-module-manifest",
+  "./phase-6c-workspace-private-channel-approval-module-manifest",
+  "./phase-6c-workspace-workspace-message-search-module-manifest",
+];
 
 const DISALLOWED_PREFIXES = [
   "lead.",
@@ -72,6 +85,43 @@ const P1_007_ALLOWED_API_ROUTES = new Set([
   "DELETE /platform/access/organizations/:organization_id/group-capabilities/:assignment_id",
 ]);
 
+function validateStage2ContractNamespaceCompatibility(failures) {
+  const packageManifest = JSON.parse(readFileSync(packageManifestPath, "utf8"));
+  const migration = packageManifest.esblaNamespaceMigration;
+
+  if (!migration) {
+    failures.push("S2-CC-001 namespace migration metadata must exist in packages/contracts/package.json");
+    return;
+  }
+
+  if (migration.stage2_ffet !== "S2-CC-001") {
+    failures.push("S2-CC-001 namespace migration metadata must name S2-CC-001");
+  }
+
+  if (packageManifest.name !== migration.current_workspace_package_name) {
+    failures.push("S2-CC-001 package compatibility metadata must match the current workspace package name");
+  }
+
+  if (migration.package_name_rename !== "deferred_until_workspace_wide_package_rename_can_update_consumers_and_lockfile") {
+    failures.push("S2-CC-001 package rename must remain deferred until the workspace-wide package rename can update consumers and lockfile");
+  }
+
+  const exported = new Set(migration.exported_phase6c_workspace_manifest_subpaths ?? []);
+  for (const exportPath of S2_CC_001_PHASE6C_WORKSPACE_EXPORTS) {
+    if (!packageManifest.exports?.[exportPath]) {
+      failures.push(`S2-CC-001 package export missing: ${exportPath}`);
+    }
+
+    if (!packageManifest.typesVersions?.["*"]?.[exportPath.slice(2)]) {
+      failures.push(`S2-CC-001 typesVersions entry missing: ${exportPath}`);
+    }
+
+    if (!exported.has(exportPath)) {
+      failures.push(`S2-CC-001 migration metadata missing export: ${exportPath}`);
+    }
+  }
+}
+
 function hasDuplicates(values) {
   return new Set(values).size !== values.length;
 }
@@ -86,6 +136,8 @@ function usesApprovedAccessCoreNamespace(key) {
 
 function main() {
   const failures = [];
+
+  validateStage2ContractNamespaceCompatibility(failures);
 
   const manifestParse = safeParseModuleManifest(accessCoreModuleManifest);
   if (!manifestParse.success) {

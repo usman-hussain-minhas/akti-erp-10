@@ -31,6 +31,42 @@
     "./gatekeeper-contract": {
       "types": "./dist/gatekeeper-contract.d.ts",
       "default": "./dist/gatekeeper-contract.js"
+    },
+    "./phase-6c-workspace-cross-module-channel-ref-module-manifest": {
+      "types": "./dist/phase_6c/workspace_messaging_and_collaboration/cross_module_channel_ref.module_manifest.contract.d.ts",
+      "default": "./dist/phase_6c/workspace_messaging_and_collaboration/cross_module_channel_ref.module_manifest.contract.js"
+    },
+    "./phase-6c-workspace-e2e-encryption-boundary-module-manifest": {
+      "types": "./dist/phase_6c/workspace_messaging_and_collaboration/e2e_encryption_boundary.module_manifest.contract.d.ts",
+      "default": "./dist/phase_6c/workspace_messaging_and_collaboration/e2e_encryption_boundary.module_manifest.contract.js"
+    },
+    "./phase-6c-workspace-membership-policy-module-manifest": {
+      "types": "./dist/phase_6c/workspace_messaging_and_collaboration/membership_policy.module_manifest.contract.d.ts",
+      "default": "./dist/phase_6c/workspace_messaging_and_collaboration/membership_policy.module_manifest.contract.js"
+    },
+    "./phase-6c-workspace-mention-notification-evidence-module-manifest": {
+      "types": "./dist/phase_6c/workspace_messaging_and_collaboration/mention_notification_evidence.module_manifest.contract.d.ts",
+      "default": "./dist/phase_6c/workspace_messaging_and_collaboration/mention_notification_evidence.module_manifest.contract.js"
+    },
+    "./phase-6c-workspace-message-attachment-file-ref-module-manifest": {
+      "types": "./dist/phase_6c/workspace_messaging_and_collaboration/message_attachment_file_ref.module_manifest.contract.d.ts",
+      "default": "./dist/phase_6c/workspace_messaging_and_collaboration/message_attachment_file_ref.module_manifest.contract.js"
+    },
+    "./phase-6c-workspace-moderation-reporting-module-manifest": {
+      "types": "./dist/phase_6c/workspace_messaging_and_collaboration/moderation_reporting.module_manifest.contract.d.ts",
+      "default": "./dist/phase_6c/workspace_messaging_and_collaboration/moderation_reporting.module_manifest.contract.js"
+    },
+    "./phase-6c-workspace-outbound-notification-gateway-module-manifest": {
+      "types": "./dist/phase_6c/workspace_messaging_and_collaboration/outbound_notification_gateway.module_manifest.contract.d.ts",
+      "default": "./dist/phase_6c/workspace_messaging_and_collaboration/outbound_notification_gateway.module_manifest.contract.js"
+    },
+    "./phase-6c-workspace-private-channel-approval-module-manifest": {
+      "types": "./dist/phase_6c/workspace_messaging_and_collaboration/private_channel_approval.module_manifest.contract.d.ts",
+      "default": "./dist/phase_6c/workspace_messaging_and_collaboration/private_channel_approval.module_manifest.contract.js"
+    },
+    "./phase-6c-workspace-workspace-message-search-module-manifest": {
+      "types": "./dist/phase_6c/workspace_messaging_and_collaboration/workspace_message_search.module_manifest.contract.d.ts",
+      "default": "./dist/phase_6c/workspace_messaging_and_collaboration/workspace_message_search.module_manifest.contract.js"
     }
   },
   "typesVersions": {
@@ -55,6 +91,33 @@
       ],
       "gatekeeper-contract": [
         "gatekeeper-contract.ts"
+      ],
+      "phase-6c-workspace-cross-module-channel-ref-module-manifest": [
+        "phase_6c/workspace_messaging_and_collaboration/cross_module_channel_ref.module_manifest.contract.ts"
+      ],
+      "phase-6c-workspace-e2e-encryption-boundary-module-manifest": [
+        "phase_6c/workspace_messaging_and_collaboration/e2e_encryption_boundary.module_manifest.contract.ts"
+      ],
+      "phase-6c-workspace-membership-policy-module-manifest": [
+        "phase_6c/workspace_messaging_and_collaboration/membership_policy.module_manifest.contract.ts"
+      ],
+      "phase-6c-workspace-mention-notification-evidence-module-manifest": [
+        "phase_6c/workspace_messaging_and_collaboration/mention_notification_evidence.module_manifest.contract.ts"
+      ],
+      "phase-6c-workspace-message-attachment-file-ref-module-manifest": [
+        "phase_6c/workspace_messaging_and_collaboration/message_attachment_file_ref.module_manifest.contract.ts"
+      ],
+      "phase-6c-workspace-moderation-reporting-module-manifest": [
+        "phase_6c/workspace_messaging_and_collaboration/moderation_reporting.module_manifest.contract.ts"
+      ],
+      "phase-6c-workspace-outbound-notification-gateway-module-manifest": [
+        "phase_6c/workspace_messaging_and_collaboration/outbound_notification_gateway.module_manifest.contract.ts"
+      ],
+      "phase-6c-workspace-private-channel-approval-module-manifest": [
+        "phase_6c/workspace_messaging_and_collaboration/private_channel_approval.module_manifest.contract.ts"
+      ],
+      "phase-6c-workspace-workspace-message-search-module-manifest": [
+        "phase_6c/workspace_messaging_and_collaboration/workspace_message_search.module_manifest.contract.ts"
       ]
     }
   },
@@ -68,5 +131,23 @@
   "devDependencies": {
     "tsx": "4.22.4",
     "typescript": "^5.9.3"
+  },
+  "esblaNamespaceMigration": {
+    "stage2_ffet": "S2-CC-001",
+    "status": "compatibility_locked_with_esbla_neutral_phase6c_exports",
+    "current_workspace_package_name": "@akti/contracts",
+    "package_name_rename": "deferred_until_workspace_wide_package_rename_can_update_consumers_and_lockfile",
+    "rationale": "Renaming the workspace package name inside this FFET would require apps/api consumers, root scripts, and lockfile updates outside the exact S2-CC-001 scope. This FFET therefore adds Esbla-neutral Phase 6C export subpaths and manifest metadata while preserving package-name compatibility.",
+    "exported_phase6c_workspace_manifest_subpaths": [
+      "./phase-6c-workspace-cross-module-channel-ref-module-manifest",
+      "./phase-6c-workspace-e2e-encryption-boundary-module-manifest",
+      "./phase-6c-workspace-membership-policy-module-manifest",
+      "./phase-6c-workspace-mention-notification-evidence-module-manifest",
+      "./phase-6c-workspace-message-attachment-file-ref-module-manifest",
+      "./phase-6c-workspace-moderation-reporting-module-manifest",
+      "./phase-6c-workspace-outbound-notification-gateway-module-manifest",
+      "./phase-6c-workspace-private-channel-approval-module-manifest",
+      "./phase-6c-workspace-workspace-message-search-module-manifest"
+    ]
   }
 }
