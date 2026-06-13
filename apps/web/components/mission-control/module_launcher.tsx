@@ -5,7 +5,11 @@ import { RefreshCw, Shapes } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { useLeadDeskOperatorContext } from '../../app/lead-desk/operator-context';
-import { MODULES_ROUTE_ACTION_AUTHORITY, PHASE5C_MODULE_ROUTE_AUTHORITY } from '../../lib/routes.config';
+import {
+  MODULES_ROUTE_ACTION_AUTHORITY,
+  PHASE5C_MODULE_ROUTE_AUTHORITY,
+  PHASE6_RUNTIME_NAVIGATION_AUTHORITY,
+} from '../../lib/routes.config';
 import { Button } from '../ui/button';
 import { EmptyState, ErrorState, LoadingState, SectionCard, StatusBadge } from '../ui/design_system';
 
@@ -27,6 +31,39 @@ type ModuleListSnapshot =
   | { state: 'placeholder'; message: string }
   | { state: 'loading'; message: string }
   | { state: 'ready'; items: ModuleRegistryItem[] }
+  | { state: 'error'; message: string };
+
+type Phase6RuntimeSurface = {
+  surface_key: string;
+  source_ffet: string;
+  source_surface: string;
+  capability_surface: string;
+  activation_required: true;
+  active: boolean;
+};
+
+type Phase6RuntimeStatus = {
+  phase: '6A' | '6B' | '6C';
+  activation_authority: 'foundry_runtime_authority';
+  caller_controlled_activation_allowed: false;
+  active_surface_count: number;
+  inactive_surface_count: number;
+  surfaces: readonly Phase6RuntimeSurface[];
+};
+
+export type Phase6RuntimeNavigationItem = {
+  id: string;
+  phase: Phase6RuntimeStatus['phase'];
+  label: string;
+  route: string;
+  sourceFfet: string;
+  capabilitySurface: string;
+};
+
+type Phase6RuntimeNavigationSnapshot =
+  | { state: 'placeholder'; message: string }
+  | { state: 'loading'; message: string }
+  | { state: 'ready'; items: Phase6RuntimeNavigationItem[]; inactiveCount: number }
   | { state: 'error'; message: string };
 
 const MODULE_VISUAL_STATES = {
@@ -67,11 +104,57 @@ function resolveApiBase(): string | null {
   return configured ? configured.replace(/\/$/, '') : null;
 }
 
+export function buildPhase6RuntimeNavigationItems(statuses: readonly Phase6RuntimeStatus[]): Phase6RuntimeNavigationItem[] {
+  return statuses.flatMap((status) =>
+    status.surfaces
+      .filter((surface) => surface.active)
+      .map((surface) => ({
+        id: `${status.phase}:${surface.surface_key}`,
+        phase: status.phase,
+        label: `${status.phase} ${surface.source_surface}`,
+        route: PHASE6_RUNTIME_NAVIGATION_AUTHORITY.shellAnchorRoute,
+        sourceFfet: surface.source_ffet,
+        capabilitySurface: surface.capability_surface,
+      })),
+  );
+}
+
+function countInactivePhase6Surfaces(statuses: readonly Phase6RuntimeStatus[]): number {
+  return statuses.reduce((count, status) => count + status.surfaces.filter((surface) => !surface.active).length, 0);
+}
+
+async function fetchModuleRegistryItems(apiBase: string, headers: Record<string, string> | undefined): Promise<ModuleRegistryItem[]> {
+  const response = await fetch(`${apiBase}/platform/modules`, { headers });
+  if (!response.ok) {
+    throw new Error('module_registry_unavailable');
+  }
+
+  const payload = (await response.json()) as { items?: ModuleRegistryItem[] };
+  return Array.isArray(payload.items) ? payload.items : [];
+}
+
+async function fetchPhase6RuntimeStatuses(apiBase: string, headers: Record<string, string> | undefined): Promise<Phase6RuntimeStatus[]> {
+  return Promise.all(
+    PHASE6_RUNTIME_NAVIGATION_AUTHORITY.statusEndpoints.map(async (endpoint) => {
+      const response = await fetch(`${apiBase}${endpoint.route.replace('GET ', '')}`, { headers });
+      if (!response.ok) {
+        throw new Error(`${endpoint.phase.toLowerCase()}_runtime_status_unavailable`);
+      }
+
+      return (await response.json()) as Phase6RuntimeStatus;
+    }),
+  );
+}
+
 export function ModuleLauncher() {
   const { context } = useLeadDeskOperatorContext();
   const [snapshot, setSnapshot] = useState<ModuleListSnapshot>({
     state: 'placeholder',
     message: 'Connect the local/demo API to load the module registry.',
+  });
+  const [phase6Snapshot, setPhase6Snapshot] = useState<Phase6RuntimeNavigationSnapshot>({
+    state: 'placeholder',
+    message: 'Connect the local/demo API to load activation-aware Phase 6A-6C navigation.',
   });
   const apiBase = useMemo(resolveApiBase, []);
 
@@ -81,23 +164,31 @@ export function ModuleLauncher() {
         state: 'placeholder',
         message: 'Connect the local/demo API to load the module registry.',
       });
+      setPhase6Snapshot({
+        state: 'placeholder',
+        message: 'Connect the local/demo API to load activation-aware Phase 6A-6C navigation.',
+      });
       return;
     }
 
     setSnapshot({ state: 'loading', message: 'Loading modules.' });
+    setPhase6Snapshot({ state: 'loading', message: 'Loading Phase 6A-6C activation navigation.' });
     const headers = context.sessionToken.trim().length > 0 ? { Authorization: `Bearer ${context.sessionToken.trim()}` } : undefined;
 
     try {
-      const response = await fetch(`${apiBase}/platform/modules`, { headers });
-      if (!response.ok) {
-        setSnapshot({ state: 'error', message: 'Module list is temporarily unavailable. Try again later.' });
-        return;
-      }
-
-      const payload = (await response.json()) as { items?: ModuleRegistryItem[] };
-      setSnapshot({ state: 'ready', items: Array.isArray(payload.items) ? payload.items : [] });
+      const [moduleItems, phase6Statuses] = await Promise.all([
+        fetchModuleRegistryItems(apiBase, headers),
+        fetchPhase6RuntimeStatuses(apiBase, headers),
+      ]);
+      setSnapshot({ state: 'ready', items: moduleItems });
+      setPhase6Snapshot({
+        state: 'ready',
+        items: buildPhase6RuntimeNavigationItems(phase6Statuses),
+        inactiveCount: countInactivePhase6Surfaces(phase6Statuses),
+      });
     } catch {
       setSnapshot({ state: 'error', message: 'Module list is temporarily unavailable. Try again later.' });
+      setPhase6Snapshot({ state: 'error', message: 'Phase 6A-6C activation navigation is temporarily unavailable.' });
     }
   }, [apiBase, context.sessionToken]);
 
@@ -134,6 +225,7 @@ export function ModuleLauncher() {
         show module availability and status only.
       </p>
       <PlatformModulesSurfaceCard />
+      <Phase6RuntimeNavigationCard snapshot={phase6Snapshot} />
 
       {snapshot.state === 'loading' ? <LoadingState message={snapshot.message} /> : null}
       {snapshot.state === 'placeholder' ? <EmptyState title="Module registry not connected" message={snapshot.message} /> : null}
@@ -149,6 +241,53 @@ export function ModuleLauncher() {
         </div>
       ) : null}
     </section>
+  );
+}
+
+function Phase6RuntimeNavigationCard({ snapshot }: { snapshot: Phase6RuntimeNavigationSnapshot }) {
+  return (
+    <SectionCard className="grid gap-3 border-[rgb(18_217_123_/_.28)]">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <h3 className="m-0 text-base font-semibold">Phase 6A-6C runtime capabilities</h3>
+        <StatusBadge tone={snapshot.state === 'ready' && snapshot.items.length > 0 ? 'success' : 'neutral'}>
+          Foundry governed
+        </StatusBadge>
+      </div>
+      <p className="m-0 text-sm text-[#55605a]">
+        Navigation is driven by {PHASE6_RUNTIME_NAVIGATION_AUTHORITY.activationAuthority}; inactive services are not
+        rendered as openable links.
+      </p>
+      <p className="m-0 text-xs text-[var(--phase5c-text-muted)]">
+        Screen contract: {PHASE6_RUNTIME_NAVIGATION_AUTHORITY.screenContract}. Direct inactive route behavior:{' '}
+        {PHASE6_RUNTIME_NAVIGATION_AUTHORITY.directInactiveRouteBehavior}.
+      </p>
+      {snapshot.state === 'loading' ? <LoadingState message={snapshot.message} /> : null}
+      {snapshot.state === 'placeholder' ? <EmptyState title="Phase 6 navigation not connected" message={snapshot.message} /> : null}
+      {snapshot.state === 'error' ? <ErrorState message={snapshot.message} /> : null}
+      {snapshot.state === 'ready' && snapshot.items.length === 0 ? (
+        <EmptyState
+          title="No activated Phase 6A-6C services"
+          message={`${snapshot.inactiveCount} inactive service surface(s) are hidden until Foundry activation permits navigation.`}
+        />
+      ) : null}
+      {snapshot.state === 'ready' && snapshot.items.length > 0 ? (
+        <div className="grid gap-2">
+          {snapshot.items.map((item) => (
+            <div key={item.id} className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-[var(--phase5c-border)] p-3">
+              <div className="grid gap-1">
+                <p className="m-0 text-sm font-semibold">{item.label}</p>
+                <p className="m-0 text-xs text-[var(--phase5c-text-muted)]">
+                  {item.capabilitySurface} from {item.sourceFfet}
+                </p>
+              </div>
+              <Button asChild variant="secondary">
+                <Link href={item.route}>Open runtime shell</Link>
+              </Button>
+            </div>
+          ))}
+        </div>
+      ) : null}
+    </SectionCard>
   );
 }
 

@@ -114,6 +114,33 @@ export const PHASE5C_MODULE_ROUTE_AUTHORITY = {
   futureBusinessModuleRoutesAreActive: false,
 } as const;
 
+export const PHASE6_RUNTIME_NAVIGATION_AUTHORITY = {
+  screenContract: 'docs/screen_contracts/phase_6a_6c/runtime_capability_shell.screen.json',
+  screenRoute: '/app/phase-6/runtime-capabilities',
+  shellAnchorRoute: '/app#phase-6-runtime-capabilities',
+  activationAuthority: 'foundry_runtime_authority',
+  inactiveServicesNavigable: false,
+  frontendOnlyActivationAllowed: false,
+  directInactiveRouteBehavior: '404_or_unavailable',
+  statusEndpoints: [
+    {
+      phase: '6A',
+      route: 'GET /platform/phase-6a/runtime/status',
+      moduleKey: 'phase6a.runtime',
+    },
+    {
+      phase: '6B',
+      route: 'GET /platform/phase-6b/runtime/status',
+      moduleKey: 'phase6b.runtime',
+    },
+    {
+      phase: '6C',
+      route: 'GET /platform/phase-6c/runtime/status',
+      moduleKey: 'phase6c.runtime',
+    },
+  ],
+} as const;
+
 export const COMMAND_SEARCH_SCOPE_GUARD = {
   dynamicShellActionsEndpoint: null,
   allowedSearchModels: ['WorkflowDefinition', 'WorkflowInstance'] as const,
