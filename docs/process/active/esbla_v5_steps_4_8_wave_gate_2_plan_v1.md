@@ -22,13 +22,13 @@ This package plans Waves 1 through 5 without executing runtime rename, filename 
 
 ## Wave 1 status plan
 
-Wave 1 is imported on `main` and remains pending signed ratification. v5 suite documents stay `for_ratification` until a signed ratification PR explicitly promotes them.
+Wave 1 is imported, signed, and ratified on `main`. The v5 suite documents promoted by ratification remain governed by the signed ratification artifacts and the Stage 0 FFET execution package.
 
 ## Wave 2 docs/process cleanup plan
 
 Exact directories to plan before execution:
 
-- `docs/process/v4_1/`
+- `docs/process/archive/superseded_v4/v4_1/`
 - `docs/process/core/`
 - `docs/process/archive/`
 - `docs/blueprints/legacy/`

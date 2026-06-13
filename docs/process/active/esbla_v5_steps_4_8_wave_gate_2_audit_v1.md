@@ -20,4 +20,4 @@ ratifier: Usman Hussain
 
 The Steps 4-8 plan is Gate-2 ready for human review. It does not execute runtime rename, filename moves, archive moves, package changes, schema changes, generated-file changes, script changes, frontend changes, or AGENTS changes.
 
-All execution flags remain false. Wave 1 remains pending signed ratification. Waves 2 through 5 are planned only and require later Gate 3 approval before execution.
+All execution flags remain false in this Gate-2 audit artifact. Wave 1 is now ratified; Waves 2 through 5 execute only through their approved Stage 0 FFET PRs and remain bounded by per-FFET Gate 3 scope.
