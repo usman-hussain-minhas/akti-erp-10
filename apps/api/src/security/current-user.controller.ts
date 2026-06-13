@@ -1,11 +1,11 @@
-import { Controller, Get, Headers } from '@nestjs/common';
+import { Controller, Get, Headers, Inject } from '@nestjs/common';
 
 import { CurrentUserService } from './current-user.service';
 import { HeaderRecord, resolveTrustedRequestContext } from './request-context';
 
 @Controller('platform/access')
 export class CurrentUserController {
-  constructor(private readonly currentUserService: CurrentUserService) {}
+  constructor(@Inject(CurrentUserService) private readonly currentUserService: CurrentUserService) {}
 
   @Get('me')
   getCurrentUser(@Headers() headers: HeaderRecord) {

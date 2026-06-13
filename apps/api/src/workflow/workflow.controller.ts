@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Get, Headers, Param, Post } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Headers, Param, Post, Inject } from '@nestjs/common';
 
 import {
   WorkflowService,
@@ -35,7 +35,7 @@ const APPROVAL_DECISIONS = new Set(['approved', 'rejected']);
 
 @Controller('platform/workflows')
 export class WorkflowController {
-  constructor(private readonly workflowService: WorkflowService) {}
+  constructor(@Inject(WorkflowService) private readonly workflowService: WorkflowService) {}
 
   @Post()
   startWorkflow(@Body() body: unknown, @Headers() headers: HeaderRecord) {

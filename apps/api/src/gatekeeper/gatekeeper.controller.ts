@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Headers, Post } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Headers, Post, Inject } from '@nestjs/common';
 
 import { type GatekeeperPreflightInput, GatekeeperPreflightService } from './gatekeeper-preflight.service';
 import {
@@ -30,7 +30,7 @@ const REAUTH_STATUSES = new Set(['not_required', 'required', 'satisfied', 'expir
 
 @Controller('platform/gatekeeper')
 export class GatekeeperController {
-  constructor(private readonly gatekeeperPreflightService: GatekeeperPreflightService) {}
+  constructor(@Inject(GatekeeperPreflightService) private readonly gatekeeperPreflightService: GatekeeperPreflightService) {}
 
   @Post('preflight')
   preflight(@Body() body: unknown, @Headers() headers: HeaderRecord) {

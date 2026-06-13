@@ -1,14 +1,4 @@
-import {
-  BadRequestException,
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Headers,
-  Param,
-  Patch,
-  Post,
-} from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, Headers, Param, Patch, Post, Inject } from '@nestjs/common';
 
 import { AccessCoreService } from './access-core.service';
 import {
@@ -29,7 +19,7 @@ import { HeaderRecord, resolveTrustedRequestContext } from '../security/request-
 
 @Controller('platform/access')
 export class AccessCoreController {
-  constructor(private readonly accessCoreService: AccessCoreService) {}
+  constructor(@Inject(AccessCoreService) private readonly accessCoreService: AccessCoreService) {}
 
   @Get('capabilities')
   listCapabilities() {

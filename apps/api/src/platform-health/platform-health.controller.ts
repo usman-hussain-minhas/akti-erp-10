@@ -1,4 +1,4 @@
-import { Controller, Get, Headers } from '@nestjs/common';
+import { Controller, Get, Headers, Inject } from '@nestjs/common';
 
 import { ModuleRegistryService } from '../module-registry/module-registry.service';
 import { StructuredLoggerService } from '../platform-observability/structured-logger.service';
@@ -22,7 +22,7 @@ const PLATFORM_HEALTH_SLO_TARGETS = {
 export class PlatformHealthController {
   private readonly structuredLoggerService = new StructuredLoggerService();
 
-  constructor(private readonly moduleRegistryService: ModuleRegistryService) {}
+  constructor(@Inject(ModuleRegistryService) private readonly moduleRegistryService: ModuleRegistryService) {}
 
   @Get('health')
   async getPlatformHealth(@Headers() headers: HeaderRecord) {

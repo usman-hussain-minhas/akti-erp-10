@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Get, Headers, Param, Post } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Headers, Param, Post, Inject } from '@nestjs/common';
 
 import {
   HierarchyValidationError,
@@ -11,7 +11,7 @@ import { HeaderRecord, resolveTrustedRequestContext } from '../security/request-
 
 @Controller('platform/hierarchy')
 export class HierarchyController {
-  constructor(private readonly hierarchyService: HierarchyService) {}
+  constructor(@Inject(HierarchyService) private readonly hierarchyService: HierarchyService) {}
 
   @Post('organizations/:organization_id/unit-types')
   createUnitType(

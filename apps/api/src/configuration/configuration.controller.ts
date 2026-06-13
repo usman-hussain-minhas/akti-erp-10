@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Get, Headers, Param, Put } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Headers, Param, Put, Inject } from '@nestjs/common';
 
 import {
   ConfigurationValidationError,
@@ -10,7 +10,7 @@ import { HeaderRecord, resolveTrustedRequestContext } from '../security/request-
 
 @Controller('platform')
 export class ConfigurationController {
-  constructor(private readonly configurationService: ConfigurationService) {}
+  constructor(@Inject(ConfigurationService) private readonly configurationService: ConfigurationService) {}
 
   @Get('configuration/organizations/:organization_id/portal-mode')
   getPortalMode(
