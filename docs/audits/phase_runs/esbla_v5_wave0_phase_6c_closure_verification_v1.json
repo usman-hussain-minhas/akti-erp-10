@@ -1,0 +1,71 @@
+{
+  "$metadata": {
+    "company": "HAUTM",
+    "platform": "Esbla Spark",
+    "author": "Usman Hussain",
+    "owner": "Usman Hussain",
+    "suite_version": "v5.0",
+    "file_version": "v1.0",
+    "created": "2026-06-13",
+    "last_updated": "2026-06-13",
+    "status": "active",
+    "document_type": "wave0_closure_verification",
+    "scope": "Phase 6C seed FFET closure verification for Esbla v5 Wave 0.",
+    "ratifier": "Usman Hussain"
+  },
+  "artifact_id": "esbla_v5_wave0_phase_6c_closure_verification_v1",
+  "status": "PASS",
+  "repo_head_at_verification": "c3428ac",
+  "phase_6c_registry_path": "docs/process/v4_1/phase_6c/v4/phase_6c_ffet_registry_v1.json",
+  "phase_6c_registry_sha256": "34e0ee3a2a84656cf07c92f055b7e2dd811eb0b1ed3bada0d541f6f83c8dbed5",
+  "ffet_count": 124,
+  "completed_commit_id_count": 124,
+  "missing_completed_ids": [],
+  "terminal_ffet_evidence": [
+    "bf15054 Merge pull request #378 from usman-hussain-minhas/codex/p6c-ffet-124-attendance-certificate-evidence",
+    "74cdcee phase6c: execute P6C-FFET-124 attendance_certificate_evidence"
+  ],
+  "open_phase_6c_ffet_prs": [],
+  "native_validation": {
+    "overall_exit_code": 0,
+    "commands": [
+      {
+        "name": "contracts_validate",
+        "command": "pnpm contracts:validate",
+        "exit_code": 0
+      },
+      {
+        "name": "api_typecheck",
+        "command": "pnpm --filter @akti/api typecheck",
+        "exit_code": 0
+      },
+      {
+        "name": "api_test",
+        "command": "pnpm --filter @akti/api test",
+        "exit_code": 0
+      },
+      {
+        "name": "web_typecheck",
+        "command": "pnpm --filter @akti/web typecheck",
+        "exit_code": 0
+      },
+      {
+        "name": "web_test",
+        "command": "pnpm --filter @akti/web test",
+        "exit_code": 0
+      },
+      {
+        "name": "prisma_validate",
+        "command": "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "exit_code": 0
+      },
+      {
+        "name": "registry_check",
+        "command": "pnpm registry:check",
+        "exit_code": 0
+      }
+    ]
+  },
+  "execution_flags_changed": false,
+  "runtime_files_changed": false
+}
