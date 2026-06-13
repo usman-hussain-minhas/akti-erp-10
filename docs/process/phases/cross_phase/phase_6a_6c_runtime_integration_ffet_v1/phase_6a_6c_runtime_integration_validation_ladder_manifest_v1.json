@@ -1,0 +1,28 @@
+{
+  "$metadata": {
+    "company": "HAUTM",
+    "platform": "Esbla Spark",
+    "author": "Usman Hussain",
+    "owner": "Usman Hussain",
+    "suite_version": "v5.0",
+    "file_version": "v1.0",
+    "created": "2026-06-13",
+    "last_updated": "2026-06-13",
+    "status": "active",
+    "document_type": "runtime_integration_validation_ladder",
+    "scope": "Validation ladder manifest for 6A-6C Runtime Integration FFETs.",
+    "ratifier": "Usman Hussain"
+  },
+  "artifact_id": "phase_6a_6c_runtime_integration_validation_ladder_manifest_v1",
+  "status": "READY_FOR_GATE_3_REVIEW",
+  "commands": [
+    "pnpm contracts:validate",
+    "pnpm --filter @akti/api typecheck",
+    "pnpm --filter @akti/api test",
+    "pnpm --filter @akti/web typecheck",
+    "pnpm --filter @akti/web test",
+    "pnpm exec prisma validate --schema prisma/schema.prisma",
+    "pnpm registry:check",
+    "git diff --check"
+  ]
+}
