@@ -1,0 +1,29 @@
+{
+  "$metadata": {
+    "company": "HAUTM",
+    "platform": "Esbla Spark",
+    "author": "Usman Hussain",
+    "owner": "Usman Hussain",
+    "suite_version": "v5.0",
+    "file_version": "v1.0",
+    "created": "2026-06-13",
+    "last_updated": "2026-06-13",
+    "status": "active",
+    "document_type": "runtime_integration_demo_script_spec",
+    "scope": "Falsifiable demo specification for 6A-6C runtime integration.",
+    "ratifier": "Usman Hussain"
+  },
+  "artifact_id": "phase_6a_6c_runtime_integration_demo_script_spec_v1",
+  "status": "READY_FOR_GATE_3_REVIEW",
+  "required_positive_cases": [
+    "active tenant can reach active 6A core route",
+    "active CRM service visible for CRM-enabled tenant",
+    "Gatekeeper ALLOW path emits audit evidence"
+  ],
+  "required_negative_cases": [
+    "inactive events/e-commerce/campaigns/website-builder services inaccessible",
+    "Gatekeeper DENY prevents high-risk action",
+    "cross-tenant access attempt fails",
+    "inactive frontend service module not eagerly imported through shell path"
+  ]
+}

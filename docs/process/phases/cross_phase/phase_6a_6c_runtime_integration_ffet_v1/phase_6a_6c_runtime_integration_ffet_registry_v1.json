@@ -1,0 +1,583 @@
+{
+  "$metadata": {
+    "company": "HAUTM",
+    "platform": "Esbla Spark",
+    "author": "Usman Hussain",
+    "owner": "Usman Hussain",
+    "suite_version": "v5.0",
+    "file_version": "v1.0",
+    "created": "2026-06-13",
+    "last_updated": "2026-06-13",
+    "status": "active",
+    "document_type": "runtime_integration_ffet_registry",
+    "scope": "6A-6C Runtime Integration FFET registry for Gate 2.",
+    "ratifier": "Usman Hussain"
+  },
+  "artifact_id": "phase_6a_6c_runtime_integration_ffet_registry_v1",
+  "status": "PHASE_6A_6C_RUNTIME_INTEGRATION_FFET_GATE_2_READY_FOR_HUMAN_REVIEW",
+  "ffet_count": 14,
+  "ticket_generation_allowed": false,
+  "ticket_pack_generation_allowed": false,
+  "execution_authorized": false,
+  "ffets": [
+    {
+      "id": "RI-FFET-001",
+      "seed": "runtime_module_mount",
+      "name": "Mount 6A-6C backend runtime modules",
+      "deps": [
+        "RI-FFET-002",
+        "RI-FFET-003",
+        "RI-FFET-004"
+      ],
+      "files": [
+        "apps/api/src/app.module.ts",
+        "apps/api/src/phase_6a/phase_6a.module.ts",
+        "apps/api/src/phase_6b/phase_6b.module.ts"
+      ],
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "runtime_mcr": "Nest application can import Phase 6A, 6B, and 6C runtime modules without bootstrap errors while preserving existing module boundaries.",
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check",
+        "git diff --check"
+      ],
+      "stop_conditions": [
+        "required edit outside exact files",
+        "schema/migration/package/generated/script change required",
+        "new API/permission/business/ADL decision required",
+        "frontend screen contract missing for frontend work",
+        "validation failure after 3 self-heal attempts"
+      ],
+      "rollback_notes": "Revert the single FFET PR; no shared migration or schema rollback is authorized inside RI-FFET scope.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": "deterministic repairs inside exact files only",
+        "forbidden": "scope expansion, weakened tests, invented doctrine, schema/package/generated/script changes"
+      }
+    },
+    {
+      "id": "RI-FFET-002",
+      "seed": "phase_6a_api_surface",
+      "name": "Expose Phase 6A core foundation API surface",
+      "deps": [],
+      "files": [
+        "apps/api/src/phase_6a/phase_6a.controller.ts",
+        "apps/api/src/phase_6a/phase_6a.service.ts",
+        "apps/api/src/phase_6a/phase_6a.runtime.test.ts"
+      ],
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "runtime_mcr": "A Phase 6A route returns activation-aware core-foundation capability status through the mounted module.",
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check",
+        "git diff --check"
+      ],
+      "stop_conditions": [
+        "required edit outside exact files",
+        "schema/migration/package/generated/script change required",
+        "new API/permission/business/ADL decision required",
+        "frontend screen contract missing for frontend work",
+        "validation failure after 3 self-heal attempts"
+      ],
+      "rollback_notes": "Revert the single FFET PR; no shared migration or schema rollback is authorized inside RI-FFET scope.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": "deterministic repairs inside exact files only",
+        "forbidden": "scope expansion, weakened tests, invented doctrine, schema/package/generated/script changes"
+      }
+    },
+    {
+      "id": "RI-FFET-003",
+      "seed": "phase_6b_api_surface",
+      "name": "Expose Phase 6B commerce/CRM API surface",
+      "deps": [],
+      "files": [
+        "apps/api/src/phase_6b/phase_6b.controller.ts",
+        "apps/api/src/phase_6b/phase_6b.service.ts",
+        "apps/api/src/phase_6b/phase_6b.runtime.test.ts"
+      ],
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "runtime_mcr": "A Phase 6B route returns activation-aware commerce/CRM capability status and does not expose inactive services.",
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check",
+        "git diff --check"
+      ],
+      "stop_conditions": [
+        "required edit outside exact files",
+        "schema/migration/package/generated/script change required",
+        "new API/permission/business/ADL decision required",
+        "frontend screen contract missing for frontend work",
+        "validation failure after 3 self-heal attempts"
+      ],
+      "rollback_notes": "Revert the single FFET PR; no shared migration or schema rollback is authorized inside RI-FFET scope.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": "deterministic repairs inside exact files only",
+        "forbidden": "scope expansion, weakened tests, invented doctrine, schema/package/generated/script changes"
+      }
+    },
+    {
+      "id": "RI-FFET-004",
+      "seed": "phase_6c_api_surface",
+      "name": "Expose Phase 6C operations API surface",
+      "deps": [],
+      "files": [
+        "apps/api/src/phase_6c/phase_6c.controller.ts",
+        "apps/api/src/phase_6c/phase_6c.module.ts",
+        "apps/api/src/phase_6c/phase_6c.service.ts",
+        "apps/api/src/phase_6c/phase_6c.runtime.test.ts"
+      ],
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "runtime_mcr": "A Phase 6C route returns activation-aware operations capability status and does not expose inactive services.",
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check",
+        "git diff --check"
+      ],
+      "stop_conditions": [
+        "required edit outside exact files",
+        "schema/migration/package/generated/script change required",
+        "new API/permission/business/ADL decision required",
+        "frontend screen contract missing for frontend work",
+        "validation failure after 3 self-heal attempts"
+      ],
+      "rollback_notes": "Revert the single FFET PR; no shared migration or schema rollback is authorized inside RI-FFET scope.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": "deterministic repairs inside exact files only",
+        "forbidden": "scope expansion, weakened tests, invented doctrine, schema/package/generated/script changes"
+      }
+    },
+    {
+      "id": "RI-FFET-005",
+      "seed": "foundry_activation_enforcement",
+      "name": "Enforce Foundry activation for 6A-6C runtime access",
+      "deps": [
+        "RI-FFET-002",
+        "RI-FFET-003",
+        "RI-FFET-004"
+      ],
+      "files": [
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/foundry/foundry.controller.ts",
+        "apps/api/src/foundry/foundry.phase_6a_6c_activation.test.ts"
+      ],
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "runtime_mcr": "Foundry activation state authoritatively allows active Phase 6A-6C capabilities and denies inactive tenant services.",
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check",
+        "git diff --check"
+      ],
+      "stop_conditions": [
+        "required edit outside exact files",
+        "schema/migration/package/generated/script change required",
+        "new API/permission/business/ADL decision required",
+        "frontend screen contract missing for frontend work",
+        "validation failure after 3 self-heal attempts"
+      ],
+      "rollback_notes": "Revert the single FFET PR; no shared migration or schema rollback is authorized inside RI-FFET scope.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": "deterministic repairs inside exact files only",
+        "forbidden": "scope expansion, weakened tests, invented doctrine, schema/package/generated/script changes"
+      }
+    },
+    {
+      "id": "RI-FFET-006",
+      "seed": "gatekeeper_runtime_spine",
+      "name": "Route Phase 6A-6C actions through Gatekeeper",
+      "deps": [
+        "RI-FFET-005"
+      ],
+      "files": [
+        "apps/api/src/gatekeeper/gatekeeper-preflight.service.ts",
+        "apps/api/src/gatekeeper/gatekeeper.controller.ts",
+        "apps/api/src/gatekeeper/gatekeeper.phase_6a_6c_runtime.test.ts"
+      ],
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "runtime_mcr": "High-risk Phase 6A-6C actions receive Gatekeeper ALLOW, DENY, APPROVAL_REQUIRED, or STOP_FOR_REVIEW decisions before execution.",
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check",
+        "git diff --check"
+      ],
+      "stop_conditions": [
+        "required edit outside exact files",
+        "schema/migration/package/generated/script change required",
+        "new API/permission/business/ADL decision required",
+        "frontend screen contract missing for frontend work",
+        "validation failure after 3 self-heal attempts"
+      ],
+      "rollback_notes": "Revert the single FFET PR; no shared migration or schema rollback is authorized inside RI-FFET scope.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": "deterministic repairs inside exact files only",
+        "forbidden": "scope expansion, weakened tests, invented doctrine, schema/package/generated/script changes"
+      }
+    },
+    {
+      "id": "RI-FFET-007",
+      "seed": "audit_evidence_runtime_spine",
+      "name": "Emit audit and evidence for Phase 6A-6C runtime operations",
+      "deps": [
+        "RI-FFET-006"
+      ],
+      "files": [
+        "apps/api/src/platform-observability/audit-log.service.ts",
+        "apps/api/src/phase_6a_6c_runtime/phase_runtime_evidence.service.ts",
+        "apps/api/src/phase_6a_6c_runtime/phase_runtime_evidence.service.test.ts"
+      ],
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "runtime_mcr": "Allowed and denied Phase 6A-6C runtime operations write audit/evidence records with tenant, actor, capability, decision, and correlation metadata.",
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check",
+        "git diff --check"
+      ],
+      "stop_conditions": [
+        "required edit outside exact files",
+        "schema/migration/package/generated/script change required",
+        "new API/permission/business/ADL decision required",
+        "frontend screen contract missing for frontend work",
+        "validation failure after 3 self-heal attempts"
+      ],
+      "rollback_notes": "Revert the single FFET PR; no shared migration or schema rollback is authorized inside RI-FFET scope.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": "deterministic repairs inside exact files only",
+        "forbidden": "scope expansion, weakened tests, invented doctrine, schema/package/generated/script changes"
+      }
+    },
+    {
+      "id": "RI-FFET-008",
+      "seed": "tenant_isolation_runtime_proof",
+      "name": "Prove tenant isolation for Phase 6A-6C runtime access",
+      "deps": [
+        "RI-FFET-007"
+      ],
+      "files": [
+        "apps/api/src/phase_6a_6c_runtime/tenant_isolation_runtime.service.ts",
+        "apps/api/src/phase_6a_6c_runtime/tenant_isolation_runtime.service.test.ts"
+      ],
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "runtime_mcr": "A cross-tenant Phase 6A-6C read/write attempt is denied without schema changes or bypassing existing tenant-scoping primitives.",
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check",
+        "git diff --check"
+      ],
+      "stop_conditions": [
+        "required edit outside exact files",
+        "schema/migration/package/generated/script change required",
+        "new API/permission/business/ADL decision required",
+        "frontend screen contract missing for frontend work",
+        "validation failure after 3 self-heal attempts"
+      ],
+      "rollback_notes": "Revert the single FFET PR; no shared migration or schema rollback is authorized inside RI-FFET scope.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": "deterministic repairs inside exact files only",
+        "forbidden": "scope expansion, weakened tests, invented doctrine, schema/package/generated/script changes"
+      }
+    },
+    {
+      "id": "RI-FFET-009",
+      "seed": "disabled_service_negative_runtime_proof",
+      "name": "Prove inactive tenant services are inaccessible",
+      "deps": [
+        "RI-FFET-005",
+        "RI-FFET-006",
+        "RI-FFET-008"
+      ],
+      "files": [
+        "apps/api/src/phase_6a_6c_runtime/disabled_service_access.service.ts",
+        "apps/api/src/phase_6a_6c_runtime/disabled_service_access.service.test.ts"
+      ],
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "runtime_mcr": "A tenant with only core plus CRM active cannot access LMS, e-commerce, events, campaigns, or website-builder capabilities through Phase 6A-6C runtime routes.",
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check",
+        "git diff --check"
+      ],
+      "stop_conditions": [
+        "required edit outside exact files",
+        "schema/migration/package/generated/script change required",
+        "new API/permission/business/ADL decision required",
+        "frontend screen contract missing for frontend work",
+        "validation failure after 3 self-heal attempts"
+      ],
+      "rollback_notes": "Revert the single FFET PR; no shared migration or schema rollback is authorized inside RI-FFET scope.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": "deterministic repairs inside exact files only",
+        "forbidden": "scope expansion, weakened tests, invented doctrine, schema/package/generated/script changes"
+      }
+    },
+    {
+      "id": "RI-FFET-010",
+      "seed": "screen_contract_gate",
+      "name": "Create screen contracts before frontend wiring",
+      "deps": [
+        "RI-FFET-009"
+      ],
+      "files": [
+        "docs/screen-contracts/phase-6a-6c/runtime-capability-shell.screen.json",
+        "docs/screen-contracts/phase-6a-6c/runtime-capability-shell.screen.test.json"
+      ],
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "runtime_mcr": "Frontend wiring has an approved screen contract defining route, capabilities, activation states, audit hooks, and forbidden inactive-service behavior.",
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check",
+        "git diff --check"
+      ],
+      "stop_conditions": [
+        "required edit outside exact files",
+        "schema/migration/package/generated/script change required",
+        "new API/permission/business/ADL decision required",
+        "frontend screen contract missing for frontend work",
+        "validation failure after 3 self-heal attempts"
+      ],
+      "rollback_notes": "Revert the single FFET PR; no shared migration or schema rollback is authorized inside RI-FFET scope.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": "deterministic repairs inside exact files only",
+        "forbidden": "scope expansion, weakened tests, invented doctrine, schema/package/generated/script changes"
+      }
+    },
+    {
+      "id": "RI-FFET-011",
+      "seed": "frontend_activation_navigation",
+      "name": "Wire activation-aware frontend navigation",
+      "deps": [
+        "RI-FFET-010"
+      ],
+      "files": [
+        "apps/web/lib/routes.config.ts",
+        "apps/web/lib/routes.config.test.mjs",
+        "apps/web/components/mission-control/module_launcher.tsx",
+        "apps/web/components/mission-control/module_launcher.phase_6a_6c.test.tsx"
+      ],
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "runtime_mcr": "Mission Control navigation shows active 6A-6C services and hides or blocks inactive services according to Foundry activation state.",
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check",
+        "git diff --check"
+      ],
+      "stop_conditions": [
+        "required edit outside exact files",
+        "schema/migration/package/generated/script change required",
+        "new API/permission/business/ADL decision required",
+        "frontend screen contract missing for frontend work",
+        "validation failure after 3 self-heal attempts"
+      ],
+      "rollback_notes": "Revert the single FFET PR; no shared migration or schema rollback is authorized inside RI-FFET scope.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": "deterministic repairs inside exact files only",
+        "forbidden": "scope expansion, weakened tests, invented doctrine, schema/package/generated/script changes"
+      }
+    },
+    {
+      "id": "RI-FFET-012",
+      "seed": "frontend_dynamic_activation_loading",
+      "name": "Plan dynamic per-activation frontend loading proof",
+      "deps": [
+        "RI-FFET-010",
+        "RI-FFET-011"
+      ],
+      "files": [
+        "apps/web/app/app/page.tsx",
+        "apps/web/components/mission-control/mission_control_shell.tsx",
+        "apps/web/components/mission-control/mission_control_shell.phase_6a_6c_bundle.test.tsx"
+      ],
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "runtime_mcr": "Frontend runtime uses activation-aware lazy loading for Phase 6A-6C service surfaces and proves inactive service modules are not eagerly imported through the shell path.",
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check",
+        "git diff --check"
+      ],
+      "stop_conditions": [
+        "required edit outside exact files",
+        "schema/migration/package/generated/script change required",
+        "new API/permission/business/ADL decision required",
+        "frontend screen contract missing for frontend work",
+        "validation failure after 3 self-heal attempts"
+      ],
+      "rollback_notes": "Revert the single FFET PR; no shared migration or schema rollback is authorized inside RI-FFET scope.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": "deterministic repairs inside exact files only",
+        "forbidden": "scope expansion, weakened tests, invented doctrine, schema/package/generated/script changes"
+      }
+    },
+    {
+      "id": "RI-FFET-013",
+      "seed": "falsifiable_demo_script",
+      "name": "Add falsifiable Phase 6A-6C runtime demo tests",
+      "deps": [
+        "RI-FFET-010",
+        "RI-FFET-012"
+      ],
+      "files": [
+        "apps/api/src/phase_6a_6c_runtime/phase_runtime_demo.test.ts",
+        "apps/web/lib/phase_6a_6c_runtime_demo.test.mjs"
+      ],
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "runtime_mcr": "Demo tests cover positive activation, disabled-service denial, Gatekeeper decisions, audit/evidence emission, and tenant-isolation failure paths.",
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check",
+        "git diff --check"
+      ],
+      "stop_conditions": [
+        "required edit outside exact files",
+        "schema/migration/package/generated/script change required",
+        "new API/permission/business/ADL decision required",
+        "frontend screen contract missing for frontend work",
+        "validation failure after 3 self-heal attempts"
+      ],
+      "rollback_notes": "Revert the single FFET PR; no shared migration or schema rollback is authorized inside RI-FFET scope.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": "deterministic repairs inside exact files only",
+        "forbidden": "scope expansion, weakened tests, invented doctrine, schema/package/generated/script changes"
+      }
+    },
+    {
+      "id": "RI-FFET-014",
+      "seed": "final_runtime_reconciliation",
+      "name": "Reconcile runtime wiring with v5 Gate-2 evidence",
+      "deps": [
+        "RI-FFET-013"
+      ],
+      "files": [
+        "docs/audits/phase_runs/phase_6a_6c_runtime_integration_completion_audit_v1.md",
+        "docs/audits/phase_runs/phase_6a_6c_runtime_integration_completion_audit_v1.json"
+      ],
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "execution_authorized": false,
+      "runtime_mcr": "Completion audit proves all RI-FFET MCRs, validations, PRs, and deferred blockers after Gate 4 execution; this file remains an expected output, not prefilled at Gate 2.",
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check",
+        "git diff --check"
+      ],
+      "stop_conditions": [
+        "required edit outside exact files",
+        "schema/migration/package/generated/script change required",
+        "new API/permission/business/ADL decision required",
+        "frontend screen contract missing for frontend work",
+        "validation failure after 3 self-heal attempts"
+      ],
+      "rollback_notes": "Revert the single FFET PR; no shared migration or schema rollback is authorized inside RI-FFET scope.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": "deterministic repairs inside exact files only",
+        "forbidden": "scope expansion, weakened tests, invented doctrine, schema/package/generated/script changes"
+      }
+    }
+  ]
+}
