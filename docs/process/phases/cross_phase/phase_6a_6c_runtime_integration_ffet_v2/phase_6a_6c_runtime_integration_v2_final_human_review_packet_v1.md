@@ -12,7 +12,7 @@ metadata_standard: esbla_file_metadata_standard_v1
 ---
 # Phase 6A-6C Runtime Integration v2 Human Review Packet
 
-Status: `PHASE_6A_6C_RUNTIME_INTEGRATION_V2_GATE_3_READY_FOR_HUMAN_APPROVAL`
+Status: `PHASE_6A_6C_RUNTIME_INTEGRATION_V2_GATE_3_EXECUTION_APPROVED`
 
 This packet summarizes the Gate-2-audited package for human Gate 3 review. It requests a future human decision and does not approve execution by itself.
 
@@ -29,3 +29,9 @@ This packet summarizes the Gate-2-audited package for human Gate 3 review. It re
 - frontend route/screen implementation
 - contract/package rename execution during planning
 - execution flag flips
+
+## Gate 3 execution approval
+
+Approved by: Usman Hussain on 2026-06-13.
+
+Execution is approved only for the RI v2 FFET queue and final visual audit listed in the gate manifest.
