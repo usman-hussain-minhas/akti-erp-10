@@ -29,7 +29,7 @@ type RenderCommand = CoreCommand & {
   renderGroup: CoreCommand['group'] | 'Recent commands';
 };
 
-const RECENT_COMMANDS_KEY = 'akti.phase4b.commandPalette.recentCommandIds';
+const RECENT_COMMANDS_KEY = 'esbla.phase4b.commandPalette.recentCommandIds';
 
 const CORE_COMMANDS: CoreCommand[] = [...SHELL_COMMANDS];
 

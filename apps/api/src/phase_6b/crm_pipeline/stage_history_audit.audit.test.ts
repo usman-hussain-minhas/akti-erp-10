@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { recordStageHistoryAudit, type StageHistoryAuditInput } from './stage_history_audit.audit';
 
 const baseInput: StageHistoryAuditInput = {
-  organization_id: 'org_akti_demo',
+  organization_id: 'org_demo',
   stage_history_audit_id: 'stage_history_audit_001',
   lead_record_id: 'lead_record_001',
   lead_record_authority_id: 'lead_authority_001',

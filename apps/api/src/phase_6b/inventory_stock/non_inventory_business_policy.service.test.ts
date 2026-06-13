@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { evaluateNonInventoryBusinessPolicy } from './non_inventory_business_policy.service';
 
 const baseInput = {
-  organization_id: 'org_akti_demo',
+  organization_id: 'org_demo',
   service_manifest_contract_id: 'smc_inventory_stock',
   product_record_authority_id: 'product_authority_active',
   product_price_history_id: 'price_history_current',
@@ -13,7 +13,7 @@ const baseInput = {
 const optionalDisabled = evaluateNonInventoryBusinessPolicy(baseInput);
 assert.equal(optionalDisabled.seed_id, 'seed_6b_03_non_inventory_business_policy');
 assert.equal(optionalDisabled.component_id, '6B.03');
-assert.equal(optionalDisabled.organization_id, 'org_akti_demo');
+assert.equal(optionalDisabled.organization_id, 'org_demo');
 assert.equal(optionalDisabled.inventory_service_required, false);
 assert.equal(optionalDisabled.inventory_service_activation_state, 'DISABLED');
 assert.equal(optionalDisabled.policy_outcome, 'INVENTORY_OPTIONAL_AND_DISABLED_ALLOWED');

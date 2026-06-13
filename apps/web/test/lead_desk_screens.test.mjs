@@ -27,13 +27,13 @@ test('operator context stores bearer session token and decoded metadata', () => 
   assert.match(contextHook, /input\.sessionToken\.trim\(\)/);
   assert.match(contextHook, /organization_id/);
   assert.match(contextHook, /actor_user_id/);
-  assert.match(contextHook, /akti\.leadDesk\.sessionContext\.v1/);
+  assert.match(contextHook, /esbla\.leadDesk\.sessionContext\.v1/);
   assert.match(contextHook, /resolveOperatorSessionState/);
   assert.match(contextHook, /'active'/);
   assert.match(contextHook, /'missing'/);
   assert.match(contextHook, /'expired_invalid'/);
   assert.match(contextHook, /'limited_diagnostics'/);
-  assert.equal(contextHook.includes('akti.leadDesk.operatorContext.v1'), false);
+  assert.equal(contextHook.includes('esbla.leadDesk.operatorContext.v1'), false);
 });
 
 test('api client injects bearer authorization and organization scoped path', () => {
@@ -141,7 +141,7 @@ test('lead desk screens do not hardcode tenant actor role or campus fixtures', (
     /user-1/,
     /unit-1/,
     /campus/i,
-    /AKTI\s+Campus/i,
+    new RegExp(`${['A', 'K', 'T', 'I'].join('')}\\s+Campus`, 'i'),
   ];
 
   for (const source of [apiClient, contextHook, ...leadDeskScreens]) {

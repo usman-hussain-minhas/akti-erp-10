@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { planFollowUpTaskCadence, type FollowUpTaskCadenceInput } from './follow_up_task_cadence.service';
 
 const baseInput: FollowUpTaskCadenceInput = {
-  organization_id: 'org_akti_demo',
+  organization_id: 'org_demo',
   service_manifest_contract_id: 'smc_crm_scoring_reporting',
   cadence_id: 'follow_up_cadence_001',
   lead_record_ref: 'lead_record_001',

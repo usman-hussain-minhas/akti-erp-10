@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { recordMergeDecision, type MergeDecisionRecordInput } from './merge_decision_record.service';
 
 const baseInput: MergeDecisionRecordInput = {
-  organization_id: 'org_akti_demo',
+  organization_id: 'org_demo',
   service_manifest_contract_id: 'smc_crm_deduplication',
   merge_decision_id: 'merge_decision_001',
   dedup_run_id: 'dedup_run_001',

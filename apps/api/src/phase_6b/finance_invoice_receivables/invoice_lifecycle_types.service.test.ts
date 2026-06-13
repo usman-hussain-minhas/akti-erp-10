@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { authorizeInvoiceLifecycleTransition, type InvoiceLifecycleTransitionInput } from './invoice_lifecycle_types.service';
 
 const baseInput: InvoiceLifecycleTransitionInput = {
-  organization_id: 'org_akti_demo',
+  organization_id: 'org_demo',
   service_manifest_contract_id: 'smc_finance_invoice_receivables',
   invoice_id: 'invoice_001',
   invoice_record_authority_ref: 'invoice_record_authority_001',

@@ -379,7 +379,7 @@ function testApiTestFixturesDoNotLeakHardcodedBusinessTerms() {
     ['Cam', 'pus'].join(''),
     ['Main ', 'Cam', 'pus'].join(''),
     ['cam', 'pus', '.main'].join(''),
-    ['akti', '.com', '.pk'].join(''),
+    ['ak', 'ti', '.com', '.pk'].join(''),
   ];
   const violations: string[] = [];
 

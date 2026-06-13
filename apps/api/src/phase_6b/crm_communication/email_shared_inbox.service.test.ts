@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { configureEmailSharedInbox, type EmailSharedInboxInput } from './email_shared_inbox.service';
 
 const baseInput: EmailSharedInboxInput = {
-  organization_id: 'org_akti_demo',
+  organization_id: 'org_demo',
   service_manifest_contract_id: 'smc_crm_communication',
   shared_inbox_id: 'email_shared_inbox_001',
   inbox_address: 'Shared.Inbox@Example.com',

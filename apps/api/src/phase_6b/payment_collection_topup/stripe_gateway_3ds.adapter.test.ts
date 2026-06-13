@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { prepareStripeGateway3dsGatewayEnvelope, type StripeGateway3dsGatewayPaymentInput } from './stripe_gateway_3ds.adapter';
 
 const baseInput: StripeGateway3dsGatewayPaymentInput = {
-  organization_id: 'org_akti_demo',
+  organization_id: 'org_demo',
   service_manifest_contract_id: 'smc_payment_collection_topup',
   api_key_scope_registry_ref: 'api_key_scope_stripe_gateway_3ds_tenant_001',
   invoice_record_ref: 'invoice_001',

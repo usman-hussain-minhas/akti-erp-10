@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { scoreLead, type LeadScoringEngineInput } from './lead_scoring_engine.service';
 
 const baseInput: LeadScoringEngineInput = {
-  organization_id: 'org_akti_demo',
+  organization_id: 'org_demo',
   service_manifest_contract_id: 'smc_crm_scoring_reporting',
   scoring_run_id: 'lead_score_run_001',
   lead_record_ref: 'lead_record_001',

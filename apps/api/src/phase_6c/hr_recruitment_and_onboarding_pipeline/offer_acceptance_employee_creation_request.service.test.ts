@@ -15,7 +15,7 @@ const baseInput: OfferAcceptanceEmployeeCreationRequestInput = {
   evaluated_at: '2026-06-09T09:05:00.000Z',
   profile_draft: {
     legal_name: 'Ayesha Khan',
-    work_email: 'Ayesha.Khan@AKTI.example',
+    work_email: 'Ayesha.Khan@example.edu',
     start_date: '2026-07-01',
     department_ref: 'department_engineering',
     position_ref: 'position_senior_engineer',
@@ -37,7 +37,7 @@ assert.equal(receipt.employee_creation_executed, false);
 assert.equal(receipt.employee_record_mutation_allowed, false);
 assert.equal(receipt.person_identity_mutation_allowed, false);
 assert.equal(receipt.access_provisioning_executed, false);
-assert.equal(receipt.recommendation_payload.profile_draft.work_email, 'ayesha.khan@akti.example');
+assert.equal(receipt.recommendation_payload.profile_draft.work_email, 'ayesha.khan@example.edu');
 assert.deepEqual(receipt.decision_refs, ['6C-RECRUIT-007']);
 assert.match(receipt.offer_acceptance_employee_creation_request_evidence_digest, /^[a-f0-9]{64}$/);
 

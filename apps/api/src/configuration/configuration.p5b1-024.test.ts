@@ -242,7 +242,7 @@ async function testBrandingEffectiveDoesNotExposeAnotherOrganization() {
   const result = await service.getEffectiveBranding('org-alpha', 'actor-alpha');
 
   assert.deepEqual(result, {
-    product_name: 'AKTI Spark',
+    product_name: 'Esbla Spark',
     logo_url: 'https://assets.example.test/alpha-logo.svg',
     theme_mode: 'system',
     primary_color: null,

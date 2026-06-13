@@ -4,7 +4,7 @@ import { Phase6BFixedPricingModelConfig } from './fixed_pricing_model.config';
 
 function validFixedPricingInput() {
   return {
-    organization_id: 'org_akti_demo',
+    organization_id: 'org_demo',
     product_id: 'prod_admission_package',
     price_history_id: 'price_history_2026_fixed',
     amount_minor_units: 250000,

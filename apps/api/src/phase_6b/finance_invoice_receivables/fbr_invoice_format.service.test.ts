@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { renderFbrInvoiceFormat, type FbrInvoiceFormatInput } from './fbr_invoice_format.service';
 
 const baseInput: FbrInvoiceFormatInput = {
-  organization_id: 'org_akti_demo',
+  organization_id: 'org_demo',
   service_manifest_contract_id: 'smc_finance_invoice_receivables',
   format_profile_id: 'fbr_format_profile_001',
   fbr_format_version: 'tenant_configured_fbr_format_v1',

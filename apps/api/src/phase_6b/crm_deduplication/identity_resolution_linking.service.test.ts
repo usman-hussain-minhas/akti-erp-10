@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { recordIdentityResolutionLink, type IdentityResolutionLinkingInput } from './identity_resolution_linking.service';
 
 const baseInput: IdentityResolutionLinkingInput = {
-  organization_id: 'org_akti_demo',
+  organization_id: 'org_demo',
   service_manifest_contract_id: 'smc_crm_deduplication',
   identity_resolution_link_id: 'identity_link_001',
   source_lead_record_id: 'lead_source_001',

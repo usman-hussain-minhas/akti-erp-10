@@ -4,7 +4,7 @@ import { Phase6BCategoryTaxonomyService } from './category_taxonomy.service';
 
 function validCategoryInput() {
   return {
-    organization_id: 'org_akti_demo',
+    organization_id: 'org_demo',
     category_id: 'cat_admissions',
     name: 'Admissions',
     slug: 'admissions',
@@ -24,7 +24,7 @@ function testAcceptsTenantScopedCategoryTaxonomy() {
   assert.equal(result.accepted, true);
   assert.deepEqual(result.violations, []);
   assert.equal(result.schema_model, 'Phase6BProductCategory');
-  assert.equal(result.evidence.organization_id, 'org_akti_demo');
+  assert.equal(result.evidence.organization_id, 'org_demo');
   assert.equal(result.evidence.category_id, 'cat_admissions');
   assert.equal(result.evidence.parent_category_id, 'cat_services');
   assert.equal(result.evidence.tenant_scoped_taxonomy, true);

@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { recordCsvExcelImport, type CsvExcelImportInput } from './csv_excel_import.service';
 
 const baseInput: CsvExcelImportInput = {
-  organization_id: 'org_akti_demo',
+  organization_id: 'org_demo',
   service_manifest_contract_id: 'smc_crm_lead_intake',
   access_gatekeeper_decision_id: 'gatekeeper_allow_001',
   visual_workflow_definition_id: 'workflow_csv_excel_import',

@@ -150,7 +150,7 @@ async function testEffectiveBrandingReturnsFactOnlyDefaultShape() {
   const result = await service.getEffectiveBranding('org-alpha', 'actor-alpha');
 
   assert.deepEqual(result, {
-    product_name: 'AKTI Spark',
+    product_name: 'Esbla Spark',
     logo_url: null,
     theme_mode: 'system',
     primary_color: null,

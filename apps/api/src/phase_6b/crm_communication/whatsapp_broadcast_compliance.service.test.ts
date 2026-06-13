@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { evaluateWhatsappBroadcastCompliance, type WhatsappBroadcastComplianceInput } from './whatsapp_broadcast_compliance.service';
 
 const baseInput: WhatsappBroadcastComplianceInput = {
-  organization_id: 'org_akti_demo',
+  organization_id: 'org_demo',
   service_manifest_contract_id: 'smc_crm_communication',
   broadcast_compliance_check_id: 'whatsapp_broadcast_check_001',
   pipeline_stage_model_ref: 'pipeline_stage_model_001',

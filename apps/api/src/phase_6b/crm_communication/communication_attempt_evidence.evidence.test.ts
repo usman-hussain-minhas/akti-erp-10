@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { recordCommunicationAttemptEvidence, type CommunicationAttemptEvidenceInput } from './communication_attempt_evidence.evidence';
 
 const baseInput: CommunicationAttemptEvidenceInput = {
-  organization_id: 'org_akti_demo',
+  organization_id: 'org_demo',
   attempt_evidence_id: 'communication_attempt_evidence_001',
   conversation_ref: 'conversation_thread_001',
   pipeline_stage_model_ref: 'pipeline_stage_model_001',

@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { authorizeInvoiceRecord, type InvoiceRecordAuthorityInput } from './invoice_record_authority.service';
 
 const baseInput: InvoiceRecordAuthorityInput = {
-  organization_id: 'org_akti_demo',
+  organization_id: 'org_demo',
   service_manifest_contract_id: 'smc_finance_invoice_receivables',
   invoice_id: 'invoice_001',
   invoice_number: 'INV-2026-0001',

@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { configureEmailConnectedInbox, type EmailConnectedInboxInput } from './email_connected_inbox.service';
 
 const baseInput: EmailConnectedInboxInput = {
-  organization_id: 'org_akti_demo',
+  organization_id: 'org_demo',
   service_manifest_contract_id: 'smc_crm_communication',
   connected_inbox_id: 'email_inbox_001',
   inbox_address: 'Admissions.Team@Example.COM',

@@ -5,7 +5,7 @@ import {
 } from './manual_reconciliation_path.lifecycle';
 
 const baseInput: ManualReconciliationReviewInput = {
-  organization_id: 'org_akti_demo',
+  organization_id: 'org_demo',
   service_manifest_contract_id: 'smc_payment_collection_topup',
   reviewer_user_id: 'user_reconciliation_reviewer_001',
   reviewed_at: '2026-06-08T12:00:00.000Z',

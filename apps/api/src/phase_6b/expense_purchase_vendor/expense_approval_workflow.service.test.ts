@@ -3,7 +3,7 @@ import { recordExpenseApprovalWorkflowDecision, type ExpenseApprovalWorkflowInpu
 
 const digest = 'a'.repeat(64);
 const baseInput: ExpenseApprovalWorkflowInput = {
-  organization_id: 'org_akti_demo',
+  organization_id: 'org_demo',
   service_manifest_contract_id: 'smc_expense_purchase_vendor',
   expense_record_ref: 'expense_001',
   expense_record_digest: digest,

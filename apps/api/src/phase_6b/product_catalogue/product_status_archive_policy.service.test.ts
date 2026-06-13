@@ -4,7 +4,7 @@ import { Phase6BProductStatusArchivePolicyService } from './product_status_archi
 
 function validStatusInput() {
   return {
-    organization_id: 'org_akti_demo',
+    organization_id: 'org_demo',
     product_id: 'prod_admission_package',
     current_status: 'draft' as const,
     requested_status: 'active' as const,

@@ -4,7 +4,7 @@ import { Phase6BProductMediaHistoryLifecycle } from './product_media_history.lif
 
 function validMediaHistoryInput() {
   return {
-    organization_id: 'org_akti_demo',
+    organization_id: 'org_demo',
     product_id: 'prod_admission_package',
     media_id: 'media_cover_2026',
     history_id: 'hist_media_cover_2026',
@@ -23,7 +23,7 @@ function testAcceptsProductMediaHistoryEvidence() {
   assert.equal(result.accepted, true);
   assert.deepEqual(result.violations, []);
   assert.equal(result.emitted_event, 'product.updated');
-  assert.equal(result.evidence.organization_id, 'org_akti_demo');
+  assert.equal(result.evidence.organization_id, 'org_demo');
   assert.equal(result.evidence.product_id, 'prod_admission_package');
   assert.equal(result.evidence.storage_object_id, 'svfs_product_cover_2026');
   assert.deepEqual(result.evidence.schema_models, ['Phase6BProductMedia', 'Phase6BProductHistory']);

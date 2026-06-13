@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 
-const CONTEXT_STORAGE_KEY = 'akti.leadDesk.sessionContext.v1';
+const CONTEXT_STORAGE_KEY = 'esbla.leadDesk.sessionContext.v1';
 
 export type LeadDeskOperatorContext = {
   sessionToken: string;
