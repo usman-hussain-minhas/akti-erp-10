@@ -1,0 +1,152 @@
+{
+  "$metadata": {
+    "document_id": "stage2_runtime_visual_audit_v1",
+    "status": "visual_audit_blocked_runtime_endpoint_failure",
+    "created": "2026-06-13",
+    "updated": "2026-06-13",
+    "owner": "Usman Hussain"
+  },
+  "audit_id": "stage2_runtime_visual_audit_v1",
+  "status": "VISUAL_AUDIT_BLOCKED_RUNTIME_ENDPOINTS_RETURN_500",
+  "final_target": "PHASE_6A_6C_RUNTIME_INTEGRATION_EXECUTED_AND_VISUALLY_VERIFIED",
+  "final_target_achieved": false,
+  "branch": "codex/stage2-final-runtime-visual-audit",
+  "runtime_start_attempts": [
+    {
+      "target": "api",
+      "command": "pnpm --filter @akti/api start:dev",
+      "result": "BLOCKED_MISSING_AKTI_AUTH_SESSION_SECRET",
+      "evidence": "AKTI_AUTH_SESSION_SECRET must be configured outside source control"
+    },
+    {
+      "target": "api",
+      "command": "AKTI_AUTH_SESSION_SECRET=local_stage2_visual_secret_12345 AKTI_CORS_ALLOWED_ORIGINS=http://localhost:3000 pnpm --filter @akti/api start:dev",
+      "result": "BLOCKED_MISSING_DATABASE_URL",
+      "evidence": "DATABASE_URL is required to initialize PrismaService"
+    },
+    {
+      "target": "api",
+      "command": "AKTI_AUTH_SESSION_SECRET=local_stage2_visual_secret_12345 AKTI_CORS_ALLOWED_ORIGINS=http://localhost:3000 DATABASE_URL='postgresql://postgres:postgres@localhost:5432/akti_stage2_visual?schema=public' pnpm --filter @akti/api start:dev",
+      "result": "STARTED_WITH_RUNTIME_ENDPOINT_FAILURES",
+      "evidence": "Nest application started and mapped Phase 6 routes, but API endpoint requests returned 500."
+    },
+    {
+      "target": "web",
+      "command": "NEXT_PUBLIC_API_BASE_URL=http://localhost:3001 pnpm --filter @akti/web dev",
+      "result": "STARTED",
+      "evidence": "curl -I http://localhost:3000/app returned HTTP 200."
+    }
+  ],
+  "browser_capture": {
+    "browser": "Codex in-app browser",
+    "api_port_navigation": "BLOCKED_BY_BROWSER_CLIENT_FOR_DIRECT_API_PORT_SCREENSHOTS",
+    "screenshots": [
+      {
+        "id": "VIS-001",
+        "path": "docs/audits/stage2_runtime_visual_audit/screenshots/01_web_app_shell.png",
+        "assertion": "Web app shell loads and displays the Phase 6 runtime shell with runtime-gated bundle disclosure.",
+        "result": "PASS_VISUAL",
+        "notes": "Screenshot shows Mission Control, Phase 6 runtime shell, bundle disclosure that code is not tenant-activation-pruned, and an unavailable Phase 6 activation navigation state."
+      },
+      {
+        "id": "VIS-002",
+        "path": "docs/audits/stage2_runtime_visual_audit/screenshots/04_inactive_direct_route_unavailable.png",
+        "assertion": "Direct inactive/unsupported frontend route is unavailable.",
+        "result": "PASS_VISUAL",
+        "notes": "Screenshot shows Next.js 404 for /app/phase-6/runtime-capabilities."
+      }
+    ]
+  },
+  "curl_evidence": [
+    {
+      "url": "http://localhost:3000/app",
+      "result": "HTTP_200"
+    },
+    {
+      "url": "http://localhost:3001/health",
+      "result": "HTTP_500",
+      "body": {
+        "statusCode": 500,
+        "message": "Internal server error"
+      },
+      "server_log_excerpt": "TypeError: Cannot read properties of undefined (reading 'getHealth') at AppController.getHealth"
+    },
+    {
+      "url": "http://localhost:3001/platform/phase-6a/runtime/status",
+      "result": "HTTP_500",
+      "body": {
+        "statusCode": 500,
+        "message": "Internal server error"
+      },
+      "server_log_excerpt": "TypeError: Cannot read properties of undefined (reading 'getRuntimeCapabilityStatus') at Phase6AController.getRuntimeStatus"
+    },
+    {
+      "url": "http://localhost:3001/platform/modules",
+      "result": "HTTP_401_EXPECTED_AUTH_GATE",
+      "body": {
+        "message": "Bearer session is required",
+        "error": "Unauthorized",
+        "statusCode": 401
+      }
+    }
+  ],
+  "required_visual_assertions": [
+    {
+      "assertion": "activated_tenant_shows_6a_6b_6c_availability",
+      "result": "BLOCKED_RUNTIME_API_500",
+      "notes": "Phase 6A/6B/6C runtime status endpoints throw 500 before tenant activation status can render."
+    },
+    {
+      "assertion": "inactive_tenant_navigation_hides_or_blocks_disabled_services",
+      "result": "PARTIAL_VISUAL_BLOCKED_RUNTIME_API_500",
+      "notes": "Web shell states inactive services are not rendered as openable links, but API-backed tenant scenario cannot be visualized because runtime status endpoints throw 500."
+    },
+    {
+      "assertion": "inactive_service_direct_route_returns_404_or_unavailable",
+      "result": "PASS_VISUAL",
+      "notes": "Frontend direct route screenshot shows 404. Server-side inactive route proof remains automated in S2-RI-013."
+    },
+    {
+      "assertion": "cross_tenant_deny",
+      "result": "BLOCKED_VISUAL_AUTOMATED_PASS",
+      "notes": "Automated S2-RI-013 test passes, but browser visual scenario requires working runtime endpoints/test data."
+    },
+    {
+      "assertion": "opt_out_send_blocked",
+      "result": "BLOCKED_VISUAL_AUTOMATED_PASS",
+      "notes": "Automated S2-RI-013 evidence assertion passes, but browser visual scenario requires communication gateway runtime scenario/test data."
+    },
+    {
+      "assertion": "failed_kyc_t1_restricted_path",
+      "result": "BLOCKED_VISUAL_AUTOMATED_PASS",
+      "notes": "Automated S2-RI-013 evidence assertion passes, but browser visual scenario requires tiered verification runtime scenario/test data."
+    },
+    {
+      "assertion": "failed_payment_correctable_invoice_path",
+      "result": "BLOCKED_VISUAL_AUTOMATED_PASS",
+      "notes": "Automated S2-RI-013 payment guard assertion passes, but browser visual scenario requires billing runtime scenario/test data."
+    },
+    {
+      "assertion": "audit_evidence_proof_surface",
+      "result": "BLOCKED_VISUAL_AUTOMATED_PASS",
+      "notes": "Automated S2-RI-013 evidence construction passes, but no browser-visible evidence surface is reproducible in this local run."
+    },
+    {
+      "assertion": "gatekeeper_allow_deny_approval_stop_visible_evidence",
+      "result": "BLOCKED_VISUAL_AUTOMATED_PASS",
+      "notes": "Automated S2-RI-013 Gatekeeper decision matrix passes, but no browser-visible Gatekeeper evidence surface is reproducible in this local run."
+    }
+  ],
+  "automated_evidence_cross_reference": {
+    "s2_ri_013_api_demo_test": "apps/api/src/phase_6a_6c_runtime/phase_runtime_demo.test.ts",
+    "s2_ri_013_frontend_demo_test": "apps/web/lib/phase_6a_6c_runtime_demo.test.mjs",
+    "last_reconciled_in_pr": 450
+  },
+  "conclusion": {
+    "visual_audit_result": "BLOCKED_BY_RUNTIME_ENDPOINT_FAILURE",
+    "final_status": "PHASE_6A_6C_RUNTIME_INTEGRATION_EXECUTED_BUT_NOT_VISUALLY_VERIFIED",
+    "required_followup": "Create a runtime repair FFET for controller/service injection failures in AppController and Phase6A/6B/6C runtime status controllers, then rerun the final visual audit.",
+    "no_screenshots_faked": true,
+    "no_production_credentials_used": true
+  }
+}
