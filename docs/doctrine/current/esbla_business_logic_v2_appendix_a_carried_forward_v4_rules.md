@@ -7,7 +7,7 @@ suite_version: v5.0
 file_version: v1.0
 created: 2026-06-13
 last_updated: 2026-06-13
-status: for_ratification
+status: authoritative
 document_type: operational_doctrine_appendix
 scope: Esbla-named carry-forward appendix for locked Spark Platform v4 business-logic rules.
 title: Esbla Spark — Business Logic v2 Appendix A: Carried-Forward v4 Rules

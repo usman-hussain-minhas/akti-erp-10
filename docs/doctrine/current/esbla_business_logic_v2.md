@@ -7,7 +7,7 @@ suite_version: v5.0
 file_version: v2.0
 created: 2026-06-13
 last_updated: 2026-06-13
-status: for_ratification
+status: authoritative
 document_type: operational_doctrine
 scope: Global business logic for Esbla Spark — operational doctrine tier under Blueprint v3.1.
 title: Esbla Spark — Global Business Logic v2
