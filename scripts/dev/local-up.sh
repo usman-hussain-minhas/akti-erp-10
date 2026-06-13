@@ -2,20 +2,20 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-RUNTIME_DIR="${AKTI_LOCAL_RUNTIME_DIR:-/tmp/akti-erp-phase4a-local}"
+RUNTIME_DIR="${ESBLA_LOCAL_RUNTIME_DIR:-/tmp/esbla-spark-phase4a-local}"
 LOG_DIR="$RUNTIME_DIR/logs"
 PID_DIR="$RUNTIME_DIR/pids"
 
-DB_HOST="${AKTI_LOCAL_DB_HOST:-127.0.0.1}"
-DB_PORT="${AKTI_LOCAL_DB_PORT:-55432}"
-DB_USER="${AKTI_LOCAL_DB_USER:-akti_local}"
-DB_NAME="${AKTI_LOCAL_DB_NAME:-akti_phase4a_local}"
-API_PORT="${AKTI_LOCAL_API_PORT:-3101}"
-WEB_PORT="${AKTI_LOCAL_WEB_PORT:-3003}"
+DB_HOST="${ESBLA_LOCAL_DB_HOST:-127.0.0.1}"
+DB_PORT="${ESBLA_LOCAL_DB_PORT:-55432}"
+DB_USER="${ESBLA_LOCAL_DB_USER:-esbla_local}"
+DB_NAME="${ESBLA_LOCAL_DB_NAME:-esbla_phase4a_local}"
+API_PORT="${ESBLA_LOCAL_API_PORT:-3101}"
+WEB_PORT="${ESBLA_LOCAL_WEB_PORT:-3003}"
 DATABASE_URL="${DATABASE_URL:-postgresql://${DB_USER}@${DB_HOST}:${DB_PORT}/${DB_NAME}?schema=public}"
 API_URL="http://127.0.0.1:${API_PORT}"
 WEB_URL="http://127.0.0.1:${WEB_PORT}"
-SCREEN_PREFIX="${AKTI_LOCAL_SCREEN_PREFIX:-akti-phase4a-local}"
+SCREEN_PREFIX="${ESBLA_LOCAL_SCREEN_PREFIX:-esbla-phase4a-local}"
 API_SCREEN="${SCREEN_PREFIX}-api"
 WEB_SCREEN="${SCREEN_PREFIX}-web"
 
@@ -43,8 +43,8 @@ wait_for_url() {
 }
 
 case "$DATABASE_URL" in
-  postgresql://*@127.0.0.1:55432/akti_phase4a_local*|postgresql://*@localhost:55432/akti_phase4a_local*) ;;
-  *) fail "DATABASE_URL must target the Phase 4A local database on 127.0.0.1:55432/akti_phase4a_local" ;;
+  postgresql://*@127.0.0.1:55432/esbla_phase4a_local*|postgresql://*@localhost:55432/esbla_phase4a_local*) ;;
+  *) fail "DATABASE_URL must target the Phase 4A local database on 127.0.0.1:55432/esbla_phase4a_local" ;;
 esac
 
 require_command docker
@@ -170,7 +170,7 @@ fi
 wait_for_url "$WEB_URL/" "Web"
 
 cat <<EOF
-AKTI ERP Phase 4A local runtime is up.
+Esbla Spark Phase 4A local runtime is up.
 API: $API_URL
 Web: $WEB_URL
 Runtime logs: $LOG_DIR

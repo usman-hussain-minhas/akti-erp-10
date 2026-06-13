@@ -19,7 +19,7 @@ function main() {
     throw error;
   }
 
-  const tempDir = mkdtempSync(join(tmpdir(), "akti-entity-registry-"));
+  const tempDir = mkdtempSync(join(tmpdir(), "esbla-entity-registry-"));
   const tempFile = join(tempDir, "entity-registry.generated.json");
 
   try {

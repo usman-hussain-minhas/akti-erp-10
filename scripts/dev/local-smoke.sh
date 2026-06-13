@@ -2,14 +2,14 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-RUNTIME_DIR="${AKTI_LOCAL_RUNTIME_DIR:-/tmp/akti-erp-phase4a-local}"
-API_PORT="${AKTI_LOCAL_API_PORT:-3101}"
-WEB_PORT="${AKTI_LOCAL_WEB_PORT:-3003}"
-API_URL="${AKTI_LOCAL_API_URL:-http://127.0.0.1:${API_PORT}}"
-WEB_URL="${AKTI_LOCAL_WEB_URL:-http://127.0.0.1:${WEB_PORT}}"
-SETUP_SLUG="${AKTI_LOCAL_SMOKE_SETUP_SLUG:-phase4a-smoke}"
-SETUP_DOMAIN="${AKTI_LOCAL_SMOKE_SETUP_DOMAIN:-phase4a-smoke.example}"
-SETUP_NAME="${AKTI_LOCAL_SMOKE_SETUP_NAME:-Phase 4A Smoke Organization}"
+RUNTIME_DIR="${ESBLA_LOCAL_RUNTIME_DIR:-/tmp/esbla-spark-phase4a-local}"
+API_PORT="${ESBLA_LOCAL_API_PORT:-3101}"
+WEB_PORT="${ESBLA_LOCAL_WEB_PORT:-3003}"
+API_URL="${ESBLA_LOCAL_API_URL:-http://127.0.0.1:${API_PORT}}"
+WEB_URL="${ESBLA_LOCAL_WEB_URL:-http://127.0.0.1:${WEB_PORT}}"
+SETUP_SLUG="${ESBLA_LOCAL_SMOKE_SETUP_SLUG:-phase4a-smoke}"
+SETUP_DOMAIN="${ESBLA_LOCAL_SMOKE_SETUP_DOMAIN:-phase4a-smoke.example}"
+SETUP_NAME="${ESBLA_LOCAL_SMOKE_SETUP_NAME:-Phase 4A Smoke Organization}"
 
 pass_count=0
 
@@ -54,7 +54,7 @@ curl_body() {
 
 ensure_runtime_up() {
   if curl -fsS "$API_URL/health" >/dev/null 2>&1 && curl -fsS "$WEB_URL/" >/dev/null 2>&1; then
-    echo "Using existing AKTI ERP Phase 4A local runtime."
+    echo "Using existing Esbla Spark Phase 4A local runtime."
     return
   fi
 
@@ -82,8 +82,8 @@ check_web_root() {
   if [ -z "$body" ]; then
     fail_case "Web root returns HTML" "web_empty_response" "The Web server returned an empty body."
   fi
-  require_contains "$body" 'AKTI' "Web root contains AKTI content" "web_unexpected_response" \
-    "The Web server responded, but the body did not look like the AKTI ERP app."
+  require_contains "$body" 'Esbla' "Web root contains Esbla content" "web_unexpected_response" \
+    "The Web server responded, but the body did not look like the Esbla Spark app."
   pass_case "Web root responds at $WEB_URL/"
 }
 
@@ -161,7 +161,7 @@ main() {
   require_command grep
   require_command mktemp
 
-  echo "AKTI ERP Phase 4A local smoke starting."
+  echo "Esbla Spark Phase 4A local smoke starting."
   echo "API URL: $API_URL"
   echo "Web URL: $WEB_URL"
   echo "Runtime directory: $RUNTIME_DIR"
