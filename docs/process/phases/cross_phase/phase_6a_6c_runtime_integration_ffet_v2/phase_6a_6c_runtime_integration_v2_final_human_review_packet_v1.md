@@ -12,9 +12,9 @@ metadata_standard: esbla_file_metadata_standard_v1
 ---
 # Phase 6A-6C Runtime Integration v2 Human Review Packet
 
-Status: `PENDING_INDEPENDENT_GATE_2_AUDIT`
+Status: `PHASE_6A_6C_RUNTIME_INTEGRATION_V2_GATE_3_READY_FOR_HUMAN_APPROVAL`
 
-This packet summarizes the Gate-2 package before independent audit. It requests no execution approval yet.
+This packet summarizes the Gate-2-audited package for human Gate 3 review. It requests a future human decision and does not approve execution by itself.
 
 ## Queue
 

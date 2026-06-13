@@ -1,0 +1,26 @@
+{
+  "$metadata": {
+    "document_id": "phase_6a_6c_runtime_integration_v2_gate_manifest_v1",
+    "status": "stage_2_gate_manifest",
+    "created": "2026-06-13",
+    "updated": "2026-06-13",
+    "owner": "Usman Hussain"
+  },
+  "gate_manifest_id": "phase_6a_6c_runtime_integration_v2_gate_manifest_v1",
+  "status": "PHASE_6A_6C_RUNTIME_INTEGRATION_V2_GATE_3_READY_FOR_HUMAN_APPROVAL",
+  "gate_2_audit_status": "PASS",
+  "gate_3_ready": true,
+  "gate_3_execution_approved": false,
+  "execution_flags": {
+    "ticket_generation_allowed": false,
+    "ticket_pack_generation_allowed": false,
+    "execution_authorized": false
+  },
+  "required_human_decision": "Explicit human Gate 3 approval is required before Stage 2 execution. This manifest does not approve execution.",
+  "prerequisites_before_execution": [
+    "Run S2-PREQ-001 NestJS 11 re-verification.",
+    "Run S2-CC-001 versioned contract/package namespace migration for STAGE0-W3-FFET-002 before runtime consumers.",
+    "Execute RI FFETs one PR at a time after approved Gate 3 scope."
+  ],
+  "blocked_prior_package": "RI v1 remains BLOCKED_PENDING_STAGE_1_EXECUTION_AND_STAGE2_REAUDIT and must not be used for execution authority."
+}

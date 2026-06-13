@@ -1,0 +1,105 @@
+{
+  "$metadata": {
+    "document_id": "phase_6a_6c_runtime_integration_v2_independent_gate_2_audit_v1",
+    "status": "independent_gate_2_audit",
+    "created": "2026-06-13",
+    "updated": "2026-06-13",
+    "owner": "Usman Hussain"
+  },
+  "audit_id": "phase_6a_6c_runtime_integration_v2_independent_gate_2_audit_v1",
+  "status": "PASS",
+  "final_status": "PHASE_6A_6C_RUNTIME_INTEGRATION_V2_GATE_3_READY_FOR_HUMAN_APPROVAL",
+  "audited_main_sha": "0b15fdc28dec13548b37bb1133fea4804c756c47",
+  "self_heal_attempts_used": 1,
+  "self_heal_note": "Corrected audit reader to use prerequisite register schema field nestjs_11_prerequisite.current_verdict.",
+  "audit_scope": "Stage 2 RI v2 planning package only; no runtime wiring or contract migration execution.",
+  "checks": [
+    {
+      "id": "ri_v1_blocked_preserved",
+      "status": "PASS",
+      "evidence": "RI v1 gate manifest retains blocked status."
+    },
+    {
+      "id": "ffet_count",
+      "status": "PASS",
+      "evidence": "16/16 FFETs"
+    },
+    {
+      "id": "runtime_ffet_count",
+      "status": "PASS",
+      "evidence": "14 runtime-integration FFETs present."
+    },
+    {
+      "id": "s2_preq_001_present",
+      "status": "PASS",
+      "evidence": "NestJS 11 re-verification FFET present."
+    },
+    {
+      "id": "s2_cc_001_present",
+      "status": "PASS",
+      "evidence": "Deferred STAGE0-W3-FFET-002 seated as contract-change FFET."
+    },
+    {
+      "id": "contract_change_scope",
+      "status": "PASS",
+      "evidence": "11/11 exact deferred files seated."
+    },
+    {
+      "id": "stage1_surfaces_represented",
+      "status": "PASS",
+      "evidence": "19/19"
+    },
+    {
+      "id": "ownership_overlaps",
+      "status": "PASS",
+      "evidence": "0 overlaps"
+    },
+    {
+      "id": "dependency_cycles",
+      "status": "PASS",
+      "evidence": "0 cycles, 0 missing deps"
+    },
+    {
+      "id": "validation_ladder_present",
+      "status": "PASS",
+      "evidence": "7 runtime commands"
+    },
+    {
+      "id": "all_execution_flags_false",
+      "status": "PASS",
+      "evidence": "All FFET flags false."
+    },
+    {
+      "id": "no_broad_globs",
+      "status": "PASS",
+      "evidence": "No exact_files entry contains glob syntax."
+    },
+    {
+      "id": "stage2_deferred_items_seated",
+      "status": "PASS",
+      "evidence": "STAGE_2_DEFERRED_ITEMS_SEATED_IN_RI_V2_GATE2_PACKAGE"
+    },
+    {
+      "id": "nestjs_11_currently_satisfied",
+      "status": "PASS",
+      "evidence": "Prerequisite register records NestJS 11 deps and execution-time re-verification requirement."
+    }
+  ],
+  "stop_conditions_if_failed": [
+    "Do not request Gate 3 approval until all checks pass.",
+    "Do not execute runtime wiring from RI v1 or RI v2 while audit status is failed."
+  ],
+  "explicit_non_authorizations": [
+    "runtime wiring execution",
+    "contract/package rename execution",
+    "package or lockfile edits",
+    "Prisma/schema/migration edits",
+    "frontend route/screen implementation",
+    "manual generated registry edits"
+  ],
+  "execution_flags": {
+    "ticket_generation_allowed": false,
+    "ticket_pack_generation_allowed": false,
+    "execution_authorized": false
+  }
+}

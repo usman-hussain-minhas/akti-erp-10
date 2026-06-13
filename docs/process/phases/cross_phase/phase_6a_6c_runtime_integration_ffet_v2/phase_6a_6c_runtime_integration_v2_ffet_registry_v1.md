@@ -12,11 +12,11 @@ metadata_standard: esbla_file_metadata_standard_v1
 ---
 # Phase 6A-6C Runtime Integration v2 FFET Registry
 
-Status: `PHASE_6A_6C_RUNTIME_INTEGRATION_V2_GATE_2_PACKAGE_READY_PENDING_INDEPENDENT_AUDIT`
+Status: `PHASE_6A_6C_RUNTIME_INTEGRATION_V2_GATE_3_READY_FOR_HUMAN_APPROVAL`
 
 This registry rebases the blocked RI v1 concepts onto completed Stage 1 amendment artifacts. It includes `16` FFETs: `S2-PREQ-001`, `S2-CC-001`, and `14` runtime-integration FFETs.
 
-All execution flags remain false. This package prepares Stage 2 Gate 3 review only; it does not authorize or execute runtime wiring.
+All execution flags remain false. This package is ready for human Stage 2 Gate 3 review only; it does not authorize or execute runtime wiring.
 
 ## Required front-of-queue controls
 
