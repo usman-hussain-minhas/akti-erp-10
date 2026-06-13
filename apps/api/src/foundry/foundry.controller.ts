@@ -1,6 +1,10 @@
 import { BadRequestException, Body, Controller, Headers, Post } from '@nestjs/common';
 
-import { FoundryService, type FoundryInstallPreflightInput } from './foundry.service';
+import {
+  FoundryService,
+  type FoundryInstallPreflightInput,
+  type FoundryPhase6A6CRuntimeActivationInput,
+} from './foundry.service';
 import {
   type HeaderRecord,
   requireContextBodyMatch,
@@ -26,6 +30,17 @@ type InstallPreflightBody = {
 };
 
 type ParsedInstallPreflightBody = Omit<FoundryInstallPreflightInput, 'actor_user_id'> & {
+  actor_user_id?: string;
+};
+
+type Phase6A6CRuntimeActivationPreflightBody = {
+  organization_id?: unknown;
+  actor_user_id?: unknown;
+  requested_capability_surface?: unknown;
+  active_capability_surfaces?: unknown;
+};
+
+type ParsedPhase6A6CRuntimeActivationPreflightBody = FoundryPhase6A6CRuntimeActivationInput & {
   actor_user_id?: string;
 };
 
@@ -64,6 +79,27 @@ export class FoundryController {
     });
   }
 
+  @Post('phase-6a-6c/runtime-activation/preflight')
+  phase6A6CRuntimeActivationPreflight(@Body() body: unknown, @Headers() headers: HeaderRecord) {
+    const parsedBody = this.parsePhase6A6CRuntimeActivationPreflightBody(body);
+    const context = resolveTrustedRequestContext(headers, {
+      routeOrganizationId: parsedBody.organization_id,
+    });
+    requireContextBodyMatch(context, {
+      organization_id: parsedBody.organization_id,
+      actor_user_id: parsedBody.actor_user_id,
+    });
+
+    return {
+      ...this.foundryService.evaluatePhase6A6CRuntimeActivation({
+        organization_id: context.organization_id,
+        requested_capability_surface: parsedBody.requested_capability_surface,
+        active_capability_surfaces: parsedBody.active_capability_surfaces,
+      }),
+      route_publication_scope: 'stage_2_foundry_activation_preflight',
+    };
+  }
+
   private parseInstallPreflightBody(body: unknown): ParsedInstallPreflightBody {
     if (!isRecord(body)) {
       throw new BadRequestException('Foundry install preflight body must be an object');
@@ -85,6 +121,26 @@ export class FoundryController {
       module_health: optionalHealthRecord(input.module_health, 'module_health') ?? {},
       dependency_health: optionalHealthRecord(input.dependency_health, 'dependency_health') ?? {},
       reauth_status: optionalReauthStatus(input.reauth_status),
+    };
+  }
+
+  private parsePhase6A6CRuntimeActivationPreflightBody(
+    body: unknown,
+  ): ParsedPhase6A6CRuntimeActivationPreflightBody {
+    if (!isRecord(body)) {
+      throw new BadRequestException('Foundry runtime activation preflight body must be an object');
+    }
+
+    const input = body as Phase6A6CRuntimeActivationPreflightBody;
+
+    return {
+      organization_id: requireNonEmptyString(input.organization_id, 'organization_id'),
+      actor_user_id: optionalNonEmptyString(input.actor_user_id, 'actor_user_id'),
+      requested_capability_surface: requireNonEmptyString(
+        input.requested_capability_surface,
+        'requested_capability_surface',
+      ),
+      active_capability_surfaces: requireStringArray(input.active_capability_surfaces, 'active_capability_surfaces'),
     };
   }
 }
@@ -125,6 +181,14 @@ function requireNonEmptyStringArray(input: unknown, field: string): string[] {
   }
 
   return values;
+}
+
+function requireStringArray(input: unknown, field: string): string[] {
+  if (!Array.isArray(input)) {
+    throw new BadRequestException(`Foundry runtime activation preflight ${field} must be an array`);
+  }
+
+  return input.map((item) => requireNonEmptyString(item, field));
 }
 
 function optionalRecord(input: unknown, field: string): Record<string, unknown> | undefined {

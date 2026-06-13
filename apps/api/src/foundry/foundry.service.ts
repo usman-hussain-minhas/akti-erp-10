@@ -10,6 +10,68 @@ import {
   buildEventEnvelope,
 } from '../platform-observability/event-outbox.service';
 
+export const FOUNDRY_PHASE_6A_6C_RUNTIME_CAPABILITY_SURFACES = [
+  'phase_6a.person_graph_multi_participant',
+  'phase_6a.tiered_verification',
+  'phase_6a.evidence_ledger_hardening',
+  'phase_6a.reputation_interpretation_service',
+  'phase_6a.communication_gateway',
+  'phase_6a.configuration_constraints',
+  'phase_6a.ai_proxy_dual_plane',
+  'phase_6a.foundry_cross_tenant_activation',
+  'phase_6b.marketplace_transaction_infrastructure',
+  'phase_6b.payout_rails',
+  'phase_6b.cross_tenant_invoicing',
+  'phase_6b.billing_honesty_surfaces',
+  'phase_6b.pricing_presentations',
+  'phase_6c.workspace_level_working_copy',
+  'phase_6c.structured_agreements',
+  'phase_6c.ai_verification_hooks',
+  'phase_6c.employment_reputation_linkage',
+  'phase_6c.dispute_appeals_scaffolding',
+  'phase_6c.cross_tenant_scheduling_recruitment',
+] as const;
+
+export type FoundryPhase6A6CRuntimeCapabilitySurface =
+  (typeof FOUNDRY_PHASE_6A_6C_RUNTIME_CAPABILITY_SURFACES)[number];
+
+export type FoundryPhase6A6CRuntimePhase = 'phase_6a' | 'phase_6b' | 'phase_6c';
+
+export type FoundryPhase6A6CRuntimeActivationInput = {
+  organization_id: string;
+  requested_capability_surface: string;
+  active_capability_surfaces: readonly string[];
+};
+
+export type FoundryPhase6A6CRuntimeActivationDecision = {
+  decision_id: string;
+  decision_hash: string;
+  organization_id: string;
+  requested_capability_surface: FoundryPhase6A6CRuntimeCapabilitySurface;
+  phase: FoundryPhase6A6CRuntimePhase;
+  activation_authority: 'foundry_runtime_authority';
+  trusted_foundry_snapshot_required: true;
+  caller_controlled_activation_allowed: false;
+  active_capability_surface_count: number;
+  active: boolean;
+  allowed: boolean;
+  business_logic_execution_allowed: boolean;
+  unavailable_response: 'not_found' | null;
+  http_status_when_inactive: 404 | null;
+  reason:
+    | 'capability_surface_active_in_foundry_snapshot'
+    | 'capability_surface_inactive_in_foundry_snapshot';
+  stage_2_runtime_boundary: {
+    persistence_required_for_production: true;
+    route_publication_deferred_to_runtime_wiring: true;
+    audit_evidence_required: true;
+  };
+};
+
+const FOUNDRY_PHASE_6A_6C_RUNTIME_CAPABILITY_SURFACE_SET = new Set<string>(
+  FOUNDRY_PHASE_6A_6C_RUNTIME_CAPABILITY_SURFACES,
+);
+
 export type FoundryModuleType = 'core' | 'standard' | 'optional' | 'dedicated';
 
 export type FoundryModuleScaffoldInput = {
@@ -830,6 +892,54 @@ const FOUNDRY_LIFECYCLE_TRANSITIONS = [
 @Injectable()
 export class FoundryService {
   constructor(@Optional() private readonly gatekeeperPreflightService?: GatekeeperPreflightService) {}
+
+  evaluatePhase6A6CRuntimeActivation(
+    input: FoundryPhase6A6CRuntimeActivationInput,
+  ): FoundryPhase6A6CRuntimeActivationDecision {
+    const organizationId = requireFoundryRuntimeNonEmptyString(input.organization_id, 'organization_id');
+    const requestedCapabilitySurface = requireKnownFoundryRuntimeCapabilitySurface(
+      input.requested_capability_surface,
+      'requested_capability_surface',
+    );
+    const activeCapabilitySurfaces = normalizeFoundryRuntimeCapabilitySurfaces(input.active_capability_surfaces);
+    const activeCapabilitySurfaceSet = new Set(activeCapabilitySurfaces);
+    const active = activeCapabilitySurfaceSet.has(requestedCapabilitySurface);
+    const phase = phaseForFoundryRuntimeCapabilitySurface(requestedCapabilitySurface);
+    const decisionHash = createHash('sha256')
+      .update(
+        stableJsonStringify({
+          active_capability_surfaces: [...activeCapabilitySurfaces].sort(),
+          organization_id: organizationId,
+          requested_capability_surface: requestedCapabilitySurface,
+        }),
+      )
+      .digest('hex');
+
+    return {
+      decision_id: `foundry_phase_6a_6c_activation_${decisionHash.slice(0, 16)}`,
+      decision_hash: decisionHash,
+      organization_id: organizationId,
+      requested_capability_surface: requestedCapabilitySurface,
+      phase,
+      activation_authority: 'foundry_runtime_authority',
+      trusted_foundry_snapshot_required: true,
+      caller_controlled_activation_allowed: false,
+      active_capability_surface_count: activeCapabilitySurfaces.length,
+      active,
+      allowed: active,
+      business_logic_execution_allowed: active,
+      unavailable_response: active ? null : 'not_found',
+      http_status_when_inactive: active ? null : 404,
+      reason: active
+        ? 'capability_surface_active_in_foundry_snapshot'
+        : 'capability_surface_inactive_in_foundry_snapshot',
+      stage_2_runtime_boundary: {
+        persistence_required_for_production: true,
+        route_publication_deferred_to_runtime_wiring: true,
+        audit_evidence_required: true,
+      },
+    };
+  }
 
   runInternalFixtureLifecycleHarness(
     input: FoundryInternalFixtureLifecycleHarnessInput,
@@ -2797,4 +2907,48 @@ function parseSemverCore(version: string): [number, number, number] {
 
 function isValidIsoTimestamp(input: string) {
   return input.trim().length > 0 && !Number.isNaN(Date.parse(input));
+}
+
+function requireFoundryRuntimeNonEmptyString(input: unknown, field: string): string {
+  if (typeof input !== 'string' || input.trim().length === 0) {
+    throw new BadRequestException(`Foundry runtime activation ${field} must be a non-empty string`);
+  }
+
+  return input.trim();
+}
+
+function requireKnownFoundryRuntimeCapabilitySurface(
+  input: unknown,
+  field: string,
+): FoundryPhase6A6CRuntimeCapabilitySurface {
+  const value = requireFoundryRuntimeNonEmptyString(input, field);
+  if (!FOUNDRY_PHASE_6A_6C_RUNTIME_CAPABILITY_SURFACE_SET.has(value)) {
+    throw new BadRequestException(`Foundry runtime activation ${field} is not a known Phase 6A-6C capability surface`);
+  }
+
+  return value as FoundryPhase6A6CRuntimeCapabilitySurface;
+}
+
+function normalizeFoundryRuntimeCapabilitySurfaces(
+  input: readonly string[],
+): FoundryPhase6A6CRuntimeCapabilitySurface[] {
+  if (!Array.isArray(input)) {
+    throw new BadRequestException('Foundry runtime activation active_capability_surfaces must be an array');
+  }
+
+  return [...new Set(input.map((item) => requireKnownFoundryRuntimeCapabilitySurface(item, 'active_capability_surfaces')))];
+}
+
+function phaseForFoundryRuntimeCapabilitySurface(
+  capabilitySurface: FoundryPhase6A6CRuntimeCapabilitySurface,
+): FoundryPhase6A6CRuntimePhase {
+  if (capabilitySurface.startsWith('phase_6a.')) {
+    return 'phase_6a';
+  }
+
+  if (capabilitySurface.startsWith('phase_6b.')) {
+    return 'phase_6b';
+  }
+
+  return 'phase_6c';
 }
