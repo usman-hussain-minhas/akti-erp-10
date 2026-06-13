@@ -62,6 +62,36 @@ export class GatekeeperController {
     return this.gatekeeperPreflightService.requireAllow(input);
   }
 
+  @Post('phase-6a-6c/runtime-preflight')
+  phase6A6CRuntimePreflight(@Body() body: unknown, @Headers() headers: HeaderRecord) {
+    const parsedBody = this.parseBody(body);
+    const context = resolveTrustedRequestContext(headers, {
+      routeOrganizationId: parsedBody.organization_id,
+    });
+    requireContextBodyMatch(context, {
+      organization_id: parsedBody.organization_id,
+      actor_user_id: parsedBody.actor_user_id,
+    });
+
+    const input: GatekeeperPreflightInput = {
+      organization_id: context.organization_id,
+      actor_user_id: context.actor_user_id,
+      active_group_ids: parsedBody.active_group_ids,
+      entity_type: parsedBody.entity_type,
+      entity_id: parsedBody.entity_id,
+      action_key: parsedBody.action_key,
+      capability_key: parsedBody.capability_key,
+      module_key: parsedBody.module_key,
+      scope_unit_id: parsedBody.scope_unit_id,
+      payload: parsedBody.payload,
+      module_health: parsedBody.module_health,
+      dependency_health: parsedBody.dependency_health,
+      reauth_status: parsedBody.reauth_status,
+    };
+
+    return this.gatekeeperPreflightService.evaluatePreflight(input);
+  }
+
   private parseBody(body: unknown): Required<
     Pick<
       GatekeeperPreflightInput,

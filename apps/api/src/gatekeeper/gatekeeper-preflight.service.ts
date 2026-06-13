@@ -22,6 +22,31 @@ const LEAD_CREATE_CAPABILITY_KEY = 'lead.intake.create';
 const LEAD_STATUS_UPDATE_CAPABILITY_KEY = 'lead.status.update';
 const LEAD_ASSIGN_CAPABILITY_KEY = 'lead.inbox.assign';
 const LEAD_MODULE_KEY = 'lead.desk';
+const PHASE_6A_MODULE_KEY = 'phase6a.runtime';
+const PHASE_6B_MODULE_KEY = 'phase6b.runtime';
+const PHASE_6C_MODULE_KEY = 'phase6c.runtime';
+
+const PHASE_6A_6C_RUNTIME_CAPABILITY_POLICIES = [
+  ['phase6a.person-graph-multi-participant', PHASE_6A_MODULE_KEY],
+  ['phase6a.tiered-verification', PHASE_6A_MODULE_KEY],
+  ['phase6a.evidence-ledger-hardening', PHASE_6A_MODULE_KEY],
+  ['phase6a.reputation-interpretation-service', PHASE_6A_MODULE_KEY],
+  ['phase6a.communication-gateway', PHASE_6A_MODULE_KEY],
+  ['phase6a.configuration-constraints', PHASE_6A_MODULE_KEY],
+  ['phase6a.ai-proxy-dual-plane', PHASE_6A_MODULE_KEY],
+  ['phase6a.foundry-cross-tenant-activation', PHASE_6A_MODULE_KEY],
+  ['phase6b.marketplace-transaction-infrastructure', PHASE_6B_MODULE_KEY],
+  ['phase6b.payout-rails', PHASE_6B_MODULE_KEY],
+  ['phase6b.cross-tenant-invoicing', PHASE_6B_MODULE_KEY],
+  ['phase6b.billing-honesty-surfaces', PHASE_6B_MODULE_KEY],
+  ['phase6b.pricing-presentations', PHASE_6B_MODULE_KEY],
+  ['phase6c.workspace-level-working-copy', PHASE_6C_MODULE_KEY],
+  ['phase6c.structured-agreements', PHASE_6C_MODULE_KEY],
+  ['phase6c.ai-verification-hooks', PHASE_6C_MODULE_KEY],
+  ['phase6c.employment-reputation-linkage', PHASE_6C_MODULE_KEY],
+  ['phase6c.dispute-appeals-scaffolding', PHASE_6C_MODULE_KEY],
+  ['phase6c.cross-tenant-scheduling-recruitment', PHASE_6C_MODULE_KEY],
+] as const satisfies ReadonlyArray<readonly [string, string]>;
 
 type CapabilityPolicy = {
   module_key: string;
@@ -49,6 +74,15 @@ const CAPABILITY_POLICIES: Record<string, CapabilityPolicy> = {
     module_key: LEAD_MODULE_KEY,
     required_dependency_modules: [ACCESS_MODULE_KEY, ENGAGEMENT_MODULE_KEY],
   },
+  ...Object.fromEntries(
+    PHASE_6A_6C_RUNTIME_CAPABILITY_POLICIES.map(([capabilityKey, moduleKey]) => [
+      capabilityKey,
+      {
+        module_key: moduleKey,
+        required_dependency_modules: [ACCESS_MODULE_KEY],
+      },
+    ]),
+  ),
 };
 
 type HealthStatus = GatekeeperRequest['context']['module_health'][string];
@@ -545,7 +579,7 @@ export class GatekeeperPreflightService {
     @Optional() private readonly eventOutboxService?: EventOutboxService,
   ) {}
 
-  async requireAllow(input: GatekeeperPreflightInput): Promise<GatekeeperDecisionResult> {
+  async evaluatePreflight(input: GatekeeperPreflightInput): Promise<GatekeeperDecisionResult> {
     let contracts: GatekeeperContractsModule;
     try {
       contracts = await loadGatekeeperContracts();
@@ -584,6 +618,13 @@ export class GatekeeperPreflightService {
     await this.recordDecisionIfConfigured(request, enforcedDecision, normalizedOutcome);
     await this.recordAuditIfConfigured(request, enforcedDecision, normalizedOutcome);
     await this.recordEventEnvelopeIfConfigured(request, enforcedDecision, normalizedOutcome);
+
+    return enforcedDecision;
+  }
+
+  async requireAllow(input: GatekeeperPreflightInput): Promise<GatekeeperDecisionResult> {
+    const enforcedDecision = await this.evaluatePreflight(input);
+    const normalizedOutcome = normalizeGatekeeperDecisionOutcome(enforcedDecision.decision);
 
     if (normalizedOutcome === 'STOP_FOR_REVIEW') {
       throw new ServiceUnavailableException('Gatekeeper stopped the mutation for platform review');
