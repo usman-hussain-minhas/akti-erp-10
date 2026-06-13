@@ -1,0 +1,64 @@
+{
+  "$metadata": {
+    "company": "HAUTM",
+    "platform": "Esbla Spark",
+    "author": "Usman Hussain",
+    "owner": "Usman Hussain",
+    "suite_version": "v5.0",
+    "file_version": "v1.0",
+    "created": "2026-06-13",
+    "last_updated": "2026-06-13",
+    "status": "active",
+    "document_type": "stage2_ri_v2_blocker_register",
+    "scope": "Deferred decision and blocker register for Stage 2 6A-6C Runtime Integration v2.",
+    "ratifier": "Usman Hussain"
+  },
+  "artifact_id": "phase_6a_6c_runtime_integration_v2_deferred_decision_blocker_register_v1",
+  "status": "STAGE2_RI_V2_PREREQUISITES_SEATED_PENDING_GATE2_PACKAGE",
+  "blocker_count": 3,
+  "blockers": [
+    {
+      "blocker_id": "STAGE0-W3-FFET-002",
+      "type": "stage2_contract_change",
+      "status": "seated_pending_gate2_package",
+      "description": "Deferred semantic contract/package identifier rename for the 11 contract manifests from Stage 0 Wave 3.",
+      "destination_ffet": "S2-CC-001",
+      "required_before": "Any runtime wiring that consumes renamed contract/package identifiers.",
+      "execution_authorized": false
+    },
+    {
+      "blocker_id": "NESTJS_11_PREREQUISITE",
+      "type": "dependency_prerequisite",
+      "status": "satisfied_pending_stage2_execution_reverification",
+      "description": "NestJS 11 framework prerequisite is currently satisfied in package metadata and must be re-verified before Stage 2 wiring.",
+      "evidence": {
+        "package_path": "apps/api/package.json",
+        "package_sha256": "0958c60296a43a34c6e05c72a2f8256611f19d09649fc54f73d0238fd9bb4c4e",
+        "dependencies": {
+          "@nestjs/common": "^11.1.26",
+          "@nestjs/core": "^11.1.26",
+          "@nestjs/platform-express": "^11.1.26"
+        },
+        "current_verdict": "satisfied_pending_stage2_execution_reverification",
+        "required_before_runtime_wiring": "Re-run package metadata check and runtime validation ladder before any Stage 2 wiring FFET executes."
+      },
+      "destination_ffet": "S2-PREQ-001",
+      "execution_authorized": false
+    },
+    {
+      "blocker_id": "STAGE1_REBASELINE_REQUIRED",
+      "type": "stage2_rebaseline",
+      "status": "satisfied_by_stage1_closure_pending_v2_gate2_package",
+      "description": "Stage 1 closure exists and must be consumed by the RI v2 Gate-2 package.",
+      "evidence": {
+        "closure_path": "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/phase_6a_6c_amendment_stage1_closure_report_v1.json",
+        "closure_status": "PHASE_6A_6C_STAGE1_AMENDMENT_SEED_ARTIFACTS_READY_FOR_STAGE2_REBASELINE",
+        "expected_surface_artifacts": 114,
+        "existing_surface_artifacts": 114
+      },
+      "destination_ffet": "RI-V2-GATE2-PACKAGE",
+      "execution_authorized": false
+    }
+  ],
+  "execution_authorized": false
+}

@@ -85,7 +85,8 @@
         "execution_authorized": false
       }
     ],
-    "stage1_completed": true
+    "stage1_completed": true,
+    "superseded_by_candidate": "phase_6a_6c_runtime_integration_ffet_v2"
   },
   "v5_ratification": {
     "status": "signed_and_accepted_internal_ratification",
@@ -437,5 +438,18 @@
         "execution_authorized": false
       }
     ]
+  },
+  "phase_6a_6c_runtime_integration_v2": {
+    "status": "STAGE2_RI_V2_PREREQUISITES_SEATED_PENDING_GATE2_PACKAGE",
+    "package_path": "docs/process/phases/cross_phase/phase_6a_6c_runtime_integration_ffet_v2",
+    "final_target": "PHASE_6A_6C_RUNTIME_INTEGRATION_V2_GATE_3_READY_FOR_HUMAN_APPROVAL",
+    "execution_authorized": false,
+    "prerequisites": {
+      "stage1_closure": "PHASE_6A_6C_STAGE1_AMENDMENT_SEED_ARTIFACTS_READY_FOR_STAGE2_REBASELINE",
+      "nestjs_11": "satisfied_pending_stage2_execution_reverification",
+      "stage0_w3_ffet_002": "seated_as_S2-CC-001"
+    },
+    "gate_2_package_required": true,
+    "human_gate_3_required_before_execution": true
   }
 }
