@@ -16,7 +16,7 @@
   "artifact_id": "stage0_final_closure_report_v1",
   "status": "STAGE0_WAVES_2_5_EXECUTION_COMPLETE_WITH_W3_FFET_002_DEFERRED_TO_STAGE2",
   "repo_head_before_w5_002_pr": "a3208a3",
-  "completion_model": "This artifact is produced by STAGE0-W5-FFET-002. Ten approved execution FFETs are merged before this PR; the eleventh approved FFET is complete when the PR containing this artifact merges.",
+  "completion_model": "Stage 0 is complete on main after PR #405 merged STAGE0-W5-FFET-002; this reconciliation replaces the artifact self-reference placeholders with concrete PR evidence.",
   "approved_ffets_total": 11,
   "approved_ffets_merged_before_this_pr": 10,
   "approved_ffets_complete_after_this_pr_merge": 11,
@@ -102,14 +102,15 @@
       "title": "stage0: execute STAGE0-W5-FFET-001 final legacy audit",
       "merge_commit": "a3208a343d79c092c188f45dc28f3e2135486376",
       "merged_at": "2026-06-13T04:46:46Z"
+    },
+    {
+      "ffet_id": "STAGE0-W5-FFET-002",
+      "pr": 405,
+      "title": "stage0: execute STAGE0-W5-FFET-002 final closure report",
+      "merge_commit": "27d31e5836e06d0bfe35e01160b66c7f3a030a3f",
+      "merged_at": "2026-06-13T04:54:15Z"
     }
   ],
-  "current_pr_placeholder": {
-    "ffet_id": "STAGE0-W5-FFET-002",
-    "branch": "codex/stage0-w5-002-final-closure-report",
-    "pr": "assigned_after_push",
-    "title": "stage0: execute STAGE0-W5-FFET-002 final closure report"
-  },
   "validation_summary": {
     "w2_w4_docs_control_checks": "custom exact-file audits, JSON parse where applicable, markdown metadata checks where applicable, lower-snake path check, git diff --check, CI phase3-security-validation",
     "w3_runtime_tooling_checks": "contracts:validate, API typecheck/test, web typecheck/test, Prisma validate, registry check where applicable, lower-snake path check, git diff --check, CI phase3-security-validation",
@@ -128,5 +129,12 @@
     "Remaining semantic contract/package/env/schema/runtime compatibility identifiers are sunset-tracked for Stage 2 or later exact-file packs."
   ],
   "final_legacy_audit": "docs/audits/rename_audits/esbla_stage0_wave5_final_legacy_name_audit_v1.json",
-  "legacy_name_map": "docs/process/registries/legacy_name_map_v5_0.json"
+  "legacy_name_map": "docs/process/registries/legacy_name_map_v5_0.json",
+  "repo_head_after_w5_002_merge": "27d31e5",
+  "current_pr_resolved": {
+    "pr": 405,
+    "title": "stage0: execute STAGE0-W5-FFET-002 final closure report",
+    "merge_commit": "27d31e5836e06d0bfe35e01160b66c7f3a030a3f",
+    "merged_at": "2026-06-13T04:54:15Z"
+  }
 }
