@@ -1,35 +1,132 @@
 {
   "$metadata": {
     "document_id": "phase_6a_6c_runtime_integration_v2_demo_script_spec_v1",
-    "status": "gate_2_package_artifact",
+    "status": "gate_3_ready_demo_contract",
     "created": "2026-06-13",
     "updated": "2026-06-13",
     "owner": "Usman Hussain"
   },
   "spec_id": "phase_6a_6c_runtime_integration_v2_demo_script_spec_v1",
-  "status": "DEMO_SPEC_DEFINED_NOT_EXECUTED",
+  "status": "DEMO_SPEC_COMPLETE_WITH_FIVE_NEGATIVE_ASSERTIONS_NOT_EXECUTED",
   "positive_cases": [
     "tenant with activated Phase 6A/6B/6C capability can access wired API surface through Foundry activation and Gatekeeper allow path",
     "authorized high-risk action emits audit/evidence record",
     "cross-tenant scheduling or workspace action preserves organization scoping"
   ],
   "negative_cases": [
-    "tenant without service activation cannot access disabled service APIs or frontend entry points",
-    "Gatekeeper deny/approval/stop paths block high-risk operations",
-    "cross-tenant access attempt fails and emits expected evidence where required",
-    "inactive microservice frontend loading proof confirms no unauthorized runtime surface is available even if bundle structure remains static"
+    "A request or UI flow from tenant A attempting to access tenant B 6A-6C data is denied and cannot return tenant B data.",
+    "A communication send attempt to a participant with an active opt-out is blocked before provider/send execution.",
+    "A tenant without Foundry activation for a 6A-6C service receives a server-side 404 or approved unavailable response when directly requesting that inactive service route.",
+    "A participant failing the required KYC or verification threshold remains at T1 or the applicable restricted tier and cannot access higher-trust actions.",
+    "A failed payment produces the approved correctable invoice or billing remediation path instead of silently succeeding, double-charging, or blocking without recovery."
   ],
   "evidence_required": [
     "request/response transcripts or automated demo assertions",
     "audit/evidence stream records",
     "Foundry activation state record",
     "Gatekeeper decision records",
-    "tenant isolation negative proof"
+    "tenant isolation negative proof",
+    "communication opt-out enforcement proof",
+    "inactive service route 404 or approved unavailable response proof",
+    "failed KYC or verification-tier restriction proof",
+    "failed payment correctable invoice or billing remediation proof"
   ],
   "depends_on": [
     "S2-PREQ-001",
     "S2-CC-001",
     "S2-RI-013",
-    "S2-RI-014"
-  ]
+    "S2-RI-014",
+    "S2-RI-005",
+    "S2-RI-006",
+    "S2-RI-007",
+    "S2-RI-008",
+    "S2-RI-009",
+    "S2-RI-012"
+  ],
+  "negative_assertions": [
+    {
+      "id": "NEG-001",
+      "name": "cross_tenant_deny",
+      "assertion": "A request or UI flow from tenant A attempting to access tenant B 6A-6C data is denied and cannot return tenant B data.",
+      "owning_ffets": [
+        "S2-RI-008",
+        "S2-RI-013"
+      ],
+      "expected_result": "Access denied or not found without cross-tenant data leakage; tenant-isolation evidence captured where required.",
+      "required_evidence": [
+        "negative test assertion",
+        "request/response transcript",
+        "tenant isolation evidence or audit reference"
+      ]
+    },
+    {
+      "id": "NEG-002",
+      "name": "opt_out_send_blocked",
+      "assertion": "A communication send attempt to a participant with an active opt-out is blocked before provider/send execution.",
+      "owning_ffets": [
+        "S2-RI-006",
+        "S2-RI-007",
+        "S2-RI-013"
+      ],
+      "expected_result": "Gatekeeper or communication-gateway enforcement blocks the send and emits/records the required evidence.",
+      "required_evidence": [
+        "Gatekeeper decision record",
+        "communication-gateway opt-out decision",
+        "audit/evidence record"
+      ]
+    },
+    {
+      "id": "NEG-003",
+      "name": "inactive_service_route_404",
+      "assertion": "A tenant without Foundry activation for a 6A-6C service receives a server-side 404 or approved unavailable response when directly requesting that inactive service route.",
+      "owning_ffets": [
+        "S2-RI-005",
+        "S2-RI-009",
+        "S2-RI-012",
+        "S2-RI-013"
+      ],
+      "expected_result": "Inactive service is unavailable server-side and business logic does not execute.",
+      "required_evidence": [
+        "direct route response transcript",
+        "Foundry activation state",
+        "inactive-service negative proof"
+      ]
+    },
+    {
+      "id": "NEG-004",
+      "name": "failed_kyc_t1_restricted_path",
+      "assertion": "A participant failing the required KYC or verification threshold remains at T1 or the applicable restricted tier and cannot access higher-trust actions.",
+      "owning_ffets": [
+        "S2-RI-002",
+        "S2-RI-006",
+        "S2-RI-007",
+        "S2-RI-013"
+      ],
+      "expected_result": "Tier/verification gate blocks higher-trust action and records the restriction basis without inventing new KYC policy.",
+      "required_evidence": [
+        "verification/tier result",
+        "Gatekeeper decision where high-risk action is attempted",
+        "audit/evidence record"
+      ]
+    },
+    {
+      "id": "NEG-005",
+      "name": "failed_payment_correctable_invoice",
+      "assertion": "A failed payment produces the approved correctable invoice or billing remediation path instead of silently succeeding, double-charging, or blocking without recovery.",
+      "owning_ffets": [
+        "S2-RI-003",
+        "S2-RI-006",
+        "S2-RI-007",
+        "S2-RI-013"
+      ],
+      "expected_result": "Payment failure is represented as a correctable invoice/billing state with evidence; no provider behavior is invented beyond committed contracts.",
+      "required_evidence": [
+        "billing state assertion",
+        "invoice/remediation reference",
+        "audit/evidence record"
+      ]
+    }
+  ],
+  "required_negative_assertion_count": 5,
+  "closure_rule": "S2-RI-013 may not close and Stage 2 runtime integration may not close unless all five negative assertions pass or a human-approved blocker explicitly supersedes this demo contract."
 }
