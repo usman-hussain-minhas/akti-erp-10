@@ -1,0 +1,50 @@
+{
+  "$metadata": {
+    "document_id": "phase_6a_6c_runtime_integration_v2_contract_change_register_v1",
+    "status": "gate_2_package_artifact",
+    "created": "2026-06-13",
+    "updated": "2026-06-13",
+    "owner": "Usman Hussain"
+  },
+  "register_id": "phase_6a_6c_runtime_integration_v2_contract_change_register_v1",
+  "status": "STAGE0_W3_FFET_002_SEATED_AS_S2_CC_001",
+  "contract_changes": [
+    {
+      "id": "S2-CC-001",
+      "source_deferred_item": "STAGE0-W3-FFET-002",
+      "source_file_count": 11,
+      "contract_manifest_count": 9,
+      "package_or_tooling_file_count": 2,
+      "exact_files": [
+        "packages/contracts/package.json",
+        "packages/contracts/phase_6c/workspace_messaging_and_collaboration/cross_module_channel_ref.module_manifest.contract.ts",
+        "packages/contracts/phase_6c/workspace_messaging_and_collaboration/e2e_encryption_boundary.module_manifest.contract.ts",
+        "packages/contracts/phase_6c/workspace_messaging_and_collaboration/membership_policy.module_manifest.contract.ts",
+        "packages/contracts/phase_6c/workspace_messaging_and_collaboration/mention_notification_evidence.module_manifest.contract.ts",
+        "packages/contracts/phase_6c/workspace_messaging_and_collaboration/message_attachment_file_ref.module_manifest.contract.ts",
+        "packages/contracts/phase_6c/workspace_messaging_and_collaboration/moderation_reporting.module_manifest.contract.ts",
+        "packages/contracts/phase_6c/workspace_messaging_and_collaboration/outbound_notification_gateway.module_manifest.contract.ts",
+        "packages/contracts/phase_6c/workspace_messaging_and_collaboration/private_channel_approval.module_manifest.contract.ts",
+        "packages/contracts/phase_6c/workspace_messaging_and_collaboration/workspace_message_search.module_manifest.contract.ts",
+        "packages/contracts/scripts/validate-access-core-contracts.mjs"
+      ],
+      "execution_authorized": false,
+      "destination": "Stage 2 versioned contract-change pack before RI runtime consumers",
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm registry:check",
+        "node scripts/quality/check_lower_snake_case_paths.mjs",
+        "git diff --check"
+      ],
+      "stop_conditions": [
+        "A contract identifier change requires API, schema, route, permission, or business-rule decisions not present in committed sources.",
+        "Any consumer must be edited outside the approved contract-change scope before the migration can validate.",
+        "A generated artifact would need manual editing instead of generator output."
+      ]
+    }
+  ]
+}

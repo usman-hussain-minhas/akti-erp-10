@@ -14,7 +14,7 @@
     "ratifier": "Usman Hussain"
   },
   "artifact_id": "phase_6a_6c_runtime_integration_v2_deferred_decision_blocker_register_v1",
-  "status": "STAGE2_RI_V2_PREREQUISITES_SEATED_PENDING_GATE2_PACKAGE",
+  "status": "STAGE_2_DEFERRED_ITEMS_SEATED_IN_RI_V2_GATE2_PACKAGE",
   "blocker_count": 3,
   "blockers": [
     {
@@ -60,5 +60,23 @@
       "execution_authorized": false
     }
   ],
-  "execution_authorized": false
+  "execution_authorized": false,
+  "updated": "2026-06-13",
+  "seated_stage2_ffets": [
+    {
+      "deferred_item": "STAGE0-W3-FFET-002",
+      "stage2_ffet": "S2-CC-001",
+      "destination": "versioned contract/package namespace migration before runtime RI consumers"
+    },
+    {
+      "deferred_item": "NESTJS_11_PREREQUISITE",
+      "stage2_ffet": "S2-PREQ-001",
+      "destination": "execution-time re-verification before wiring"
+    },
+    {
+      "deferred_item": "STAGE1_REBASELINE_REQUIRED",
+      "stage2_artifact": "phase_6a_6c_runtime_integration_v2_stage1_artifact_consumption_matrix_v1.json",
+      "destination": "completed by v2 package, still requires independent audit"
+    }
+  ]
 }

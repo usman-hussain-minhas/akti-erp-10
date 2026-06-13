@@ -1,0 +1,35 @@
+{
+  "$metadata": {
+    "document_id": "phase_6a_6c_runtime_integration_v2_demo_script_spec_v1",
+    "status": "gate_2_package_artifact",
+    "created": "2026-06-13",
+    "updated": "2026-06-13",
+    "owner": "Usman Hussain"
+  },
+  "spec_id": "phase_6a_6c_runtime_integration_v2_demo_script_spec_v1",
+  "status": "DEMO_SPEC_DEFINED_NOT_EXECUTED",
+  "positive_cases": [
+    "tenant with activated Phase 6A/6B/6C capability can access wired API surface through Foundry activation and Gatekeeper allow path",
+    "authorized high-risk action emits audit/evidence record",
+    "cross-tenant scheduling or workspace action preserves organization scoping"
+  ],
+  "negative_cases": [
+    "tenant without service activation cannot access disabled service APIs or frontend entry points",
+    "Gatekeeper deny/approval/stop paths block high-risk operations",
+    "cross-tenant access attempt fails and emits expected evidence where required",
+    "inactive microservice frontend loading proof confirms no unauthorized runtime surface is available even if bundle structure remains static"
+  ],
+  "evidence_required": [
+    "request/response transcripts or automated demo assertions",
+    "audit/evidence stream records",
+    "Foundry activation state record",
+    "Gatekeeper decision records",
+    "tenant isolation negative proof"
+  ],
+  "depends_on": [
+    "S2-PREQ-001",
+    "S2-CC-001",
+    "S2-RI-013",
+    "S2-RI-014"
+  ]
+}
