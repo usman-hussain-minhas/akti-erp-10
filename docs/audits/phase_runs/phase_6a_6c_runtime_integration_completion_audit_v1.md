@@ -8,7 +8,7 @@ owner: Usman Hussain
 
 # Phase 6A-6C Runtime Integration Completion Audit v1
 
-Status: `RUNTIME_INTEGRATION_GATE4_RECONCILED_PENDING_FINAL_VISUAL_AUDIT`
+Status: `RUNTIME_INTEGRATION_GATE4_RECONCILED_VISUAL_RERUN_BLOCKED`
 
 This audit reconciles the Stage 2 Runtime Integration v2 execution chain after `S2-RI-013`. It does not claim the final visual-verification target yet. The remaining required PR is the browser/runtime visual audit with screenshots, or an explicit blocked-local-runtime record if the committed scripts cannot reproduce the app locally.
 
@@ -83,3 +83,15 @@ This audit reconciles the Stage 2 Runtime Integration v2 execution chain after `
 The Stage 2 runtime implementation chain is reconciled, but the full target is not complete until the final runtime visual audit PR captures real screenshots from the running app, or records `VISUAL_AUDIT_BLOCKED_LOCAL_RUNTIME_NOT_REPRODUCIBLE` if the app cannot be started from committed scripts and available local environment.
 
 Conclusion: `READY_FOR_FINAL_RUNTIME_VISUAL_AUDIT_PR`.
+
+## Visual audit v2 rerun
+
+Audit path: `docs/audits/stage2_runtime_visual_audit_v2/stage2_runtime_visual_audit_v2.json`
+
+The visual audit rerun confirms `S2-REPAIR-001` fixed the original `AppController` and Phase 6A/6B/6C runtime status controller injection failures. `/health` and all three Phase runtime status endpoints now return HTTP 200 under the committed API start script.
+
+The final target is still not claimed. The rerun exposed a new same-class runtime blocker outside `S2-REPAIR-001` scope: `POST /platform/foundry/phase-6a-6c/runtime-activation/preflight` returns HTTP 500 because `FoundryController` receives an undefined `FoundryService`.
+
+Final status: `PHASE_6A_6C_RUNTIME_INTEGRATION_EXECUTED_BUT_VISUAL_RERUN_BLOCKED_BY_FOUNDRY_CONTROLLER_DI`
+
+Required follow-up: seat and execute a bounded repair FFET for `FoundryController` dependency injection, then rerun final visual audit v3. The follow-up should also assess broader implicit-DI risk for other runtime-invoked controllers before final target verification is claimed.

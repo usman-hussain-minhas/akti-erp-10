@@ -7,8 +7,8 @@
     "owner": "Usman Hussain"
   },
   "audit_id": "phase_6a_6c_runtime_integration_completion_audit_v1",
-  "status": "RUNTIME_INTEGRATION_GATE4_RECONCILED_PENDING_FINAL_VISUAL_AUDIT",
-  "final_target_not_yet_claimed": "PHASE_6A_6C_RUNTIME_INTEGRATION_EXECUTED_AND_VISUALLY_VERIFIED requires the final browser/screenshot audit PR after this reconciliation.",
+  "status": "RUNTIME_INTEGRATION_GATE4_RECONCILED_VISUAL_RERUN_BLOCKED",
+  "final_target_not_yet_claimed": true,
   "source_authority": {
     "ri_v2_registry": "docs/process/phases/cross_phase/phase_6a_6c_runtime_integration_ffet_v2/phase_6a_6c_runtime_integration_v2_ffet_registry_v1.json",
     "ri_v2_gate_manifest": "docs/process/phases/cross_phase/phase_6a_6c_runtime_integration_ffet_v2/phase_6a_6c_runtime_integration_v2_gate_manifest_v1.json",
@@ -260,8 +260,22 @@
     "visual_audit_blocker_policy": "If local runtime cannot start from committed scripts or required env/test data is missing, record VISUAL_AUDIT_BLOCKED_LOCAL_RUNTIME_NOT_REPRODUCIBLE instead of faking screenshots."
   },
   "conclusion": {
-    "status": "READY_FOR_FINAL_RUNTIME_VISUAL_AUDIT_PR",
+    "status": "VISUAL_AUDIT_V2_BLOCKED_BY_FOUNDRY_CONTROLLER_DI",
+    "final_stage2_status": "PHASE_6A_6C_RUNTIME_INTEGRATION_EXECUTED_BUT_VISUAL_RERUN_BLOCKED_BY_FOUNDRY_CONTROLLER_DI",
+    "final_target_achieved": false,
     "no_gate_or_scope_expansion_implied": true,
-    "final_stage2_status_after_visual_audit_expected": "PHASE_6A_6C_RUNTIME_INTEGRATION_EXECUTED_AND_VISUALLY_VERIFIED"
+    "required_followup": "Seat and execute a bounded repair FFET for FoundryController dependency injection, then rerun final visual audit v3. Broader implicit-DI risk should be assessed for other runtime endpoints before claiming the final target."
+  },
+  "visual_audit_v2": {
+    "audit_path": "docs/audits/stage2_runtime_visual_audit_v2/stage2_runtime_visual_audit_v2.json",
+    "status": "VISUAL_AUDIT_RERUN_BLOCKED_FOUNDRY_CONTROLLER_INJECTION_500",
+    "final_target_achieved": false,
+    "repaired_original_blocker": true,
+    "new_blocker": {
+      "endpoint": "/platform/foundry/phase-6a-6c/runtime-activation/preflight",
+      "result": "HTTP_500",
+      "server_log_excerpt": "TypeError: Cannot read properties of undefined (reading 'evaluatePhase6A6CRuntimeActivation') at FoundryController.phase6A6CRuntimeActivationPreflight"
+    },
+    "required_followup": "Seat and execute a bounded repair FFET for FoundryController dependency injection, then rerun final visual audit v3. Broader implicit-DI risk should be assessed for other runtime endpoints before claiming the final target."
   }
 }

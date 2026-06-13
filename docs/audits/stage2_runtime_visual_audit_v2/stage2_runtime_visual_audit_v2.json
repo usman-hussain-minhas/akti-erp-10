@@ -1,0 +1,175 @@
+{
+  "$metadata": {
+    "document_id": "stage2_runtime_visual_audit_v2",
+    "status": "visual_audit_blocked_foundry_controller_injection_failure",
+    "created": "2026-06-13",
+    "updated": "2026-06-13",
+    "owner": "Usman Hussain"
+  },
+  "audit_id": "stage2_runtime_visual_audit_v2",
+  "status": "VISUAL_AUDIT_RERUN_BLOCKED_FOUNDRY_CONTROLLER_INJECTION_500",
+  "final_target": "PHASE_6A_6C_RUNTIME_INTEGRATION_EXECUTED_AND_VISUALLY_VERIFIED",
+  "final_target_achieved": false,
+  "source_branch": "codex/stage2-final-runtime-visual-audit-rerun",
+  "prerequisite_repair": {
+    "ffet_id": "S2-REPAIR-001",
+    "merged": true,
+    "repaired_blocker": "AppController and Phase6A/Phase6B/Phase6C runtime status controller service injections",
+    "evidence": "Browser and curl evidence show /health and /platform/phase-6a|6b|6c/runtime/status now return HTTP 200."
+  },
+  "runtime_start_attempts": [
+    {
+      "target": "api",
+      "command": "AKTI_AUTH_SESSION_SECRET=local_stage2_visual_secret_12345 AKTI_CORS_ALLOWED_ORIGINS=http://localhost:3000 DATABASE_URL='postgresql://postgres:postgres@localhost:5432/akti_stage2_visual?schema=public' pnpm --filter @akti/api start:dev",
+      "result": "STARTED"
+    },
+    {
+      "target": "web",
+      "command": "NEXT_PUBLIC_API_BASE_URL=http://localhost:3001 pnpm --filter @akti/web dev",
+      "result": "STARTED"
+    }
+  ],
+  "browser_capture": {
+    "tool": "Codex in-app browser via Browser skill",
+    "screenshots": [
+      {
+        "id": "VIS2-001",
+        "path": "docs/audits/stage2_runtime_visual_audit_v2/screenshots/01_web_app_shell_api_available.png",
+        "assertion": "Web app shell loads from committed web dev script while repaired API is running.",
+        "result": "PASS_VISUAL"
+      },
+      {
+        "id": "VIS2-002",
+        "path": "docs/audits/stage2_runtime_visual_audit_v2/screenshots/02_inactive_direct_route_unavailable.png",
+        "assertion": "Inactive or unsupported direct frontend route is unavailable.",
+        "result": "PASS_VISUAL"
+      },
+      {
+        "id": "VIS2-003",
+        "path": "docs/audits/stage2_runtime_visual_audit_v2/screenshots/03_api_health_endpoint.png",
+        "assertion": "Repaired API health endpoint is browser-visible and returns healthy JSON.",
+        "result": "PASS_VISUAL_API_ENDPOINT"
+      },
+      {
+        "id": "VIS2-004",
+        "path": "docs/audits/stage2_runtime_visual_audit_v2/screenshots/04_phase_6a_runtime_status_endpoint.png",
+        "assertion": "Phase 6A runtime status endpoint is browser-visible and no longer returns the recorded 500 injection failure.",
+        "result": "PASS_VISUAL_API_ENDPOINT"
+      },
+      {
+        "id": "VIS2-005",
+        "path": "docs/audits/stage2_runtime_visual_audit_v2/screenshots/05_phase_6b_runtime_status_endpoint.png",
+        "assertion": "Phase 6B runtime status endpoint is browser-visible and no longer returns the recorded 500 injection failure.",
+        "result": "PASS_VISUAL_API_ENDPOINT"
+      },
+      {
+        "id": "VIS2-006",
+        "path": "docs/audits/stage2_runtime_visual_audit_v2/screenshots/06_phase_6c_runtime_status_endpoint.png",
+        "assertion": "Phase 6C runtime status endpoint is browser-visible and no longer returns the recorded 500 injection failure.",
+        "result": "PASS_VISUAL_API_ENDPOINT"
+      }
+    ],
+    "api_port_browser_navigation": "AVAILABLE_FOR_GET_ENDPOINTS"
+  },
+  "curl_evidence": {
+    "path": "docs/audits/stage2_runtime_visual_audit_v2/curl_evidence_v1.md",
+    "repaired_endpoints": [
+      {
+        "endpoint": "/health",
+        "result": "HTTP_200"
+      },
+      {
+        "endpoint": "/platform/phase-6a/runtime/status",
+        "result": "HTTP_200"
+      },
+      {
+        "endpoint": "/platform/phase-6b/runtime/status",
+        "result": "HTTP_200"
+      },
+      {
+        "endpoint": "/platform/phase-6c/runtime/status",
+        "result": "HTTP_200"
+      }
+    ],
+    "new_blocker_endpoint": {
+      "endpoint": "/platform/foundry/phase-6a-6c/runtime-activation/preflight",
+      "result": "HTTP_500",
+      "server_log_excerpt": "TypeError: Cannot read properties of undefined (reading 'evaluatePhase6A6CRuntimeActivation') at FoundryController.phase6A6CRuntimeActivationPreflight"
+    }
+  },
+  "required_visual_assertions": [
+    {
+      "assertion": "Web app shell loads with API available.",
+      "result": "PASS_VISUAL",
+      "evidence": [
+        "VIS2-001",
+        "VIS2-003"
+      ]
+    },
+    {
+      "assertion": "Activated Phase 6A-6C availability is visible or browser-verifiable from existing screens/API surfaces.",
+      "result": "BLOCKED_FOUNDRY_CONTROLLER_API_500",
+      "evidence": [
+        "curl_evidence_v1.md activation preflight section"
+      ],
+      "notes": "Existing Foundry activation preflight route exists, but runtime invocation fails from undefined FoundryService injection."
+    },
+    {
+      "assertion": "Inactive navigation hides or blocks disabled services.",
+      "result": "PASS_VISUAL_AND_AUTOMATED_EVIDENCE",
+      "evidence": [
+        "VIS2-001",
+        "apps/web/lib/phase_6a_6c_runtime_demo.test.mjs"
+      ]
+    },
+    {
+      "assertion": "Inactive direct route returns 404/unavailable.",
+      "result": "PASS_VISUAL_AND_AUTOMATED_EVIDENCE",
+      "evidence": [
+        "VIS2-002",
+        "apps/api/src/phase_6a_6c_runtime/phase_runtime_demo.test.ts"
+      ]
+    },
+    {
+      "assertion": "Cross-tenant deny is proven.",
+      "result": "PASS_AUTOMATED_EVIDENCE",
+      "evidence": [
+        "apps/api/src/phase_6a_6c_runtime/phase_runtime_demo.test.ts"
+      ]
+    },
+    {
+      "assertion": "Opt-out send blocked is proven.",
+      "result": "PASS_AUTOMATED_EVIDENCE",
+      "evidence": [
+        "apps/api/src/phase_6a_6c_runtime/phase_runtime_demo.test.ts"
+      ]
+    },
+    {
+      "assertion": "Failed-KYC restricted/T1 path is proven.",
+      "result": "PASS_AUTOMATED_EVIDENCE",
+      "evidence": [
+        "apps/api/src/phase_6a_6c_runtime/phase_runtime_demo.test.ts"
+      ]
+    },
+    {
+      "assertion": "Failed-payment correctable invoice path is proven.",
+      "result": "PASS_AUTOMATED_EVIDENCE",
+      "evidence": [
+        "apps/api/src/phase_6a_6c_runtime/phase_runtime_demo.test.ts"
+      ]
+    },
+    {
+      "assertion": "Audit/evidence and Gatekeeper allow/deny/approval/stop proofs are linked.",
+      "result": "PASS_AUTOMATED_EVIDENCE",
+      "evidence": [
+        "apps/api/src/phase_6a_6c_runtime/phase_runtime_demo.test.ts"
+      ]
+    }
+  ],
+  "conclusion": {
+    "final_status": "PHASE_6A_6C_RUNTIME_INTEGRATION_EXECUTED_BUT_VISUAL_RERUN_BLOCKED_BY_FOUNDRY_CONTROLLER_DI",
+    "required_followup": "Seat and execute a bounded repair FFET for FoundryController dependency injection, then rerun final visual audit v3. Broader implicit-DI risk should be assessed for other runtime endpoints before claiming the final target.",
+    "no_screenshots_faked": true,
+    "no_production_credentials_used": true
+  }
+}
