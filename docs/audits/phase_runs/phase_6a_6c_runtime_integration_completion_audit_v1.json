@@ -3,7 +3,7 @@
     "document_id": "phase_6a_6c_runtime_integration_completion_audit_v1",
     "status": "runtime_reconciliation_audit",
     "created": "2026-06-13",
-    "updated": "2026-06-13",
+    "updated": "2026-06-14",
     "owner": "Usman Hussain"
   },
   "audit_id": "phase_6a_6c_runtime_integration_completion_audit_v1",
@@ -261,10 +261,12 @@
   },
   "conclusion": {
     "status": "VISUAL_AUDIT_V2_BLOCKED_BY_FOUNDRY_CONTROLLER_DI",
-    "final_stage2_status": "PHASE_6A_6C_RUNTIME_INTEGRATION_EXECUTED_BUT_VISUAL_RERUN_BLOCKED_BY_FOUNDRY_CONTROLLER_DI",
-    "final_target_achieved": false,
+    "final_stage2_status": "PHASE_6A_6C_RUNTIME_INTEGRATION_EXECUTED_AND_VISUALLY_VERIFIED",
+    "final_target_achieved": true,
     "no_gate_or_scope_expansion_implied": true,
-    "required_followup": "Seat and execute a bounded repair FFET for FoundryController dependency injection, then rerun final visual audit v3. Broader implicit-DI risk should be assessed for other runtime endpoints before claiming the final target."
+    "required_followup": "Seat and execute a bounded repair FFET for FoundryController dependency injection, then rerun final visual audit v3. Broader implicit-DI risk should be assessed for other runtime endpoints before claiming the final target.",
+    "visual_audit": "stage2_runtime_visual_audit_v3",
+    "remaining_blockers": []
   },
   "visual_audit_v2": {
     "audit_path": "docs/audits/stage2_runtime_visual_audit_v2/stage2_runtime_visual_audit_v2.json",
@@ -277,5 +279,49 @@
       "server_log_excerpt": "TypeError: Cannot read properties of undefined (reading 'evaluatePhase6A6CRuntimeActivation') at FoundryController.phase6A6CRuntimeActivationPreflight"
     },
     "required_followup": "Seat and execute a bounded repair FFET for FoundryController dependency injection, then rerun final visual audit v3. Broader implicit-DI risk should be assessed for other runtime endpoints before claiming the final target."
+  },
+  "final_visual_audit_v3": {
+    "audit_path": "docs/audits/stage2_runtime_visual_audit_v3/stage2_runtime_visual_audit_v3.json",
+    "status": "VISUAL_AUDIT_VERIFIED",
+    "final_stage2_status": "PHASE_6A_6C_RUNTIME_INTEGRATION_EXECUTED_AND_VISUALLY_VERIFIED",
+    "repaired_failure_pattern": "Controller constructor dependency injection hardened with explicit Nest @Inject tokens across API controller surface.",
+    "runtime_evidence": {
+      "curl_evidence_path": "docs/audits/stage2_runtime_visual_audit_v3/curl_evidence_v1.md",
+      "repaired_endpoints": [
+        {
+          "endpoint": "/health",
+          "result": "HTTP_200"
+        },
+        {
+          "endpoint": "/platform/phase-6a/runtime/status",
+          "result": "HTTP_200"
+        },
+        {
+          "endpoint": "/platform/phase-6b/runtime/status",
+          "result": "HTTP_200"
+        },
+        {
+          "endpoint": "/platform/phase-6c/runtime/status",
+          "result": "HTTP_200"
+        },
+        {
+          "endpoint": "/platform/foundry/phase-6a-6c/runtime-activation/preflight",
+          "result": "HTTP_201"
+        }
+      ],
+      "demo_evidence": [
+        {
+          "path": "docs/audits/stage2_runtime_visual_audit_v3/api_demo_evidence_v1.txt",
+          "result": "PASS",
+          "command": "TSX_TSCONFIG_PATH=apps/api/tsconfig.json pnpm exec tsx apps/api/src/phase_6a_6c_runtime/phase_runtime_demo.test.ts"
+        },
+        {
+          "path": "docs/audits/stage2_runtime_visual_audit_v3/web_demo_evidence_v1.txt",
+          "result": "PASS",
+          "command": "node apps/web/lib/phase_6a_6c_runtime_demo.test.mjs"
+        }
+      ]
+    },
+    "screenshot_manifest_path": "docs/audits/stage2_runtime_visual_audit_v3/screenshot_manifest_v1.json"
   }
 }
