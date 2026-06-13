@@ -1,0 +1,365 @@
+{
+  "screen_key": "phase6.runtime-capability-shell",
+  "module_key": "phase6.runtime",
+  "title": "Runtime Capability Shell",
+  "route": "/app/phase-6/runtime-capabilities",
+  "screen_type": "private_portal",
+  "status": "planned",
+  "version": "0.1.0",
+  "business_purpose": "Show which Phase 6A-6C runtime capabilities are available for the signed-in tenant and prevent inactive services from being exposed as usable screens.",
+  "primary_user_context": "Tenant operator reviewing the activated Phase 6A-6C capability surface before opening runtime workflows.",
+  "user_goal": "See active services, understand unavailable services, and open only the capabilities that Foundry activation allows.",
+  "success_outcome": "Activated services are visible and reachable while inactive services are hidden from navigation and blocked server-side if directly requested.",
+  "required_capabilities": [
+    "phase6.runtime-capability-shell.view"
+  ],
+  "optional_capabilities": [
+    "phase6.runtime-capability-shell.open-active-service",
+    "phase6.runtime-capability-shell.refresh-status"
+  ],
+  "visibility_rules": [
+    {
+      "key": "phase6.runtime-capability-shell.visible",
+      "description": "Show the runtime capability shell only to users with the Phase 6 runtime shell view capability.",
+      "capability_key": "phase6.runtime-capability-shell.view"
+    },
+    {
+      "key": "phase6.runtime-capability-shell.active-services-only",
+      "description": "Show service navigation only when Foundry activation marks that service active for the tenant.",
+      "capability_key": "phase6.runtime-capability-shell.open-active-service"
+    }
+  ],
+  "record_scope_behavior": {
+    "default_scope": "organization",
+    "allowed_scope_types": [
+      "organization"
+    ],
+    "description": "The shell is organization-scoped and must never use data from another tenant when calculating activation, navigation, or route access."
+  },
+  "primary_action": {
+    "action_key": "phase6.runtime-capability-shell.open-active-service",
+    "label": "Open active service",
+    "capability_key": "phase6.runtime-capability-shell.open-active-service",
+    "action_type": "open",
+    "risk_level": "low",
+    "requires_confirmation": false,
+    "requires_reauth": false,
+    "gatekeeper_required": true,
+    "audit_required": true
+  },
+  "secondary_actions": [
+    {
+      "action_key": "phase6.runtime-capability-shell.refresh-status",
+      "label": "Refresh activation status",
+      "capability_key": "phase6.runtime-capability-shell.refresh-status",
+      "action_type": "filter",
+      "risk_level": "low",
+      "requires_confirmation": false,
+      "requires_reauth": false,
+      "gatekeeper_required": false,
+      "audit_required": false
+    }
+  ],
+  "row_actions": [
+    {
+      "action_key": "phase6.runtime-capability-shell.inspect-service",
+      "label": "Inspect service",
+      "capability_key": "phase6.runtime-capability-shell.view",
+      "action_type": "open",
+      "risk_level": "low",
+      "requires_confirmation": false,
+      "requires_reauth": false,
+      "gatekeeper_required": false,
+      "audit_required": false
+    }
+  ],
+  "bulk_actions": [],
+  "destructive_actions": [],
+  "data_sources": [
+    {
+      "key": "phase6.runtime-capability-shell.phase6a-status",
+      "label": "Phase 6A status",
+      "source_type": "api",
+      "route_key": "phase6.runtime-capability-shell.phase6a-status-read",
+      "description": "Reads activation-aware Phase 6A runtime status for the tenant."
+    },
+    {
+      "key": "phase6.runtime-capability-shell.phase6b-status",
+      "label": "Phase 6B status",
+      "source_type": "api",
+      "route_key": "phase6.runtime-capability-shell.phase6b-status-read",
+      "description": "Reads activation-aware Phase 6B runtime status for the tenant."
+    },
+    {
+      "key": "phase6.runtime-capability-shell.phase6c-status",
+      "label": "Phase 6C status",
+      "source_type": "api",
+      "route_key": "phase6.runtime-capability-shell.phase6c-status-read",
+      "description": "Reads activation-aware Phase 6C runtime status for the tenant."
+    },
+    {
+      "key": "phase6.runtime-capability-shell.activation-preflight",
+      "label": "Activation preflight",
+      "source_type": "api",
+      "route_key": "phase6.runtime-capability-shell.activation-preflight-post",
+      "description": "Checks Foundry activation before the shell exposes a service route."
+    },
+    {
+      "key": "phase6.runtime-capability-shell.gatekeeper-preflight",
+      "label": "Gatekeeper preflight",
+      "source_type": "api",
+      "route_key": "phase6.runtime-capability-shell.gatekeeper-preflight-post",
+      "description": "Checks Gatekeeper before opening high-risk runtime actions."
+    }
+  ],
+  "api_routes": [
+    {
+      "key": "phase6.runtime-capability-shell.phase6a-status-read",
+      "method": "GET",
+      "path": "/platform/phase-6a/runtime/status",
+      "capability_key": "phase6.runtime-capability-shell.view",
+      "auth_required": true,
+      "public_route": false,
+      "rate_limited": true,
+      "input_schema": null,
+      "output_schema": null,
+      "description": "Read Phase 6A runtime status."
+    },
+    {
+      "key": "phase6.runtime-capability-shell.phase6b-status-read",
+      "method": "GET",
+      "path": "/platform/phase-6b/runtime/status",
+      "capability_key": "phase6.runtime-capability-shell.view",
+      "auth_required": true,
+      "public_route": false,
+      "rate_limited": true,
+      "input_schema": null,
+      "output_schema": null,
+      "description": "Read Phase 6B runtime status."
+    },
+    {
+      "key": "phase6.runtime-capability-shell.phase6c-status-read",
+      "method": "GET",
+      "path": "/platform/phase-6c/runtime/status",
+      "capability_key": "phase6.runtime-capability-shell.view",
+      "auth_required": true,
+      "public_route": false,
+      "rate_limited": true,
+      "input_schema": null,
+      "output_schema": null,
+      "description": "Read Phase 6C runtime status."
+    },
+    {
+      "key": "phase6.runtime-capability-shell.activation-preflight-post",
+      "method": "POST",
+      "path": "/platform/foundry/phase-6a-6c/runtime-activation/preflight",
+      "capability_key": "phase6.runtime-capability-shell.open-active-service",
+      "auth_required": true,
+      "public_route": false,
+      "rate_limited": true,
+      "input_schema": null,
+      "output_schema": null,
+      "description": "Run Foundry activation preflight before exposing service navigation."
+    },
+    {
+      "key": "phase6.runtime-capability-shell.gatekeeper-preflight-post",
+      "method": "POST",
+      "path": "/platform/gatekeeper/phase-6a-6c/runtime-preflight",
+      "capability_key": "phase6.runtime-capability-shell.open-active-service",
+      "auth_required": true,
+      "public_route": false,
+      "rate_limited": true,
+      "input_schema": null,
+      "output_schema": null,
+      "description": "Run Gatekeeper preflight before high-risk service actions."
+    }
+  ],
+  "query_params": [],
+  "required_entities": [
+    {
+      "entity_key": "phase6.runtime-capability",
+      "purpose": "Represents a tenant-scoped runtime capability row derived from Foundry activation and Phase 6A-6C status surfaces."
+    }
+  ],
+  "empty_data_behavior": {
+    "title": "No active services",
+    "message": "No Phase 6 runtime services are active for this tenant yet.",
+    "primary_action_key": "phase6.runtime-capability-shell.refresh-status"
+  },
+  "table_columns": [
+    {
+      "key": "service_name",
+      "label": "Service",
+      "data_path": "service_name",
+      "column_type": "text",
+      "sortable": true,
+      "required": true
+    },
+    {
+      "key": "phase_key",
+      "label": "Phase",
+      "data_path": "phase_key",
+      "column_type": "badge",
+      "sortable": true,
+      "required": true
+    },
+    {
+      "key": "activation_status",
+      "label": "Activation status",
+      "data_path": "activation_status",
+      "column_type": "status",
+      "sortable": true,
+      "required": true
+    },
+    {
+      "key": "runtime_status",
+      "label": "Runtime status",
+      "data_path": "runtime_status",
+      "column_type": "status",
+      "sortable": true,
+      "required": true
+    },
+    {
+      "key": "direct_route_status",
+      "label": "Direct route status",
+      "data_path": "direct_route_status",
+      "column_type": "status",
+      "sortable": false,
+      "required": true
+    }
+  ],
+  "filters": [
+    {
+      "key": "activation_status",
+      "label": "Activation status",
+      "filter_type": "select",
+      "required": false
+    },
+    {
+      "key": "phase_key",
+      "label": "Phase",
+      "filter_type": "select",
+      "required": false
+    }
+  ],
+  "search_fields": [
+    "service_name"
+  ],
+  "sorting": [
+    {
+      "field_key": "service_name",
+      "direction": "asc",
+      "default": true
+    }
+  ],
+  "pagination": {
+    "mode": "none"
+  },
+  "saved_views": [
+    {
+      "key": "phase6.runtime-capability-shell.active-only",
+      "label": "Active services",
+      "description": "Shows only services with active Foundry activation."
+    }
+  ],
+  "form_fields": [],
+  "validation_rules": [],
+  "submit_action": null,
+  "draft_behavior": {
+    "supported": false,
+    "autosave": false
+  },
+  "file_uploads": [],
+  "empty_state": {
+    "title": "No active services",
+    "message": "No active Phase 6 runtime services are available for this tenant.",
+    "primary_action_key": "phase6.runtime-capability-shell.refresh-status"
+  },
+  "loading_state": {
+    "title": "Checking activation",
+    "message": "The platform is checking Foundry activation and runtime status before showing services.",
+    "primary_action_key": "phase6.runtime-capability-shell.refresh-status"
+  },
+  "error_state": {
+    "title": "Runtime status unavailable",
+    "message": "The platform could not load runtime status. Try again or contact an administrator.",
+    "primary_action_key": "phase6.runtime-capability-shell.refresh-status"
+  },
+  "permission_denied_state": {
+    "title": "Service unavailable",
+    "message": "This service is not active for your tenant or you do not have access to it.",
+    "primary_action_key": "phase6.runtime-capability-shell.refresh-status"
+  },
+  "degraded_mode_state": {
+    "title": "Limited runtime visibility",
+    "message": "Some runtime status checks are degraded, so unavailable services remain hidden.",
+    "primary_action_key": "phase6.runtime-capability-shell.refresh-status"
+  },
+  "desktop_layout": {
+    "layout": "table",
+    "primary_navigation": "Show active service cards above the runtime status table.",
+    "critical_content": [
+      "service_name",
+      "activation_status",
+      "direct_route_status"
+    ]
+  },
+  "tablet_layout": {
+    "layout": "cards",
+    "primary_navigation": "Show active services as cards with status badges.",
+    "critical_content": [
+      "service_name",
+      "activation_status",
+      "direct_route_status"
+    ]
+  },
+  "mobile_layout": {
+    "layout": "single_column",
+    "primary_navigation": "Show active services first, then status details below each service.",
+    "critical_content": [
+      "service_name",
+      "activation_status",
+      "direct_route_status"
+    ]
+  },
+  "no_technical_language": true,
+  "no_fake_data": true,
+  "no_placeholder_actions": true,
+  "no_hardcoded_roles": true,
+  "no_hardcoded_units": true,
+  "plain_language_labels": true,
+  "audit_hooks": [
+    {
+      "key": "phase6.runtime-capability-shell.service-opened-audit",
+      "action_key": "phase6.runtime-capability-shell.open-active-service",
+      "description": "Record audit/evidence when a user opens an active Phase 6 runtime service."
+    }
+  ],
+  "events_expected": [
+    {
+      "event_type": "phase6.runtime-capability-shell.service-opened",
+      "version": "0.1.0",
+      "trigger_action_key": "phase6.runtime-capability-shell.open-active-service"
+    }
+  ],
+  "notifications_triggered": [],
+  "ai_allowed": false,
+  "ai_actions": [],
+  "ai_requires_human_approval": true,
+  "ai_forbidden_actions": [
+    "send",
+    "approve",
+    "reject",
+    "verify",
+    "issue",
+    "delete",
+    "export"
+  ],
+  "forbidden_behaviors": [
+    "Inactive services must not appear as clickable navigation items.",
+    "Direct inactive-service routes must show unavailable or 404 behavior rather than rendering the service.",
+    "The shell must not infer activation from frontend state without Foundry runtime authority.",
+    "The shell must not bypass Gatekeeper for high-risk service actions.",
+    "The shell must not show another tenant's activation or runtime status."
+  ]
+}
