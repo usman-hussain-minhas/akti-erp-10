@@ -9,7 +9,7 @@
   "audit_id": "phase_6a_6c_runtime_integration_v2_independent_gate_2_audit_v1",
   "status": "PASS",
   "final_status": "PHASE_6A_6C_RUNTIME_INTEGRATION_V2_GATE_3_READY_FOR_HUMAN_APPROVAL",
-  "audited_main_sha": "0b15fdc28dec13548b37bb1133fea4804c756c47",
+  "audited_main_sha": "828c885a47b4f7bd001d554014b8bf8f62d7fcd0",
   "self_heal_attempts_used": 1,
   "self_heal_note": "Corrected audit reader to use prerequisite register schema field nestjs_11_prerequisite.current_verdict.",
   "audit_scope": "Stage 2 RI v2 planning package only; no runtime wiring or contract migration execution.",
@@ -83,6 +83,11 @@
       "id": "nestjs_11_currently_satisfied",
       "status": "PASS",
       "evidence": "Prerequisite register records NestJS 11 deps and execution-time re-verification requirement."
+    },
+    {
+      "id": "five_negative_demo_assertions_complete",
+      "status": "PASS",
+      "evidence": "Demo script spec enumerates cross-tenant deny, opt-out send blocked, inactive service route 404/unavailable, failed-KYC T1/restricted path, and failed-payment correctable invoice path, each mapped to owning FFETs."
     }
   ],
   "stop_conditions_if_failed": [
@@ -101,5 +106,7 @@
     "ticket_generation_allowed": false,
     "ticket_pack_generation_allowed": false,
     "execution_authorized": false
-  }
+  },
+  "demo_spec_self_heal_attempts_used": 0,
+  "demo_spec_contract": "phase_6a_6c_runtime_integration_v2_demo_script_spec_v1.json"
 }

@@ -20,7 +20,57 @@
   "prerequisites_before_execution": [
     "Run S2-PREQ-001 NestJS 11 re-verification.",
     "Run S2-CC-001 versioned contract/package namespace migration for STAGE0-W3-FFET-002 before runtime consumers.",
-    "Execute RI FFETs one PR at a time after approved Gate 3 scope."
+    "Execute RI FFETs one PR at a time after approved Gate 3 scope.",
+    "Preserve the five required negative demo assertions through S2-RI-013 and final closure."
   ],
-  "blocked_prior_package": "RI v1 remains BLOCKED_PENDING_STAGE_1_EXECUTION_AND_STAGE2_REAUDIT and must not be used for execution authority."
+  "blocked_prior_package": "RI v1 remains BLOCKED_PENDING_STAGE_1_EXECUTION_AND_STAGE2_REAUDIT and must not be used for execution authority.",
+  "required_demo_negative_assertions": [
+    {
+      "id": "NEG-001",
+      "name": "cross_tenant_deny",
+      "owning_ffets": [
+        "S2-RI-008",
+        "S2-RI-013"
+      ]
+    },
+    {
+      "id": "NEG-002",
+      "name": "opt_out_send_blocked",
+      "owning_ffets": [
+        "S2-RI-006",
+        "S2-RI-007",
+        "S2-RI-013"
+      ]
+    },
+    {
+      "id": "NEG-003",
+      "name": "inactive_service_route_404",
+      "owning_ffets": [
+        "S2-RI-005",
+        "S2-RI-009",
+        "S2-RI-012",
+        "S2-RI-013"
+      ]
+    },
+    {
+      "id": "NEG-004",
+      "name": "failed_kyc_t1_restricted_path",
+      "owning_ffets": [
+        "S2-RI-002",
+        "S2-RI-006",
+        "S2-RI-007",
+        "S2-RI-013"
+      ]
+    },
+    {
+      "id": "NEG-005",
+      "name": "failed_payment_correctable_invoice",
+      "owning_ffets": [
+        "S2-RI-003",
+        "S2-RI-006",
+        "S2-RI-007",
+        "S2-RI-013"
+      ]
+    }
+  ]
 }
