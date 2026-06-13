@@ -1,0 +1,53 @@
+{
+  "$metadata": {
+    "company": "HAUTM",
+    "platform": "Esbla Spark",
+    "author": "Usman Hussain",
+    "owner": "Usman Hussain",
+    "suite_version": "v5.0",
+    "file_version": "v1.0",
+    "created": "2026-06-13",
+    "last_updated": "2026-06-13",
+    "status": "active",
+    "document_type": "stage2_ri_v2_prerequisite_register",
+    "scope": "Prerequisite register for Stage 2 6A-6C Runtime Integration v2.",
+    "ratifier": "Usman Hussain"
+  },
+  "artifact_id": "phase_6a_6c_runtime_integration_v2_prerequisite_register_v1",
+  "status": "STAGE2_RI_V2_PREREQUISITES_SEATED_PENDING_GATE2_PACKAGE",
+  "final_target": "PHASE_6A_6C_RUNTIME_INTEGRATION_V2_GATE_3_READY_FOR_HUMAN_APPROVAL",
+  "stage1_closure": {
+    "path": "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/phase_6a_6c_amendment_stage1_closure_report_v1.json",
+    "status": "PHASE_6A_6C_STAGE1_AMENDMENT_SEED_ARTIFACTS_READY_FOR_STAGE2_REBASELINE",
+    "sha256": "6fe4eac60e950a1257ced4e7f274951233a630e85d1a9a454454d1c382909b54",
+    "ffets_merged": 19,
+    "expected_surface_artifacts": 114,
+    "existing_surface_artifacts": 114
+  },
+  "nestjs_11_prerequisite": {
+    "package_path": "apps/api/package.json",
+    "package_sha256": "0958c60296a43a34c6e05c72a2f8256611f19d09649fc54f73d0238fd9bb4c4e",
+    "dependencies": {
+      "@nestjs/common": "^11.1.26",
+      "@nestjs/core": "^11.1.26",
+      "@nestjs/platform-express": "^11.1.26"
+    },
+    "current_verdict": "satisfied_pending_stage2_execution_reverification",
+    "required_before_runtime_wiring": "Re-run package metadata check and runtime validation ladder before any Stage 2 wiring FFET executes."
+  },
+  "deferred_contract_change": {
+    "blocker_id": "STAGE0-W3-FFET-002",
+    "type": "stage2_contract_change",
+    "status": "seated_pending_gate2_package",
+    "description": "Deferred semantic contract/package identifier rename for the 11 contract manifests from Stage 0 Wave 3.",
+    "destination_ffet": "S2-CC-001",
+    "required_before": "Any runtime wiring that consumes renamed contract/package identifiers.",
+    "execution_authorized": false
+  },
+  "execution_flags": {
+    "ticket_generation_allowed": false,
+    "ticket_pack_generation_allowed": false,
+    "execution_authorized": false
+  },
+  "runtime_execution_authorized": false
+}
