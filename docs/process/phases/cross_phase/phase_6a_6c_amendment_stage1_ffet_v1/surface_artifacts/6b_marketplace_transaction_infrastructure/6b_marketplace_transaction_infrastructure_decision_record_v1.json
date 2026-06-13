@@ -1,0 +1,76 @@
+{
+  "$metadata": {
+    "company": "HAUTM",
+    "platform": "Esbla Spark",
+    "author": "Usman Hussain",
+    "owner": "Usman Hussain",
+    "suite_version": "v5.0",
+    "file_version": "v1.0",
+    "created": "2026-06-13",
+    "last_updated": "2026-06-13",
+    "status": "active",
+    "document_type": "stage1_surface_decision_record",
+    "scope": "Stage 1 decision record for 6B-X1 Marketplace transaction infrastructure.",
+    "ratifier": "Usman Hussain"
+  },
+  "artifact_id": "6b_marketplace_transaction_infrastructure_decision_record_v1",
+  "status": "EXECUTED_STAGE1_DECISION_RECORD",
+  "surface_id": "6B-X1",
+  "phase": "6b",
+  "seed_name": "marketplace_transaction_infrastructure",
+  "ffet_id": "S1-6A6C-FFET-009",
+  "source_authority": "docs/process/phases/cross_phase/esbla_phase_6a_6c_consolidated_amendment_v1.md",
+  "source_section": "§3 Phase 6B extensions",
+  "execution_authorized": false,
+  "ticket_generation_allowed": false,
+  "ticket_pack_generation_allowed": false,
+  "decisions": [
+    {
+      "decision_id": "6B-X1-D001",
+      "decision": "Carry Marketplace transaction infrastructure into the Stage 1 amendment seed pipeline.",
+      "basis": "source_grounded",
+      "source": "docs/process/phases/cross_phase/esbla_phase_6a_6c_consolidated_amendment_v1.md",
+      "source_section": "§3 Phase 6B extensions",
+      "source_text": "Escrow Saga primitives; platform-fee line item; multi-currency support; high-value flag in billing objects."
+    },
+    {
+      "decision_id": "6B-X1-D002",
+      "decision": "Limit this FFET to decision, catalog, dependency, seed, fidelity, and readiness artifacts only.",
+      "basis": "stage_boundary",
+      "source": "phase_6a_6c_amendment_ffet_registry_v1.json",
+      "source_section": "files_expected_to_change"
+    },
+    {
+      "decision_id": "6B-X1-D003",
+      "decision": "Defer runtime wiring, schema changes, API publication, frontend exposure, and contract/package identifier changes to Stage 2 or later exact-file packs.",
+      "basis": "stage_boundary",
+      "source": "docs/process/phases/cross_phase/esbla_phase_6a_6c_consolidated_amendment_v1.md",
+      "source_section": "§5 Runtime wiring scope and §6 Execution staging and gates"
+    }
+  ],
+  "in_scope": [
+    "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_marketplace_transaction_infrastructure/6b_marketplace_transaction_infrastructure_decision_record_v1.json",
+    "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_marketplace_transaction_infrastructure/6b_marketplace_transaction_infrastructure_catalog_entry_v1.json",
+    "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_marketplace_transaction_infrastructure/6b_marketplace_transaction_infrastructure_dependency_edges_v1.json",
+    "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_marketplace_transaction_infrastructure/6b_marketplace_transaction_infrastructure_seed_update_v1.json",
+    "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_marketplace_transaction_infrastructure/6b_marketplace_transaction_infrastructure_fidelity_evidence_v1.json",
+    "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/surface_artifacts/6b_marketplace_transaction_infrastructure/6b_marketplace_transaction_infrastructure_readiness_note_v1.md"
+  ],
+  "out_of_scope": [
+    "runtime module wiring",
+    "Nest controllers/routes",
+    "Prisma schema or migrations",
+    "package or lockfile changes",
+    "generated registry manual edits",
+    "frontend route or screen work",
+    "semantic contract/package identifier rename"
+  ],
+  "unresolved_blockers": [
+    {
+      "blocker_id": "STAGE2_REBASELINE_REQUIRED",
+      "status": "deferred",
+      "reason": "Runtime integration package must be rebaselined after Stage 1 closure."
+    }
+  ],
+  "self_heal_attempts_used": 0
+}
