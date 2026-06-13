@@ -1,10 +1,10 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Inject } from '@nestjs/common';
 
 import { Phase6AService } from './phase_6a.service';
 
 @Controller('platform/phase-6a')
 export class Phase6AController {
-  constructor(private readonly phase6AService: Phase6AService) {}
+  constructor(@Inject(Phase6AService) private readonly phase6AService: Phase6AService) {}
 
   @Get('scaffold-control/readiness')
   getReadiness() {
