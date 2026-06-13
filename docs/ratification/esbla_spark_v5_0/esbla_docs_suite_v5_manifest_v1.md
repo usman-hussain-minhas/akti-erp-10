@@ -34,7 +34,7 @@ ratifier: Usman Hussain
 | Phase 6F Intelligence/Admin/Design Plan | `esbla_phase_6f_intelligence_admin_design_v2.md` → `docs/process/phases/phase_06f_intelligence_admin_design/plan/` | v2.0 | active |
 | This manifest | `esbla_docs_suite_v5_manifest_v1.md` → `docs/ratification/esbla_spark_v5_0/` | v1.0 | authoritative |
 
-Carried forward unchanged into v5.0 under a transition exception (rename-on-touch in Wave 4): the Failure Prevention / Codex Operating Doctrine JSON, the Ticket Quality Doctrine, AGENTS.md, and the subsurface decomposition guide. During Waves 1-2, legacy-named operating files remain temporarily active; Waves 3-4 must rename them, replace them with Esbla-named successors, or classify them historical and update AGENTS.md accordingly.
+Carried forward under a v5.0 transition exception: the Failure Prevention / Codex Operating Doctrine JSON, the Ticket Quality Doctrine, AGENTS.md, and the subsurface decomposition guide. Stage 0 Wave 3-4 transition work records Esbla successor shells and transition metadata where authorized, while AGENTS.md and legacy operative sources remain temporarily active until a separate operating-guide transition PR promotes, renames, replaces, or classifies them historical.
 
 ## 2. Supersession table
 

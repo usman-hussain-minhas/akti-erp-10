@@ -50,7 +50,7 @@ Counsel and named external review remain pending for public activation of reputa
 | `docs/doctrine/current/esbla_business_logic_v2.md` | `authoritative` | `ada6ed408dab347122a0772ae949f9fd1f60dfd9802b726eb94d85df6c1dd8c8` |
 | `docs/doctrine/current/esbla_business_logic_v2_appendix_a_carried_forward_v4_rules.md` | `authoritative` | `09ac3fe8af6875294508c497b8cf5b4676aa8da9137b7200bf9bf4535247fd3e` |
 | `docs/standards/current/esbla_file_metadata_standard_v1.md` | `authoritative` | `183505f4a936dd510157ca4aa4b7b68137b0932d3b4b064944d2ef32a23f8617` |
-| `docs/ratification/esbla_spark_v5_0/esbla_docs_suite_v5_manifest_v1.md` | `authoritative` | `d5696ae289be6e2ea8ad0e9571eb5ca6c36143cb0a022f5bfed55cd4874a9cb2` |
+| `docs/ratification/esbla_spark_v5_0/esbla_docs_suite_v5_manifest_v1.md` | `authoritative` | `92583912b829eaace15d47697ed44db27b63f846f012611c0c39d6790e355331` |
 | `docs/process/active/esbla_rebaseline_refactor_plan_v1.md` | `active` | `8dea32b2f0fd7bb6717c1572c2940535472425c1df8dcb59df09ccf18efb8d23` |
 | `docs/process/phases/cross_phase/esbla_phase_6a_6c_consolidated_amendment_v1.md` | `active` | `5bcfa012eb873d94be2e9cf89d978da96b375cad854f948be9e8562c86a10ec8` |
 | `docs/process/phases/phase_06d_learning/plan/esbla_phase_6d_learning_v2.md` | `active` | `e6d7e46097535db0c191d20978b49a41554e435f0fc5d086b660fb9540980acc` |
