@@ -1,0 +1,237 @@
+{
+  "$metadata": {
+    "document_id": "phase_6a_6c_runtime_integration_v2_validation_ladder_manifest_v1",
+    "status": "gate_2_package_artifact",
+    "created": "2026-06-13",
+    "updated": "2026-06-13",
+    "owner": "Usman Hussain"
+  },
+  "manifest_id": "phase_6a_6c_runtime_integration_v2_validation_ladder_manifest_v1",
+  "status": "VALIDATION_DEFINED_NOT_EXECUTED_BY_GATE2_PACKAGE",
+  "baseline_commands": [
+    "node scripts/quality/check_lower_snake_case_paths.mjs",
+    "git diff --check"
+  ],
+  "runtime_commands": [
+    "pnpm contracts:validate",
+    "pnpm --filter @akti/api typecheck",
+    "pnpm --filter @akti/api test",
+    "pnpm --filter @akti/web typecheck",
+    "pnpm --filter @akti/web test",
+    "pnpm exec prisma validate --schema prisma/schema.prisma",
+    "pnpm registry:check"
+  ],
+  "per_ffet_command_sources": [
+    {
+      "ffet_id": "S2-PREQ-001",
+      "validation_commands": [
+        "node -e \"const p=require('./apps/api/package.json'); for (const k of ['@nestjs/common','@nestjs/core','@nestjs/platform-express']) { if (!String(p.dependencies[k]||'').startsWith('^11.')) throw new Error(`${k} is not NestJS 11`); }\"",
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check",
+        "node scripts/quality/check_lower_snake_case_paths.mjs",
+        "git diff --check"
+      ]
+    },
+    {
+      "ffet_id": "S2-CC-001",
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm registry:check",
+        "node scripts/quality/check_lower_snake_case_paths.mjs",
+        "git diff --check"
+      ]
+    },
+    {
+      "ffet_id": "S2-RI-001",
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check",
+        "git diff --check"
+      ]
+    },
+    {
+      "ffet_id": "S2-RI-002",
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check",
+        "git diff --check"
+      ]
+    },
+    {
+      "ffet_id": "S2-RI-003",
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check",
+        "git diff --check"
+      ]
+    },
+    {
+      "ffet_id": "S2-RI-004",
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check",
+        "git diff --check"
+      ]
+    },
+    {
+      "ffet_id": "S2-RI-005",
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check",
+        "git diff --check"
+      ]
+    },
+    {
+      "ffet_id": "S2-RI-006",
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check",
+        "git diff --check"
+      ]
+    },
+    {
+      "ffet_id": "S2-RI-007",
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check",
+        "git diff --check"
+      ]
+    },
+    {
+      "ffet_id": "S2-RI-008",
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check",
+        "git diff --check"
+      ]
+    },
+    {
+      "ffet_id": "S2-RI-009",
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check",
+        "git diff --check"
+      ]
+    },
+    {
+      "ffet_id": "S2-RI-010",
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check",
+        "git diff --check"
+      ]
+    },
+    {
+      "ffet_id": "S2-RI-011",
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check",
+        "git diff --check"
+      ]
+    },
+    {
+      "ffet_id": "S2-RI-012",
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check",
+        "git diff --check"
+      ]
+    },
+    {
+      "ffet_id": "S2-RI-013",
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check",
+        "git diff --check"
+      ]
+    },
+    {
+      "ffet_id": "S2-RI-014",
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check",
+        "git diff --check"
+      ]
+    }
+  ],
+  "execution_rule": "Run the full ladder for S2-PREQ-001, S2-CC-001, every runtime RI FFET, and final Stage 2 closure unless the approved FFET narrows validation with explicit rationale."
+}

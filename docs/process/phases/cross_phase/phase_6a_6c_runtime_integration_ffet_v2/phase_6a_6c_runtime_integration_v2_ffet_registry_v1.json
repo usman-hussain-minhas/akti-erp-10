@@ -1,0 +1,1154 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$metadata": {
+    "document_id": "phase_6a_6c_runtime_integration_v2_ffet_registry_v1",
+    "status": "gate_2_package_artifact",
+    "created": "2026-06-13",
+    "updated": "2026-06-13",
+    "owner": "Usman Hussain"
+  },
+  "registry_id": "phase_6a_6c_runtime_integration_v2_ffet_registry_v1",
+  "status": "PHASE_6A_6C_RUNTIME_INTEGRATION_V2_GATE_2_PACKAGE_READY_PENDING_INDEPENDENT_AUDIT",
+  "source_inputs": [
+    "Stage 1 closure report: undefined",
+    "Stage 1 surface artifacts: 114 files",
+    "RI v1 registry concepts preserved with v1 blocked status",
+    "Deferred STAGE0-W3-FFET-002 exact file ownership",
+    "NestJS 11 prerequisite register"
+  ],
+  "execution_flags": {
+    "ticket_generation_allowed": false,
+    "ticket_pack_generation_allowed": false,
+    "execution_authorized": false
+  },
+  "ffet_count": 16,
+  "prerequisite_ffets": 1,
+  "contract_change_ffets": 1,
+  "runtime_integration_ffets": 14,
+  "maximum_capability_doctrine": "Each FFET defines the maximum concrete capability possible inside its approved exact-file scope. No minimal, stale, placeholder, scaffold-only, or metadata-only FFET is valid unless explicitly docs/control-only.",
+  "ffets": [
+    {
+      "ffet_id": "S2-PREQ-001",
+      "stage": "stage_2_runtime_integration_v2",
+      "seed": "nestjs_11_reverification_before_wiring",
+      "name": "NestJS 11 prerequisite re-verification before runtime wiring",
+      "status": "GATE_2_READY_PENDING_HUMAN_GATE_3_APPROVAL",
+      "execution_flags": {
+        "ticket_generation_allowed": false,
+        "ticket_pack_generation_allowed": false,
+        "execution_authorized": false
+      },
+      "exact_files": [
+        "docs/process/phases/cross_phase/phase_6a_6c_runtime_integration_ffet_v2/execution_evidence/s2_preq_001_nestjs_11_reverification_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_runtime_integration_ffet_v2/execution_evidence/s2_preq_001_nestjs_11_reverification_v1.md"
+      ],
+      "maximum_concrete_capability_within_scope": "Produce execution-time evidence that @nestjs/common, @nestjs/core, and @nestjs/platform-express remain on NestJS 11 and that the full pre-wiring validation ladder is green before any runtime wiring PR can start.",
+      "runtime_mcr": "A committed evidence artifact records NestJS 11 package metadata and successful validation commands before any Stage 2 RI wiring FFET proceeds.",
+      "dependencies": [],
+      "validation_commands": [
+        "node -e \"const p=require('./apps/api/package.json'); for (const k of ['@nestjs/common','@nestjs/core','@nestjs/platform-express']) { if (!String(p.dependencies[k]||'').startsWith('^11.')) throw new Error(`${k} is not NestJS 11`); }\"",
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check",
+        "node scripts/quality/check_lower_snake_case_paths.mjs",
+        "git diff --check"
+      ],
+      "stop_conditions": [
+        "Any NestJS package is not on major 11.",
+        "Validation failure cannot be repaired inside this evidence-only FFET.",
+        "Any required package or lockfile change is discovered; produce a separate dependency control PR instead of widening scope."
+      ],
+      "rollback_notes": "Revert the evidence artifact only. This FFET does not change runtime, package metadata, or lockfiles.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": [
+          "stale evidence timestamp",
+          "stale command transcript reference",
+          "JSON or Markdown metadata mismatch"
+        ],
+        "forbidden": [
+          "package edits",
+          "lockfile edits",
+          "runtime wiring",
+          "weakening validation commands"
+        ]
+      },
+      "expected_evidence": [
+        "NestJS 11 package metadata captured",
+        "validation command results captured",
+        "no runtime/package/schema/frontend files changed"
+      ],
+      "stage1_surface_inputs": [],
+      "implications": {
+        "gatekeeper": "none",
+        "foundry": "none",
+        "audit": "none",
+        "tenant_isolation": "none"
+      }
+    },
+    {
+      "ffet_id": "S2-CC-001",
+      "stage": "stage_2_runtime_integration_v2",
+      "seed": "stage0_w3_ffet_002_versioned_contract_namespace_migration",
+      "name": "Versioned contract/package namespace migration for deferred STAGE0-W3-FFET-002",
+      "status": "GATE_2_READY_PENDING_HUMAN_GATE_3_APPROVAL",
+      "execution_flags": {
+        "ticket_generation_allowed": false,
+        "ticket_pack_generation_allowed": false,
+        "execution_authorized": false
+      },
+      "exact_files": [
+        "packages/contracts/package.json",
+        "packages/contracts/phase_6c/workspace_messaging_and_collaboration/cross_module_channel_ref.module_manifest.contract.ts",
+        "packages/contracts/phase_6c/workspace_messaging_and_collaboration/e2e_encryption_boundary.module_manifest.contract.ts",
+        "packages/contracts/phase_6c/workspace_messaging_and_collaboration/membership_policy.module_manifest.contract.ts",
+        "packages/contracts/phase_6c/workspace_messaging_and_collaboration/mention_notification_evidence.module_manifest.contract.ts",
+        "packages/contracts/phase_6c/workspace_messaging_and_collaboration/message_attachment_file_ref.module_manifest.contract.ts",
+        "packages/contracts/phase_6c/workspace_messaging_and_collaboration/moderation_reporting.module_manifest.contract.ts",
+        "packages/contracts/phase_6c/workspace_messaging_and_collaboration/outbound_notification_gateway.module_manifest.contract.ts",
+        "packages/contracts/phase_6c/workspace_messaging_and_collaboration/private_channel_approval.module_manifest.contract.ts",
+        "packages/contracts/phase_6c/workspace_messaging_and_collaboration/workspace_message_search.module_manifest.contract.ts",
+        "packages/contracts/scripts/validate-access-core-contracts.mjs"
+      ],
+      "source_deferred_item": "STAGE0-W3-FFET-002",
+      "source_file_count": 11,
+      "maximum_concrete_capability_within_scope": "Execute the semantic contract/package namespace migration for the exact deferred Stage 0 contract surface before any Stage 2 wiring consumes those identifiers.",
+      "runtime_mcr": "The 11 deferred contract/package/tooling files are renamed or reconciled through a versioned contract-change review, contracts validate, and downstream RI consumers can import the post-migration names without preserving AKTI-era semantic identifiers.",
+      "dependencies": [
+        "S2-PREQ-001"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm registry:check",
+        "node scripts/quality/check_lower_snake_case_paths.mjs",
+        "git diff --check"
+      ],
+      "stop_conditions": [
+        "A contract identifier change requires API, schema, route, permission, or business-rule decisions not present in committed sources.",
+        "Any consumer must be edited outside the approved contract-change scope before the migration can validate.",
+        "A generated artifact would need manual editing instead of generator output."
+      ],
+      "rollback_notes": "Revert the versioned contract-change PR before runtime RI consumers are merged. Do not partially revert after consumers are wired.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": [
+          "TypeScript import/export mismatch inside owned contract files",
+          "contract validation metadata drift",
+          "local test expectation drift caused by the contract rename"
+        ],
+        "forbidden": [
+          "runtime wiring",
+          "schema edits",
+          "invented API or permission names",
+          "manual generated-file edits",
+          "weakening contracts:validate"
+        ]
+      },
+      "expected_evidence": [
+        "versioned contract-change rationale",
+        "exact before/after identifier map",
+        "contracts:validate success",
+        "consumer readiness notes for dependent RI FFETs"
+      ],
+      "stage1_surface_inputs": [
+        "S1-6A6C-FFET-014"
+      ],
+      "implications": {
+        "gatekeeper": "Contract identifiers must be stable before Gatekeeper route/action gates bind to them.",
+        "foundry": "Foundry activation manifests must consume post-migration identifiers.",
+        "audit": "Audit evidence names must not straddle old and new semantic contract identifiers.",
+        "tenant_isolation": "No tenant isolation change is authorized by this contract-change FFET."
+      }
+    },
+    {
+      "ffet_id": "S2-RI-001",
+      "stage": "stage_2_runtime_integration_v2",
+      "seed": "runtime_module_mount",
+      "name": "Rebased Mount 6A-6C backend runtime modules",
+      "status": "GATE_2_READY_PENDING_HUMAN_GATE_3_APPROVAL",
+      "execution_flags": {
+        "ticket_generation_allowed": false,
+        "ticket_pack_generation_allowed": false,
+        "execution_authorized": false
+      },
+      "exact_files": [
+        "apps/api/src/app.module.ts",
+        "apps/api/src/phase_6a/phase_6a.module.ts",
+        "apps/api/src/phase_6b/phase_6b.module.ts"
+      ],
+      "source_ri_v1_id": "RI-FFET-001",
+      "maximum_concrete_capability_within_scope": "Execute the rebased runtime integration capability from RI v1 after Stage 1 amendment artifacts, NestJS 11 re-verification, and the Stage 0 contract-change prerequisite are satisfied. Scope is limited to the exact files listed here.",
+      "runtime_mcr": "Nest application can import Phase 6A, 6B, and 6C runtime modules without bootstrap errors while preserving existing module boundaries.",
+      "dependencies": [
+        "S2-PREQ-001",
+        "S2-CC-001",
+        "S2-RI-002",
+        "S2-RI-003",
+        "S2-RI-004"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check",
+        "git diff --check"
+      ],
+      "stop_conditions": [
+        "required edit outside exact files",
+        "schema/migration/package/generated/script change required",
+        "new API/permission/business/ADL decision required",
+        "frontend screen contract missing for frontend work",
+        "validation failure after 3 self-heal attempts",
+        "Stage 1 amendment artifacts are stale or not represented in this FFET.",
+        "STAGE0-W3-FFET-002 has not landed before runtime consumers need renamed contract identifiers.",
+        "Runtime wiring requires schema/package/generated/frontend work outside this FFET scope."
+      ],
+      "rollback_notes": "Revert the single FFET PR; no shared migration or schema rollback is authorized inside RI-FFET scope.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": "deterministic repairs inside exact files only",
+        "forbidden": "scope expansion, weakened tests, invented doctrine, schema/package/generated/script changes"
+      },
+      "expected_evidence": [
+        "runtime MCR evidence captured",
+        "validation ladder successful",
+        "no out-of-scope files changed"
+      ],
+      "stage1_surface_inputs": [
+        "S1-6A6C-FFET-001",
+        "S1-6A6C-FFET-002",
+        "S1-6A6C-FFET-003",
+        "S1-6A6C-FFET-004",
+        "S1-6A6C-FFET-005",
+        "S1-6A6C-FFET-006",
+        "S1-6A6C-FFET-007",
+        "S1-6A6C-FFET-008"
+      ],
+      "implications": {
+        "gatekeeper": "Must not bypass Gatekeeper where the wired action is high-risk; explicit gate proof belongs to dependent gatekeeper/demo FFETs.",
+        "foundry": "Must respect Foundry activation state when exposed through dependent module/frontend wiring.",
+        "audit": "Must not suppress evidence obligations; audit proof belongs to dependent audit/demo FFETs.",
+        "tenant_isolation": "Must preserve tenant/org neutrality and rely on tenant-isolation FFETs for negative proof."
+      }
+    },
+    {
+      "ffet_id": "S2-RI-002",
+      "stage": "stage_2_runtime_integration_v2",
+      "seed": "phase_6a_api_surface",
+      "name": "Rebased Expose Phase 6A core foundation API surface",
+      "status": "GATE_2_READY_PENDING_HUMAN_GATE_3_APPROVAL",
+      "execution_flags": {
+        "ticket_generation_allowed": false,
+        "ticket_pack_generation_allowed": false,
+        "execution_authorized": false
+      },
+      "exact_files": [
+        "apps/api/src/phase_6a/phase_6a.controller.ts",
+        "apps/api/src/phase_6a/phase_6a.service.ts",
+        "apps/api/src/phase_6a/phase_6a.runtime.test.ts"
+      ],
+      "source_ri_v1_id": "RI-FFET-002",
+      "maximum_concrete_capability_within_scope": "Execute the rebased runtime integration capability from RI v1 after Stage 1 amendment artifacts, NestJS 11 re-verification, and the Stage 0 contract-change prerequisite are satisfied. Scope is limited to the exact files listed here.",
+      "runtime_mcr": "A Phase 6A route returns activation-aware core-foundation capability status through the mounted module.",
+      "dependencies": [
+        "S2-PREQ-001",
+        "S2-CC-001"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check",
+        "git diff --check"
+      ],
+      "stop_conditions": [
+        "required edit outside exact files",
+        "schema/migration/package/generated/script change required",
+        "new API/permission/business/ADL decision required",
+        "frontend screen contract missing for frontend work",
+        "validation failure after 3 self-heal attempts",
+        "Stage 1 amendment artifacts are stale or not represented in this FFET.",
+        "STAGE0-W3-FFET-002 has not landed before runtime consumers need renamed contract identifiers.",
+        "Runtime wiring requires schema/package/generated/frontend work outside this FFET scope."
+      ],
+      "rollback_notes": "Revert the single FFET PR; no shared migration or schema rollback is authorized inside RI-FFET scope.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": "deterministic repairs inside exact files only",
+        "forbidden": "scope expansion, weakened tests, invented doctrine, schema/package/generated/script changes"
+      },
+      "expected_evidence": [
+        "runtime MCR evidence captured",
+        "validation ladder successful",
+        "no out-of-scope files changed"
+      ],
+      "stage1_surface_inputs": [
+        "S1-6A6C-FFET-001",
+        "S1-6A6C-FFET-002",
+        "S1-6A6C-FFET-003",
+        "S1-6A6C-FFET-004",
+        "S1-6A6C-FFET-005",
+        "S1-6A6C-FFET-006",
+        "S1-6A6C-FFET-007",
+        "S1-6A6C-FFET-008"
+      ],
+      "implications": {
+        "gatekeeper": "Must not bypass Gatekeeper where the wired action is high-risk; explicit gate proof belongs to dependent gatekeeper/demo FFETs.",
+        "foundry": "Must respect Foundry activation state when exposed through dependent module/frontend wiring.",
+        "audit": "Must not suppress evidence obligations; audit proof belongs to dependent audit/demo FFETs.",
+        "tenant_isolation": "Must preserve tenant/org neutrality and rely on tenant-isolation FFETs for negative proof."
+      }
+    },
+    {
+      "ffet_id": "S2-RI-003",
+      "stage": "stage_2_runtime_integration_v2",
+      "seed": "phase_6b_api_surface",
+      "name": "Rebased Expose Phase 6B commerce/CRM API surface",
+      "status": "GATE_2_READY_PENDING_HUMAN_GATE_3_APPROVAL",
+      "execution_flags": {
+        "ticket_generation_allowed": false,
+        "ticket_pack_generation_allowed": false,
+        "execution_authorized": false
+      },
+      "exact_files": [
+        "apps/api/src/phase_6b/phase_6b.controller.ts",
+        "apps/api/src/phase_6b/phase_6b.service.ts",
+        "apps/api/src/phase_6b/phase_6b.runtime.test.ts"
+      ],
+      "source_ri_v1_id": "RI-FFET-003",
+      "maximum_concrete_capability_within_scope": "Execute the rebased runtime integration capability from RI v1 after Stage 1 amendment artifacts, NestJS 11 re-verification, and the Stage 0 contract-change prerequisite are satisfied. Scope is limited to the exact files listed here.",
+      "runtime_mcr": "A Phase 6B route returns activation-aware commerce/CRM capability status and does not expose inactive services.",
+      "dependencies": [
+        "S2-PREQ-001",
+        "S2-CC-001"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check",
+        "git diff --check"
+      ],
+      "stop_conditions": [
+        "required edit outside exact files",
+        "schema/migration/package/generated/script change required",
+        "new API/permission/business/ADL decision required",
+        "frontend screen contract missing for frontend work",
+        "validation failure after 3 self-heal attempts",
+        "Stage 1 amendment artifacts are stale or not represented in this FFET.",
+        "STAGE0-W3-FFET-002 has not landed before runtime consumers need renamed contract identifiers.",
+        "Runtime wiring requires schema/package/generated/frontend work outside this FFET scope."
+      ],
+      "rollback_notes": "Revert the single FFET PR; no shared migration or schema rollback is authorized inside RI-FFET scope.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": "deterministic repairs inside exact files only",
+        "forbidden": "scope expansion, weakened tests, invented doctrine, schema/package/generated/script changes"
+      },
+      "expected_evidence": [
+        "runtime MCR evidence captured",
+        "validation ladder successful",
+        "no out-of-scope files changed"
+      ],
+      "stage1_surface_inputs": [
+        "S1-6A6C-FFET-009",
+        "S1-6A6C-FFET-010",
+        "S1-6A6C-FFET-011",
+        "S1-6A6C-FFET-012",
+        "S1-6A6C-FFET-013"
+      ],
+      "implications": {
+        "gatekeeper": "Must not bypass Gatekeeper where the wired action is high-risk; explicit gate proof belongs to dependent gatekeeper/demo FFETs.",
+        "foundry": "Must respect Foundry activation state when exposed through dependent module/frontend wiring.",
+        "audit": "Must not suppress evidence obligations; audit proof belongs to dependent audit/demo FFETs.",
+        "tenant_isolation": "Must preserve tenant/org neutrality and rely on tenant-isolation FFETs for negative proof."
+      }
+    },
+    {
+      "ffet_id": "S2-RI-004",
+      "stage": "stage_2_runtime_integration_v2",
+      "seed": "phase_6c_api_surface",
+      "name": "Rebased Expose Phase 6C operations API surface",
+      "status": "GATE_2_READY_PENDING_HUMAN_GATE_3_APPROVAL",
+      "execution_flags": {
+        "ticket_generation_allowed": false,
+        "ticket_pack_generation_allowed": false,
+        "execution_authorized": false
+      },
+      "exact_files": [
+        "apps/api/src/phase_6c/phase_6c.controller.ts",
+        "apps/api/src/phase_6c/phase_6c.module.ts",
+        "apps/api/src/phase_6c/phase_6c.service.ts",
+        "apps/api/src/phase_6c/phase_6c.runtime.test.ts"
+      ],
+      "source_ri_v1_id": "RI-FFET-004",
+      "maximum_concrete_capability_within_scope": "Execute the rebased runtime integration capability from RI v1 after Stage 1 amendment artifacts, NestJS 11 re-verification, and the Stage 0 contract-change prerequisite are satisfied. Scope is limited to the exact files listed here.",
+      "runtime_mcr": "A Phase 6C route returns activation-aware operations capability status and does not expose inactive services.",
+      "dependencies": [
+        "S2-PREQ-001",
+        "S2-CC-001"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check",
+        "git diff --check"
+      ],
+      "stop_conditions": [
+        "required edit outside exact files",
+        "schema/migration/package/generated/script change required",
+        "new API/permission/business/ADL decision required",
+        "frontend screen contract missing for frontend work",
+        "validation failure after 3 self-heal attempts",
+        "Stage 1 amendment artifacts are stale or not represented in this FFET.",
+        "STAGE0-W3-FFET-002 has not landed before runtime consumers need renamed contract identifiers.",
+        "Runtime wiring requires schema/package/generated/frontend work outside this FFET scope."
+      ],
+      "rollback_notes": "Revert the single FFET PR; no shared migration or schema rollback is authorized inside RI-FFET scope.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": "deterministic repairs inside exact files only",
+        "forbidden": "scope expansion, weakened tests, invented doctrine, schema/package/generated/script changes"
+      },
+      "expected_evidence": [
+        "runtime MCR evidence captured",
+        "validation ladder successful",
+        "no out-of-scope files changed"
+      ],
+      "stage1_surface_inputs": [
+        "S1-6A6C-FFET-014",
+        "S1-6A6C-FFET-015",
+        "S1-6A6C-FFET-016",
+        "S1-6A6C-FFET-017",
+        "S1-6A6C-FFET-018",
+        "S1-6A6C-FFET-019"
+      ],
+      "implications": {
+        "gatekeeper": "Must not bypass Gatekeeper where the wired action is high-risk; explicit gate proof belongs to dependent gatekeeper/demo FFETs.",
+        "foundry": "Must respect Foundry activation state when exposed through dependent module/frontend wiring.",
+        "audit": "Must not suppress evidence obligations; audit proof belongs to dependent audit/demo FFETs.",
+        "tenant_isolation": "Must preserve tenant/org neutrality and rely on tenant-isolation FFETs for negative proof."
+      }
+    },
+    {
+      "ffet_id": "S2-RI-005",
+      "stage": "stage_2_runtime_integration_v2",
+      "seed": "foundry_activation_enforcement",
+      "name": "Rebased Enforce Foundry activation for 6A-6C runtime access",
+      "status": "GATE_2_READY_PENDING_HUMAN_GATE_3_APPROVAL",
+      "execution_flags": {
+        "ticket_generation_allowed": false,
+        "ticket_pack_generation_allowed": false,
+        "execution_authorized": false
+      },
+      "exact_files": [
+        "apps/api/src/foundry/foundry.service.ts",
+        "apps/api/src/foundry/foundry.controller.ts",
+        "apps/api/src/foundry/foundry.phase_6a_6c_activation.test.ts"
+      ],
+      "source_ri_v1_id": "RI-FFET-005",
+      "maximum_concrete_capability_within_scope": "Execute the rebased runtime integration capability from RI v1 after Stage 1 amendment artifacts, NestJS 11 re-verification, and the Stage 0 contract-change prerequisite are satisfied. Scope is limited to the exact files listed here.",
+      "runtime_mcr": "Foundry activation state authoritatively allows active Phase 6A-6C capabilities and denies inactive tenant services.",
+      "dependencies": [
+        "S2-PREQ-001",
+        "S2-CC-001",
+        "S2-RI-002",
+        "S2-RI-003",
+        "S2-RI-004"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check",
+        "git diff --check"
+      ],
+      "stop_conditions": [
+        "required edit outside exact files",
+        "schema/migration/package/generated/script change required",
+        "new API/permission/business/ADL decision required",
+        "frontend screen contract missing for frontend work",
+        "validation failure after 3 self-heal attempts",
+        "Stage 1 amendment artifacts are stale or not represented in this FFET.",
+        "STAGE0-W3-FFET-002 has not landed before runtime consumers need renamed contract identifiers.",
+        "Runtime wiring requires schema/package/generated/frontend work outside this FFET scope."
+      ],
+      "rollback_notes": "Revert the single FFET PR; no shared migration or schema rollback is authorized inside RI-FFET scope.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": "deterministic repairs inside exact files only",
+        "forbidden": "scope expansion, weakened tests, invented doctrine, schema/package/generated/script changes"
+      },
+      "expected_evidence": [
+        "runtime MCR evidence captured",
+        "validation ladder successful",
+        "no out-of-scope files changed"
+      ],
+      "stage1_surface_inputs": [
+        "S1-6A6C-FFET-001",
+        "S1-6A6C-FFET-002",
+        "S1-6A6C-FFET-003",
+        "S1-6A6C-FFET-004",
+        "S1-6A6C-FFET-005",
+        "S1-6A6C-FFET-006",
+        "S1-6A6C-FFET-007",
+        "S1-6A6C-FFET-008"
+      ],
+      "implications": {
+        "gatekeeper": "Must not bypass Gatekeeper where the wired action is high-risk; explicit gate proof belongs to dependent gatekeeper/demo FFETs.",
+        "foundry": "Must consume tenant activation state as runtime authority and prove disabled-service inaccessibility.",
+        "audit": "Must not suppress evidence obligations; audit proof belongs to dependent audit/demo FFETs.",
+        "tenant_isolation": "Must preserve tenant/org neutrality and rely on tenant-isolation FFETs for negative proof."
+      }
+    },
+    {
+      "ffet_id": "S2-RI-006",
+      "stage": "stage_2_runtime_integration_v2",
+      "seed": "gatekeeper_runtime_spine",
+      "name": "Rebased Route Phase 6A-6C actions through Gatekeeper",
+      "status": "GATE_2_READY_PENDING_HUMAN_GATE_3_APPROVAL",
+      "execution_flags": {
+        "ticket_generation_allowed": false,
+        "ticket_pack_generation_allowed": false,
+        "execution_authorized": false
+      },
+      "exact_files": [
+        "apps/api/src/gatekeeper/gatekeeper-preflight.service.ts",
+        "apps/api/src/gatekeeper/gatekeeper.controller.ts",
+        "apps/api/src/gatekeeper/gatekeeper.phase_6a_6c_runtime.test.ts"
+      ],
+      "source_ri_v1_id": "RI-FFET-006",
+      "maximum_concrete_capability_within_scope": "Execute the rebased runtime integration capability from RI v1 after Stage 1 amendment artifacts, NestJS 11 re-verification, and the Stage 0 contract-change prerequisite are satisfied. Scope is limited to the exact files listed here.",
+      "runtime_mcr": "High-risk Phase 6A-6C actions receive Gatekeeper ALLOW, DENY, APPROVAL_REQUIRED, or STOP_FOR_REVIEW decisions before execution.",
+      "dependencies": [
+        "S2-PREQ-001",
+        "S2-CC-001",
+        "S2-RI-005"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check",
+        "git diff --check"
+      ],
+      "stop_conditions": [
+        "required edit outside exact files",
+        "schema/migration/package/generated/script change required",
+        "new API/permission/business/ADL decision required",
+        "frontend screen contract missing for frontend work",
+        "validation failure after 3 self-heal attempts",
+        "Stage 1 amendment artifacts are stale or not represented in this FFET.",
+        "STAGE0-W3-FFET-002 has not landed before runtime consumers need renamed contract identifiers.",
+        "Runtime wiring requires schema/package/generated/frontend work outside this FFET scope."
+      ],
+      "rollback_notes": "Revert the single FFET PR; no shared migration or schema rollback is authorized inside RI-FFET scope.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": "deterministic repairs inside exact files only",
+        "forbidden": "scope expansion, weakened tests, invented doctrine, schema/package/generated/script changes"
+      },
+      "expected_evidence": [
+        "runtime MCR evidence captured",
+        "validation ladder successful",
+        "no out-of-scope files changed"
+      ],
+      "stage1_surface_inputs": [
+        "S1-6A6C-FFET-001",
+        "S1-6A6C-FFET-002",
+        "S1-6A6C-FFET-003",
+        "S1-6A6C-FFET-004",
+        "S1-6A6C-FFET-005",
+        "S1-6A6C-FFET-006",
+        "S1-6A6C-FFET-007",
+        "S1-6A6C-FFET-008"
+      ],
+      "implications": {
+        "gatekeeper": "Must prove allow/deny/approval/stop behavior for wired high-risk actions.",
+        "foundry": "Must respect Foundry activation state when exposed through dependent module/frontend wiring.",
+        "audit": "Must not suppress evidence obligations; audit proof belongs to dependent audit/demo FFETs.",
+        "tenant_isolation": "Must preserve tenant/org neutrality and rely on tenant-isolation FFETs for negative proof."
+      }
+    },
+    {
+      "ffet_id": "S2-RI-007",
+      "stage": "stage_2_runtime_integration_v2",
+      "seed": "audit_evidence_runtime_spine",
+      "name": "Rebased Emit audit and evidence for Phase 6A-6C runtime operations",
+      "status": "GATE_2_READY_PENDING_HUMAN_GATE_3_APPROVAL",
+      "execution_flags": {
+        "ticket_generation_allowed": false,
+        "ticket_pack_generation_allowed": false,
+        "execution_authorized": false
+      },
+      "exact_files": [
+        "apps/api/src/platform-observability/audit-log.service.ts",
+        "apps/api/src/phase_6a_6c_runtime/phase_runtime_evidence.service.ts",
+        "apps/api/src/phase_6a_6c_runtime/phase_runtime_evidence.service.test.ts"
+      ],
+      "source_ri_v1_id": "RI-FFET-007",
+      "maximum_concrete_capability_within_scope": "Execute the rebased runtime integration capability from RI v1 after Stage 1 amendment artifacts, NestJS 11 re-verification, and the Stage 0 contract-change prerequisite are satisfied. Scope is limited to the exact files listed here.",
+      "runtime_mcr": "Allowed and denied Phase 6A-6C runtime operations write audit/evidence records with tenant, actor, capability, decision, and correlation metadata.",
+      "dependencies": [
+        "S2-PREQ-001",
+        "S2-CC-001",
+        "S2-RI-006"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check",
+        "git diff --check"
+      ],
+      "stop_conditions": [
+        "required edit outside exact files",
+        "schema/migration/package/generated/script change required",
+        "new API/permission/business/ADL decision required",
+        "frontend screen contract missing for frontend work",
+        "validation failure after 3 self-heal attempts",
+        "Stage 1 amendment artifacts are stale or not represented in this FFET.",
+        "STAGE0-W3-FFET-002 has not landed before runtime consumers need renamed contract identifiers.",
+        "Runtime wiring requires schema/package/generated/frontend work outside this FFET scope."
+      ],
+      "rollback_notes": "Revert the single FFET PR; no shared migration or schema rollback is authorized inside RI-FFET scope.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": "deterministic repairs inside exact files only",
+        "forbidden": "scope expansion, weakened tests, invented doctrine, schema/package/generated/script changes"
+      },
+      "expected_evidence": [
+        "runtime MCR evidence captured",
+        "validation ladder successful",
+        "no out-of-scope files changed"
+      ],
+      "stage1_surface_inputs": [
+        "S1-6A6C-FFET-001",
+        "S1-6A6C-FFET-002",
+        "S1-6A6C-FFET-003",
+        "S1-6A6C-FFET-004",
+        "S1-6A6C-FFET-005",
+        "S1-6A6C-FFET-006",
+        "S1-6A6C-FFET-007",
+        "S1-6A6C-FFET-008"
+      ],
+      "implications": {
+        "gatekeeper": "Must not bypass Gatekeeper where the wired action is high-risk; explicit gate proof belongs to dependent gatekeeper/demo FFETs.",
+        "foundry": "Must respect Foundry activation state when exposed through dependent module/frontend wiring.",
+        "audit": "Must emit or verify required evidence/audit records for operations in scope.",
+        "tenant_isolation": "Must preserve tenant/org neutrality and rely on tenant-isolation FFETs for negative proof."
+      }
+    },
+    {
+      "ffet_id": "S2-RI-008",
+      "stage": "stage_2_runtime_integration_v2",
+      "seed": "tenant_isolation_runtime_proof",
+      "name": "Rebased Prove tenant isolation for Phase 6A-6C runtime access",
+      "status": "GATE_2_READY_PENDING_HUMAN_GATE_3_APPROVAL",
+      "execution_flags": {
+        "ticket_generation_allowed": false,
+        "ticket_pack_generation_allowed": false,
+        "execution_authorized": false
+      },
+      "exact_files": [
+        "apps/api/src/phase_6a_6c_runtime/tenant_isolation_runtime.service.ts",
+        "apps/api/src/phase_6a_6c_runtime/tenant_isolation_runtime.service.test.ts"
+      ],
+      "source_ri_v1_id": "RI-FFET-008",
+      "maximum_concrete_capability_within_scope": "Execute the rebased runtime integration capability from RI v1 after Stage 1 amendment artifacts, NestJS 11 re-verification, and the Stage 0 contract-change prerequisite are satisfied. Scope is limited to the exact files listed here.",
+      "runtime_mcr": "A cross-tenant Phase 6A-6C read/write attempt is denied without schema changes or bypassing existing tenant-scoping primitives.",
+      "dependencies": [
+        "S2-PREQ-001",
+        "S2-CC-001",
+        "S2-RI-007"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check",
+        "git diff --check"
+      ],
+      "stop_conditions": [
+        "required edit outside exact files",
+        "schema/migration/package/generated/script change required",
+        "new API/permission/business/ADL decision required",
+        "frontend screen contract missing for frontend work",
+        "validation failure after 3 self-heal attempts",
+        "Stage 1 amendment artifacts are stale or not represented in this FFET.",
+        "STAGE0-W3-FFET-002 has not landed before runtime consumers need renamed contract identifiers.",
+        "Runtime wiring requires schema/package/generated/frontend work outside this FFET scope."
+      ],
+      "rollback_notes": "Revert the single FFET PR; no shared migration or schema rollback is authorized inside RI-FFET scope.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": "deterministic repairs inside exact files only",
+        "forbidden": "scope expansion, weakened tests, invented doctrine, schema/package/generated/script changes"
+      },
+      "expected_evidence": [
+        "runtime MCR evidence captured",
+        "validation ladder successful",
+        "no out-of-scope files changed"
+      ],
+      "stage1_surface_inputs": [
+        "S1-6A6C-FFET-001",
+        "S1-6A6C-FFET-002",
+        "S1-6A6C-FFET-003",
+        "S1-6A6C-FFET-004",
+        "S1-6A6C-FFET-005",
+        "S1-6A6C-FFET-006",
+        "S1-6A6C-FFET-007",
+        "S1-6A6C-FFET-008"
+      ],
+      "implications": {
+        "gatekeeper": "Must not bypass Gatekeeper where the wired action is high-risk; explicit gate proof belongs to dependent gatekeeper/demo FFETs.",
+        "foundry": "Must respect Foundry activation state when exposed through dependent module/frontend wiring.",
+        "audit": "Must not suppress evidence obligations; audit proof belongs to dependent audit/demo FFETs.",
+        "tenant_isolation": "Must prove organization/tenant scoping and negative cross-tenant access cases."
+      }
+    },
+    {
+      "ffet_id": "S2-RI-009",
+      "stage": "stage_2_runtime_integration_v2",
+      "seed": "disabled_service_negative_runtime_proof",
+      "name": "Rebased Prove inactive tenant services are inaccessible",
+      "status": "GATE_2_READY_PENDING_HUMAN_GATE_3_APPROVAL",
+      "execution_flags": {
+        "ticket_generation_allowed": false,
+        "ticket_pack_generation_allowed": false,
+        "execution_authorized": false
+      },
+      "exact_files": [
+        "apps/api/src/phase_6a_6c_runtime/disabled_service_access.service.ts",
+        "apps/api/src/phase_6a_6c_runtime/disabled_service_access.service.test.ts"
+      ],
+      "source_ri_v1_id": "RI-FFET-009",
+      "maximum_concrete_capability_within_scope": "Execute the rebased runtime integration capability from RI v1 after Stage 1 amendment artifacts, NestJS 11 re-verification, and the Stage 0 contract-change prerequisite are satisfied. Scope is limited to the exact files listed here.",
+      "runtime_mcr": "A tenant with only core plus CRM active cannot access LMS, e-commerce, events, campaigns, or website-builder capabilities through Phase 6A-6C runtime routes.",
+      "dependencies": [
+        "S2-PREQ-001",
+        "S2-CC-001",
+        "S2-RI-005",
+        "S2-RI-006",
+        "S2-RI-008"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check",
+        "git diff --check"
+      ],
+      "stop_conditions": [
+        "required edit outside exact files",
+        "schema/migration/package/generated/script change required",
+        "new API/permission/business/ADL decision required",
+        "frontend screen contract missing for frontend work",
+        "validation failure after 3 self-heal attempts",
+        "Stage 1 amendment artifacts are stale or not represented in this FFET.",
+        "STAGE0-W3-FFET-002 has not landed before runtime consumers need renamed contract identifiers.",
+        "Runtime wiring requires schema/package/generated/frontend work outside this FFET scope."
+      ],
+      "rollback_notes": "Revert the single FFET PR; no shared migration or schema rollback is authorized inside RI-FFET scope.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": "deterministic repairs inside exact files only",
+        "forbidden": "scope expansion, weakened tests, invented doctrine, schema/package/generated/script changes"
+      },
+      "expected_evidence": [
+        "runtime MCR evidence captured",
+        "validation ladder successful",
+        "no out-of-scope files changed"
+      ],
+      "stage1_surface_inputs": [
+        "S1-6A6C-FFET-001",
+        "S1-6A6C-FFET-008",
+        "S1-6A6C-FFET-011",
+        "S1-6A6C-FFET-019"
+      ],
+      "implications": {
+        "gatekeeper": "Must not bypass Gatekeeper where the wired action is high-risk; explicit gate proof belongs to dependent gatekeeper/demo FFETs.",
+        "foundry": "Must respect Foundry activation state when exposed through dependent module/frontend wiring.",
+        "audit": "Must not suppress evidence obligations; audit proof belongs to dependent audit/demo FFETs.",
+        "tenant_isolation": "Must prove organization/tenant scoping and negative cross-tenant access cases."
+      }
+    },
+    {
+      "ffet_id": "S2-RI-010",
+      "stage": "stage_2_runtime_integration_v2",
+      "seed": "screen_contract_gate",
+      "name": "Rebased Create screen contracts before frontend wiring",
+      "status": "GATE_2_READY_PENDING_HUMAN_GATE_3_APPROVAL",
+      "execution_flags": {
+        "ticket_generation_allowed": false,
+        "ticket_pack_generation_allowed": false,
+        "execution_authorized": false
+      },
+      "exact_files": [
+        "docs/screen-contracts/phase-6a-6c/runtime-capability-shell.screen.json",
+        "docs/screen-contracts/phase-6a-6c/runtime-capability-shell.screen.test.json"
+      ],
+      "source_ri_v1_id": "RI-FFET-010",
+      "maximum_concrete_capability_within_scope": "Execute the rebased runtime integration capability from RI v1 after Stage 1 amendment artifacts, NestJS 11 re-verification, and the Stage 0 contract-change prerequisite are satisfied. Scope is limited to the exact files listed here.",
+      "runtime_mcr": "Frontend wiring has an approved screen contract defining route, capabilities, activation states, audit hooks, and forbidden inactive-service behavior.",
+      "dependencies": [
+        "S2-PREQ-001",
+        "S2-CC-001",
+        "S2-RI-009"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check",
+        "git diff --check"
+      ],
+      "stop_conditions": [
+        "required edit outside exact files",
+        "schema/migration/package/generated/script change required",
+        "new API/permission/business/ADL decision required",
+        "frontend screen contract missing for frontend work",
+        "validation failure after 3 self-heal attempts",
+        "Stage 1 amendment artifacts are stale or not represented in this FFET.",
+        "STAGE0-W3-FFET-002 has not landed before runtime consumers need renamed contract identifiers.",
+        "Runtime wiring requires schema/package/generated/frontend work outside this FFET scope."
+      ],
+      "rollback_notes": "Revert the single FFET PR; no shared migration or schema rollback is authorized inside RI-FFET scope.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": "deterministic repairs inside exact files only",
+        "forbidden": "scope expansion, weakened tests, invented doctrine, schema/package/generated/script changes"
+      },
+      "expected_evidence": [
+        "runtime MCR evidence captured",
+        "validation ladder successful",
+        "no out-of-scope files changed"
+      ],
+      "stage1_surface_inputs": [
+        "S1-6A6C-FFET-012",
+        "S1-6A6C-FFET-013",
+        "S1-6A6C-FFET-015"
+      ],
+      "implications": {
+        "gatekeeper": "Must not bypass Gatekeeper where the wired action is high-risk; explicit gate proof belongs to dependent gatekeeper/demo FFETs.",
+        "foundry": "Must respect Foundry activation state when exposed through dependent module/frontend wiring.",
+        "audit": "Must not suppress evidence obligations; audit proof belongs to dependent audit/demo FFETs.",
+        "tenant_isolation": "Must preserve tenant/org neutrality and rely on tenant-isolation FFETs for negative proof."
+      }
+    },
+    {
+      "ffet_id": "S2-RI-011",
+      "stage": "stage_2_runtime_integration_v2",
+      "seed": "frontend_activation_navigation",
+      "name": "Rebased Wire activation-aware frontend navigation",
+      "status": "GATE_2_READY_PENDING_HUMAN_GATE_3_APPROVAL",
+      "execution_flags": {
+        "ticket_generation_allowed": false,
+        "ticket_pack_generation_allowed": false,
+        "execution_authorized": false
+      },
+      "exact_files": [
+        "apps/web/lib/routes.config.ts",
+        "apps/web/lib/routes.config.test.mjs",
+        "apps/web/components/mission-control/module_launcher.tsx",
+        "apps/web/components/mission-control/module_launcher.phase_6a_6c.test.tsx"
+      ],
+      "source_ri_v1_id": "RI-FFET-011",
+      "maximum_concrete_capability_within_scope": "Execute the rebased runtime integration capability from RI v1 after Stage 1 amendment artifacts, NestJS 11 re-verification, and the Stage 0 contract-change prerequisite are satisfied. Scope is limited to the exact files listed here.",
+      "runtime_mcr": "Mission Control navigation shows active 6A-6C services and hides or blocks inactive services according to Foundry activation state.",
+      "dependencies": [
+        "S2-PREQ-001",
+        "S2-CC-001",
+        "S2-RI-010"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check",
+        "git diff --check"
+      ],
+      "stop_conditions": [
+        "required edit outside exact files",
+        "schema/migration/package/generated/script change required",
+        "new API/permission/business/ADL decision required",
+        "frontend screen contract missing for frontend work",
+        "validation failure after 3 self-heal attempts",
+        "Stage 1 amendment artifacts are stale or not represented in this FFET.",
+        "STAGE0-W3-FFET-002 has not landed before runtime consumers need renamed contract identifiers.",
+        "Runtime wiring requires schema/package/generated/frontend work outside this FFET scope."
+      ],
+      "rollback_notes": "Revert the single FFET PR; no shared migration or schema rollback is authorized inside RI-FFET scope.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": "deterministic repairs inside exact files only",
+        "forbidden": "scope expansion, weakened tests, invented doctrine, schema/package/generated/script changes"
+      },
+      "expected_evidence": [
+        "runtime MCR evidence captured",
+        "validation ladder successful",
+        "no out-of-scope files changed"
+      ],
+      "stage1_surface_inputs": [
+        "S1-6A6C-FFET-012",
+        "S1-6A6C-FFET-013",
+        "S1-6A6C-FFET-015"
+      ],
+      "implications": {
+        "gatekeeper": "Must not bypass Gatekeeper where the wired action is high-risk; explicit gate proof belongs to dependent gatekeeper/demo FFETs.",
+        "foundry": "Must consume tenant activation state as runtime authority and prove disabled-service inaccessibility.",
+        "audit": "Must not suppress evidence obligations; audit proof belongs to dependent audit/demo FFETs.",
+        "tenant_isolation": "Must preserve tenant/org neutrality and rely on tenant-isolation FFETs for negative proof."
+      }
+    },
+    {
+      "ffet_id": "S2-RI-012",
+      "stage": "stage_2_runtime_integration_v2",
+      "seed": "frontend_dynamic_activation_loading",
+      "name": "Rebased Plan dynamic per-activation frontend loading proof",
+      "status": "GATE_2_READY_PENDING_HUMAN_GATE_3_APPROVAL",
+      "execution_flags": {
+        "ticket_generation_allowed": false,
+        "ticket_pack_generation_allowed": false,
+        "execution_authorized": false
+      },
+      "exact_files": [
+        "apps/web/app/app/page.tsx",
+        "apps/web/components/mission-control/mission_control_shell.tsx",
+        "apps/web/components/mission-control/mission_control_shell.phase_6a_6c_bundle.test.tsx"
+      ],
+      "source_ri_v1_id": "RI-FFET-012",
+      "maximum_concrete_capability_within_scope": "Execute the rebased runtime integration capability from RI v1 after Stage 1 amendment artifacts, NestJS 11 re-verification, and the Stage 0 contract-change prerequisite are satisfied. Scope is limited to the exact files listed here.",
+      "runtime_mcr": "Frontend runtime uses activation-aware lazy loading for Phase 6A-6C service surfaces and proves inactive service modules are not eagerly imported through the shell path.",
+      "dependencies": [
+        "S2-PREQ-001",
+        "S2-CC-001",
+        "S2-RI-010",
+        "S2-RI-011"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check",
+        "git diff --check"
+      ],
+      "stop_conditions": [
+        "required edit outside exact files",
+        "schema/migration/package/generated/script change required",
+        "new API/permission/business/ADL decision required",
+        "frontend screen contract missing for frontend work",
+        "validation failure after 3 self-heal attempts",
+        "Stage 1 amendment artifacts are stale or not represented in this FFET.",
+        "STAGE0-W3-FFET-002 has not landed before runtime consumers need renamed contract identifiers.",
+        "Runtime wiring requires schema/package/generated/frontend work outside this FFET scope."
+      ],
+      "rollback_notes": "Revert the single FFET PR; no shared migration or schema rollback is authorized inside RI-FFET scope.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": "deterministic repairs inside exact files only",
+        "forbidden": "scope expansion, weakened tests, invented doctrine, schema/package/generated/script changes"
+      },
+      "expected_evidence": [
+        "runtime MCR evidence captured",
+        "validation ladder successful",
+        "no out-of-scope files changed"
+      ],
+      "stage1_surface_inputs": [
+        "S1-6A6C-FFET-012",
+        "S1-6A6C-FFET-013",
+        "S1-6A6C-FFET-015"
+      ],
+      "implications": {
+        "gatekeeper": "Must not bypass Gatekeeper where the wired action is high-risk; explicit gate proof belongs to dependent gatekeeper/demo FFETs.",
+        "foundry": "Must consume tenant activation state as runtime authority and prove disabled-service inaccessibility.",
+        "audit": "Must not suppress evidence obligations; audit proof belongs to dependent audit/demo FFETs.",
+        "tenant_isolation": "Must preserve tenant/org neutrality and rely on tenant-isolation FFETs for negative proof."
+      }
+    },
+    {
+      "ffet_id": "S2-RI-013",
+      "stage": "stage_2_runtime_integration_v2",
+      "seed": "falsifiable_demo_script",
+      "name": "Rebased Add falsifiable Phase 6A-6C runtime demo tests",
+      "status": "GATE_2_READY_PENDING_HUMAN_GATE_3_APPROVAL",
+      "execution_flags": {
+        "ticket_generation_allowed": false,
+        "ticket_pack_generation_allowed": false,
+        "execution_authorized": false
+      },
+      "exact_files": [
+        "apps/api/src/phase_6a_6c_runtime/phase_runtime_demo.test.ts",
+        "apps/web/lib/phase_6a_6c_runtime_demo.test.mjs"
+      ],
+      "source_ri_v1_id": "RI-FFET-013",
+      "maximum_concrete_capability_within_scope": "Execute the rebased runtime integration capability from RI v1 after Stage 1 amendment artifacts, NestJS 11 re-verification, and the Stage 0 contract-change prerequisite are satisfied. Scope is limited to the exact files listed here.",
+      "runtime_mcr": "Demo tests cover positive activation, disabled-service denial, Gatekeeper decisions, audit/evidence emission, and tenant-isolation failure paths.",
+      "dependencies": [
+        "S2-PREQ-001",
+        "S2-CC-001",
+        "S2-RI-010",
+        "S2-RI-012"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check",
+        "git diff --check"
+      ],
+      "stop_conditions": [
+        "required edit outside exact files",
+        "schema/migration/package/generated/script change required",
+        "new API/permission/business/ADL decision required",
+        "frontend screen contract missing for frontend work",
+        "validation failure after 3 self-heal attempts",
+        "Stage 1 amendment artifacts are stale or not represented in this FFET.",
+        "STAGE0-W3-FFET-002 has not landed before runtime consumers need renamed contract identifiers.",
+        "Runtime wiring requires schema/package/generated/frontend work outside this FFET scope."
+      ],
+      "rollback_notes": "Revert the single FFET PR; no shared migration or schema rollback is authorized inside RI-FFET scope.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": "deterministic repairs inside exact files only",
+        "forbidden": "scope expansion, weakened tests, invented doctrine, schema/package/generated/script changes"
+      },
+      "expected_evidence": [
+        "runtime MCR evidence captured",
+        "validation ladder successful",
+        "no out-of-scope files changed"
+      ],
+      "stage1_surface_inputs": [
+        "S1-6A6C-FFET-001",
+        "S1-6A6C-FFET-002",
+        "S1-6A6C-FFET-003",
+        "S1-6A6C-FFET-004",
+        "S1-6A6C-FFET-005",
+        "S1-6A6C-FFET-006",
+        "S1-6A6C-FFET-007",
+        "S1-6A6C-FFET-008"
+      ],
+      "implications": {
+        "gatekeeper": "Must not bypass Gatekeeper where the wired action is high-risk; explicit gate proof belongs to dependent gatekeeper/demo FFETs.",
+        "foundry": "Must respect Foundry activation state when exposed through dependent module/frontend wiring.",
+        "audit": "Must not suppress evidence obligations; audit proof belongs to dependent audit/demo FFETs.",
+        "tenant_isolation": "Must preserve tenant/org neutrality and rely on tenant-isolation FFETs for negative proof."
+      }
+    },
+    {
+      "ffet_id": "S2-RI-014",
+      "stage": "stage_2_runtime_integration_v2",
+      "seed": "final_runtime_reconciliation",
+      "name": "Rebased Reconcile runtime wiring with v5 Gate-2 evidence",
+      "status": "GATE_2_READY_PENDING_HUMAN_GATE_3_APPROVAL",
+      "execution_flags": {
+        "ticket_generation_allowed": false,
+        "ticket_pack_generation_allowed": false,
+        "execution_authorized": false
+      },
+      "exact_files": [
+        "docs/audits/phase_runs/phase_6a_6c_runtime_integration_completion_audit_v1.md",
+        "docs/audits/phase_runs/phase_6a_6c_runtime_integration_completion_audit_v1.json"
+      ],
+      "source_ri_v1_id": "RI-FFET-014",
+      "maximum_concrete_capability_within_scope": "Execute the rebased runtime integration capability from RI v1 after Stage 1 amendment artifacts, NestJS 11 re-verification, and the Stage 0 contract-change prerequisite are satisfied. Scope is limited to the exact files listed here.",
+      "runtime_mcr": "Completion audit proves all RI-FFET MCRs, validations, PRs, and deferred blockers after Gate 4 execution; this file remains an expected output, not prefilled at Gate 2.",
+      "dependencies": [
+        "S2-PREQ-001",
+        "S2-CC-001",
+        "S2-RI-013"
+      ],
+      "validation_commands": [
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check",
+        "git diff --check"
+      ],
+      "stop_conditions": [
+        "required edit outside exact files",
+        "schema/migration/package/generated/script change required",
+        "new API/permission/business/ADL decision required",
+        "frontend screen contract missing for frontend work",
+        "validation failure after 3 self-heal attempts",
+        "Stage 1 amendment artifacts are stale or not represented in this FFET.",
+        "STAGE0-W3-FFET-002 has not landed before runtime consumers need renamed contract identifiers.",
+        "Runtime wiring requires schema/package/generated/frontend work outside this FFET scope."
+      ],
+      "rollback_notes": "Revert the single FFET PR; no shared migration or schema rollback is authorized inside RI-FFET scope.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": "deterministic repairs inside exact files only",
+        "forbidden": "scope expansion, weakened tests, invented doctrine, schema/package/generated/script changes"
+      },
+      "expected_evidence": [
+        "runtime MCR evidence captured",
+        "validation ladder successful",
+        "no out-of-scope files changed"
+      ],
+      "stage1_surface_inputs": [
+        "S1-6A6C-FFET-003",
+        "S1-6A6C-FFET-004",
+        "S1-6A6C-FFET-017",
+        "S1-6A6C-FFET-018"
+      ],
+      "implications": {
+        "gatekeeper": "Must not bypass Gatekeeper where the wired action is high-risk; explicit gate proof belongs to dependent gatekeeper/demo FFETs.",
+        "foundry": "Must respect Foundry activation state when exposed through dependent module/frontend wiring.",
+        "audit": "Must emit or verify required evidence/audit records for operations in scope.",
+        "tenant_isolation": "Must preserve tenant/org neutrality and rely on tenant-isolation FFETs for negative proof."
+      }
+    }
+  ]
+}
