@@ -7,7 +7,7 @@ suite_version: v5.0
 file_version: v1.0
 created: 2026-06-13
 last_updated: 2026-06-13
-status: for_ratification
+status: active
 document_type: refactor_plan
 scope: Wave-based AKTI→Esbla identity, repository-architecture, and metadata rebaseline plan (Codex Stage 0).
 title: Esbla Spark — Rebaseline Refactor Plan v1 (AKTI → Esbla)

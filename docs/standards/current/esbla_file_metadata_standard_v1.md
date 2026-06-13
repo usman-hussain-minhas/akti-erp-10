@@ -7,7 +7,7 @@ suite_version: v5.0
 file_version: v1.0
 created: 2026-06-13
 last_updated: 2026-06-13
-status: for_ratification
+status: authoritative
 document_type: standard
 scope: File metadata, versioning, naming, and legacy-reference standard for all active Esbla Spark files.
 title: Esbla Spark — File Metadata Standard v1

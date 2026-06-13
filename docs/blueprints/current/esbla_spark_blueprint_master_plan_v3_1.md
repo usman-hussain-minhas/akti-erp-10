@@ -8,7 +8,7 @@ suite_version: v5.0
 file_version: v3.1
 created: 2026-06-13
 last_updated: 2026-06-13
-status: for_ratification
+status: authoritative
 document_type: blueprint
 scope: Strategic spine of the Esbla Spark v5.0 documentation suite.
 title: Esbla Spark — Blueprint Master Plan v3.1

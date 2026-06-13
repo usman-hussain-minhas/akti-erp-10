@@ -7,7 +7,7 @@ suite_version: v5.0
 file_version: v1.0
 created: 2026-06-13
 last_updated: 2026-06-13
-status: for_ratification
+status: active
 document_type: phase_amendment
 scope: Consolidated ecosystem amendment and runtime-wiring scope for Phases 6A–6C (Codex Stages 1–2).
 title: Esbla Spark — Phase 6A–6C Consolidated Amendment v1

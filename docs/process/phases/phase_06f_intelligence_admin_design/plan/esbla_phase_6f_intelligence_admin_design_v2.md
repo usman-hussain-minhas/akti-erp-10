@@ -7,7 +7,7 @@ suite_version: v5.0
 file_version: v2.0
 created: 2026-06-13
 last_updated: 2026-06-13
-status: for_ratification
+status: active
 document_type: phase_plan
 scope: Full Phase 6F (Intelligence, Advanced Admin, Design Polish) plan — with runtime wiring inside the phase and the foundations-transition handoff.
 title: Esbla Spark — Phase 6F: Intelligence, Advanced Admin, and Design Polish — v2

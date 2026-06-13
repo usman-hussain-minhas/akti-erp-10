@@ -7,7 +7,7 @@ suite_version: v5.0
 file_version: v1.0
 created: 2026-06-13
 last_updated: 2026-06-13
-status: for_ratification
+status: authoritative
 document_type: suite_manifest
 scope: Inventory, authority order, supersessions, execution sequence, and continuity bridge for documentation suite v5.0.
 title: Esbla Spark — Documentation Suite v5.0 Manifest v1
