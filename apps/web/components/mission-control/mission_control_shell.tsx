@@ -1,5 +1,6 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import {
   Building2,
@@ -23,14 +24,17 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLeadDeskOperatorContext } from '../../app/lead-desk/operator-context';
 import { CRM_VISIBLE_LABEL_RULE } from '../../lib/crm_alias.config';
 import { PLATFORM_PRODUCT_NAME } from '../../lib/platform_branding.config';
-import { SHELL_NAVIGATION_ROUTES, SHELL_SYSTEM_NAVIGATION_ROUTES } from '../../lib/routes.config';
+import {
+  PHASE6_RUNTIME_NAVIGATION_AUTHORITY,
+  SHELL_NAVIGATION_ROUTES,
+  SHELL_SYSTEM_NAVIGATION_ROUTES,
+} from '../../lib/routes.config';
 import { CommandPalette } from './command_palette';
 import { DashboardOverview } from './dashboard_overview';
-import { ModuleLauncher } from './module_launcher';
 import { NotificationCenter } from './notification_center';
 import { SessionStatusNotice } from '../session/session_status';
 import { Button } from '../ui/button';
-import { EmptyState, StatusBadge } from '../ui/design_system';
+import { EmptyState, SectionCard, StatusBadge } from '../ui/design_system';
 
 const NAV_ICONS = {
   '/app': LayoutDashboard,
@@ -39,6 +43,21 @@ const NAV_ICONS = {
   '/app/settings': Settings,
   '#diagnostics-region': HelpCircle,
 } as const;
+
+export const PHASE6_RUNTIME_DYNAMIC_LOADING_DISCLOSURE = {
+  screenContract: PHASE6_RUNTIME_NAVIGATION_AUTHORITY.screenContract,
+  shellAnchorRoute: PHASE6_RUNTIME_NAVIGATION_AUTHORITY.shellAnchorRoute,
+  loadingPattern: 'hybrid_dynamic_shell_chunk_with_runtime_activation_gating',
+  tenantActivationPrunesBundle: false,
+  bundleClaim:
+    'The Mission Control module launcher is dynamically loaded, but Phase 6 service code is not tenant-activation-pruned by this FFET.',
+  inactiveServiceAccessAuthority: 'server_runtime_foundry_and_gatekeeper',
+} as const;
+
+const DynamicModuleLauncher = dynamic(() => import('./module_launcher').then((module) => module.ModuleLauncher), {
+  ssr: false,
+  loading: () => <Phase6RuntimeShellLoadingState />,
+});
 
 type OrgProfileSnapshot =
   | { state: 'placeholder'; label: string; detail: string }
@@ -280,7 +299,14 @@ export function MissionControlShell() {
             </div>
           </section>
 
-          <ModuleLauncher />
+          <section
+            id="phase-6-runtime-capabilities"
+            className="grid scroll-mt-28 gap-3"
+            aria-labelledby="phase-6-runtime-capabilities-title"
+          >
+            <Phase6RuntimeDynamicLoadingNote />
+            <DynamicModuleLauncher />
+          </section>
 
           <DashboardOverview />
 
@@ -323,6 +349,43 @@ export function MissionControlShell() {
         </button>
       </nav>
     </div>
+  );
+}
+
+function Phase6RuntimeShellLoadingState() {
+  return (
+    <SectionCard className="grid gap-2 border-[rgb(18_217_123_/_.25)]" aria-live="polite">
+      <StatusBadge tone="neutral">Loading</StatusBadge>
+      <p className="m-0 text-sm text-[#55605a]">Loading activation-aware runtime capability shell.</p>
+      <p className="m-0 text-xs text-[var(--phase5c-text-muted)]">
+        Dynamic import boundary: Mission Control module launcher chunk.
+      </p>
+    </SectionCard>
+  );
+}
+
+function Phase6RuntimeDynamicLoadingNote() {
+  return (
+    <SectionCard className="grid gap-2 border-[rgb(0_213_255_/_.35)]">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <h2 id="phase-6-runtime-capabilities-title" className="m-0 text-lg font-semibold">
+          Phase 6 runtime shell
+        </h2>
+        <StatusBadge tone="warning">Runtime gated</StatusBadge>
+      </div>
+      <p className="m-0 text-sm text-[#55605a]">
+        The launcher below is dynamically loaded and reads activation-aware runtime status from activation-governed API
+        surfaces before showing Phase 6A-6C navigation.
+      </p>
+      <p className="m-0 text-xs text-[var(--phase5c-text-muted)]">
+        Bundle disclosure: {PHASE6_RUNTIME_DYNAMIC_LOADING_DISCLOSURE.bundleClaim} Inactive-service inaccessibility is
+        enforced by {PHASE6_RUNTIME_DYNAMIC_LOADING_DISCLOSURE.inactiveServiceAccessAuthority}, not by frontend-only
+        hiding.
+      </p>
+      <p className="m-0 text-xs text-[var(--phase5c-text-muted)]">
+        Screen contract: {PHASE6_RUNTIME_DYNAMIC_LOADING_DISCLOSURE.screenContract}.
+      </p>
+    </SectionCard>
   );
 }
 
