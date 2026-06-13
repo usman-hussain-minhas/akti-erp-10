@@ -1,0 +1,267 @@
+{
+  "$metadata": {
+    "document_id": "phase_6a_6c_runtime_integration_completion_audit_v1",
+    "status": "runtime_reconciliation_audit",
+    "created": "2026-06-13",
+    "updated": "2026-06-13",
+    "owner": "Usman Hussain"
+  },
+  "audit_id": "phase_6a_6c_runtime_integration_completion_audit_v1",
+  "status": "RUNTIME_INTEGRATION_GATE4_RECONCILED_PENDING_FINAL_VISUAL_AUDIT",
+  "final_target_not_yet_claimed": "PHASE_6A_6C_RUNTIME_INTEGRATION_EXECUTED_AND_VISUALLY_VERIFIED requires the final browser/screenshot audit PR after this reconciliation.",
+  "source_authority": {
+    "ri_v2_registry": "docs/process/phases/cross_phase/phase_6a_6c_runtime_integration_ffet_v2/phase_6a_6c_runtime_integration_v2_ffet_registry_v1.json",
+    "ri_v2_gate_manifest": "docs/process/phases/cross_phase/phase_6a_6c_runtime_integration_ffet_v2/phase_6a_6c_runtime_integration_v2_gate_manifest_v1.json",
+    "stage_1_closure": "docs/process/phases/cross_phase/phase_6a_6c_amendment_stage1_ffet_v1/phase_6a_6c_amendment_stage1_closure_report_v1.json",
+    "gate_3_approval_pr": 434
+  },
+  "execution_scope": {
+    "approved_scope_only": true,
+    "executed_ffet_count_before_this_audit": 15,
+    "reconciliation_ffet": "S2-RI-014",
+    "total_registry_ffets": 16,
+    "ri_v1_status": "BLOCKED_PENDING_STAGE_1_EXECUTION_AND_STAGE2_REAUDIT_HISTORICAL_EVIDENCE_ONLY",
+    "no_production_credentials_or_external_provider_side_effects": true
+  },
+  "execution_chain": [
+    {
+      "ffet_id": "GATE3-SEATING",
+      "seed": "stage2: record ri v2 gate3 execution approval",
+      "pr_number": 434,
+      "pr_url": "https://github.com/usman-hussain-minhas/akti-erp-10/pull/434",
+      "landing_sha": "9e435898d66575964acc8f6571c91bde73be0a93",
+      "evidence": "Recorded Gate 3 approval for the Stage 2 RI v2 execution scope.",
+      "status": "MERGED_TO_MAIN"
+    },
+    {
+      "ffet_id": "S2-PREQ-001",
+      "seed": "nestjs_11_reverification",
+      "pr_number": 435,
+      "pr_url": "https://github.com/usman-hussain-minhas/akti-erp-10/pull/435",
+      "landing_sha": "c2d1e8f7e3095e0c6555bdcd0d51f6dea6e8a699",
+      "evidence": "Re-verified NestJS 11 prerequisite and full pre-wiring validation ladder.",
+      "status": "MERGED_TO_MAIN"
+    },
+    {
+      "ffet_id": "S2-CC-001",
+      "seed": "contract_namespace_migration",
+      "pr_number": 436,
+      "pr_url": "https://github.com/usman-hussain-minhas/akti-erp-10/pull/436",
+      "landing_sha": "9330710f85e3306509db37160775d4ee53c2a7ec",
+      "evidence": "Resolved deferred STAGE0-W3-FFET-002 contract/package namespace migration before wiring consumers.",
+      "status": "MERGED_TO_MAIN"
+    },
+    {
+      "ffet_id": "S2-RI-002",
+      "seed": "phase_6a_api_surface",
+      "pr_number": 437,
+      "pr_url": "https://github.com/usman-hussain-minhas/akti-erp-10/pull/437",
+      "landing_sha": "513ba9462f4fb47a7955c8bc1aa45e847d94c508",
+      "evidence": "Exposed activation-aware Phase 6A runtime status surface.",
+      "status": "MERGED_TO_MAIN"
+    },
+    {
+      "ffet_id": "S2-RI-003",
+      "seed": "phase_6b_api_surface",
+      "pr_number": 438,
+      "pr_url": "https://github.com/usman-hussain-minhas/akti-erp-10/pull/438",
+      "landing_sha": "9d655e54e76f87908e8070ade278919b7cfe88e4",
+      "evidence": "Exposed activation-aware Phase 6B runtime status surface.",
+      "status": "MERGED_TO_MAIN"
+    },
+    {
+      "ffet_id": "S2-RI-004",
+      "seed": "phase_6c_api_surface",
+      "pr_number": 439,
+      "pr_url": "https://github.com/usman-hussain-minhas/akti-erp-10/pull/439",
+      "landing_sha": "2adbdc92f4f376f0fb7298cb10414ed187d49de8",
+      "evidence": "Exposed activation-aware Phase 6C runtime status surface.",
+      "status": "MERGED_TO_MAIN"
+    },
+    {
+      "ffet_id": "S2-RI-001",
+      "seed": "runtime_module_mount",
+      "pr_number": 440,
+      "pr_url": "https://github.com/usman-hussain-minhas/akti-erp-10/pull/440",
+      "landing_sha": "38e1fa6487535cf3e26db04b0912f3d2c18ed173",
+      "evidence": "Mounted Phase 6A/6B/6C runtime modules after API surfaces landed.",
+      "status": "MERGED_TO_MAIN"
+    },
+    {
+      "ffet_id": "S2-RI-005",
+      "seed": "foundry_activation_enforcement",
+      "pr_number": 441,
+      "pr_url": "https://github.com/usman-hussain-minhas/akti-erp-10/pull/441",
+      "landing_sha": "7178592a81e815a4a594190ca1f157d83eb3b3e8",
+      "evidence": "Made Foundry activation the runtime authority for Phase 6A-6C surface access.",
+      "status": "MERGED_TO_MAIN"
+    },
+    {
+      "ffet_id": "S2-RI-006",
+      "seed": "gatekeeper_runtime_spine",
+      "pr_number": 442,
+      "pr_url": "https://github.com/usman-hussain-minhas/akti-erp-10/pull/442",
+      "landing_sha": "cf1c203519ed2283c5c2a70391ca1f347a7cd123",
+      "evidence": "Enforced Gatekeeper allow, deny, approval-required, and stop-for-review paths.",
+      "status": "MERGED_TO_MAIN"
+    },
+    {
+      "ffet_id": "S2-RI-007",
+      "seed": "audit_evidence_runtime_spine",
+      "pr_number": 443,
+      "pr_url": "https://github.com/usman-hussain-minhas/akti-erp-10/pull/443",
+      "landing_sha": "d233786e1acfde3b40ef27ba01e20f57abed7086",
+      "evidence": "Added runtime evidence/audit record construction for allowed and denied operations.",
+      "status": "MERGED_TO_MAIN"
+    },
+    {
+      "ffet_id": "S2-RI-008",
+      "seed": "tenant_isolation_runtime_proof",
+      "pr_number": 444,
+      "pr_url": "https://github.com/usman-hussain-minhas/akti-erp-10/pull/444",
+      "landing_sha": "9306cf11a2b1573b5feee6dd592bffcd6fd4908b",
+      "evidence": "Proved same-tenant allow and cross-tenant denial without schema changes.",
+      "status": "MERGED_TO_MAIN"
+    },
+    {
+      "ffet_id": "S2-RI-009",
+      "seed": "disabled_service_negative_proof",
+      "pr_number": 445,
+      "pr_url": "https://github.com/usman-hussain-minhas/akti-erp-10/pull/445",
+      "landing_sha": "e5f0884266b6e39c35457652c1a3743e2b3f2d74",
+      "evidence": "Proved inactive tenant services are server-side inaccessible with 404/unavailable behavior.",
+      "status": "MERGED_TO_MAIN"
+    },
+    {
+      "ffet_id": "S2-RI-010",
+      "seed": "screen_contract_gate",
+      "pr_number": 446,
+      "pr_url": "https://github.com/usman-hussain-minhas/akti-erp-10/pull/446",
+      "landing_sha": "73be5ed9b0494c05430ad4c3b5f69ee868c29252",
+      "evidence": "Created the approved screen contract gate for frontend activation wiring.",
+      "status": "MERGED_TO_MAIN"
+    },
+    {
+      "ffet_id": "S2-RI-011",
+      "seed": "frontend_activation_navigation",
+      "pr_number": 447,
+      "pr_url": "https://github.com/usman-hussain-minhas/akti-erp-10/pull/447",
+      "landing_sha": "0a9abe608d6d406bde9c0ef5e3f8defc31d23e2b",
+      "evidence": "Rendered Phase 6A-6C navigation only for activated runtime surfaces.",
+      "status": "MERGED_TO_MAIN"
+    },
+    {
+      "ffet_id": "S2-RI-012",
+      "seed": "frontend_dynamic_activation_loading",
+      "pr_number": 448,
+      "pr_url": "https://github.com/usman-hussain-minhas/akti-erp-10/pull/448",
+      "landing_sha": "6475afe59368adc3003629fe99712ce4c0c567bb",
+      "evidence": "Added dynamic frontend loading boundary and honest bundle disclosure.",
+      "status": "MERGED_TO_MAIN"
+    },
+    {
+      "ffet_id": "S2-RI-013",
+      "seed": "falsifiable_demo_script",
+      "pr_number": 449,
+      "pr_url": "https://github.com/usman-hussain-minhas/akti-erp-10/pull/449",
+      "landing_sha": "8b51f1bf584f2739653fc4510b488ddc92166bf0",
+      "evidence": "Added API and frontend demo tests covering positive activation and all five required negative assertions.",
+      "status": "MERGED_TO_MAIN"
+    }
+  ],
+  "mcr_reconciliation": {
+    "prerequisite_reverified": true,
+    "deferred_contract_change_resolved_before_wiring": true,
+    "runtime_modules_mounted": true,
+    "phase_6a_6b_6c_api_status_surfaces_exposed": true,
+    "foundry_activation_runtime_authority_enforced": true,
+    "gatekeeper_decision_paths_enforced": [
+      "ALLOW",
+      "DENY",
+      "APPROVAL_REQUIRED",
+      "STOP_FOR_REVIEW"
+    ],
+    "audit_evidence_runtime_records_constructed": true,
+    "tenant_isolation_negative_proof_present": true,
+    "disabled_service_server_side_negative_proof_present": true,
+    "screen_contract_gate_present": true,
+    "frontend_activation_navigation_present": true,
+    "frontend_loading_pattern": "hybrid_dynamic_shell_chunk_with_runtime_activation_gating",
+    "tenant_activation_prunes_entire_bundle": false,
+    "falsifiable_demo_negative_assertions": [
+      "cross_tenant_deny",
+      "opt_out_send_blocked",
+      "inactive_service_route_404",
+      "failed_kyc_t1_restricted_path",
+      "failed_payment_correctable_invoice"
+    ]
+  },
+  "validation_ladder": [
+    {
+      "command": "TSX_TSCONFIG_PATH=apps/api/tsconfig.json pnpm exec tsx apps/api/src/phase_6a_6c_runtime/phase_runtime_demo.test.ts",
+      "result": "PASS_LOCAL_PRE_COMMIT"
+    },
+    {
+      "command": "node apps/web/lib/phase_6a_6c_runtime_demo.test.mjs",
+      "result": "PASS_LOCAL_PRE_COMMIT"
+    },
+    {
+      "command": "pnpm contracts:validate",
+      "result": "PASS_LOCAL_PRE_COMMIT"
+    },
+    {
+      "command": "pnpm --filter @akti/api typecheck",
+      "result": "PASS_LOCAL_PRE_COMMIT"
+    },
+    {
+      "command": "pnpm --filter @akti/api test",
+      "result": "PASS_LOCAL_PRE_COMMIT"
+    },
+    {
+      "command": "pnpm --filter @akti/web typecheck",
+      "result": "PASS_LOCAL_PRE_COMMIT"
+    },
+    {
+      "command": "pnpm --filter @akti/web test",
+      "result": "PASS_LOCAL_PRE_COMMIT"
+    },
+    {
+      "command": "pnpm exec prisma validate --schema prisma/schema.prisma",
+      "result": "PASS_LOCAL_PRE_COMMIT"
+    },
+    {
+      "command": "pnpm registry:check",
+      "result": "PASS_LOCAL_PRE_COMMIT"
+    },
+    {
+      "command": "node scripts/quality/check_lower_snake_case_paths.mjs",
+      "result": "PASS_LOCAL_PRE_COMMIT"
+    },
+    {
+      "command": "git diff --check",
+      "result": "PASS_LOCAL_PRE_COMMIT"
+    }
+  ],
+  "scope_audit": {
+    "schema_files_changed": 0,
+    "migration_files_changed": 0,
+    "package_or_lockfile_changed_after_s2_cc_001": 0,
+    "generated_files_changed": 0,
+    "production_credentials_required": false,
+    "known_untracked_zip_touched_or_staged": false,
+    "unclassified_active_legacy_hits_introduced": 0
+  },
+  "blockers_and_deferrals": {
+    "stage0_w3_ffet_002": "resolved_by_s2_cc_001_pr_436",
+    "nestjs_11_prerequisite": "satisfied_by_s2_preq_001_pr_435_and_requires_no_further_action_before_visual_audit",
+    "remaining_required_work": [
+      "final_runtime_visual_audit_with_browser_screenshots"
+    ],
+    "visual_audit_blocker_policy": "If local runtime cannot start from committed scripts or required env/test data is missing, record VISUAL_AUDIT_BLOCKED_LOCAL_RUNTIME_NOT_REPRODUCIBLE instead of faking screenshots."
+  },
+  "conclusion": {
+    "status": "READY_FOR_FINAL_RUNTIME_VISUAL_AUDIT_PR",
+    "no_gate_or_scope_expansion_implied": true,
+    "final_stage2_status_after_visual_audit_expected": "PHASE_6A_6C_RUNTIME_INTEGRATION_EXECUTED_AND_VISUALLY_VERIFIED"
+  }
+}
