@@ -5,6 +5,7 @@ import test from 'node:test';
 const routesConfig = readFileSync('lib/routes.config.ts', 'utf8');
 const shell = readFileSync('components/mission-control/mission_control_shell.tsx', 'utf8');
 const palette = readFileSync('components/mission-control/command_palette.tsx', 'utf8');
+const moduleLauncher = readFileSync('components/mission-control/module_launcher.tsx', 'utf8');
 
 test('route config declares the allowed frontend-only route types', () => {
   for (const type of ['primary_navigation', 'system_navigation', 'diagnostics', 'hidden', 'future']) {
@@ -40,6 +41,22 @@ test('shell and command palette consume frontend route config without backend sh
   assert.match(routesConfig, /WorkflowInstance/);
   assert.match(routesConfig, /crmLeadDeskSearchExpansionAllowed: false/);
   assert.match(routesConfig, /backendSearchIsNotInvokedByPalette: true/);
+  assert.match(routesConfig, /PHASE6_RUNTIME_NAVIGATION_AUTHORITY/);
+  assert.match(routesConfig, /docs\\/screen_contracts\\/phase_6a_6c\\/runtime_capability_shell\\.screen\\.json/);
+  assert.match(routesConfig, /GET \\/platform\\/phase-6a\\/runtime\\/status/);
+  assert.match(routesConfig, /GET \\/platform\\/phase-6b\\/runtime\\/status/);
+  assert.match(routesConfig, /GET \\/platform\\/phase-6c\\/runtime\\/status/);
+  assert.match(routesConfig, /inactiveServicesNavigable: false/);
+  assert.match(routesConfig, /frontendOnlyActivationAllowed: false/);
   assert.equal(routesConfig.includes('GET /platform/shell/actions'), false);
   assert.equal(routesConfig.includes('/platform/shell/actions'), false);
+});
+
+test('module launcher has activation-aware Phase 6 runtime navigation without inactive links', () => {
+  assert.match(moduleLauncher, /buildPhase6RuntimeNavigationItems/);
+  assert.match(moduleLauncher, /PHASE6_RUNTIME_NAVIGATION_AUTHORITY\\.statusEndpoints/);
+  assert.match(moduleLauncher, /surface\\.active/);
+  assert.match(moduleLauncher, /inactive service surface\\(s\\) are hidden until Foundry activation permits navigation/);
+  assert.match(moduleLauncher, /frontendOnlyActivationAllowed/);
+  assert.equal(moduleLauncher.includes('frontendOnlyActivationAllowed: true'), false);
 });
