@@ -3,11 +3,11 @@
     "document_id": "phase_6a_6c_runtime_integration_v2_repair_ffet_register_v1",
     "status": "stage_2_repair_ffet_control_artifact",
     "created": "2026-06-13",
-    "updated": "2026-06-13",
+    "updated": "2026-06-14",
     "owner": "Usman Hussain"
   },
   "register_id": "phase_6a_6c_runtime_integration_v2_repair_ffet_register_v1",
-  "status": "STAGE_2_FINAL_TARGET_REPAIR_FFET_SEATED_FOR_EXECUTION",
+  "status": "STAGE_2_REPAIR_FFET_002_SEATED_FOR_EXECUTION",
   "source_blocker": {
     "audit_id": "stage2_runtime_visual_audit_v1",
     "audit_path": "docs/audits/stage2_runtime_visual_audit/stage2_runtime_visual_audit_v1.json",
@@ -38,10 +38,12 @@
   },
   "approval_boundary": {
     "approved_by": "Usman Hussain",
-    "approved_on": "2026-06-13",
+    "approved_on": "2026-06-14",
     "approval_scope": [
       "S2-REPAIR-001 controller dependency-injection repair",
-      "final runtime visual audit rerun"
+      "final runtime visual audit rerun",
+      "S2-REPAIR-002 class-level controller dependency-injection hardening",
+      "final runtime visual audit v3 rerun"
     ],
     "non_authorizations": [
       "dependency additions",
@@ -135,20 +137,117 @@
         "runtime smoke proves /health and Phase 6A/6B/6C runtime status endpoints no longer fail with undefined service injection",
         "no out-of-scope files changed"
       ]
+    },
+    {
+      "ffet_id": "S2-REPAIR-002",
+      "stage": "stage_2_runtime_integration_v2_final_target_repair",
+      "seed": "controller_dependency_injection_surface_hardening",
+      "name": "Harden remaining API controller dependency injection for final visual audit",
+      "status": "GATE_3_EXECUTION_APPROVED_PENDING_EXECUTION",
+      "execution_flags": {
+        "ticket_generation_allowed": false,
+        "ticket_pack_generation_allowed": false,
+        "execution_authorized": true
+      },
+      "exact_files": [
+        "apps/api/src/access-core/access-core.controller.ts",
+        "apps/api/src/configuration/configuration.controller.ts",
+        "apps/api/src/data-controls/data-controls.controller.ts",
+        "apps/api/src/engagement-gateway/engagement-gateway.controller.ts",
+        "apps/api/src/file-service/file-service.controller.ts",
+        "apps/api/src/foundry/foundry.controller.ts",
+        "apps/api/src/gatekeeper/gatekeeper.controller.ts",
+        "apps/api/src/hierarchy/hierarchy.controller.ts",
+        "apps/api/src/lead-desk/lead-desk.controller.ts",
+        "apps/api/src/module-registry/module-registry.controller.ts",
+        "apps/api/src/notifications/notifications.controller.ts",
+        "apps/api/src/organization-setup/organization-setup.controller.ts",
+        "apps/api/src/platform-health/platform-health.controller.ts",
+        "apps/api/src/reporting/reporting.controller.ts",
+        "apps/api/src/search/search.controller.ts",
+        "apps/api/src/security/current-user.controller.ts",
+        "apps/api/src/workflow/workflow.controller.ts",
+        "apps/api/src/phase_6a_6c_runtime/phase_runtime_controller_injection.test.ts"
+      ],
+      "maximum_concrete_capability_within_scope": "Use explicit Nest injection tokens in every remaining API controller with constructor service injection and extend the direct controller DI test to cover the full controller surface, without changing routes, services, modules, packages, schema, frontend, or business behavior.",
+      "runtime_mcr": "The committed API start path can serve /platform/foundry/phase-6a-6c/runtime-activation/preflight without the 500 dependency-injection failure recorded by visual audit v2, and the controller DI test proves all API controllers with service dependencies declare explicit Nest injection tokens.",
+      "dependencies": [
+        "S2-REPAIR-001",
+        "stage2_runtime_visual_audit_v2"
+      ],
+      "validation_commands": [
+        "TSX_TSCONFIG_PATH=apps/api/tsconfig.json pnpm exec tsx apps/api/src/phase_6a_6c_runtime/phase_runtime_controller_injection.test.ts",
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check",
+        "node scripts/quality/check_lower_snake_case_paths.mjs",
+        "git diff --check"
+      ],
+      "runtime_smoke_commands": [
+        "AKTI_AUTH_SESSION_SECRET=local_stage2_visual_secret_12345 AKTI_CORS_ALLOWED_ORIGINS=http://localhost:3000 DATABASE_URL='postgresql://postgres:postgres@localhost:5432/akti_stage2_visual?schema=public' pnpm --filter @akti/api start:dev",
+        "curl http://localhost:3001/health",
+        "curl http://localhost:3001/platform/phase-6a/runtime/status",
+        "curl http://localhost:3001/platform/phase-6b/runtime/status",
+        "curl http://localhost:3001/platform/phase-6c/runtime/status",
+        "curl -X POST http://localhost:3001/platform/foundry/phase-6a-6c/runtime-activation/preflight -H 'content-type: application/json' -H 'authorization: Bearer <local_test_session_token>' --data '<local_stage2_activation_preflight_payload>'"
+      ],
+      "stop_conditions": [
+        "required edit outside exact files",
+        "dependency addition required",
+        "package or lockfile edit required",
+        "schema or migration edit required",
+        "generated-file edit required",
+        "route/API response-shape change required",
+        "new frontend screen required",
+        "business-rule, ADL, provider, API, or permission decision required",
+        "validation failure after 3 self-heal attempts",
+        "runtime smoke still returns a controller undefined-service injection failure after allowed repairs"
+      ],
+      "rollback_notes": "Revert the S2-REPAIR-002 PR. The repair owns only explicit controller DI annotations plus the direct controller DI test and does not include schema, package, frontend, migration, or route-shape state.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": [
+          "import/export mismatch",
+          "explicit @Inject token mismatch inside owned controllers",
+          "test expectation drift caused by the repair",
+          "metadata or evidence drift inside owned artifacts"
+        ],
+        "forbidden": [
+          "dependency additions",
+          "package or lockfile edits",
+          "schema or migration edits",
+          "generated-file edits",
+          "route or response-shape changes",
+          "new frontend screens",
+          "invented permissions, providers, ADLs, APIs, or business rules",
+          "weakening validation"
+        ]
+      },
+      "expected_evidence": [
+        "controller DI test proves all API controllers with service dependencies declare explicit Nest injection tokens",
+        "full validation ladder passes",
+        "runtime smoke proves Foundry activation preflight no longer fails with undefined FoundryService injection",
+        "no out-of-scope files changed"
+      ]
     }
   ],
   "visual_rerun": {
-    "ffet_id": "S2-VISUAL-AUDIT-RERUN-001",
-    "status": "GATE_3_EXECUTION_APPROVED_PENDING_REPAIR_MERGE",
+    "ffet_id": "S2-VISUAL-AUDIT-RERUN-002",
+    "status": "GATE_3_EXECUTION_APPROVED_PENDING_REPAIR_002_MERGE",
     "exact_files": [
-      "docs/audits/stage2_runtime_visual_audit_v2/**",
+      "docs/audits/stage2_runtime_visual_audit_v3/**",
       "docs/audits/phase_runs/phase_6a_6c_runtime_integration_completion_audit_v1.json",
       "docs/audits/phase_runs/phase_6a_6c_runtime_integration_completion_audit_v1.md"
     ],
-    "runtime_mcr": "Final runtime visual audit v2 contains real screenshots and runtime evidence proving the Stage 2 final target, or records a precise blocker without faking verification.",
+    "runtime_mcr": "Final runtime visual audit v3 contains real screenshots and runtime evidence proving the Stage 2 final target, or records a precise blocker without faking verification.",
     "required_assertions": [
       "web app shell loads with API available",
-      "activated Phase 6A-6C availability is visible or browser-verifiable from existing screens",
+      "activated Phase 6A-6C availability is visible or browser-verifiable from existing screens/API surfaces",
+      "Foundry runtime activation preflight is callable without controller DI failure",
       "inactive navigation hides or blocks disabled services",
       "inactive direct route returns 404 or unavailable",
       "cross-tenant deny is linked from existing runtime/demo evidence",
@@ -161,12 +260,24 @@
       "local runtime cannot start from committed scripts and available local-only environment",
       "required visual proof cannot be produced from existing committed runtime/screens",
       "new UI screen would be required",
-      "API endpoints still return the recorded 500 injection failure"
+      "API endpoints still return controller undefined-service injection failure"
     ]
   },
   "final_target": "PHASE_6A_6C_RUNTIME_INTEGRATION_EXECUTED_AND_VISUALLY_VERIFIED",
   "known_untracked_artifact_policy": {
     "path": "docs/process/phases/cross_phase/phase_6a_6c_runtime_integration_ffet_v2.zip",
     "required_handling": "leave untouched and unstaged"
+  },
+  "followup_blocker": {
+    "audit_id": "stage2_runtime_visual_audit_v2",
+    "audit_path": "docs/audits/stage2_runtime_visual_audit_v2/stage2_runtime_visual_audit_v2.json",
+    "blocker_status": "VISUAL_AUDIT_RERUN_BLOCKED_FOUNDRY_CONTROLLER_INJECTION_500",
+    "blocked_final_status": "PHASE_6A_6C_RUNTIME_INTEGRATION_EXECUTED_BUT_VISUAL_RERUN_BLOCKED_BY_FOUNDRY_CONTROLLER_DI",
+    "observed_failure": {
+      "endpoint": "/platform/foundry/phase-6a-6c/runtime-activation/preflight",
+      "controller": "FoundryController",
+      "failure": "TypeError: Cannot read properties of undefined (reading 'evaluatePhase6A6CRuntimeActivation') at FoundryController.phase6A6CRuntimeActivationPreflight"
+    },
+    "pattern_assessment": "S2-REPAIR-001 fixed four explicit controllers, then the next unpatched implicit controller failed in the same way under the committed start:dev path. The repair scope is therefore the remaining controller constructor DI surface, not only FoundryController."
   }
 }
