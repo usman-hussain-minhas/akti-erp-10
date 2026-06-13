@@ -8,7 +8,7 @@
     "file_version": "v1.0",
     "created": "2026-06-13",
     "last_updated": "2026-06-13",
-    "status": "gate_3_ready_pending_human_approval",
+    "status": "gate_3_approved_except_w3_ffet_002_deferred",
     "document_type": "readiness_report",
     "scope": "Stage 0 Waves 2-5 FFET Gate 3 readiness package. Planning/control artifact only; no execution approval implied.",
     "ratifier": "Usman Hussain"
@@ -22,12 +22,31 @@
     "ffet_total": 12,
     "overlap_count": 0,
     "cycle_count": 0,
-    "flags_false": true
+    "flags_false": true,
+    "approved_execution_ffets": 11,
+    "deferred_ffets": 1
   },
   "wave_3_contract_risk_quarantined": {
     "ffet_id": "STAGE0-W3-FFET-002",
     "exact_file_count": 11,
     "requires_versioned_contract_change_review": true
   },
-  "readiness_verdict": "READY_FOR_HUMAN_GATE_3_REVIEW_NOT_EXECUTION"
+  "readiness_verdict": "GATE_3_APPROVED_FOR_11_OF_12_READY_FOR_EXECUTION",
+  "w3_ffet_002_deferral": {
+    "status": "deferred_to_stage2_contract_change_pack",
+    "sunset_condition": "renamed_or_compatibility_locked_in_stage2_runtime_integration_contract_change_pack",
+    "files": [
+      "packages/contracts/package.json",
+      "packages/contracts/phase_6c/workspace_messaging_and_collaboration/cross_module_channel_ref.module_manifest.contract.ts",
+      "packages/contracts/phase_6c/workspace_messaging_and_collaboration/e2e_encryption_boundary.module_manifest.contract.ts",
+      "packages/contracts/phase_6c/workspace_messaging_and_collaboration/membership_policy.module_manifest.contract.ts",
+      "packages/contracts/phase_6c/workspace_messaging_and_collaboration/mention_notification_evidence.module_manifest.contract.ts",
+      "packages/contracts/phase_6c/workspace_messaging_and_collaboration/message_attachment_file_ref.module_manifest.contract.ts",
+      "packages/contracts/phase_6c/workspace_messaging_and_collaboration/moderation_reporting.module_manifest.contract.ts",
+      "packages/contracts/phase_6c/workspace_messaging_and_collaboration/outbound_notification_gateway.module_manifest.contract.ts",
+      "packages/contracts/phase_6c/workspace_messaging_and_collaboration/private_channel_approval.module_manifest.contract.ts",
+      "packages/contracts/phase_6c/workspace_messaging_and_collaboration/workspace_message_search.module_manifest.contract.ts",
+      "packages/contracts/scripts/validate-access-core-contracts.mjs"
+    ]
+  }
 }

@@ -14,7 +14,7 @@
     "ratifier": "Usman Hussain"
   },
   "artifact_id": "wave_3_runtime_rename_ffet_registry_v1",
-  "status": "GATE_3_READY_PENDING_HUMAN_APPROVAL",
+  "status": "GATE_3_APPROVED_EXCEPT_W3_FFET_002_DEFERRED",
   "source_inventory": "docs/audits/rename_audits/esbla_v5_wave0_legacy_name_inventory_v1.json",
   "source_gate_2_plan": "docs/process/active/esbla_v5_steps_4_8_wave_gate_2_plan_v1.json",
   "execution_flags": {
@@ -240,14 +240,15 @@
         "ACTIVE_RUNTIME_RENAME_PLANNED_WAVE3"
       ],
       "rename_type": "display_label_only",
-      "contract_breaking_changes_allowed": false
+      "contract_breaking_changes_allowed": false,
+      "gate_3_execution_approved": true
     },
     {
       "ffet_id": "STAGE0-W3-FFET-002",
       "wave": 3,
       "seed_id": "seed_stage0_wave3_contract_identifier_analysis",
       "name": "Versioned contract-risk rename analysis",
-      "status": "gate_3_ready_pending_human_approval",
+      "status": "deferred_to_stage2_contract_change_pack",
       "execution_flags": {
         "ticket_generation_allowed": false,
         "ticket_pack_generation_allowed": false,
@@ -307,7 +308,8 @@
         "validation command output",
         "legacy hit before/after classification delta",
         "execution flags false confirmation",
-        "PR URL and merge commit after future execution approval"
+        "PR URL and merge commit after future execution approval",
+        "Stage 2 contract-change FFET reference before any semantic rename execution."
       ],
       "dependencies": [
         "STAGE0-W3-FFET-001"
@@ -317,7 +319,14 @@
       ],
       "rename_type": "semantic_contract_or_api_identifier",
       "contract_breaking_changes_allowed": false,
-      "requires_separate_versioned_contract_change_review": true
+      "requires_separate_versioned_contract_change_review": true,
+      "gate_3_execution_approved": false,
+      "deferral": {
+        "deferred_to": "Stage 2 runtime-integration versioned contract/package namespace migration pack",
+        "reason": "Semantic contract/package identifiers should move with runtime consumers to avoid double-touching contract surfaces and dead windows.",
+        "sunset_condition": "renamed_or_compatibility_locked_in_stage2_runtime_integration_contract_change_pack",
+        "execution_in_stage0_authorized": false
+      }
     },
     {
       "ffet_id": "STAGE0-W3-FFET-003",
@@ -386,12 +395,14 @@
         "PR URL and merge commit after future execution approval"
       ],
       "dependencies": [
-        "STAGE0-W3-FFET-002"
+        "STAGE0-W3-FFET-001"
       ],
       "source_inventory_classes": [
         "ACTIVE_VALIDATION_OR_TOOLING_RENAME_PLANNED_WAVE3"
       ],
-      "rename_type": "validation_or_tooling_reference"
+      "rename_type": "validation_or_tooling_reference",
+      "gate_3_execution_approved": true,
+      "w3_002_deferral_dependency_amendment": "Dependency retargeted from STAGE0-W3-FFET-002 to STAGE0-W3-FFET-001 because W3-002 is deferred to Stage 2."
     },
     {
       "ffet_id": "STAGE0-W3-FFET-004",
@@ -456,7 +467,20 @@
       "source_inventory_classes": [
         "TEMPORARILY_ACTIVE_LEGACY_OPERATING_FILE"
       ],
-      "agents_change_requires_separate_approval": true
+      "agents_change_requires_separate_approval": true,
+      "gate_3_execution_approved": true
     }
-  ]
+  ],
+  "gate_3_approval": {
+    "approved_ffets": [
+      "STAGE0-W3-FFET-001",
+      "STAGE0-W3-FFET-003",
+      "STAGE0-W3-FFET-004"
+    ],
+    "deferred_ffets": [
+      "STAGE0-W3-FFET-002"
+    ],
+    "approval_scope": "Stage 0 execution approved for Wave 3 display/tooling/operating transition only; semantic contract/package rename deferred.",
+    "execution_authorized_for_deferred_ffets": false
+  }
 }

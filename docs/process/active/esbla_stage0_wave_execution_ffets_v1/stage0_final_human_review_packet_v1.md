@@ -7,33 +7,19 @@ suite_version: v5.0
 file_version: v1.0
 created: 2026-06-13
 last_updated: 2026-06-13
-status: ready_for_human_gate_3_approval
+status: gate_3_approved_except_w3_ffet_002_deferred
 document_type: human_review_packet
-scope: Final human review packet for Stage 0 Waves 2-5 Gate 3 readiness. Planning/control artifact only; no execution approval implied.
+scope: Final human review packet updated for Gate 3 approval of 11 Stage 0 FFETs and W3-FFET-002 deferral.
 title: Esbla Spark - Stage 0 Final Human Review Packet v1
 ratifier: Usman Hussain
 ---
 
 # Esbla Spark - Stage 0 Final Human Review Packet v1
 
-Final status: `ESBLA_V5_RATIFIED_AND_STAGE_0_WAVES_2_5_GATE_3_READY_FOR_HUMAN_APPROVAL`
+Final status: `STAGE0_GATE3_APPROVED_FOR_11_OF_12_WITH_W3_FFET_002_DEFERRED_TO_STAGE2`
 
-The v5 suite is ratified internally, Wave 0 closure is verified, Wave 1 is ratified on main, and Waves 2-5 have exact-file FFET packs ready for human Gate 3 review.
+Approved for Stage 0 execution: `11` FFETs.
 
-This packet does not approve execution. A separate explicit human Gate 3 approval is required before any Wave 2 cleanup, Wave 3 runtime rename, Wave 4 filename rename, or Wave 5 final audit execution.
+Deferred: `STAGE0-W3-FFET-002`, which moves to the Stage 2 runtime-integration versioned contract/package namespace migration pack.
 
-## Run PRs
-
-| PR | Role |
-|---:|---|
-| `#389` | v5 ratification signature packet |
-| `#390` | Stage 0 Waves 2-5 FFET generation |
-| current PR | Independent Stage 0 Gate 3 readiness audit |
-
-## Remaining Approvals
-
-| Approval | Status |
-|---|---|
-| Stage 0 Waves 2-5 Gate 3 execution | pending human approval |
-| 6A-6C runtime integration execution | separate gate, not approved here |
-| Public activation counsel/external review | pending; blocks public activation only |
+No approval is implied for 6A-6C runtime integration or Stage 2 contract-change execution.

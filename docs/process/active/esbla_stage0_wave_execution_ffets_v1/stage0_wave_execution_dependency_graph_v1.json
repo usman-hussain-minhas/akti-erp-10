@@ -8,76 +8,104 @@
     "file_version": "v1.0",
     "created": "2026-06-13",
     "last_updated": "2026-06-13",
-    "status": "gate_3_ready_pending_human_approval",
-    "scope": "Stage 0 Waves 2-5 FFET Gate 3 readiness package. Planning/control artifact only; no execution approval implied.",
-    "ratifier": "Usman Hussain",
-    "document_type": "dependency_graph"
+    "status": "gate_3_approved_except_w3_ffet_002_deferred",
+    "document_type": "dependency_graph",
+    "scope": "Stage 0 Waves 2-5 FFET dependency graph with W3-FFET-002 deferred to Stage 2.",
+    "ratifier": "Usman Hussain"
   },
   "artifact_id": "stage0_wave_execution_dependency_graph_v1",
   "status": "PASS",
   "node_count": 12,
   "edge_count": 10,
   "cycle_count": 0,
+  "deferred_nodes": [
+    "STAGE0-W3-FFET-002"
+  ],
+  "approved_execution_nodes": [
+    "STAGE0-W2-FFET-001",
+    "STAGE0-W2-FFET-002",
+    "STAGE0-W2-FFET-003",
+    "STAGE0-W3-FFET-001",
+    "STAGE0-W3-FFET-003",
+    "STAGE0-W3-FFET-004",
+    "STAGE0-W4-FFET-001",
+    "STAGE0-W4-FFET-002",
+    "STAGE0-W4-FFET-003",
+    "STAGE0-W5-FFET-001",
+    "STAGE0-W5-FFET-002"
+  ],
   "nodes": [
     {
       "ffet_id": "STAGE0-W2-FFET-001",
       "wave": 2,
-      "seed_id": "seed_stage0_wave2_docs_archive_plan"
+      "seed_id": "seed_stage0_wave2_docs_archive_plan",
+      "status": "gate_3_ready_pending_human_approval"
     },
     {
       "ffet_id": "STAGE0-W2-FFET-002",
       "wave": 2,
-      "seed_id": "seed_stage0_wave2_active_review_resolution"
+      "seed_id": "seed_stage0_wave2_active_review_resolution",
+      "status": "gate_3_ready_pending_human_approval"
     },
     {
       "ffet_id": "STAGE0-W2-FFET-003",
       "wave": 2,
-      "seed_id": "seed_stage0_wave2_registry_refresh"
+      "seed_id": "seed_stage0_wave2_registry_refresh",
+      "status": "gate_3_ready_pending_human_approval"
     },
     {
       "ffet_id": "STAGE0-W3-FFET-001",
       "wave": 3,
-      "seed_id": "seed_stage0_wave3_display_label_runtime_rename"
+      "seed_id": "seed_stage0_wave3_display_label_runtime_rename",
+      "status": "gate_3_ready_pending_human_approval"
     },
     {
       "ffet_id": "STAGE0-W3-FFET-002",
       "wave": 3,
-      "seed_id": "seed_stage0_wave3_contract_identifier_analysis"
+      "seed_id": "seed_stage0_wave3_contract_identifier_analysis",
+      "status": "deferred_to_stage2_contract_change_pack"
     },
     {
       "ffet_id": "STAGE0-W3-FFET-003",
       "wave": 3,
-      "seed_id": "seed_stage0_wave3_validation_tooling_references"
+      "seed_id": "seed_stage0_wave3_validation_tooling_references",
+      "status": "gate_3_ready_pending_human_approval"
     },
     {
       "ffet_id": "STAGE0-W3-FFET-004",
       "wave": 3,
-      "seed_id": "seed_stage0_wave3_operating_doctrine_transition"
+      "seed_id": "seed_stage0_wave3_operating_doctrine_transition",
+      "status": "gate_3_ready_pending_human_approval"
     },
     {
       "ffet_id": "STAGE0-W4-FFET-001",
       "wave": 4,
-      "seed_id": "seed_stage0_wave4_active_doctrine_filename_rename"
+      "seed_id": "seed_stage0_wave4_active_doctrine_filename_rename",
+      "status": "gate_3_ready_pending_human_approval"
     },
     {
       "ffet_id": "STAGE0-W4-FFET-002",
       "wave": 4,
-      "seed_id": "seed_stage0_wave4_active_process_filename_rename"
+      "seed_id": "seed_stage0_wave4_active_process_filename_rename",
+      "status": "gate_3_ready_pending_human_approval"
     },
     {
       "ffet_id": "STAGE0-W4-FFET-003",
       "wave": 4,
-      "seed_id": "seed_stage0_wave4_registry_link_reconciliation"
+      "seed_id": "seed_stage0_wave4_registry_link_reconciliation",
+      "status": "gate_3_ready_pending_human_approval"
     },
     {
       "ffet_id": "STAGE0-W5-FFET-001",
       "wave": 5,
-      "seed_id": "seed_stage0_wave5_final_legacy_name_audit"
+      "seed_id": "seed_stage0_wave5_final_legacy_name_audit",
+      "status": "gate_3_ready_pending_human_approval"
     },
     {
       "ffet_id": "STAGE0-W5-FFET-002",
       "wave": 5,
-      "seed_id": "seed_stage0_wave5_final_registry_closure"
+      "seed_id": "seed_stage0_wave5_final_registry_closure",
+      "status": "gate_3_ready_pending_human_approval"
     }
   ],
   "edges": [
@@ -99,7 +127,7 @@
     },
     {
       "from": "STAGE0-W3-FFET-003",
-      "to": "STAGE0-W3-FFET-002"
+      "to": "STAGE0-W3-FFET-001"
     },
     {
       "from": "STAGE0-W3-FFET-004",
