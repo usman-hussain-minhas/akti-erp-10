@@ -12,9 +12,9 @@ metadata_standard: esbla_file_metadata_standard_v1
 ---
 # Phase 6A-6C Runtime Integration v2 Readiness Report
 
-Status: `PHASE_6A_6C_RUNTIME_INTEGRATION_V2_GATE_2_PACKAGE_READY_PENDING_INDEPENDENT_AUDIT`
+Status: `PHASE_6A_6C_RUNTIME_INTEGRATION_V2_GATE_3_READY_FOR_HUMAN_APPROVAL`
 
-This package is ready for an independent Gate-2 audit. It does not authorize Stage 2 execution.
+This package passed independent Gate-2 audit and is ready for human Gate 3 review. It does not authorize Stage 2 execution.
 
 ## Checks
 
