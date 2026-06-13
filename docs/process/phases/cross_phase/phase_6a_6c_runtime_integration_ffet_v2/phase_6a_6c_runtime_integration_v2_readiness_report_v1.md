@@ -12,7 +12,7 @@ metadata_standard: esbla_file_metadata_standard_v1
 ---
 # Phase 6A-6C Runtime Integration v2 Readiness Report
 
-Status: `PHASE_6A_6C_RUNTIME_INTEGRATION_V2_GATE_3_READY_FOR_HUMAN_APPROVAL`
+Status: `PHASE_6A_6C_RUNTIME_INTEGRATION_V2_GATE_3_EXECUTION_APPROVED`
 
 This package passed independent Gate-2 audit and is ready for human Gate 3 review. It does not authorize Stage 2 execution.
 
@@ -32,3 +32,9 @@ This package passed independent Gate-2 audit and is ready for human Gate 3 revie
 - Human Gate 3 approval after the independent audit lands.
 - Execution-time NestJS 11 re-verification through `S2-PREQ-001`.
 - Versioned contract/package namespace migration through `S2-CC-001` before runtime consumers.
+
+## Gate 3 execution approval
+
+Approved by: Usman Hussain on 2026-06-13.
+
+Execution is approved only for the RI v2 FFET queue and final visual audit listed in the gate manifest.
