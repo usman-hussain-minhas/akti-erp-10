@@ -7,17 +7,15 @@ suite_version: v5.0
 file_version: v1.0
 created: 2026-06-13
 last_updated: 2026-06-13
-status: gate_3_approved_except_w3_ffet_002_deferred
-document_type: independent_gate3_readiness_audit
-scope: Independent Stage 0 Gate 3 readiness audit with W3-FFET-002 deferred to Stage 2.
+status: gate_3_approved_archive_map_ready_pending_execution
+document_type: stage0_control_artifact
+scope: Stage 0 execution control artifact updated with W2-001 archive_move_map readiness.
 title: Esbla Spark - Stage 0 Gate 3 Readiness Audit v1
 ratifier: Usman Hussain
 ---
 
 # Esbla Spark - Stage 0 Gate 3 Readiness Audit v1
 
-Audit status: `PASS`
+Audit status: `PASS`. W2-001 archive map is ready; W3-FFET-002 remains deferred.
 
-Final status: `STAGE0_GATE3_APPROVED_FOR_11_OF_12_WITH_W3_FFET_002_DEFERRED_TO_STAGE2`
-
-Gate 3 approval is recorded for 11 approved FFETs. `STAGE0-W3-FFET-002` remains deferred and unauthorized for Stage 0 execution.
+Execution remains one FFET per PR. `STAGE0-W3-FFET-002` is not authorized for Stage 0 execution.
