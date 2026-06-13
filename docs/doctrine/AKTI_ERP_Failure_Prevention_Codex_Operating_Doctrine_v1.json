@@ -1,17 +1,21 @@
 {
   "document": {
-    "title": "AKTI ERP Failure Prevention & Codex Operating Doctrine",
-    "version": "1.4",
-    "status": "autonomous_execution_constants_committed",
+    "title": "Esbla Spark Failure Prevention & Codex Operating Doctrine",
+    "version": "1.5",
+    "status": "active_transition_esbla_v5",
     "created_on": "2026-05-22",
-    "owner": "AKTI leadership / Usman Minhas until formally delegated",
-    "purpose": "Prevent AKTI ERP from repeating ARI, AKTI OS, plugin, and ERP IV failure patterns by forcing planning discipline, source-of-truth hierarchy, Codex operating rules, CI enforcement, and delivery-first behavior. This revision preserves the original doctrine and adds post-Phase-2 autonomous-run lessons. Version 1.1 adds the Phase 6B ticketability correction: planning PRs must not create missing repo truth by changing code, schema, runtime, generated, package, contract, registry, migration, frontend, backend, or validation-script files. Version 1.2 adds the CI settling gate: after push, PR update, PR creation, or merge, Codex must poll transient GitHub CI/merge metadata before treating pending or unstable status as a real stop. Version 1.3 adds the FFET gate: final executable implementation tickets must be audited one-seed/sub-surface execution units, and only binding human approval may flip ticket-generation or execution flags. Version 1.4 commits reusable autonomous execution constants for FFET lifecycle, self-audit, bounded self-heal, PR workflow, CI settling, and human-only authorization flags while keeping phase-specific variables in active phase plans.",
+    "owner": "Usman Hussain",
+    "purpose": "Prevent Esbla Spark from repeating historical platform failure patterns by forcing planning discipline, source-of-truth hierarchy, Codex operating rules, CI enforcement, delivery-first behavior, FFET discipline, bounded autonomous execution, and human-only authorization gates. This v1.5 transition preserves historical failure evidence while aligning the active operating doctrine to the ratified Esbla v5 suite. Legacy AKTI references that remain in historical examples, path references, package names, env names, or transition records are not renamed here; their sunset is governed by Stage 0 Wave 4 filename work, Stage 2 contract/package/env migration, or explicit AGENTS.md transition approval.",
     "placement_recommendation": [
-      "Save this JSON as docs/doctrine/akti-erp-failure-prevention-codex-operating-doctrine.v1.json",
-      "Summarize the operational rules into AGENTS.md",
-      "Reference it in ADR-0002: Codex Operating Doctrine",
-      "Do not treat chat history as source of truth after this is committed"
-    ]
+      "Keep this legacy-named JSON temporarily active at docs/doctrine/AKTI_ERP_Failure_Prevention_Codex_Operating_Doctrine_v1.json until the approved Wave 4 filename/link normalization or successor-doctrine PR moves or replaces it.",
+      "Do not edit AGENTS.md from this W3-FFET-004 execution; AGENTS.md transition requires separate approval.",
+      "Reference the ratified Esbla v5 suite as the current doctrine bridge while executable repo truth remains authoritative until post-6F doc-as-source-of-truth activation.",
+      "Do not treat chat history as source of truth after this is committed."
+    ],
+    "company": "HAUTM",
+    "platform": "Esbla Spark",
+    "last_updated": "2026-06-13",
+    "transition_class": "temporarily_active_legacy_named_operating_file"
   },
   "one_sentence_doctrine": "Blueprint v1.2 is frozen. No v1.3 narrative blueprint will be produced. Phase 0 begins with enforceable repo artifacts, especially Prisma-derived contracts and Zod schemas. Codex must work through Plan Mode, AGENTS.md, small tickets, tests, CI, and reviews. Evidence supports delivery; it does not replace working software. The WhatsApp cost problem must be protected by a parallel CRM until Phase 2C is live.",
   "failure_diagnosis": {
@@ -99,12 +103,12 @@
     {
       "rank": 7,
       "source": "docs/doctrine/AKTI_ERP_Failure_Prevention_Codex_Operating_Doctrine_v1.json",
-      "authority": "Root Codex and failure-prevention operating doctrine"
+      "authority": "Temporarily active legacy-named root Codex and failure-prevention operating doctrine, transitioned to Esbla Spark v5 while awaiting approved successor rename/replacement."
     },
     {
       "rank": 8,
       "source": "docs/doctrine/AKTI_ERP_Ticket_Quality_Doctrine_v1.md",
-      "authority": "Specialized ticket-writing doctrine extending this operating doctrine"
+      "authority": "Specialized ticket-writing doctrine extending this operating doctrine; legacy-named successor transition remains tracked separately."
     },
     {
       "rank": 9,
@@ -1077,5 +1081,23 @@
         "Gate 2 audit passes"
       ]
     }
+  },
+  "stage0_v5_transition_control": {
+    "status": "active_transition",
+    "company": "HAUTM",
+    "platform": "Esbla Spark",
+    "ratified_suite": "Esbla Spark v5.0",
+    "file_class": "TEMPORARILY_ACTIVE_LEGACY_OPERATING_FILE",
+    "legacy_filename_retained": true,
+    "agents_md_touched_by_this_ffet": false,
+    "historical_content_rewrite_allowed": false,
+    "semantic_contract_or_package_rename_allowed": false,
+    "sunset_condition": "Replaced, renamed, or classified historical by the approved Wave 4 filename/link normalization or a separately approved AGENTS/doctrine transition PR.",
+    "surviving_legacy_reference_policy": [
+      "Historical failure examples and project lineage may retain legacy names as evidence.",
+      "Executable package, env, path, and contract identifiers remain governed by their own exact FFETs or Stage 2 migration packs.",
+      "No legacy reference in this file authorizes new AKTI-branded runtime behavior, public naming, product copy, package rename, env rename, or contract rename."
+    ],
+    "current_source_of_truth_bridge": "Executable repo truth, accepted ADRs, active controls, tests, and validation evidence remain authoritative over intended v5 doctrine until post-6F doc-as-source-of-truth activation."
   }
 }
