@@ -1,0 +1,185 @@
+{
+  "$metadata": {
+    "document_id": "s2_preq_001_nestjs_11_reverification_v1",
+    "status": "executed_evidence",
+    "created": "2026-06-13",
+    "updated": "2026-06-13",
+    "owner": "Usman Hussain"
+  },
+  "ffet_id": "S2-PREQ-001",
+  "seed": "nestjs_11_reverification_before_wiring",
+  "status": "PASS",
+  "executed_at": "2026-06-13",
+  "source_main_sha": "9e435898d66575964acc8f6571c91bde73be0a93",
+  "package_path": "apps/api/package.json",
+  "package_sha256": "0958c60296a43a34c6e05c72a2f8256611f19d09649fc54f73d0238fd9bb4c4e",
+  "nestjs_dependencies": {
+    "@nestjs/common": "^11.1.26",
+    "@nestjs/core": "^11.1.26",
+    "@nestjs/platform-express": "^11.1.26"
+  },
+  "current_verdict": "satisfied_for_stage2_runtime_wiring_start",
+  "validation_summary": {
+    "command_count": 11,
+    "failed_count": 0,
+    "commands": [
+      {
+        "command": "node -e \"const p=require('./apps/api/package.json'); for (const k of ['@nestjs/common','@nestjs/core','@nestjs/platform-express']) { if (!String(p.dependencies[k]||'').startsWith('^11.')) throw new Error(k+' is not NestJS 11'); }\"",
+        "exit_code": 0,
+        "started_at": "2026-06-13T15:16:59.905Z",
+        "ended_at": "2026-06-13T15:16:59.978Z"
+      },
+      {
+        "command": "pnpm install --frozen-lockfile",
+        "exit_code": 0,
+        "started_at": "2026-06-13T15:16:59.978Z",
+        "ended_at": "2026-06-13T15:17:01.203Z"
+      },
+      {
+        "command": "pnpm contracts:validate",
+        "exit_code": 0,
+        "started_at": "2026-06-13T15:17:01.203Z",
+        "ended_at": "2026-06-13T15:17:20.858Z"
+      },
+      {
+        "command": "pnpm --filter @akti/api typecheck",
+        "exit_code": 0,
+        "started_at": "2026-06-13T15:17:20.858Z",
+        "ended_at": "2026-06-13T15:17:27.100Z"
+      },
+      {
+        "command": "pnpm --filter @akti/api test",
+        "exit_code": 0,
+        "started_at": "2026-06-13T15:17:27.100Z",
+        "ended_at": "2026-06-13T15:18:15.031Z"
+      },
+      {
+        "command": "pnpm --filter @akti/web typecheck",
+        "exit_code": 0,
+        "started_at": "2026-06-13T15:18:15.031Z",
+        "ended_at": "2026-06-13T15:18:18.432Z"
+      },
+      {
+        "command": "pnpm --filter @akti/web test",
+        "exit_code": 0,
+        "started_at": "2026-06-13T15:18:18.432Z",
+        "ended_at": "2026-06-13T15:18:19.500Z"
+      },
+      {
+        "command": "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "exit_code": 0,
+        "started_at": "2026-06-13T15:18:19.500Z",
+        "ended_at": "2026-06-13T15:18:23.641Z"
+      },
+      {
+        "command": "pnpm registry:check",
+        "exit_code": 0,
+        "started_at": "2026-06-13T15:18:23.641Z",
+        "ended_at": "2026-06-13T15:18:31.637Z"
+      },
+      {
+        "command": "node scripts/quality/check_lower_snake_case_paths.mjs",
+        "exit_code": 0,
+        "started_at": "2026-06-13T15:18:31.637Z",
+        "ended_at": "2026-06-13T15:18:32.281Z"
+      },
+      {
+        "command": "git diff --check",
+        "exit_code": 0,
+        "started_at": "2026-06-13T15:18:32.281Z",
+        "ended_at": "2026-06-13T15:18:32.349Z"
+      }
+    ]
+  },
+  "validation_results": [
+    {
+      "command": "node -e \"const p=require('./apps/api/package.json'); for (const k of ['@nestjs/common','@nestjs/core','@nestjs/platform-express']) { if (!String(p.dependencies[k]||'').startsWith('^11.')) throw new Error(k+' is not NestJS 11'); }\"",
+      "exit_code": 0,
+      "started_at": "2026-06-13T15:16:59.905Z",
+      "ended_at": "2026-06-13T15:16:59.978Z",
+      "output_tail": ""
+    },
+    {
+      "command": "pnpm install --frozen-lockfile",
+      "exit_code": 0,
+      "started_at": "2026-06-13T15:16:59.978Z",
+      "ended_at": "2026-06-13T15:17:01.203Z",
+      "output_tail": "Scope: all 4 workspace projects\nLockfile is up to date, resolution step is skipped\nAlready up to date\n\n╭ Warning ─────────────────────────────────────────────────────────────────────╮\n│                                                                              │\n│   Ignored build scripts: esbuild.                                            │\n│   Run \"pnpm approve-builds\" to pick which dependencies should be allowed     │\n│   to run scripts.                                                            │\n│                                                                              │\n╰──────────────────────────────────────────────────────────────────────────────╯\n\nDone in 1s using pnpm v10.12.1\n"
+    },
+    {
+      "command": "pnpm contracts:validate",
+      "exit_code": 0,
+      "started_at": "2026-06-13T15:17:01.203Z",
+      "ended_at": "2026-06-13T15:17:20.858Z",
+      "output_tail": "\n> akti-erp@ contracts:validate /Volumes/UsmanWork/AKTI ERP 10\n> pnpm --filter @akti/contracts contracts:validate\n\n\n> @akti/contracts@0.0.0 contracts:validate /Volumes/UsmanWork/AKTI ERP 10/packages/contracts\n> node scripts/validate-contracts.mjs\n\nValidating entity-registry.schema.ts\nValidating module-manifest.schema.ts\nValidating screen-contract.schema.ts\nValidating scripts/validate-access-core-contracts.mjs\nAccess Core contract validation passed.\nValidating scripts/validate-engagement-gateway-lite-contracts.mjs\nEngagement Gateway Lite contract validation passed.\nValidating scripts/validate-lead-desk-contracts.mjs\nLead Desk contract validation passed.\nValidating scripts/validate-module-manifest-contracts.mjs\nValidating module manifest access-core.module-manifest.contract.ts\nValidating module manifest engagement-gateway-lite.module-manifest.contract.ts\nValidating module manifest internal-fixture.module-manifest.contract.ts\nValidating module manifest lead-desk-core.module-manifest.contract.ts\nValidated 4 module manifest contract file(s).\nValidating scripts/validate-screen-contracts.mjs\nPhase 1, Phase 2, and Phase 4B screen-contract validation passed.\n"
+    },
+    {
+      "command": "pnpm --filter @akti/api typecheck",
+      "exit_code": 0,
+      "started_at": "2026-06-13T15:17:20.858Z",
+      "ended_at": "2026-06-13T15:17:27.100Z",
+      "output_tail": "\n> @akti/api@0.0.0 typecheck /Volumes/UsmanWork/AKTI ERP 10/apps/api\n> pnpm exec tsc --noEmit -p tsconfig.json\n\n"
+    },
+    {
+      "command": "pnpm --filter @akti/api test",
+      "exit_code": 0,
+      "started_at": "2026-06-13T15:17:27.100Z",
+      "ended_at": "2026-06-13T15:18:15.031Z",
+      "output_tail": "\n> @akti/api@0.0.0 test /Volumes/UsmanWork/AKTI ERP 10/apps/api\n> pnpm --filter @akti/contracts build && pnpm exec tsx src/prisma/prisma-import-boundary.test.ts && pnpm exec tsx src/phase1-hardening/phase1-release-blockers.test.ts && pnpm exec tsx src/organization-setup/dto/create-organization-setup.dto.test.ts && pnpm exec tsx src/organization-setup/organization-setup.service.test.ts && pnpm exec tsx src/hierarchy/dto/hierarchy.dto.test.ts && pnpm exec tsx src/hierarchy/hierarchy-closure.service.test.ts && pnpm exec tsx src/hierarchy/hierarchy.controller.test.ts && pnpm exec tsx src/hierarchy/hierarchy.service.test.ts && pnpm exec tsx src/configuration/dto/configuration.dto.test.ts && pnpm exec tsx src/configuration/configuration.controller.test.ts && pnpm exec tsx src/configuration/configuration.service.test.ts && pnpm exec tsx src/platform-observability/audit-log.service.test.ts && pnpm exec tsx src/platform-observability/event-outbox.service.test.ts && pnpm exec tsx src/module-registry/module-registry.service.test.ts && pnpm exec tsx src/access-core/dto/access-core.dto.test.ts && pnpm exec tsx src/security/request-context.test.ts && pnpm exec tsx src/gatekeeper/gatekeeper-preflight.service.test.ts && pnpm exec tsx src/gatekeeper/gatekeeper.p5b-007e.test.ts && pnpm exec tsx src/gatekeeper/gatekeeper.p5b-008f.test.ts && pnpm exec tsx src/gatekeeper/gatekeeper.p5b-008g.test.ts && pnpm exec tsx src/foundry/foundry.p5b-012b.test.ts && pnpm exec tsx src/foundry/foundry.p5b-012c.test.ts && pnpm exec tsx src/foundry/foundry.p5b-013a.test.ts && pnpm exec tsx src/foundry/foundry.p5b-013b.test.ts && pnpm exec tsx src/foundry/foundry.p5b-013c.test.ts && pnpm exec tsx src/foundry/foundry.p5b-014a.test.ts && pnpm exec tsx src/foundry/foundry.p5b-014b.test.ts && pnpm exec tsx src/access-core/access-core.service.test.ts && pnpm exec tsx src/engagement-gateway/engagement-gateway.service.test.ts && (cd ../.. && pnpm exec tsx apps/api/src/lead-desk/lead-desk-scope-model-foundation.test.ts) && pnpm exec tsx src/lead-desk/lead-desk.service.test.ts\n\n\n> @akti/contracts@0.0.0 build /Volumes/UsmanWork/AKTI ERP 10/packages/contracts\n> pnpm exec tsc -p tsconfig.build.json\n\nprisma-import-boundary tests passed\nphase1-release-blockers tests passed\ncreate-organization-setup.dto tests passed\norganization-setup.service tests passed\nhierarchy.dto tests passed\nhierarchy-closure.service tests passed\nhierarchy.controller tests passed\nhierarchy.service tests passed\nconfiguration.dto tests passed\nconfiguration.controller tests passed\nconfiguration.service tests passed\naudit-log.service tests passed\nevent-outbox.service tests passed\nmodule-registry.service tests passed\naccess-core.dto tests passed\nrequest-context tests passed\ngatekeeper-preflight.service tests passed\nP5B-007e gatekeeper negative outcome tests passed.\nP5B-008f gatekeeper STOP_FOR_REVIEW immutability enforcement tests passed.\nP5B-008g gatekeeper STOP_FOR_REVIEW immutability negative tests passed.\nP5B-012b Foundry install execution tests passed.\nP5B-012c Foundry install evidence receipt tests passed.\nP5B-013a Foundry enable flow tests passed.\nP5B-013b Foundry disable flow tests passed.\nP5B-013c Foundry uninstall flow tests passed.\nP5B-014a Foundry update flow tests passed.\nP5B-014b Foundry rollback/recovery flow tests passed.\naccess-core.service tests passed\nengagement-gateway.service tests passed\nlead-desk-scope-model-foundation tests passed\nlead-desk.service tests passed\n"
+    },
+    {
+      "command": "pnpm --filter @akti/web typecheck",
+      "exit_code": 0,
+      "started_at": "2026-06-13T15:18:15.031Z",
+      "ended_at": "2026-06-13T15:18:18.432Z",
+      "output_tail": "\n> @akti/web@0.0.0 typecheck /Volumes/UsmanWork/AKTI ERP 10/apps/web\n> pnpm exec tsc --noEmit -p tsconfig.json\n\n"
+    },
+    {
+      "command": "pnpm --filter @akti/web test",
+      "exit_code": 0,
+      "started_at": "2026-06-13T15:18:18.432Z",
+      "ended_at": "2026-06-13T15:18:19.500Z",
+      "output_tail": "✔ Phase 4B session UX does not invent login OAuth or password flow (0.642317ms)\n✔ frontend no longer sends caller-controlled actor header (0.520428ms)\n✔ lead desk links do not expose actor_user_id query parameter (0.281762ms)\n✔ lead desk navigation does not propagate actor or organization through hrefs (0.371653ms)\n✔ lead desk screens do not hardcode tenant actor role or campus fixtures (0.497421ms)\n✔ lead desk screens include permission and degraded handling around api calls (0.219857ms)\n✔ /app route renders the Mission Control shell component (1.163212ms)\n✔ Mission Control shell contains required desktop and mobile regions (0.322021ms)\n✔ Mission Control shell uses session indicator and diagnostics boundary (0.216134ms)\n✔ Mission Control shell keeps later features as explicit placeholders without fake data (0.164542ms)\n✔ Mission Control shell delegates module list rendering to the read-only launcher (0.283241ms)\n✔ module launcher reads the existing module registry endpoint when configured (1.122862ms)\n✔ module launcher maps known Phase 2 modules to read-only shell surfaces (0.246648ms)\n✔ module launcher does not introduce module lifecycle or Foundry controls (0.191723ms)\n✔ Mission Control shell integrates the module launcher component (0.318329ms)\n✔ notification center renders bell badge drawer toast and empty shell states (1.259675ms)\n✔ notification shell remains a drawer region without a route (0.269742ms)\n✔ notification center excludes deferred communication semantics (0.225491ms)\n✔ session model declares the four approved Phase 4B states (1.096232ms)\n✔ six-step session setup path remains Advanced Diagnostics based (0.291023ms)\n✔ technical token entry is isolated from normal shell status (0.153121ms)\n✔ /app/settings route renders the Settings Control Panel (1.17996ms)\n✔ settings sections match the built-vs-placeholder table (0.404923ms)\n✔ settings uses exact Gatekeeper denial messages and no fake controls (0.352021ms)\n✔ settings integrates Advanced Diagnostics as the token technical surface (2.142808ms)\n✔ Mission Control and session status link to the contract-owned settings route (0.457726ms)\n✔ Tailwind global stylesheet is wired into the web app layout (1.096691ms)\n✔ shadcn setup exposes a button component import proof (0.257082ms)\n✔ components configuration records the Tailwind and shadcn direction (0.187747ms)\n✔ state UX baseline exposes reusable plain-English states (1.015728ms)\n✔ dashboard and settings apply shared state UX instead of raw errors (0.273993ms)\nℹ tests 52\nℹ suites 0\nℹ pass 52\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 462.448277\n"
+    },
+    {
+      "command": "pnpm exec prisma validate --schema prisma/schema.prisma",
+      "exit_code": 0,
+      "started_at": "2026-06-13T15:18:19.500Z",
+      "ended_at": "2026-06-13T15:18:23.641Z",
+      "output_tail": "The schema at prisma/schema.prisma is valid 🚀\nLoaded Prisma config from prisma.config.ts.\n\nPrisma schema loaded from prisma/schema.prisma.\n"
+    },
+    {
+      "command": "pnpm registry:check",
+      "exit_code": 0,
+      "started_at": "2026-06-13T15:18:23.641Z",
+      "ended_at": "2026-06-13T15:18:31.637Z",
+      "output_tail": "\n> akti-erp@ registry:check /Volumes/UsmanWork/AKTI ERP 10\n> node scripts/registry/check-entity-registry.mjs\n\nThe schema at prisma/schema.prisma is valid 🚀\nEntity Registry is up to date.\nLoaded Prisma config from prisma.config.ts.\n\nPrisma schema loaded from prisma/schema.prisma.\n"
+    },
+    {
+      "command": "node scripts/quality/check_lower_snake_case_paths.mjs",
+      "exit_code": 0,
+      "started_at": "2026-06-13T15:18:31.637Z",
+      "ended_at": "2026-06-13T15:18:32.281Z",
+      "output_tail": "  - docs/audits/archive/codex_review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-011/P5B1-011-summary.md (docs/audits/archive/codex_review/**)\n  - docs/audits/archive/codex_review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-011/P5B1-011-validation-summary.md (docs/audits/archive/codex_review/**)\n  - docs/audits/archive/codex_review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-012/P5B1-012-summary.md (docs/audits/archive/codex_review/**)\n  - docs/audits/archive/codex_review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-012/P5B1-012-validation-summary.md (docs/audits/archive/codex_review/**)\n  - docs/audits/archive/codex_review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-013/P5B1-013-validation-summary.md (docs/audits/archive/codex_review/**)\n  - docs/audits/archive/codex_review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-014/P5B1-014-validation-summary.md (docs/audits/archive/codex_review/**)\n  - docs/audits/archive/codex_review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-015/P5B1-015-validation-summary.md (docs/audits/archive/codex_review/**)\n  - docs/audits/archive/codex_review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-016/P5B1-016-validation-summary.md (docs/audits/archive/codex_review/**)\n  - docs/audits/archive/codex_review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-017/P5B1-017-summary.md (docs/audits/archive/codex_review/**)\n  - docs/audits/archive/codex_review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-017/P5B1-017-validation-summary.md (docs/audits/archive/codex_review/**)\n  - docs/audits/archive/codex_review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-018/P5B1-018-summary.md (docs/audits/archive/codex_review/**)\n  - docs/audits/archive/codex_review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-018/P5B1-018-validation-summary.md (docs/audits/archive/codex_review/**)\n  - docs/audits/archive/codex_review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-019/P5B1-019-summary.md (docs/audits/archive/codex_review/**)\n  - docs/audits/archive/codex_review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-019/P5B1-019-validation-summary.md (docs/audits/archive/codex_review/**)\n  - docs/audits/archive/codex_review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-020/P5B1-020-validation-summary.md (docs/audits/archive/codex_review/**)\n  - docs/audits/archive/codex_review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-021/P5B1-021-validation-summary.md (docs/audits/archive/codex_review/**)\n  - docs/audits/archive/codex_review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-022/P5B1-022-validation-summary.md (docs/audits/archive/codex_review/**)\n  - docs/audits/archive/codex_review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-023/P5B1-023-summary.md (docs/audits/archive/codex_review/**)\n  - docs/audits/archive/codex_review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-023/P5B1-023-validation-summary.md (docs/audits/archive/codex_review/**)\n  - docs/audits/archive/codex_review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-024/P5B1-024-validation-summary.md (docs/audits/archive/codex_review/**)\n  - docs/audits/archive/codex_review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-025/P5B1-025-summary.md (docs/audits/archive/codex_review/**)\n  - docs/audits/archive/codex_review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-025/P5B1-025-validation-summary.md (docs/audits/archive/codex_review/**)\n  - docs/audits/archive/codex_review/phase5b1-platform-experience-substrate/ticket-artifacts/P5B1-GATE/P5B1-GATE-summary.md (docs/audits/archive/codex_review/**)\n  - docs/audits/archive/codex_review/phase5c-frontend-excellence/final-audit/phase5c-closure-report.md (docs/audits/archive/codex_review/**)\n  - docs/audits/archive/codex_review/phase5c-frontend-excellence/final-audit/phase5c-commit-log.txt (docs/audits/archive/codex_review/**)\n  - docs/audits/archive/codex_review/phase5c-frontend-excellence/final-audit/phase5c-validation-summary.md (docs/audits/archive/codex_review/**)\n  - docs/audits/archive/codex_review/phase5c-frontend-excellence/final-external-audit/phase5c-checksums.sha256 (docs/audits/archive/codex_review/**)\n  - docs/audits/archive/codex_review/phase5c-frontend-excellence/final-external-audit/phase5c-commit-log.txt (docs/audits/archive/codex_review/**)\n  - docs/audits/archive/codex_review/phase5c-frontend-excellence/final-screenshots/screenshot-manifest.md (docs/audits/archive/codex_review/**)\n  - docs/audits/archive/codex_review/phase5c-frontend-excellence/P5C-000-baseline.md (docs/audits/archive/codex_review/**)\n  - docs/audits/archive/codex_review/phase5c-frontend-excellence/P5C-001-screenshot-acceptance-baseline.md (docs/audits/archive/codex_review/**)\n  - docs/audits/archive/codex_review/phase5c-frontend-excellence/P5C-022-theme-screenshot-criteria.md (docs/audits/archive/codex_review/**)\n  - docs/audits/archive/codex_review/phase5c-frontend-excellence/P5C-102-desktop-screenshot-acceptance.md (docs/audits/archive/codex_review/**)\n  - docs/audits/archive/codex_review/phase5c-frontend-excellence/P5C-103-mobile-screenshot-acceptance.md (docs/audits/archive/codex_review/**)\n  - docs/audits/archive/codex_review/phase5c-frontend-excellence/P5C-111-leakage-guard.md (docs/audits/archive/codex_review/**)\n  - docs/audits/archive/codex_review/phase5c-frontend-excellence/P5C-120-final-seed-matrix-audit.md (docs/audits/archive/codex_review/**)\n  - docs/audits/archive/codex_review/phase5c-frontend-excellence/P5C-121-ticket-pack-readiness-handoff.md (docs/audits/archive/codex_review/**)\n  - docs/audits/archive/codex_review/phase5c-frontend-excellence/P5C-122-spark-genesis-ticket-pack-audit-readiness.md (docs/audits/archive/codex_review/**)\nPASS: no new unapproved hyphenated tracked paths\n"
+    },
+    {
+      "command": "git diff --check",
+      "exit_code": 0,
+      "started_at": "2026-06-13T15:18:32.281Z",
+      "ended_at": "2026-06-13T15:18:32.349Z",
+      "output_tail": ""
+    }
+  ],
+  "self_heal_attempts_used": 1,
+  "self_heal_notes": [
+    "Initial shell recorder used invalid parameter expansion while validation commands were passing; reran the same ladder with a Node recorder before committing evidence."
+  ],
+  "scope_confirmation": {
+    "runtime_files_changed": false,
+    "package_files_changed": false,
+    "lockfile_changed": false,
+    "schema_or_migration_changed": false,
+    "frontend_files_changed": false
+  },
+  "next_required_ffet": "S2-CC-001"
+}
