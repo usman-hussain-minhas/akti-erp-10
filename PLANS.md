@@ -1,6 +1,21 @@
-# AKTI ERP Roadmap
+---
+company: HAUTM
+platform: Esbla Spark
+author: Usman Hussain
+owner: Usman Hussain
+suite_version: v5.0
+file_version: v2.0
+created: 2026-06-13
+origin_created: 2026-06-13
+last_updated: 2026-06-13
+status: active
+document_type: roadmap_summary
+scope: Human-readable Esbla Spark roadmap bridge after v5 ratification; executable repo truth and ratified controls remain authoritative.
+---
 
-Status: phase_5a_merged_validated_phase_5b_control_doc_planning_next
+# Esbla Spark Roadmap Bridge
+
+Status: v5_ratified_stage0_execution_in_progress
 
 ## Current State
 
@@ -21,16 +36,21 @@ Status: phase_5a_merged_validated_phase_5b_control_doc_planning_next
 - Phase 4 proved operational readiness, clean DB/bootstrap, validation, audit packaging, and controlled demo/staging proof.
 - Phase 4B completed the frontend operational experience and Mission Control shell readiness layer.
 - Phase 5A completed the policy/ADR/standard/checklist/control layer before Foundry implementation.
-- Phase 5B is the next human-reviewed control-doc planning target; Phase 5B execution, Foundry runtime, module installer runtime, and business-module work have not started.
+- Phase 5B, Phase 5C, Phase 6A, Phase 6B, and Phase 6C have merged planning and/or implementation evidence in the repository.
+- Phase 6A through Phase 6C seed FFET work is complete as planning/runtime-seed evidence, but runtime wiring remains deferred to the separately approved 6A-6C Runtime Integration FFET package.
+- Esbla v5 is ratified internally, with Stage 0 Waves 2-5 executing under Gate 3 approval except the deferred semantic contract/package identifier rename FFET.
+- Public activation remains blocked where counsel or named external review is required by the ratified v5 packet.
 
 ## Authority Notice
 
-`PLANS.md` is a human-readable roadmap summary. It does not override Prisma, contracts, module manifests, generated registry, ADRs, `AGENTS.md`, active process docs, tests, validation evidence, or closure packages.
+`PLANS.md` is a human-readable roadmap bridge. It does not override Prisma, contracts, module manifests, generated registry, accepted ADRs, active process docs, ratified doctrine, tests, validation evidence, or closure packages.
 
-The strategic roadmap reference is:
+Current strategic references:
 
 ```text
-docs/process/AKTI_ERP_Master_Roadmap_Reference_v2.md
+docs/blueprints/current/esbla_spark_blueprint_master_plan_v3_1.md
+docs/ratification/esbla_spark_v5_0/RATIFICATION_Esbla_Spark_v5_0.md
+docs/ratification/esbla_spark_v5_0/decision_record_v5_0.json
 ```
 
 ## Corrected Roadmap
@@ -45,13 +65,17 @@ docs/process/AKTI_ERP_Master_Roadmap_Reference_v2.md
 | Phase 4A | Local Demo / Staging Environment Stabilization | Complete and merged |
 | Phase 4B | Frontend Operational Experience & Mission Control Shell | Complete and merged |
 | Phase 5A | Platform Policy Pack, Governance and Gatekeeper Rulebook | Complete, validated, and merged |
-| Phase 5B | Gatekeeper-Governed Module Foundry & Core Platform Completion | Next control-doc planning target; execution not started |
-| Phase 5C | Frontend Excellence & UI Platform Maturity | After Phase 5B merge/approval |
-| Phase 6A | Golden Module Certification | After Phase 5B/5C foundation is ready |
-| Phase 6B+ | Business Modules | After Foundry/module rules and Golden Module certification exist |
-| Phase 6B or later | Evidence Foundation from Real Module Events | After real modules emit enough evidence |
-| Phase 7 | Intelligence Core / Predictability / Platform AI Operations | After Foundry and real module evidence exist |
-| Phase 8 | Scale / Marketplace / Enterprise | Future maturity target |
+| Phase 5B | Gatekeeper-Governed Module Foundry & Core Platform Completion | Completed in repository history |
+| Phase 5C | Frontend Excellence & UI Platform Maturity | Completed in repository history |
+| Phase 6A | Golden Module Certification | Seed/runtime-control work complete; wiring deferred |
+| Phase 6B | Business Modules | Seed/runtime-control work complete; wiring deferred |
+| Phase 6C | Workspace and Collaboration Modules | Seed/runtime-control work complete; wiring deferred |
+| Phase 6D | Website / Public Presence foundation | Planned under v5 controls |
+| Phase 6E | Campaigns folded into communications scope | Planned under v5 controls |
+| Phase 6F | Final pre-doc-as-source-of-truth closure | Planned under v5 controls |
+| Phase 7 | Website Builder / Agency Handoff | Future post-6F phase |
+| Phase 8 | App Builder | Future post-6F phase |
+| Phase 9 | Marketplace / Trust Layer | Future post-6F phase |
 
 ## Module Classification
 
@@ -59,7 +83,7 @@ docs/process/AKTI_ERP_Master_Roadmap_Reference_v2.md
 - Engagement Gateway Lite is a shared platform module.
 - WhatsApp stub is an integration adapter and remains non-production.
 
-## Accepted Deferrals After Phase 4
+## Active Deferrals
 
 - Production deployment.
 - Production auth/session provider and credential provisioning.
@@ -68,12 +92,12 @@ docs/process/AKTI_ERP_Master_Roadmap_Reference_v2.md
 - DB-level RLS policies and tenant transaction context.
 - Distributed/infrastructure-level rate limiting.
 - Production VPS/cloud deployment, if desired, remains a separately approved production decision.
-- Frontend noob-proof/operator-ready experience is a Phase 4B input before Foundry/module scale.
+- 6A-6C runtime wiring is deferred to the Runtime Integration FFET package.
+- Semantic contract/package identifier rename is deferred to the Stage 2 versioned contract-change pack.
+- Public Esbla activation remains blocked where counsel or named external review is required.
 
-These are documented deferrals, not hidden Phase 4 blockers.
+These are documented deferrals, not hidden blockers.
 
 ## Next Step
 
-Create Phase 5B control docs and ticket pack from the merged Phase 5A policy, ADR, standard, checklist, contract, Foundry requirements, and readiness handoff sources.
-
-Do not start Phase 5B execution, Foundry runtime, module installer runtime, runtime AI work, production auth, production deployment, or business-module implementation from this summary. Phase 5C frontend excellence, Phase 6A Golden Module certification, Phase 6B+ business modules, production deployment, production auth expansion, runtime AI, marketplace, external adapters, and production integrations remain future/deferred unless separately approved.
+Continue Stage 0 execution from the approved FFET queue. Do not start 6A-6C runtime integration, Stage 2 contract-change execution, production deployment, public activation, or future phase implementation from this summary.
