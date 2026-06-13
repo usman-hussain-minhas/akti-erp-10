@@ -9,15 +9,20 @@ created: 2026-06-13
 last_updated: 2026-06-13
 status: active
 document_type: runtime_integration_ffet_registry
-scope: 6A-6C Runtime Integration FFET registry for Gate 2.
+scope: 6A-6C Runtime Integration FFET registry status correction for Stage 2 rebaseline.
 title: Phase 6A-6C Runtime Integration FFET Registry v1
 ratifier: Usman Hussain
 ---
 
 # Phase 6A-6C Runtime Integration FFET Registry v1
 
-**Status:** `PHASE_6A_6C_RUNTIME_INTEGRATION_FFET_GATE_2_READY_FOR_HUMAN_REVIEW`
+**Status:** `BLOCKED_PENDING_STAGE_1_EXECUTION_AND_STAGE2_REAUDIT`
 
-This registry defines 14 exact-file runtime-integration FFETs. It is Gate-2 planning only; all execution flags remain false.
+This registry remains planning evidence only. It is not ready for Stage 2 Gate 3 review because Stage 1 amendment FFET execution has not completed and the package must be rebaselined or re-audited afterward.
 
-Every FFET must implement maximum concrete capability within its exact approved file scope during a later Gate 4 run. No minimal, stale, placeholder, scaffold-only, or metadata-only runtime FFET is valid unless explicitly docs/control-only.
+Known Stage 2 blockers:
+- STAGE0-W3-FFET-002: Deferred semantic contract/package identifier rename for the 11 contract manifests from Stage 0 Wave 3. Resolution: Create and execute a Stage 2 versioned contract-change pack before or alongside runtime wiring consumers. Status: open_deferred_to_stage2.
+- NESTJS_11_PREREQUISITE: NestJS 11 prerequisite is currently satisfied in apps/api/package.json with @nestjs/common, @nestjs/core, and @nestjs/platform-express at ^11.1.26. Resolution: Re-verify package metadata and native validation before Stage 2 runtime wiring begins. Status: satisfied_pending_stage2_reverification.
+- STAGE1_REBASELINE_REQUIRED: Runtime integration package was generated before Stage 1 amendment FFET execution and must be regenerated or re-audited against the post-Stage-1 artifact set. Resolution: After Stage 1 closure, rebaseline the RI package and run a fresh independent Gate-2 audit before any RI Gate 3 request. Status: open_until_stage1_closure.
+
+All execution flags remain false.
