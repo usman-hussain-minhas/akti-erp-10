@@ -2,13 +2,13 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-RUNTIME_DIR="${AKTI_LOCAL_RUNTIME_DIR:-/tmp/akti-erp-phase4a-local}"
-DB_HOST="${AKTI_LOCAL_DB_HOST:-127.0.0.1}"
-DB_PORT="${AKTI_LOCAL_DB_PORT:-55432}"
-DB_NAME="${AKTI_LOCAL_DB_NAME:-akti_phase4a_local}"
+RUNTIME_DIR="${ESBLA_LOCAL_RUNTIME_DIR:-/tmp/esbla-spark-phase4a-local}"
+DB_HOST="${ESBLA_LOCAL_DB_HOST:-127.0.0.1}"
+DB_PORT="${ESBLA_LOCAL_DB_PORT:-55432}"
+DB_NAME="${ESBLA_LOCAL_DB_NAME:-esbla_phase4a_local}"
 
 case "$DB_HOST:$DB_PORT/$DB_NAME" in
-  127.0.0.1:55432/akti_phase4a_local|localhost:55432/akti_phase4a_local) ;;
+  127.0.0.1:55432/esbla_phase4a_local|localhost:55432/esbla_phase4a_local) ;;
   *)
     echo "local-reset-db failed: refusing to reset non-Phase-4A database target $DB_HOST:$DB_PORT/$DB_NAME" >&2
     exit 1
@@ -25,4 +25,4 @@ fi
 
 rm -rf "$RUNTIME_DIR/pgdata"
 
-echo "AKTI ERP Phase 4A local database reset is complete for $DB_HOST:$DB_PORT/$DB_NAME."
+echo "Esbla Spark Phase 4A local database reset is complete for $DB_HOST:$DB_PORT/$DB_NAME."

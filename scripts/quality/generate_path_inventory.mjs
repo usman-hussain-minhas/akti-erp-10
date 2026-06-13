@@ -90,11 +90,11 @@ mkdirSync(dirname(OUTPUT_JSON), { recursive: true });
 writeFileSync(OUTPUT_JSON, `${JSON.stringify(inventory, null, 2)}\n`);
 
 const markdown = [
-  "# AKTI Core v0.0.2 Path Migration Inventory",
+  "# Esbla Spark Core v0.0.2 Path Migration Inventory",
   "",
   "Status: ACTIVE_LEGACY_BASELINE",
   "",
-  "This inventory captures tracked hyphenated paths that existed when PR 31 introduced the lower_snake_case path checker. It is a guardrail baseline, not permission to create new hyphenated AKTI-generated paths.",
+  "This inventory captures tracked hyphenated paths that existed when PR 31 introduced the lower_snake_case path checker. It is a guardrail baseline, not permission to create new hyphenated generated paths.",
   "",
   "## Summary",
   "",

@@ -51,14 +51,14 @@ function validateJsonWithContract(schemaName, filePath) {
   const code = [
     "import { readFileSync } from 'node:fs';",
     `import { ${schemaName} } from './entity-registry.schema.ts';`,
-    `${schemaName}.parse(JSON.parse(readFileSync(process.env.AKTI_REGISTRY_JSON_PATH, 'utf8')));`,
+    `${schemaName}.parse(JSON.parse(readFileSync(process.env.ESBLA_REGISTRY_JSON_PATH, 'utf8')));`,
   ].join(" ");
 
   const result = spawnSync("pnpm", ["--filter", "@akti/contracts", "exec", "tsx", "-e", code], {
     cwd: repoRoot,
     env: {
       ...process.env,
-      AKTI_REGISTRY_JSON_PATH: filePath,
+      ESBLA_REGISTRY_JSON_PATH: filePath,
     },
     stdio: "inherit",
     shell: false,
@@ -426,7 +426,7 @@ export function writeEntityRegistry(outputPath = generatedRegistryPath) {
 
 export function renderEntityRegistry() {
   const rendered = stableJson(buildEntityRegistry());
-  const tempDir = mkdtempSync(join(tmpdir(), "akti-entity-registry-"));
+  const tempDir = mkdtempSync(join(tmpdir(), "esbla-entity-registry-"));
   const tempFile = join(tempDir, "entity-registry.generated.json");
 
   try {

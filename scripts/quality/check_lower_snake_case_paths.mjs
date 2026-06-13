@@ -126,7 +126,7 @@ for (const path of trackedPaths) {
   violations.push(path);
 }
 
-console.log("AKTI lower_snake_case path policy check");
+console.log("Esbla Spark lower_snake_case path policy check");
 console.log(`Total tracked paths: ${trackedPaths.length}`);
 console.log(`Violation count: ${violations.length}`);
 console.log(`Exception count: ${exceptionMatches.length}`);

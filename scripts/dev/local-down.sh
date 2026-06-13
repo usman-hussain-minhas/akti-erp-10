@@ -2,12 +2,12 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-RUNTIME_DIR="${AKTI_LOCAL_RUNTIME_DIR:-/tmp/akti-erp-phase4a-local}"
+RUNTIME_DIR="${ESBLA_LOCAL_RUNTIME_DIR:-/tmp/esbla-spark-phase4a-local}"
 PID_DIR="$RUNTIME_DIR/pids"
-DB_PORT="${AKTI_LOCAL_DB_PORT:-55432}"
-API_PORT="${AKTI_LOCAL_API_PORT:-3101}"
-WEB_PORT="${AKTI_LOCAL_WEB_PORT:-3003}"
-SCREEN_PREFIX="${AKTI_LOCAL_SCREEN_PREFIX:-akti-phase4a-local}"
+DB_PORT="${ESBLA_LOCAL_DB_PORT:-55432}"
+API_PORT="${ESBLA_LOCAL_API_PORT:-3101}"
+WEB_PORT="${ESBLA_LOCAL_WEB_PORT:-3003}"
+SCREEN_PREFIX="${ESBLA_LOCAL_SCREEN_PREFIX:-esbla-phase4a-local}"
 
 stop_screen() {
   local session_name="$1"
@@ -74,4 +74,4 @@ if lsof -nP -iTCP:"$DB_PORT" -sTCP:LISTEN >/dev/null 2>&1; then
   exit 1
 fi
 
-echo "AKTI ERP Phase 4A local runtime is down."
+echo "Esbla Spark Phase 4A local runtime is down."

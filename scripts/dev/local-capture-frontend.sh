@@ -2,12 +2,12 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-ARTIFACT_DIR="${AKTI_LOCAL_CAPTURE_ARTIFACT_DIR:-codex-review/phase4a-local-demo-staging/ticket-artifacts/P4A-009}"
+ARTIFACT_DIR="${ESBLA_LOCAL_CAPTURE_ARTIFACT_DIR:-docs/audits/local/phase4a_local_demo_staging/ticket_artifacts/p4a_009}"
 SCREENSHOT_DIR="$ARTIFACT_DIR/screenshots"
-API_PORT="${AKTI_LOCAL_API_PORT:-3101}"
-WEB_PORT="${AKTI_LOCAL_WEB_PORT:-3003}"
-API_URL="${AKTI_LOCAL_API_URL:-http://127.0.0.1:${API_PORT}}"
-WEB_URL="${AKTI_LOCAL_WEB_URL:-http://127.0.0.1:${WEB_PORT}}"
+API_PORT="${ESBLA_LOCAL_API_PORT:-3101}"
+WEB_PORT="${ESBLA_LOCAL_WEB_PORT:-3003}"
+API_URL="${ESBLA_LOCAL_API_URL:-http://127.0.0.1:${API_PORT}}"
+WEB_URL="${ESBLA_LOCAL_WEB_URL:-http://127.0.0.1:${WEB_PORT}}"
 
 ROUTES=(
   "/"
@@ -32,7 +32,7 @@ require_command() {
 
 ensure_runtime_up() {
   if curl -fsS "$API_URL/health" >/dev/null 2>&1 && curl -fsS "$WEB_URL/" >/dev/null 2>&1; then
-    echo "Using existing AKTI ERP Phase 4A local runtime."
+    echo "Using existing Esbla Spark Phase 4A local runtime."
     return
   fi
 
@@ -94,7 +94,7 @@ main() {
   write_browser_url_log
   write_capture_matrix
 
-  echo "AKTI ERP Phase 4A frontend capture support is ready."
+  echo "Esbla Spark Phase 4A frontend capture support is ready."
   echo "Browser URL: $WEB_URL"
   echo "Screenshot directory: $SCREENSHOT_DIR"
   echo "Route matrix: $ARTIFACT_DIR/screenshot-capture-matrix.md"
