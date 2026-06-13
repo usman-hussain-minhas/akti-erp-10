@@ -37,6 +37,7 @@
       },
       "merge_rationale": null,
       "files_expected_to_change": [
+        ".path_policy_exceptions.json",
         "codex-review/apps/training/crm/v0_0_1/index.md",
         "codex-review/core/v0_0_1/index.md",
         "codex-review/core/v0_0_2/index.md",
@@ -1169,7 +1170,7 @@
         "docs/process/v4_1/phase_6c/v4/test_validation_command_matrix_v1.json",
         "docs/process/v4_1/phase_zero_trust_mechanical_audit_v1.md"
       ],
-      "exact_file_count": 1131,
+      "exact_file_count": 1132,
       "maximum_concrete_capability_within_scope": "Execute the full concrete wave capability authorized by this FFET, not a placeholder or metadata-only substitute, while staying inside the exact listed files.",
       "control_or_runtime_mcr": "All 1,131 W2-001 sources are archived path-only according to archive_move_map, with byte-preservation evidence for historical artifacts and zip artifacts moved without content mutation.",
       "validation_commands": [
@@ -1211,7 +1212,8 @@
         "execution flags false confirmation",
         "PR URL and merge commit after future execution approval",
         "archive_move_map audit output before W2-001 execution",
-        "byte-preservation manifest after W2-001 execution"
+        "byte-preservation manifest after W2-001 execution",
+        "validator pointer update evidence for .path_policy_exceptions.json"
       ],
       "dependencies": [],
       "source_inventory_classes": [
@@ -11415,7 +11417,17 @@
         "unmapped_source_count": 0,
         "duplicate_target_count": 0,
         "deterministic_rule_for_docs_process_core": "docs/process/core/** -> docs/process/archive/old_process_flat_files/core/**"
-      }
+      },
+      "validator_pointer_updates": [
+        {
+          "file": ".path_policy_exceptions.json",
+          "field": "legacy_baseline.path",
+          "old_path": "docs/process/core/v0_0_2/path_migration_inventory.json",
+          "new_path": "docs/process/archive/old_process_flat_files/core/v0_0_2/path_migration_inventory.json",
+          "reason": "Path-policy checker baseline moved by W2-001 archive map; update is a deterministic validator pointer self-heal, not content mutation."
+        }
+      ],
+      "self_heal_attempts_used": 1
     },
     {
       "ffet_id": "STAGE0-W2-FFET-002",
@@ -11565,5 +11577,14 @@
     "duplicate_target_count": 0,
     "execution_authorized_for_w2_001": true,
     "w3_ffet_002_deferred": true
+  },
+  "w2_001_execution_self_heal": {
+    "status": "applied",
+    "self_heal_attempts_used": 1,
+    "validator_pointer_update": {
+      "file": ".path_policy_exceptions.json",
+      "old_path": "docs/process/core/v0_0_2/path_migration_inventory.json",
+      "new_path": "docs/process/archive/old_process_flat_files/core/v0_0_2/path_migration_inventory.json"
+    }
   }
 }
