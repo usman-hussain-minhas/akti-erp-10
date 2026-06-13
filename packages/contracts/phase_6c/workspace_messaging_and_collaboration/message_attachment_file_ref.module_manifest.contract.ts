@@ -2,6 +2,10 @@ export const PHASE_6C_MESSAGE_ATTACHMENT_FILE_REF_MODULE_MANIFEST = {
   seed_id: "seed_6c_061_message_attachment_file_ref",
   component_id: "6C.05",
   source_system: "PHASE_6C_RUNTIME_FFET",
+  contract_namespace: "esbla.phase_6c.workspace_messaging_and_collaboration",
+  contract_export_subpath: "./phase-6c-workspace-message-attachment-file-ref-module-manifest",
+  contract_change_id: "S2-CC-001",
+  package_namespace_compatibility: "workspace_package_name_compatibility_locked",
   capability: "message_attachment_file_ref",
   capability_implementation_allowed: true,
   runtime_behavior_authorized: true,
@@ -43,3 +47,5 @@ export const PHASE_6C_MESSAGE_ATTACHMENT_FILE_REF_MODULE_MANIFEST = {
     "git diff --check",
   ],
 } as const;
+
+export const messageAttachmentFileRefModuleManifest = PHASE_6C_MESSAGE_ATTACHMENT_FILE_REF_MODULE_MANIFEST;
