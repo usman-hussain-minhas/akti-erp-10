@@ -1,0 +1,172 @@
+{
+  "$metadata": {
+    "document_id": "phase_6a_6c_runtime_integration_v2_repair_ffet_register_v1",
+    "status": "stage_2_repair_ffet_control_artifact",
+    "created": "2026-06-13",
+    "updated": "2026-06-13",
+    "owner": "Usman Hussain"
+  },
+  "register_id": "phase_6a_6c_runtime_integration_v2_repair_ffet_register_v1",
+  "status": "STAGE_2_FINAL_TARGET_REPAIR_FFET_SEATED_FOR_EXECUTION",
+  "source_blocker": {
+    "audit_id": "stage2_runtime_visual_audit_v1",
+    "audit_path": "docs/audits/stage2_runtime_visual_audit/stage2_runtime_visual_audit_v1.json",
+    "blocker_status": "VISUAL_AUDIT_BLOCKED_RUNTIME_ENDPOINTS_RETURN_500",
+    "blocked_final_status": "PHASE_6A_6C_RUNTIME_INTEGRATION_EXECUTED_BUT_NOT_VISUALLY_VERIFIED",
+    "observed_failures": [
+      {
+        "endpoint": "/health",
+        "controller": "AppController",
+        "failure": "TypeError: Cannot read properties of undefined (reading 'getHealth') at AppController.getHealth"
+      },
+      {
+        "endpoint": "/platform/phase-6a/runtime/status",
+        "controller": "Phase6AController",
+        "failure": "TypeError: Cannot read properties of undefined (reading 'getRuntimeCapabilityStatus') at Phase6AController.getRuntimeStatus"
+      },
+      {
+        "endpoint": "/platform/phase-6b/runtime/status",
+        "controller": "Phase6BController",
+        "failure": "TypeError: Cannot read properties of undefined (reading 'getRuntimeCapabilityStatus') at Phase6BController.getRuntimeStatus"
+      },
+      {
+        "endpoint": "/platform/phase-6c/runtime/status",
+        "controller": "Phase6CController",
+        "failure": "TypeError: Cannot read properties of undefined (reading 'getRuntimeCapabilityStatus') at Phase6CController.getRuntimeStatus"
+      }
+    ]
+  },
+  "approval_boundary": {
+    "approved_by": "Usman Hussain",
+    "approved_on": "2026-06-13",
+    "approval_scope": [
+      "S2-REPAIR-001 controller dependency-injection repair",
+      "final runtime visual audit rerun"
+    ],
+    "non_authorizations": [
+      "dependency additions",
+      "package or lockfile edits",
+      "schema or migration edits",
+      "generated-file edits",
+      "route/API response-shape changes",
+      "new frontend screens",
+      "invented permissions, providers, ADLs, or business rules"
+    ]
+  },
+  "repair_ffets": [
+    {
+      "ffet_id": "S2-REPAIR-001",
+      "stage": "stage_2_runtime_integration_v2_final_target_repair",
+      "seed": "controller_dependency_injection_repair",
+      "name": "Repair controller dependency injection for final visual audit endpoints",
+      "status": "GATE_3_EXECUTION_APPROVED_PENDING_EXECUTION",
+      "execution_flags": {
+        "ticket_generation_allowed": false,
+        "ticket_pack_generation_allowed": false,
+        "execution_authorized": true
+      },
+      "exact_files": [
+        "apps/api/src/app.controller.ts",
+        "apps/api/src/phase_6a/phase_6a.controller.ts",
+        "apps/api/src/phase_6b/phase_6b.controller.ts",
+        "apps/api/src/phase_6c/phase_6c.controller.ts",
+        "apps/api/src/phase_6a_6c_runtime/phase_runtime_controller_injection.test.ts"
+      ],
+      "maximum_concrete_capability_within_scope": "Use explicit Nest injection tokens in the four controllers proven blocked by the final visual audit and add a direct API test proving controller metadata and method behavior without changing routes, services, modules, packages, schema, frontend, or business behavior.",
+      "runtime_mcr": "The committed API start path can serve /health and /platform/phase-6a|6b|6c/runtime/status without the 500 dependency-injection failures recorded by the visual audit.",
+      "dependencies": [
+        "S2-RI-014",
+        "stage2_runtime_visual_audit_v1"
+      ],
+      "validation_commands": [
+        "TSX_TSCONFIG_PATH=apps/api/tsconfig.json pnpm exec tsx apps/api/src/phase_6a_6c_runtime/phase_runtime_controller_injection.test.ts",
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check",
+        "node scripts/quality/check_lower_snake_case_paths.mjs",
+        "git diff --check"
+      ],
+      "runtime_smoke_commands": [
+        "AKTI_AUTH_SESSION_SECRET=local_stage2_visual_secret_12345 AKTI_CORS_ALLOWED_ORIGINS=http://localhost:3000 DATABASE_URL='postgresql://postgres:postgres@localhost:5432/akti_stage2_visual?schema=public' pnpm --filter @akti/api start:dev",
+        "curl http://localhost:3001/health",
+        "curl http://localhost:3001/platform/phase-6a/runtime/status",
+        "curl http://localhost:3001/platform/phase-6b/runtime/status",
+        "curl http://localhost:3001/platform/phase-6c/runtime/status"
+      ],
+      "stop_conditions": [
+        "required edit outside exact files",
+        "dependency addition required",
+        "package or lockfile edit required",
+        "schema or migration edit required",
+        "generated-file edit required",
+        "route/API response-shape change required",
+        "new frontend screen required",
+        "business-rule, ADL, provider, API, or permission decision required",
+        "validation failure after 3 self-heal attempts",
+        "runtime smoke still returns the recorded 500 injection failure after allowed repairs"
+      ],
+      "rollback_notes": "Revert the S2-REPAIR-001 PR. The repair owns only explicit controller DI annotations plus one direct test and does not include schema, package, frontend, or migration state.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": [
+          "import/export mismatch",
+          "explicit @Inject token mismatch inside owned controllers",
+          "test expectation drift caused by the repair",
+          "metadata or evidence drift inside owned artifacts"
+        ],
+        "forbidden": [
+          "dependency additions",
+          "package or lockfile edits",
+          "schema or migration edits",
+          "generated-file edits",
+          "route or response-shape changes",
+          "new frontend screens",
+          "invented permissions, providers, ADLs, APIs, or business rules",
+          "weakening validation"
+        ]
+      },
+      "expected_evidence": [
+        "controller DI test passes",
+        "full validation ladder passes",
+        "runtime smoke proves /health and Phase 6A/6B/6C runtime status endpoints no longer fail with undefined service injection",
+        "no out-of-scope files changed"
+      ]
+    }
+  ],
+  "visual_rerun": {
+    "ffet_id": "S2-VISUAL-AUDIT-RERUN-001",
+    "status": "GATE_3_EXECUTION_APPROVED_PENDING_REPAIR_MERGE",
+    "exact_files": [
+      "docs/audits/stage2_runtime_visual_audit_v2/**",
+      "docs/audits/phase_runs/phase_6a_6c_runtime_integration_completion_audit_v1.json",
+      "docs/audits/phase_runs/phase_6a_6c_runtime_integration_completion_audit_v1.md"
+    ],
+    "runtime_mcr": "Final runtime visual audit v2 contains real screenshots and runtime evidence proving the Stage 2 final target, or records a precise blocker without faking verification.",
+    "required_assertions": [
+      "web app shell loads with API available",
+      "activated Phase 6A-6C availability is visible or browser-verifiable from existing screens",
+      "inactive navigation hides or blocks disabled services",
+      "inactive direct route returns 404 or unavailable",
+      "cross-tenant deny is linked from existing runtime/demo evidence",
+      "opt-out send blocked is linked from existing runtime/demo evidence",
+      "failed-KYC restricted/T1 path is linked from existing runtime/demo evidence",
+      "failed-payment correctable invoice path is linked from existing runtime/demo evidence",
+      "audit/evidence and Gatekeeper allow/deny/approval/stop proofs are linked from existing runtime/demo evidence"
+    ],
+    "stop_conditions": [
+      "local runtime cannot start from committed scripts and available local-only environment",
+      "required visual proof cannot be produced from existing committed runtime/screens",
+      "new UI screen would be required",
+      "API endpoints still return the recorded 500 injection failure"
+    ]
+  },
+  "final_target": "PHASE_6A_6C_RUNTIME_INTEGRATION_EXECUTED_AND_VISUALLY_VERIFIED",
+  "known_untracked_artifact_policy": {
+    "path": "docs/process/phases/cross_phase/phase_6a_6c_runtime_integration_ffet_v2.zip",
+    "required_handling": "leave untouched and unstaged"
+  }
+}
