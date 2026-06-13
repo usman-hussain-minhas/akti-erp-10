@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Headers, Post } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Headers, Post, Inject } from '@nestjs/common';
 
 import {
   FoundryService,
@@ -49,7 +49,7 @@ const REAUTH_STATUSES = new Set(['not_required', 'required', 'satisfied', 'expir
 
 @Controller('platform/foundry')
 export class FoundryController {
-  constructor(private readonly foundryService: FoundryService) {}
+  constructor(@Inject(FoundryService) private readonly foundryService: FoundryService) {}
 
   @Post('install-preflight')
   installPreflight(@Body() body: unknown, @Headers() headers: HeaderRecord) {

@@ -1,4 +1,4 @@
-import { BadRequestException, Controller, Get, Headers, Query } from '@nestjs/common';
+import { BadRequestException, Controller, Get, Headers, Query, Inject } from '@nestjs/common';
 
 import { SearchService, type SearchIndexTargetKey } from './search.service';
 import { type HeaderRecord, resolveTrustedRequestContext } from '../security/request-context';
@@ -15,7 +15,7 @@ const SEARCH_TARGET_KEYS = new Set(['workflow_definition', 'workflow_instance'])
 
 @Controller('platform/search')
 export class SearchController {
-  constructor(private readonly searchService: SearchService) {}
+  constructor(@Inject(SearchService) private readonly searchService: SearchService) {}
 
   @Get()
   search(@Query() query: SearchQueryParams, @Headers() headers: HeaderRecord) {

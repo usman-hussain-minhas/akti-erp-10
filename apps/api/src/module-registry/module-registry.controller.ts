@@ -1,4 +1,4 @@
-import { BadRequestException, Controller, Get, Headers, Param } from '@nestjs/common';
+import { BadRequestException, Controller, Get, Headers, Param, Inject } from '@nestjs/common';
 
 import { ModuleRegistryService } from './module-registry.service';
 import { HeaderRecord, resolveTrustedRequestContext } from '../security/request-context';
@@ -15,7 +15,7 @@ function validateModuleKeyParam(raw: string) {
 
 @Controller('platform/modules')
 export class ModuleRegistryController {
-  constructor(private readonly moduleRegistryService: ModuleRegistryService) {}
+  constructor(@Inject(ModuleRegistryService) private readonly moduleRegistryService: ModuleRegistryService) {}
 
   @Get()
   listModules(@Headers() headers?: HeaderRecord) {

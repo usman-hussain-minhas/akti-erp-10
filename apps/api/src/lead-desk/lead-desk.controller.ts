@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Get, Headers, Param, Patch, Post, Query } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Headers, Param, Patch, Post, Query, Inject } from '@nestjs/common';
 
 import { LeadDeskService } from './lead-desk.service';
 import { HeaderRecord, resolveTrustedRequestContext } from '../security/request-context';
@@ -13,7 +13,7 @@ function requireParam(raw: string, name: string) {
 
 @Controller('api/lead-desk/organizations/:organization_id/leads')
 export class LeadDeskController {
-  constructor(private readonly leadDeskService: LeadDeskService) {}
+  constructor(@Inject(LeadDeskService) private readonly leadDeskService: LeadDeskService) {}
 
   @Post()
   createLead(

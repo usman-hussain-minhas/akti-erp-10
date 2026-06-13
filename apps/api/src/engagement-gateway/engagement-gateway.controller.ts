@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Get, Headers, Param, Post } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Headers, Param, Post, Inject } from '@nestjs/common';
 
 import { EngagementGatewayService } from './engagement-gateway.service';
 import { HeaderRecord, resolveTrustedRequestContext } from '../security/request-context';
@@ -13,7 +13,7 @@ function validateOrganizationIdParam(raw: string) {
 
 @Controller('platform/engagement-gateway')
 export class EngagementGatewayController {
-  constructor(private readonly engagementGatewayService: EngagementGatewayService) {}
+  constructor(@Inject(EngagementGatewayService) private readonly engagementGatewayService: EngagementGatewayService) {}
 
   @Post('organizations/:organization_id/requests')
   createRequest(

@@ -1,11 +1,11 @@
-import { Controller, Get, Headers } from '@nestjs/common';
+import { Controller, Get, Headers, Inject } from '@nestjs/common';
 
 import { NotificationsService } from './notifications.service';
 import { type HeaderRecord, resolveTrustedRequestContext } from '../security/request-context';
 
 @Controller('platform/notifications')
 export class NotificationsController {
-  constructor(private readonly notificationsService: NotificationsService) {}
+  constructor(@Inject(NotificationsService) private readonly notificationsService: NotificationsService) {}
 
   @Get('summary')
   getSummary(@Headers() headers: HeaderRecord) {

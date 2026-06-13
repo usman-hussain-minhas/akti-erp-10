@@ -1,4 +1,4 @@
-import { BadRequestException, Controller, Get, Headers, Param, Query } from '@nestjs/common';
+import { BadRequestException, Controller, Get, Headers, Param, Query, Inject } from '@nestjs/common';
 
 import { ReportingService } from './reporting.service';
 import { type HeaderRecord, resolveTrustedRequestContext } from '../security/request-context';
@@ -11,7 +11,7 @@ type ReadModelQueryParams = {
 
 @Controller('platform/read-models')
 export class ReportingController {
-  constructor(private readonly reportingService: ReportingService) {}
+  constructor(@Inject(ReportingService) private readonly reportingService: ReportingService) {}
 
   @Get(':key')
   queryReadModel(@Param('key') key: string, @Query() query: ReadModelQueryParams, @Headers() headers: HeaderRecord) {

@@ -1,11 +1,11 @@
-import { Controller, Get, Headers } from '@nestjs/common';
+import { Controller, Get, Headers, Inject } from '@nestjs/common';
 
 import { DataControlsService } from './data-controls.service';
 import { type HeaderRecord, resolveTrustedRequestContext } from '../security/request-context';
 
 @Controller('platform/data-controls')
 export class DataControlsController {
-  constructor(private readonly dataControlsService: DataControlsService) {}
+  constructor(@Inject(DataControlsService) private readonly dataControlsService: DataControlsService) {}
 
   @Get('status')
   getStatus(@Headers() headers: HeaderRecord) {

@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Headers, Param, Post } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Headers, Param, Post, Inject } from '@nestjs/common';
 
 import { FileService, type FileStorageIntentInput } from './file-service.service';
 import {
@@ -32,7 +32,7 @@ type DownloadIntentBody = {
 
 @Controller('platform/files')
 export class FileServiceController {
-  constructor(private readonly fileService: FileService) {}
+  constructor(@Inject(FileService) private readonly fileService: FileService) {}
 
   @Post('upload-intent')
   createUploadIntent(@Body() body: UploadIntentBody, @Headers() headers: HeaderRecord) {
