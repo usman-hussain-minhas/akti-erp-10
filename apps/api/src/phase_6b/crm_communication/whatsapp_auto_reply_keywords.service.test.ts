@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { evaluateWhatsappAutoReplyKeywords, type WhatsappAutoReplyKeywordsInput } from './whatsapp_auto_reply_keywords.service';
 
 const baseInput: WhatsappAutoReplyKeywordsInput = {
-  organization_id: 'org_akti_demo',
+  organization_id: 'org_demo',
   service_manifest_contract_id: 'smc_crm_communication',
   auto_reply_evaluation_id: 'auto_reply_eval_001',
   inbound_message_id: 'whatsapp_inbound_001',

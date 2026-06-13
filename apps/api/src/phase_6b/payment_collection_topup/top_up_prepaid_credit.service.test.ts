@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { recordTopUpPrepaidCredit, type TopUpPrepaidCreditInput } from './top_up_prepaid_credit.service';
 
 const baseInput: TopUpPrepaidCreditInput = {
-  organization_id: 'org_akti_demo',
+  organization_id: 'org_demo',
   service_manifest_contract_id: 'smc_payment_collection_topup',
   api_key_scope_registry_ref: 'api_key_scope_top_up_provider_001',
   invoice_record_ref: 'invoice_001',

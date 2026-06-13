@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { recordApiLeadIntake, type ApiLeadIntakeInput } from './api_lead_intake.service';
 
 const baseInput: ApiLeadIntakeInput = {
-  organization_id: 'org_akti_demo',
+  organization_id: 'org_demo',
   service_manifest_contract_id: 'smc_crm_lead_intake',
   lead_record_id: 'lead_record_api_001',
   person_identity_graph_id: 'person_graph_api_001',

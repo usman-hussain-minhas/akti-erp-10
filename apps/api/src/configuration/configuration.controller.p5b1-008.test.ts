@@ -29,7 +29,7 @@ function createController() {
     getEffectiveBranding: async (...args: unknown[]) => {
       calls.push({ method: 'getEffectiveBranding', args });
       return {
-        product_name: 'AKTI Spark',
+        product_name: 'Esbla Spark',
         logo_url: null,
         theme_mode: 'system',
         primary_color: null,
@@ -84,7 +84,7 @@ async function testEffectiveBrandingUsesTrustedTenantContext() {
     },
   ]);
   assert.deepEqual(result, {
-    product_name: 'AKTI Spark',
+    product_name: 'Esbla Spark',
     logo_url: null,
     theme_mode: 'system',
     primary_color: null,

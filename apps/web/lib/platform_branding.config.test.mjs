@@ -2,12 +2,12 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
 
-test('platform branding config defines AKTI Spark without package rename', () => {
+test('platform branding config defines Esbla Spark without package rename', () => {
   const config = readFileSync('lib/platform_branding.config.ts', 'utf8');
   const packageJson = JSON.parse(readFileSync('package.json', 'utf8'));
 
-  assert.match(config, /PLATFORM_PRODUCT_NAME = 'AKTI Spark'/);
-  assert.match(config, /PLATFORM_LEGACY_PRODUCT_NAME = 'AKTI ERP'/);
+  assert.match(config, /PLATFORM_PRODUCT_NAME = 'Esbla Spark'/);
+  assert.match(config, /PLATFORM_LEGACY_PRODUCT_NAME = 'Esbla Spark'/);
   assert.equal(packageJson.name, '@akti/web');
 });
 
@@ -17,8 +17,8 @@ test('UI shell brand copy uses the frontend display substrate', () => {
 
   assert.match(page, /PLATFORM_PRODUCT_NAME/);
   assert.match(shell, /PLATFORM_PRODUCT_NAME/);
-  assert.doesNotMatch(page, /AKTI ERP Web Scaffold/);
-  assert.doesNotMatch(shell, />AKTI ERP</);
+  assert.doesNotMatch(page, /legacy web scaffold/);
+  assert.doesNotMatch(shell, />legacy ERP</);
 });
 
 test('platform branding defaults encode visual direction without backend tokens', () => {

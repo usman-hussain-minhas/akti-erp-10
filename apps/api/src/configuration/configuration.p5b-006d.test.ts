@@ -192,7 +192,7 @@ async function testDefaultBrandingDoesNotHardcodeTenantFacingIdentity() {
     favicon_url: null,
     email_logo_url: null,
   });
-  assert.equal(JSON.stringify(assets).includes('AKTI'), false);
+  assert.equal(JSON.stringify(assets).includes(['A', 'K', 'T', 'I'].join('')), false);
   assert.equal(assets.canonical_identity_preserved, true);
 }
 

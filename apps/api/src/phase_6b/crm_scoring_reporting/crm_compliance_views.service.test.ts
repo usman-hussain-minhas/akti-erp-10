@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { registerCrmComplianceView, type CrmComplianceViewInput } from './crm_compliance_views.service';
 
 const baseInput: CrmComplianceViewInput = {
-  organization_id: 'org_akti_demo',
+  organization_id: 'org_demo',
   service_manifest_contract_id: 'smc_crm_scoring_reporting',
   compliance_view_id: 'crm_compliance_view_001',
   view_name: 'CRM compliance evidence view',

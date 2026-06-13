@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { calculateExpectedValuePricingBridge, type ExpectedValuePricingBridgeInput } from './expected_value_pricing_bridge.service';
 
 const baseInput: ExpectedValuePricingBridgeInput = {
-  organization_id: 'org_akti_demo',
+  organization_id: 'org_demo',
   service_manifest_contract_id: 'smc_crm_pipeline',
   expected_value_bridge_id: 'expected_value_bridge_001',
   lead_record_id: 'lead_record_001',

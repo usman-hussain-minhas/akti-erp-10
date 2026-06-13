@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { recordPurchaseStockEvidence } from './purchase_stock_evidence.evidence';
 
 const baseInput = {
-  organization_id: 'org_akti_demo',
+  organization_id: 'org_demo',
   product_record_id: 'prod_textbook_001',
   product_price_history_id: 'price_history_2026_q1',
   inventory_location_id: 'location_main_store',
@@ -20,7 +20,7 @@ const record = recordPurchaseStockEvidence(baseInput);
 assert.equal(record.seed_id, 'seed_6b_03_purchase_stock_evidence');
 assert.equal(record.component_id, '6B.03');
 assert.equal(record.event_name, 'phase_6b.inventory_stock.purchase_stock_evidence.recorded');
-assert.equal(record.organization_id, 'org_akti_demo');
+assert.equal(record.organization_id, 'org_demo');
 assert.equal(record.product_record_id, 'prod_textbook_001');
 assert.equal(record.product_price_history_id, 'price_history_2026_q1');
 assert.equal(record.inventory_location_id, 'location_main_store');

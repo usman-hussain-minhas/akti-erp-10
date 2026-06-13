@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { routeWhatsappInboundMessage, type WhatsappInboundRoutingInput } from './whatsapp_inbound_routing.service';
 
 const baseInput: WhatsappInboundRoutingInput = {
-  organization_id: 'org_akti_demo',
+  organization_id: 'org_demo',
   service_manifest_contract_id: 'smc_crm_communication',
   inbound_message_id: 'whatsapp_inbound_001',
   channel_account_ref: 'whatsapp_channel_account_001',

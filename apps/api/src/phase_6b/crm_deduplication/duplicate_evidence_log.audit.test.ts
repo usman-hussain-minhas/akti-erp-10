@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { recordDuplicateEvidenceLog, type DuplicateEvidenceLogInput } from './duplicate_evidence_log.audit';
 
 const baseInput: DuplicateEvidenceLogInput = {
-  organization_id: 'org_akti_demo',
+  organization_id: 'org_demo',
   service_manifest_contract_id: 'smc_crm_deduplication',
   duplicate_evidence_log_id: 'duplicate_evidence_log_001',
   dedup_run_id: 'dedup_run_001',

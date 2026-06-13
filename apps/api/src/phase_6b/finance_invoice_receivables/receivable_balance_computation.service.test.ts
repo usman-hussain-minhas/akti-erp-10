@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { computeReceivableBalance, type ReceivableBalanceComputationInput } from './receivable_balance_computation.service';
 
 const baseInput: ReceivableBalanceComputationInput = {
-  organization_id: 'org_akti_demo',
+  organization_id: 'org_demo',
   service_manifest_contract_id: 'smc_finance_invoice_receivables',
   receivable_id: 'receivable_001',
   invoice_record_ref: 'invoice_001',

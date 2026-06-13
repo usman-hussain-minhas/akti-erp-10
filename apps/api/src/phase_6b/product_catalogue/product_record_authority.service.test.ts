@@ -4,7 +4,7 @@ import { Phase6BProductRecordAuthorityService } from './product_record_authority
 
 function validProductRecordInput() {
   return {
-    organization_id: 'org_akti_demo',
+    organization_id: 'org_demo',
     product_id: 'prod_admission_package',
     status: 'active' as const,
     name: 'Admission Package',
@@ -29,7 +29,7 @@ function testAcceptsTenantScopedProductRecordAuthority() {
     'Phase6BProductHistory',
     'Phase6BProductPriceHistory',
   ]);
-  assert.equal(result.evidence.organization_id, 'org_akti_demo');
+  assert.equal(result.evidence.organization_id, 'org_demo');
   assert.equal(result.evidence.product_id, 'prod_admission_package');
   assert.equal(result.evidence.event_type, 'product.created');
   assert.equal(result.evidence.archive_over_delete_enforced, true);

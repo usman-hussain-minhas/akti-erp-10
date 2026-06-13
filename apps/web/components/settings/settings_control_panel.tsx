@@ -122,7 +122,7 @@ export function SettingsControlPanel({ denialMessages }: { denialMessages: Gatek
   return (
     <main className="min-h-screen bg-[var(--phase5c-bg)] px-4 py-6 text-[var(--phase5c-text)] md:px-6">
       <div className="mx-auto grid max-w-7xl gap-6">
-        <header className="grid gap-4 rounded-lg border border-[var(--phase5c-border)] bg-[var(--phase5c-surface)] p-5 shadow-[var(--akti-glow-cyan)]">
+        <header className="grid gap-4 rounded-lg border border-[var(--phase5c-border)] bg-[var(--phase5c-surface)] p-5 shadow-[var(--esbla-glow-cyan)]">
           <Link className="text-sm font-medium text-[var(--primary)] underline underline-offset-4" href="/app">
             Back to Mission Control
           </Link>
@@ -151,7 +151,7 @@ export function SettingsControlPanel({ denialMessages }: { denialMessages: Gatek
               ['Notifications', '#notifications'],
               ['Advanced Diagnostics', '#advanced-diagnostics'],
             ].map(([label, href]) => (
-              <a key={href} className="rounded-md px-3 py-2 text-sm hover:bg-[var(--phase5c-surface-muted)] focus-visible:ring-2 focus-visible:ring-[var(--akti-cyan)]" href={href}>
+              <a key={href} className="rounded-md px-3 py-2 text-sm hover:bg-[var(--phase5c-surface-muted)] focus-visible:ring-2 focus-visible:ring-[var(--esbla-cyan)]" href={href}>
                 {label}
               </a>
             ))}

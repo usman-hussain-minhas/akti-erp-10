@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { recordLiveChatIntake, type LiveChatIntakeInput } from './live_chat_intake.service';
 
 const baseInput: LiveChatIntakeInput = {
-  organization_id: 'org_akti_demo',
+  organization_id: 'org_demo',
   service_manifest_contract_id: 'smc_crm_lead_intake',
   lead_record_id: 'lead_record_live_chat_001',
   person_identity_graph_id: 'person_graph_live_chat_001',

@@ -246,9 +246,9 @@ export function MissionControlShell() {
             <h1 id="mission-control-title" className="m-0 text-2xl font-semibold">
               Mission Control
             </h1>
-            <div className="overflow-hidden rounded-lg border border-[rgb(139_92_246_/_.55)] bg-[radial-gradient(circle_at_82%_30%,rgb(139_92_246_/_.22),transparent_34%),linear-gradient(135deg,rgb(0_213_255_/_.08),rgb(139_92_246_/_.08)_42%,transparent)] p-5 shadow-[var(--akti-glow-violet)] md:p-7">
+            <div className="overflow-hidden rounded-lg border border-[rgb(139_92_246_/_.55)] bg-[radial-gradient(circle_at_82%_30%,rgb(139_92_246_/_.22),transparent_34%),linear-gradient(135deg,rgb(0_213_255_/_.08),rgb(139_92_246_/_.08)_42%,transparent)] p-5 shadow-[var(--esbla-glow-violet)] md:p-7">
               <div className="grid gap-5 md:grid-cols-[auto_1fr_auto] md:items-center">
-                <span className="grid h-16 w-16 place-items-center rounded-full border border-[var(--akti-violet)] bg-[rgb(139_92_246_/_.16)] text-[var(--akti-violet)] shadow-[var(--akti-glow-violet)]">
+                <span className="grid h-16 w-16 place-items-center rounded-full border border-[var(--esbla-violet)] bg-[rgb(139_92_246_/_.16)] text-[var(--esbla-violet)] shadow-[var(--esbla-glow-violet)]">
                   <Link2 aria-hidden="true" size={28} />
                 </span>
                 <div className="grid gap-2">
@@ -274,7 +274,7 @@ export function MissionControlShell() {
                   </div>
                 </div>
                 <div className="hidden h-24 w-40 place-items-center rounded-lg border border-[rgb(0_213_255_/_.35)] bg-[rgb(5_7_12_/_.45)] md:grid">
-                  <Link2 aria-hidden="true" size={34} className="text-[var(--akti-cyan)]" />
+                  <Link2 aria-hidden="true" size={34} className="text-[var(--esbla-cyan)]" />
                 </div>
               </div>
             </div>
@@ -315,7 +315,7 @@ export function MissionControlShell() {
         <MobileNavLink href="/app/settings" label="Settings" icon={Settings} />
         <button
           type="button"
-          className="grid min-h-12 justify-items-center gap-1 rounded-md px-2 py-1 text-xs hover:bg-[var(--phase5c-surface-muted)] focus-visible:ring-2 focus-visible:ring-[var(--akti-cyan)]"
+          className="grid min-h-12 justify-items-center gap-1 rounded-md px-2 py-1 text-xs hover:bg-[var(--phase5c-surface-muted)] focus-visible:ring-2 focus-visible:ring-[var(--esbla-cyan)]"
           onClick={() => setMobileDrawerOpen(true)}
         >
           <Menu aria-hidden="true" size={18} />
@@ -331,13 +331,13 @@ function OrgBadge({ snapshot, open, onToggle }: { snapshot: OrgProfileSnapshot; 
     <div className="relative hidden md:block">
       <button
         type="button"
-        className="flex max-w-56 items-center gap-2 rounded-md border border-[var(--phase5c-border)] bg-[var(--phase5c-surface)] px-3 py-2 text-left text-sm transition-all hover:border-[var(--akti-cyan)] focus-visible:ring-2 focus-visible:ring-[var(--akti-cyan)]"
+        className="flex max-w-56 items-center gap-2 rounded-md border border-[var(--phase5c-border)] bg-[var(--phase5c-surface)] px-3 py-2 text-left text-sm transition-all hover:border-[var(--esbla-cyan)] focus-visible:ring-2 focus-visible:ring-[var(--esbla-cyan)]"
         aria-label={`Organization badge: ${snapshot.label}`}
         aria-expanded={open}
         aria-controls="organization-badge-menu"
         onClick={onToggle}
       >
-        <Building2 aria-hidden="true" size={16} className="text-[var(--akti-violet)]" />
+        <Building2 aria-hidden="true" size={16} className="text-[var(--esbla-violet)]" />
         <span className="grid min-w-0">
           <span className="truncate font-medium">{snapshot.label}</span>
           <span className="truncate text-xs text-[var(--phase5c-text-muted)]">{snapshot.detail}</span>
@@ -368,7 +368,7 @@ function UserAvatar() {
   return (
     <button
       type="button"
-      className="hidden h-10 w-10 place-items-center rounded-full border border-[var(--akti-violet)] bg-[rgb(139_92_246_/_.16)] text-sm font-semibold text-[var(--phase5c-text)] shadow-[var(--akti-glow-violet)] focus-visible:ring-2 focus-visible:ring-[var(--akti-cyan)] md:grid"
+      className="hidden h-10 w-10 place-items-center rounded-full border border-[var(--esbla-violet)] bg-[rgb(139_92_246_/_.16)] text-sm font-semibold text-[var(--phase5c-text)] shadow-[var(--esbla-glow-violet)] focus-visible:ring-2 focus-visible:ring-[var(--esbla-cyan)] md:grid"
       aria-label="User account avatar"
     >
       <UserRound aria-hidden="true" size={17} />
@@ -399,7 +399,7 @@ function WorkspaceStatusCard({
       aria-live="polite"
     >
       {collapsed ? (
-        <span className="mx-auto h-2.5 w-2.5 rounded-full bg-[var(--akti-cyan)]" aria-label={snapshot.label} />
+        <span className="mx-auto h-2.5 w-2.5 rounded-full bg-[var(--esbla-cyan)]" aria-label={snapshot.label} />
       ) : (
         <>
           <p className="m-0 font-medium">{snapshot.label}</p>
@@ -422,12 +422,12 @@ function WorkspaceStatusCard({
 function BrandLockup({ collapsed }: { collapsed: boolean }) {
   return (
     <div className="flex min-w-0 items-center gap-3" aria-label={PLATFORM_PRODUCT_NAME}>
-      <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg border border-[var(--akti-cyan)] bg-[rgb(0_213_255_/_.08)] text-[var(--akti-cyan)] shadow-[var(--akti-glow-cyan)]">
+      <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg border border-[var(--esbla-cyan)] bg-[rgb(0_213_255_/_.08)] text-[var(--esbla-cyan)] shadow-[var(--esbla-glow-cyan)]">
         <Sparkles aria-hidden="true" size={22} />
       </span>
       {collapsed ? null : (
         <p className="m-0 truncate text-lg font-semibold tracking-normal">
-          AKTI <span className="text-[var(--akti-violet)]">Spark</span>
+          Esbla <span className="text-[var(--esbla-violet)]">Spark</span>
         </p>
       )}
     </div>
@@ -468,7 +468,7 @@ function NavigationGroup({
             key={item.route}
             href={item.route}
             onClick={onNavigate}
-            className={`flex min-h-12 items-center gap-3 rounded-md px-3 py-2 text-sm hover:bg-[var(--phase5c-surface-muted)] focus-visible:ring-2 focus-visible:ring-[var(--akti-cyan)] ${mutedClass}`}
+            className={`flex min-h-12 items-center gap-3 rounded-md px-3 py-2 text-sm hover:bg-[var(--phase5c-surface-muted)] focus-visible:ring-2 focus-visible:ring-[var(--esbla-cyan)] ${mutedClass}`}
             aria-label={collapsed ? item.label : undefined}
             title={collapsed ? item.label : undefined}
           >
@@ -498,7 +498,7 @@ function MobileNavLink({
   return (
     <Link
       href={href}
-      className="grid min-h-12 justify-items-center gap-1 rounded-md px-2 py-1 text-xs hover:bg-[var(--phase5c-surface-muted)] focus-visible:ring-2 focus-visible:ring-[var(--akti-cyan)]"
+      className="grid min-h-12 justify-items-center gap-1 rounded-md px-2 py-1 text-xs hover:bg-[var(--phase5c-surface-muted)] focus-visible:ring-2 focus-visible:ring-[var(--esbla-cyan)]"
     >
       <Icon aria-hidden="true" size={18} />
       <span>{label}</span>

@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { recordInternalNotesComments, type InternalNotesCommentsInput } from './internal_notes_comments.service';
 
 const baseInput: InternalNotesCommentsInput = {
-  organization_id: 'org_akti_demo',
+  organization_id: 'org_demo',
   service_manifest_contract_id: 'smc_crm_pipeline',
   note_id: 'internal_note_001',
   thread_id: 'note_thread_001',

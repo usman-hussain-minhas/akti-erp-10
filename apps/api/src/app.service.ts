@@ -6,7 +6,7 @@ export class AppService {
     return {
       service: 'api',
       status: 'ok',
-      message: 'AKTI ERP API scaffold is running',
+      message: 'Esbla Spark API is running',
     };
   }
 

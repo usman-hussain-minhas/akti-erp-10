@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { computePaymentAllocationBalance, type PaymentAllocationBalanceInput } from './payment_allocation_balance.service';
 
 const baseInput: PaymentAllocationBalanceInput = {
-  organization_id: 'org_akti_demo',
+  organization_id: 'org_demo',
   service_manifest_contract_id: 'smc_payment_collection_topup',
   pricing_table_effective_date_ref: 'pricing_effective_2026_06',
   payment_receipt_ref: 'payment_receipt_001',

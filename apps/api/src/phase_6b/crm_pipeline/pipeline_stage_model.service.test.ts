@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { configurePipelineStageModel, type PipelineStageModelInput } from './pipeline_stage_model.service';
 
 const baseInput: PipelineStageModelInput = {
-  organization_id: 'org_akti_demo',
+  organization_id: 'org_demo',
   service_manifest_contract_id: 'smc_crm_pipeline',
   pipeline_stage_model_id: 'pipeline_stage_model_001',
   lifecycle_config_ref: 'foundry_lifecycle_config_crm_pipeline_001',

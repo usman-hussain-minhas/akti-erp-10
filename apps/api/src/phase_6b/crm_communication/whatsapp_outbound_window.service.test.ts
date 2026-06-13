@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { evaluateWhatsappOutboundWindow, type WhatsappOutboundWindowInput } from './whatsapp_outbound_window.service';
 
 const baseInput: WhatsappOutboundWindowInput = {
-  organization_id: 'org_akti_demo',
+  organization_id: 'org_demo',
   service_manifest_contract_id: 'smc_crm_communication',
   outbound_window_check_id: 'whatsapp_window_check_001',
   lead_record_authority_id: 'lead_authority_001',

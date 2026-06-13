@@ -5,7 +5,7 @@ import {
 } from './aging_and_overdue_management.service';
 
 const baseInput: AgingAndOverdueManagementInput = {
-  organization_id: 'org_akti_demo',
+  organization_id: 'org_demo',
   service_manifest_contract_id: 'smc_finance_invoice_receivables',
   product_record_authority_ref: 'product_record_authority_001',
   product_price_history_ref: 'product_price_history_001',

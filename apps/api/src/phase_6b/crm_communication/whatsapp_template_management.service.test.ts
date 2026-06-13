@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { configureWhatsappTemplateManagement, type WhatsappTemplateManagementInput } from './whatsapp_template_management.service';
 
 const baseInput: WhatsappTemplateManagementInput = {
-  organization_id: 'org_akti_demo',
+  organization_id: 'org_demo',
   service_manifest_contract_id: 'smc_crm_communication',
   whatsapp_template_id: 'whatsapp_template_001',
   pipeline_stage_model_ref: 'pipeline_stage_model_001',

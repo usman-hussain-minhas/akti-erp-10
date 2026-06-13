@@ -61,7 +61,7 @@ function readHeader(headers: HeaderRecord, key: string): string | null {
 function requireSecret(secret?: string): string {
   const resolved = secret ?? process.env.AKTI_AUTH_SESSION_SECRET;
   if (!resolved || resolved.length < MIN_SECRET_LENGTH) {
-    throw new UnauthorizedException('AKTI auth session secret is not configured');
+    throw new UnauthorizedException('Authentication session secret is not configured');
   }
   return resolved;
 }
@@ -73,7 +73,7 @@ function resolveSessionMaxAgeSeconds(maxAgeSeconds?: number): number {
       maxAgeSeconds <= 0 ||
       maxAgeSeconds > Number.MAX_SAFE_INTEGER / 1000
     ) {
-      throw new UnauthorizedException('AKTI auth session max age is invalid');
+      throw new UnauthorizedException('Authentication session max age is invalid');
     }
     return maxAgeSeconds;
   }
@@ -85,7 +85,7 @@ function resolveSessionMaxAgeSeconds(maxAgeSeconds?: number): number {
 
   const value = Number.parseInt(raw, 10);
   if (!Number.isSafeInteger(value) || value <= 0 || value > Number.MAX_SAFE_INTEGER / 1000 || value.toString() !== raw.trim()) {
-    throw new UnauthorizedException('AKTI auth session max age is invalid');
+    throw new UnauthorizedException('Authentication session max age is invalid');
   }
 
   return value;
@@ -93,7 +93,7 @@ function resolveSessionMaxAgeSeconds(maxAgeSeconds?: number): number {
 
 function assertTrustedPayload(input: unknown, now: Date, maxAgeSeconds: number): TrustedRequestContext {
   if (!input || typeof input !== 'object') {
-    throw new UnauthorizedException('AKTI session payload is invalid');
+    throw new UnauthorizedException('Session payload is invalid');
   }
 
   const payload = input as Partial<Phase3SessionPayload>;
@@ -103,25 +103,25 @@ function assertTrustedPayload(input: unknown, now: Date, maxAgeSeconds: number):
   const expiresAt = normalizeNonEmptyString(payload.expires_at);
 
   if (!organizationId || !actorUserId || !issuedAt || !expiresAt) {
-    throw new UnauthorizedException('AKTI session payload is missing required context');
+    throw new UnauthorizedException('Session payload is missing required context');
   }
 
   const issuedAtDate = new Date(issuedAt);
   const expiresAtDate = new Date(expiresAt);
   if (Number.isNaN(issuedAtDate.getTime()) || Number.isNaN(expiresAtDate.getTime())) {
-    throw new UnauthorizedException('AKTI session timestamps are invalid');
+    throw new UnauthorizedException('Session timestamps are invalid');
   }
 
   if (issuedAtDate.getTime() > now.getTime() + 60_000) {
-    throw new UnauthorizedException('AKTI session issued-at timestamp is invalid');
+    throw new UnauthorizedException('Session issued-at timestamp is invalid');
   }
 
   if (expiresAtDate.getTime() <= now.getTime()) {
-    throw new UnauthorizedException('AKTI session has expired');
+    throw new UnauthorizedException('Session has expired');
   }
 
   if (expiresAtDate.getTime() - issuedAtDate.getTime() > maxAgeSeconds * 1000) {
-    throw new UnauthorizedException('AKTI session exceeds configured max age');
+    throw new UnauthorizedException('Session exceeds configured max age');
   }
 
   return {
@@ -135,12 +135,12 @@ function assertTrustedPayload(input: unknown, now: Date, maxAgeSeconds: number):
 function extractBearerToken(headers: HeaderRecord): string {
   const authorization = readHeader(headers, AUTHORIZATION_HEADER);
   if (!authorization || !authorization.startsWith(BEARER_PREFIX)) {
-    throw new UnauthorizedException('AKTI bearer session is required');
+    throw new UnauthorizedException('Bearer session is required');
   }
 
   const token = authorization.slice(BEARER_PREFIX.length).trim();
   if (!token) {
-    throw new UnauthorizedException('AKTI bearer session is required');
+    throw new UnauthorizedException('Bearer session is required');
   }
 
   return token;
@@ -169,28 +169,28 @@ export function verifyPhase3SessionToken(
   const maxAgeSeconds = resolveSessionMaxAgeSeconds(options.maxAgeSeconds);
   const [encodedPayload, signature, unexpected] = token.split('.');
   if (!encodedPayload || !signature || unexpected !== undefined) {
-    throw new UnauthorizedException('AKTI bearer session is malformed');
+    throw new UnauthorizedException('Bearer session is malformed');
   }
 
   let payloadJson: string;
   try {
     payloadJson = base64UrlDecode(encodedPayload);
   } catch {
-    throw new UnauthorizedException('AKTI bearer session payload is invalid');
+    throw new UnauthorizedException('Bearer session payload is invalid');
   }
 
   const expectedSignature = signPayload(payloadJson, secret);
   const expectedBuffer = Buffer.from(expectedSignature, 'base64url');
   const actualBuffer = Buffer.from(signature, 'base64url');
   if (expectedBuffer.length !== actualBuffer.length || !timingSafeEqual(expectedBuffer, actualBuffer)) {
-    throw new UnauthorizedException('AKTI bearer session signature is invalid');
+    throw new UnauthorizedException('Bearer session signature is invalid');
   }
 
   let parsed: unknown;
   try {
     parsed = JSON.parse(payloadJson);
   } catch {
-    throw new UnauthorizedException('AKTI bearer session payload is invalid');
+    throw new UnauthorizedException('Bearer session payload is invalid');
   }
 
   return assertTrustedPayload(parsed, options.now ?? new Date(), maxAgeSeconds);
@@ -205,7 +205,7 @@ export function resolveTrustedRequestContext(
   const routeOrganizationId = options.routeOrganizationId?.trim();
 
   if (routeOrganizationId && routeOrganizationId !== context.organization_id) {
-    throw new ForbiddenException('AKTI session organization does not match route organization');
+    throw new ForbiddenException('Session organization does not match route organization');
   }
 
   return context;

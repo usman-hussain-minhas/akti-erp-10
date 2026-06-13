@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { recordCrmActivityTimeline, type CrmActivityTimelineInput } from './crm_activity_timeline.service';
 
 const baseInput: CrmActivityTimelineInput = {
-  organization_id: 'org_akti_demo',
+  organization_id: 'org_demo',
   service_manifest_contract_id: 'smc_crm_pipeline',
   timeline_entry_id: 'timeline_entry_001',
   lead_record_id: 'lead_record_001',

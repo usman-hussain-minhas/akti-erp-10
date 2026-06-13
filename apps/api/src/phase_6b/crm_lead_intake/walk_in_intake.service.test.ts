@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { recordWalkInIntake, type WalkInIntakeInput } from './walk_in_intake.service';
 
 const baseInput: WalkInIntakeInput = {
-  organization_id: 'org_akti_demo',
+  organization_id: 'org_demo',
   service_manifest_contract_id: 'smc_crm_lead_intake',
   lead_record_id: 'lead_record_walk_in_001',
   person_identity_graph_id: 'person_graph_walk_in_001',

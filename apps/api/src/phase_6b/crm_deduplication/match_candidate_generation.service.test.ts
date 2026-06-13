@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { generateMatchCandidates, type MatchCandidateGenerationInput } from './match_candidate_generation.service';
 
 const baseInput: MatchCandidateGenerationInput = {
-  organization_id: 'org_akti_demo',
+  organization_id: 'org_demo',
   service_manifest_contract_id: 'smc_crm_deduplication',
   source_lead_record_id: 'lead_source_001',
   source_lead_record_authority_id: 'lead_authority_source_001',

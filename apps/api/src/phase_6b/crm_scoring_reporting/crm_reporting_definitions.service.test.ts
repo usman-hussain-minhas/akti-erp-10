@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { registerCrmReportingDefinition, type CrmReportingDefinitionInput } from './crm_reporting_definitions.service';
 
 const baseInput: CrmReportingDefinitionInput = {
-  organization_id: 'org_akti_demo',
+  organization_id: 'org_demo',
   service_manifest_contract_id: 'smc_crm_scoring_reporting',
   report_definition_id: 'crm_report_definition_001',
   report_name: 'Lead score performance report',

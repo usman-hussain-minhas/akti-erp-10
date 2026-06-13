@@ -4,7 +4,7 @@ import { Phase6cOfferDocumentGenerationService } from './offer_document_generati
 const service = new Phase6cOfferDocumentGenerationService();
 
 const validInput = {
-  organization_id: 'org_akti',
+  organization_id: 'org_demo',
   service_manifest_contract_id: 'smc:phase_6c_offer_document_generation',
   source_record_ref: 'recruitment_application:app_001',
   applicant_ref: 'applicant:person_001',

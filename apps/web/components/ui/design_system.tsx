@@ -40,7 +40,7 @@ export function Input({ className, ...props }: React.ComponentProps<'input'>) {
   return (
     <input
       className={cn(
-        'h-10 rounded-md border border-[var(--phase5c-border)] bg-[var(--phase5c-surface)] px-3 text-sm text-[var(--phase5c-text)] outline-none transition-all placeholder:text-[var(--phase5c-text-muted)] focus-visible:border-[var(--akti-cyan)] focus-visible:ring-2 focus-visible:ring-[var(--akti-cyan)] disabled:bg-[var(--surface-muted)] disabled:text-[#66716a]',
+        'h-10 rounded-md border border-[var(--phase5c-border)] bg-[var(--phase5c-surface)] px-3 text-sm text-[var(--phase5c-text)] outline-none transition-all placeholder:text-[var(--phase5c-text-muted)] focus-visible:border-[var(--esbla-cyan)] focus-visible:ring-2 focus-visible:ring-[var(--esbla-cyan)] disabled:bg-[var(--surface-muted)] disabled:text-[#66716a]',
         className,
       )}
       {...props}
@@ -52,7 +52,7 @@ export function Textarea({ className, ...props }: React.ComponentProps<'textarea
   return (
     <textarea
       className={cn(
-        'min-h-24 rounded-md border border-[var(--phase5c-border)] bg-[var(--phase5c-surface)] px-3 py-2 text-sm text-[var(--phase5c-text)] outline-none transition-all placeholder:text-[var(--phase5c-text-muted)] focus-visible:border-[var(--akti-cyan)] focus-visible:ring-2 focus-visible:ring-[var(--akti-cyan)] disabled:bg-[var(--surface-muted)] disabled:text-[#66716a]',
+        'min-h-24 rounded-md border border-[var(--phase5c-border)] bg-[var(--phase5c-surface)] px-3 py-2 text-sm text-[var(--phase5c-text)] outline-none transition-all placeholder:text-[var(--phase5c-text-muted)] focus-visible:border-[var(--esbla-cyan)] focus-visible:ring-2 focus-visible:ring-[var(--esbla-cyan)] disabled:bg-[var(--surface-muted)] disabled:text-[#66716a]',
         className,
       )}
       {...props}
@@ -77,7 +77,7 @@ export function SparkPanel({ className, ...props }: React.ComponentProps<'sectio
   return (
     <section
       className={cn(
-        'rounded-lg border border-[var(--phase5c-border)] bg-[var(--phase5c-surface)] p-4 text-[var(--phase5c-text)] shadow-[var(--akti-shadow)]',
+        'rounded-lg border border-[var(--phase5c-border)] bg-[var(--phase5c-surface)] p-4 text-[var(--phase5c-text)] shadow-[var(--esbla-shadow)]',
         className,
       )}
       {...props}

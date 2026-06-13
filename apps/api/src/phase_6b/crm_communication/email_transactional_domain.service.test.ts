@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { configureEmailTransactionalDomain, type EmailTransactionalDomainInput } from './email_transactional_domain.service';
 
 const baseInput: EmailTransactionalDomainInput = {
-  organization_id: 'org_akti_demo',
+  organization_id: 'org_demo',
   service_manifest_contract_id: 'smc_crm_communication',
   transactional_domain_id: 'email_domain_001',
   domain_name: 'Example.com',

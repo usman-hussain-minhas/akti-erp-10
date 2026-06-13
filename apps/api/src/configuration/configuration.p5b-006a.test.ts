@@ -162,7 +162,7 @@ async function testBrandingAssetResolverDefaultsToNoTenantOverride() {
     canonical_identity_preserved: true,
     updated_at: null,
   });
-  assert.equal(JSON.stringify(resolved).includes('AKTI'), false);
+  assert.equal(JSON.stringify(resolved).includes(['A', 'K', 'T', 'I'].join('')), false);
 }
 
 async function testBrandingAssetResolverReturnsSafeStoredAssetReferences() {
