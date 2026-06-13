@@ -15,6 +15,30 @@ export type Phase6AScaffoldReadiness = {
   execution_authorized: false;
 };
 
+export type Phase6ARuntimeSurface = {
+  surface_key: string;
+  source_ffet: string;
+  source_surface: string;
+  capability_surface: string;
+  activation_required: true;
+  active: boolean;
+  runtime_exposure: 'status_only_until_foundry_enforced';
+};
+
+export type Phase6ARuntimeCapabilityStatus = {
+  phase: '6A';
+  status: 'runtime_surface_declared_activation_pending';
+  activation_authority: 'foundry_runtime_authority';
+  caller_controlled_activation_allowed: false;
+  active_surface_count: number;
+  inactive_surface_count: number;
+  surfaces: Phase6ARuntimeSurface[];
+};
+
+export type Phase6AActivationSnapshot = {
+  activeCapabilitySurfaces?: readonly string[];
+};
+
 const PHASE_6A_SEED_IDS = [
   "seed_6a_platform_core_update_baseline",
   "seed_6a_infrastructure_runtime_foundation",
@@ -113,6 +137,17 @@ const PHASE_6A_SCAFFOLD_DOMAINS = [
   "6_a_18_base_design_system_and_shell"
 ] as const;
 
+const PHASE_6A_RUNTIME_SURFACES = [
+  ["person_graph_multi_participant", "S1-6A6C-FFET-001", "person graph", "phase_6a.person_graph_multi_participant"],
+  ["tiered_verification", "S1-6A6C-FFET-002", "tiered verification", "phase_6a.tiered_verification"],
+  ["evidence_ledger_hardening", "S1-6A6C-FFET-003", "evidence ledger", "phase_6a.evidence_ledger_hardening"],
+  ["reputation_interpretation_service", "S1-6A6C-FFET-004", "reputation interpretation", "phase_6a.reputation_interpretation_service"],
+  ["communication_gateway", "S1-6A6C-FFET-005", "communication gateway", "phase_6a.communication_gateway"],
+  ["configuration_constraints", "S1-6A6C-FFET-006", "configuration constraints", "phase_6a.configuration_constraints"],
+  ["ai_proxy_dual_plane", "S1-6A6C-FFET-007", "AI proxy dual plane", "phase_6a.ai_proxy_dual_plane"],
+  ["foundry_cross_tenant_activation", "S1-6A6C-FFET-008", "Foundry cross-tenant activation", "phase_6a.foundry_cross_tenant_activation"],
+] as const;
+
 @Injectable()
 export class Phase6AService {
   getScaffoldReadiness(): Phase6AScaffoldReadiness {
@@ -129,6 +164,31 @@ export class Phase6AService {
       ticket_generation_allowed: false,
       ticket_pack_generation_allowed: false,
       execution_authorized: false,
+    };
+  }
+
+  getRuntimeCapabilityStatus(snapshot: Phase6AActivationSnapshot = {}): Phase6ARuntimeCapabilityStatus {
+    const activeCapabilitySurfaces = new Set(snapshot.activeCapabilitySurfaces ?? []);
+    const surfaces = PHASE_6A_RUNTIME_SURFACES.map(
+      ([surface_key, source_ffet, source_surface, capability_surface]): Phase6ARuntimeSurface => ({
+        surface_key,
+        source_ffet,
+        source_surface,
+        capability_surface,
+        activation_required: true,
+        active: activeCapabilitySurfaces.has(capability_surface),
+        runtime_exposure: 'status_only_until_foundry_enforced',
+      }),
+    );
+
+    return {
+      phase: '6A',
+      status: 'runtime_surface_declared_activation_pending',
+      activation_authority: 'foundry_runtime_authority',
+      caller_controlled_activation_allowed: false,
+      active_surface_count: surfaces.filter((surface) => surface.active).length,
+      inactive_surface_count: surfaces.filter((surface) => !surface.active).length,
+      surfaces,
     };
   }
 }
