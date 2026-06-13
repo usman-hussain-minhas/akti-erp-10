@@ -16,12 +16,12 @@ ratifier: Usman Hussain
 
 # Esbla v5 Wave 0 — Phase 6C Closure Verification v1
 
-**Status:** PASS  
-**Repo head at verification:** `c3428ac`  
-**Phase 6C registry:** `docs/process/v4_1/phase_6c/v4/phase_6c_ffet_registry_v1.json`  
-**Registry FFET count:** 124  
-**Completed commit ID count:** 124  
-**Missing completed IDs:** none  
+**Status:** PASS
+**Repo head at verification:** `c3428ac`
+**Phase 6C registry:** `docs/process/v4_1/phase_6c/v4/phase_6c_ffet_registry_v1.json`
+**Registry FFET count:** 124
+**Completed commit ID count:** 124
+**Missing completed IDs:** none
 **Open Phase 6C FFET PRs:** 0
 
 ## Terminal FFET evidence

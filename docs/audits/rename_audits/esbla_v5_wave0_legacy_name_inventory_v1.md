@@ -16,10 +16,10 @@ ratifier: Usman Hussain
 
 # Esbla v5 Wave 0 — Legacy Name Inventory v1
 
-**Status:** PASS  
-**Repo head at inventory:** `c3428ac`  
-**Scan terms:** `AKTI_ERP, AKTI Spark, AKTI, Arfa Karim, akti`  
-**Total hits:** 29692  
+**Status:** PASS
+**Repo head at inventory:** `c3428ac`
+**Scan terms:** `AKTI_ERP, AKTI Spark, AKTI, Arfa Karim, akti`
+**Total hits:** 29692
 **Unclassified active hits:** 0
 
 ## Summary by class
