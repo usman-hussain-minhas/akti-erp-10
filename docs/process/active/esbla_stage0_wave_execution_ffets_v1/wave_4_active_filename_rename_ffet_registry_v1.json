@@ -1,0 +1,227 @@
+{
+  "$metadata": {
+    "company": "HAUTM",
+    "platform": "Esbla Spark",
+    "author": "Usman Hussain",
+    "owner": "Usman Hussain",
+    "suite_version": "v5.0",
+    "file_version": "v1.0",
+    "created": "2026-06-13",
+    "last_updated": "2026-06-13",
+    "status": "gate_3_ready_pending_human_approval",
+    "document_type": "ffet_registry",
+    "scope": "Stage 0 Waves 2-5 FFET Gate 3 readiness package. Planning/control artifact only; no execution approval implied.",
+    "ratifier": "Usman Hussain"
+  },
+  "artifact_id": "wave_4_active_filename_rename_ffet_registry_v1",
+  "status": "GATE_3_READY_PENDING_HUMAN_APPROVAL",
+  "source_inventory": "docs/audits/rename_audits/esbla_v5_wave0_legacy_name_inventory_v1.json",
+  "source_gate_2_plan": "docs/process/active/esbla_v5_steps_4_8_wave_gate_2_plan_v1.json",
+  "execution_flags": {
+    "ticket_generation_allowed": false,
+    "ticket_pack_generation_allowed": false,
+    "execution_authorized": false
+  },
+  "ffet_count": 3,
+  "ffets": [
+    {
+      "ffet_id": "STAGE0-W4-FFET-001",
+      "wave": 4,
+      "seed_id": "seed_stage0_wave4_active_doctrine_filename_rename",
+      "name": "Active doctrine and blueprint filename rename map",
+      "status": "gate_3_ready_pending_human_approval",
+      "execution_flags": {
+        "ticket_generation_allowed": false,
+        "ticket_pack_generation_allowed": false,
+        "execution_authorized": false
+      },
+      "merge_rationale": null,
+      "files_expected_to_change": [
+        "docs/blueprints/current/esbla_spark_blueprint_master_plan_v3_1.md",
+        "docs/doctrine/current/esbla_business_logic_v2.md",
+        "docs/doctrine/current/esbla_business_logic_v2_appendix_a_carried_forward_v4_rules.md",
+        "docs/doctrine/current/esbla_failure_prevention_codex_operating_doctrine_v1.md",
+        "docs/doctrine/current/esbla_ticket_quality_doctrine_v1.md",
+        "docs/standards/current/esbla_file_metadata_standard_v1.md"
+      ],
+      "exact_file_count": 6,
+      "maximum_concrete_capability_within_scope": "Execute the full concrete wave capability authorized by this FFET, not a placeholder or metadata-only substitute, while staying inside the exact listed files.",
+      "control_or_runtime_mcr": "Active doctrine, blueprint, and standard filenames and internal links are Esbla-normalized without mutating doctrine content beyond metadata/link updates.",
+      "validation_commands": [
+        "node scripts/quality/check_lower_snake_case_paths.mjs",
+        "git diff --check",
+        "custom scope audit: changed files exactly match FFET files_expected_to_change",
+        "custom legacy-name audit: every surviving active legacy hit has registry classification or sunset condition"
+      ],
+      "stop_conditions": [
+        "required edit outside files_expected_to_change",
+        "business, schema, API, permission, ADL, public legal, or product decision not present in ratified source truth",
+        "runtime/code/package/schema/generated/script/frontend/AGENTS change not explicitly owned by this FFET",
+        "validation failure after 3 bounded self-heal attempts",
+        "CI failure outside active FFET scope",
+        "merge conflict not resolvable inside exact listed files"
+      ],
+      "rollback_notes": "Revert the FFET commit/PR. If file moves are executed in a later Wave 2 or Wave 4 PR, rollback must restore both original paths and all updated references from the same exact file set.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": [
+          "metadata mismatch",
+          "stale line hash",
+          "stale internal reference",
+          "broken JSON",
+          "deterministic docs/control count drift"
+        ],
+        "forbidden": [
+          "scope expansion",
+          "runtime behavior invention",
+          "schema/package/generated/script/frontend/AGENTS edits unless explicitly owned",
+          "execution flag flip",
+          "weakening validation"
+        ]
+      },
+      "expected_evidence": [
+        "changed-file scope report",
+        "validation command output",
+        "legacy hit before/after classification delta",
+        "execution flags false confirmation",
+        "PR URL and merge commit after future execution approval"
+      ],
+      "dependencies": [],
+      "filename_moves_authorized_after_gate3": true
+    },
+    {
+      "ffet_id": "STAGE0-W4-FFET-002",
+      "wave": 4,
+      "seed_id": "seed_stage0_wave4_active_process_filename_rename",
+      "name": "Active process and phase filename rename map",
+      "status": "gate_3_ready_pending_human_approval",
+      "execution_flags": {
+        "ticket_generation_allowed": false,
+        "ticket_pack_generation_allowed": false,
+        "execution_authorized": false
+      },
+      "merge_rationale": null,
+      "files_expected_to_change": [
+        "docs/process/active/esbla_rebaseline_refactor_plan_v1.md",
+        "docs/process/active/esbla_v5_steps_4_8_wave_gate_2_audit_v1.md",
+        "docs/process/active/esbla_v5_steps_4_8_wave_gate_2_plan_v1.md",
+        "docs/process/phases/cross_phase/esbla_phase_6a_6c_consolidated_amendment_v1.md",
+        "docs/process/phases/cross_phase/phase_6a_6c_runtime_integration_ffet_v1/phase_6a_6c_runtime_integration_ffet_registry_v1.json",
+        "docs/process/phases/cross_phase/phase_6a_6c_runtime_integration_ffet_v1/phase_6a_6c_runtime_integration_ffet_registry_v1.md",
+        "docs/process/phases/phase_06d_learning/plan/esbla_phase_6d_learning_v2.md",
+        "docs/process/phases/phase_06e_growth_surface/plan/esbla_phase_6e_growth_surface_v2.md",
+        "docs/process/phases/phase_06f_intelligence_admin_design/plan/esbla_phase_6f_intelligence_admin_design_v2.md"
+      ],
+      "exact_file_count": 9,
+      "maximum_concrete_capability_within_scope": "Execute the full concrete wave capability authorized by this FFET, not a placeholder or metadata-only substitute, while staying inside the exact listed files.",
+      "control_or_runtime_mcr": "Active process and phase filenames plus internal references are normalized after Gate 3, preserving content and execution flags.",
+      "validation_commands": [
+        "node scripts/quality/check_lower_snake_case_paths.mjs",
+        "git diff --check",
+        "custom scope audit: changed files exactly match FFET files_expected_to_change",
+        "custom legacy-name audit: every surviving active legacy hit has registry classification or sunset condition"
+      ],
+      "stop_conditions": [
+        "required edit outside files_expected_to_change",
+        "business, schema, API, permission, ADL, public legal, or product decision not present in ratified source truth",
+        "runtime/code/package/schema/generated/script/frontend/AGENTS change not explicitly owned by this FFET",
+        "validation failure after 3 bounded self-heal attempts",
+        "CI failure outside active FFET scope",
+        "merge conflict not resolvable inside exact listed files"
+      ],
+      "rollback_notes": "Revert the FFET commit/PR. If file moves are executed in a later Wave 2 or Wave 4 PR, rollback must restore both original paths and all updated references from the same exact file set.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": [
+          "metadata mismatch",
+          "stale line hash",
+          "stale internal reference",
+          "broken JSON",
+          "deterministic docs/control count drift"
+        ],
+        "forbidden": [
+          "scope expansion",
+          "runtime behavior invention",
+          "schema/package/generated/script/frontend/AGENTS edits unless explicitly owned",
+          "execution flag flip",
+          "weakening validation"
+        ]
+      },
+      "expected_evidence": [
+        "changed-file scope report",
+        "validation command output",
+        "legacy hit before/after classification delta",
+        "execution flags false confirmation",
+        "PR URL and merge commit after future execution approval"
+      ],
+      "dependencies": [
+        "STAGE0-W4-FFET-001"
+      ],
+      "filename_moves_authorized_after_gate3": true
+    },
+    {
+      "ffet_id": "STAGE0-W4-FFET-003",
+      "wave": 4,
+      "seed_id": "seed_stage0_wave4_registry_link_reconciliation",
+      "name": "Filename rename registry and ratification reconciliation",
+      "status": "gate_3_ready_pending_human_approval",
+      "execution_flags": {
+        "ticket_generation_allowed": false,
+        "ticket_pack_generation_allowed": false,
+        "execution_authorized": false
+      },
+      "merge_rationale": null,
+      "files_expected_to_change": [
+        "docs/ratification/esbla_spark_v5_0/RATIFICATION_Esbla_Spark_v5_0.md",
+        "docs/ratification/esbla_spark_v5_0/decision_record_v5_0.json",
+        "docs/ratification/esbla_spark_v5_0/esbla_docs_suite_v5_manifest_v1.md"
+      ],
+      "exact_file_count": 3,
+      "maximum_concrete_capability_within_scope": "Execute the full concrete wave capability authorized by this FFET, not a placeholder or metadata-only substitute, while staying inside the exact listed files.",
+      "control_or_runtime_mcr": "Registries, ratification hashes, and legacy-name map are reconciled after any approved filename moves.",
+      "validation_commands": [
+        "node scripts/quality/check_lower_snake_case_paths.mjs",
+        "git diff --check",
+        "custom scope audit: changed files exactly match FFET files_expected_to_change",
+        "custom legacy-name audit: every surviving active legacy hit has registry classification or sunset condition"
+      ],
+      "stop_conditions": [
+        "required edit outside files_expected_to_change",
+        "business, schema, API, permission, ADL, public legal, or product decision not present in ratified source truth",
+        "runtime/code/package/schema/generated/script/frontend/AGENTS change not explicitly owned by this FFET",
+        "validation failure after 3 bounded self-heal attempts",
+        "CI failure outside active FFET scope",
+        "merge conflict not resolvable inside exact listed files"
+      ],
+      "rollback_notes": "Revert the FFET commit/PR. If file moves are executed in a later Wave 2 or Wave 4 PR, rollback must restore both original paths and all updated references from the same exact file set.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": [
+          "metadata mismatch",
+          "stale line hash",
+          "stale internal reference",
+          "broken JSON",
+          "deterministic docs/control count drift"
+        ],
+        "forbidden": [
+          "scope expansion",
+          "runtime behavior invention",
+          "schema/package/generated/script/frontend/AGENTS edits unless explicitly owned",
+          "execution flag flip",
+          "weakening validation"
+        ]
+      },
+      "expected_evidence": [
+        "changed-file scope report",
+        "validation command output",
+        "legacy hit before/after classification delta",
+        "execution flags false confirmation",
+        "PR URL and merge commit after future execution approval",
+        "Registry hash reconciliation deferred to STAGE0-W5-FFET-002 to preserve exact-file ownership."
+      ],
+      "dependencies": [
+        "STAGE0-W4-FFET-002"
+      ]
+    }
+  ]
+}
