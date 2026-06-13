@@ -1,0 +1,48 @@
+{
+  "screen_contract_under_test": "docs/screen_contracts/phase_6a_6c/runtime_capability_shell.screen.json",
+  "contract_gate_status": "ready_for_frontend_wiring",
+  "required_assertions": [
+    {
+      "assertion_key": "screen_contract_schema_valid",
+      "description": "The runtime capability shell contract parses with packages/contracts screen-contract schema."
+    },
+    {
+      "assertion_key": "foundry_activation_authority_required",
+      "description": "Frontend visibility must derive from Foundry activation preflight or status surfaces, not hardcoded frontend lists."
+    },
+    {
+      "assertion_key": "inactive_navigation_hidden",
+      "description": "Inactive services are hidden from clickable navigation."
+    },
+    {
+      "assertion_key": "inactive_direct_route_unavailable",
+      "description": "Direct inactive-service routes produce unavailable or 404 behavior."
+    },
+    {
+      "assertion_key": "gatekeeper_preflight_required_for_high_risk_actions",
+      "description": "High-risk service actions must route through Gatekeeper before execution."
+    },
+    {
+      "assertion_key": "audit_evidence_required_for_service_open",
+      "description": "Opening an active runtime service must produce audit/evidence metadata."
+    },
+    {
+      "assertion_key": "tenant_activation_isolation",
+      "description": "Tenant A must not see Tenant B activation or runtime status."
+    }
+  ],
+  "required_negative_visual_assertions": [
+    "cross_tenant_deny",
+    "inactive_route_404_or_unavailable",
+    "opt_out_send_blocked",
+    "failed_kyc_restricted_t1_path",
+    "failed_payment_correctable_invoice_path"
+  ],
+  "forbidden_frontend_shortcuts": [
+    "hardcoded_active_services",
+    "client_only_activation_authority",
+    "placeholder_service_cards",
+    "fake_runtime_status",
+    "cross_tenant_activation_cache"
+  ]
+}
