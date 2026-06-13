@@ -53,10 +53,38 @@
     "verification_artifact": "docs/audits/phase_runs/esbla_v5_wave0_phase_6c_closure_verification_v1.json"
   },
   "phase_6a_6c_runtime_integration": {
-    "status": "gate_2_ready_for_human_review",
+    "status": "BLOCKED_PENDING_STAGE_1_EXECUTION_AND_STAGE2_REAUDIT",
     "package_path": "docs/process/phases/cross_phase/phase_6a_6c_runtime_integration_ffet_v1",
     "ffet_count": 14,
-    "execution_authorized": false
+    "execution_authorized": false,
+    "gate_3_ready": false,
+    "stage2_reaudit_required": true,
+    "blockers": [
+      {
+        "blocker_id": "STAGE0-W3-FFET-002",
+        "type": "deferred_stage2_contract_change",
+        "status": "open_deferred_to_stage2",
+        "description": "Deferred semantic contract/package identifier rename for the 11 contract manifests from Stage 0 Wave 3.",
+        "required_resolution": "Create and execute a Stage 2 versioned contract-change pack before or alongside runtime wiring consumers.",
+        "execution_authorized": false
+      },
+      {
+        "blocker_id": "NESTJS_11_PREREQUISITE",
+        "type": "stage2_dependency_prerequisite",
+        "status": "satisfied_pending_stage2_reverification",
+        "description": "NestJS 11 prerequisite is currently satisfied in apps/api/package.json with @nestjs/common, @nestjs/core, and @nestjs/platform-express at ^11.1.26.",
+        "required_resolution": "Re-verify package metadata and native validation before Stage 2 runtime wiring begins.",
+        "execution_authorized": false
+      },
+      {
+        "blocker_id": "STAGE1_REBASELINE_REQUIRED",
+        "type": "stage2_reaudit_required",
+        "status": "open_until_stage1_closure",
+        "description": "Runtime integration package was generated before Stage 1 amendment FFET execution and must be regenerated or re-audited against the post-Stage-1 artifact set.",
+        "required_resolution": "After Stage 1 closure, rebaseline the RI package and run a fresh independent Gate-2 audit before any RI Gate 3 request.",
+        "execution_authorized": false
+      }
+    ]
   },
   "v5_ratification": {
     "status": "signed_and_accepted_internal_ratification",
@@ -215,5 +243,34 @@
     "execution_authorized": false,
     "gate_3_required_before_execution": true,
     "final_post_approval_target": "PHASE_6A_6C_STAGE1_AMENDMENT_SEED_ARTIFACTS_READY_FOR_STAGE2_REBASELINE"
+  },
+  "stage2_prerequisites": {
+    "status": "open_pending_stage1_closure_and_ri_reaudit",
+    "items": [
+      {
+        "blocker_id": "STAGE0-W3-FFET-002",
+        "type": "deferred_stage2_contract_change",
+        "status": "open_deferred_to_stage2",
+        "description": "Deferred semantic contract/package identifier rename for the 11 contract manifests from Stage 0 Wave 3.",
+        "required_resolution": "Create and execute a Stage 2 versioned contract-change pack before or alongside runtime wiring consumers.",
+        "execution_authorized": false
+      },
+      {
+        "blocker_id": "NESTJS_11_PREREQUISITE",
+        "type": "stage2_dependency_prerequisite",
+        "status": "satisfied_pending_stage2_reverification",
+        "description": "NestJS 11 prerequisite is currently satisfied in apps/api/package.json with @nestjs/common, @nestjs/core, and @nestjs/platform-express at ^11.1.26.",
+        "required_resolution": "Re-verify package metadata and native validation before Stage 2 runtime wiring begins.",
+        "execution_authorized": false
+      },
+      {
+        "blocker_id": "STAGE1_REBASELINE_REQUIRED",
+        "type": "stage2_reaudit_required",
+        "status": "open_until_stage1_closure",
+        "description": "Runtime integration package was generated before Stage 1 amendment FFET execution and must be regenerated or re-audited against the post-Stage-1 artifact set.",
+        "required_resolution": "After Stage 1 closure, rebaseline the RI package and run a fresh independent Gate-2 audit before any RI Gate 3 request.",
+        "execution_authorized": false
+      }
+    ]
   }
 }

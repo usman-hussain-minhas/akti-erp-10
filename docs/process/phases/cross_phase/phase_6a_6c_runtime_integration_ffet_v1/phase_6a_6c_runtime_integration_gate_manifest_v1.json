@@ -14,7 +14,7 @@
     "ratifier": "Usman Hussain"
   },
   "artifact_id": "phase_6a_6c_runtime_integration_gate_manifest_v1",
-  "status": "PASS",
+  "status": "BLOCKED_PENDING_STAGE_1_EXECUTION_AND_STAGE2_REAUDIT",
   "rules": {
     "all_flags_false": true,
     "exact_files_required": true,
@@ -25,5 +25,39 @@
     "disabled_service_negative_test_required": true,
     "no_schema_migration_package_generated_script_frontend_out_of_contract": true,
     "human_gate_3_required_before_execution": true
-  }
+  },
+  "execution_authorized": false,
+  "stage2_reaudit_required": true,
+  "stage1_execution_required_before_gate3": true,
+  "blockers": [
+    {
+      "blocker_id": "STAGE0-W3-FFET-002",
+      "type": "deferred_stage2_contract_change",
+      "status": "open_deferred_to_stage2",
+      "description": "Deferred semantic contract/package identifier rename for the 11 contract manifests from Stage 0 Wave 3.",
+      "required_resolution": "Create and execute a Stage 2 versioned contract-change pack before or alongside runtime wiring consumers.",
+      "execution_authorized": false
+    },
+    {
+      "blocker_id": "NESTJS_11_PREREQUISITE",
+      "type": "stage2_dependency_prerequisite",
+      "status": "satisfied_pending_stage2_reverification",
+      "description": "NestJS 11 prerequisite is currently satisfied in apps/api/package.json with @nestjs/common, @nestjs/core, and @nestjs/platform-express at ^11.1.26.",
+      "required_resolution": "Re-verify package metadata and native validation before Stage 2 runtime wiring begins.",
+      "execution_authorized": false
+    },
+    {
+      "blocker_id": "STAGE1_REBASELINE_REQUIRED",
+      "type": "stage2_reaudit_required",
+      "status": "open_until_stage1_closure",
+      "description": "Runtime integration package was generated before Stage 1 amendment FFET execution and must be regenerated or re-audited against the post-Stage-1 artifact set.",
+      "required_resolution": "After Stage 1 closure, rebaseline the RI package and run a fresh independent Gate-2 audit before any RI Gate 3 request.",
+      "execution_authorized": false
+    }
+  ],
+  "required_before_gate3": [
+    "STAGE0-W3-FFET-002",
+    "NESTJS_11_PREREQUISITE",
+    "STAGE1_REBASELINE_REQUIRED"
+  ]
 }

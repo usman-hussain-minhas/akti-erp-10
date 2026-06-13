@@ -16,8 +16,10 @@ ratifier: Usman Hussain
 
 # Phase 6A-6C Runtime Integration Final Human Review Packet v1
 
-**Status:** READY_FOR_HUMAN_GATE_3_REVIEW
+**Status:** `BLOCKED_PENDING_STAGE_1_EXECUTION_AND_STAGE2_REAUDIT`
 
-This package is ready for human Gate 3 review. It does not authorize execution. All runtime-integration FFET flags remain false.
+This packet is not a current Gate 3 candidate. Human review for Stage 2 must wait until Stage 1 closure and a fresh RI rebaseline/re-audit.
 
-Human review should focus on exact-file scope, disabled-service negative tests, frontend screen-contract gate, and whether the 14-FFET dependency order is acceptable for later Gate 4 autonomous execution.
+- STAGE0-W3-FFET-002: Deferred semantic contract/package identifier rename for the 11 contract manifests from Stage 0 Wave 3. Resolution: Create and execute a Stage 2 versioned contract-change pack before or alongside runtime wiring consumers. Status: open_deferred_to_stage2.
+- NESTJS_11_PREREQUISITE: NestJS 11 prerequisite is currently satisfied in apps/api/package.json with @nestjs/common, @nestjs/core, and @nestjs/platform-express at ^11.1.26. Resolution: Re-verify package metadata and native validation before Stage 2 runtime wiring begins. Status: satisfied_pending_stage2_reverification.
+- STAGE1_REBASELINE_REQUIRED: Runtime integration package was generated before Stage 1 amendment FFET execution and must be regenerated or re-audited against the post-Stage-1 artifact set. Resolution: After Stage 1 closure, rebaseline the RI package and run a fresh independent Gate-2 audit before any RI Gate 3 request. Status: open_until_stage1_closure.

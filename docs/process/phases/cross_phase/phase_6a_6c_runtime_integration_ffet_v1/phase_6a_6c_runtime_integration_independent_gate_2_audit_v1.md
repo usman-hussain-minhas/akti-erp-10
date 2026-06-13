@@ -16,16 +16,10 @@ ratifier: Usman Hussain
 
 # Phase 6A-6C Runtime Integration Independent Gate-2 Audit v1
 
-**Status:** PASS
+**Status:** `BLOCKED_PENDING_STAGE_1_EXECUTION_AND_STAGE2_REAUDIT`
 
-| Check | Result |
-|---|---:|
-| FFET count | 14 |
-| Ownership overlaps | 0 |
-| Dependency cycles | 0 |
-| Broad globs | 0 |
-| Missing runtime MCRs | 0 |
-| Disabled-service negative test represented | True |
-| All flags false | True |
+The prior audit PASS is superseded by Stage 1 sequencing. The runtime-integration package must be re-audited after Stage 1 execution.
 
-Final status: `PHASE_6A_6C_RUNTIME_INTEGRATION_FFET_GATE_2_READY_FOR_HUMAN_REVIEW`.
+- STAGE0-W3-FFET-002: Deferred semantic contract/package identifier rename for the 11 contract manifests from Stage 0 Wave 3. Resolution: Create and execute a Stage 2 versioned contract-change pack before or alongside runtime wiring consumers. Status: open_deferred_to_stage2.
+- NESTJS_11_PREREQUISITE: NestJS 11 prerequisite is currently satisfied in apps/api/package.json with @nestjs/common, @nestjs/core, and @nestjs/platform-express at ^11.1.26. Resolution: Re-verify package metadata and native validation before Stage 2 runtime wiring begins. Status: satisfied_pending_stage2_reverification.
+- STAGE1_REBASELINE_REQUIRED: Runtime integration package was generated before Stage 1 amendment FFET execution and must be regenerated or re-audited against the post-Stage-1 artifact set. Resolution: After Stage 1 closure, rebaseline the RI package and run a fresh independent Gate-2 audit before any RI Gate 3 request. Status: open_until_stage1_closure.
