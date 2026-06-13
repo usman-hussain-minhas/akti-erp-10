@@ -24,6 +24,9 @@ import { LeadDeskService } from './lead-desk/lead-desk.service';
 import { ModuleRegistryModule } from './module-registry/module-registry.module';
 import { NotificationsController } from './notifications/notifications.controller';
 import { NotificationsService } from './notifications/notifications.service';
+import { Phase6AModule } from './phase_6a/phase_6a.module';
+import { Phase6BModule } from './phase_6b/phase_6b.module';
+import { Phase6CModule } from './phase_6c/phase_6c.module';
 import { OrganizationSetupController } from './organization-setup/organization-setup.controller';
 import { OrganizationSetupService } from './organization-setup/organization-setup.service';
 import { PlatformHealthController } from './platform-health/platform-health.controller';
@@ -40,7 +43,7 @@ import { WorkflowController } from './workflow/workflow.controller';
 import { WorkflowService } from './workflow/workflow.service';
 
 @Module({
-  imports: [ConfigurationModule, ModuleRegistryModule],
+  imports: [ConfigurationModule, ModuleRegistryModule, Phase6AModule, Phase6BModule, Phase6CModule],
   controllers: [
     AppController,
     CurrentUserController,
