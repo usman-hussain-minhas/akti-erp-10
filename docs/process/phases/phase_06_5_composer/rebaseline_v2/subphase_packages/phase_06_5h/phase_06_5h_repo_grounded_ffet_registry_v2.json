@@ -1,0 +1,1997 @@
+{
+  "$metadata": {
+    "company": "HAUTM",
+    "platform": "Esbla Spark",
+    "author": "Usman Hussain",
+    "owner": "Usman Hussain",
+    "suite_version": "v5.0",
+    "file_version": "v1.0",
+    "created": "2026-06-14",
+    "last_updated": "2026-06-14",
+    "status": "for_ratification",
+    "document_type": "ffet_registry",
+    "scope": "Repo-grounded FFET registry for Composer 6.5H.",
+    "title": "6.5H Composer Repo-Grounded FFET Registry v2"
+  },
+  "subphase": "6.5H",
+  "name": "Composer Frontend, Figma, Noob-Proof UX, and Visual Acceptance",
+  "ffet_count": 16,
+  "ffets": [
+    {
+      "ffet_id": "P65H-FFET-001",
+      "candidate_id": "P65H-CAND-001",
+      "slug": "screen_contract_pack",
+      "subphase": "6.5H",
+      "title": "Composer screen contract pack",
+      "execution_authorized": false,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "source_authority": [
+        "docs/process/phases/phase_06_5_composer/rebaseline_v2/claims/composer_source_claim_catalog_v2.json#claim_ids=C65-0283,C65-0291,C65-0416,C65-0422,C65-0431",
+        "docs/process/phases/phase_06_5_composer/rebaseline_v2/mapping/composer_substrate_consumption_matrix_v2.json",
+        "docs/process/phases/phase_06_5_composer/rebaseline_v2/ownership/composer_exact_file_ownership_map_v2.json"
+      ],
+      "source_claim_ids": [
+        "C65-0283",
+        "C65-0291",
+        "C65-0416",
+        "C65-0422",
+        "C65-0431"
+      ],
+      "substrate_refs": [
+        "Frontend Shell",
+        "Module Registry",
+        "Foundry",
+        "Access Core",
+        "Configuration Engine",
+        "AI Proxy",
+        "Hierarchy/Organization",
+        "Import/Export",
+        "Evidence/Audit"
+      ],
+      "read_only_substrate_dependencies": [
+        "apps/api/src/access-core",
+        "apps/api/src/ai-proxy",
+        "apps/api/src/communication",
+        "apps/api/src/configuration",
+        "apps/api/src/engagement-gateway",
+        "apps/api/src/foundry",
+        "apps/api/src/gatekeeper",
+        "apps/api/src/hierarchy",
+        "apps/api/src/import-export",
+        "apps/api/src/module-registry",
+        "apps/api/src/organization-setup",
+        "apps/api/src/phase_6a",
+        "apps/api/src/phase_6a_6c_runtime",
+        "apps/api/src/phase_6b",
+        "apps/api/src/phase_6b/payment_collection_topup",
+        "apps/api/src/phase_6c",
+        "apps/web/app/app",
+        "apps/web/components/mission-control",
+        "apps/web/components/ui",
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_composer_blueprint_v3.md",
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_composer_how_it_works_v3.md",
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_phase_6_5_composer_management_answers_v1.md",
+        "packages/contracts/access-core-capability-seed.contract.ts",
+        "packages/contracts/access-core.module-manifest.contract.ts",
+        "packages/contracts/gatekeeper-contract.ts",
+        "packages/contracts/module-manifest.schema.ts",
+        "packages/contracts/phase_6a",
+        "packages/contracts/phase_6a/6_a_04_tenant_organisation_branch_and_session_identity",
+        "packages/contracts/phase_6a/6_a_07_audit_log_and_universal_evidence_stream",
+        "packages/contracts/phase_6a/6_a_09_core_billing_engine_and_pricing_registry",
+        "packages/contracts/phase_6a/6_a_11_communication_gateway_and_global_opt_out",
+        "packages/contracts/phase_6a/6_a_13_configuration_engine",
+        "packages/contracts/phase_6a/6_a_14_search_and_file_service_layer",
+        "packages/contracts/phase_6a/6_a_16_ai_proxy_and_ai_governance_foundation",
+        "packages/contracts/phase_6b",
+        "packages/contracts/phase_6b/finance_billing_operations",
+        "packages/contracts/phase_6c",
+        "prisma/schema.prisma"
+      ],
+      "exact_files": [
+        "packages/contracts/composer/screen_contract_pack.contract.ts",
+        "packages/contracts/composer/screen_contract_pack.contract.test.ts",
+        "packages/contracts/composer/screen_contract_pack.module_manifest.contract.ts"
+      ],
+      "maximum_concrete_capability": "Composer screen contract pack: All Composer UI surfaces have screen contracts before frontend implementation.",
+      "mcr": "All Composer UI surfaces have screen contracts before frontend implementation.",
+      "dependencies": [
+        "P65A-FFET-006",
+        "P65D-FFET-001",
+        "P65G-FFET-008"
+      ],
+      "validation_commands": [
+        "node scripts/quality/check_lower_snake_case_paths.mjs",
+        "git diff --check",
+        "JSON parse and metadata audit",
+        "exact-file scope audit",
+        "pnpm contracts:validate"
+      ],
+      "stop_conditions": [
+        "required edit outside exact_files",
+        "missing source authority or source claim conflict",
+        "schema/migration/package/lockfile/generated/frontend implementation outside active FFET scope",
+        "Composer P-ID uses occupied P-26 through P-39",
+        "runtime/frontend execution before Gate 3 approval",
+        "new business/API/permission/provider/ADL decision not grounded in source"
+      ],
+      "rollback_notes": "Revert the active FFET PR only; do not revert previously merged Phase 6.5 rebaseline artifacts or unrelated user changes.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": [
+          "broken JSON",
+          "metadata mismatch",
+          "stale line/hash/reference",
+          "deterministic import/export mismatch inside exact files",
+          "local test expectation drift caused by active FFET"
+        ],
+        "forbidden": [
+          "scope expansion",
+          "weakening validation",
+          "inventing doctrine",
+          "schema/migration/package/lockfile/generated changes outside exact files",
+          "execution flag flips without human Gate 3 approval"
+        ]
+      },
+      "expected_evidence": [
+        "MCR proof",
+        "validation command output",
+        "PR URL and merge commit",
+        "updated closure/audit evidence for active FFET"
+      ]
+    },
+    {
+      "ffet_id": "P65H-FFET-002",
+      "candidate_id": "P65H-CAND-002",
+      "slug": "setup_wizard_frontend",
+      "subphase": "6.5H",
+      "title": "Setup Wizard frontend",
+      "execution_authorized": false,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "source_authority": [
+        "docs/process/phases/phase_06_5_composer/rebaseline_v2/claims/composer_source_claim_catalog_v2.json#claim_ids=C65-0051,C65-0250,C65-0416,C65-0417",
+        "docs/process/phases/phase_06_5_composer/rebaseline_v2/mapping/composer_substrate_consumption_matrix_v2.json",
+        "docs/process/phases/phase_06_5_composer/rebaseline_v2/ownership/composer_exact_file_ownership_map_v2.json"
+      ],
+      "source_claim_ids": [
+        "C65-0051",
+        "C65-0250",
+        "C65-0416",
+        "C65-0417"
+      ],
+      "substrate_refs": [
+        "Frontend Shell",
+        "Access Core",
+        "Configuration Engine",
+        "AI Proxy",
+        "Hierarchy/Organization",
+        "Import/Export"
+      ],
+      "read_only_substrate_dependencies": [
+        "apps/api/src/access-core",
+        "apps/api/src/ai-proxy",
+        "apps/api/src/communication",
+        "apps/api/src/configuration",
+        "apps/api/src/engagement-gateway",
+        "apps/api/src/foundry",
+        "apps/api/src/gatekeeper",
+        "apps/api/src/hierarchy",
+        "apps/api/src/import-export",
+        "apps/api/src/module-registry",
+        "apps/api/src/organization-setup",
+        "apps/api/src/phase_6a",
+        "apps/api/src/phase_6a_6c_runtime",
+        "apps/api/src/phase_6b",
+        "apps/api/src/phase_6b/payment_collection_topup",
+        "apps/api/src/phase_6c",
+        "apps/web/app/app",
+        "apps/web/components/mission-control",
+        "apps/web/components/ui",
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_composer_blueprint_v3.md",
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_composer_how_it_works_v3.md",
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_phase_6_5_composer_management_answers_v1.md",
+        "packages/contracts/access-core-capability-seed.contract.ts",
+        "packages/contracts/access-core.module-manifest.contract.ts",
+        "packages/contracts/gatekeeper-contract.ts",
+        "packages/contracts/module-manifest.schema.ts",
+        "packages/contracts/phase_6a",
+        "packages/contracts/phase_6a/6_a_04_tenant_organisation_branch_and_session_identity",
+        "packages/contracts/phase_6a/6_a_07_audit_log_and_universal_evidence_stream",
+        "packages/contracts/phase_6a/6_a_09_core_billing_engine_and_pricing_registry",
+        "packages/contracts/phase_6a/6_a_11_communication_gateway_and_global_opt_out",
+        "packages/contracts/phase_6a/6_a_13_configuration_engine",
+        "packages/contracts/phase_6a/6_a_14_search_and_file_service_layer",
+        "packages/contracts/phase_6a/6_a_16_ai_proxy_and_ai_governance_foundation",
+        "packages/contracts/phase_6b",
+        "packages/contracts/phase_6b/finance_billing_operations",
+        "packages/contracts/phase_6c",
+        "prisma/schema.prisma"
+      ],
+      "exact_files": [
+        "apps/web/app/composer/setup_wizard_frontend/page.tsx",
+        "apps/web/components/composer/setup_wizard_frontend.tsx",
+        "apps/web/test/composer_setup_wizard_frontend.test.mjs",
+        "docs/audits/phase_06_5_composer/screenshots/setup_wizard_frontend_visual_proof.png"
+      ],
+      "maximum_concrete_capability": "Setup Wizard frontend: Browser proof shows tenant admin can start from template with required states.",
+      "mcr": "Browser proof shows tenant admin can start from template with required states.",
+      "dependencies": [
+        "P65A-FFET-006",
+        "P65B-FFET-008",
+        "P65D-FFET-001",
+        "P65G-FFET-008",
+        "P65H-FFET-001"
+      ],
+      "validation_commands": [
+        "node scripts/quality/check_lower_snake_case_paths.mjs",
+        "git diff --check",
+        "JSON parse and metadata audit",
+        "exact-file scope audit",
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "browser screenshot evidence where UI is touched"
+      ],
+      "stop_conditions": [
+        "required edit outside exact_files",
+        "missing source authority or source claim conflict",
+        "schema/migration/package/lockfile/generated/frontend implementation outside active FFET scope",
+        "Composer P-ID uses occupied P-26 through P-39",
+        "runtime/frontend execution before Gate 3 approval",
+        "new business/API/permission/provider/ADL decision not grounded in source"
+      ],
+      "rollback_notes": "Revert the active FFET PR only; do not revert previously merged Phase 6.5 rebaseline artifacts or unrelated user changes.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": [
+          "broken JSON",
+          "metadata mismatch",
+          "stale line/hash/reference",
+          "deterministic import/export mismatch inside exact files",
+          "local test expectation drift caused by active FFET"
+        ],
+        "forbidden": [
+          "scope expansion",
+          "weakening validation",
+          "inventing doctrine",
+          "schema/migration/package/lockfile/generated changes outside exact files",
+          "execution flag flips without human Gate 3 approval"
+        ]
+      },
+      "expected_evidence": [
+        "MCR proof",
+        "validation command output",
+        "PR URL and merge commit",
+        "updated closure/audit evidence for active FFET"
+      ]
+    },
+    {
+      "ffet_id": "P65H-FFET-003",
+      "candidate_id": "P65H-CAND-003",
+      "slug": "organization_view_canvas_form",
+      "subphase": "6.5H",
+      "title": "Organization View canvas/form parity",
+      "execution_authorized": false,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "source_authority": [
+        "docs/process/phases/phase_06_5_composer/rebaseline_v2/claims/composer_source_claim_catalog_v2.json#claim_ids=C65-0016,C65-0416",
+        "docs/process/phases/phase_06_5_composer/rebaseline_v2/mapping/composer_substrate_consumption_matrix_v2.json",
+        "docs/process/phases/phase_06_5_composer/rebaseline_v2/ownership/composer_exact_file_ownership_map_v2.json"
+      ],
+      "source_claim_ids": [
+        "C65-0016",
+        "C65-0416"
+      ],
+      "substrate_refs": [
+        "Frontend Shell",
+        "Access Core",
+        "Configuration Engine",
+        "AI Proxy",
+        "Hierarchy/Organization",
+        "Import/Export"
+      ],
+      "read_only_substrate_dependencies": [
+        "apps/api/src/access-core",
+        "apps/api/src/ai-proxy",
+        "apps/api/src/communication",
+        "apps/api/src/configuration",
+        "apps/api/src/engagement-gateway",
+        "apps/api/src/foundry",
+        "apps/api/src/gatekeeper",
+        "apps/api/src/hierarchy",
+        "apps/api/src/import-export",
+        "apps/api/src/module-registry",
+        "apps/api/src/organization-setup",
+        "apps/api/src/phase_6a",
+        "apps/api/src/phase_6a_6c_runtime",
+        "apps/api/src/phase_6b",
+        "apps/api/src/phase_6b/payment_collection_topup",
+        "apps/api/src/phase_6c",
+        "apps/web/app/app",
+        "apps/web/components/mission-control",
+        "apps/web/components/ui",
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_composer_blueprint_v3.md",
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_composer_how_it_works_v3.md",
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_phase_6_5_composer_management_answers_v1.md",
+        "packages/contracts/access-core-capability-seed.contract.ts",
+        "packages/contracts/access-core.module-manifest.contract.ts",
+        "packages/contracts/gatekeeper-contract.ts",
+        "packages/contracts/module-manifest.schema.ts",
+        "packages/contracts/phase_6a",
+        "packages/contracts/phase_6a/6_a_04_tenant_organisation_branch_and_session_identity",
+        "packages/contracts/phase_6a/6_a_07_audit_log_and_universal_evidence_stream",
+        "packages/contracts/phase_6a/6_a_09_core_billing_engine_and_pricing_registry",
+        "packages/contracts/phase_6a/6_a_11_communication_gateway_and_global_opt_out",
+        "packages/contracts/phase_6a/6_a_13_configuration_engine",
+        "packages/contracts/phase_6a/6_a_14_search_and_file_service_layer",
+        "packages/contracts/phase_6a/6_a_16_ai_proxy_and_ai_governance_foundation",
+        "packages/contracts/phase_6b",
+        "packages/contracts/phase_6b/finance_billing_operations",
+        "packages/contracts/phase_6c",
+        "prisma/schema.prisma"
+      ],
+      "exact_files": [
+        "apps/web/app/composer/organization_view_canvas_form/page.tsx",
+        "apps/web/components/composer/organization_view_canvas_form.tsx",
+        "apps/web/test/composer_organization_view_canvas_form.test.mjs",
+        "docs/audits/phase_06_5_composer/screenshots/organization_view_canvas_form_visual_proof.png"
+      ],
+      "maximum_concrete_capability": "Organization View canvas/form parity: Browser proof shows organization edits work through canvas and form/list fallback.",
+      "mcr": "Browser proof shows organization edits work through canvas and form/list fallback.",
+      "dependencies": [
+        "P65A-FFET-006",
+        "P65B-FFET-008",
+        "P65D-FFET-001",
+        "P65G-FFET-008",
+        "P65H-FFET-001"
+      ],
+      "validation_commands": [
+        "node scripts/quality/check_lower_snake_case_paths.mjs",
+        "git diff --check",
+        "JSON parse and metadata audit",
+        "exact-file scope audit",
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "browser screenshot evidence where UI is touched"
+      ],
+      "stop_conditions": [
+        "required edit outside exact_files",
+        "missing source authority or source claim conflict",
+        "schema/migration/package/lockfile/generated/frontend implementation outside active FFET scope",
+        "Composer P-ID uses occupied P-26 through P-39",
+        "runtime/frontend execution before Gate 3 approval",
+        "new business/API/permission/provider/ADL decision not grounded in source"
+      ],
+      "rollback_notes": "Revert the active FFET PR only; do not revert previously merged Phase 6.5 rebaseline artifacts or unrelated user changes.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": [
+          "broken JSON",
+          "metadata mismatch",
+          "stale line/hash/reference",
+          "deterministic import/export mismatch inside exact files",
+          "local test expectation drift caused by active FFET"
+        ],
+        "forbidden": [
+          "scope expansion",
+          "weakening validation",
+          "inventing doctrine",
+          "schema/migration/package/lockfile/generated changes outside exact files",
+          "execution flag flips without human Gate 3 approval"
+        ]
+      },
+      "expected_evidence": [
+        "MCR proof",
+        "validation command output",
+        "PR URL and merge commit",
+        "updated closure/audit evidence for active FFET"
+      ]
+    },
+    {
+      "ffet_id": "P65H-FFET-004",
+      "candidate_id": "P65H-CAND-004",
+      "slug": "workflow_view_canvas_form",
+      "subphase": "6.5H",
+      "title": "Workflow View canvas/form parity",
+      "execution_authorized": false,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "source_authority": [
+        "docs/process/phases/phase_06_5_composer/rebaseline_v2/claims/composer_source_claim_catalog_v2.json#claim_ids=C65-0053,C65-0416,C65-0418",
+        "docs/process/phases/phase_06_5_composer/rebaseline_v2/mapping/composer_substrate_consumption_matrix_v2.json",
+        "docs/process/phases/phase_06_5_composer/rebaseline_v2/ownership/composer_exact_file_ownership_map_v2.json"
+      ],
+      "source_claim_ids": [
+        "C65-0053",
+        "C65-0416",
+        "C65-0418"
+      ],
+      "substrate_refs": [
+        "Frontend Shell",
+        "Access Core",
+        "Configuration Engine",
+        "AI Proxy",
+        "Hierarchy/Organization",
+        "Import/Export"
+      ],
+      "read_only_substrate_dependencies": [
+        "apps/api/src/access-core",
+        "apps/api/src/ai-proxy",
+        "apps/api/src/communication",
+        "apps/api/src/configuration",
+        "apps/api/src/engagement-gateway",
+        "apps/api/src/foundry",
+        "apps/api/src/gatekeeper",
+        "apps/api/src/hierarchy",
+        "apps/api/src/import-export",
+        "apps/api/src/module-registry",
+        "apps/api/src/organization-setup",
+        "apps/api/src/phase_6a",
+        "apps/api/src/phase_6a_6c_runtime",
+        "apps/api/src/phase_6b",
+        "apps/api/src/phase_6b/payment_collection_topup",
+        "apps/api/src/phase_6c",
+        "apps/web/app/app",
+        "apps/web/components/mission-control",
+        "apps/web/components/ui",
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_composer_blueprint_v3.md",
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_composer_how_it_works_v3.md",
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_phase_6_5_composer_management_answers_v1.md",
+        "packages/contracts/access-core-capability-seed.contract.ts",
+        "packages/contracts/access-core.module-manifest.contract.ts",
+        "packages/contracts/gatekeeper-contract.ts",
+        "packages/contracts/module-manifest.schema.ts",
+        "packages/contracts/phase_6a",
+        "packages/contracts/phase_6a/6_a_04_tenant_organisation_branch_and_session_identity",
+        "packages/contracts/phase_6a/6_a_07_audit_log_and_universal_evidence_stream",
+        "packages/contracts/phase_6a/6_a_09_core_billing_engine_and_pricing_registry",
+        "packages/contracts/phase_6a/6_a_11_communication_gateway_and_global_opt_out",
+        "packages/contracts/phase_6a/6_a_13_configuration_engine",
+        "packages/contracts/phase_6a/6_a_14_search_and_file_service_layer",
+        "packages/contracts/phase_6a/6_a_16_ai_proxy_and_ai_governance_foundation",
+        "packages/contracts/phase_6b",
+        "packages/contracts/phase_6b/finance_billing_operations",
+        "packages/contracts/phase_6c",
+        "prisma/schema.prisma"
+      ],
+      "exact_files": [
+        "apps/web/app/composer/workflow_view_canvas_form/page.tsx",
+        "apps/web/components/composer/workflow_view_canvas_form.tsx",
+        "apps/web/test/composer_workflow_view_canvas_form.test.mjs",
+        "docs/audits/phase_06_5_composer/screenshots/workflow_view_canvas_form_visual_proof.png"
+      ],
+      "maximum_concrete_capability": "Workflow View canvas/form parity: Browser proof shows workflow edits work through canvas and form/list fallback.",
+      "mcr": "Browser proof shows workflow edits work through canvas and form/list fallback.",
+      "dependencies": [
+        "P65A-FFET-006",
+        "P65B-FFET-008",
+        "P65D-FFET-001",
+        "P65G-FFET-008",
+        "P65H-FFET-001"
+      ],
+      "validation_commands": [
+        "node scripts/quality/check_lower_snake_case_paths.mjs",
+        "git diff --check",
+        "JSON parse and metadata audit",
+        "exact-file scope audit",
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "browser screenshot evidence where UI is touched"
+      ],
+      "stop_conditions": [
+        "required edit outside exact_files",
+        "missing source authority or source claim conflict",
+        "schema/migration/package/lockfile/generated/frontend implementation outside active FFET scope",
+        "Composer P-ID uses occupied P-26 through P-39",
+        "runtime/frontend execution before Gate 3 approval",
+        "new business/API/permission/provider/ADL decision not grounded in source"
+      ],
+      "rollback_notes": "Revert the active FFET PR only; do not revert previously merged Phase 6.5 rebaseline artifacts or unrelated user changes.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": [
+          "broken JSON",
+          "metadata mismatch",
+          "stale line/hash/reference",
+          "deterministic import/export mismatch inside exact files",
+          "local test expectation drift caused by active FFET"
+        ],
+        "forbidden": [
+          "scope expansion",
+          "weakening validation",
+          "inventing doctrine",
+          "schema/migration/package/lockfile/generated changes outside exact files",
+          "execution flag flips without human Gate 3 approval"
+        ]
+      },
+      "expected_evidence": [
+        "MCR proof",
+        "validation command output",
+        "PR URL and merge commit",
+        "updated closure/audit evidence for active FFET"
+      ]
+    },
+    {
+      "ffet_id": "P65H-FFET-005",
+      "candidate_id": "P65H-CAND-005",
+      "slug": "policy_permission_view",
+      "subphase": "6.5H",
+      "title": "Policy and Permission View",
+      "execution_authorized": false,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "source_authority": [
+        "docs/process/phases/phase_06_5_composer/rebaseline_v2/claims/composer_source_claim_catalog_v2.json#claim_ids=C65-0242,C65-0246,C65-0416",
+        "docs/process/phases/phase_06_5_composer/rebaseline_v2/mapping/composer_substrate_consumption_matrix_v2.json",
+        "docs/process/phases/phase_06_5_composer/rebaseline_v2/ownership/composer_exact_file_ownership_map_v2.json"
+      ],
+      "source_claim_ids": [
+        "C65-0242",
+        "C65-0246",
+        "C65-0416"
+      ],
+      "substrate_refs": [
+        "Frontend Shell",
+        "Access Core",
+        "Configuration Engine",
+        "AI Proxy",
+        "Hierarchy/Organization",
+        "Import/Export"
+      ],
+      "read_only_substrate_dependencies": [
+        "apps/api/src/access-core",
+        "apps/api/src/ai-proxy",
+        "apps/api/src/communication",
+        "apps/api/src/configuration",
+        "apps/api/src/engagement-gateway",
+        "apps/api/src/foundry",
+        "apps/api/src/gatekeeper",
+        "apps/api/src/hierarchy",
+        "apps/api/src/import-export",
+        "apps/api/src/module-registry",
+        "apps/api/src/organization-setup",
+        "apps/api/src/phase_6a",
+        "apps/api/src/phase_6a_6c_runtime",
+        "apps/api/src/phase_6b",
+        "apps/api/src/phase_6b/payment_collection_topup",
+        "apps/api/src/phase_6c",
+        "apps/web/app/app",
+        "apps/web/components/mission-control",
+        "apps/web/components/ui",
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_composer_blueprint_v3.md",
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_composer_how_it_works_v3.md",
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_phase_6_5_composer_management_answers_v1.md",
+        "packages/contracts/access-core-capability-seed.contract.ts",
+        "packages/contracts/access-core.module-manifest.contract.ts",
+        "packages/contracts/gatekeeper-contract.ts",
+        "packages/contracts/module-manifest.schema.ts",
+        "packages/contracts/phase_6a",
+        "packages/contracts/phase_6a/6_a_04_tenant_organisation_branch_and_session_identity",
+        "packages/contracts/phase_6a/6_a_07_audit_log_and_universal_evidence_stream",
+        "packages/contracts/phase_6a/6_a_09_core_billing_engine_and_pricing_registry",
+        "packages/contracts/phase_6a/6_a_11_communication_gateway_and_global_opt_out",
+        "packages/contracts/phase_6a/6_a_13_configuration_engine",
+        "packages/contracts/phase_6a/6_a_14_search_and_file_service_layer",
+        "packages/contracts/phase_6a/6_a_16_ai_proxy_and_ai_governance_foundation",
+        "packages/contracts/phase_6b",
+        "packages/contracts/phase_6b/finance_billing_operations",
+        "packages/contracts/phase_6c",
+        "prisma/schema.prisma"
+      ],
+      "exact_files": [
+        "apps/web/app/composer/policy_permission_view/page.tsx",
+        "apps/web/components/composer/policy_permission_view.tsx",
+        "apps/web/test/composer_policy_permission_view.test.mjs",
+        "docs/audits/phase_06_5_composer/screenshots/policy_permission_view_visual_proof.png"
+      ],
+      "maximum_concrete_capability": "Policy and Permission View: UI shows permission consequences and blocks unsafe publish.",
+      "mcr": "UI shows permission consequences and blocks unsafe publish.",
+      "dependencies": [
+        "P65A-FFET-006",
+        "P65B-FFET-008",
+        "P65D-FFET-001",
+        "P65G-FFET-008",
+        "P65H-FFET-001"
+      ],
+      "validation_commands": [
+        "node scripts/quality/check_lower_snake_case_paths.mjs",
+        "git diff --check",
+        "JSON parse and metadata audit",
+        "exact-file scope audit",
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "browser screenshot evidence where UI is touched"
+      ],
+      "stop_conditions": [
+        "required edit outside exact_files",
+        "missing source authority or source claim conflict",
+        "schema/migration/package/lockfile/generated/frontend implementation outside active FFET scope",
+        "Composer P-ID uses occupied P-26 through P-39",
+        "runtime/frontend execution before Gate 3 approval",
+        "new business/API/permission/provider/ADL decision not grounded in source"
+      ],
+      "rollback_notes": "Revert the active FFET PR only; do not revert previously merged Phase 6.5 rebaseline artifacts or unrelated user changes.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": [
+          "broken JSON",
+          "metadata mismatch",
+          "stale line/hash/reference",
+          "deterministic import/export mismatch inside exact files",
+          "local test expectation drift caused by active FFET"
+        ],
+        "forbidden": [
+          "scope expansion",
+          "weakening validation",
+          "inventing doctrine",
+          "schema/migration/package/lockfile/generated changes outside exact files",
+          "execution flag flips without human Gate 3 approval"
+        ]
+      },
+      "expected_evidence": [
+        "MCR proof",
+        "validation command output",
+        "PR URL and merge commit",
+        "updated closure/audit evidence for active FFET"
+      ]
+    },
+    {
+      "ffet_id": "P65H-FFET-006",
+      "candidate_id": "P65H-CAND-006",
+      "slug": "delegation_view",
+      "subphase": "6.5H",
+      "title": "Delegation View",
+      "execution_authorized": false,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "source_authority": [
+        "docs/process/phases/phase_06_5_composer/rebaseline_v2/claims/composer_source_claim_catalog_v2.json#claim_ids=C65-0416",
+        "docs/process/phases/phase_06_5_composer/rebaseline_v2/mapping/composer_substrate_consumption_matrix_v2.json",
+        "docs/process/phases/phase_06_5_composer/rebaseline_v2/ownership/composer_exact_file_ownership_map_v2.json"
+      ],
+      "source_claim_ids": [
+        "C65-0416"
+      ],
+      "substrate_refs": [
+        "Access Core",
+        "Configuration Engine",
+        "AI Proxy",
+        "Hierarchy/Organization",
+        "Import/Export",
+        "Frontend Shell"
+      ],
+      "read_only_substrate_dependencies": [
+        "apps/api/src/access-core",
+        "apps/api/src/ai-proxy",
+        "apps/api/src/communication",
+        "apps/api/src/configuration",
+        "apps/api/src/engagement-gateway",
+        "apps/api/src/foundry",
+        "apps/api/src/gatekeeper",
+        "apps/api/src/hierarchy",
+        "apps/api/src/import-export",
+        "apps/api/src/module-registry",
+        "apps/api/src/organization-setup",
+        "apps/api/src/phase_6a",
+        "apps/api/src/phase_6a_6c_runtime",
+        "apps/api/src/phase_6b",
+        "apps/api/src/phase_6b/payment_collection_topup",
+        "apps/api/src/phase_6c",
+        "apps/web/app/app",
+        "apps/web/components/mission-control",
+        "apps/web/components/ui",
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_composer_blueprint_v3.md",
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_composer_how_it_works_v3.md",
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_phase_6_5_composer_management_answers_v1.md",
+        "packages/contracts/access-core-capability-seed.contract.ts",
+        "packages/contracts/access-core.module-manifest.contract.ts",
+        "packages/contracts/gatekeeper-contract.ts",
+        "packages/contracts/module-manifest.schema.ts",
+        "packages/contracts/phase_6a",
+        "packages/contracts/phase_6a/6_a_04_tenant_organisation_branch_and_session_identity",
+        "packages/contracts/phase_6a/6_a_07_audit_log_and_universal_evidence_stream",
+        "packages/contracts/phase_6a/6_a_09_core_billing_engine_and_pricing_registry",
+        "packages/contracts/phase_6a/6_a_11_communication_gateway_and_global_opt_out",
+        "packages/contracts/phase_6a/6_a_13_configuration_engine",
+        "packages/contracts/phase_6a/6_a_14_search_and_file_service_layer",
+        "packages/contracts/phase_6a/6_a_16_ai_proxy_and_ai_governance_foundation",
+        "packages/contracts/phase_6b",
+        "packages/contracts/phase_6b/finance_billing_operations",
+        "packages/contracts/phase_6c",
+        "prisma/schema.prisma"
+      ],
+      "exact_files": [
+        "apps/web/app/composer/delegation_view/page.tsx",
+        "apps/web/components/composer/delegation_view.tsx",
+        "apps/web/test/composer_delegation_view.test.mjs",
+        "docs/audits/phase_06_5_composer/screenshots/delegation_view_visual_proof.png"
+      ],
+      "maximum_concrete_capability": "Delegation View: UI shows delegation scope, consent, fallback, and audit consequences.",
+      "mcr": "UI shows delegation scope, consent, fallback, and audit consequences.",
+      "dependencies": [
+        "P65A-FFET-006",
+        "P65B-FFET-008",
+        "P65D-FFET-001",
+        "P65G-FFET-008",
+        "P65H-FFET-001"
+      ],
+      "validation_commands": [
+        "node scripts/quality/check_lower_snake_case_paths.mjs",
+        "git diff --check",
+        "JSON parse and metadata audit",
+        "exact-file scope audit",
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "browser screenshot evidence where UI is touched"
+      ],
+      "stop_conditions": [
+        "required edit outside exact_files",
+        "missing source authority or source claim conflict",
+        "schema/migration/package/lockfile/generated/frontend implementation outside active FFET scope",
+        "Composer P-ID uses occupied P-26 through P-39",
+        "runtime/frontend execution before Gate 3 approval",
+        "new business/API/permission/provider/ADL decision not grounded in source"
+      ],
+      "rollback_notes": "Revert the active FFET PR only; do not revert previously merged Phase 6.5 rebaseline artifacts or unrelated user changes.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": [
+          "broken JSON",
+          "metadata mismatch",
+          "stale line/hash/reference",
+          "deterministic import/export mismatch inside exact files",
+          "local test expectation drift caused by active FFET"
+        ],
+        "forbidden": [
+          "scope expansion",
+          "weakening validation",
+          "inventing doctrine",
+          "schema/migration/package/lockfile/generated changes outside exact files",
+          "execution flag flips without human Gate 3 approval"
+        ]
+      },
+      "expected_evidence": [
+        "MCR proof",
+        "validation command output",
+        "PR URL and merge commit",
+        "updated closure/audit evidence for active FFET"
+      ]
+    },
+    {
+      "ffet_id": "P65H-FFET-007",
+      "candidate_id": "P65H-CAND-007",
+      "slug": "agreement_split_view",
+      "subphase": "6.5H",
+      "title": "Agreement and Split Rule View",
+      "execution_authorized": false,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "source_authority": [
+        "docs/process/phases/phase_06_5_composer/rebaseline_v2/claims/composer_source_claim_catalog_v2.json#claim_ids=C65-0416",
+        "docs/process/phases/phase_06_5_composer/rebaseline_v2/mapping/composer_substrate_consumption_matrix_v2.json",
+        "docs/process/phases/phase_06_5_composer/rebaseline_v2/ownership/composer_exact_file_ownership_map_v2.json"
+      ],
+      "source_claim_ids": [
+        "C65-0416"
+      ],
+      "substrate_refs": [
+        "Access Core",
+        "Configuration Engine",
+        "AI Proxy",
+        "Hierarchy/Organization",
+        "Import/Export",
+        "Frontend Shell"
+      ],
+      "read_only_substrate_dependencies": [
+        "apps/api/src/access-core",
+        "apps/api/src/ai-proxy",
+        "apps/api/src/communication",
+        "apps/api/src/configuration",
+        "apps/api/src/engagement-gateway",
+        "apps/api/src/foundry",
+        "apps/api/src/gatekeeper",
+        "apps/api/src/hierarchy",
+        "apps/api/src/import-export",
+        "apps/api/src/module-registry",
+        "apps/api/src/organization-setup",
+        "apps/api/src/phase_6a",
+        "apps/api/src/phase_6a_6c_runtime",
+        "apps/api/src/phase_6b",
+        "apps/api/src/phase_6b/payment_collection_topup",
+        "apps/api/src/phase_6c",
+        "apps/web/app/app",
+        "apps/web/components/mission-control",
+        "apps/web/components/ui",
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_composer_blueprint_v3.md",
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_composer_how_it_works_v3.md",
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_phase_6_5_composer_management_answers_v1.md",
+        "packages/contracts/access-core-capability-seed.contract.ts",
+        "packages/contracts/access-core.module-manifest.contract.ts",
+        "packages/contracts/gatekeeper-contract.ts",
+        "packages/contracts/module-manifest.schema.ts",
+        "packages/contracts/phase_6a",
+        "packages/contracts/phase_6a/6_a_04_tenant_organisation_branch_and_session_identity",
+        "packages/contracts/phase_6a/6_a_07_audit_log_and_universal_evidence_stream",
+        "packages/contracts/phase_6a/6_a_09_core_billing_engine_and_pricing_registry",
+        "packages/contracts/phase_6a/6_a_11_communication_gateway_and_global_opt_out",
+        "packages/contracts/phase_6a/6_a_13_configuration_engine",
+        "packages/contracts/phase_6a/6_a_14_search_and_file_service_layer",
+        "packages/contracts/phase_6a/6_a_16_ai_proxy_and_ai_governance_foundation",
+        "packages/contracts/phase_6b",
+        "packages/contracts/phase_6b/finance_billing_operations",
+        "packages/contracts/phase_6c",
+        "prisma/schema.prisma"
+      ],
+      "exact_files": [
+        "apps/web/app/composer/agreement_split_view/page.tsx",
+        "apps/web/components/composer/agreement_split_view.tsx",
+        "apps/web/test/composer_agreement_split_view.test.mjs",
+        "docs/audits/phase_06_5_composer/screenshots/agreement_split_view_visual_proof.png"
+      ],
+      "maximum_concrete_capability": "Agreement and Split Rule View: UI distinguishes draft agreement from binding acceptance and shows split consequences.",
+      "mcr": "UI distinguishes draft agreement from binding acceptance and shows split consequences.",
+      "dependencies": [
+        "P65A-FFET-006",
+        "P65B-FFET-008",
+        "P65D-FFET-001",
+        "P65G-FFET-008",
+        "P65H-FFET-001"
+      ],
+      "validation_commands": [
+        "node scripts/quality/check_lower_snake_case_paths.mjs",
+        "git diff --check",
+        "JSON parse and metadata audit",
+        "exact-file scope audit",
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "browser screenshot evidence where UI is touched"
+      ],
+      "stop_conditions": [
+        "required edit outside exact_files",
+        "missing source authority or source claim conflict",
+        "schema/migration/package/lockfile/generated/frontend implementation outside active FFET scope",
+        "Composer P-ID uses occupied P-26 through P-39",
+        "runtime/frontend execution before Gate 3 approval",
+        "new business/API/permission/provider/ADL decision not grounded in source"
+      ],
+      "rollback_notes": "Revert the active FFET PR only; do not revert previously merged Phase 6.5 rebaseline artifacts or unrelated user changes.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": [
+          "broken JSON",
+          "metadata mismatch",
+          "stale line/hash/reference",
+          "deterministic import/export mismatch inside exact files",
+          "local test expectation drift caused by active FFET"
+        ],
+        "forbidden": [
+          "scope expansion",
+          "weakening validation",
+          "inventing doctrine",
+          "schema/migration/package/lockfile/generated changes outside exact files",
+          "execution flag flips without human Gate 3 approval"
+        ]
+      },
+      "expected_evidence": [
+        "MCR proof",
+        "validation command output",
+        "PR URL and merge commit",
+        "updated closure/audit evidence for active FFET"
+      ]
+    },
+    {
+      "ffet_id": "P65H-FFET-008",
+      "candidate_id": "P65H-CAND-008",
+      "slug": "external_connections_view",
+      "subphase": "6.5H",
+      "title": "External Connections View",
+      "execution_authorized": false,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "source_authority": [
+        "docs/process/phases/phase_06_5_composer/rebaseline_v2/claims/composer_source_claim_catalog_v2.json#claim_ids=C65-0416",
+        "docs/process/phases/phase_06_5_composer/rebaseline_v2/mapping/composer_substrate_consumption_matrix_v2.json",
+        "docs/process/phases/phase_06_5_composer/rebaseline_v2/ownership/composer_exact_file_ownership_map_v2.json"
+      ],
+      "source_claim_ids": [
+        "C65-0416"
+      ],
+      "substrate_refs": [
+        "Access Core",
+        "Configuration Engine",
+        "AI Proxy",
+        "Hierarchy/Organization",
+        "Import/Export",
+        "Frontend Shell"
+      ],
+      "read_only_substrate_dependencies": [
+        "apps/api/src/access-core",
+        "apps/api/src/ai-proxy",
+        "apps/api/src/communication",
+        "apps/api/src/configuration",
+        "apps/api/src/engagement-gateway",
+        "apps/api/src/foundry",
+        "apps/api/src/gatekeeper",
+        "apps/api/src/hierarchy",
+        "apps/api/src/import-export",
+        "apps/api/src/module-registry",
+        "apps/api/src/organization-setup",
+        "apps/api/src/phase_6a",
+        "apps/api/src/phase_6a_6c_runtime",
+        "apps/api/src/phase_6b",
+        "apps/api/src/phase_6b/payment_collection_topup",
+        "apps/api/src/phase_6c",
+        "apps/web/app/app",
+        "apps/web/components/mission-control",
+        "apps/web/components/ui",
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_composer_blueprint_v3.md",
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_composer_how_it_works_v3.md",
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_phase_6_5_composer_management_answers_v1.md",
+        "packages/contracts/access-core-capability-seed.contract.ts",
+        "packages/contracts/access-core.module-manifest.contract.ts",
+        "packages/contracts/gatekeeper-contract.ts",
+        "packages/contracts/module-manifest.schema.ts",
+        "packages/contracts/phase_6a",
+        "packages/contracts/phase_6a/6_a_04_tenant_organisation_branch_and_session_identity",
+        "packages/contracts/phase_6a/6_a_07_audit_log_and_universal_evidence_stream",
+        "packages/contracts/phase_6a/6_a_09_core_billing_engine_and_pricing_registry",
+        "packages/contracts/phase_6a/6_a_11_communication_gateway_and_global_opt_out",
+        "packages/contracts/phase_6a/6_a_13_configuration_engine",
+        "packages/contracts/phase_6a/6_a_14_search_and_file_service_layer",
+        "packages/contracts/phase_6a/6_a_16_ai_proxy_and_ai_governance_foundation",
+        "packages/contracts/phase_6b",
+        "packages/contracts/phase_6b/finance_billing_operations",
+        "packages/contracts/phase_6c",
+        "prisma/schema.prisma"
+      ],
+      "exact_files": [
+        "apps/web/app/composer/external_connections_view/page.tsx",
+        "apps/web/components/composer/external_connections_view.tsx",
+        "apps/web/test/composer_external_connections_view.test.mjs",
+        "docs/audits/phase_06_5_composer/screenshots/external_connections_view_visual_proof.png"
+      ],
+      "maximum_concrete_capability": "External Connections View: UI shows credential/provider state without exposing raw secrets.",
+      "mcr": "UI shows credential/provider state without exposing raw secrets.",
+      "dependencies": [
+        "P65A-FFET-006",
+        "P65B-FFET-008",
+        "P65D-FFET-001",
+        "P65G-FFET-008",
+        "P65H-FFET-001"
+      ],
+      "validation_commands": [
+        "node scripts/quality/check_lower_snake_case_paths.mjs",
+        "git diff --check",
+        "JSON parse and metadata audit",
+        "exact-file scope audit",
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "browser screenshot evidence where UI is touched"
+      ],
+      "stop_conditions": [
+        "required edit outside exact_files",
+        "missing source authority or source claim conflict",
+        "schema/migration/package/lockfile/generated/frontend implementation outside active FFET scope",
+        "Composer P-ID uses occupied P-26 through P-39",
+        "runtime/frontend execution before Gate 3 approval",
+        "new business/API/permission/provider/ADL decision not grounded in source"
+      ],
+      "rollback_notes": "Revert the active FFET PR only; do not revert previously merged Phase 6.5 rebaseline artifacts or unrelated user changes.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": [
+          "broken JSON",
+          "metadata mismatch",
+          "stale line/hash/reference",
+          "deterministic import/export mismatch inside exact files",
+          "local test expectation drift caused by active FFET"
+        ],
+        "forbidden": [
+          "scope expansion",
+          "weakening validation",
+          "inventing doctrine",
+          "schema/migration/package/lockfile/generated changes outside exact files",
+          "execution flag flips without human Gate 3 approval"
+        ]
+      },
+      "expected_evidence": [
+        "MCR proof",
+        "validation command output",
+        "PR URL and merge commit",
+        "updated closure/audit evidence for active FFET"
+      ]
+    },
+    {
+      "ffet_id": "P65H-FFET-009",
+      "candidate_id": "P65H-CAND-009",
+      "slug": "ai_proposal_panel",
+      "subphase": "6.5H",
+      "title": "AI Proposal Panel",
+      "execution_authorized": false,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "source_authority": [
+        "docs/process/phases/phase_06_5_composer/rebaseline_v2/claims/composer_source_claim_catalog_v2.json#claim_ids=C65-0416",
+        "docs/process/phases/phase_06_5_composer/rebaseline_v2/mapping/composer_substrate_consumption_matrix_v2.json",
+        "docs/process/phases/phase_06_5_composer/rebaseline_v2/ownership/composer_exact_file_ownership_map_v2.json"
+      ],
+      "source_claim_ids": [
+        "C65-0416"
+      ],
+      "substrate_refs": [
+        "Access Core",
+        "Configuration Engine",
+        "AI Proxy",
+        "Hierarchy/Organization",
+        "Import/Export",
+        "Frontend Shell"
+      ],
+      "read_only_substrate_dependencies": [
+        "apps/api/src/access-core",
+        "apps/api/src/ai-proxy",
+        "apps/api/src/communication",
+        "apps/api/src/configuration",
+        "apps/api/src/engagement-gateway",
+        "apps/api/src/foundry",
+        "apps/api/src/gatekeeper",
+        "apps/api/src/hierarchy",
+        "apps/api/src/import-export",
+        "apps/api/src/module-registry",
+        "apps/api/src/organization-setup",
+        "apps/api/src/phase_6a",
+        "apps/api/src/phase_6a_6c_runtime",
+        "apps/api/src/phase_6b",
+        "apps/api/src/phase_6b/payment_collection_topup",
+        "apps/api/src/phase_6c",
+        "apps/web/app/app",
+        "apps/web/components/mission-control",
+        "apps/web/components/ui",
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_composer_blueprint_v3.md",
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_composer_how_it_works_v3.md",
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_phase_6_5_composer_management_answers_v1.md",
+        "packages/contracts/access-core-capability-seed.contract.ts",
+        "packages/contracts/access-core.module-manifest.contract.ts",
+        "packages/contracts/gatekeeper-contract.ts",
+        "packages/contracts/module-manifest.schema.ts",
+        "packages/contracts/phase_6a",
+        "packages/contracts/phase_6a/6_a_04_tenant_organisation_branch_and_session_identity",
+        "packages/contracts/phase_6a/6_a_07_audit_log_and_universal_evidence_stream",
+        "packages/contracts/phase_6a/6_a_09_core_billing_engine_and_pricing_registry",
+        "packages/contracts/phase_6a/6_a_11_communication_gateway_and_global_opt_out",
+        "packages/contracts/phase_6a/6_a_13_configuration_engine",
+        "packages/contracts/phase_6a/6_a_14_search_and_file_service_layer",
+        "packages/contracts/phase_6a/6_a_16_ai_proxy_and_ai_governance_foundation",
+        "packages/contracts/phase_6b",
+        "packages/contracts/phase_6b/finance_billing_operations",
+        "packages/contracts/phase_6c",
+        "prisma/schema.prisma"
+      ],
+      "exact_files": [
+        "apps/web/app/composer/ai_proposal_panel/page.tsx",
+        "apps/web/components/composer/ai_proposal_panel.tsx",
+        "apps/web/test/composer_ai_proposal_panel.test.mjs",
+        "docs/audits/phase_06_5_composer/screenshots/ai_proposal_panel_visual_proof.png"
+      ],
+      "maximum_concrete_capability": "AI Proposal Panel: UI proves AI proposal enters pipeline and cannot directly execute.",
+      "mcr": "UI proves AI proposal enters pipeline and cannot directly execute.",
+      "dependencies": [
+        "P65A-FFET-006",
+        "P65B-FFET-008",
+        "P65D-FFET-001",
+        "P65G-FFET-008",
+        "P65H-FFET-001"
+      ],
+      "validation_commands": [
+        "node scripts/quality/check_lower_snake_case_paths.mjs",
+        "git diff --check",
+        "JSON parse and metadata audit",
+        "exact-file scope audit",
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "browser screenshot evidence where UI is touched"
+      ],
+      "stop_conditions": [
+        "required edit outside exact_files",
+        "missing source authority or source claim conflict",
+        "schema/migration/package/lockfile/generated/frontend implementation outside active FFET scope",
+        "Composer P-ID uses occupied P-26 through P-39",
+        "runtime/frontend execution before Gate 3 approval",
+        "new business/API/permission/provider/ADL decision not grounded in source"
+      ],
+      "rollback_notes": "Revert the active FFET PR only; do not revert previously merged Phase 6.5 rebaseline artifacts or unrelated user changes.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": [
+          "broken JSON",
+          "metadata mismatch",
+          "stale line/hash/reference",
+          "deterministic import/export mismatch inside exact files",
+          "local test expectation drift caused by active FFET"
+        ],
+        "forbidden": [
+          "scope expansion",
+          "weakening validation",
+          "inventing doctrine",
+          "schema/migration/package/lockfile/generated changes outside exact files",
+          "execution flag flips without human Gate 3 approval"
+        ]
+      },
+      "expected_evidence": [
+        "MCR proof",
+        "validation command output",
+        "PR URL and merge commit",
+        "updated closure/audit evidence for active FFET"
+      ]
+    },
+    {
+      "ffet_id": "P65H-FFET-010",
+      "candidate_id": "P65H-CAND-010",
+      "slug": "test_shadow_debug_replay_view",
+      "subphase": "6.5H",
+      "title": "Test Shadow Debug Replay View",
+      "execution_authorized": false,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "source_authority": [
+        "docs/process/phases/phase_06_5_composer/rebaseline_v2/claims/composer_source_claim_catalog_v2.json#claim_ids=C65-0416,C65-0423",
+        "docs/process/phases/phase_06_5_composer/rebaseline_v2/mapping/composer_substrate_consumption_matrix_v2.json",
+        "docs/process/phases/phase_06_5_composer/rebaseline_v2/ownership/composer_exact_file_ownership_map_v2.json"
+      ],
+      "source_claim_ids": [
+        "C65-0416",
+        "C65-0423"
+      ],
+      "substrate_refs": [
+        "Access Core",
+        "Configuration Engine",
+        "AI Proxy",
+        "Hierarchy/Organization",
+        "Import/Export",
+        "Frontend Shell"
+      ],
+      "read_only_substrate_dependencies": [
+        "apps/api/src/access-core",
+        "apps/api/src/ai-proxy",
+        "apps/api/src/communication",
+        "apps/api/src/configuration",
+        "apps/api/src/engagement-gateway",
+        "apps/api/src/foundry",
+        "apps/api/src/gatekeeper",
+        "apps/api/src/hierarchy",
+        "apps/api/src/import-export",
+        "apps/api/src/module-registry",
+        "apps/api/src/organization-setup",
+        "apps/api/src/phase_6a",
+        "apps/api/src/phase_6a_6c_runtime",
+        "apps/api/src/phase_6b",
+        "apps/api/src/phase_6b/payment_collection_topup",
+        "apps/api/src/phase_6c",
+        "apps/web/app/app",
+        "apps/web/components/mission-control",
+        "apps/web/components/ui",
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_composer_blueprint_v3.md",
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_composer_how_it_works_v3.md",
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_phase_6_5_composer_management_answers_v1.md",
+        "packages/contracts/access-core-capability-seed.contract.ts",
+        "packages/contracts/access-core.module-manifest.contract.ts",
+        "packages/contracts/gatekeeper-contract.ts",
+        "packages/contracts/module-manifest.schema.ts",
+        "packages/contracts/phase_6a",
+        "packages/contracts/phase_6a/6_a_04_tenant_organisation_branch_and_session_identity",
+        "packages/contracts/phase_6a/6_a_07_audit_log_and_universal_evidence_stream",
+        "packages/contracts/phase_6a/6_a_09_core_billing_engine_and_pricing_registry",
+        "packages/contracts/phase_6a/6_a_11_communication_gateway_and_global_opt_out",
+        "packages/contracts/phase_6a/6_a_13_configuration_engine",
+        "packages/contracts/phase_6a/6_a_14_search_and_file_service_layer",
+        "packages/contracts/phase_6a/6_a_16_ai_proxy_and_ai_governance_foundation",
+        "packages/contracts/phase_6b",
+        "packages/contracts/phase_6b/finance_billing_operations",
+        "packages/contracts/phase_6c",
+        "prisma/schema.prisma"
+      ],
+      "exact_files": [
+        "apps/web/app/composer/test_shadow_debug_replay_view/page.tsx",
+        "apps/web/components/composer/test_shadow_debug_replay_view.tsx",
+        "apps/web/test/composer_test_shadow_debug_replay_view.test.mjs",
+        "docs/audits/phase_06_5_composer/screenshots/test_shadow_debug_replay_view_visual_proof.png"
+      ],
+      "maximum_concrete_capability": "Test Shadow Debug Replay View: UI shows simulation, shadow divergence, validation failures, and replay trace.",
+      "mcr": "UI shows simulation, shadow divergence, validation failures, and replay trace.",
+      "dependencies": [
+        "P65A-FFET-006",
+        "P65B-FFET-008",
+        "P65D-FFET-001",
+        "P65G-FFET-008",
+        "P65H-FFET-001"
+      ],
+      "validation_commands": [
+        "node scripts/quality/check_lower_snake_case_paths.mjs",
+        "git diff --check",
+        "JSON parse and metadata audit",
+        "exact-file scope audit",
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "browser screenshot evidence where UI is touched"
+      ],
+      "stop_conditions": [
+        "required edit outside exact_files",
+        "missing source authority or source claim conflict",
+        "schema/migration/package/lockfile/generated/frontend implementation outside active FFET scope",
+        "Composer P-ID uses occupied P-26 through P-39",
+        "runtime/frontend execution before Gate 3 approval",
+        "new business/API/permission/provider/ADL decision not grounded in source"
+      ],
+      "rollback_notes": "Revert the active FFET PR only; do not revert previously merged Phase 6.5 rebaseline artifacts or unrelated user changes.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": [
+          "broken JSON",
+          "metadata mismatch",
+          "stale line/hash/reference",
+          "deterministic import/export mismatch inside exact files",
+          "local test expectation drift caused by active FFET"
+        ],
+        "forbidden": [
+          "scope expansion",
+          "weakening validation",
+          "inventing doctrine",
+          "schema/migration/package/lockfile/generated changes outside exact files",
+          "execution flag flips without human Gate 3 approval"
+        ]
+      },
+      "expected_evidence": [
+        "MCR proof",
+        "validation command output",
+        "PR URL and merge commit",
+        "updated closure/audit evidence for active FFET"
+      ]
+    },
+    {
+      "ffet_id": "P65H-FFET-011",
+      "candidate_id": "P65H-CAND-011",
+      "slug": "publish_view",
+      "subphase": "6.5H",
+      "title": "Publish View",
+      "execution_authorized": false,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "source_authority": [
+        "docs/process/phases/phase_06_5_composer/rebaseline_v2/claims/composer_source_claim_catalog_v2.json#claim_ids=C65-0416",
+        "docs/process/phases/phase_06_5_composer/rebaseline_v2/mapping/composer_substrate_consumption_matrix_v2.json",
+        "docs/process/phases/phase_06_5_composer/rebaseline_v2/ownership/composer_exact_file_ownership_map_v2.json"
+      ],
+      "source_claim_ids": [
+        "C65-0416"
+      ],
+      "substrate_refs": [
+        "Access Core",
+        "Configuration Engine",
+        "AI Proxy",
+        "Hierarchy/Organization",
+        "Import/Export",
+        "Frontend Shell"
+      ],
+      "read_only_substrate_dependencies": [
+        "apps/api/src/access-core",
+        "apps/api/src/ai-proxy",
+        "apps/api/src/communication",
+        "apps/api/src/configuration",
+        "apps/api/src/engagement-gateway",
+        "apps/api/src/foundry",
+        "apps/api/src/gatekeeper",
+        "apps/api/src/hierarchy",
+        "apps/api/src/import-export",
+        "apps/api/src/module-registry",
+        "apps/api/src/organization-setup",
+        "apps/api/src/phase_6a",
+        "apps/api/src/phase_6a_6c_runtime",
+        "apps/api/src/phase_6b",
+        "apps/api/src/phase_6b/payment_collection_topup",
+        "apps/api/src/phase_6c",
+        "apps/web/app/app",
+        "apps/web/components/mission-control",
+        "apps/web/components/ui",
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_composer_blueprint_v3.md",
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_composer_how_it_works_v3.md",
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_phase_6_5_composer_management_answers_v1.md",
+        "packages/contracts/access-core-capability-seed.contract.ts",
+        "packages/contracts/access-core.module-manifest.contract.ts",
+        "packages/contracts/gatekeeper-contract.ts",
+        "packages/contracts/module-manifest.schema.ts",
+        "packages/contracts/phase_6a",
+        "packages/contracts/phase_6a/6_a_04_tenant_organisation_branch_and_session_identity",
+        "packages/contracts/phase_6a/6_a_07_audit_log_and_universal_evidence_stream",
+        "packages/contracts/phase_6a/6_a_09_core_billing_engine_and_pricing_registry",
+        "packages/contracts/phase_6a/6_a_11_communication_gateway_and_global_opt_out",
+        "packages/contracts/phase_6a/6_a_13_configuration_engine",
+        "packages/contracts/phase_6a/6_a_14_search_and_file_service_layer",
+        "packages/contracts/phase_6a/6_a_16_ai_proxy_and_ai_governance_foundation",
+        "packages/contracts/phase_6b",
+        "packages/contracts/phase_6b/finance_billing_operations",
+        "packages/contracts/phase_6c",
+        "prisma/schema.prisma"
+      ],
+      "exact_files": [
+        "apps/web/app/composer/publish_view/page.tsx",
+        "apps/web/components/composer/publish_view.tsx",
+        "apps/web/test/composer_publish_view.test.mjs",
+        "docs/audits/phase_06_5_composer/screenshots/publish_view_visual_proof.png"
+      ],
+      "maximum_concrete_capability": "Publish View: UI shows human preview, risk, cost, and missing requirements before publish.",
+      "mcr": "UI shows human preview, risk, cost, and missing requirements before publish.",
+      "dependencies": [
+        "P65A-FFET-006",
+        "P65B-FFET-008",
+        "P65D-FFET-001",
+        "P65G-FFET-008",
+        "P65H-FFET-001"
+      ],
+      "validation_commands": [
+        "node scripts/quality/check_lower_snake_case_paths.mjs",
+        "git diff --check",
+        "JSON parse and metadata audit",
+        "exact-file scope audit",
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "browser screenshot evidence where UI is touched"
+      ],
+      "stop_conditions": [
+        "required edit outside exact_files",
+        "missing source authority or source claim conflict",
+        "schema/migration/package/lockfile/generated/frontend implementation outside active FFET scope",
+        "Composer P-ID uses occupied P-26 through P-39",
+        "runtime/frontend execution before Gate 3 approval",
+        "new business/API/permission/provider/ADL decision not grounded in source"
+      ],
+      "rollback_notes": "Revert the active FFET PR only; do not revert previously merged Phase 6.5 rebaseline artifacts or unrelated user changes.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": [
+          "broken JSON",
+          "metadata mismatch",
+          "stale line/hash/reference",
+          "deterministic import/export mismatch inside exact files",
+          "local test expectation drift caused by active FFET"
+        ],
+        "forbidden": [
+          "scope expansion",
+          "weakening validation",
+          "inventing doctrine",
+          "schema/migration/package/lockfile/generated changes outside exact files",
+          "execution flag flips without human Gate 3 approval"
+        ]
+      },
+      "expected_evidence": [
+        "MCR proof",
+        "validation command output",
+        "PR URL and merge commit",
+        "updated closure/audit evidence for active FFET"
+      ]
+    },
+    {
+      "ffet_id": "P65H-FFET-012",
+      "candidate_id": "P65H-CAND-012",
+      "slug": "run_monitor_view",
+      "subphase": "6.5H",
+      "title": "Run Monitor View",
+      "execution_authorized": false,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "source_authority": [
+        "docs/process/phases/phase_06_5_composer/rebaseline_v2/claims/composer_source_claim_catalog_v2.json#claim_ids=C65-0416,C65-0419",
+        "docs/process/phases/phase_06_5_composer/rebaseline_v2/mapping/composer_substrate_consumption_matrix_v2.json",
+        "docs/process/phases/phase_06_5_composer/rebaseline_v2/ownership/composer_exact_file_ownership_map_v2.json"
+      ],
+      "source_claim_ids": [
+        "C65-0416",
+        "C65-0419"
+      ],
+      "substrate_refs": [
+        "Access Core",
+        "Configuration Engine",
+        "AI Proxy",
+        "Hierarchy/Organization",
+        "Import/Export",
+        "Frontend Shell",
+        "Gatekeeper",
+        "Prisma"
+      ],
+      "read_only_substrate_dependencies": [
+        "apps/api/src/access-core",
+        "apps/api/src/ai-proxy",
+        "apps/api/src/communication",
+        "apps/api/src/configuration",
+        "apps/api/src/engagement-gateway",
+        "apps/api/src/foundry",
+        "apps/api/src/gatekeeper",
+        "apps/api/src/hierarchy",
+        "apps/api/src/import-export",
+        "apps/api/src/module-registry",
+        "apps/api/src/organization-setup",
+        "apps/api/src/phase_6a",
+        "apps/api/src/phase_6a_6c_runtime",
+        "apps/api/src/phase_6b",
+        "apps/api/src/phase_6b/payment_collection_topup",
+        "apps/api/src/phase_6c",
+        "apps/web/app/app",
+        "apps/web/components/mission-control",
+        "apps/web/components/ui",
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_composer_blueprint_v3.md",
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_composer_how_it_works_v3.md",
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_phase_6_5_composer_management_answers_v1.md",
+        "packages/contracts/access-core-capability-seed.contract.ts",
+        "packages/contracts/access-core.module-manifest.contract.ts",
+        "packages/contracts/gatekeeper-contract.ts",
+        "packages/contracts/module-manifest.schema.ts",
+        "packages/contracts/phase_6a",
+        "packages/contracts/phase_6a/6_a_04_tenant_organisation_branch_and_session_identity",
+        "packages/contracts/phase_6a/6_a_07_audit_log_and_universal_evidence_stream",
+        "packages/contracts/phase_6a/6_a_09_core_billing_engine_and_pricing_registry",
+        "packages/contracts/phase_6a/6_a_11_communication_gateway_and_global_opt_out",
+        "packages/contracts/phase_6a/6_a_13_configuration_engine",
+        "packages/contracts/phase_6a/6_a_14_search_and_file_service_layer",
+        "packages/contracts/phase_6a/6_a_16_ai_proxy_and_ai_governance_foundation",
+        "packages/contracts/phase_6b",
+        "packages/contracts/phase_6b/finance_billing_operations",
+        "packages/contracts/phase_6c",
+        "prisma/schema.prisma"
+      ],
+      "exact_files": [
+        "apps/web/app/composer/run_monitor_view/page.tsx",
+        "apps/web/components/composer/run_monitor_view.tsx",
+        "apps/web/test/composer_run_monitor_view.test.mjs",
+        "docs/audits/phase_06_5_composer/screenshots/run_monitor_view_visual_proof.png"
+      ],
+      "maximum_concrete_capability": "Run Monitor View: UI shows live state, stuck recovery, evidence, and audit links.",
+      "mcr": "UI shows live state, stuck recovery, evidence, and audit links.",
+      "dependencies": [
+        "P65A-FFET-006",
+        "P65B-FFET-008",
+        "P65D-FFET-001",
+        "P65G-FFET-008",
+        "P65H-FFET-001"
+      ],
+      "validation_commands": [
+        "node scripts/quality/check_lower_snake_case_paths.mjs",
+        "git diff --check",
+        "JSON parse and metadata audit",
+        "exact-file scope audit",
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "browser screenshot evidence where UI is touched"
+      ],
+      "stop_conditions": [
+        "required edit outside exact_files",
+        "missing source authority or source claim conflict",
+        "schema/migration/package/lockfile/generated/frontend implementation outside active FFET scope",
+        "Composer P-ID uses occupied P-26 through P-39",
+        "runtime/frontend execution before Gate 3 approval",
+        "new business/API/permission/provider/ADL decision not grounded in source"
+      ],
+      "rollback_notes": "Revert the active FFET PR only; do not revert previously merged Phase 6.5 rebaseline artifacts or unrelated user changes.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": [
+          "broken JSON",
+          "metadata mismatch",
+          "stale line/hash/reference",
+          "deterministic import/export mismatch inside exact files",
+          "local test expectation drift caused by active FFET"
+        ],
+        "forbidden": [
+          "scope expansion",
+          "weakening validation",
+          "inventing doctrine",
+          "schema/migration/package/lockfile/generated changes outside exact files",
+          "execution flag flips without human Gate 3 approval"
+        ]
+      },
+      "expected_evidence": [
+        "MCR proof",
+        "validation command output",
+        "PR URL and merge commit",
+        "updated closure/audit evidence for active FFET"
+      ]
+    },
+    {
+      "ffet_id": "P65H-FFET-013",
+      "candidate_id": "P65H-CAND-013",
+      "slug": "export_import_view",
+      "subphase": "6.5H",
+      "title": "Export Import View",
+      "execution_authorized": false,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "source_authority": [
+        "docs/process/phases/phase_06_5_composer/rebaseline_v2/claims/composer_source_claim_catalog_v2.json#claim_ids=C65-0416",
+        "docs/process/phases/phase_06_5_composer/rebaseline_v2/mapping/composer_substrate_consumption_matrix_v2.json",
+        "docs/process/phases/phase_06_5_composer/rebaseline_v2/ownership/composer_exact_file_ownership_map_v2.json"
+      ],
+      "source_claim_ids": [
+        "C65-0416"
+      ],
+      "substrate_refs": [
+        "Access Core",
+        "Configuration Engine",
+        "AI Proxy",
+        "Hierarchy/Organization",
+        "Import/Export",
+        "Frontend Shell"
+      ],
+      "read_only_substrate_dependencies": [
+        "apps/api/src/access-core",
+        "apps/api/src/ai-proxy",
+        "apps/api/src/communication",
+        "apps/api/src/configuration",
+        "apps/api/src/engagement-gateway",
+        "apps/api/src/foundry",
+        "apps/api/src/gatekeeper",
+        "apps/api/src/hierarchy",
+        "apps/api/src/import-export",
+        "apps/api/src/module-registry",
+        "apps/api/src/organization-setup",
+        "apps/api/src/phase_6a",
+        "apps/api/src/phase_6a_6c_runtime",
+        "apps/api/src/phase_6b",
+        "apps/api/src/phase_6b/payment_collection_topup",
+        "apps/api/src/phase_6c",
+        "apps/web/app/app",
+        "apps/web/components/mission-control",
+        "apps/web/components/ui",
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_composer_blueprint_v3.md",
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_composer_how_it_works_v3.md",
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_phase_6_5_composer_management_answers_v1.md",
+        "packages/contracts/access-core-capability-seed.contract.ts",
+        "packages/contracts/access-core.module-manifest.contract.ts",
+        "packages/contracts/gatekeeper-contract.ts",
+        "packages/contracts/module-manifest.schema.ts",
+        "packages/contracts/phase_6a",
+        "packages/contracts/phase_6a/6_a_04_tenant_organisation_branch_and_session_identity",
+        "packages/contracts/phase_6a/6_a_07_audit_log_and_universal_evidence_stream",
+        "packages/contracts/phase_6a/6_a_09_core_billing_engine_and_pricing_registry",
+        "packages/contracts/phase_6a/6_a_11_communication_gateway_and_global_opt_out",
+        "packages/contracts/phase_6a/6_a_13_configuration_engine",
+        "packages/contracts/phase_6a/6_a_14_search_and_file_service_layer",
+        "packages/contracts/phase_6a/6_a_16_ai_proxy_and_ai_governance_foundation",
+        "packages/contracts/phase_6b",
+        "packages/contracts/phase_6b/finance_billing_operations",
+        "packages/contracts/phase_6c",
+        "prisma/schema.prisma"
+      ],
+      "exact_files": [
+        "apps/web/app/composer/export_import_view/page.tsx",
+        "apps/web/components/composer/export_import_view.tsx",
+        "apps/web/test/composer_export_import_view.test.mjs",
+        "docs/audits/phase_06_5_composer/screenshots/export_import_view_visual_proof.png"
+      ],
+      "maximum_concrete_capability": "Export Import View: UI proves import-to-draft, symbolic remap, and no-surprise export states.",
+      "mcr": "UI proves import-to-draft, symbolic remap, and no-surprise export states.",
+      "dependencies": [
+        "P65A-FFET-006",
+        "P65B-FFET-008",
+        "P65D-FFET-001",
+        "P65G-FFET-008",
+        "P65H-FFET-001"
+      ],
+      "validation_commands": [
+        "node scripts/quality/check_lower_snake_case_paths.mjs",
+        "git diff --check",
+        "JSON parse and metadata audit",
+        "exact-file scope audit",
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "browser screenshot evidence where UI is touched"
+      ],
+      "stop_conditions": [
+        "required edit outside exact_files",
+        "missing source authority or source claim conflict",
+        "schema/migration/package/lockfile/generated/frontend implementation outside active FFET scope",
+        "Composer P-ID uses occupied P-26 through P-39",
+        "runtime/frontend execution before Gate 3 approval",
+        "new business/API/permission/provider/ADL decision not grounded in source"
+      ],
+      "rollback_notes": "Revert the active FFET PR only; do not revert previously merged Phase 6.5 rebaseline artifacts or unrelated user changes.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": [
+          "broken JSON",
+          "metadata mismatch",
+          "stale line/hash/reference",
+          "deterministic import/export mismatch inside exact files",
+          "local test expectation drift caused by active FFET"
+        ],
+        "forbidden": [
+          "scope expansion",
+          "weakening validation",
+          "inventing doctrine",
+          "schema/migration/package/lockfile/generated changes outside exact files",
+          "execution flag flips without human Gate 3 approval"
+        ]
+      },
+      "expected_evidence": [
+        "MCR proof",
+        "validation command output",
+        "PR URL and merge commit",
+        "updated closure/audit evidence for active FFET"
+      ]
+    },
+    {
+      "ffet_id": "P65H-FFET-014",
+      "candidate_id": "P65H-CAND-014",
+      "slug": "responsive_accessibility_visual_proof",
+      "subphase": "6.5H",
+      "title": "Responsive accessibility visual proof",
+      "execution_authorized": false,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "source_authority": [
+        "docs/process/phases/phase_06_5_composer/rebaseline_v2/claims/composer_source_claim_catalog_v2.json#claim_ids=C65-0018,C65-0419,C65-0423,C65-0431",
+        "docs/process/phases/phase_06_5_composer/rebaseline_v2/mapping/composer_substrate_consumption_matrix_v2.json",
+        "docs/process/phases/phase_06_5_composer/rebaseline_v2/ownership/composer_exact_file_ownership_map_v2.json"
+      ],
+      "source_claim_ids": [
+        "C65-0018",
+        "C65-0419",
+        "C65-0423",
+        "C65-0431"
+      ],
+      "substrate_refs": [
+        "Prisma",
+        "Gatekeeper",
+        "Access Core",
+        "Frontend Shell",
+        "Evidence/Audit"
+      ],
+      "read_only_substrate_dependencies": [
+        "apps/api/src/access-core",
+        "apps/api/src/ai-proxy",
+        "apps/api/src/communication",
+        "apps/api/src/configuration",
+        "apps/api/src/engagement-gateway",
+        "apps/api/src/foundry",
+        "apps/api/src/gatekeeper",
+        "apps/api/src/hierarchy",
+        "apps/api/src/import-export",
+        "apps/api/src/module-registry",
+        "apps/api/src/organization-setup",
+        "apps/api/src/phase_6a",
+        "apps/api/src/phase_6a_6c_runtime",
+        "apps/api/src/phase_6b",
+        "apps/api/src/phase_6b/payment_collection_topup",
+        "apps/api/src/phase_6c",
+        "apps/web/app/app",
+        "apps/web/components/mission-control",
+        "apps/web/components/ui",
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_composer_blueprint_v3.md",
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_composer_how_it_works_v3.md",
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_phase_6_5_composer_management_answers_v1.md",
+        "packages/contracts/access-core-capability-seed.contract.ts",
+        "packages/contracts/access-core.module-manifest.contract.ts",
+        "packages/contracts/gatekeeper-contract.ts",
+        "packages/contracts/module-manifest.schema.ts",
+        "packages/contracts/phase_6a",
+        "packages/contracts/phase_6a/6_a_04_tenant_organisation_branch_and_session_identity",
+        "packages/contracts/phase_6a/6_a_07_audit_log_and_universal_evidence_stream",
+        "packages/contracts/phase_6a/6_a_09_core_billing_engine_and_pricing_registry",
+        "packages/contracts/phase_6a/6_a_11_communication_gateway_and_global_opt_out",
+        "packages/contracts/phase_6a/6_a_13_configuration_engine",
+        "packages/contracts/phase_6a/6_a_14_search_and_file_service_layer",
+        "packages/contracts/phase_6a/6_a_16_ai_proxy_and_ai_governance_foundation",
+        "packages/contracts/phase_6b",
+        "packages/contracts/phase_6b/finance_billing_operations",
+        "packages/contracts/phase_6c",
+        "prisma/schema.prisma"
+      ],
+      "exact_files": [
+        "apps/web/app/composer/responsive_accessibility_visual_proof/page.tsx",
+        "apps/web/components/composer/responsive_accessibility_visual_proof.tsx",
+        "apps/web/test/composer_responsive_accessibility_visual_proof.test.mjs",
+        "docs/audits/phase_06_5_composer/screenshots/responsive_accessibility_visual_proof_visual_proof.png"
+      ],
+      "maximum_concrete_capability": "Responsive accessibility visual proof: Screenshots prove required states, responsive posture, and accessibility basics.",
+      "mcr": "Screenshots prove required states, responsive posture, and accessibility basics.",
+      "dependencies": [
+        "P65A-FFET-006",
+        "P65B-FFET-008",
+        "P65D-FFET-001",
+        "P65G-FFET-008",
+        "P65H-FFET-001"
+      ],
+      "validation_commands": [
+        "node scripts/quality/check_lower_snake_case_paths.mjs",
+        "git diff --check",
+        "JSON parse and metadata audit",
+        "exact-file scope audit",
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "browser screenshot evidence where UI is touched"
+      ],
+      "stop_conditions": [
+        "required edit outside exact_files",
+        "missing source authority or source claim conflict",
+        "schema/migration/package/lockfile/generated/frontend implementation outside active FFET scope",
+        "Composer P-ID uses occupied P-26 through P-39",
+        "runtime/frontend execution before Gate 3 approval",
+        "new business/API/permission/provider/ADL decision not grounded in source"
+      ],
+      "rollback_notes": "Revert the active FFET PR only; do not revert previously merged Phase 6.5 rebaseline artifacts or unrelated user changes.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": [
+          "broken JSON",
+          "metadata mismatch",
+          "stale line/hash/reference",
+          "deterministic import/export mismatch inside exact files",
+          "local test expectation drift caused by active FFET"
+        ],
+        "forbidden": [
+          "scope expansion",
+          "weakening validation",
+          "inventing doctrine",
+          "schema/migration/package/lockfile/generated changes outside exact files",
+          "execution flag flips without human Gate 3 approval"
+        ]
+      },
+      "expected_evidence": [
+        "MCR proof",
+        "validation command output",
+        "PR URL and merge commit",
+        "updated closure/audit evidence for active FFET"
+      ]
+    },
+    {
+      "ffet_id": "P65H-FFET-015",
+      "candidate_id": "P65H-CAND-015",
+      "slug": "composer_final_visual_audit",
+      "subphase": "6.5H",
+      "title": "Composer final visual audit",
+      "execution_authorized": false,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "source_authority": [
+        "docs/process/phases/phase_06_5_composer/rebaseline_v2/claims/composer_source_claim_catalog_v2.json#claim_ids=C65-0424,C65-0431,C65-0432",
+        "docs/process/phases/phase_06_5_composer/rebaseline_v2/mapping/composer_substrate_consumption_matrix_v2.json",
+        "docs/process/phases/phase_06_5_composer/rebaseline_v2/ownership/composer_exact_file_ownership_map_v2.json"
+      ],
+      "source_claim_ids": [
+        "C65-0424",
+        "C65-0431",
+        "C65-0432"
+      ],
+      "substrate_refs": [
+        "Evidence/Audit",
+        "Frontend Shell"
+      ],
+      "read_only_substrate_dependencies": [
+        "apps/api/src/access-core",
+        "apps/api/src/ai-proxy",
+        "apps/api/src/communication",
+        "apps/api/src/configuration",
+        "apps/api/src/engagement-gateway",
+        "apps/api/src/foundry",
+        "apps/api/src/gatekeeper",
+        "apps/api/src/hierarchy",
+        "apps/api/src/import-export",
+        "apps/api/src/module-registry",
+        "apps/api/src/organization-setup",
+        "apps/api/src/phase_6a",
+        "apps/api/src/phase_6a_6c_runtime",
+        "apps/api/src/phase_6b",
+        "apps/api/src/phase_6b/payment_collection_topup",
+        "apps/api/src/phase_6c",
+        "apps/web/app/app",
+        "apps/web/components/mission-control",
+        "apps/web/components/ui",
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_composer_blueprint_v3.md",
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_composer_how_it_works_v3.md",
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_phase_6_5_composer_management_answers_v1.md",
+        "packages/contracts/access-core-capability-seed.contract.ts",
+        "packages/contracts/access-core.module-manifest.contract.ts",
+        "packages/contracts/gatekeeper-contract.ts",
+        "packages/contracts/module-manifest.schema.ts",
+        "packages/contracts/phase_6a",
+        "packages/contracts/phase_6a/6_a_04_tenant_organisation_branch_and_session_identity",
+        "packages/contracts/phase_6a/6_a_07_audit_log_and_universal_evidence_stream",
+        "packages/contracts/phase_6a/6_a_09_core_billing_engine_and_pricing_registry",
+        "packages/contracts/phase_6a/6_a_11_communication_gateway_and_global_opt_out",
+        "packages/contracts/phase_6a/6_a_13_configuration_engine",
+        "packages/contracts/phase_6a/6_a_14_search_and_file_service_layer",
+        "packages/contracts/phase_6a/6_a_16_ai_proxy_and_ai_governance_foundation",
+        "packages/contracts/phase_6b",
+        "packages/contracts/phase_6b/finance_billing_operations",
+        "packages/contracts/phase_6c",
+        "prisma/schema.prisma"
+      ],
+      "exact_files": [
+        "apps/api/src/composer/demo/composer_final_visual_audit.demo.test.ts",
+        "apps/web/lib/composer_composer_final_visual_audit_visual_demo.test.mjs",
+        "docs/audits/phase_06_5_composer/composer_final_visual_audit_demo_evidence_v1.json",
+        "docs/audits/phase_06_5_composer/composer_final_visual_audit_demo_evidence_v1.md"
+      ],
+      "maximum_concrete_capability": "Composer final visual audit: Final screenshot bundle maps every visual assertion to evidence.",
+      "mcr": "Final screenshot bundle maps every visual assertion to evidence.",
+      "dependencies": [
+        "P65A-FFET-006",
+        "P65B-FFET-008",
+        "P65D-FFET-001",
+        "P65G-FFET-008"
+      ],
+      "validation_commands": [
+        "node scripts/quality/check_lower_snake_case_paths.mjs",
+        "git diff --check",
+        "JSON parse and metadata audit",
+        "exact-file scope audit",
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/api test",
+        "pnpm exec prisma validate --schema prisma/schema.prisma",
+        "pnpm registry:check",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "browser screenshot evidence where UI is touched"
+      ],
+      "stop_conditions": [
+        "required edit outside exact_files",
+        "missing source authority or source claim conflict",
+        "schema/migration/package/lockfile/generated/frontend implementation outside active FFET scope",
+        "Composer P-ID uses occupied P-26 through P-39",
+        "runtime/frontend execution before Gate 3 approval",
+        "new business/API/permission/provider/ADL decision not grounded in source"
+      ],
+      "rollback_notes": "Revert the active FFET PR only; do not revert previously merged Phase 6.5 rebaseline artifacts or unrelated user changes.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": [
+          "broken JSON",
+          "metadata mismatch",
+          "stale line/hash/reference",
+          "deterministic import/export mismatch inside exact files",
+          "local test expectation drift caused by active FFET"
+        ],
+        "forbidden": [
+          "scope expansion",
+          "weakening validation",
+          "inventing doctrine",
+          "schema/migration/package/lockfile/generated changes outside exact files",
+          "execution flag flips without human Gate 3 approval"
+        ]
+      },
+      "expected_evidence": [
+        "MCR proof",
+        "validation command output",
+        "PR URL and merge commit",
+        "updated closure/audit evidence for active FFET"
+      ]
+    },
+    {
+      "ffet_id": "P65H-FFET-016",
+      "candidate_id": "P65H-CAND-016",
+      "slug": "composer_frontend_navigation_activation_mount",
+      "subphase": "6.5H",
+      "title": "Composer frontend navigation and activation mount",
+      "execution_authorized": false,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "source_authority": [
+        "docs/process/phases/phase_06_5_composer/rebaseline_v2/claims/composer_source_claim_catalog_v2.json#claim_ids=",
+        "docs/process/phases/phase_06_5_composer/rebaseline_v2/mapping/composer_substrate_consumption_matrix_v2.json",
+        "docs/process/phases/phase_06_5_composer/rebaseline_v2/ownership/composer_exact_file_ownership_map_v2.json"
+      ],
+      "source_claim_ids": [],
+      "substrate_refs": [
+        "Frontend Shell",
+        "Foundry"
+      ],
+      "read_only_substrate_dependencies": [
+        "apps/api/src/access-core",
+        "apps/api/src/ai-proxy",
+        "apps/api/src/communication",
+        "apps/api/src/configuration",
+        "apps/api/src/engagement-gateway",
+        "apps/api/src/foundry",
+        "apps/api/src/gatekeeper",
+        "apps/api/src/hierarchy",
+        "apps/api/src/import-export",
+        "apps/api/src/module-registry",
+        "apps/api/src/organization-setup",
+        "apps/api/src/phase_6a",
+        "apps/api/src/phase_6a_6c_runtime",
+        "apps/api/src/phase_6b",
+        "apps/api/src/phase_6b/payment_collection_topup",
+        "apps/api/src/phase_6c",
+        "apps/web/app/app",
+        "apps/web/components/mission-control",
+        "apps/web/components/ui",
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_composer_blueprint_v3.md",
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_composer_how_it_works_v3.md",
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_phase_6_5_composer_management_answers_v1.md",
+        "packages/contracts/access-core-capability-seed.contract.ts",
+        "packages/contracts/access-core.module-manifest.contract.ts",
+        "packages/contracts/gatekeeper-contract.ts",
+        "packages/contracts/module-manifest.schema.ts",
+        "packages/contracts/phase_6a",
+        "packages/contracts/phase_6a/6_a_04_tenant_organisation_branch_and_session_identity",
+        "packages/contracts/phase_6a/6_a_07_audit_log_and_universal_evidence_stream",
+        "packages/contracts/phase_6a/6_a_09_core_billing_engine_and_pricing_registry",
+        "packages/contracts/phase_6a/6_a_11_communication_gateway_and_global_opt_out",
+        "packages/contracts/phase_6a/6_a_13_configuration_engine",
+        "packages/contracts/phase_6a/6_a_14_search_and_file_service_layer",
+        "packages/contracts/phase_6a/6_a_16_ai_proxy_and_ai_governance_foundation",
+        "packages/contracts/phase_6b",
+        "packages/contracts/phase_6b/finance_billing_operations",
+        "packages/contracts/phase_6c",
+        "prisma/schema.prisma"
+      ],
+      "exact_files": [
+        "apps/web/lib/composer_routes.config.ts",
+        "apps/web/components/mission-control/composer_launcher.tsx",
+        "apps/web/test/composer_navigation_activation.test.mjs"
+      ],
+      "maximum_concrete_capability": "Composer frontend navigation and activation mount: Composer navigation appears only when activated and routes to the approved Composer shell without bypassing screen contracts.",
+      "mcr": "Composer navigation appears only when activated and routes to the approved Composer shell without bypassing screen contracts.",
+      "dependencies": [
+        "P65A-FFET-006",
+        "P65B-FFET-008",
+        "P65H-FFET-001"
+      ],
+      "validation_commands": [
+        "node scripts/quality/check_lower_snake_case_paths.mjs",
+        "git diff --check",
+        "JSON parse and metadata audit",
+        "exact-file scope audit",
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/web typecheck",
+        "pnpm --filter @akti/web test",
+        "browser screenshot evidence where UI is touched"
+      ],
+      "stop_conditions": [
+        "required edit outside exact_files",
+        "missing source authority or source claim conflict",
+        "schema/migration/package/lockfile/generated/frontend implementation outside active FFET scope",
+        "Composer P-ID uses occupied P-26 through P-39",
+        "runtime/frontend execution before Gate 3 approval",
+        "new business/API/permission/provider/ADL decision not grounded in source"
+      ],
+      "rollback_notes": "Revert the active FFET PR only; do not revert previously merged Phase 6.5 rebaseline artifacts or unrelated user changes.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": [
+          "broken JSON",
+          "metadata mismatch",
+          "stale line/hash/reference",
+          "deterministic import/export mismatch inside exact files",
+          "local test expectation drift caused by active FFET"
+        ],
+        "forbidden": [
+          "scope expansion",
+          "weakening validation",
+          "inventing doctrine",
+          "schema/migration/package/lockfile/generated changes outside exact files",
+          "execution flag flips without human Gate 3 approval"
+        ]
+      },
+      "expected_evidence": [
+        "MCR proof",
+        "validation command output",
+        "PR URL and merge commit",
+        "updated closure/audit evidence for active FFET"
+      ]
+    }
+  ],
+  "execution_authorized": false
+}

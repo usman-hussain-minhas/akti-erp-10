@@ -1,0 +1,68 @@
+{
+  "$metadata": {
+    "company": "HAUTM",
+    "platform": "Esbla Spark",
+    "author": "Usman Hussain",
+    "owner": "Usman Hussain",
+    "suite_version": "v5.0",
+    "file_version": "v1.0",
+    "created": "2026-06-14",
+    "last_updated": "2026-06-14",
+    "status": "for_ratification",
+    "document_type": "validation_ladder",
+    "scope": "Validation ladder for Composer 6.5H.",
+    "title": "6.5H Composer Validation Ladder v2"
+  },
+  "subphase": "6.5H",
+  "commands_by_layer": {
+    "docs_control": [
+      "node scripts/quality/check_lower_snake_case_paths.mjs",
+      "git diff --check",
+      "JSON parse and metadata audit",
+      "exact-file scope audit"
+    ],
+    "contract": [
+      "node scripts/quality/check_lower_snake_case_paths.mjs",
+      "git diff --check",
+      "JSON parse and metadata audit",
+      "exact-file scope audit",
+      "pnpm contracts:validate"
+    ],
+    "runtime": [
+      "node scripts/quality/check_lower_snake_case_paths.mjs",
+      "git diff --check",
+      "JSON parse and metadata audit",
+      "exact-file scope audit",
+      "pnpm contracts:validate",
+      "pnpm --filter @akti/api typecheck",
+      "pnpm --filter @akti/api test",
+      "pnpm exec prisma validate --schema prisma/schema.prisma",
+      "pnpm registry:check"
+    ],
+    "frontend": [
+      "node scripts/quality/check_lower_snake_case_paths.mjs",
+      "git diff --check",
+      "JSON parse and metadata audit",
+      "exact-file scope audit",
+      "pnpm contracts:validate",
+      "pnpm --filter @akti/web typecheck",
+      "pnpm --filter @akti/web test",
+      "browser screenshot evidence where UI is touched"
+    ],
+    "demo": [
+      "node scripts/quality/check_lower_snake_case_paths.mjs",
+      "git diff --check",
+      "JSON parse and metadata audit",
+      "exact-file scope audit",
+      "pnpm contracts:validate",
+      "pnpm --filter @akti/api typecheck",
+      "pnpm --filter @akti/api test",
+      "pnpm exec prisma validate --schema prisma/schema.prisma",
+      "pnpm registry:check",
+      "pnpm --filter @akti/web typecheck",
+      "pnpm --filter @akti/web test",
+      "browser screenshot evidence where UI is touched"
+    ]
+  },
+  "self_heal_max_attempts": 3
+}
