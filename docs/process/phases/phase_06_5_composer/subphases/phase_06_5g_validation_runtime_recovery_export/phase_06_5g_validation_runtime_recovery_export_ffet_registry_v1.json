@@ -1,0 +1,406 @@
+{
+  "$metadata": {
+    "company": "HAUTM",
+    "platform": "Esbla Spark",
+    "author": "Usman Hussain",
+    "owner": "Usman Hussain",
+    "suite_version": "v5.0",
+    "file_version": "v1.0",
+    "created": "2026-06-14",
+    "last_updated": "2026-06-14",
+    "status": "for_ratification",
+    "document_type": "ffet_registry",
+    "scope": "Gate-2 FFET registry for 6.5G Validation, Simulation, Publishing, Runtime, Recovery, and Export.",
+    "title": "6.5G Composer FFET Registry v1"
+  },
+  "subphase": "6.5G",
+  "name": "Validation, Simulation, Publishing, Runtime, Recovery, and Export",
+  "status": "gate_3_ready_pending_human_approval",
+  "ffets": [
+    {
+      "ffet_id": "P65G-FFET-001",
+      "slug": "validation_engine",
+      "subphase": "6.5G",
+      "execution_authorized": false,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "source_authority": [
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_composer_blueprint_v3.md",
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_composer_how_it_works_v3.md",
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_phase_6_5_composer_management_answers_v1.md"
+      ],
+      "source_sections": "Q6.5-121 through Q6.5-140 and Q6.5-158 through Q6.5-160",
+      "exact_files": [
+        "apps/api/src/composer/validation_engine/validation_engine.service.ts",
+        "apps/api/src/composer/validation_engine/validation_engine.controller.ts",
+        "apps/api/src/composer/validation_engine/validation_engine.test.ts"
+      ],
+      "maximum_concrete_capability": "Implement validation severities Info, Warning, and Blocker with publish behavior.",
+      "mcr": "Tests prove Blocker blocks and Warning requires acknowledgement evidence.",
+      "dependencies": [
+        "P65A-FFET-006"
+      ],
+      "validation_commands": [
+        "node scripts/quality/check_lower_snake_case_paths.mjs",
+        "git diff --check",
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "dependency graph audit"
+      ],
+      "stop_conditions": [
+        "required file outside exact_files",
+        "schema or migration change required without separate control pack",
+        "package or lockfile change required outside exact_files",
+        "invented primitive, API, permission, provider, ADL, or business rule",
+        "Composer parameter uses occupied P-26 through P-39",
+        "runtime/frontend implementation before Gate 3 approval"
+      ],
+      "rollback_notes": "Revert only this FFET branch/PR; do not revert unrelated Composer planning or previously merged subphase artifacts.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": [
+          "broken JSON",
+          "metadata mismatch",
+          "stale internal reference",
+          "local import/export mismatch inside exact files",
+          "test expectation drift caused by active FFET"
+        ],
+        "forbidden": [
+          "scope expansion",
+          "weakening validation",
+          "schema/migration/package/lockfile changes unless exact_files owns them",
+          "inventing doctrine",
+          "flipping execution flags without Gate 3"
+        ]
+      },
+      "expected_evidence": [
+        "Tests prove Blocker blocks and Warning requires acknowledgement evidence.",
+        "validation command output",
+        "PR URL and merge commit",
+        "updated subphase closure or audit artifact"
+      ]
+    },
+    {
+      "ffet_id": "P65G-FFET-002",
+      "slug": "simulation_test_mode",
+      "subphase": "6.5G",
+      "execution_authorized": false,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "source_authority": [
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_composer_blueprint_v3.md",
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_composer_how_it_works_v3.md",
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_phase_6_5_composer_management_answers_v1.md"
+      ],
+      "source_sections": "Q6.5-121 through Q6.5-140 and Q6.5-158 through Q6.5-160",
+      "exact_files": [
+        "apps/api/src/composer/simulation_test_mode/simulation_test_mode.service.ts",
+        "apps/api/src/composer/simulation_test_mode/simulation_test_mode.controller.ts",
+        "apps/api/src/composer/simulation_test_mode/simulation_test_mode.test.ts"
+      ],
+      "maximum_concrete_capability": "Implement sandboxed simulation run for composition drafts with mocked external actions and no side effects.",
+      "mcr": "Tests prove stage order, conditions, evidence, notifications, and escrow simulation.",
+      "dependencies": [
+        "P65A-FFET-006",
+        "P65G-FFET-001"
+      ],
+      "validation_commands": [
+        "node scripts/quality/check_lower_snake_case_paths.mjs",
+        "git diff --check",
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "dependency graph audit"
+      ],
+      "stop_conditions": [
+        "required file outside exact_files",
+        "schema or migration change required without separate control pack",
+        "package or lockfile change required outside exact_files",
+        "invented primitive, API, permission, provider, ADL, or business rule",
+        "Composer parameter uses occupied P-26 through P-39",
+        "runtime/frontend implementation before Gate 3 approval"
+      ],
+      "rollback_notes": "Revert only this FFET branch/PR; do not revert unrelated Composer planning or previously merged subphase artifacts.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": [
+          "broken JSON",
+          "metadata mismatch",
+          "stale internal reference",
+          "local import/export mismatch inside exact files",
+          "test expectation drift caused by active FFET"
+        ],
+        "forbidden": [
+          "scope expansion",
+          "weakening validation",
+          "schema/migration/package/lockfile changes unless exact_files owns them",
+          "inventing doctrine",
+          "flipping execution flags without Gate 3"
+        ]
+      },
+      "expected_evidence": [
+        "Tests prove stage order, conditions, evidence, notifications, and escrow simulation.",
+        "validation command output",
+        "PR URL and merge commit",
+        "updated subphase closure or audit artifact"
+      ]
+    },
+    {
+      "ffet_id": "P65G-FFET-003",
+      "slug": "shadow_mode_divergence_report",
+      "subphase": "6.5G",
+      "execution_authorized": false,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "source_authority": [
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_composer_blueprint_v3.md",
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_composer_how_it_works_v3.md",
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_phase_6_5_composer_management_answers_v1.md"
+      ],
+      "source_sections": "Q6.5-121 through Q6.5-140 and Q6.5-158 through Q6.5-160",
+      "exact_files": [
+        "apps/api/src/composer/shadow_mode_divergence_report/shadow_mode_divergence_report.service.ts",
+        "apps/api/src/composer/shadow_mode_divergence_report/shadow_mode_divergence_report.controller.ts",
+        "apps/api/src/composer/shadow_mode_divergence_report/shadow_mode_divergence_report.test.ts"
+      ],
+      "maximum_concrete_capability": "Implement shadow mode trace and divergence report for candidate versions.",
+      "mcr": "Tests prove divergence above release threshold blocks cutover.",
+      "dependencies": [
+        "P65A-FFET-006",
+        "P65G-FFET-002"
+      ],
+      "validation_commands": [
+        "node scripts/quality/check_lower_snake_case_paths.mjs",
+        "git diff --check",
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "dependency graph audit"
+      ],
+      "stop_conditions": [
+        "required file outside exact_files",
+        "schema or migration change required without separate control pack",
+        "package or lockfile change required outside exact_files",
+        "invented primitive, API, permission, provider, ADL, or business rule",
+        "Composer parameter uses occupied P-26 through P-39",
+        "runtime/frontend implementation before Gate 3 approval"
+      ],
+      "rollback_notes": "Revert only this FFET branch/PR; do not revert unrelated Composer planning or previously merged subphase artifacts.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": [
+          "broken JSON",
+          "metadata mismatch",
+          "stale internal reference",
+          "local import/export mismatch inside exact files",
+          "test expectation drift caused by active FFET"
+        ],
+        "forbidden": [
+          "scope expansion",
+          "weakening validation",
+          "schema/migration/package/lockfile changes unless exact_files owns them",
+          "inventing doctrine",
+          "flipping execution flags without Gate 3"
+        ]
+      },
+      "expected_evidence": [
+        "Tests prove divergence above release threshold blocks cutover.",
+        "validation command output",
+        "PR URL and merge commit",
+        "updated subphase closure or audit artifact"
+      ]
+    },
+    {
+      "ffet_id": "P65G-FFET-004",
+      "slug": "publish_revalidation_and_rollback",
+      "subphase": "6.5G",
+      "execution_authorized": false,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "source_authority": [
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_composer_blueprint_v3.md",
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_composer_how_it_works_v3.md",
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_phase_6_5_composer_management_answers_v1.md"
+      ],
+      "source_sections": "Q6.5-121 through Q6.5-140 and Q6.5-158 through Q6.5-160",
+      "exact_files": [
+        "apps/api/src/composer/publish_revalidation_and_rollback/publish_revalidation_and_rollback.service.ts",
+        "apps/api/src/composer/publish_revalidation_and_rollback/publish_revalidation_and_rollback.controller.ts",
+        "apps/api/src/composer/publish_revalidation_and_rollback/publish_revalidation_and_rollback.test.ts"
+      ],
+      "maximum_concrete_capability": "Implement scheduled publish revalidation and rollback/new-version behavior.",
+      "mcr": "Tests prove failed revalidation keeps prior version live and notifies tenant.",
+      "dependencies": [
+        "P65A-FFET-006",
+        "P65G-FFET-003"
+      ],
+      "validation_commands": [
+        "node scripts/quality/check_lower_snake_case_paths.mjs",
+        "git diff --check",
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "dependency graph audit"
+      ],
+      "stop_conditions": [
+        "required file outside exact_files",
+        "schema or migration change required without separate control pack",
+        "package or lockfile change required outside exact_files",
+        "invented primitive, API, permission, provider, ADL, or business rule",
+        "Composer parameter uses occupied P-26 through P-39",
+        "runtime/frontend implementation before Gate 3 approval"
+      ],
+      "rollback_notes": "Revert only this FFET branch/PR; do not revert unrelated Composer planning or previously merged subphase artifacts.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": [
+          "broken JSON",
+          "metadata mismatch",
+          "stale internal reference",
+          "local import/export mismatch inside exact files",
+          "test expectation drift caused by active FFET"
+        ],
+        "forbidden": [
+          "scope expansion",
+          "weakening validation",
+          "schema/migration/package/lockfile changes unless exact_files owns them",
+          "inventing doctrine",
+          "flipping execution flags without Gate 3"
+        ]
+      },
+      "expected_evidence": [
+        "Tests prove failed revalidation keeps prior version live and notifies tenant.",
+        "validation command output",
+        "PR URL and merge commit",
+        "updated subphase closure or audit artifact"
+      ]
+    },
+    {
+      "ffet_id": "P65G-FFET-005",
+      "slug": "runtime_recovery_and_run_monitor",
+      "subphase": "6.5G",
+      "execution_authorized": false,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "source_authority": [
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_composer_blueprint_v3.md",
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_composer_how_it_works_v3.md",
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_phase_6_5_composer_management_answers_v1.md"
+      ],
+      "source_sections": "Q6.5-121 through Q6.5-140 and Q6.5-158 through Q6.5-160",
+      "exact_files": [
+        "apps/api/src/composer/runtime_recovery_and_run_monitor/runtime_recovery_and_run_monitor.service.ts",
+        "apps/api/src/composer/runtime_recovery_and_run_monitor/runtime_recovery_and_run_monitor.controller.ts",
+        "apps/api/src/composer/runtime_recovery_and_run_monitor/runtime_recovery_and_run_monitor.test.ts"
+      ],
+      "maximum_concrete_capability": "Implement runtime state owner, next event, timeout, escalation, and recovery actions for active instances.",
+      "mcr": "Negative tests prove dead-end runtime states are blocked.",
+      "dependencies": [
+        "P65A-FFET-006",
+        "P65G-FFET-004"
+      ],
+      "validation_commands": [
+        "node scripts/quality/check_lower_snake_case_paths.mjs",
+        "git diff --check",
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "dependency graph audit"
+      ],
+      "stop_conditions": [
+        "required file outside exact_files",
+        "schema or migration change required without separate control pack",
+        "package or lockfile change required outside exact_files",
+        "invented primitive, API, permission, provider, ADL, or business rule",
+        "Composer parameter uses occupied P-26 through P-39",
+        "runtime/frontend implementation before Gate 3 approval"
+      ],
+      "rollback_notes": "Revert only this FFET branch/PR; do not revert unrelated Composer planning or previously merged subphase artifacts.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": [
+          "broken JSON",
+          "metadata mismatch",
+          "stale internal reference",
+          "local import/export mismatch inside exact files",
+          "test expectation drift caused by active FFET"
+        ],
+        "forbidden": [
+          "scope expansion",
+          "weakening validation",
+          "schema/migration/package/lockfile changes unless exact_files owns them",
+          "inventing doctrine",
+          "flipping execution flags without Gate 3"
+        ]
+      },
+      "expected_evidence": [
+        "Negative tests prove dead-end runtime states are blocked.",
+        "validation command output",
+        "PR URL and merge commit",
+        "updated subphase closure or audit artifact"
+      ]
+    },
+    {
+      "ffet_id": "P65G-FFET-006",
+      "slug": "export_import_off_ramp_demo",
+      "subphase": "6.5G",
+      "execution_authorized": false,
+      "ticket_generation_allowed": false,
+      "ticket_pack_generation_allowed": false,
+      "source_authority": [
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_composer_blueprint_v3.md",
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_composer_how_it_works_v3.md",
+        "docs/process/phases/phase_06_5_composer/for_ratification/esbla_phase_6_5_composer_management_answers_v1.md"
+      ],
+      "source_sections": "Q6.5-121 through Q6.5-140 and Q6.5-158 through Q6.5-160",
+      "exact_files": [
+        "apps/api/src/composer/demo/export_import_off_ramp_demo.demo.test.ts",
+        "apps/web/lib/composer_export_import_off_ramp_demo_visual_demo.test.mjs",
+        "docs/audits/phase_06_5_composer/export_import_off_ramp_demo_demo_evidence_v1.json",
+        "docs/audits/phase_06_5_composer/export_import_off_ramp_demo_demo_evidence_v1.md"
+      ],
+      "maximum_concrete_capability": "Implement export/import/clone/off-ramp demo with symbolic reference remap and clean-tenant validation.",
+      "mcr": "Demo proves no-surprise export and import-to-draft only.",
+      "dependencies": [
+        "P65A-FFET-006",
+        "P65G-FFET-005"
+      ],
+      "validation_commands": [
+        "node scripts/quality/check_lower_snake_case_paths.mjs",
+        "git diff --check",
+        "pnpm contracts:validate",
+        "pnpm --filter @akti/api typecheck",
+        "pnpm --filter @akti/web typecheck"
+      ],
+      "stop_conditions": [
+        "required file outside exact_files",
+        "schema or migration change required without separate control pack",
+        "package or lockfile change required outside exact_files",
+        "invented primitive, API, permission, provider, ADL, or business rule",
+        "Composer parameter uses occupied P-26 through P-39",
+        "runtime/frontend implementation before Gate 3 approval"
+      ],
+      "rollback_notes": "Revert only this FFET branch/PR; do not revert unrelated Composer planning or previously merged subphase artifacts.",
+      "self_heal_policy": {
+        "max_attempts": 3,
+        "allowed": [
+          "broken JSON",
+          "metadata mismatch",
+          "stale internal reference",
+          "local import/export mismatch inside exact files",
+          "test expectation drift caused by active FFET"
+        ],
+        "forbidden": [
+          "scope expansion",
+          "weakening validation",
+          "schema/migration/package/lockfile changes unless exact_files owns them",
+          "inventing doctrine",
+          "flipping execution flags without Gate 3"
+        ]
+      },
+      "expected_evidence": [
+        "Demo proves no-surprise export and import-to-draft only.",
+        "validation command output",
+        "PR URL and merge commit",
+        "updated subphase closure or audit artifact"
+      ]
+    }
+  ],
+  "execution_authorized": false
+}

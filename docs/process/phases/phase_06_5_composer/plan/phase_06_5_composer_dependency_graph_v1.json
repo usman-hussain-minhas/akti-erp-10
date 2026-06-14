@@ -1,0 +1,125 @@
+{
+  "$metadata": {
+    "company": "HAUTM",
+    "platform": "Esbla Spark",
+    "author": "Usman Hussain",
+    "owner": "Usman Hussain",
+    "suite_version": "v5.0",
+    "file_version": "v1.0",
+    "created": "2026-06-14",
+    "last_updated": "2026-06-14",
+    "status": "for_ratification",
+    "document_type": "dependency_graph",
+    "scope": "Cross-subphase dependency graph for Phase 6.5 Composer.",
+    "title": "Phase 6.5 Composer Dependency Graph v1"
+  },
+  "nodes": [
+    {
+      "id": "6.5A",
+      "directory": "phase_06_5a_intake_ratification_source_bridge",
+      "name": "Intake, Ratification, and Source-of-Truth Bridge",
+      "summary": "Import, metadata, source authority, P-ID correction, suite amendment, ratification packet.",
+      "source_answers": "Q6.5-001 through Q6.5-020 plus CD-1 through CD-5",
+      "execution_authorized": false
+    },
+    {
+      "id": "6.5B",
+      "directory": "phase_06_5b_canonical_configuration_change_pipeline",
+      "name": "Canonical Configuration and Change Pipeline",
+      "summary": "Canonical configuration, composition versions, proposal object, risk classification, one change pipeline.",
+      "source_answers": "Q6.5-041 through Q6.5-060 plus CD-5",
+      "execution_authorized": false
+    },
+    {
+      "id": "6.5C",
+      "directory": "phase_06_5c_primitive_registry_extension_resolver",
+      "name": "Primitive Registry, Extension Contracts, and Resolver",
+      "summary": "Primitive registry, compatibility contracts, extension registration, resolver, symbolic references.",
+      "source_answers": "Q6.5-061 through Q6.5-070",
+      "execution_authorized": false
+    },
+    {
+      "id": "6.5D",
+      "directory": "phase_06_5d_authoring_graphs_permissions",
+      "name": "Authoring Model, Core Graphs, and Permission Composition",
+      "summary": "Setup wizard, organization graph, workflow graph, custom fields, permission composition, templates.",
+      "source_answers": "Q6.5-071 through Q6.5-080 and Q6.5-141 through Q6.5-143",
+      "execution_authorized": false
+    },
+    {
+      "id": "6.5E",
+      "directory": "phase_06_5e_delegation_agreements_evidence_disputes",
+      "name": "Delegation, Agreements, Evidence, and Disputes",
+      "summary": "Sub-tenant delegation, structured agreements, evidence crossing, reputation protection, disputes.",
+      "source_answers": "Q6.5-081 through Q6.5-096",
+      "execution_authorized": false
+    },
+    {
+      "id": "6.5F",
+      "directory": "phase_06_5f_money_cost_external_actions_credentials",
+      "name": "Money, Cost, External Actions, and Credential Boundaries",
+      "summary": "Escrow composition, split rules, refunds, cost honesty, external actions, credential boundary.",
+      "source_answers": "Q6.5-097 through Q6.5-120",
+      "execution_authorized": false
+    },
+    {
+      "id": "6.5G",
+      "directory": "phase_06_5g_validation_runtime_recovery_export",
+      "name": "Validation, Simulation, Publishing, Runtime, Recovery, and Export",
+      "summary": "Validation, simulation, shadow mode, publish, runtime recovery, export/import/off-ramp.",
+      "source_answers": "Q6.5-121 through Q6.5-140 and Q6.5-158 through Q6.5-160",
+      "execution_authorized": false
+    },
+    {
+      "id": "6.5H",
+      "directory": "phase_06_5h_frontend_figma_visual_acceptance",
+      "name": "Composer Frontend, Figma, Noob-Proof UX, and Visual Acceptance",
+      "summary": "Screen contracts, Figma discipline, UI surfaces, visual proof, screenshot evidence.",
+      "source_answers": "Q6.5-141 through Q6.5-157",
+      "execution_authorized": false
+    }
+  ],
+  "edges": [
+    {
+      "from": "6.5A",
+      "to": "6.5B",
+      "reason": "approved dependency order"
+    },
+    {
+      "from": "6.5B",
+      "to": "6.5C",
+      "reason": "approved dependency order"
+    },
+    {
+      "from": "6.5C",
+      "to": "6.5D",
+      "reason": "approved dependency order"
+    },
+    {
+      "from": "6.5D",
+      "to": "6.5E",
+      "reason": "approved dependency order"
+    },
+    {
+      "from": "6.5E",
+      "to": "6.5F",
+      "reason": "approved dependency order"
+    },
+    {
+      "from": "6.5F",
+      "to": "6.5G",
+      "reason": "approved dependency order"
+    },
+    {
+      "from": "6.5G",
+      "to": "6.5H",
+      "reason": "approved dependency order"
+    },
+    {
+      "from": "6.5D",
+      "to": "Phase 6D planning",
+      "reason": "6D may plan after selected Composer foundations are runtime-real; execution still depends on consumed foundations"
+    }
+  ],
+  "cycle_count": 0
+}
