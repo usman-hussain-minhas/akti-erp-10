@@ -1,0 +1,69 @@
+{
+  "$metadata": {
+    "company": "HAUTM",
+    "platform": "Esbla Spark",
+    "author": "Usman Hussain",
+    "owner": "Usman Hussain",
+    "suite_version": "v5.0",
+    "file_version": "v1.0",
+    "created": "2026-06-14",
+    "last_updated": "2026-06-14",
+    "status": "for_ratification",
+    "document_type": "correction_directive_register",
+    "scope": "Machine-readable register for CD-1 through CD-5 management directives.",
+    "title": "Phase 6.5 Composer Correction Directive Register v1"
+  },
+  "directives": [
+    {
+      "id": "CD-1",
+      "name": "parameter_collision",
+      "requirement": "Composer parameters must not reuse occupied P-26 through P-39. Composer begins at P-40.",
+      "composer_parameters": {
+        "P-40": "organization graph depth limit",
+        "P-41": "per-tenant active workflow limit",
+        "P-42": "per-workflow stage-count limit",
+        "P-43": "composition-version retention",
+        "P-44": "delegation-abandonment timer",
+        "P-45": "budget-warning threshold"
+      },
+      "stop_condition": "Any Composer FFET wiring Composer semantics to P-26 through P-39 stops immediately."
+    },
+    {
+      "id": "CD-2",
+      "name": "stale_source_references",
+      "requirement": "Composer artifacts cite current v5 authorities or explicitly mark historical references.",
+      "current_authorities": [
+        "Blueprint v3.1, or v3.2 after ratification",
+        "Business Logic v2, or v2.1 after ratification",
+        "v5 suite manifest",
+        "metadata standard"
+      ],
+      "stop_condition": "Any superseded document cited as authority stops planning or execution."
+    },
+    {
+      "id": "CD-3",
+      "name": "composer_suite_insertion_amendment",
+      "requirement": "Composer becomes real only through a ratified suite amendment inserting Phase 6.5 before 6D.",
+      "amendment_scope": [
+        "Blueprint v3.2 patch",
+        "Business Logic v2.1 patch",
+        "manifest phase sequence patch",
+        "P-40 through P-45 parameter amendment"
+      ],
+      "stop_condition": "Composer implementation FFETs cannot execute before the amendment is ratified and Gate 3 approved."
+    },
+    {
+      "id": "CD-4",
+      "name": "metadata_normalization",
+      "requirement": "All imported docs use HAUTM, v5.0 suite metadata, required fields, and for_ratification status.",
+      "stop_condition": "Missing metadata or non-standard status blocks Gate 2."
+    },
+    {
+      "id": "CD-5",
+      "name": "canonical_record_across_six_faces",
+      "requirement": "Settings page, canvas, wizard, AI diff, import flow, and Super Admin support surface write through one change pipeline.",
+      "stop_condition": "Any support or UI face that writes configuration outside the universal change pipeline blocks execution."
+    }
+  ],
+  "all_directives_required_before_ffet_execution": true
+}
