@@ -1,0 +1,2169 @@
+{
+  "$metadata": {
+    "company": "HAUTM",
+    "platform": "Esbla Spark",
+    "author": "Usman Hussain",
+    "owner": "Usman Hussain",
+    "suite_version": "v5.0",
+    "file_version": "v1.0",
+    "created": "2026-06-14",
+    "last_updated": "2026-06-14",
+    "status": "for_ratification",
+    "document_type": "resolved_candidate_ffet_catalog",
+    "scope": "Candidate FFET catalog after exact-file audit additions.",
+    "title": "Phase 6.5 Composer Resolved Candidate FFET Catalog v2"
+  },
+  "candidate_count": 74,
+  "additions_from_exact_file_audit": [
+    {
+      "candidate_id": "P65B-CAND-008",
+      "subphase": "6.5B",
+      "slug": "composer_api_module_mount_and_route_spine",
+      "title": "Composer API module mount and route spine",
+      "source_claim_ids": [],
+      "source_claim_count": 0,
+      "substrate_refs": [
+        "Foundry",
+        "Module Registry",
+        "Configuration Engine"
+      ],
+      "capability_layer": "runtime",
+      "mcr": "Composer API module mounts once and exposes an activation-aware route spine without wiring individual features multiple times.",
+      "split_rationale": "Exact-file audit discovered shared API mount files; a dedicated FFET prevents overlap across runtime feature tickets.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65B-CAND-003"
+      ],
+      "execution_authorized": false,
+      "source_claim_note": "Derived from exact-file ownership audit and requirement that Composer integrate with existing runtime substrate."
+    },
+    {
+      "candidate_id": "P65H-CAND-016",
+      "subphase": "6.5H",
+      "slug": "composer_frontend_navigation_activation_mount",
+      "title": "Composer frontend navigation and activation mount",
+      "source_claim_ids": [],
+      "source_claim_count": 0,
+      "substrate_refs": [
+        "Frontend Shell",
+        "Foundry"
+      ],
+      "capability_layer": "frontend",
+      "mcr": "Composer navigation appears only when activated and routes to the approved Composer shell without bypassing screen contracts.",
+      "split_rationale": "Exact-file audit discovered shared frontend navigation/config files; a dedicated FFET prevents overlap across UI surface tickets.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65H-CAND-001"
+      ],
+      "execution_authorized": false,
+      "source_claim_note": "Derived from exact-file ownership audit and frontend activation requirement."
+    }
+  ],
+  "candidates_by_subphase": {
+    "6.5A": 6,
+    "6.5B": 8,
+    "6.5C": 7,
+    "6.5D": 8,
+    "6.5E": 9,
+    "6.5F": 9,
+    "6.5G": 11,
+    "6.5H": 16
+  },
+  "fixed_ffet_count_assumption": false,
+  "candidates": [
+    {
+      "candidate_id": "P65A-CAND-001",
+      "subphase": "6.5A",
+      "slug": "source_import_metadata_normalization",
+      "title": "Import and metadata normalization",
+      "source_claim_ids": [
+        "C65-0284"
+      ],
+      "source_claim_count": 1,
+      "substrate_refs": [
+        "Configuration Engine",
+        "Module Registry"
+      ],
+      "capability_layer": "docs_control",
+      "mcr": "Imported Composer docs have compliant metadata, current source references, and no stale authority citations.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65A-CAND-002",
+      "subphase": "6.5A",
+      "slug": "composer_suite_amendment_ratification",
+      "title": "Suite amendment and ratification packet",
+      "source_claim_ids": [
+        "C65-0086",
+        "C65-0277",
+        "C65-0281"
+      ],
+      "source_claim_count": 3,
+      "substrate_refs": [
+        "Configuration Engine",
+        "Module Registry",
+        "Foundry"
+      ],
+      "capability_layer": "docs_control",
+      "mcr": "Suite amendment package names exact doctrine patches and remains unsigned until human ratification.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65A-CAND-001"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65A-CAND-003",
+      "subphase": "6.5A",
+      "slug": "composer_parameter_registry_patch",
+      "title": "P-40 through P-45 parameter amendment",
+      "source_claim_ids": [
+        "C65-0325",
+        "C65-0346",
+        "C65-0347",
+        "C65-0350"
+      ],
+      "source_claim_count": 4,
+      "substrate_refs": [
+        "AI Proxy",
+        "Evidence/Audit",
+        "Configuration Engine",
+        "Module Registry",
+        "Phase 6C Runtime"
+      ],
+      "capability_layer": "docs_control",
+      "mcr": "Composer governed parameters use P-40 through P-45 and never reuse P-26 through P-39.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65A-CAND-002"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65A-CAND-004",
+      "subphase": "6.5A",
+      "slug": "source_authority_conflict_register",
+      "title": "Source authority and conflict register",
+      "source_claim_ids": [
+        "C65-0102",
+        "C65-0103",
+        "C65-0129",
+        "C65-0131",
+        "C65-0177",
+        "C65-0211",
+        "C65-0277",
+        "C65-0280",
+        "C65-0281",
+        "C65-0284",
+        "C65-0310",
+        "C65-0435"
+      ],
+      "source_claim_count": 12,
+      "substrate_refs": [
+        "Configuration Engine",
+        "Module Registry",
+        "Access Core",
+        "Foundry",
+        "Phase 6C Runtime",
+        "AI Proxy",
+        "Gatekeeper"
+      ],
+      "capability_layer": "docs_control",
+      "mcr": "Every Composer claim has authority tier and conflict disposition path.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65A-CAND-001"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65A-CAND-005",
+      "subphase": "6.5A",
+      "slug": "phase_sequence_6d_dependency_gate",
+      "title": "Phase sequence and 6D dependency gate",
+      "source_claim_ids": [
+        "C65-0277",
+        "C65-0292",
+        "C65-0435"
+      ],
+      "source_claim_count": 3,
+      "substrate_refs": [
+        "Module Registry",
+        "Foundry",
+        "Configuration Engine",
+        "Gatekeeper"
+      ],
+      "capability_layer": "docs_control",
+      "mcr": "Phase 6.5 is inserted before 6D and 6D dependency gates are explicit.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65A-CAND-002"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65A-CAND-006",
+      "subphase": "6.5A",
+      "slug": "gate_controls_and_ffet_lifecycle",
+      "title": "Gate controls and FFET lifecycle",
+      "source_claim_ids": [
+        "C65-0065",
+        "C65-0157",
+        "C65-0216",
+        "C65-0268",
+        "C65-0277",
+        "C65-0280",
+        "C65-0288",
+        "C65-0292",
+        "C65-0310",
+        "C65-0426",
+        "C65-0427",
+        "C65-0435",
+        "C65-0437",
+        "C65-0442"
+      ],
+      "source_claim_count": 14,
+      "substrate_refs": [
+        "Configuration Engine",
+        "Module Registry",
+        "AI Proxy",
+        "Foundry",
+        "Phase 6C Runtime",
+        "Gatekeeper",
+        "Phase 6B Runtime",
+        "Communication Gateway"
+      ],
+      "capability_layer": "docs_control",
+      "mcr": "Execution flags remain false and human Gate 3 approval boundary is explicit.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65A-CAND-004",
+        "P65A-CAND-005"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65B-CAND-001",
+      "subphase": "6.5B",
+      "slug": "composition_artifact_contract",
+      "title": "Composition and CompositionVersion contracts",
+      "source_claim_ids": [
+        "C65-0108"
+      ],
+      "source_claim_count": 1,
+      "substrate_refs": [
+        "Configuration Engine",
+        "Module Registry"
+      ],
+      "capability_layer": "contract",
+      "mcr": "contracts:validate proves composition/version schemas and published immutability.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65A-CAND-006"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65B-CAND-002",
+      "subphase": "6.5B",
+      "slug": "change_proposal_contract",
+      "title": "Universal change proposal contract",
+      "source_claim_ids": [
+        "C65-0097",
+        "C65-0098",
+        "C65-0116",
+        "C65-0257",
+        "C65-0318"
+      ],
+      "source_claim_count": 5,
+      "substrate_refs": [
+        "Configuration Engine",
+        "AI Proxy"
+      ],
+      "capability_layer": "contract",
+      "mcr": "Proposal contract captures source, risk floor, impact preview, provenance, and evidence targets.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65A-CAND-006"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65B-CAND-003",
+      "subphase": "6.5B",
+      "slug": "one_change_pipeline_runtime",
+      "title": "One change pipeline runtime",
+      "source_claim_ids": [
+        "C65-0063",
+        "C65-0064",
+        "C65-0092",
+        "C65-0214",
+        "C65-0215",
+        "C65-0247",
+        "C65-0317",
+        "C65-0318"
+      ],
+      "source_claim_count": 8,
+      "substrate_refs": [
+        "Configuration Engine"
+      ],
+      "capability_layer": "runtime",
+      "mcr": "Runtime tests prove every configuration face writes through one pipeline.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65A-CAND-006"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65B-CAND-004",
+      "subphase": "6.5B",
+      "slug": "risk_floor_classifier",
+      "title": "Deterministic risk-floor classifier",
+      "source_claim_ids": [
+        "C65-0100",
+        "C65-0389"
+      ],
+      "source_claim_count": 2,
+      "substrate_refs": [
+        "Configuration Engine",
+        "Module Registry",
+        "AI Proxy"
+      ],
+      "capability_layer": "runtime",
+      "mcr": "Tests prove risk floors cannot be lowered by AI or humans.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65A-CAND-006"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65B-CAND-005",
+      "subphase": "6.5B",
+      "slug": "impact_preview_human_consequence_gate",
+      "title": "Human preview before consequence",
+      "source_claim_ids": [],
+      "source_claim_count": 0,
+      "substrate_refs": [],
+      "capability_layer": "runtime",
+      "mcr": "Consequential changes require human-readable preview before publish.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65A-CAND-006"
+      ],
+      "execution_authorized": false,
+      "source_claim_note": "Derived from management-approved subphase scope and adjacent claim cluster; must be rechecked during exact-file ownership mapping."
+    },
+    {
+      "candidate_id": "P65B-CAND-006",
+      "subphase": "6.5B",
+      "slug": "versioned_change_graph_provenance",
+      "title": "Versioned change graph and provenance",
+      "source_claim_ids": [
+        "C65-0071",
+        "C65-0118",
+        "C65-0222"
+      ],
+      "source_claim_count": 3,
+      "substrate_refs": [
+        "Configuration Engine",
+        "Module Registry",
+        "AI Proxy",
+        "Evidence/Audit"
+      ],
+      "capability_layer": "runtime",
+      "mcr": "Accepted proposals produce replayable version graph and provenance evidence.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65A-CAND-006"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65B-CAND-007",
+      "subphase": "6.5B",
+      "slug": "support_face_pipeline_bound",
+      "title": "Super Admin support face pipeline bound",
+      "source_claim_ids": [],
+      "source_claim_count": 0,
+      "substrate_refs": [],
+      "capability_layer": "runtime",
+      "mcr": "Support surface cannot write config outside one change pipeline.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65A-CAND-006"
+      ],
+      "execution_authorized": false,
+      "source_claim_note": "Derived from management-approved subphase scope and adjacent claim cluster; must be rechecked during exact-file ownership mapping."
+    },
+    {
+      "candidate_id": "P65C-CAND-001",
+      "subphase": "6.5C",
+      "slug": "primitive_contract_manifest",
+      "title": "Primitive contract and manifest baseline",
+      "source_claim_ids": [
+        "C65-0022",
+        "C65-0078",
+        "C65-0089",
+        "C65-0111",
+        "C65-0162",
+        "C65-0229",
+        "C65-0297",
+        "C65-0298",
+        "C65-0305",
+        "C65-0337",
+        "C65-0338",
+        "C65-0340",
+        "C65-0342",
+        "C65-0343",
+        "C65-0345",
+        "C65-0349"
+      ],
+      "source_claim_count": 16,
+      "substrate_refs": [
+        "Module Registry",
+        "Foundry",
+        "AI Proxy",
+        "Prisma",
+        "Phase 6C Runtime",
+        "Access Core",
+        "Gatekeeper",
+        "Communication Gateway"
+      ],
+      "capability_layer": "contract",
+      "mcr": "Every primitive declares capabilities, inputs, outputs, permissions, events, cost, evidence, and failure modes.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65B-CAND-003"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65C-CAND-002",
+      "subphase": "6.5C",
+      "slug": "primitive_compatibility_validation",
+      "title": "Primitive compatibility validation",
+      "source_claim_ids": [
+        "C65-0078",
+        "C65-0229",
+        "C65-0340",
+        "C65-0345"
+      ],
+      "source_claim_count": 4,
+      "substrate_refs": [
+        "Module Registry",
+        "Foundry",
+        "AI Proxy",
+        "Prisma"
+      ],
+      "capability_layer": "contract",
+      "mcr": "Incompatible primitive chains are rejected with explainable errors.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65B-CAND-003"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65C-CAND-003",
+      "subphase": "6.5C",
+      "slug": "extension_registration_gate",
+      "title": "Extension registration gate",
+      "source_claim_ids": [
+        "C65-0112",
+        "C65-0343"
+      ],
+      "source_claim_count": 2,
+      "substrate_refs": [
+        "Module Registry",
+        "Foundry",
+        "AI Proxy",
+        "Access Core"
+      ],
+      "capability_layer": "runtime",
+      "mcr": "Only approved extension path can register executable primitive behavior.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65B-CAND-003"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65C-CAND-004",
+      "subphase": "6.5C",
+      "slug": "runtime_resolver_source_chain",
+      "title": "Runtime resolver source chain",
+      "source_claim_ids": [],
+      "source_claim_count": 0,
+      "substrate_refs": [],
+      "capability_layer": "runtime",
+      "mcr": "Resolver applies deterministic source layers and conflict reporting.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65B-CAND-003"
+      ],
+      "execution_authorized": false,
+      "source_claim_note": "Derived from management-approved subphase scope and adjacent claim cluster; must be rechecked during exact-file ownership mapping."
+    },
+    {
+      "candidate_id": "P65C-CAND-005",
+      "subphase": "6.5C",
+      "slug": "symbolic_reference_boundary",
+      "title": "Symbolic reference boundary",
+      "source_claim_ids": [
+        "C65-0110"
+      ],
+      "source_claim_count": 1,
+      "substrate_refs": [
+        "Configuration Engine",
+        "Module Registry"
+      ],
+      "capability_layer": "runtime",
+      "mcr": "Exports and compositions use symbolic references, never raw secrets or tenant/user IDs.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65B-CAND-003"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65C-CAND-006",
+      "subphase": "6.5C",
+      "slug": "primitive_deprecation_lifecycle",
+      "title": "Primitive deprecation lifecycle",
+      "source_claim_ids": [
+        "C65-0345"
+      ],
+      "source_claim_count": 1,
+      "substrate_refs": [
+        "Module Registry",
+        "Foundry",
+        "AI Proxy",
+        "Prisma"
+      ],
+      "capability_layer": "runtime",
+      "mcr": "Deprecated primitives block new compositions without breaking existing valid versions.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65B-CAND-003"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65C-CAND-007",
+      "subphase": "6.5C",
+      "slug": "primitive_negative_demo",
+      "title": "Primitive registry negative demo",
+      "source_claim_ids": [],
+      "source_claim_count": 0,
+      "substrate_refs": [],
+      "capability_layer": "demo",
+      "mcr": "Demo rejects unregistered, missing, deprecated, and incompatible primitive paths before publish.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65B-CAND-003"
+      ],
+      "execution_authorized": false,
+      "source_claim_note": "Derived from management-approved subphase scope and adjacent claim cluster; must be rechecked during exact-file ownership mapping."
+    },
+    {
+      "candidate_id": "P65D-CAND-001",
+      "subphase": "6.5D",
+      "slug": "setup_wizard_contract",
+      "title": "Setup Wizard screen and API contract",
+      "source_claim_ids": [
+        "C65-0303"
+      ],
+      "source_claim_count": 1,
+      "substrate_refs": [
+        "Configuration Engine",
+        "Phase 6C Runtime"
+      ],
+      "capability_layer": "contract",
+      "mcr": "Screen/API contract covers route, users, capabilities, states, and must-not-happen rules.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65B-CAND-003",
+        "P65C-CAND-004"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65D-CAND-002",
+      "subphase": "6.5D",
+      "slug": "organization_graph_authoring",
+      "title": "Organization graph authoring",
+      "source_claim_ids": [
+        "C65-0020",
+        "C65-0119"
+      ],
+      "source_claim_count": 2,
+      "substrate_refs": [
+        "Hierarchy/Organization"
+      ],
+      "capability_layer": "runtime",
+      "mcr": "Tests prove P-40 depth, multi-parent precedence, and reorganization validation.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65B-CAND-003",
+        "P65C-CAND-004"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65D-CAND-003",
+      "subphase": "6.5D",
+      "slug": "workflow_graph_authoring",
+      "title": "Workflow graph authoring",
+      "source_claim_ids": [
+        "C65-0021",
+        "C65-0123"
+      ],
+      "source_claim_count": 2,
+      "substrate_refs": [
+        "Configuration Engine",
+        "Module Registry"
+      ],
+      "capability_layer": "runtime",
+      "mcr": "Tests prove P-41/P-42 workflow and stage limits plus bounded-loop validation.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65B-CAND-003",
+        "P65C-CAND-004"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65D-CAND-004",
+      "subphase": "6.5D",
+      "slug": "custom_fields_primitive_inheritance",
+      "title": "Custom fields with primitive inheritance",
+      "source_claim_ids": [
+        "C65-0023",
+        "C65-0351",
+        "C65-0353",
+        "C65-0354"
+      ],
+      "source_claim_count": 4,
+      "substrate_refs": [
+        "Configuration Engine",
+        "Module Registry",
+        "Foundry",
+        "Access Core",
+        "AI Proxy",
+        "Evidence/Audit",
+        "Billing/Escrow",
+        "Phase 6A Runtime",
+        "Phase 6C Runtime"
+      ],
+      "capability_layer": "runtime",
+      "mcr": "Unsafe custom fields affecting money, identity, reputation, or permission are blocked unless primitive-supported.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65B-CAND-003",
+        "P65C-CAND-004"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65D-CAND-005",
+      "subphase": "6.5D",
+      "slug": "permission_composition_authoring",
+      "title": "Permission composition authoring",
+      "source_claim_ids": [
+        "C65-0024"
+      ],
+      "source_claim_count": 1,
+      "substrate_refs": [
+        "Access Core"
+      ],
+      "capability_layer": "runtime",
+      "mcr": "Permission changes compose through Access Core/Gatekeeper and in-flight behavior is explicit.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65B-CAND-003",
+        "P65C-CAND-004"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65D-CAND-006",
+      "subphase": "6.5D",
+      "slug": "template_library_authoring",
+      "title": "Template library authoring",
+      "source_claim_ids": [
+        "C65-0032",
+        "C65-0303"
+      ],
+      "source_claim_count": 2,
+      "substrate_refs": [
+        "Configuration Engine",
+        "Phase 6C Runtime"
+      ],
+      "capability_layer": "runtime",
+      "mcr": "Templates enter the change pipeline as proposals and never bypass validation.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65B-CAND-003",
+        "P65C-CAND-004"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65D-CAND-007",
+      "subphase": "6.5D",
+      "slug": "concurrent_editing_conflict_resolution",
+      "title": "Concurrent editing conflict resolution",
+      "source_claim_ids": [],
+      "source_claim_count": 0,
+      "substrate_refs": [],
+      "capability_layer": "runtime",
+      "mcr": "Concurrent edits detect conflicts and block publish until resolved.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65B-CAND-003",
+        "P65C-CAND-004"
+      ],
+      "execution_authorized": false,
+      "source_claim_note": "Derived from management-approved subphase scope and adjacent claim cluster; must be rechecked during exact-file ownership mapping."
+    },
+    {
+      "candidate_id": "P65D-CAND-008",
+      "subphase": "6.5D",
+      "slug": "manual_ai_import_parity",
+      "title": "Manual AI template import parity",
+      "source_claim_ids": [],
+      "source_claim_count": 0,
+      "substrate_refs": [],
+      "capability_layer": "runtime",
+      "mcr": "Manual, AI, template, and import authoring all feed equivalent proposal records.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65B-CAND-003",
+        "P65C-CAND-004"
+      ],
+      "execution_authorized": false,
+      "source_claim_note": "Derived from management-approved subphase scope and adjacent claim cluster; must be rechecked during exact-file ownership mapping."
+    },
+    {
+      "candidate_id": "P65E-CAND-001",
+      "subphase": "6.5E",
+      "slug": "delegation_grant_contract",
+      "title": "Delegation grant contract",
+      "source_claim_ids": [
+        "C65-0135",
+        "C65-0136",
+        "C65-0357"
+      ],
+      "source_claim_count": 3,
+      "substrate_refs": [
+        "Configuration Engine",
+        "Module Registry"
+      ],
+      "capability_layer": "contract",
+      "mcr": "DelegationGrant contract covers stage/workflow/workflow-tree/department scopes.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65D-CAND-005"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65E-CAND-002",
+      "subphase": "6.5E",
+      "slug": "delegation_lifecycle_state_machine",
+      "title": "Delegation lifecycle state machine",
+      "source_claim_ids": [
+        "C65-0136",
+        "C65-0137",
+        "C65-0312",
+        "C65-0313",
+        "C65-0314",
+        "C65-0356",
+        "C65-0363",
+        "C65-0366"
+      ],
+      "source_claim_count": 8,
+      "substrate_refs": [
+        "Configuration Engine",
+        "Module Registry",
+        "Access Core",
+        "AI Proxy",
+        "Evidence/Audit",
+        "Prisma",
+        "Phase 6C Runtime",
+        "Phase 6A Runtime"
+      ],
+      "capability_layer": "runtime",
+      "mcr": "Lifecycle tests cover grant, accept, reject, revoke, and replacement.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65D-CAND-005"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65E-CAND-003",
+      "subphase": "6.5E",
+      "slug": "tier_drop_abandonment_fallback",
+      "title": "Tier drop abandonment fallback",
+      "source_claim_ids": [
+        "C65-0360",
+        "C65-0361"
+      ],
+      "source_claim_count": 2,
+      "substrate_refs": [
+        "Evidence/Audit",
+        "Configuration Engine",
+        "Module Registry"
+      ],
+      "capability_layer": "runtime",
+      "mcr": "Tier drop pauses invalid stages and abandonment routes to declared fallback with evidence.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65D-CAND-005"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65E-CAND-004",
+      "subphase": "6.5E",
+      "slug": "onward_delegation_gatekeeper",
+      "title": "Onward delegation Gatekeeper enforcement",
+      "source_claim_ids": [
+        "C65-0141",
+        "C65-0358"
+      ],
+      "source_claim_count": 2,
+      "substrate_refs": [
+        "Configuration Engine",
+        "Module Registry",
+        "AI Proxy",
+        "Evidence/Audit"
+      ],
+      "capability_layer": "runtime",
+      "mcr": "Onward delegation without host consent is denied and audited.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65D-CAND-005"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65E-CAND-005",
+      "subphase": "6.5E",
+      "slug": "structured_agreement_acceptance",
+      "title": "Structured agreement acceptance",
+      "source_claim_ids": [
+        "C65-0026",
+        "C65-0143",
+        "C65-0356",
+        "C65-0366"
+      ],
+      "source_claim_count": 4,
+      "substrate_refs": [
+        "Configuration Engine",
+        "Module Registry",
+        "Access Core",
+        "AI Proxy",
+        "Evidence/Audit",
+        "Phase 6A Runtime",
+        "Phase 6C Runtime"
+      ],
+      "capability_layer": "runtime",
+      "mcr": "Agreement draft and binding acceptance are distinct and identity-tier gated.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65D-CAND-005"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65E-CAND-006",
+      "subphase": "6.5E",
+      "slug": "evidence_crossing_lenses",
+      "title": "Evidence crossing and lenses",
+      "source_claim_ids": [
+        "C65-0142",
+        "C65-0360"
+      ],
+      "source_claim_count": 2,
+      "substrate_refs": [
+        "Evidence/Audit"
+      ],
+      "capability_layer": "runtime",
+      "mcr": "Evidence crossing writes one event with authorized lenses only.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65D-CAND-005"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65E-CAND-007",
+      "subphase": "6.5E",
+      "slug": "reputation_protection_boundary",
+      "title": "Reputation protection boundary",
+      "source_claim_ids": [],
+      "source_claim_count": 0,
+      "substrate_refs": [],
+      "capability_layer": "runtime",
+      "mcr": "Prohibited reputation inference is blocked and audited.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65D-CAND-005"
+      ],
+      "execution_authorized": false,
+      "source_claim_note": "Derived from management-approved subphase scope and adjacent claim cluster; must be rechecked during exact-file ownership mapping."
+    },
+    {
+      "candidate_id": "P65E-CAND-008",
+      "subphase": "6.5E",
+      "slug": "dispute_review_scaffolding",
+      "title": "Dispute and review scaffolding",
+      "source_claim_ids": [
+        "C65-0038"
+      ],
+      "source_claim_count": 1,
+      "substrate_refs": [
+        "Configuration Engine",
+        "Module Registry"
+      ],
+      "capability_layer": "runtime",
+      "mcr": "Dispute path exists for contested delegation, agreement, refund, and reversal without inventing legal outcome.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65D-CAND-005"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65E-CAND-009",
+      "subphase": "6.5E",
+      "slug": "subtenant_invite_guard",
+      "title": "Sub-tenant invite guard",
+      "source_claim_ids": [
+        "C65-0025",
+        "C65-0046",
+        "C65-0134",
+        "C65-0254",
+        "C65-0312",
+        "C65-0314",
+        "C65-0360",
+        "C65-0363"
+      ],
+      "source_claim_count": 8,
+      "substrate_refs": [
+        "Configuration Engine",
+        "Module Registry",
+        "Access Core",
+        "AI Proxy",
+        "Evidence/Audit",
+        "Prisma"
+      ],
+      "capability_layer": "runtime",
+      "mcr": "Sub-tenant external invites require explicit host grant and audit.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65D-CAND-005"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65F-CAND-001",
+      "subphase": "6.5F",
+      "slug": "escrow_composition_contract",
+      "title": "Escrow composition contract",
+      "source_claim_ids": [
+        "C65-0027",
+        "C65-0152",
+        "C65-0273",
+        "C65-0278",
+        "C65-0295",
+        "C65-0307",
+        "C65-0308",
+        "C65-0327",
+        "C65-0365",
+        "C65-0372",
+        "C65-0374",
+        "C65-0377",
+        "C65-0399",
+        "C65-0433",
+        "C65-0446"
+      ],
+      "source_claim_count": 15,
+      "substrate_refs": [
+        "Billing/Escrow",
+        "Module Registry",
+        "Foundry",
+        "AI Proxy",
+        "Import/Export",
+        "Frontend Shell",
+        "Configuration Engine",
+        "Gatekeeper",
+        "Phase 6A Runtime",
+        "Phase 6B Runtime",
+        "Evidence/Audit",
+        "Prisma",
+        "Communication Gateway",
+        "Access Core",
+        "Hierarchy/Organization"
+      ],
+      "capability_layer": "contract",
+      "mcr": "Composer escrow composes existing 6B primitives and does not create payout rails.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65E-CAND-005",
+        "P65C-CAND-003"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65F-CAND-002",
+      "subphase": "6.5F",
+      "slug": "split_tax_refund_reversal_rules",
+      "title": "Split tax refund reversal rules",
+      "source_claim_ids": [
+        "C65-0027",
+        "C65-0150",
+        "C65-0151",
+        "C65-0369",
+        "C65-0370",
+        "C65-0371",
+        "C65-0374",
+        "C65-0433"
+      ],
+      "source_claim_count": 8,
+      "substrate_refs": [
+        "Billing/Escrow",
+        "Phase 6C Runtime",
+        "AI Proxy",
+        "Frontend Shell",
+        "Prisma",
+        "Access Core",
+        "Configuration Engine",
+        "Module Registry",
+        "Foundry",
+        "Communication Gateway",
+        "Hierarchy/Organization",
+        "Import/Export",
+        "Evidence/Audit"
+      ],
+      "capability_layer": "runtime",
+      "mcr": "Split rules support tax/refund/reversal and no split percentage is a default.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65E-CAND-005",
+        "P65C-CAND-003"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65F-CAND-003",
+      "subphase": "6.5F",
+      "slug": "payout_rail_reference_boundary",
+      "title": "Payout rail reference boundary",
+      "source_claim_ids": [
+        "C65-0373"
+      ],
+      "source_claim_count": 1,
+      "substrate_refs": [
+        "Access Core",
+        "AI Proxy",
+        "Billing/Escrow",
+        "Frontend Shell"
+      ],
+      "capability_layer": "runtime",
+      "mcr": "Composer references existing payout adapters and does not build new rails.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65E-CAND-005",
+        "P65C-CAND-003"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65F-CAND-004",
+      "subphase": "6.5F",
+      "slug": "budget_cost_honesty",
+      "title": "Budget and cost honesty",
+      "source_claim_ids": [
+        "C65-0037",
+        "C65-0056",
+        "C65-0069",
+        "C65-0180",
+        "C65-0181",
+        "C65-0182",
+        "C65-0183",
+        "C65-0220",
+        "C65-0271",
+        "C65-0273",
+        "C65-0296",
+        "C65-0339",
+        "C65-0375",
+        "C65-0387",
+        "C65-0394",
+        "C65-0410",
+        "C65-0425"
+      ],
+      "source_claim_count": 17,
+      "substrate_refs": [
+        "Billing/Escrow",
+        "AI Proxy",
+        "Phase 6C Runtime",
+        "Module Registry",
+        "Foundry",
+        "Import/Export",
+        "Frontend Shell",
+        "Hierarchy/Organization",
+        "Evidence/Audit",
+        "Access Core",
+        "Phase 6A Runtime",
+        "Gatekeeper",
+        "Configuration Engine"
+      ],
+      "capability_layer": "runtime",
+      "mcr": "Cost forecast and P-45 warning/block behavior are visible before publish.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65E-CAND-005",
+        "P65C-CAND-003"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65F-CAND-005",
+      "subphase": "6.5F",
+      "slug": "external_action_contract",
+      "title": "External action registration contract",
+      "source_claim_ids": [
+        "C65-0028",
+        "C65-0153",
+        "C65-0154",
+        "C65-0308",
+        "C65-0328",
+        "C65-0336",
+        "C65-0373",
+        "C65-0376",
+        "C65-0379",
+        "C65-0380",
+        "C65-0381",
+        "C65-0382",
+        "C65-0384",
+        "C65-0408"
+      ],
+      "source_claim_count": 14,
+      "substrate_refs": [
+        "Configuration Engine",
+        "Module Registry",
+        "Gatekeeper",
+        "AI Proxy",
+        "Billing/Escrow",
+        "Frontend Shell",
+        "Access Core",
+        "Communication Gateway",
+        "Foundry"
+      ],
+      "capability_layer": "contract",
+      "mcr": "External action contract declares provider, timeout, retry, idempotency, and fallback.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65E-CAND-005",
+        "P65C-CAND-003"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65F-CAND-006",
+      "subphase": "6.5F",
+      "slug": "credential_boundary_runtime",
+      "title": "Credential boundary runtime",
+      "source_claim_ids": [
+        "C65-0077",
+        "C65-0228",
+        "C65-0287",
+        "C65-0377",
+        "C65-0378",
+        "C65-0383",
+        "C65-0393",
+        "C65-0412",
+        "C65-0433"
+      ],
+      "source_claim_count": 9,
+      "substrate_refs": [
+        "Configuration Engine",
+        "Module Registry",
+        "Evidence/Audit",
+        "Frontend Shell",
+        "Gatekeeper",
+        "AI Proxy",
+        "Billing/Escrow",
+        "Phase 6B Runtime",
+        "Phase 6A Runtime",
+        "Access Core",
+        "Import/Export",
+        "Foundry",
+        "Communication Gateway",
+        "Hierarchy/Organization",
+        "Prisma"
+      ],
+      "capability_layer": "runtime",
+      "mcr": "Raw credentials are rejected in compositions and exports.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65E-CAND-005",
+        "P65C-CAND-003"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65F-CAND-007",
+      "subphase": "6.5F",
+      "slug": "provider_failure_recovery",
+      "title": "Provider failure recovery",
+      "source_claim_ids": [
+        "C65-0339",
+        "C65-0374",
+        "C65-0377",
+        "C65-0383"
+      ],
+      "source_claim_count": 4,
+      "substrate_refs": [
+        "Access Core",
+        "Module Registry",
+        "Foundry",
+        "AI Proxy",
+        "Import/Export",
+        "Evidence/Audit",
+        "Billing/Escrow",
+        "Phase 6A Runtime",
+        "Phase 6C Runtime",
+        "Frontend Shell",
+        "Prisma",
+        "Gatekeeper",
+        "Phase 6B Runtime"
+      ],
+      "capability_layer": "runtime",
+      "mcr": "Provider failures create audit evidence and user-visible recovery.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65E-CAND-005",
+        "P65C-CAND-003"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65F-CAND-008",
+      "subphase": "6.5F",
+      "slug": "ai_external_action_guard",
+      "title": "AI external action guard",
+      "source_claim_ids": [
+        "C65-0028",
+        "C65-0328",
+        "C65-0379",
+        "C65-0380",
+        "C65-0381",
+        "C65-0382",
+        "C65-0387"
+      ],
+      "source_claim_count": 7,
+      "substrate_refs": [
+        "Configuration Engine",
+        "Module Registry",
+        "Access Core",
+        "Communication Gateway",
+        "AI Proxy",
+        "Frontend Shell",
+        "Foundry",
+        "Gatekeeper",
+        "Billing/Escrow",
+        "Evidence/Audit",
+        "Phase 6A Runtime"
+      ],
+      "capability_layer": "runtime",
+      "mcr": "AI may propose but never execute external actions.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65E-CAND-005",
+        "P65C-CAND-003"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65F-CAND-009",
+      "subphase": "6.5F",
+      "slug": "money_external_negative_demo",
+      "title": "Money and external-action negative demo",
+      "source_claim_ids": [
+        "C65-0374",
+        "C65-0433"
+      ],
+      "source_claim_count": 2,
+      "substrate_refs": [
+        "AI Proxy",
+        "Billing/Escrow",
+        "Frontend Shell",
+        "Prisma",
+        "Access Core",
+        "Configuration Engine",
+        "Module Registry",
+        "Foundry",
+        "Communication Gateway",
+        "Hierarchy/Organization",
+        "Import/Export",
+        "Evidence/Audit"
+      ],
+      "capability_layer": "demo",
+      "mcr": "Demo proves failed payment, missing credentials, provider unavailable, and AI execution denial.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65E-CAND-005",
+        "P65C-CAND-003"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65G-CAND-001",
+      "subphase": "6.5G",
+      "slug": "validation_engine_severities",
+      "title": "Validation engine severities",
+      "source_claim_ids": [
+        "C65-0396",
+        "C65-0397",
+        "C65-0398",
+        "C65-0405"
+      ],
+      "source_claim_count": 4,
+      "substrate_refs": [
+        "Configuration Engine",
+        "Module Registry",
+        "Gatekeeper",
+        "AI Proxy"
+      ],
+      "capability_layer": "runtime",
+      "mcr": "Blocker blocks publish; warning requires acknowledgement evidence.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65B-CAND-003",
+        "P65C-CAND-004",
+        "P65F-CAND-007"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65G-CAND-002",
+      "subphase": "6.5G",
+      "slug": "simulation_test_mode",
+      "title": "Simulation test mode",
+      "source_claim_ids": [
+        "C65-0033",
+        "C65-0093",
+        "C65-0168"
+      ],
+      "source_claim_count": 3,
+      "substrate_refs": [
+        "Configuration Engine",
+        "Module Registry"
+      ],
+      "capability_layer": "runtime",
+      "mcr": "Simulation runs end-to-end with mocked externals and no side effects.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65B-CAND-003",
+        "P65C-CAND-004",
+        "P65F-CAND-007"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65G-CAND-003",
+      "subphase": "6.5G",
+      "slug": "shadow_mode_divergence",
+      "title": "Shadow mode divergence report",
+      "source_claim_ids": [
+        "C65-0068",
+        "C65-0219",
+        "C65-0235",
+        "C65-0400"
+      ],
+      "source_claim_count": 4,
+      "substrate_refs": [
+        "Configuration Engine",
+        "Module Registry",
+        "Phase 6C Runtime"
+      ],
+      "capability_layer": "runtime",
+      "mcr": "Shadow run reports divergence and blocks cutover above release threshold.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65B-CAND-003",
+        "P65C-CAND-004",
+        "P65F-CAND-007"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65G-CAND-004",
+      "subphase": "6.5G",
+      "slug": "publish_revalidation",
+      "title": "Scheduled publish revalidation",
+      "source_claim_ids": [
+        "C65-0402"
+      ],
+      "source_claim_count": 1,
+      "substrate_refs": [
+        "Configuration Engine",
+        "Module Registry"
+      ],
+      "capability_layer": "runtime",
+      "mcr": "Scheduled publish revalidates and keeps prior version live on failure.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65B-CAND-003",
+        "P65C-CAND-004",
+        "P65F-CAND-007"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65G-CAND-005",
+      "subphase": "6.5G",
+      "slug": "rollback_and_migration",
+      "title": "Rollback and migration behavior",
+      "source_claim_ids": [
+        "C65-0169",
+        "C65-0172",
+        "C65-0174",
+        "C65-0323"
+      ],
+      "source_claim_count": 4,
+      "substrate_refs": [
+        "Prisma",
+        "Configuration Engine",
+        "Module Registry",
+        "Evidence/Audit"
+      ],
+      "capability_layer": "runtime",
+      "mcr": "Rollback creates traceable version behavior and migration is bounded by validation.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65B-CAND-003",
+        "P65C-CAND-004",
+        "P65F-CAND-007"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65G-CAND-006",
+      "subphase": "6.5G",
+      "slug": "runtime_instance_state_machine",
+      "title": "Runtime instance state machine",
+      "source_claim_ids": [
+        "C65-0406",
+        "C65-0407"
+      ],
+      "source_claim_count": 2,
+      "substrate_refs": [
+        "Module Registry",
+        "Foundry",
+        "AI Proxy",
+        "Hierarchy/Organization",
+        "Evidence/Audit",
+        "Configuration Engine"
+      ],
+      "capability_layer": "runtime",
+      "mcr": "Instances pin versions and track state, owner, next event, timeout, escalation, recovery.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65B-CAND-003",
+        "P65C-CAND-004",
+        "P65F-CAND-007"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65G-CAND-007",
+      "subphase": "6.5G",
+      "slug": "dead_end_recovery_guard",
+      "title": "Dead-end runtime recovery guard",
+      "source_claim_ids": [
+        "C65-0017",
+        "C65-0072",
+        "C65-0080",
+        "C65-0223",
+        "C65-0231",
+        "C65-0385",
+        "C65-0406",
+        "C65-0407"
+      ],
+      "source_claim_count": 8,
+      "substrate_refs": [
+        "Configuration Engine",
+        "Module Registry",
+        "AI Proxy",
+        "Evidence/Audit",
+        "Foundry",
+        "Hierarchy/Organization"
+      ],
+      "capability_layer": "runtime",
+      "mcr": "Dead-end runtime states are blocked and declared recovery actions are available.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65B-CAND-003",
+        "P65C-CAND-004",
+        "P65F-CAND-007"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65G-CAND-008",
+      "subphase": "6.5G",
+      "slug": "run_monitor_evidence_surface",
+      "title": "Run Monitor evidence surface",
+      "source_claim_ids": [
+        "C65-0034",
+        "C65-0058",
+        "C65-0190",
+        "C65-0260"
+      ],
+      "source_claim_count": 4,
+      "substrate_refs": [
+        "Configuration Engine",
+        "Module Registry"
+      ],
+      "capability_layer": "runtime",
+      "mcr": "Run Monitor exposes state, evidence, recovery, and audit lenses.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65B-CAND-003",
+        "P65C-CAND-004",
+        "P65F-CAND-007"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65G-CAND-009",
+      "subphase": "6.5G",
+      "slug": "export_import_offramp",
+      "title": "Export import off-ramp",
+      "source_claim_ids": [
+        "C65-0035",
+        "C65-0061",
+        "C65-0073",
+        "C65-0185",
+        "C65-0186",
+        "C65-0187",
+        "C65-0188",
+        "C65-0189",
+        "C65-0224",
+        "C65-0261",
+        "C65-0276",
+        "C65-0304",
+        "C65-0352",
+        "C65-0386",
+        "C65-0395",
+        "C65-0411",
+        "C65-0413",
+        "C65-0415",
+        "C65-0434",
+        "C65-0444"
+      ],
+      "source_claim_count": 20,
+      "substrate_refs": [
+        "Import/Export",
+        "Configuration Engine",
+        "AI Proxy",
+        "Module Registry",
+        "Foundry",
+        "Evidence/Audit",
+        "Prisma",
+        "Billing/Escrow",
+        "Access Core",
+        "Phase 6B Runtime"
+      ],
+      "capability_layer": "runtime",
+      "mcr": "Export/import uses symbolic remap, import-to-draft only, and clean tenant validation.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65B-CAND-003",
+        "P65C-CAND-004",
+        "P65F-CAND-007"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65G-CAND-010",
+      "subphase": "6.5G",
+      "slug": "support_diagnostics_surface",
+      "title": "Support diagnostics surface",
+      "source_claim_ids": [
+        "C65-0304",
+        "C65-0411"
+      ],
+      "source_claim_count": 2,
+      "substrate_refs": [
+        "Import/Export",
+        "Evidence/Audit",
+        "Billing/Escrow"
+      ],
+      "capability_layer": "runtime",
+      "mcr": "Support diagnostics are read-mostly or pipeline-bound and never bypass authority.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65B-CAND-003",
+        "P65C-CAND-004",
+        "P65F-CAND-007"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65G-CAND-011",
+      "subphase": "6.5G",
+      "slug": "composer_final_falsifiable_demo",
+      "title": "Composer final falsifiable demo",
+      "source_claim_ids": [
+        "C65-0430"
+      ],
+      "source_claim_count": 1,
+      "substrate_refs": [
+        "Prisma"
+      ],
+      "capability_layer": "demo",
+      "mcr": "Final demo proves golden path and all negative assertions before Phase 6D dependency consumption.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65B-CAND-003",
+        "P65C-CAND-004",
+        "P65F-CAND-007"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65H-CAND-001",
+      "subphase": "6.5H",
+      "slug": "screen_contract_pack",
+      "title": "Composer screen contract pack",
+      "source_claim_ids": [
+        "C65-0283",
+        "C65-0291",
+        "C65-0416",
+        "C65-0422",
+        "C65-0431"
+      ],
+      "source_claim_count": 5,
+      "substrate_refs": [
+        "Frontend Shell",
+        "Module Registry",
+        "Foundry",
+        "Access Core",
+        "Configuration Engine",
+        "AI Proxy",
+        "Hierarchy/Organization",
+        "Import/Export",
+        "Evidence/Audit"
+      ],
+      "capability_layer": "contract",
+      "mcr": "All Composer UI surfaces have screen contracts before frontend implementation.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65D-CAND-001",
+        "P65G-CAND-008"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65H-CAND-002",
+      "subphase": "6.5H",
+      "slug": "setup_wizard_frontend",
+      "title": "Setup Wizard frontend",
+      "source_claim_ids": [
+        "C65-0051",
+        "C65-0250",
+        "C65-0416",
+        "C65-0417"
+      ],
+      "source_claim_count": 4,
+      "substrate_refs": [
+        "Frontend Shell",
+        "Access Core",
+        "Configuration Engine",
+        "AI Proxy",
+        "Hierarchy/Organization",
+        "Import/Export"
+      ],
+      "capability_layer": "frontend",
+      "mcr": "Browser proof shows tenant admin can start from template with required states.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65D-CAND-001",
+        "P65G-CAND-008"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65H-CAND-003",
+      "subphase": "6.5H",
+      "slug": "organization_view_canvas_form",
+      "title": "Organization View canvas/form parity",
+      "source_claim_ids": [
+        "C65-0016",
+        "C65-0416"
+      ],
+      "source_claim_count": 2,
+      "substrate_refs": [
+        "Frontend Shell",
+        "Access Core",
+        "Configuration Engine",
+        "AI Proxy",
+        "Hierarchy/Organization",
+        "Import/Export"
+      ],
+      "capability_layer": "frontend",
+      "mcr": "Browser proof shows organization edits work through canvas and form/list fallback.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65D-CAND-001",
+        "P65G-CAND-008"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65H-CAND-004",
+      "subphase": "6.5H",
+      "slug": "workflow_view_canvas_form",
+      "title": "Workflow View canvas/form parity",
+      "source_claim_ids": [
+        "C65-0053",
+        "C65-0416",
+        "C65-0418"
+      ],
+      "source_claim_count": 3,
+      "substrate_refs": [
+        "Frontend Shell",
+        "Access Core",
+        "Configuration Engine",
+        "AI Proxy",
+        "Hierarchy/Organization",
+        "Import/Export"
+      ],
+      "capability_layer": "frontend",
+      "mcr": "Browser proof shows workflow edits work through canvas and form/list fallback.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65D-CAND-001",
+        "P65G-CAND-008"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65H-CAND-005",
+      "subphase": "6.5H",
+      "slug": "policy_permission_view",
+      "title": "Policy and Permission View",
+      "source_claim_ids": [
+        "C65-0242",
+        "C65-0246",
+        "C65-0416"
+      ],
+      "source_claim_count": 3,
+      "substrate_refs": [
+        "Frontend Shell",
+        "Access Core",
+        "Configuration Engine",
+        "AI Proxy",
+        "Hierarchy/Organization",
+        "Import/Export"
+      ],
+      "capability_layer": "frontend",
+      "mcr": "UI shows permission consequences and blocks unsafe publish.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65D-CAND-001",
+        "P65G-CAND-008"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65H-CAND-006",
+      "subphase": "6.5H",
+      "slug": "delegation_view",
+      "title": "Delegation View",
+      "source_claim_ids": [
+        "C65-0416"
+      ],
+      "source_claim_count": 1,
+      "substrate_refs": [
+        "Access Core",
+        "Configuration Engine",
+        "AI Proxy",
+        "Hierarchy/Organization",
+        "Import/Export",
+        "Frontend Shell"
+      ],
+      "capability_layer": "frontend",
+      "mcr": "UI shows delegation scope, consent, fallback, and audit consequences.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65D-CAND-001",
+        "P65G-CAND-008"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65H-CAND-007",
+      "subphase": "6.5H",
+      "slug": "agreement_split_view",
+      "title": "Agreement and Split Rule View",
+      "source_claim_ids": [
+        "C65-0416"
+      ],
+      "source_claim_count": 1,
+      "substrate_refs": [
+        "Access Core",
+        "Configuration Engine",
+        "AI Proxy",
+        "Hierarchy/Organization",
+        "Import/Export",
+        "Frontend Shell"
+      ],
+      "capability_layer": "frontend",
+      "mcr": "UI distinguishes draft agreement from binding acceptance and shows split consequences.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65D-CAND-001",
+        "P65G-CAND-008"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65H-CAND-008",
+      "subphase": "6.5H",
+      "slug": "external_connections_view",
+      "title": "External Connections View",
+      "source_claim_ids": [
+        "C65-0416"
+      ],
+      "source_claim_count": 1,
+      "substrate_refs": [
+        "Access Core",
+        "Configuration Engine",
+        "AI Proxy",
+        "Hierarchy/Organization",
+        "Import/Export",
+        "Frontend Shell"
+      ],
+      "capability_layer": "frontend",
+      "mcr": "UI shows credential/provider state without exposing raw secrets.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65D-CAND-001",
+        "P65G-CAND-008"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65H-CAND-009",
+      "subphase": "6.5H",
+      "slug": "ai_proposal_panel",
+      "title": "AI Proposal Panel",
+      "source_claim_ids": [
+        "C65-0416"
+      ],
+      "source_claim_count": 1,
+      "substrate_refs": [
+        "Access Core",
+        "Configuration Engine",
+        "AI Proxy",
+        "Hierarchy/Organization",
+        "Import/Export",
+        "Frontend Shell"
+      ],
+      "capability_layer": "frontend",
+      "mcr": "UI proves AI proposal enters pipeline and cannot directly execute.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65D-CAND-001",
+        "P65G-CAND-008"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65H-CAND-010",
+      "subphase": "6.5H",
+      "slug": "test_shadow_debug_replay_view",
+      "title": "Test Shadow Debug Replay View",
+      "source_claim_ids": [
+        "C65-0416",
+        "C65-0423"
+      ],
+      "source_claim_count": 2,
+      "substrate_refs": [
+        "Access Core",
+        "Configuration Engine",
+        "AI Proxy",
+        "Hierarchy/Organization",
+        "Import/Export",
+        "Frontend Shell"
+      ],
+      "capability_layer": "frontend",
+      "mcr": "UI shows simulation, shadow divergence, validation failures, and replay trace.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65D-CAND-001",
+        "P65G-CAND-008"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65H-CAND-011",
+      "subphase": "6.5H",
+      "slug": "publish_view",
+      "title": "Publish View",
+      "source_claim_ids": [
+        "C65-0416"
+      ],
+      "source_claim_count": 1,
+      "substrate_refs": [
+        "Access Core",
+        "Configuration Engine",
+        "AI Proxy",
+        "Hierarchy/Organization",
+        "Import/Export",
+        "Frontend Shell"
+      ],
+      "capability_layer": "frontend",
+      "mcr": "UI shows human preview, risk, cost, and missing requirements before publish.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65D-CAND-001",
+        "P65G-CAND-008"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65H-CAND-012",
+      "subphase": "6.5H",
+      "slug": "run_monitor_view",
+      "title": "Run Monitor View",
+      "source_claim_ids": [
+        "C65-0416",
+        "C65-0419"
+      ],
+      "source_claim_count": 2,
+      "substrate_refs": [
+        "Access Core",
+        "Configuration Engine",
+        "AI Proxy",
+        "Hierarchy/Organization",
+        "Import/Export",
+        "Frontend Shell",
+        "Gatekeeper",
+        "Prisma"
+      ],
+      "capability_layer": "frontend",
+      "mcr": "UI shows live state, stuck recovery, evidence, and audit links.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65D-CAND-001",
+        "P65G-CAND-008"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65H-CAND-013",
+      "subphase": "6.5H",
+      "slug": "export_import_view",
+      "title": "Export Import View",
+      "source_claim_ids": [
+        "C65-0416"
+      ],
+      "source_claim_count": 1,
+      "substrate_refs": [
+        "Access Core",
+        "Configuration Engine",
+        "AI Proxy",
+        "Hierarchy/Organization",
+        "Import/Export",
+        "Frontend Shell"
+      ],
+      "capability_layer": "frontend",
+      "mcr": "UI proves import-to-draft, symbolic remap, and no-surprise export states.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65D-CAND-001",
+        "P65G-CAND-008"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65H-CAND-014",
+      "subphase": "6.5H",
+      "slug": "responsive_accessibility_visual_proof",
+      "title": "Responsive accessibility visual proof",
+      "source_claim_ids": [
+        "C65-0018",
+        "C65-0419",
+        "C65-0423",
+        "C65-0431"
+      ],
+      "source_claim_count": 4,
+      "substrate_refs": [
+        "Prisma",
+        "Gatekeeper",
+        "Access Core",
+        "Frontend Shell",
+        "Evidence/Audit"
+      ],
+      "capability_layer": "frontend",
+      "mcr": "Screenshots prove required states, responsive posture, and accessibility basics.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65D-CAND-001",
+        "P65G-CAND-008"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65H-CAND-015",
+      "subphase": "6.5H",
+      "slug": "composer_final_visual_audit",
+      "title": "Composer final visual audit",
+      "source_claim_ids": [
+        "C65-0424",
+        "C65-0431",
+        "C65-0432"
+      ],
+      "source_claim_count": 3,
+      "substrate_refs": [
+        "Evidence/Audit",
+        "Frontend Shell"
+      ],
+      "capability_layer": "demo",
+      "mcr": "Final screenshot bundle maps every visual assertion to evidence.",
+      "split_rationale": "Natural boundary: owns one coherent capability with one validation ladder and no overlapping ownership.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65D-CAND-001",
+        "P65G-CAND-008"
+      ],
+      "execution_authorized": false
+    },
+    {
+      "candidate_id": "P65B-CAND-008",
+      "subphase": "6.5B",
+      "slug": "composer_api_module_mount_and_route_spine",
+      "title": "Composer API module mount and route spine",
+      "source_claim_ids": [],
+      "source_claim_count": 0,
+      "substrate_refs": [
+        "Foundry",
+        "Module Registry",
+        "Configuration Engine"
+      ],
+      "capability_layer": "runtime",
+      "mcr": "Composer API module mounts once and exposes an activation-aware route spine without wiring individual features multiple times.",
+      "split_rationale": "Exact-file audit discovered shared API mount files; a dedicated FFET prevents overlap across runtime feature tickets.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65B-CAND-003"
+      ],
+      "execution_authorized": false,
+      "source_claim_note": "Derived from exact-file ownership audit and requirement that Composer integrate with existing runtime substrate."
+    },
+    {
+      "candidate_id": "P65H-CAND-016",
+      "subphase": "6.5H",
+      "slug": "composer_frontend_navigation_activation_mount",
+      "title": "Composer frontend navigation and activation mount",
+      "source_claim_ids": [],
+      "source_claim_count": 0,
+      "substrate_refs": [
+        "Frontend Shell",
+        "Foundry"
+      ],
+      "capability_layer": "frontend",
+      "mcr": "Composer navigation appears only when activated and routes to the approved Composer shell without bypassing screen contracts.",
+      "split_rationale": "Exact-file audit discovered shared frontend navigation/config files; a dedicated FFET prevents overlap across UI surface tickets.",
+      "merge_rationale": null,
+      "dependencies": [
+        "P65H-CAND-001"
+      ],
+      "execution_authorized": false,
+      "source_claim_note": "Derived from exact-file ownership audit and frontend activation requirement."
+    }
+  ]
+}
