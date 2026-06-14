@@ -1,0 +1,209 @@
+{
+  "$metadata": {
+    "company": "HAUTM",
+    "platform": "Esbla Spark",
+    "author": "Usman Hussain",
+    "owner": "Usman Hussain",
+    "suite_version": "v5.0",
+    "file_version": "v1.0",
+    "created": "2026-06-14",
+    "last_updated": "2026-06-14",
+    "status": "for_ratification",
+    "document_type": "gap_blocker_register",
+    "scope": "Blocked or deferred Composer claims discovered during repo-grounded substrate mapping.",
+    "title": "Phase 6.5 Composer Gap and Blocker Register v2"
+  },
+  "blocker_count": 21,
+  "blockers": [
+    {
+      "blocker_id": "P65-BLOCK-001",
+      "claim_id": "C65-0018",
+      "subphase": "6.5H",
+      "claim_text": "C.6 Mobile and tablet posture",
+      "reason": "Claim appears to require Prisma/schema/database decision. Composer rebaseline may not authorize schema work without a separate control pack.",
+      "required_resolution": "Create schema/control amendment or mark claim deferred before FFET execution.",
+      "execution_authorized": false
+    },
+    {
+      "blocker_id": "P65-BLOCK-002",
+      "claim_id": "C65-0169",
+      "subphase": "6.5G",
+      "claim_text": "22. Publishing, rollback, and migration",
+      "reason": "Claim appears to require Prisma/schema/database decision. Composer rebaseline may not authorize schema work without a separate control pack.",
+      "required_resolution": "Create schema/control amendment or mark claim deferred before FFET execution.",
+      "execution_authorized": false
+    },
+    {
+      "blocker_id": "P65-BLOCK-003",
+      "claim_id": "C65-0279",
+      "subphase": "6.5H",
+      "claim_text": "004 \u2014 All of these under different gates. Composer is simultaneously a product surface (tenant-facing), a platform subsystem (the resolver/registry/runtime), and a composition surface for modules \u2014 each governed by its own gate. It is not a \"module-builder\" in the sense of inventing new executable behavior (see Q023).",
+      "reason": "Claim appears to require Prisma/schema/database decision. Composer rebaseline may not authorize schema work without a separate control pack.",
+      "required_resolution": "Create schema/control amendment or mark claim deferred before FFET execution.",
+      "execution_authorized": false
+    },
+    {
+      "blocker_id": "P65-BLOCK-004",
+      "claim_id": "C65-0293",
+      "subphase": "6.5H",
+      "claim_text": "018 \u2014 Yes, feature-flagged until public activation. Composer ships behind activation flags; public activation is gated on the external/counsel reviews that the immutable backbone requires for money/identity/delegation surfaces.",
+      "reason": "Claim appears to require Prisma/schema/database decision. Composer rebaseline may not authorize schema work without a separate control pack.",
+      "required_resolution": "Create schema/control amendment or mark claim deferred before FFET execution.",
+      "execution_authorized": false
+    },
+    {
+      "blocker_id": "P65-BLOCK-005",
+      "claim_id": "C65-0297",
+      "subphase": "6.5C",
+      "claim_text": "022 \u2014 Configure pre-approved workflow primitives, arranged and named freely. Composer creates *compositions* of registered primitives; it does not create new executable primitive behavior (Blueprint A.5/CB-13).",
+      "reason": "Claim appears to require Prisma/schema/database decision. Composer rebaseline may not authorize schema work without a separate control pack.",
+      "required_resolution": "Create schema/control amendment or mark claim deferred before FFET execution.",
+      "execution_authorized": false
+    },
+    {
+      "blocker_id": "P65-BLOCK-006",
+      "claim_id": "C65-0298",
+      "subphase": "6.5C",
+      "claim_text": "023 \u2014 No, Composer may not create new modules or invent executable behavior. New primitives/modules arrive through the registered extension path (ADR + contract + manifest), not through tenant composition.",
+      "reason": "Claim appears to require Prisma/schema/database decision. Composer rebaseline may not authorize schema work without a separate control pack.",
+      "required_resolution": "Create schema/control amendment or mark claim deferred before FFET execution.",
+      "execution_authorized": false
+    },
+    {
+      "blocker_id": "P65-BLOCK-007",
+      "claim_id": "C65-0312",
+      "subphase": "6.5E",
+      "claim_text": "037 \u2014 Reputation influences recommendations and warnings, not hard permission grants. A low-reputation sub-tenant can be *warned about* and *ranked lower* in the delegation chooser; permissions themselves are tenant-composed, not reputation-gated (avoids the social-credit failure mode). Exception: the immutable backbone's safety restrictions still apply.",
+      "reason": "Claim appears to require Prisma/schema/database decision. Composer rebaseline may not authorize schema work without a separate control pack.",
+      "required_resolution": "Create schema/control amendment or mark claim deferred before FFET execution.",
+      "execution_authorized": false
+    },
+    {
+      "blocker_id": "P65-BLOCK-008",
+      "claim_id": "C65-0316",
+      "subphase": "6.5G",
+      "claim_text": "041 \u2014 Canonical unit is `Composition`, with immutable `CompositionVersion` children. Tenant and module configuration are *resolved views*; the Composition is the authored object, the CompositionVersion is the published immutable snapshot instances pin to.",
+      "reason": "Claim appears to require Prisma/schema/database decision. Composer rebaseline may not authorize schema work without a separate control pack.",
+      "required_resolution": "Create schema/control amendment or mark claim deferred before FFET execution.",
+      "execution_authorized": false
+    },
+    {
+      "blocker_id": "P65-BLOCK-009",
+      "claim_id": "C65-0322",
+      "subphase": "6.5G",
+      "claim_text": "047 \u2014 Yes, published versions are immutable (edits create a new draft \u2192 new version). This is what makes instance-pinning reliable.",
+      "reason": "Claim appears to require Prisma/schema/database decision. Composer rebaseline may not authorize schema work without a separate control pack.",
+      "required_resolution": "Create schema/control amendment or mark claim deferred before FFET execution.",
+      "execution_authorized": false
+    },
+    {
+      "blocker_id": "P65-BLOCK-010",
+      "claim_id": "C65-0323",
+      "subphase": "6.5G",
+      "claim_text": "048 \u2014 Rollback creates a new version that restores prior content, rather than mutating history \u2014 auditable, and consistent with immutability (I-9, How \u00a722.3).",
+      "reason": "Claim appears to require Prisma/schema/database decision. Composer rebaseline may not authorize schema work without a separate control pack.",
+      "required_resolution": "Create schema/control amendment or mark claim deferred before FFET execution.",
+      "execution_authorized": false
+    },
+    {
+      "blocker_id": "P65-BLOCK-011",
+      "claim_id": "C65-0345",
+      "subphase": "6.5C",
+      "claim_text": "070 \u2014 Primitive deprecation does not break in-flight compositions (they're pinned to versions referencing the primitive's compatible version); it blocks *new* use and triggers a migration path. Reference-counted retention (P-43) keeps the deprecated primitive available while instances need it.",
+      "reason": "Claim appears to require Prisma/schema/database decision. Composer rebaseline may not authorize schema work without a separate control pack.",
+      "required_resolution": "Create schema/control amendment or mark claim deferred before FFET execution.",
+      "execution_authorized": false
+    },
+    {
+      "blocker_id": "P65-BLOCK-012",
+      "claim_id": "C65-0352",
+      "subphase": "6.5G",
+      "claim_text": "077 \u2014 A custom field declares a parent primitive and inherits its typed semantics (evidence-writable, appeals-bound where applicable, exportable, reportable); it cannot remove or weaken the primitive's invariant fields (CB-12).",
+      "reason": "Claim appears to require Prisma/schema/database decision. Composer rebaseline may not authorize schema work without a separate control pack.",
+      "required_resolution": "Create schema/control amendment or mark claim deferred before FFET execution.",
+      "execution_authorized": false
+    },
+    {
+      "blocker_id": "P65-BLOCK-013",
+      "claim_id": "C65-0374",
+      "subphase": "6.5F",
+      "claim_text": "099 \u2014 Failed-payment correction paths required for: every Payment, Escrow-release, Refund, and split-execution stage. A payment failure yields a correctable state and routes to the workflow's declared failure path (never a silent stall).",
+      "reason": "Claim appears to require Prisma/schema/database decision. Composer rebaseline may not authorize schema work without a separate control pack.",
+      "required_resolution": "Create schema/control amendment or mark claim deferred before FFET execution.",
+      "execution_authorized": false
+    },
+    {
+      "blocker_id": "P65-BLOCK-014",
+      "claim_id": "C65-0395",
+      "subphase": "6.5G",
+      "claim_text": "120 \u2014 AI provenance recorded: model + version, prompt + category, generation settings, data used, and the exact human modifications before acceptance (A.7 / How \u00a79.4) \u2014 stored as evidence, exportable, auditable.",
+      "reason": "Claim appears to require Prisma/schema/database decision. Composer rebaseline may not authorize schema work without a separate control pack.",
+      "required_resolution": "Create schema/control amendment or mark claim deferred before FFET execution.",
+      "execution_authorized": false
+    },
+    {
+      "blocker_id": "P65-BLOCK-015",
+      "claim_id": "C65-0419",
+      "subphase": "6.5H",
+      "claim_text": "144 \u2014 Mobile Composer is read-only review + monitoring at launch (Run Monitor, approvals); authoring/editing is desktop/tablet-first. Native mobile authoring is deferred to the PWA/Phase-8 boundary.",
+      "reason": "Claim appears to require Prisma/schema/database decision. Composer rebaseline may not authorize schema work without a separate control pack.",
+      "required_resolution": "Create schema/control amendment or mark claim deferred before FFET execution.",
+      "execution_authorized": false
+    },
+    {
+      "blocker_id": "P65-BLOCK-016",
+      "claim_id": "C65-0430",
+      "subphase": "6.5G",
+      "claim_text": "155 \u2014 Contract/runtime Composer FFET ladder: the docs ladder PLUS `contracts:validate`, api/web typecheck, api/web test, `prisma validate` (read-only unless a separate schema control pack authorizes change), `registry:check`, and the relevant negative tests.",
+      "reason": "Claim appears to require Prisma/schema/database decision. Composer rebaseline may not authorize schema work without a separate control pack.",
+      "required_resolution": "Create schema/control amendment or mark claim deferred before FFET execution.",
+      "execution_authorized": false
+    },
+    {
+      "blocker_id": "P65-BLOCK-017",
+      "claim_id": "C65-0433",
+      "subphase": "6.5F",
+      "claim_text": "158 \u2014 Yes, Composer has a final falsifiable demo script before Phase 6D starts. Golden path: compose an org graph (HQ + branches + departments) \u2192 add a workflow with mixed native+external stages \u2192 author inline + standalone permission policies \u2192 assign a sub-tenant to a stage \u2192 wire an external checkout \u2192 request an AI proposal and accept-with-modification \u2192 save \u2192 test-mode run \u2192 shadow run with divergence report \u2192 publish with human preview \u2192 live run firing primitives in order \u2192 escrow hold \u2192 sub-tenant completes \u2192 escrow split \u2192 both invoiced \u2192 evidence visible in Run Monitor/audit/billing \u2192 export composition \u2192 re-import into a clean tenant and run golden path. Negative tests (must all pass): cross-tenant isolation breach denied; opt-out recipient notification blocked; inactive workflow route 404 server-side; failed-KYC stage routes correctly; failed-payment yields correctable state; permission policy attempting a backbone override rejected; AI proposal referencing an unregistered primitive rejected visibly; export containing a raw credential rejected (credential-boundary test); dead-end-runtime attempt (a stage with an unhandled outcome) blocked at publish.",
+      "reason": "Claim appears to require Prisma/schema/database decision. Composer rebaseline may not authorize schema work without a separate control pack.",
+      "required_resolution": "Create schema/control amendment or mark claim deferred before FFET execution.",
+      "execution_authorized": false
+    },
+    {
+      "blocker_id": "P65-BLOCK-018",
+      "claim_id": "C65-0434",
+      "subphase": "6.5G",
+      "claim_text": "159 \u2014 Composer-unique hard stop conditions: any attempt to (a) write config outside the one change pipeline; (b) reference a superseded doc as authority; (c) wire a Composer concept onto an occupied non-Composer P-ID (the CD-1 collision); (d) place a raw secret in a composition/export; (e) invent an executable primitive from free text; (f) publish a consequential change without human preview; (g) grant cross-tenant access outside a scoped capability grant; (h) let AI execute (not propose) a consequential action. Hitting any of these halts the run and escalates to Usman Hussain.",
+      "reason": "Claim appears to require Prisma/schema/database decision. Composer rebaseline may not authorize schema work without a separate control pack.",
+      "required_resolution": "Create schema/control amendment or mark claim deferred before FFET execution.",
+      "execution_authorized": false
+    },
+    {
+      "blocker_id": "P65-DEFER-001",
+      "claim_id": null,
+      "subphase": "cross_phase",
+      "claim_text": "Composer suite amendment requires Usman Hussain ratification before doctrine becomes authoritative.",
+      "reason": "Composer suite amendment requires Usman Hussain ratification before doctrine becomes authoritative.",
+      "required_resolution": "Human approval or external review as applicable.",
+      "execution_authorized": false
+    },
+    {
+      "blocker_id": "P65-DEFER-002",
+      "claim_id": null,
+      "subphase": "cross_phase",
+      "claim_text": "Actual Composer FFET execution requires human Gate 3 approval.",
+      "reason": "Actual Composer FFET execution requires human Gate 3 approval.",
+      "required_resolution": "Human approval or external review as applicable.",
+      "execution_authorized": false
+    },
+    {
+      "blocker_id": "P65-DEFER-003",
+      "claim_id": null,
+      "subphase": "cross_phase",
+      "claim_text": "Public activation of money, identity, marketplace, and minor-safety surfaces remains counsel/external-review gated.",
+      "reason": "Public activation of money, identity, marketplace, and minor-safety surfaces remains counsel/external-review gated.",
+      "required_resolution": "Human approval or external review as applicable.",
+      "execution_authorized": false
+    }
+  ],
+  "execution_authorized": false
+}
